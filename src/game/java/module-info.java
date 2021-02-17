@@ -1,4 +1,4 @@
-module FastJ.game {
+module fastj.game {
     requires java.desktop;
     requires fastj.engine;
 }
