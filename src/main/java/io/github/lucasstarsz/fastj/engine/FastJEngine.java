@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class FastJEngine {
 
@@ -78,7 +77,6 @@ public class FastJEngine {
      * @param gameTitle   Sets the title of the game window, or Display.
      * @param gameManager LogicManager object that the engine will call methods from; this is where the user's game
      *                    methods are operated from.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
      */
     public static void init(String gameTitle, LogicManager gameManager) {
         init(gameTitle, gameManager, DEFAULT_FPS, DEFAULT_UPS, DEFAULT_WINDOW_RESOLUTION, DEFAULT_INTERNAL_RESOLUTION, HWAccel.DEFAULT);
@@ -95,9 +93,6 @@ public class FastJEngine {
      * @param internalResolution   Sets the game's internal resolution. (This is the defined size of the game's canvas.
      *                             As a result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
-     * @see io.github.lucasstarsz.fastj.framework.math.Point
-     * @see HWAccel
      */
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
         runningCheck();
@@ -121,8 +116,6 @@ public class FastJEngine {
      * @param windowResolution     Sets the game's window resolution.
      * @param internalResolution   Sets the game's internal resolution.
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
-     * @see io.github.lucasstarsz.fastj.framework.math.Point
-     * @see HWAccel
      */
     public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
         runningCheck();
@@ -138,7 +131,6 @@ public class FastJEngine {
      * Configures the game's window resolution.
      *
      * @param windowResolution The resolution which the user's window will be set to.
-     * @see io.github.lucasstarsz.fastj.framework.math.Point
      */
     public static void configureViewerResolution(Point windowResolution) {
         runningCheck();
@@ -157,7 +149,6 @@ public class FastJEngine {
      * to fit the size of the {@code windowResolution}.
      *
      * @param internalResolution Point value to set the game's internal window resolution.
-     * @see io.github.lucasstarsz.fastj.framework.math.Point
      */
     public static void configureInternalResolution(Point internalResolution) {
         runningCheck();
@@ -176,7 +167,6 @@ public class FastJEngine {
      * none, by default.
      *
      * @param acceleration Defines the type of hardware acceleration to use for the game.
-     * @see HWAccel
      */
     public static void configureHardwareAcceleration(HWAccel acceleration) {
         runningCheck();
@@ -208,7 +198,6 @@ public class FastJEngine {
      * Gets the {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
      *
      * @return The {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public static Display getDisplay() {
         return display;
@@ -219,7 +208,6 @@ public class FastJEngine {
      *
      * @return The {@link io.github.lucasstarsz.fastj.framework.systems.game.LogicManager} object associated with the
      * game engine.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
      */
     public static LogicManager getLogicManager() {
         return gameManager;
@@ -230,7 +218,6 @@ public class FastJEngine {
      *
      * @return Returns the HWAccelType that defines what hardware acceleration, or lack thereof, is currently being used
      * for the game engine.
-     * @see HWAccel
      */
     public static HWAccel getHardwareAcceleration() {
         return hwAccel;
@@ -301,7 +288,6 @@ public class FastJEngine {
      *
      * @param dataType {@link FPSValue} parameter that specifies the information being requested.
      * @return Double value, based on the information requested.
-     * @see FPSValue
      */
     public static double getFPSData(FPSValue dataType) {
         int[] validFPSVals = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsIndex));

@@ -3,7 +3,6 @@ package io.github.lucasstarsz.fastj.framework.graphics;
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
-import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 import io.github.lucasstarsz.fastj.framework.systems.tags.TaggableEntity;
 
@@ -12,9 +11,7 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,10 +37,6 @@ import java.util.UUID;
  * using this engine.
  *
  * @version 1.0.0
- * @see io.github.lucasstarsz.fastj.framework.io.Display
- * @see io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior
- * @see io.github.lucasstarsz.fastj.framework.systems.tags.TaggableEntity
- * @since 1.0.0
  */
 public abstract class Drawable extends TaggableEntity {
 
@@ -51,15 +44,13 @@ public abstract class Drawable extends TaggableEntity {
 
     private final UUID rawID;
     private final String id;
-    private final List<Behavior> behaviors;
+
     protected Path2D.Float collisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;
 
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
-        behaviors = new ArrayList<>();
-
         rawID = UUID.randomUUID();
         id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID.toString();
     }
@@ -68,7 +59,6 @@ public abstract class Drawable extends TaggableEntity {
      * Renders the {@code Drawable} to the specified {@code Graphics2D} parameter.
      *
      * @param g {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
-     * @see Graphics2D
      */
     public abstract void render(Graphics2D g);
 
@@ -78,8 +68,6 @@ public abstract class Drawable extends TaggableEntity {
      *
      * @param g      {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
      * @param camera {@code Camera} to help render at the correct position on the screen.
-     * @see Graphics2D
-     * @see Camera
      */
     public abstract void renderAsGUIObject(Graphics2D g, Camera camera);
 
@@ -89,7 +77,6 @@ public abstract class Drawable extends TaggableEntity {
      * This also removes any internal references that the {@code Drawable} may have.
      *
      * @param originScene The origin of this {@code Drawable}.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public abstract void destroy(Scene originScene);
 
@@ -97,7 +84,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the collision path of the {@code Drawable}.
      *
      * @return The collision path of the {@code Drawable}, as a {@code Path2D.Float}.
-     * @see Path2D.Float
      */
     public Path2D.Float getCollisionPath() {
         return collisionPath;
@@ -107,7 +93,6 @@ public abstract class Drawable extends TaggableEntity {
      * Sets the collision path to the specified parameter.
      *
      * @param path {@code Path2D.Float} parameter that the collision path will be set to.
-     * @see Path2D.Float
      */
     protected void setCollisionPath(Path2D.Float path) {
         collisionPath = path;
@@ -126,7 +111,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the raw {@code UUID} of the {@code Drawable}.
      *
      * @return The {@code UUID} that represents the raw ID of the {@code Drawable}.
-     * @see UUID
      */
     public UUID getUUID() {
         return rawID;
@@ -140,7 +124,6 @@ public abstract class Drawable extends TaggableEntity {
      * If you're looking to get a specific bound, use {@code getBound(Boundary)} instead.
      *
      * @return The {@code Pointf} array that contains the bounds of the {@code Drawable}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Pointf[] getBounds() {
         return boundaries;
@@ -153,7 +136,6 @@ public abstract class Drawable extends TaggableEntity {
      * error specifying this.
      *
      * @param bounds The {@code Pointf} array that the boundaries of the {@code Drawable} will be set to.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     protected void setBounds(Pointf[] bounds) {
         if (bounds.length != 4) {
@@ -169,8 +151,6 @@ public abstract class Drawable extends TaggableEntity {
      *
      * @param boundary The requested {@code Boundary}.
      * @return The bound that corresponds with the specified {@code Boundary}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     * @see io.github.lucasstarsz.fastj.framework.graphics.Boundary
      */
     public Pointf getBound(Boundary boundary) {
         return boundaries[boundary.location];
@@ -180,20 +160,9 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the center point of the {@code Drawable}.
      *
      * @return The center point, as a {@code Pointf}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Pointf getCenter() {
         return DrawUtil.centerOf(boundaries);
-    }
-
-    /**
-     * Gets the list of {@code Behavior}s for the {@code Drawable}.
-     *
-     * @return The list of {@code Behavior}s that the {@code Drawable} has.
-     * @see io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior
-     */
-    public List<Behavior> getBehaviors() {
-        return behaviors;
     }
 
     /**
@@ -245,75 +214,11 @@ public abstract class Drawable extends TaggableEntity {
         return !otherObject.isEmpty();
     }
 
-    /** Calls the {@code init} method of the {@code Drawable}'s behaviors. */
-    public void initBehaviors() {
-        List<Behavior> behaviorsCopy = new ArrayList<>(behaviors);
-        for (Behavior behavior : behaviorsCopy) {
-            behavior.init(this);
-        }
-    }
-
-    /** Calls the {@code update} method of the {@code Drawable}'s behaviors. */
-    public void updateBehaviors() {
-        List<Behavior> behaviorsCopy = new ArrayList<>(behaviors);
-        for (Behavior behavior : behaviorsCopy) {
-            behavior.update(this);
-        }
-    }
-
-    /** Calls the {@code destroy} method of the {@code Drawable}'s behaviors. */
-    public void destroyAllBehaviors() {
-        for (Behavior behavior : behaviors) {
-            behavior.destroy();
-        }
-    }
-
-    /** Clears the {@code Drawable}'s list of {@code Behavior}s. */
-    public void clearAllBehaviors() {
-        behaviors.clear();
-    }
-
-    /**
-     * Adds the specified {@code Behavior} to the {@code Drawable}'s list of {@code Behavior}s.
-     * <p>
-     * {@code Behavior}s can be added as many times as needed.
-     *
-     * @param behavior {@code Behavior} parameter to be added.
-     * @param origin   Scene that the {@code Drawable} will be added to, as a behavior listener.
-     * @return the {@code Drawable} is returned for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     */
-    public Drawable addBehavior(Behavior behavior, Scene origin) {
-        behaviors.add(behavior);
-        origin.addBehaviorListener(this);
-
-        return this;
-    }
-
-    /**
-     * Removes the specified {@code Behavior} from the {@code Drawable}'s list of {@code Behavior}s.
-     *
-     * @param behavior    {@code Behavior} parameter to be removed from.
-     * @param originScene Scene that, if the {@code Drawable} no longer has any Behaviors, the {@code Drawable} will be
-     *                    removed from as a behavior listener.
-     * @return the {@code Drawable} is returned for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     */
-    public Drawable removeBehavior(Behavior behavior, Scene originScene) {
-        behaviors.remove(behavior);
-        if (behaviors.size() == 0) originScene.removeBehaviorListener(this);
-
-        return this;
-    }
-
     /**
      * Adds the {@code Drawable} to the {@code Scene} parameter's list of game objects.
      *
      * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of game objects.
      * @return the {@code Drawable} is returned for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public Drawable addAsGameObject(Scene origin) {
         origin.addGameObject(this);
@@ -325,7 +230,6 @@ public abstract class Drawable extends TaggableEntity {
      *
      * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of GUI objects.
      * @return the {@code Drawable} is returned for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public Drawable addAsGUIObject(Scene origin) {
         origin.addGUIObject(this);
@@ -336,7 +240,6 @@ public abstract class Drawable extends TaggableEntity {
      * Translates the boundaries of the {@code Drawable} by the specified {@code Pointf}.
      *
      * @param translation {@code Pointf} that the boundaries of the {@code Drawable} will be moved by.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     protected void translateBounds(Pointf translation) {
         for (Pointf bound : boundaries) {
@@ -349,17 +252,13 @@ public abstract class Drawable extends TaggableEntity {
      * within the {@code Scene} parameter.
      *
      * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     protected void destroyTheRest(Scene origin) {
         origin.removeGameObject(this);
         origin.removeGUIObject(this);
 
-        origin.removeBehaviorListener(this);
         origin.removeTaggableEntity(this);
 
-        destroyAllBehaviors();
-        clearAllBehaviors();
         clearTags();
 
         if (collisionPath != null) {
@@ -374,11 +273,10 @@ public abstract class Drawable extends TaggableEntity {
     public String toString() {
         return "Drawable{" +
                 "rawID=" + rawID +
-                ", id=" + id +
+                ", id='" + id + '\'' +
+                ", collisionPath=" + collisionPath +
                 ", shouldRender=" + shouldRender +
                 ", boundaries=" + Arrays.toString(boundaries) +
-                ", collisionPath=" + collisionPath +
-                ", behaviors=" + behaviors +
                 '}';
     }
 }

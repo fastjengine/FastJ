@@ -14,10 +14,6 @@ import java.awt.event.KeyEvent;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
- * @see io.github.lucasstarsz.fastj.framework.systems.input.InputManager
- * @see java.awt.event.KeyListener
- * @since 1.0.0
  */
 public interface KeyboardActionListener {
 

@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.framework.graphics.Boundary;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -18,10 +18,8 @@ import java.util.Arrays;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see DrawUtil
- * @since 1.0.0
  */
-public class Model2D extends TransformableDrawable {
+public class Model2D extends GameObject {
 
     private Polygon2D[] polyArr;
     private Polygon2D collisionObject;
@@ -38,7 +36,6 @@ public class Model2D extends TransformableDrawable {
      *
      * @param polygonArray  Array of {@code Polygon2D}s used to create the Model2D.
      * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
-     * @see io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D
      */
     public Model2D(Polygon2D[] polygonArray, boolean shouldBeShown) {
         polyArr = polygonArray;
@@ -66,8 +63,6 @@ public class Model2D extends TransformableDrawable {
      * @param rotVal        Float value that defines the value that the Model2D will be rotated to, on creation.
      * @param scaleVal      {@code Pointf} that defines the values that the Model2D will be scaled to, on creation.
      * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
-     * @see io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldBeShown) {
         polyArr = polygonArray;
@@ -93,7 +88,6 @@ public class Model2D extends TransformableDrawable {
      * Gets the array of {@code Polygon2D}s for this Model2D.
      *
      * @return The array of {@code Polygon2D}s.
-     * @see io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D
      */
     public Polygon2D[] getObjects() {
         return polyArr;

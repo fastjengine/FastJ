@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.systems.behaviors;
 
-import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 
 /**
@@ -10,8 +10,6 @@ import io.github.lucasstarsz.fastj.framework.math.Pointf;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior
- * @since 1.0.0
  */
 public interface Behavior {
 
@@ -21,16 +19,15 @@ public interface Behavior {
      *
      * @param translationModifier The {@code Pointf} value to be used for translation.
      * @return The newly created {@code Behavior}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     static Behavior simpleTranslation(Pointf translationModifier) {
         return new Behavior() {
             @Override
-            public void init(TransformableDrawable obj) {
+            public void init(GameObject obj) {
             }
 
             @Override
-            public void update(TransformableDrawable obj) {
+            public void update(GameObject obj) {
                 obj.translate(translationModifier);
             }
         };
@@ -46,11 +43,11 @@ public interface Behavior {
     static Behavior simpleRotation(float rotationModifier) {
         return new Behavior() {
             @Override
-            public void init(TransformableDrawable obj) {
+            public void init(GameObject obj) {
             }
 
             @Override
-            public void update(TransformableDrawable obj) {
+            public void update(GameObject obj) {
                 obj.rotate(rotationModifier);
             }
         };
@@ -62,16 +59,15 @@ public interface Behavior {
      *
      * @param scaleModifier The {@code Pointf} value to be used for scaling.
      * @return The newly created {@code Behavior}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     static Behavior simpleScale(Pointf scaleModifier) {
         return new Behavior() {
             @Override
-            public void init(TransformableDrawable obj) {
+            public void init(GameObject obj) {
             }
 
             @Override
-            public void update(TransformableDrawable obj) {
+            public void update(GameObject obj) {
                 obj.scale(scaleModifier);
             }
         };
@@ -84,9 +80,8 @@ public interface Behavior {
      * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
      *
      * @param obj A Drawable that has been assigned this behavior.
-     * @see TransformableDrawable
      */
-    void init(TransformableDrawable obj);
+    void init(GameObject obj);
 
     /**
      * Updates the assigned {@code Drawable}.
@@ -96,9 +91,8 @@ public interface Behavior {
      * {@code update()} method.
      *
      * @param obj A Drawable that has been assigned this behavior.
-     * @see TransformableDrawable
      */
-    void update(TransformableDrawable obj);
+    void update(GameObject obj);
 
     /** Destroys any leftover memory in the {@code Behavior}. */
     default void destroy() {

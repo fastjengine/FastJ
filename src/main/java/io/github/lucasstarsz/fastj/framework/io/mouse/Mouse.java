@@ -20,10 +20,6 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see MouseListener
- * @see MouseMotionListener
- * @see MouseWheelListener
- * @since 1.0.0
  */
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -46,8 +42,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      *                          true.
      * @return Returns whether the mouse intersects the specified {@code Drawable}, and is currently performing the
      * specified {@code MouseAction}.
-     * @see Drawable
-     * @see MouseAction
      */
     public static boolean interactsWith(Drawable button, MouseAction recentMouseAction) {
         PathIterator btnPI = button.getCollisionPath().getPathIterator(null);
@@ -87,7 +81,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * Gets the location of the mouse on the {@code Display}.
      *
      * @return The {@code Pointf} that represents the location of the mouse on the {@code Display}.
-     * @see Pointf
      */
     public static Pointf getMouseLocation() {
         return mouseLocation;
@@ -133,7 +126,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * Forces a quick end to the specified mouse action.
      *
      * @param e MouseAction enum that determine the type of mouse action that should be force ended.
-     * @see MouseAction
      */
     public static void endProcess(MouseAction e) {
         e.recentAction = false;
@@ -143,7 +135,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * Creates an executor that makes a {@code MouseAction} true for 50 milliseconds, and then false.
      *
      * @param e The {@code MouseAction} to be used in the executor.
-     * @see MouseAction
      */
     private static void createSleeperThread(MouseAction e) {
         e.recentAction = true;
@@ -267,7 +258,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
          * Constructs a {@code MouseButton} using the specified {@code MouseEvent}.
          *
          * @param event The event which the {@code MouseButton} will be derived from.
-         * @see MouseEvent
          */
         private MouseButton(MouseEvent event) {
             buttonLocation = event.getButton();

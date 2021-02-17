@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.framework.graphics.Boundary;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -18,9 +18,8 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
-public class Polygon2D extends TransformableDrawable {
+public class Polygon2D extends GameObject {
 
     private Path2D.Float renderPath;
     private Pointf[] points;
@@ -40,7 +39,6 @@ public class Polygon2D extends TransformableDrawable {
      * true}.
      *
      * @param pts {@code Pointf} array that defines the points for the polygon.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Polygon2D(Pointf[] pts) {
         this(pts, Color.black, true, true);
@@ -53,8 +51,6 @@ public class Polygon2D extends TransformableDrawable {
      * @param color {@code Color} variable that sets the color of the polygon.
      * @param fill  Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show  Boolean that determines whether the polygon should be shown on screen.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     * @see Color
      */
     public Polygon2D(Pointf[] pts, Color color, boolean fill, boolean show) {
         super();
@@ -86,8 +82,6 @@ public class Polygon2D extends TransformableDrawable {
      * @param color       {@code Color} variable that sets the color of the polygon.
      * @param fill        Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show        Boolean that determines whether the polygon should be shown on screen.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     * @see Color
      */
     public Polygon2D(Pointf[] pts, Pointf setLocation, float setRotation, Pointf setScale, Color color, boolean fill, boolean show) {
         super();
@@ -116,7 +110,6 @@ public class Polygon2D extends TransformableDrawable {
      * Gets the rendered {@code Path2D.Float} for this polygon.
      *
      * @return The {@code Path2D.Float} for this polygon.
-     * @see Path2D.Float
      */
     public Path2D.Float getRenderPath() {
         return renderPath;
@@ -126,7 +119,6 @@ public class Polygon2D extends TransformableDrawable {
      * Gets the original points that were set for this polygon.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Pointf[] getOriginalPoints() {
         return points;
@@ -136,7 +128,6 @@ public class Polygon2D extends TransformableDrawable {
      * Gets the color set for this polygon.
      *
      * @return The {@code Color} set for this polygon.
-     * @see Color
      */
     public Color getColor() {
         return color;
@@ -147,7 +138,6 @@ public class Polygon2D extends TransformableDrawable {
      *
      * @param newColor The {@code Color} to be used for the polygon.
      * @return This instance of the {@code Polygon2D}, for method chaining.
-     * @see Color
      */
     public Polygon2D setColor(Color newColor) {
         color = newColor;
@@ -179,7 +169,6 @@ public class Polygon2D extends TransformableDrawable {
      * Gets the {@code Pointf} array associated with the current state of the polygon.
      *
      * @return The {@code Pointf} array associated with the current state of the polygon.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Pointf[] getPoints() {
         return DrawUtil.pointsOfPath(renderPath);
@@ -195,7 +184,6 @@ public class Polygon2D extends TransformableDrawable {
      * @param resetTranslation Boolean to determine if the translation should be reset.
      * @param resetRotation    Boolean to determine if the rotation should be reset.
      * @param resetScale       Boolean to determine if the scale should be reset.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public void modifyPoints(Pointf[] pts, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
         points = pts;

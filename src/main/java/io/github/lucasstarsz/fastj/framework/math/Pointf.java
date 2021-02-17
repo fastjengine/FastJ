@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class Pointf {
 
@@ -45,7 +44,6 @@ public class Pointf {
      * Point}'s values.
      *
      * @param p {@code Point} to set the x and y of this {@code Pointf} to.
-     * @see io.github.lucasstarsz.fastj.framework.math.Point
      */
     public Pointf(Point p) {
         this(p.x, p.y);
@@ -180,7 +178,6 @@ public class Pointf {
      *
      * @param metrics Rectangle2D object used to check for intersection between this {@code Pointf} object and it.
      * @return Returns a boolean value that defines whether the Rectangle2D and this {@code Pointf} object intersect.
-     * @see Rectangle2D
      */
     public boolean intersects(Rectangle2D metrics) {
         if (metrics.getX() <= x && x <= (metrics.getX() + metrics.getWidth())) {
@@ -194,7 +191,6 @@ public class Pointf {
      *
      * @param path Path2D object used to check for intersection between this {@code Pointf} object and it.
      * @return Returns a boolean value that defines whether the Path2D and this {@code Pointf} object intersect.
-     * @see Path2D
      */
     public boolean intersects(Path2D path) {
         return Path2D.contains(path.getPathIterator(null), x, y, 1, 1);

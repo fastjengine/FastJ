@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class TagManager {
 
@@ -26,9 +25,6 @@ public class TagManager {
      *
      * @param scene The scene to get the list of taggable entities from.
      * @return The list of taggable entities, as a {@code List<Drawable>}.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     * @see io.github.lucasstarsz.fastj.framework.systems.tags.TaggableEntity
-     * @see Drawable
      */
     public static List<Drawable> getEntityList(Scene scene) {
         return entityLists.get(scene);
@@ -65,8 +61,6 @@ public class TagManager {
      *
      * @param scene          The {@code Scene} which the taggable entity will be aliased with.
      * @param taggableEntity The {@code Drawable} to add.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     * @see Drawable
      */
     public static void addTaggableEntity(Scene scene, Drawable taggableEntity) {
         if (!entityLists.get(scene).contains(taggableEntity)) {
@@ -79,8 +73,6 @@ public class TagManager {
      *
      * @param scene          The {@code Scene} that the taggable entity is aliased with.
      * @param taggableEntity The {@code Drawable} to remove.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     * @see Drawable
      */
     public static void removeTaggableEntity(Scene scene, Drawable taggableEntity) {
         entityLists.get(scene).remove(taggableEntity);
@@ -92,7 +84,6 @@ public class TagManager {
      * The specified {@code Scene} is only added if it is not already in the tag manager.
      *
      * @param scene The scene to add.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void addTaggableEntityList(Scene scene) {
         if (!entityLists.containsKey(scene)) {
@@ -104,7 +95,6 @@ public class TagManager {
      * Removes the list of taggable entities aliased to the specified {@code Scene}.
      *
      * @param scene The scene to remove.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void removeTaggableEntityList(Scene scene) {
         entityLists.remove(scene);
@@ -116,7 +106,6 @@ public class TagManager {
      * @param scene The scene to search through.
      * @param tag   The tag to search for.
      * @return A list of taggable entities that have the specified tag.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static List<Drawable> getAllInListWithTag(Scene scene, String tag) {
         return entityLists.get(scene).stream()
@@ -129,7 +118,6 @@ public class TagManager {
      *
      * @param tag The tag to search for.
      * @return A list of taggable entities that have the specified tag.
-     * @see Drawable
      */
     public static List<Drawable> getAllWithTag(String tag) {
         return entityLists.values().parallelStream()
@@ -142,7 +130,6 @@ public class TagManager {
      * Clears the taggable entity list aliased to the specified scene.
      *
      * @param scene The scene to clear the list of taggable entities for.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void clearEntityList(Scene scene) {
         entityLists.get(scene).clear();

@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class Point {
 
@@ -155,7 +154,6 @@ public class Point {
      *
      * @param pt {@code Point} to be converted.
      * @return Returns a {@code Pointf} created using the values from the input {@code Point}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf toPointf(Point pt) {
         return new Pointf(pt.x, pt.y);
@@ -177,7 +175,6 @@ public class Point {
      *
      * @param metrics Rectangle2D object used to check for intersection between this {@code Point} object and it.
      * @return Returns a boolean value that defines whether the Rectangle2D and this {@code Point} object intersect.
-     * @see Rectangle2D
      */
     public boolean intersects(Rectangle2D metrics) {
         if (metrics.getX() <= x && x <= (metrics.getX() + metrics.getWidth())) {
@@ -191,7 +188,6 @@ public class Point {
      *
      * @param path Path2D object used to check for intersection between this {@code Point} object and it.
      * @return Returns a boolean value that defines whether the Path2D and this {@code Point} object intersect.
-     * @see Path2D
      */
     public boolean intersects(Path2D path) {
         return Path2D.intersects(path.getPathIterator(null), x, y, 1, 1);
@@ -328,7 +324,6 @@ public class Point {
      * Returns this {@code Point} as a {@code Pointf} object, without modification.
      *
      * @return The {@code Pointf} created using the values from this {@code Point}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Pointf asPointf() {
         return new Pointf(x, y);

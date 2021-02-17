@@ -22,7 +22,6 @@ import java.util.Map;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public abstract class LogicManager {
 
@@ -37,7 +36,6 @@ public abstract class LogicManager {
      * once, it is the best place to set some initial settings that apply to the entire game.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public abstract void setup(Display display);
 
@@ -45,7 +43,6 @@ public abstract class LogicManager {
      * Updates the current scene, its behaviors, and listeners.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public void update(Display display) {
         updateCurrentScene(display);
@@ -55,7 +52,6 @@ public abstract class LogicManager {
      * Renders the current scene to the {@code Display}.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public void render(Display display) {
         renderCurrentScene(display);
@@ -65,7 +61,6 @@ public abstract class LogicManager {
      * Gets the currently active scene.
      *
      * @return Returns the currently active scene.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public Scene getCurrentScene() {
         return currentScene;
@@ -78,7 +73,6 @@ public abstract class LogicManager {
      * nextScene)} method.
      *
      * @param scene The scene which the current scene will be set to.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public void setCurrentScene(Scene scene) {
         setCurrentScene(scene.getSceneName());
@@ -103,7 +97,6 @@ public abstract class LogicManager {
      * Gets the list of all scenes in the logic manager.
      *
      * @return Returns the list of scenes in the logic manager.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public List<Scene> getScenes() {
         return Collections.list(Collections.enumeration(scenes.values()));
@@ -114,7 +107,6 @@ public abstract class LogicManager {
      *
      * @param sceneName The name of the scene to retrieve.
      * @return The scene, if it exists.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public Scene getScene(String sceneName) {
         sceneExistenceCheck(sceneName);
@@ -135,8 +127,6 @@ public abstract class LogicManager {
      *
      * @param action The type of mouse action.
      * @param event  The mouse event information to be passed through.
-     * @see MouseAction
-     * @see MouseEvent
      */
     public void fireMouseAction(MouseAction action, MouseEvent event) {
         switch (action) {
@@ -176,7 +166,6 @@ public abstract class LogicManager {
      * This event would be with the other mouse event types, but its event type is dissimilar to the others.
      *
      * @param event The mouse wheel scroll event information to be passed through.
-     * @see MouseWheelEvent
      */
     public void fireMouseWheelAction(MouseWheelEvent event) {
         currentScene.fireMouseWheelScrolled(event);
@@ -186,7 +175,6 @@ public abstract class LogicManager {
      * Fires a "key recently pressed" event to the current scene.
      *
      * @param event The key event information to pass through.
-     * @see KeyEvent
      */
     public void fireKeyRecentlyPressed(KeyEvent event) {
         currentScene.fireKeyRecentlyPressed(event);
@@ -196,7 +184,6 @@ public abstract class LogicManager {
      * Fires a "key recently released" event to the current scene.
      *
      * @param event The key event information to pass through.
-     * @see KeyEvent
      */
     public void fireKeyReleased(KeyEvent event) {
         currentScene.fireKeyReleased(event);
@@ -206,7 +193,6 @@ public abstract class LogicManager {
      * Fires a "key recently typed" event to the current scene.
      *
      * @param event The key event information to pass through.
-     * @see KeyEvent
      */
     public void fireKeyTyped(KeyEvent event) {
         currentScene.fireKeyTyped(event);
@@ -216,7 +202,6 @@ public abstract class LogicManager {
      * Adds the specified scene into the logic manager.
      *
      * @param scene The Scene object to be added.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public void addScene(Scene scene) {
         sceneNameAlreadyExistsCheck(scene.getSceneName());
@@ -227,7 +212,6 @@ public abstract class LogicManager {
      * Removes the specified scene from the logic manager.
      *
      * @param scene The Scene object to be removed.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public void removeScene(Scene scene) {
         removeScene(scene.getSceneName());
@@ -291,7 +275,6 @@ public abstract class LogicManager {
      * Safely updates the current scene.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     private void updateCurrentScene(Display display) {
         boolean[] snapshot = createSnapshot(display);
@@ -313,7 +296,6 @@ public abstract class LogicManager {
      * Safely renders the current scene to the Display.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     private void renderCurrentScene(Display display) {
         boolean[] snapshot = createSnapshot(display);
@@ -339,7 +321,6 @@ public abstract class LogicManager {
      *
      * @param display The {@code Display} to get the fullscreen state from.
      * @return An array of booleans to check through.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     private boolean[] createSnapshot(Display display) {
         return new boolean[]{

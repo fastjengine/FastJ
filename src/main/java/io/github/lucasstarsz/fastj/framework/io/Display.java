@@ -28,7 +28,6 @@ import java.util.Map;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class Display {
 
@@ -63,7 +62,6 @@ public class Display {
      * @param title       The title for the {@code Display}.
      * @param viewerRes   The resolution that the user will see.
      * @param internalRes The internal game resolution.
-     * @see Point
      */
     public Display(String title, Point viewerRes, Point internalRes) {
         displayTitle = title;
@@ -82,7 +80,6 @@ public class Display {
      *
      * @param monitorIndicated The index number of the monitor to get.
      * @return The specified monitor, as a {@code GraphicsDevice}.
-     * @see GraphicsDevice
      */
     public static GraphicsDevice getMonitor(int monitorIndicated) {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[monitorIndicated];
@@ -92,7 +89,6 @@ public class Display {
      * Gets the default monitor.
      *
      * @return The default monitor, as a {@code GraphicsDevice}.
-     * @see GraphicsDevice
      */
     public static GraphicsDevice getDefaultMonitor() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -122,7 +118,6 @@ public class Display {
      *
      * @param monitorIndicated The monitor to get the dimensions of.
      * @return The indicated monitor's dimensions, as a {@code Point}.
-     * @see Point
      */
     public static Point getMonitorDimensions(int monitorIndicated) {
         DisplayMode monitorMode = getMonitor(monitorIndicated).getDisplayMode();
@@ -133,7 +128,6 @@ public class Display {
      * Gets the dimensions of the default monitor.
      *
      * @return The default monitor's dimensions, as a {@code Point}.
-     * @see Point
      */
     public static Point getDefaultMonitorDimensions() {
         DisplayMode monitorMode = getDefaultMonitor().getDisplayMode();
@@ -385,7 +379,6 @@ public class Display {
      * Gets the background of the {@code Display}.
      *
      * @return The background, as a {@code Rectangle2D.Float}.
-     * @see Rectangle2D.Float
      */
     public Rectangle2D.Float getBackground() {
         return background;
@@ -395,7 +388,6 @@ public class Display {
      * Gets the color of the background of the {@code Display}.
      *
      * @return The color of the background, as a {@code Color}.
-     * @see Color
      */
     public Color getBackgroundColor() {
         return drawingCanvas.getBackground();
@@ -414,7 +406,6 @@ public class Display {
      * Gets the displayed icon of the {@code Display}.
      *
      * @return The icon of the {@code Display}.
-     * @see BufferedImage
      */
     public BufferedImage getIcon() {
         return (BufferedImage) outputDisplay.getIconImage();
@@ -452,7 +443,6 @@ public class Display {
      * scene's camera.
      *
      * @return The {@code Graphics2D} object which is associated with the {@code Display}.
-     * @see Graphics2D
      */
     public Graphics2D getGraphics() {
         return prepareGraphics((Graphics2D) drawingCanvas.getBufferStrategy().getDrawGraphics(), Camera.DEFAULT);
@@ -552,8 +542,6 @@ public class Display {
      * @param gameObjects The game objects to be rendered.
      * @param gui         The GUI objects to be rendered.
      * @param camera      The camera that the user will view the game from.
-     * @see Drawable
-     * @see Camera
      */
     public void render(Map<String, Drawable> gameObjects, Map<String, Drawable> gui, Camera camera) {
         if (!outputDisplay.isVisible()) return;
@@ -633,8 +621,6 @@ public class Display {
      *
      * @param renderHintKey   Rendering hint key used to determine which setting you are modifying.
      * @param renderHintValue The value to go along with the key.
-     * @see RenderingHints
-     * @see RenderingHints.Key
      */
     public void modifyRenderSettings(RenderingHints.Key renderHintKey, Object renderHintValue) {
         renderHints.remove(renderHintKey);
@@ -647,8 +633,6 @@ public class Display {
      * @param drawable The {@code Drawable} to check.
      * @param camera   The {@code Camera} to check the drawable with.
      * @return A boolean that represents whether the polygon is visible on screen.
-     * @see Drawable
-     * @see Camera
      */
     public boolean isOnScreen(Drawable drawable, Camera camera) {
         Rectangle2D.Float drawableBounds = DrawUtil.createRect(drawable.getBounds());
@@ -677,7 +661,6 @@ public class Display {
      * Changes the background to the location of the camera.
      *
      * @param camera The camera for the background to be translated to.
-     * @see Camera
      */
     public void setBackgroundToCameraPos(Camera camera) {
         final Pointf translation = camera.getTranslation();
@@ -776,8 +759,6 @@ public class Display {
      * @param g      The {@code Graphics2D} object to be prepared.
      * @param camera The camera used to prepare the graphics object.
      * @return A prepared version of the original {@code Graphics2D} object.
-     * @see Camera
-     * @see Graphics2D
      */
     private Graphics2D prepareGraphics(Graphics2D g, Camera camera) {
         g.setRenderingHints(renderHints);

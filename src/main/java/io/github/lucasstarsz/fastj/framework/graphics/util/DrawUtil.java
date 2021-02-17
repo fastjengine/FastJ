@@ -28,8 +28,6 @@ import java.util.List;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see io.github.lucasstarsz.fastj.framework.graphics.Drawable
- * @since 1.0.0
  */
 public final class DrawUtil {
 
@@ -47,8 +45,6 @@ public final class DrawUtil {
      *
      * @param fileLocation Location of the file.
      * @return An array of {@code Polygon2D}s.
-     * @see Polygon2D
-     * @see Model2D
      */
     public static Polygon2D[] load2DModel(String fileLocation) {
         // check for correct file extension
@@ -68,7 +64,6 @@ public final class DrawUtil {
      *
      * @param fileLocation The location of the .psdf file.
      * @return An array of {@code Polygon2D}s.
-     * @see Polygon2D
      */
     private static Polygon2D[] parseModelFile(String fileLocation) {
         try {
@@ -136,7 +131,6 @@ public final class DrawUtil {
      *
      * @param destPath The destination path of the {@code .psdf} file that will be written.
      * @param model    The {@code Model2D} that will be written to the file.
-     * @see Model2D
      */
     public static void writeToPSDF(String destPath, Model2D model) {
         try {
@@ -186,8 +180,6 @@ public final class DrawUtil {
      *
      * @param polyList The Array of {@code Polygon2D}s that will be used to create the outline of {@code Pointf}s.
      * @return A {@code Pointf} array that makes up the outline of the specified {@code Polygon2D} array.
-     * @see Polygon2D
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createCollisionOutline(Polygon2D[] polyList) {
         List<Pointf> polyListPoints = new ArrayList<>();
@@ -238,7 +230,6 @@ public final class DrawUtil {
      * @param width  The width.
      * @param height The height.
      * @return A 4 {@code Pointf} array based on the x, y, width, and height specified.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBox(float x, float y, float width, float height) {
         return new Pointf[]{
@@ -266,7 +257,6 @@ public final class DrawUtil {
      * @param y    The y location.
      * @param size The width and height.
      * @return A 4 {@code Pointf} array based on the x, y, and size specified.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBox(float x, float y, float size) {
         return createBox(x, y, size, size);
@@ -288,7 +278,6 @@ public final class DrawUtil {
      * @param location The x and y locations.
      * @param size     The width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBox(Pointf location, float size) {
         return createBox(location.x, location.y, size);
@@ -311,7 +300,6 @@ public final class DrawUtil {
      * @param location The x and y locations.
      * @param size     The width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBox(Pointf location, Pointf size) {
         return createBox(location.x, location.y, size.x, size.y);
@@ -332,8 +320,6 @@ public final class DrawUtil {
      *
      * @param r The rectangle.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     * @see Rectangle2D.Float
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBox(Rectangle2D.Float r) {
         return createBox(r.x, r.y, r.width, r.height);
@@ -356,8 +342,6 @@ public final class DrawUtil {
      * @param source   The source for the width and height.
      * @param location The x and y locations.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     * @see BufferedImage
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBoxFromImage(BufferedImage source, Pointf location) {
         return new Pointf[]{
@@ -383,8 +367,6 @@ public final class DrawUtil {
      *
      * @param source The source for the width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     * @see BufferedImage
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] createBoxFromImage(BufferedImage source) {
         return createBoxFromImage(source, new Pointf());
@@ -397,8 +379,6 @@ public final class DrawUtil {
      *
      * @param pts The {@code Pointf} array used to create the rectangle.
      * @return The resultant {@code Rectangle2D.Float}.
-     * @see Rectangle2D.Float
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Rectangle2D.Float createRect(Pointf[] pts) {
         if (pts.length != 4) {
@@ -418,9 +398,6 @@ public final class DrawUtil {
      * @param source      The source for the width and height.
      * @param translation The x and y locations.
      * @return The resultant {@code Rectangle2D.Float}.
-     * @see BufferedImage
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     * @see Rectangle2D.Float
      */
     public static Rectangle2D.Float createRectFromImage(BufferedImage source, Pointf translation) {
         return new Rectangle2D.Float(translation.x, translation.y, source.getWidth(), source.getHeight());
@@ -431,7 +408,6 @@ public final class DrawUtil {
      *
      * @param points The array to get the center of.
      * @return The center of the array.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf centerOf(Pointf[] points) {
         Pointf result = new Pointf();
@@ -444,8 +420,6 @@ public final class DrawUtil {
      *
      * @param path The path to get the points of.
      * @return The resultant array of points.
-     * @see Path2D.Float
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public static Pointf[] pointsOfPath(Path2D.Float path) {
         List<Pointf> pointList = new ArrayList<>();
@@ -478,7 +452,6 @@ public final class DrawUtil {
      *
      * @param path The path to check point amount of.
      * @return The amount of points in the path.
-     * @see Path2D.Float
      */
     public static int lengthOfPath(Path2D.Float path) {
         int count = 0;
@@ -497,7 +470,6 @@ public final class DrawUtil {
      * Generates a random {@code Color}, while leaving the alpha to its default value (255).
      *
      * @return The randomly generated {@code Color}.
-     * @see Color
      */
     public static Color randomColor() {
         return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), 255);
@@ -507,7 +479,6 @@ public final class DrawUtil {
      * Generates a random {@code Color}, including the alpha level of the color.
      *
      * @return The randomly generated {@code Color}.
-     * @see Color
      */
     public static Color randomColorWithAlpha() {
         return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255));

@@ -14,10 +14,6 @@ import java.awt.event.MouseEvent;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
- * @see io.github.lucasstarsz.fastj.framework.systems.input.InputManager
- * @see java.awt.event.MouseListener
- * @since 1.0.0
  */
 public interface MouseActionListener {
 

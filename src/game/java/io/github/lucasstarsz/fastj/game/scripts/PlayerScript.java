@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.game.scripts;
 
-import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.framework.io.keyboard.Keys;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
@@ -16,12 +16,12 @@ public class PlayerScript implements Behavior {
     }
 
     @Override
-    public void init(TransformableDrawable obj) {
+    public void init(GameObject obj) {
         travel = new Pointf();
     }
 
     @Override
-    public void update(TransformableDrawable obj) {
+    public void update(GameObject obj) {
         if (Keyboard.isKeyDown(Keys.w)) travel.y -= speed;
         else if (Keyboard.isKeyDown(Keys.s)) travel.y += speed;
 

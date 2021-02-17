@@ -15,8 +15,6 @@ import java.util.concurrent.TimeUnit;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see KeyListener
- * @since 1.0.0
  */
 public class Keyboard implements KeyListener {
 
@@ -58,7 +56,6 @@ public class Keyboard implements KeyListener {
      *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently pressed.
-     * @see Keyboard.KeyLocation
      */
     public static boolean isKeyRecentlyPressed(int keyCode, KeyLocation keyLocation) {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
@@ -97,7 +94,6 @@ public class Keyboard implements KeyListener {
      *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently released.
-     * @see Keyboard.KeyLocation
      */
     public static boolean isKeyRecentlyReleased(int keyCode, KeyLocation keyLocation) {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
@@ -135,7 +131,6 @@ public class Keyboard implements KeyListener {
      *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key is pressed.
-     * @see Keyboard.KeyLocation
      */
     public static boolean isKeyDown(int keyCode, KeyLocation keyLocation) {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
@@ -282,8 +277,6 @@ public class Keyboard implements KeyListener {
      * <p>
      * Each {@code Key} also contains a {@code KeyDescription} that defines the code of the key, and its location on the
      * keyboard.
-     *
-     * @see Keyboard.KeyDescription
      */
     private static class Key {
         private final KeyDescription keyDescription;

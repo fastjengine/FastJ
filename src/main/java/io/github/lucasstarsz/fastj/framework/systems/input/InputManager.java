@@ -15,9 +15,6 @@ import java.util.List;
  * <p>
  * This class fires input events to {@code KeyboardActionListener}s or {@code MouseActionListener}s in its lists of
  * keyboard/mouse action listeners.
- *
- * @see KeyboardActionListener
- * @see MouseActionListener
  */
 public abstract class InputManager {
     private final List<KeyboardActionListener> keyActionListeners;
@@ -33,7 +30,6 @@ public abstract class InputManager {
      * Gets the list of keyboard action listeners for this {@code InputManager}.
      *
      * @return The list of {@code KeyboardActionListeners}.
-     * @see KeyboardActionListener
      */
     public List<KeyboardActionListener> getKeyboardActionListeners() {
         return keyActionListeners;
@@ -43,7 +39,6 @@ public abstract class InputManager {
      * Gets the list of mouse action listeners for this {@code InputManager}.
      *
      * @return The list of {@code MouseActionListeners}.
-     * @see KeyboardActionListener
      */
     public List<MouseActionListener> getMouseActionListeners() {
         return mouseActionListeners;
@@ -57,7 +52,6 @@ public abstract class InputManager {
      * This method does not allow for {@code KeyboardActionListener}s to be added more than once.
      *
      * @param listener The {@code KeyboardActionListener} to be added.
-     * @see KeyboardActionListener
      */
     public void addKeyboardActionListener(KeyboardActionListener listener) {
         if (!keyActionListeners.contains(listener)) {
@@ -69,7 +63,6 @@ public abstract class InputManager {
      * Removes the specified {@code KeyboardActionListener}.
      *
      * @param listener The {@code KeyboardActionListener} to be removed.
-     * @see KeyboardActionListener
      */
     public void removeKeyboardActionListener(KeyboardActionListener listener) {
         keyActionListeners.remove(listener);
@@ -79,7 +72,6 @@ public abstract class InputManager {
      * Fires a {@code key recently pressed} event to all listening {@code KeyboardActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see KeyEvent
      */
     public void fireKeyRecentlyPressed(KeyEvent e) {
         List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
@@ -92,7 +84,6 @@ public abstract class InputManager {
      * Fires a {@code key recently released} event to all listening {@code KeyboardActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see KeyEvent
      */
     public void fireKeyReleased(KeyEvent e) {
         List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
@@ -106,7 +97,6 @@ public abstract class InputManager {
      * Fires a {@code key recently typed} event to all listening {@code KeyboardActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see KeyEvent
      */
     public void fireKeyTyped(KeyEvent e) {
         List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
@@ -140,7 +130,6 @@ public abstract class InputManager {
      * This method does not allow for {@code MouseActionListener}s to be added more than once.
      *
      * @param listener The {@code MouseActionListener} to be added.
-     * @see MouseActionListener
      */
     public void addMouseActionListener(MouseActionListener listener) {
         if (!mouseActionListeners.contains(listener)) {
@@ -152,7 +141,6 @@ public abstract class InputManager {
      * Removes the specified {@code MouseActionListener}.
      *
      * @param listener The {@code MouseActionListener} to be removed.
-     * @see MouseActionListener
      */
     public void removeMouseActionListener(MouseActionListener listener) {
         mouseActionListeners.remove(listener);
@@ -162,7 +150,6 @@ public abstract class InputManager {
      * Fires a {@code mouse button recently pressed} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMousePressed(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -176,7 +163,6 @@ public abstract class InputManager {
      * Fires a {@code mouse button recently released} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseReleased(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -190,7 +176,6 @@ public abstract class InputManager {
      * Fires a {@code mouse button recently clicked} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseClicked(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -204,7 +189,6 @@ public abstract class InputManager {
      * Fires a {@code mouse moved} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseMoved(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -218,7 +202,6 @@ public abstract class InputManager {
      * Fires a {@code mouse dragged} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseDragged(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -232,7 +215,6 @@ public abstract class InputManager {
      * Fires a {@code mouse wheel scrolled} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseWheelEvent
      */
     public void fireMouseWheelScrolled(MouseWheelEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -246,7 +228,6 @@ public abstract class InputManager {
      * Fires a {@code mouse entered screen} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseEntered(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
@@ -260,7 +241,6 @@ public abstract class InputManager {
      * Fires a {@code mouse exited screen} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
-     * @see MouseEvent
      */
     public void fireMouseExited(MouseEvent e) {
         List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);

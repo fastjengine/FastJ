@@ -9,7 +9,6 @@ import java.awt.geom.AffineTransform;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class Camera {
 
@@ -28,7 +27,6 @@ public class Camera {
      * Constructs a {@code Camera} with translation set to the specified value, and rotation set to 0.
      *
      * @param setTranslation Sets the translation of this {@code Camera}.
-     * @see Pointf
      */
     public Camera(Pointf setTranslation) {
         this(setTranslation, 0f);
@@ -48,7 +46,6 @@ public class Camera {
      *
      * @param setTranslation Sets the translation of this {@code Camera}.
      * @param setRotation    Sets the rotation of this {@code Camera}.
-     * @see Pointf
      */
     public Camera(Pointf setTranslation, float setRotation) {
         translation = setTranslation;
@@ -68,7 +65,6 @@ public class Camera {
      * Applies a modifier to the {@code Camera}'s translation.
      *
      * @param translationMod {@code Pointf} value which the {@code Camera}'s x and y location will be modified by.
-     * @see Pointf
      */
     public void translate(Pointf translationMod) {
         translation.add(translationMod);
@@ -87,7 +83,6 @@ public class Camera {
      * Gets the {@code Camera}'s current translation.
      *
      * @return The {@code Camera}'s current translation.
-     * @see Pointf
      */
     public Pointf getTranslation() {
         return translation;
@@ -97,7 +92,6 @@ public class Camera {
      * Gets the transformation of this {@code Camera} object as an {@code AffineTransform}.
      *
      * @return The overall transformation of the {@code Camera} object as an {@code AffineTransform} value.
-     * @see AffineTransform
      */
     public AffineTransform getTransformation() {
         AffineTransform at = new AffineTransform();

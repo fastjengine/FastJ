@@ -2,8 +2,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.text;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
-import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -23,10 +22,8 @@ import java.awt.geom.Rectangle2D;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see Drawable
- * @since 1.0.0
  */
-public class Text2D extends TransformableDrawable {
+public class Text2D extends GameObject {
 
     /** The default font used for drawing {@code Text2D} objects. */
     public static final Font DEFAULT_FONT = new Font("Segoe UI", Font.PLAIN, 12);
@@ -45,7 +42,6 @@ public class Text2D extends TransformableDrawable {
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the x and y location of the text.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
      */
     public Text2D(String setText, Pointf setTranslation) {
         this(setText, setTranslation, Color.black, DEFAULT_FONT, true);
@@ -59,9 +55,6 @@ public class Text2D extends TransformableDrawable {
      * @param setColor       Sets the text's color.
      * @param setFont        Sets the text's font.
      * @param show           Sets whether the text will be drawn to the screen.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     * @see Color
-     * @see Font
      */
     public Text2D(String setText, Pointf setTranslation, Color setColor, Font setFont, boolean show) {
         translation = new Pointf(setTranslation);
@@ -101,7 +94,6 @@ public class Text2D extends TransformableDrawable {
      * Gets the {@code Color} of this {@code Text2D}.
      *
      * @return Returns the Color value for this Text2D.
-     * @see Color
      */
     public Color getColor() {
         return color;
@@ -112,7 +104,6 @@ public class Text2D extends TransformableDrawable {
      *
      * @param setColor The new {@code Color} value.
      * @return This instance of the {@code Text2D}, for method chaining.
-     * @see Color
      */
     public Text2D setColor(Color setColor) {
         color = setColor;
@@ -123,7 +114,6 @@ public class Text2D extends TransformableDrawable {
      * Gets the {@code Font} of this {@code Text2D}.
      *
      * @return Returns the specified Font value for this Text2D.
-     * @see Font
      */
     public Font getFont() {
         return font;
@@ -134,7 +124,6 @@ public class Text2D extends TransformableDrawable {
      *
      * @param setFont The new {@code Font} value.
      * @return This instance of the {@code Text2D}, for method chaining.
-     * @see Font
      */
     public Text2D setFont(Font setFont) {
         font = setFont;
@@ -238,7 +227,6 @@ public class Text2D extends TransformableDrawable {
      * This also sets the resulting metrics as the collision path for this {@code Text2D}.
      *
      * @param g {@code Graphics2D} object that the {@code Text2D} is rendered on.
-     * @see Graphics2D
      */
     private void setMetrics(Graphics2D g) {
         hasMetrics = false;
@@ -261,8 +249,6 @@ public class Text2D extends TransformableDrawable {
      *
      * @param rect The rectangle which the result {@code Path2D.Float} is based on.
      * @return The newly created {@code Path2D.Float}.
-     * @see Rectangle2D.Float
-     * @see Path2D.Float
      */
     private Path2D.Float createMetricsPath(Rectangle2D.Float rect) {
         Path2D.Float result = new Path2D.Float();

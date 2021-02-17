@@ -23,7 +23,6 @@ import java.util.List;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public abstract class TaggableEntity {
     List<String> tags = new ArrayList<>();
@@ -55,7 +54,6 @@ public abstract class TaggableEntity {
      * @param tag         Tag to be added to the object's list of tags.
      * @param originScene Scene that the object will be added to, as a {@code TaggableEntity}.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     @SuppressWarnings("unchecked")
     public <T extends TaggableEntity> T addTag(String tag, Scene originScene) {
@@ -82,7 +80,6 @@ public abstract class TaggableEntity {
      * @param originScene Scene which this object, if it no longer has any tags, will be removed from as a {@code
      *                    TaggableEntity}.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     @SuppressWarnings("unchecked")
     public <T extends TaggableEntity> T removeTag(String tag, Scene originScene) {

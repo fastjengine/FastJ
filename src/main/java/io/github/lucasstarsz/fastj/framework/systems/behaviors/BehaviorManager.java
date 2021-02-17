@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.systems.behaviors;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
 import java.util.ArrayList;
@@ -13,20 +13,18 @@ import java.util.Map;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @since 1.0.0
  */
 public class BehaviorManager {
 
-    private static final Map<Scene, List<Drawable>> behaviorListenerLists = new HashMap<>();
+    private static final Map<Scene, List<GameObject>> behaviorListenerLists = new HashMap<>();
 
     /**
      * Gets the specified list of behavior listeners aliased to the specified {@code Scene}.
      *
      * @param scene The {@code Scene} to get the list of behavior listeners for.
      * @return The list of behavior listeners.
-     * @see Drawable
      */
-    public static List<Drawable> getList(Scene scene) {
+    public static List<GameObject> getList(Scene scene) {
         return behaviorListenerLists.get(scene);
     }
 
@@ -35,10 +33,8 @@ public class BehaviorManager {
      *
      * @param scene    The {@code Scene} used as the alias to add the specified behavior listener to.
      * @param listener The behavior listener to add.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     * @see Drawable
      */
-    public static void addListener(Scene scene, Drawable listener) {
+    public static void addListener(Scene scene, GameObject listener) {
         if (!behaviorListenerLists.get(scene).contains(listener)) {
             behaviorListenerLists.get(scene).add(listener);
         }
@@ -49,10 +45,8 @@ public class BehaviorManager {
      *
      * @param scene    The {@code Scene} used as the alias to remove the specified behavior listener from.
      * @param listener The behavior listener to remove.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     * @see Drawable
      */
-    public static void removeListener(Scene scene, Drawable listener) {
+    public static void removeListener(Scene scene, GameObject listener) {
         behaviorListenerLists.get(scene).remove(listener);
     }
 
@@ -60,7 +54,6 @@ public class BehaviorManager {
      * Adds an alias for the specified {@code Scene}, if one does not already exist.
      *
      * @param scene The {@code Scene} to add a new alias for.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void addListenerList(Scene scene) {
         if (!behaviorListenerLists.containsKey(scene)) {
@@ -72,7 +65,6 @@ public class BehaviorManager {
      * Removes the list aliased to the specified {@code Scene}, and all elements inside.
      *
      * @param scene The {@code Scene} to remove the alias for.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void removeListenerList(Scene scene) {
         behaviorListenerLists.remove(scene);
@@ -82,7 +74,6 @@ public class BehaviorManager {
      * Removes all elements from the list aliased to the specified {@code Scene}.
      *
      * @param scene The {@code Scene} used as the alias to remove all behavior listeners.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void clearListenerList(Scene scene) {
         behaviorListenerLists.get(scene).clear();
@@ -92,11 +83,10 @@ public class BehaviorManager {
      * Initializes the behavior listeners aliased to the specified {@code Scene}.
      *
      * @param scene The {@code Scene} used as the alias to initialize the behavior listeners for.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void initBehaviorListeners(Scene scene) {
-        List<Drawable> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
-        for (Drawable listener : listenerCopy) {
+        List<GameObject> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
+        for (GameObject listener : listenerCopy) {
             listener.initBehaviors();
         }
     }
@@ -105,18 +95,17 @@ public class BehaviorManager {
      * Updates the behavior listeners aliased to the specified {@code Scene}.
      *
      * @param scene The {@code Scene} used as the alias to update the behavior listeners for.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
      */
     public static void updateBehaviorListeners(Scene scene) {
-        List<Drawable> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
-        for (Drawable listener : listenerCopy) {
+        List<GameObject> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
+        for (GameObject listener : listenerCopy) {
             listener.updateBehaviors();
         }
     }
 
     /** Resets the behavior manager entirely. */
     public static void reset() {
-        for (List<Drawable> list : behaviorListenerLists.values()) {
+        for (List<GameObject> list : behaviorListenerLists.values()) {
             list.clear();
         }
         behaviorListenerLists.clear();

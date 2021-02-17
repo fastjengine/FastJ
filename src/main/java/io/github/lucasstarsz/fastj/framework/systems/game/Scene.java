@@ -2,6 +2,7 @@ package io.github.lucasstarsz.fastj.framework.systems.game;
 
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
 import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.io.Display;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.framework.systems.input.InputManager;
@@ -20,9 +21,6 @@ import java.util.Objects;
  *
  * @author Andrew Dey
  * @version 1.0.0
- * @see InputManager
- * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
- * @since 1.0.0
  */
 public abstract class Scene extends InputManager {
 
@@ -56,7 +54,6 @@ public abstract class Scene extends InputManager {
      * This method is best used for initializing any variables necessary at the beginning of displaying a scene.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public abstract void load(Display display);
 
@@ -66,7 +63,6 @@ public abstract class Scene extends InputManager {
      * This method is best used for destroying or and nullifying any variables used in the game.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public abstract void unload(Display display);
 
@@ -76,7 +72,6 @@ public abstract class Scene extends InputManager {
      * This method is called on the current scene every time the engine updates its state.
      *
      * @param display The {@code Display} that the game renders to.
-     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public abstract void update(Display display);
 
@@ -93,7 +88,6 @@ public abstract class Scene extends InputManager {
      * Gets the game objects assigned to the scene.
      *
      * @return The game objects of the scene.
-     * @see Drawable
      */
     public Map<String, Drawable> getGameObjects() {
         return gameObjects;
@@ -103,7 +97,6 @@ public abstract class Scene extends InputManager {
      * Gets the gui objects assigned to the scene,
      *
      * @return The gui objects of the scene.
-     * @see Drawable
      */
     public Map<String, Drawable> getGUIObjects() {
         return GUIObjects;
@@ -113,9 +106,8 @@ public abstract class Scene extends InputManager {
      * Gets the behavior listeners assigned to the scene.
      *
      * @return The behavior listeners of the scene.
-     * @see Drawable
      */
-    public List<Drawable> getBehaviorListeners() {
+    public List<GameObject> getBehaviorListeners() {
         return BehaviorManager.getList(this);
     }
 
@@ -124,7 +116,6 @@ public abstract class Scene extends InputManager {
      * Gets the taggable entities assigned to the scene.
      *
      * @return The taggable entities of the scene.
-     * @see Drawable
      */
     public List<Drawable> getTaggableEntities() {
         return TagManager.getEntityList(this);
@@ -134,7 +125,6 @@ public abstract class Scene extends InputManager {
      * Gets the camera of the scene.
      *
      * @return The camera of the scene.
-     * @see Camera
      */
     public Camera getCamera() {
         return camera;
@@ -163,7 +153,6 @@ public abstract class Scene extends InputManager {
      *
      * @param tag The tag to check for.
      * @return A list of all taggable entities with the specified tag.
-     * @see Drawable
      */
     public List<Drawable> getAllWithTag(String tag) {
         return TagManager.getAllInListWithTag(this, tag);
@@ -175,7 +164,6 @@ public abstract class Scene extends InputManager {
      * Adds the specified game object.
      *
      * @param gameObject The game object to add.
-     * @see Drawable
      */
     public void addGameObject(Drawable gameObject) {
         gameObjects.put(gameObject.getID(), gameObject);
@@ -194,7 +182,6 @@ public abstract class Scene extends InputManager {
      * Removes the specified game object.
      *
      * @param gameObject The game object to remove.
-     * @see Drawable
      */
     public void removeGameObject(Drawable gameObject) {
         removeGameObject(gameObject.getID());
@@ -216,7 +203,6 @@ public abstract class Scene extends InputManager {
      * Adds the specified gui object.
      *
      * @param guiObject The gui object to add.
-     * @see Drawable
      */
     public void addGUIObject(Drawable guiObject) {
         GUIObjects.put(guiObject.getID(), guiObject);
@@ -235,7 +221,6 @@ public abstract class Scene extends InputManager {
      * Removes the specified gui object.
      *
      * @param guiObject The gui object to remove.
-     * @see Drawable
      */
     public void removeGUIObject(Drawable guiObject) {
         removeGUIObject(guiObject.getID());
@@ -257,9 +242,8 @@ public abstract class Scene extends InputManager {
      * Adds the specified behavior listener to the scene.
      *
      * @param listener The behavior listener to add.
-     * @see Drawable
      */
-    public void addBehaviorListener(Drawable listener) {
+    public void addBehaviorListener(GameObject listener) {
         BehaviorManager.addListener(this, listener);
     }
 
@@ -267,9 +251,8 @@ public abstract class Scene extends InputManager {
      * Removes the specified behavior listener from the scene.
      *
      * @param listener The behavior listener to remove.
-     * @see Drawable
      */
-    public void removeBehaviorListener(Drawable listener) {
+    public void removeBehaviorListener(GameObject listener) {
         BehaviorManager.removeListener(this, listener);
     }
 
@@ -295,7 +278,6 @@ public abstract class Scene extends InputManager {
      *
      * @param entity The taggable entity to add.
      * @param <T>    The type of the taggable entity, which must extend the {@code Drawable} class.
-     * @see Drawable
      */
     public <T extends Drawable> void addTaggableEntity(T entity) {
         TagManager.addTaggableEntity(this, entity);
@@ -305,7 +287,6 @@ public abstract class Scene extends InputManager {
      * Removes the specified taggable entity.
      *
      * @param entity The taggable entity to remove.
-     * @see Drawable
      */
     public void removeTaggableEntity(Drawable entity) {
         TagManager.removeTaggableEntity(this, entity);
