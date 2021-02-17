@@ -1,14 +1,19 @@
 package io.github.lucasstarsz.fastj.game.scripts;
 
-import io.github.lucasstarsz.fastj.engine.graphics.Drawable;
-import io.github.lucasstarsz.fastj.engine.io.Key;
-import io.github.lucasstarsz.fastj.engine.io.Keyboard;
-import io.github.lucasstarsz.fastj.engine.systems.behaviors.Behavior;
-import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.framework.io.keyboard.Keys;
+import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 
 public class PlayerScript implements Behavior {
 
     private Pointf travel;
+    private float speed;
+
+    public PlayerScript(float speed) {
+        this.speed = speed;
+    }
 
     @Override
     public void init(Drawable obj) {
@@ -17,11 +22,11 @@ public class PlayerScript implements Behavior {
 
     @Override
     public void update(Drawable obj) {
-        if (Keyboard.isKeyDown(Key.w)) travel.y--;
-        else if (Keyboard.isKeyDown(Key.s)) travel.y++;
+        if (Keyboard.isKeyDown(Keys.w)) travel.y -= speed;
+        else if (Keyboard.isKeyDown(Keys.s)) travel.y += speed;
 
-        if (Keyboard.isKeyDown(Key.a)) travel.x--;
-        else if (Keyboard.isKeyDown(Key.d)) travel.x++;
+        if (Keyboard.isKeyDown(Keys.a)) travel.x -= speed;
+        else if (Keyboard.isKeyDown(Keys.d)) travel.x += speed;
 
         obj.translate(travel);
         travel.reset();

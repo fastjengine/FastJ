@@ -1,5 +1,5 @@
 plugins {
-    // it's a java application. What did you expect?
+    // it's a java library. What did you expect?
     id 'java-library'
 
     // jlink and jpackage plugins are always nice
@@ -66,7 +66,6 @@ jlink {
             installerType = "deb"
 
             installerOptions += [
-                    '--linux-menu-group', 'Office',
                     '--linux-shortcut',
                     '--linux-deb-maintainer', 'andrewrcdey@gmail.com'
             ]

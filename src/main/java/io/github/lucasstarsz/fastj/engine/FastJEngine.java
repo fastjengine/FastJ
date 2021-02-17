@@ -1,15 +1,16 @@
 package io.github.lucasstarsz.fastj.engine;
 
-import io.github.lucasstarsz.fastj.engine.io.Display;
-import io.github.lucasstarsz.fastj.engine.io.Keyboard;
-import io.github.lucasstarsz.fastj.engine.io.Mouse;
-import io.github.lucasstarsz.fastj.engine.systems.behaviors.BehaviorManager;
-import io.github.lucasstarsz.fastj.engine.systems.game.LogicManager;
-import io.github.lucasstarsz.fastj.engine.systems.tags.TagManager;
-import io.github.lucasstarsz.fastj.engine.util.CrashMessages;
-import io.github.lucasstarsz.fastj.engine.util.ThreadFixer;
-import io.github.lucasstarsz.fastj.engine.util.Timer;
-import io.github.lucasstarsz.fastj.engine.util.math.Point;
+import io.github.lucasstarsz.fastj.framework.CrashMessages;
+import io.github.lucasstarsz.fastj.framework.io.Display;
+import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.framework.io.mouse.Mouse;
+import io.github.lucasstarsz.fastj.framework.math.Point;
+import io.github.lucasstarsz.fastj.framework.systems.behaviors.BehaviorManager;
+import io.github.lucasstarsz.fastj.framework.systems.game.LogicManager;
+import io.github.lucasstarsz.fastj.framework.systems.tags.TagManager;
+
+import io.github.lucasstarsz.fastj.engine.internals.ThreadFixer;
+import io.github.lucasstarsz.fastj.engine.internals.Timer;
 
 import java.util.Arrays;
 import java.util.concurrent.Executors;
@@ -26,58 +27,10 @@ import java.util.concurrent.TimeUnit;
  * <a href="https://github.com/lucasstarsz/FastJ-Engine">The FastJ Game Engine</a>
  *
  * @author Andrew Dey
- * @version 0.3.2a
+ * @version 1.0.0
+ * @since 1.0.0
  */
 public class FastJEngine {
-
-    /**
-     * Enumerator which defines what types of hardware acceleration are supported.
-     * <p>
-     * The types of hardware acceleration are as follows:
-     * <ul>
-     *     	<li>{@code DIRECT3D} - Enables Direct 3D Draw hardware acceleration.
-     *         	<ul><li><b>NOTE:</b> This is only supported on Windows machines.</li></ul></li>
-     * 		<li>{@code OPENGL} - Enables OpenGL hardware acceleration.</li>
-     * 		<li>{@code DEFAULT} - Leaves the configuration of hardware acceleration to its default.</li>
-     * 		<li>{@code CPU_RENDER} - Disables all hardware acceleration. Instead, software rendering will be used.</li>
-     * </ul>
-     */
-    public enum HWAccel {
-        DIRECT3D("d3d", "transaccel", "ddforcevram"),
-        OPENGL("opengl"),
-        DEFAULT(),
-        CPU_RENDER("noddraw");
-
-        private final String[] hardwareProperties;
-
-        HWAccel(String... properties) {
-            hardwareProperties = properties;
-        }
-
-        private static void setHardwareAcceleration(HWAccel accelType) {
-            for (HWAccel accel : HWAccel.values()) {
-                if (accel != accelType) {
-                    for (String property : accel.hardwareProperties) {
-                        System.setProperty("sun.java2d." + property, "False");
-                    }
-                }
-            }
-            for (String property : accelType.hardwareProperties) {
-                System.setProperty("sun.java2d." + property, "True");
-            }
-        }
-    }
-
-    /**
-     * The different data options available when using {@code FastJEngine.getFPSData()}.
-     */
-    public enum FPSValue {
-        CURRENT,
-        AVERAGE,
-        HIGHEST,
-        LOWEST,
-        ONE_PERCENT_LOW
-    }
 
     // default engine values
     public static final int DEFAULT_FPS = Display.getDefaultMonitorRefreshRate();
@@ -125,7 +78,7 @@ public class FastJEngine {
      * @param gameTitle   Sets the title of the game window, or Display.
      * @param gameManager LogicManager object that the engine will call methods from; this is where the user's game
      *                    methods are operated from.
-     * @see io.github.lucasstarsz.fastj.engine.systems.game.LogicManager
+     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
      */
     public static void init(String gameTitle, LogicManager gameManager) {
         init(gameTitle, gameManager, DEFAULT_FPS, DEFAULT_UPS, DEFAULT_WINDOW_RESOLUTION, DEFAULT_INTERNAL_RESOLUTION, HWAccel.DEFAULT);
@@ -142,8 +95,8 @@ public class FastJEngine {
      * @param internalResolution   Sets the game's internal resolution. (This is the defined size of the game's canvas.
      *                             As a result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
-     * @see io.github.lucasstarsz.fastj.engine.systems.game.LogicManager
-     * @see io.github.lucasstarsz.fastj.engine.util.math.Point
+     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
+     * @see io.github.lucasstarsz.fastj.framework.math.Point
      * @see HWAccel
      */
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
@@ -168,7 +121,7 @@ public class FastJEngine {
      * @param windowResolution     Sets the game's window resolution.
      * @param internalResolution   Sets the game's internal resolution.
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
-     * @see io.github.lucasstarsz.fastj.engine.util.math.Point
+     * @see io.github.lucasstarsz.fastj.framework.math.Point
      * @see HWAccel
      */
     public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
@@ -185,7 +138,7 @@ public class FastJEngine {
      * Configures the game's window resolution.
      *
      * @param windowResolution The resolution which the user's window will be set to.
-     * @see io.github.lucasstarsz.fastj.engine.util.math.Point
+     * @see io.github.lucasstarsz.fastj.framework.math.Point
      */
     public static void configureViewerResolution(Point windowResolution) {
         runningCheck();
@@ -204,7 +157,7 @@ public class FastJEngine {
      * to fit the size of the {@code windowResolution}.
      *
      * @param internalResolution Point value to set the game's internal window resolution.
-     * @see io.github.lucasstarsz.fastj.engine.util.math.Point
+     * @see io.github.lucasstarsz.fastj.framework.math.Point
      */
     public static void configureInternalResolution(Point internalResolution) {
         runningCheck();
@@ -223,7 +176,7 @@ public class FastJEngine {
      * none, by default.
      *
      * @param acceleration Defines the type of hardware acceleration to use for the game.
-     * @see io.github.lucasstarsz.fastj.engine.FastJEngine.HWAccel
+     * @see HWAccel
      */
     public static void configureHardwareAcceleration(HWAccel acceleration) {
         runningCheck();
@@ -252,10 +205,10 @@ public class FastJEngine {
     }
 
     /**
-     * Gets the {@link io.github.lucasstarsz.fastj.engine.io.Display} object associated with the game engine.
+     * Gets the {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
      *
-     * @return The {@link io.github.lucasstarsz.fastj.engine.io.Display} object associated with the game engine.
-     * @see io.github.lucasstarsz.fastj.engine.io.Display
+     * @return The {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
+     * @see io.github.lucasstarsz.fastj.framework.io.Display
      */
     public static Display getDisplay() {
         return display;
@@ -264,9 +217,9 @@ public class FastJEngine {
     /**
      * Gets the logic manager associated with the game engine.
      *
-     * @return The {@link io.github.lucasstarsz.fastj.engine.systems.game.LogicManager} object associated with the game
-     * engine.
-     * @see io.github.lucasstarsz.fastj.engine.systems.game.LogicManager
+     * @return The {@link io.github.lucasstarsz.fastj.framework.systems.game.LogicManager} object associated with the
+     * game engine.
+     * @see io.github.lucasstarsz.fastj.framework.systems.game.LogicManager
      */
     public static LogicManager getLogicManager() {
         return gameManager;
@@ -277,7 +230,7 @@ public class FastJEngine {
      *
      * @return Returns the HWAccelType that defines what hardware acceleration, or lack thereof, is currently being used
      * for the game engine.
-     * @see io.github.lucasstarsz.fastj.engine.FastJEngine.HWAccel
+     * @see HWAccel
      */
     public static HWAccel getHardwareAcceleration() {
         return hwAccel;
@@ -293,12 +246,36 @@ public class FastJEngine {
     }
 
     /**
+     * Sets the game's target FPS (Frames rendered per second).
+     *
+     * @param fps Integer value to set the game's target FPS.
+     */
+    public static void setTargetFPS(int fps) {
+        if (fps < 1) {
+            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("FPS amount must be at least 1."));
+        }
+        targetFPS = fps;
+    }
+
+    /**
      * Gets the target UPS for this instance of the game engine.
      *
      * @return The target UPS for this instance of the game engine.
      */
     public static int getTargetUPS() {
         return targetUPS;
+    }
+
+    /**
+     * Sets the game's UPS (Updates per second).
+     *
+     * @param ups Integer value to set the game's target UPS.
+     */
+    public static void setTargetUPS(int ups) {
+        if (ups < 1) {
+            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("UPS amount must be at least 1."));
+        }
+        targetUPS = ups;
     }
 
     /**
@@ -322,10 +299,9 @@ public class FastJEngine {
      * 		<li>FPSValue.ONE_PERCENT_LOW - gets the average FPS of the lowest 1% of all recorded FPS values.</li>
      * </ul>
      *
-     * @param dataType {@link io.github.lucasstarsz.fastj.engine.FastJEngine.FPSValue} parameter that specifies the
-     *                 information being requested.
+     * @param dataType {@link FPSValue} parameter that specifies the information being requested.
      * @return Double value, based on the information requested.
-     * @see io.github.lucasstarsz.fastj.engine.FastJEngine.FPSValue
+     * @see FPSValue
      */
     public static double getFPSData(FPSValue dataType) {
         int[] validFPSVals = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsIndex));
@@ -346,30 +322,6 @@ public class FastJEngine {
             default:
                 throw new IllegalStateException("Unexpected value: " + dataType);
         }
-    }
-
-    /**
-     * Sets the game's target FPS (Frames rendered per second).
-     *
-     * @param fps Integer value to set the game's target FPS.
-     */
-    public static void setTargetFPS(int fps) {
-        if (fps < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("FPS amount must be at least 1."));
-        }
-        targetFPS = fps;
-    }
-
-    /**
-     * Sets the game's UPS (Updates per second).
-     *
-     * @param ups Integer value to set the game's target UPS.
-     */
-    public static void setTargetUPS(int ups) {
-        if (ups < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("UPS amount must be at least 1."));
-        }
-        targetUPS = ups;
     }
 
     /**
