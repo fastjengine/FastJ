@@ -28,15 +28,12 @@ import java.util.concurrent.TimeUnit;
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     private static final ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
-
+    private static final Map<Integer, MouseButton> mouseButtons = new HashMap<>();
     private static int buttonLastPressed = -1;
     private static int buttonLastReleased = -1;
     private static int buttonLastClicked = -1;
     private static int lastScrollDirection = 0;
-
     private static boolean currentlyOnScreen;
-
-    private static final Map<Integer, MouseButton> mouseButtons = new HashMap<>();
     private static Pointf mouseLocation = new Pointf();
 
 
@@ -142,6 +139,29 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         e.recentAction = false;
     }
 
+    /**
+     * Creates an executor that makes a {@code MouseAction} true for 50 milliseconds, and then false.
+     *
+     * @param e The {@code MouseAction} to be used in the executor.
+     * @see MouseAction
+     */
+    private static void createSleeperThread(MouseAction e) {
+        e.recentAction = true;
+        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
+    }
+
+    /** Resets the {@code Mouse}. */
+    public static void reset() {
+        buttonLastPressed = -1;
+        buttonLastReleased = -1;
+        buttonLastClicked = -1;
+        lastScrollDirection = 0;
+        currentlyOnScreen = false;
+
+        mouseButtons.clear();
+        mouseLocation.reset();
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (!MouseAction.PRESS.recentAction) createSleeperThread(MouseAction.PRESS);
@@ -236,29 +256,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         if (FastJEngine.getLogicManager() != null) {
             FastJEngine.getLogicManager().fireMouseAction(MouseAction.EXIT, e);
         }
-    }
-
-    /**
-     * Creates an executor that makes a {@code MouseAction} true for 50 milliseconds, and then false.
-     *
-     * @param e The {@code MouseAction} to be used in the executor.
-     * @see MouseAction
-     */
-    private static void createSleeperThread(MouseAction e) {
-        e.recentAction = true;
-        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
-    }
-
-    /** Resets the {@code Mouse}. */
-    public static void reset() {
-        buttonLastPressed = -1;
-        buttonLastReleased = -1;
-        buttonLastClicked = -1;
-        lastScrollDirection = 0;
-        currentlyOnScreen = false;
-
-        mouseButtons.clear();
-        mouseLocation.reset();
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

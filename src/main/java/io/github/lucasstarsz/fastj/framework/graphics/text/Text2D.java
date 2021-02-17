@@ -3,6 +3,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.text;
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
 import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -25,7 +26,7 @@ import java.awt.geom.Rectangle2D;
  * @see Drawable
  * @since 1.0.0
  */
-public class Text2D extends Drawable {
+public class Text2D extends TransformableDrawable {
 
     /** The default font used for drawing {@code Text2D} objects. */
     public static final Font DEFAULT_FONT = new Font("Segoe UI", Font.PLAIN, 12);
@@ -84,26 +85,6 @@ public class Text2D extends Drawable {
     }
 
     /**
-     * Gets the {@code Color} of this {@code Text2D}.
-     *
-     * @return Returns the Color value for this Text2D.
-     * @see Color
-     */
-    public Color getColor() {
-        return color;
-    }
-
-    /**
-     * Gets the {@code Font} of this {@code Text2D}.
-     *
-     * @return Returns the specified Font value for this Text2D.
-     * @see Font
-     */
-    public Font getFont() {
-        return font;
-    }
-
-    /**
      * Sets the text for this {@code Text2D}.
      *
      * @param setText The new text value.
@@ -117,6 +98,16 @@ public class Text2D extends Drawable {
     }
 
     /**
+     * Gets the {@code Color} of this {@code Text2D}.
+     *
+     * @return Returns the Color value for this Text2D.
+     * @see Color
+     */
+    public Color getColor() {
+        return color;
+    }
+
+    /**
      * Sets the {@code Color} for this {@code Text2D}.
      *
      * @param setColor The new {@code Color} value.
@@ -126,6 +117,16 @@ public class Text2D extends Drawable {
     public Text2D setColor(Color setColor) {
         color = setColor;
         return this;
+    }
+
+    /**
+     * Gets the {@code Font} of this {@code Text2D}.
+     *
+     * @return Returns the specified Font value for this Text2D.
+     * @see Font
+     */
+    public Font getFont() {
+        return font;
     }
 
     /**

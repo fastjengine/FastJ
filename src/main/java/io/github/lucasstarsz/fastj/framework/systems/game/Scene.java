@@ -150,6 +150,15 @@ public abstract class Scene extends InputManager {
     }
 
     /**
+     * Sets whether the scene is initialized.
+     *
+     * @param initialized The value that determines whether the scene is initialized.
+     */
+    public void setInitialized(boolean initialized) {
+        isInitialized = initialized;
+    }
+
+    /**
      * Gets all taggable entities with the specified tag.
      *
      * @param tag The tag to check for.
@@ -158,15 +167,6 @@ public abstract class Scene extends InputManager {
      */
     public List<Drawable> getAllWithTag(String tag) {
         return TagManager.getAllInListWithTag(this, tag);
-    }
-
-    /**
-     * Sets whether the scene is initialized.
-     *
-     * @param initialized The value that determines whether the scene is initialized.
-     */
-    public void setInitialized(boolean initialized) {
-        isInitialized = initialized;
     }
 
     /* Game Objects */

@@ -20,65 +20,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class Keyboard implements KeyListener {
 
-    /** Enum that defines the location of a key. */
-    public enum KeyLocation {
-        STANDARD(1),
-        LEFT(2),
-        RIGHT(3),
-        NUMPAD(4);
-
-        private final int location;
-
-        /** Keys that can correspond with {@code KeyLocation.LEFT} or {@code KeyLocation.RIGHT}. */
-        private static final int[] leftRightKeys = {
-                KeyEvent.VK_CONTROL,
-                KeyEvent.VK_SHIFT,
-                KeyEvent.VK_ALT
-        };
-
-        /** Keys that correspond with {@code KeyLocation.NUMPAD}. */
-        private static final int[] numpadKeys = {
-                KeyEvent.VK_NUMPAD0,
-                KeyEvent.VK_NUMPAD1,
-                KeyEvent.VK_NUMPAD2,
-                KeyEvent.VK_NUMPAD3,
-                KeyEvent.VK_NUMPAD4,
-                KeyEvent.VK_NUMPAD5,
-                KeyEvent.VK_NUMPAD6,
-                KeyEvent.VK_NUMPAD7,
-                KeyEvent.VK_NUMPAD8,
-                KeyEvent.VK_NUMPAD9
-        };
-
-        KeyLocation(int i) {
-            location = i;
-        }
-
-        /**
-         * Gets the contextually correct keyboard location of the specified keycode.
-         * <p>
-         * For any keys that have a left and right variant, this defaults to the left variant.
-         *
-         * @param keyCode The keycode to be matched with a location.
-         * @return The {@code KeyLocation} that corresponds with the specified keycode.
-         */
-        private static KeyLocation of(int keyCode) {
-            for (int code : numpadKeys) {
-                if (keyCode == code) {
-                    return NUMPAD;
-                }
-            }
-
-            for (int code : leftRightKeys) {
-                if (keyCode == code) {
-                    return LEFT;
-                }
-            }
-
-            return STANDARD;
-        }
-    }
-
     private static final Map<KeyDescription, Key> keys = new HashMap<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
@@ -277,6 +218,63 @@ public class Keyboard implements KeyListener {
     public void keyTyped(KeyEvent e) {
         lastKeyPressed = KeyEvent.getKeyText(e.getKeyCode());
         FastJEngine.getLogicManager().fireKeyTyped(e);
+    }
+
+    /** Enum that defines the location of a key. */
+    public enum KeyLocation {
+        STANDARD(1),
+        LEFT(2),
+        RIGHT(3),
+        NUMPAD(4);
+
+        /** Keys that can correspond with {@code KeyLocation.LEFT} or {@code KeyLocation.RIGHT}. */
+        private static final int[] leftRightKeys = {
+                KeyEvent.VK_CONTROL,
+                KeyEvent.VK_SHIFT,
+                KeyEvent.VK_ALT
+        };
+        /** Keys that correspond with {@code KeyLocation.NUMPAD}. */
+        private static final int[] numpadKeys = {
+                KeyEvent.VK_NUMPAD0,
+                KeyEvent.VK_NUMPAD1,
+                KeyEvent.VK_NUMPAD2,
+                KeyEvent.VK_NUMPAD3,
+                KeyEvent.VK_NUMPAD4,
+                KeyEvent.VK_NUMPAD5,
+                KeyEvent.VK_NUMPAD6,
+                KeyEvent.VK_NUMPAD7,
+                KeyEvent.VK_NUMPAD8,
+                KeyEvent.VK_NUMPAD9
+        };
+        private final int location;
+
+        KeyLocation(int i) {
+            location = i;
+        }
+
+        /**
+         * Gets the contextually correct keyboard location of the specified keycode.
+         * <p>
+         * For any keys that have a left and right variant, this defaults to the left variant.
+         *
+         * @param keyCode The keycode to be matched with a location.
+         * @return The {@code KeyLocation} that corresponds with the specified keycode.
+         */
+        private static KeyLocation of(int keyCode) {
+            for (int code : numpadKeys) {
+                if (keyCode == code) {
+                    return NUMPAD;
+                }
+            }
+
+            for (int code : leftRightKeys) {
+                if (keyCode == code) {
+                    return LEFT;
+                }
+            }
+
+            return STANDARD;
+        }
     }
 
     /**

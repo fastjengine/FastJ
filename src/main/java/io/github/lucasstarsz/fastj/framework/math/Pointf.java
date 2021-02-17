@@ -64,6 +64,107 @@ public class Pointf {
     }
 
     /**
+     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
+     * Pointf} object.
+     *
+     * @param p1 The first {@code Pointf} used for addition.
+     * @param p2 The second {@code Pointf} used for addition.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the two {@code Pointf}s.
+     */
+    public static Pointf add(Pointf p1, Pointf p2) {
+        return new Pointf(p1.x + p2.x, p1.y + p2.y);
+    }
+
+    /**
+     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     *
+     * @param p The {@code Pointf} used for addition.
+     * @param f float value used for addition.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
+     * float value.
+     */
+    public static Pointf add(Pointf p, float f) {
+        return new Pointf(p.x + f, p.y + f);
+    }
+
+    /**
+     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
+     * Pointf} object.
+     *
+     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
+     *           subtraction.
+     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the second value in
+     *           subtraction.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the two {@code
+     * Pointf}s.
+     */
+    public static Pointf subtract(Pointf p1, Pointf p2) {
+        return new Pointf(p1.x - p2.x, p1.y - p2.y);
+    }
+
+    /**
+     * Static method used to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     *
+     * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
+     * @param f float value used for subtraction; the second value used in subtraction.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
+     * the float value.
+     */
+    public static Pointf subtract(Pointf p, float f) {
+        return new Pointf(p.x - f, p.y - f);
+    }
+
+    /**
+     * Static method used to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
+     * new {@code Pointf}.
+     *
+     * @param p1 The first {@code Pointf} used for multiplication.
+     * @param p2 The second {@code Pointf} used for multiplication.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the two {@code
+     * Pointf}s.
+     */
+    public static Pointf multiply(Pointf p1, Pointf p2) {
+        return new Pointf(p1.x * p2.x, p1.y * p2.y);
+    }
+
+    /**
+     * Static method used to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     *
+     * @param p The {@code Pointf} used for multiplication.
+     * @param f float value used for multiplication.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
+     * the float value.
+     */
+    public static Pointf multiply(Pointf p, float f) {
+        return new Pointf(p.x * f, p.y * f);
+    }
+
+    /**
+     * Static method used to divide two {@code Pointf} objects (from the parameters specified) together, and return a
+     * new {@code Pointf}.
+     *
+     * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
+     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
+     *           division.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the two {@code Pointf}s.
+     */
+    public static Pointf divide(Pointf p1, Pointf p2) {
+        return new Pointf(p1.x / p2.x, p1.y / p2.y);
+    }
+
+    /**
+     * Static method used to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     *
+     * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
+     * @param f float value used for division; the second value used in division.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
+     * float value.
+     */
+    public static Pointf divide(Pointf p, float f) {
+        return new Pointf(p.x / f, p.y / f);
+    }
+
+    /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
      * @param newX Float value used to set the new x value for this {@code Pointf} object.
@@ -224,107 +325,6 @@ public class Pointf {
         y /= f;
 
         return this;
-    }
-
-    /**
-     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
-     * Pointf} object.
-     *
-     * @param p1 The first {@code Pointf} used for addition.
-     * @param p2 The second {@code Pointf} used for addition.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the two {@code Pointf}s.
-     */
-    public static Pointf add(Pointf p1, Pointf p2) {
-        return new Pointf(p1.x + p2.x, p1.y + p2.y);
-    }
-
-    /**
-     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
-     *
-     * @param p The {@code Pointf} used for addition.
-     * @param f float value used for addition.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
-     * float value.
-     */
-    public static Pointf add(Pointf p, float f) {
-        return new Pointf(p.x + f, p.y + f);
-    }
-
-    /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Pointf} object.
-     *
-     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
-     *           subtraction.
-     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the second value in
-     *           subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the two {@code
-     * Pointf}s.
-     */
-    public static Pointf subtract(Pointf p1, Pointf p2) {
-        return new Pointf(p1.x - p2.x, p1.y - p2.y);
-    }
-
-    /**
-     * Static method used to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
-     *
-     * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
-     * @param f float value used for subtraction; the second value used in subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
-     * the float value.
-     */
-    public static Pointf subtract(Pointf p, float f) {
-        return new Pointf(p.x - f, p.y - f);
-    }
-
-    /**
-     * Static method used to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
-     *
-     * @param p1 The first {@code Pointf} used for multiplication.
-     * @param p2 The second {@code Pointf} used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the two {@code
-     * Pointf}s.
-     */
-    public static Pointf multiply(Pointf p1, Pointf p2) {
-        return new Pointf(p1.x * p2.x, p1.y * p2.y);
-    }
-
-    /**
-     * Static method used to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
-     *
-     * @param p The {@code Pointf} used for multiplication.
-     * @param f float value used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
-     * the float value.
-     */
-    public static Pointf multiply(Pointf p, float f) {
-        return new Pointf(p.x * f, p.y * f);
-    }
-
-    /**
-     * Static method used to divide two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
-     *
-     * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
-     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
-     *           division.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the two {@code Pointf}s.
-     */
-    public static Pointf divide(Pointf p1, Pointf p2) {
-        return new Pointf(p1.x / p2.x, p1.y / p2.y);
-    }
-
-    /**
-     * Static method used to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
-     *
-     * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
-     * @param f float value used for division; the second value used in division.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
-     * float value.
-     */
-    public static Pointf divide(Pointf p, float f) {
-        return new Pointf(p.x / f, p.y / f);
     }
 
     /**

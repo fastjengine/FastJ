@@ -72,6 +72,34 @@ public abstract class LogicManager {
     }
 
     /**
+     * Sets the current scene to the scene specified.
+     * <p>
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
+     * nextScene)} method.
+     *
+     * @param scene The scene which the current scene will be set to.
+     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
+     */
+    public void setCurrentScene(Scene scene) {
+        setCurrentScene(scene.getSceneName());
+    }
+
+    /**
+     * Sets the current scene to the scene with the name specified.
+     * <p>
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
+     * nextScene)} method.
+     *
+     * @param sceneName The name of the scene which the current scene will be set to.
+     */
+    public void setCurrentScene(String sceneName) {
+        sceneExistenceCheck(sceneName);
+
+        currentScene = scenes.get(sceneName);
+        switchingScenes = !currentScene.isInitialized();
+    }
+
+    /**
      * Gets the list of all scenes in the logic manager.
      *
      * @return Returns the list of scenes in the logic manager.
@@ -100,34 +128,6 @@ public abstract class LogicManager {
      */
     public boolean isSwitchingScenes() {
         return switchingScenes;
-    }
-
-    /**
-     * Sets the current scene to the scene specified.
-     * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
-     * nextScene)} method.
-     *
-     * @param scene The scene which the current scene will be set to.
-     * @see io.github.lucasstarsz.fastj.framework.systems.game.Scene
-     */
-    public void setCurrentScene(Scene scene) {
-        setCurrentScene(scene.getSceneName());
-    }
-
-    /**
-     * Sets the current scene to the scene with the name specified.
-     * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
-     * nextScene)} method.
-     *
-     * @param sceneName The name of the scene which the current scene will be set to.
-     */
-    public void setCurrentScene(String sceneName) {
-        sceneExistenceCheck(sceneName);
-
-        currentScene = scenes.get(sceneName);
-        switchingScenes = !currentScene.isInitialized();
     }
 
     /**

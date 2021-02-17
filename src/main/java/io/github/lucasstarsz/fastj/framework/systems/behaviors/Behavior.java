@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.systems.behaviors;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 
 /**
@@ -16,34 +16,6 @@ import io.github.lucasstarsz.fastj.framework.math.Pointf;
 public interface Behavior {
 
     /**
-     * Initializes the assigned {@code Drawable}.
-     * <p>
-     * This method is used for modifying anything about the Drawable(s) that this behavior is assigned to, before the
-     * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
-     *
-     * @param obj A Drawable that has been assigned this behavior.
-     * @see Drawable
-     */
-    void init(Drawable obj);
-
-    /**
-     * Updates the assigned {@code Drawable}.
-     * <p>
-     * This method is used to modify anything about the assigned {@code Drawable}, every time the assigned {@code
-     * Drawable}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
-     * {@code update()} method.
-     *
-     * @param obj A Drawable that has been assigned this behavior.
-     * @see Drawable
-     */
-    void update(Drawable obj);
-
-    /** Destroys any leftover memory in the {@code Behavior}. */
-    default void destroy() {
-    }
-
-
-    /**
      * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, translates it by the specified
      * translation every update call.
      *
@@ -54,11 +26,11 @@ public interface Behavior {
     static Behavior simpleTranslation(Pointf translationModifier) {
         return new Behavior() {
             @Override
-            public void init(Drawable obj) {
+            public void init(TransformableDrawable obj) {
             }
 
             @Override
-            public void update(Drawable obj) {
+            public void update(TransformableDrawable obj) {
                 obj.translate(translationModifier);
             }
         };
@@ -74,11 +46,11 @@ public interface Behavior {
     static Behavior simpleRotation(float rotationModifier) {
         return new Behavior() {
             @Override
-            public void init(Drawable obj) {
+            public void init(TransformableDrawable obj) {
             }
 
             @Override
-            public void update(Drawable obj) {
+            public void update(TransformableDrawable obj) {
                 obj.rotate(rotationModifier);
             }
         };
@@ -95,13 +67,40 @@ public interface Behavior {
     static Behavior simpleScale(Pointf scaleModifier) {
         return new Behavior() {
             @Override
-            public void init(Drawable obj) {
+            public void init(TransformableDrawable obj) {
             }
 
             @Override
-            public void update(Drawable obj) {
+            public void update(TransformableDrawable obj) {
                 obj.scale(scaleModifier);
             }
         };
+    }
+
+    /**
+     * Initializes the assigned {@code Drawable}.
+     * <p>
+     * This method is used for modifying anything about the Drawable(s) that this behavior is assigned to, before the
+     * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
+     *
+     * @param obj A Drawable that has been assigned this behavior.
+     * @see TransformableDrawable
+     */
+    void init(TransformableDrawable obj);
+
+    /**
+     * Updates the assigned {@code Drawable}.
+     * <p>
+     * This method is used to modify anything about the assigned {@code Drawable}, every time the assigned {@code
+     * Drawable}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
+     * {@code update()} method.
+     *
+     * @param obj A Drawable that has been assigned this behavior.
+     * @see TransformableDrawable
+     */
+    void update(TransformableDrawable obj);
+
+    /** Destroys any leftover memory in the {@code Behavior}. */
+    default void destroy() {
     }
 }

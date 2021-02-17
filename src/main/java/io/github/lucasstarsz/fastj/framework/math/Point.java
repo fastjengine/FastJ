@@ -53,6 +53,115 @@ public class Point {
     }
 
     /**
+     * Static method used to add two {@code Point}s (from the parameters specified) together, and return a new {@code
+     * Point} object.
+     *
+     * @param p1 The first {@code Point} used for addition.
+     * @param p2 The second {@code Point} used for addition.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the two {@code Point}s.
+     */
+    public static Point add(Point p1, Point p2) {
+        return new Point(p1.x + p2.x, p1.y + p2.y);
+    }
+
+    /**
+     * Static method used to add a {@code Point} object by an integer value, and return a new {@code Point}.
+     *
+     * @param p The {@code Point} used for addition.
+     * @param i Integer value used for addition.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
+     * integer value.
+     */
+    public static Point add(Point p, int i) {
+        return new Point(p.x + i, p.y + i);
+    }
+
+    /**
+     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
+     * Point} object.
+     *
+     * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
+     *           subtraction.
+     * @param p2 The second {@code Point} used for subtraction; the {@code Point} acting as the second value in
+     *           subtraction.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the two {@code Point}s.
+     */
+    public static Point subtract(Point p1, Point p2) {
+        return new Point(p1.x - p2.x, p1.y - p2.y);
+    }
+
+    /**
+     * Static method used to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
+     *
+     * @param p The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
+     * @param i Integer value used for subtraction; the second value used in subtraction.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
+     * the integer value.
+     */
+    public static Point subtract(Point p, int i) {
+        return new Point(p.x - i, p.y - i);
+    }
+
+    /**
+     * Static method used to multiply two {@code Point} objects (from the parameters specified) together, and return a
+     * new {@code Point}.
+     *
+     * @param p1 The first {@code Point} used for multiplication.
+     * @param p2 The second {@code Point} used for multiplication.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the two {@code Point}s.
+     */
+    public static Point multiply(Point p1, Point p2) {
+        return new Point(p1.x * p2.x, p1.y * p2.y);
+    }
+
+    /**
+     * Static method used to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
+     *
+     * @param p The {@code Point} used for multiplication.
+     * @param i Integer value used for multiplication.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
+     * the integer value.
+     */
+    public static Point multiply(Point p, int i) {
+        return new Point(p.x * i, p.y * i);
+    }
+
+    /**
+     * Static method used to divide two {@code Point} objects (from the parameters specified) together, and return a new
+     * {@code Point}.
+     *
+     * @param p1 The first {@code Point} used for division; the {@code Point} acting as the first value in division.
+     * @param p2 The second {@code Point} used for division; the {@code Point} acting as the second value in division.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the two {@code Point}s.
+     */
+    public static Point divide(Point p1, Point p2) {
+        return new Point(p1.x / p2.x, p1.y / p2.y);
+    }
+
+    /**
+     * Static method used to divide a {@code Point} object by an integer value, and return a new {@code Point}.
+     *
+     * @param p The {@code Point} used for division; the {@code Point} acting as the first value in division.
+     * @param i Integer value used for division; the second value used in division.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
+     * integer value.
+     */
+    public static Point divide(Point p, int i) {
+        return new Point(p.x / i, p.y / i);
+    }
+
+    /**
+     * Converts the specified {@code Point} to a {@code Pointf} object.
+     *
+     * @param pt {@code Point} to be converted.
+     * @return Returns a {@code Pointf} created using the values from the input {@code Point}.
+     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
+     */
+    public static Pointf toPointf(Point pt) {
+        return new Pointf(pt.x, pt.y);
+    }
+
+    /**
      * Sets the x and y values of this {@code Point} object to the values specified.
      *
      * @param newX int value used to set the new x value for this {@code Point} object.
@@ -223,115 +332,6 @@ public class Point {
      */
     public Pointf asPointf() {
         return new Pointf(x, y);
-    }
-
-    /**
-     * Static method used to add two {@code Point}s (from the parameters specified) together, and return a new {@code
-     * Point} object.
-     *
-     * @param p1 The first {@code Point} used for addition.
-     * @param p2 The second {@code Point} used for addition.
-     * @return Returns a new {@code Point} with coordinates equal to the added values from the two {@code Point}s.
-     */
-    public static Point add(Point p1, Point p2) {
-        return new Point(p1.x + p2.x, p1.y + p2.y);
-    }
-
-    /**
-     * Static method used to add a {@code Point} object by an integer value, and return a new {@code Point}.
-     *
-     * @param p The {@code Point} used for addition.
-     * @param i Integer value used for addition.
-     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
-     * integer value.
-     */
-    public static Point add(Point p, int i) {
-        return new Point(p.x + i, p.y + i);
-    }
-
-    /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Point} object.
-     *
-     * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
-     *           subtraction.
-     * @param p2 The second {@code Point} used for subtraction; the {@code Point} acting as the second value in
-     *           subtraction.
-     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the two {@code Point}s.
-     */
-    public static Point subtract(Point p1, Point p2) {
-        return new Point(p1.x - p2.x, p1.y - p2.y);
-    }
-
-    /**
-     * Static method used to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
-     *
-     * @param p The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
-     * @param i Integer value used for subtraction; the second value used in subtraction.
-     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
-     * the integer value.
-     */
-    public static Point subtract(Point p, int i) {
-        return new Point(p.x - i, p.y - i);
-    }
-
-    /**
-     * Static method used to multiply two {@code Point} objects (from the parameters specified) together, and return a
-     * new {@code Point}.
-     *
-     * @param p1 The first {@code Point} used for multiplication.
-     * @param p2 The second {@code Point} used for multiplication.
-     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the two {@code Point}s.
-     */
-    public static Point multiply(Point p1, Point p2) {
-        return new Point(p1.x * p2.x, p1.y * p2.y);
-    }
-
-    /**
-     * Static method used to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
-     *
-     * @param p The {@code Point} used for multiplication.
-     * @param i Integer value used for multiplication.
-     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
-     * the integer value.
-     */
-    public static Point multiply(Point p, int i) {
-        return new Point(p.x * i, p.y * i);
-    }
-
-    /**
-     * Static method used to divide two {@code Point} objects (from the parameters specified) together, and return a new
-     * {@code Point}.
-     *
-     * @param p1 The first {@code Point} used for division; the {@code Point} acting as the first value in division.
-     * @param p2 The second {@code Point} used for division; the {@code Point} acting as the second value in division.
-     * @return Returns a new {@code Point} with coordinates equal to the divided values from the two {@code Point}s.
-     */
-    public static Point divide(Point p1, Point p2) {
-        return new Point(p1.x / p2.x, p1.y / p2.y);
-    }
-
-    /**
-     * Static method used to divide a {@code Point} object by an integer value, and return a new {@code Point}.
-     *
-     * @param p The {@code Point} used for division; the {@code Point} acting as the first value in division.
-     * @param i Integer value used for division; the second value used in division.
-     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
-     * integer value.
-     */
-    public static Point divide(Point p, int i) {
-        return new Point(p.x / i, p.y / i);
-    }
-
-    /**
-     * Converts the specified {@code Point} to a {@code Pointf} object.
-     *
-     * @param pt {@code Point} to be converted.
-     * @return Returns a {@code Pointf} created using the values from the input {@code Point}.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     */
-    public static Pointf toPointf(Point pt) {
-        return new Pointf(pt.x, pt.y);
     }
 
     /**

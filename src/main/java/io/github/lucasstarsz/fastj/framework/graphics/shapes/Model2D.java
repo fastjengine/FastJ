@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.framework.graphics.Boundary;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -21,7 +21,7 @@ import java.util.Arrays;
  * @see DrawUtil
  * @since 1.0.0
  */
-public class Model2D extends Drawable {
+public class Model2D extends TransformableDrawable {
 
     private Polygon2D[] polyArr;
     private Polygon2D collisionObject;

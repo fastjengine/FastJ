@@ -32,33 +32,27 @@ import java.util.Map;
  */
 public class Display {
 
+    private final Map<RenderingHints.Key, Object> renderHints;
+    // input
+    private final Mouse mouse;
+    private final Keyboard kb;
     // display and background
     private JFrame outputDisplay;
     private Rectangle2D.Float background;
-
     // title
     private String displayTitle;
     private String vanityDisplayTitle;
     private boolean shouldDisplayFPSInTitle = false;
-
     // resolution
     private Point viewerResolution;
     private Point internalResolution;
     private Point lastResolution;
-
     // full-screen, windowed full-screen
     private boolean isFullscreen;
     private boolean isWindowedFullscreen;
     private boolean switchingScreenState;
-
     // graphics drawing
     private Canvas drawingCanvas;
-    private final Map<RenderingHints.Key, Object> renderHints;
-
-    // input
-    private final Mouse mouse;
-    private final Keyboard kb;
-
     // helpers
     private boolean isClosed = false;
     private boolean isReady = false;
@@ -81,6 +75,78 @@ public class Display {
         renderHints = new LinkedHashMap<>();
         mouse = new Mouse();
         kb = new Keyboard();
+    }
+
+    /**
+     * Gets the specified monitor.
+     *
+     * @param monitorIndicated The index number of the monitor to get.
+     * @return The specified monitor, as a {@code GraphicsDevice}.
+     * @see GraphicsDevice
+     */
+    public static GraphicsDevice getMonitor(int monitorIndicated) {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[monitorIndicated];
+    }
+
+    /**
+     * Gets the default monitor.
+     *
+     * @return The default monitor, as a {@code GraphicsDevice}.
+     * @see GraphicsDevice
+     */
+    public static GraphicsDevice getDefaultMonitor() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    }
+
+    /**
+     * Gets the refresh rate of the specified monitor.
+     *
+     * @param monitorIndicated The monitor to get the refresh rate of.
+     * @return The indicated monitor's refresh rate, as an integer value.
+     */
+    public static int getMonitorRefreshRate(int monitorIndicated) {
+        return getMonitor(monitorIndicated).getDisplayMode().getRefreshRate();
+    }
+
+    /**
+     * Gets the refresh rate of the default monitor.
+     *
+     * @return The default monitor's refresh rate, as an integer value.
+     */
+    public static int getDefaultMonitorRefreshRate() {
+        return getDefaultMonitor().getDisplayMode().getRefreshRate();
+    }
+
+    /**
+     * Gets the dimensions of the specified monitor.
+     *
+     * @param monitorIndicated The monitor to get the dimensions of.
+     * @return The indicated monitor's dimensions, as a {@code Point}.
+     * @see Point
+     */
+    public static Point getMonitorDimensions(int monitorIndicated) {
+        DisplayMode monitorMode = getMonitor(monitorIndicated).getDisplayMode();
+        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
+    }
+
+    /**
+     * Gets the dimensions of the default monitor.
+     *
+     * @return The default monitor's dimensions, as a {@code Point}.
+     * @see Point
+     */
+    public static Point getDefaultMonitorDimensions() {
+        DisplayMode monitorMode = getDefaultMonitor().getDisplayMode();
+        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
+    }
+
+    /**
+     * Gets the amount of monitors the user has.
+     *
+     * @return The amount of monitors that the user has.
+     */
+    public static int getMonitorCount() {
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
     }
 
     /**
@@ -111,6 +177,18 @@ public class Display {
     }
 
     /**
+     * Sets the true title of the {@code Display}.
+     * <p>
+     * Setting this resets the displayed title.
+     *
+     * @param newTitle The new title.
+     */
+    public void setTitle(String newTitle) {
+        displayTitle = newTitle;
+        vanityDisplayTitle = newTitle;
+    }
+
+    /**
      * Gets the title currently being displayed in the title bar of the {@code Display}.
      * <p>
      * This title takes from the original title, and should only be used for temporary changes of the title.
@@ -119,6 +197,16 @@ public class Display {
      */
     public String getDisplayedTitle() {
         return vanityDisplayTitle;
+    }
+
+    /**
+     * Sets the title that the end user sees to the specified title.
+     *
+     * @param vanityTitle The new title that the user will see.
+     */
+    public void setDisplayedTitle(String vanityTitle) {
+        vanityDisplayTitle = vanityTitle;
+        outputDisplay.setTitle(vanityDisplayTitle);
     }
 
     /**
@@ -149,12 +237,36 @@ public class Display {
     }
 
     /**
+     * Sets the {@code Display}'s viewed resolution.
+     * <p>
+     * This is the resolution that the viewer sees, and is a scaled version of the game resolution.
+     *
+     * @param res The new resolution to be set to.
+     */
+    public void setViewerResolution(Point res) {
+        FastJEngine.runningCheck();
+        viewerResolution = res.copy();
+    }
+
+    /**
      * Gets the internal resolution of the {@code Display}.
      *
      * @return The internal resolution, as a {@code Point}.
      */
     public Point getInternalResolution() {
         return internalResolution;
+    }
+
+    /**
+     * Sets the {@code Display}'s game resolution.
+     * <p>
+     * This is the resolution that the game itself is intended for, and looks the best on.
+     *
+     * @param res The new resolution to be set to.
+     */
+    public void setInternalResolution(Point res) {
+        FastJEngine.runningCheck();
+        internalResolution = res.copy();
     }
 
     /**
@@ -176,186 +288,6 @@ public class Display {
      */
     public boolean isFullscreen() {
         return isFullscreen;
-    }
-
-    /**
-     * Gets the value that determines whether the {@code Display} is switching its screen state.
-     *
-     * @return The full-screen switching state boolean.
-     */
-    public boolean isSwitchingScreenState() {
-        return switchingScreenState;
-    }
-
-    /**
-     * Gets the value that determines whether the {@code Display} is in windowed full-screen mode.
-     *
-     * @return Boolean that determines whether the {@code Display} is in windowed full-screen mode.
-     */
-    public boolean isWindowedFullscreen() {
-        return isWindowedFullscreen;
-    }
-
-    /**
-     * Gets the background of the {@code Display}.
-     *
-     * @return The background, as a {@code Rectangle2D.Float}.
-     * @see Rectangle2D.Float
-     */
-    public Rectangle2D.Float getBackground() {
-        return background;
-    }
-
-    /**
-     * Gets the color of the background of the {@code Display}.
-     *
-     * @return The color of the background, as a {@code Color}.
-     * @see Color
-     */
-    public Color getBackgroundColor() {
-        return drawingCanvas.getBackground();
-    }
-
-    /**
-     * Gets the displayed icon of the {@code Display}.
-     *
-     * @return The icon of the {@code Display}.
-     * @see BufferedImage
-     */
-    public BufferedImage getIcon() {
-        return (BufferedImage) outputDisplay.getIconImage();
-    }
-
-    /**
-     * Gets the {@code JFrame} of the {@code Display}.
-     *
-     * @return The {@code JFrame} of the {@code Display}.
-     */
-    public Frame getJFrame() {
-        return outputDisplay;
-    }
-
-    /**
-     * Gets the {@code Canvas} of the {@code Display}.
-     *
-     * @return The {@code Canvas} of the {@code Display}.
-     */
-    public Canvas getCanvas() {
-        return drawingCanvas;
-    }
-
-    /**
-     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the transformation of the current
-     * scene's camera.
-     *
-     * @return The {@code Graphics2D} object which is associated with the {@code Display}.
-     * @see Graphics2D
-     */
-    public Graphics2D getGraphics() {
-        return prepareGraphics((Graphics2D) drawingCanvas.getBufferStrategy().getDrawGraphics(), Camera.DEFAULT);
-    }
-
-    /**
-     * Sets the true title of the {@code Display}.
-     * <p>
-     * Setting this resets the displayed title.
-     *
-     * @param newTitle The new title.
-     */
-    public void setTitle(String newTitle) {
-        displayTitle = newTitle;
-        vanityDisplayTitle = newTitle;
-    }
-
-    /**
-     * Sets the title that the end user sees to the specified title.
-     *
-     * @param vanityTitle The new title that the user will see.
-     */
-    public void setDisplayedTitle(String vanityTitle) {
-        vanityDisplayTitle = vanityTitle;
-        outputDisplay.setTitle(vanityDisplayTitle);
-    }
-
-    /**
-     * Enables or disables displaying the FPS in the title bar of the display.
-     *
-     * @param enable Boolean parameter that enables/disables the fps being displayed.
-     */
-    public void showFPSInTitle(boolean enable) {
-        shouldDisplayFPSInTitle = enable;
-
-        if (shouldDisplayFPSInTitle) {
-            setDisplayedTitle(String.format("%s | FPS: ", displayTitle));
-        } else {
-            setDisplayedTitle(displayTitle);
-        }
-    }
-
-    /**
-     * Sets the {@code Display}'s viewed resolution.
-     * <p>
-     * This is the resolution that the viewer sees, and is a scaled version of the game resolution.
-     *
-     * @param res The new resolution to be set to.
-     */
-    public void setViewerResolution(Point res) {
-        FastJEngine.runningCheck();
-        viewerResolution = res.copy();
-    }
-
-    /**
-     * Sets the {@code Display}'s game resolution.
-     * <p>
-     * This is the resolution that the game itself is intended for, and looks the best on.
-     *
-     * @param res The new resolution to be set to.
-     */
-    public void setInternalResolution(Point res) {
-        FastJEngine.runningCheck();
-        internalResolution = res.copy();
-    }
-
-    /**
-     * Sets the display's background color.
-     *
-     * @param newColor The {@code Color} to be set to.
-     */
-    public void setBackgroundColor(Color newColor) {
-        drawingCanvas.setBackground(newColor);
-    }
-
-    /**
-     * Sets the display's icon.
-     *
-     * @param newIcon The icon for the display's icon to be set to.
-     */
-    public void setIcon(BufferedImage newIcon) {
-        outputDisplay.setIconImage(newIcon);
-    }
-
-    /**
-     * Resizes the {@code Display} to the specified size.
-     *
-     * @param newResolution The size for the screen to be set to, as a {@code Point}.
-     */
-    public void resizeDisplay(Point newResolution) {
-        // set display size
-        outputDisplay.getContentPane().setPreferredSize(new Dimension(newResolution.x, newResolution.y));
-        drawingCanvas.setPreferredSize(new Dimension(newResolution.x, newResolution.y));
-
-        // set res points
-        lastResolution = viewerResolution.copy();
-        viewerResolution = newResolution.copy();
-
-        // set background size
-        background.width = internalResolution.x;
-        background.height = internalResolution.y;
-
-        // revalidate/pack
-        drawingCanvas.revalidate();
-        outputDisplay.revalidate();
-        outputDisplay.pack();
     }
 
     /**
@@ -411,6 +343,160 @@ public class Display {
         switchingScreenState = false;
     }
 
+    /**
+     * Gets the value that determines whether the {@code Display} is switching its screen state.
+     *
+     * @return The full-screen switching state boolean.
+     */
+    public boolean isSwitchingScreenState() {
+        return switchingScreenState;
+    }
+
+    /**
+     * Gets the value that determines whether the {@code Display} is in windowed full-screen mode.
+     *
+     * @return Boolean that determines whether the {@code Display} is in windowed full-screen mode.
+     */
+    public boolean isWindowedFullscreen() {
+        return isWindowedFullscreen;
+    }
+
+    /**
+     * Sets the display's windowed full-screen state to the specified parameter.
+     *
+     * @param enable Boolean to set whether the display should be in windowed full-screen mode.
+     */
+    public void setWindowedFullscreen(boolean enable) {
+        if (enable == isWindowedFullscreen) return;
+
+        switchingScreenState = true;
+
+        if (isFullscreen) disableFullscreenInvisibly();
+
+        isWindowedFullscreen = enable;
+        outputDisplay.setExtendedState((isWindowedFullscreen) ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
+        showTitleBar(enable);
+        outputDisplay.setVisible(true);
+
+        switchingScreenState = false;
+    }
+
+    /**
+     * Gets the background of the {@code Display}.
+     *
+     * @return The background, as a {@code Rectangle2D.Float}.
+     * @see Rectangle2D.Float
+     */
+    public Rectangle2D.Float getBackground() {
+        return background;
+    }
+
+    /**
+     * Gets the color of the background of the {@code Display}.
+     *
+     * @return The color of the background, as a {@code Color}.
+     * @see Color
+     */
+    public Color getBackgroundColor() {
+        return drawingCanvas.getBackground();
+    }
+
+    /**
+     * Sets the display's background color.
+     *
+     * @param newColor The {@code Color} to be set to.
+     */
+    public void setBackgroundColor(Color newColor) {
+        drawingCanvas.setBackground(newColor);
+    }
+
+    /**
+     * Gets the displayed icon of the {@code Display}.
+     *
+     * @return The icon of the {@code Display}.
+     * @see BufferedImage
+     */
+    public BufferedImage getIcon() {
+        return (BufferedImage) outputDisplay.getIconImage();
+    }
+
+    /**
+     * Sets the display's icon.
+     *
+     * @param newIcon The icon for the display's icon to be set to.
+     */
+    public void setIcon(BufferedImage newIcon) {
+        outputDisplay.setIconImage(newIcon);
+    }
+
+    /**
+     * Gets the {@code JFrame} of the {@code Display}.
+     *
+     * @return The {@code JFrame} of the {@code Display}.
+     */
+    public Frame getJFrame() {
+        return outputDisplay;
+    }
+
+    /**
+     * Gets the {@code Canvas} of the {@code Display}.
+     *
+     * @return The {@code Canvas} of the {@code Display}.
+     */
+    public Canvas getCanvas() {
+        return drawingCanvas;
+    }
+
+    /**
+     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the transformation of the current
+     * scene's camera.
+     *
+     * @return The {@code Graphics2D} object which is associated with the {@code Display}.
+     * @see Graphics2D
+     */
+    public Graphics2D getGraphics() {
+        return prepareGraphics((Graphics2D) drawingCanvas.getBufferStrategy().getDrawGraphics(), Camera.DEFAULT);
+    }
+
+    /**
+     * Enables or disables displaying the FPS in the title bar of the display.
+     *
+     * @param enable Boolean parameter that enables/disables the fps being displayed.
+     */
+    public void showFPSInTitle(boolean enable) {
+        shouldDisplayFPSInTitle = enable;
+
+        if (shouldDisplayFPSInTitle) {
+            setDisplayedTitle(String.format("%s | FPS: ", displayTitle));
+        } else {
+            setDisplayedTitle(displayTitle);
+        }
+    }
+
+    /**
+     * Resizes the {@code Display} to the specified size.
+     *
+     * @param newResolution The size for the screen to be set to, as a {@code Point}.
+     */
+    public void resizeDisplay(Point newResolution) {
+        // set display size
+        outputDisplay.getContentPane().setPreferredSize(new Dimension(newResolution.x, newResolution.y));
+        drawingCanvas.setPreferredSize(new Dimension(newResolution.x, newResolution.y));
+
+        // set res points
+        lastResolution = viewerResolution.copy();
+        viewerResolution = newResolution.copy();
+
+        // set background size
+        background.width = internalResolution.x;
+        background.height = internalResolution.y;
+
+        // revalidate/pack
+        drawingCanvas.revalidate();
+        outputDisplay.revalidate();
+        outputDisplay.pack();
+    }
+
     /** Disables full-screen mode without showing the screen. */
     private void disableFullscreenInvisibly() {
         if (!isFullscreen) return;
@@ -437,26 +523,6 @@ public class Display {
         outputDisplay.pack();
         outputDisplay.revalidate();
         drawingCanvas.requestFocusInWindow();
-
-        switchingScreenState = false;
-    }
-
-    /**
-     * Sets the display's windowed full-screen state to the specified parameter.
-     *
-     * @param enable Boolean to set whether the display should be in windowed full-screen mode.
-     */
-    public void setWindowedFullscreen(boolean enable) {
-        if (enable == isWindowedFullscreen) return;
-
-        switchingScreenState = true;
-
-        if (isFullscreen) disableFullscreenInvisibly();
-
-        isWindowedFullscreen = enable;
-        outputDisplay.setExtendedState((isWindowedFullscreen) ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
-        showTitleBar(enable);
-        outputDisplay.setVisible(true);
 
         switchingScreenState = false;
     }
@@ -573,78 +639,6 @@ public class Display {
     public void modifyRenderSettings(RenderingHints.Key renderHintKey, Object renderHintValue) {
         renderHints.remove(renderHintKey);
         renderHints.put(renderHintKey, renderHintValue);
-    }
-
-    /**
-     * Gets the specified monitor.
-     *
-     * @param monitorIndicated The index number of the monitor to get.
-     * @return The specified monitor, as a {@code GraphicsDevice}.
-     * @see GraphicsDevice
-     */
-    public static GraphicsDevice getMonitor(int monitorIndicated) {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[monitorIndicated];
-    }
-
-    /**
-     * Gets the default monitor.
-     *
-     * @return The default monitor, as a {@code GraphicsDevice}.
-     * @see GraphicsDevice
-     */
-    public static GraphicsDevice getDefaultMonitor() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    }
-
-    /**
-     * Gets the refresh rate of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the refresh rate of.
-     * @return The indicated monitor's refresh rate, as an integer value.
-     */
-    public static int getMonitorRefreshRate(int monitorIndicated) {
-        return getMonitor(monitorIndicated).getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the refresh rate of the default monitor.
-     *
-     * @return The default monitor's refresh rate, as an integer value.
-     */
-    public static int getDefaultMonitorRefreshRate() {
-        return getDefaultMonitor().getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the dimensions of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the dimensions of.
-     * @return The indicated monitor's dimensions, as a {@code Point}.
-     * @see Point
-     */
-    public static Point getMonitorDimensions(int monitorIndicated) {
-        DisplayMode monitorMode = getMonitor(monitorIndicated).getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the dimensions of the default monitor.
-     *
-     * @return The default monitor's dimensions, as a {@code Point}.
-     * @see Point
-     */
-    public static Point getDefaultMonitorDimensions() {
-        DisplayMode monitorMode = getDefaultMonitor().getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the amount of monitors the user has.
-     *
-     * @return The amount of monitors that the user has.
-     */
-    public static int getMonitorCount() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
     }
 
     /**

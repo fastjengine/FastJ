@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.framework.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.framework.graphics.Boundary;
 import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.TransformableDrawable;
 import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
@@ -20,7 +20,7 @@ import java.awt.geom.Rectangle2D;
  * @version 1.0.0
  * @since 1.0.0
  */
-public class Polygon2D extends Drawable {
+public class Polygon2D extends TransformableDrawable {
 
     private Path2D.Float renderPath;
     private Pointf[] points;
@@ -143,26 +143,6 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * Gets the fill boolean for this polygon.
-     *
-     * @return The boolean variable for this polygon, which determines if the polygon should be filled, or only
-     * outlined.
-     */
-    public boolean isFilled() {
-        return paintFilled;
-    }
-
-    /**
-     * Gets the {@code Pointf} array associated with the current state of the polygon.
-     *
-     * @return The {@code Pointf} array associated with the current state of the polygon.
-     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
-     */
-    public Pointf[] getPoints() {
-        return DrawUtil.pointsOfPath(renderPath);
-    }
-
-    /**
      * Sets the color for the polygon.
      *
      * @param newColor The {@code Color} to be used for the polygon.
@@ -175,6 +155,16 @@ public class Polygon2D extends Drawable {
     }
 
     /**
+     * Gets the fill boolean for this polygon.
+     *
+     * @return The boolean variable for this polygon, which determines if the polygon should be filled, or only
+     * outlined.
+     */
+    public boolean isFilled() {
+        return paintFilled;
+    }
+
+    /**
      * Sets the fill boolean for the object.
      *
      * @param fill Boolean to determine if the polygon should be filled, or only outlined.
@@ -183,6 +173,16 @@ public class Polygon2D extends Drawable {
     public Polygon2D setFilled(boolean fill) {
         paintFilled = fill;
         return this;
+    }
+
+    /**
+     * Gets the {@code Pointf} array associated with the current state of the polygon.
+     *
+     * @return The {@code Pointf} array associated with the current state of the polygon.
+     * @see io.github.lucasstarsz.fastj.framework.math.Pointf
+     */
+    public Pointf[] getPoints() {
+        return DrawUtil.pointsOfPath(renderPath);
     }
 
     /**
