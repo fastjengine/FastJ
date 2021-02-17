@@ -5,16 +5,13 @@ import io.github.lucasstarsz.fastj.engine.graphics.Drawable;
 import io.github.lucasstarsz.fastj.engine.io.Camera;
 import io.github.lucasstarsz.fastj.engine.systems.game.Scene;
 import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
-import io.github.lucasstarsz.fastj.engine.util.ImageUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * {@code Drawable} subclass for drawing a polygon.
@@ -33,9 +30,6 @@ public class Polygon2D extends Drawable {
     private float rotation;
     private Pointf scale;
     private Pointf translation;
-
-    private BufferedImage originalImage, renderImage;
-    private boolean hasImage;
 
 
     /**
@@ -67,7 +61,6 @@ public class Polygon2D extends Drawable {
 
         renderPath = createPath(points);
         setBoundaries(renderPath);
-        hasImage = false;
 
         scale = new Pointf(1);
         rotation = 0;
@@ -101,7 +94,6 @@ public class Polygon2D extends Drawable {
 
         renderPath = createPath(points);
         setBoundaries(renderPath);
-        hasImage = false;
 
         scale = new Pointf(1);
         rotation = 0;
@@ -120,24 +112,6 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in an array of points, a BufferedImage (which will be used as a texture
-     * for the polygon), and a show variable.
-     *
-     * @param pts   {@code Pointf} array that defines the points for the polygon.
-     * @param image {@code BufferedImage} to be used as a texture for the polygon.
-     * @param show  Boolean that determines whether the polygon should be shown on screen.
-     * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
-     * @see BufferedImage
-     */
-    public Polygon2D(Pointf[] pts, BufferedImage image, boolean show) {
-        this(pts, Color.black, true, show);
-
-        originalImage = image;
-        renderImage = ImageUtil.copyImage(image);
-        hasImage = true;
-    }
-
-    /**
      * Gets the rendered {@code Path2D.Float} for this polygon.
      *
      * @return The {@code Path2D.Float} for this polygon.
@@ -145,16 +119,6 @@ public class Polygon2D extends Drawable {
      */
     public Path2D.Float getRenderPath() {
         return renderPath;
-    }
-
-    /**
-     * Gets the rendered {@code BufferedImage} for this polygon.
-     *
-     * @return The {@code BufferedImage} for this polygon.
-     * @see BufferedImage
-     */
-    public BufferedImage getRenderImage() {
-        return renderImage;
     }
 
     /**
@@ -198,15 +162,6 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * Gets the variable that determines whether the polygon has a texture.
-     *
-     * @return The boolean value that determines whether the polygon has a texture.
-     */
-    public boolean hasImage() {
-        return hasImage;
-    }
-
-    /**
      * Sets the color for the polygon.
      *
      * @param newColor The {@code Color} to be used for the polygon.
@@ -226,21 +181,6 @@ public class Polygon2D extends Drawable {
      */
     public Polygon2D setFilled(boolean fill) {
         paintFilled = fill;
-        return this;
-    }
-
-    /**
-     * Sets the image parameter for the object.
-     *
-     * @param img {@code BufferedImage} to set as the texture for the polygon.
-     * @return This instance of the {@code Polygon2D}, for method chaining.
-     * @see BufferedImage
-     */
-    public Polygon2D setImage(BufferedImage img) {
-        originalImage = img;
-        renderImage = ImageUtil.copyImage(originalImage);
-        hasImage = true;
-
         return this;
     }
 
@@ -339,11 +279,7 @@ public class Polygon2D extends Drawable {
     public void render(Graphics2D g) {
         if (!shouldRender()) return;
 
-        if (hasImage) {
-            g.setPaint(new TexturePaint(renderImage, DrawUtil.createRectFromImage(renderImage, translation)));
-        } else {
-            g.setColor(color);
-        }
+        g.setColor(color);
 
         if (paintFilled) {
             g.fill(renderPath);
@@ -363,11 +299,7 @@ public class Polygon2D extends Drawable {
 
         Path2D.Float renderCopy = (Path2D.Float) renderPath.createTransformedShape(at);
 
-        if (hasImage) {
-            g.setPaint(new TexturePaint(renderImage, DrawUtil.createRectFromImage(renderImage, translation)));
-        } else {
-            g.setColor(color);
-        }
+        g.setColor(color);
 
         if (paintFilled) {
             g.fill(renderCopy);
@@ -380,15 +312,6 @@ public class Polygon2D extends Drawable {
     public void destroy(Scene originScene) {
         points = null;
         renderPath = null;
-
-        if (hasImage) {
-            renderImage.flush();
-            originalImage.flush();
-        }
-
-        renderImage = null;
-        originalImage = null;
-        hasImage = false;
 
         color = null;
         paintFilled = false;
