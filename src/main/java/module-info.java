@@ -8,7 +8,7 @@
  * For more information, check out
  * <a href="https://github.com/lucasstarsz/FastJ-Engine" target="_blank">the github repository.</a>
  */
-module fastj.engine {
+module fastj.library {
     requires java.desktop;
 
     exports io.github.lucasstarsz.fastj.engine;
