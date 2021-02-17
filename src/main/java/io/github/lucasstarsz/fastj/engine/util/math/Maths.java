@@ -26,8 +26,7 @@ public class Maths {
     }
 
     /**
-     * Generates a random number within the specified range, then snaps it to the edge it is closest
-     * to.
+     * Generates a random number within the specified range, then snaps it to the edge it is closest to.
      *
      * @param leftEdge  The leftmost edge.
      * @param rightEdge The rightmost edge.

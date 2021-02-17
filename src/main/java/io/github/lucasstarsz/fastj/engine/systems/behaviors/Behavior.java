@@ -17,9 +17,8 @@ public interface Behavior {
     /**
      * Initializes the assigned {@code Drawable}.
      * <p>
-     * This method is used for modifying anything about the Drawable(s) that this behavior is
-     * assigned to, before the game is rendered. It is called after the parent {@code Scene} has
-     * completed its {@code load()} method.
+     * This method is used for modifying anything about the Drawable(s) that this behavior is assigned to, before the
+     * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
      *
      * @param obj A Drawable that has been assigned this behavior.
      * @see Drawable
@@ -29,9 +28,9 @@ public interface Behavior {
     /**
      * Updates the assigned {@code Drawable}.
      * <p>
-     * This method is used to modify anything about the assigned {@code Drawable}, every time the
-     * assigned {@code Drawable}'s containing {@code Scene} updates. It is called after the parent
-     * {@code Scene} has completed its {@code update()} method.
+     * This method is used to modify anything about the assigned {@code Drawable}, every time the assigned {@code
+     * Drawable}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
+     * {@code update()} method.
      *
      * @param obj A Drawable that has been assigned this behavior.
      * @see Drawable
@@ -44,12 +43,11 @@ public interface Behavior {
 
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, translates it
-     * by the specified translation every update call.
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, translates it by the specified
+     * translation every update call.
      *
      * @param translationModifier The {@code Pointf} value to be used for translation.
      * @return The newly created {@code Behavior}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     static Behavior simpleTranslation(Pointf translationModifier) {
@@ -66,8 +64,8 @@ public interface Behavior {
     }
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, rotates it by
-     * the specified rotation every update call.
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, rotates it by the specified
+     * rotation every update call.
      *
      * @param rotationModifier The float value to be used for rotation.
      * @return The newly created {@code Behavior}.
@@ -86,12 +84,11 @@ public interface Behavior {
     }
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, scales it by
-     * the specified scale every update call.
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, scales it by the specified scale
+     * every update call.
      *
      * @param scaleModifier The {@code Pointf} value to be used for scaling.
      * @return The newly created {@code Behavior}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     static Behavior simpleScale(Pointf scaleModifier) {

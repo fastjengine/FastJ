@@ -6,7 +6,7 @@ import io.github.lucasstarsz.fastj.engine.graphics.shapes.Polygon2D;
 import io.github.lucasstarsz.fastj.engine.util.math.Maths;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
@@ -18,13 +18,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class that provides supplementary methods for working with {@code Drawable}s.
  * <p>
- * This class is also used to load 2-dimensional model files, of the {@code ".psdf"} file
- * extension.
+ * This class is also used to load 2-dimensional model files, of the {@code ".psdf"} file extension.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -38,15 +36,14 @@ public final class DrawUtil {
     /**
      * Gets a {@code Polygon2D} array, loaded from a {@code .psdf} file.
      * <p>
-     * This method allows the user to load an array of {@code Polygon2D}s from a single file,
-     * decreasing the amount of models that have to be programmed in.
+     * This method allows the user to load an array of {@code Polygon2D}s from a single file, decreasing the amount of
+     * models that have to be programmed in.
      * <p>
-     * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly
-     * use the resulting array from this method to create a {@code Model2D} object.
+     * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly use the resulting
+     * array from this method to create a {@code Model2D} object.
      *
      * @param fileLocation Location of the file.
      * @return An array of {@code Polygon2D}s.
-     *
      * @see Polygon2D
      * @see Model2D
      */
@@ -68,7 +65,6 @@ public final class DrawUtil {
      *
      * @param fileLocation The location of the .psdf file.
      * @return An array of {@code Polygon2D}s.
-     *
      * @see Polygon2D
      */
     private static Polygon2D[] parseModelFile(String fileLocation) {
@@ -132,8 +128,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Writes a {@code .psdf} file containing the current state of the {@code Polygon2D}s that make
-     * up the specified {@code Model2D}.
+     * Writes a {@code .psdf} file containing the current state of the {@code Polygon2D}s that make up the specified
+     * {@code Model2D}.
      *
      * @param destPath The destination path of the {@code .psdf} file that will be written.
      * @param model    The {@code Model2D} that will be written to the file.
@@ -179,18 +175,14 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array representing an outline of the specified {@code Polygon2D}
-     * array.
+     * Creates a {@code Pointf} array representing an outline of the specified {@code Polygon2D} array.
      * <p>
      * <b>NOTE:</b> This method likely will not provide a completely accurate outline of the array
      * of {@code Polygon2D} objects.
      * </p>
      *
-     * @param polyList The Array of {@code Polygon2D}s that will be used to create the outline of
-     *                 {@code Pointf}s.
-     * @return A {@code Pointf} array that makes up the outline of the specified {@code Polygon2D}
-     * array.
-     *
+     * @param polyList The Array of {@code Polygon2D}s that will be used to create the outline of {@code Pointf}s.
+     * @return A {@code Pointf} array that makes up the outline of the specified {@code Polygon2D} array.
      * @see Polygon2D
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -226,8 +218,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified x, y, width, and height
-     * floats.
+     * Creates a {@code Pointf} array of 4 points, based on the specified x, y, width, and height floats.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -244,7 +235,6 @@ public final class DrawUtil {
      * @param width  The width.
      * @param height The height.
      * @return A 4 {@code Pointf} array based on the x, y, width, and height specified.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public static Pointf[] createBox(float x, float y, float width, float height) {
@@ -273,7 +263,6 @@ public final class DrawUtil {
      * @param y    The y location.
      * @param size The width and height.
      * @return A 4 {@code Pointf} array based on the x, y, and size specified.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public static Pointf[] createBox(float x, float y, float size) {
@@ -281,8 +270,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf}
-     * and size float.
+     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size float.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -297,7 +285,6 @@ public final class DrawUtil {
      * @param location The x and y locations.
      * @param size     The width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public static Pointf[] createBox(Pointf location, float size) {
@@ -305,8 +292,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf}
-     * and size {@code Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size {@code
+     * Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -321,7 +308,6 @@ public final class DrawUtil {
      * @param location The x and y locations.
      * @param size     The width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public static Pointf[] createBox(Pointf location, Pointf size) {
@@ -329,8 +315,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the {@code Rectangle2D.Float}
-     * parameter.
+     * Creates a {@code Pointf} array of 4 points, based on the {@code Rectangle2D.Float} parameter.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -344,7 +329,6 @@ public final class DrawUtil {
      *
      * @param r The rectangle.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     *
      * @see Rectangle2D.Float
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -353,8 +337,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and
-     * the location {@code Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and the location {@code
+     * Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -369,7 +353,6 @@ public final class DrawUtil {
      * @param source   The source for the width and height.
      * @param location The x and y locations.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     *
      * @see BufferedImage
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -397,7 +380,6 @@ public final class DrawUtil {
      *
      * @param source The source for the width and height.
      * @return A 4 {@code Pointf} array based on the location and size specified.
-     *
      * @see BufferedImage
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -412,7 +394,6 @@ public final class DrawUtil {
      *
      * @param pts The {@code Pointf} array used to create the rectangle.
      * @return The resultant {@code Rectangle2D.Float}.
-     *
      * @see Rectangle2D.Float
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -428,13 +409,12 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the
-     * location {@code Pointf}.
+     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the location {@code
+     * Pointf}.
      *
      * @param source      The source for the width and height.
      * @param translation The x and y locations.
      * @return The resultant {@code Rectangle2D.Float}.
-     *
      * @see BufferedImage
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      * @see Rectangle2D.Float
@@ -448,7 +428,6 @@ public final class DrawUtil {
      *
      * @param points The array to get the center of.
      * @return The center of the array.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public static Pointf centerOf(Pointf[] points) {
@@ -458,12 +437,10 @@ public final class DrawUtil {
     }
 
     /**
-     * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float}
-     * parameter.
+     * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter.
      *
      * @param path The path to get the points of.
      * @return The resultant array of points.
-     *
      * @see Path2D.Float
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -498,7 +475,6 @@ public final class DrawUtil {
      *
      * @param path The path to check point amount of.
      * @return The amount of points in the path.
-     *
      * @see Path2D.Float
      */
     public static int lengthOfPath(Path2D.Float path) {
@@ -518,7 +494,6 @@ public final class DrawUtil {
      * Generates a random {@code Color}, while leaving the alpha to its default value (255).
      *
      * @return The randomly generated {@code Color}.
-     *
      * @see Color
      */
     public static Color randomColor() {
@@ -529,7 +504,6 @@ public final class DrawUtil {
      * Generates a random {@code Color}, including the alpha level of the color.
      *
      * @return The randomly generated {@code Color}.
-     *
      * @see Color
      */
     public static Color randomColorWithAlpha() {

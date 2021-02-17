@@ -108,17 +108,14 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key (at the specified key location) was recently pressed.
      * <p>
-     * If the specified key was recently pressed, it will no longer be recently pressed when this
-     * method concludes.
+     * If the specified key was recently pressed, it will no longer be recently pressed when this method concludes.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key
-     *                    is to use the KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This
-     *                    value is based on the KeyEvent location values, using {@code STANDARD},
-     *                    {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different
-     *                    possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
+     *                    KeyEvent class.
+     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
+     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently pressed.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Keyboard.KeyLocation
      */
     public static boolean isKeyRecentlyPressed(int keyCode, KeyLocation keyLocation) {
@@ -134,14 +131,13 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key was recently pressed.
      * <p>
-     * If the specified key was recently pressed, it will no longer be recently pressed when this
-     * method concludes.
+     * If the specified key was recently pressed, it will no longer be recently pressed when this method concludes.
      * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by
-     * default it will check for the left location.
+     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
+     * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to
-     *                use the KeyEvent class.
+     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
+     *                class.
      * @return Boolean value that determines if the specified key was recently pressed.
      */
     public static boolean isKeyRecentlyPressed(int keyCode) {
@@ -151,17 +147,14 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key (at the specified key location) was recently released.
      * <p>
-     * If the specified key was recently released, it will no longer be recently released when this
-     * method concludes.
+     * If the specified key was recently released, it will no longer be recently released when this method concludes.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key
-     *                    is to use the KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This
-     *                    value is based on the KeyEvent location values, using {@code STANDARD},
-     *                    {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different
-     *                    possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
+     *                    KeyEvent class.
+     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
+     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently released.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Keyboard.KeyLocation
      */
     public static boolean isKeyRecentlyReleased(int keyCode, KeyLocation keyLocation) {
@@ -178,14 +171,13 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key was recently released.
      * <p>
-     * If the specified key was recently released, it will no longer be recently released when this
-     * method concludes.
+     * If the specified key was recently released, it will no longer be recently released when this method concludes.
      * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by
-     * default it will check for the left location.
+     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
+     * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to
-     *                use the KeyEvent class.
+     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
+     *                class.
      * @return Boolean value that determines if the specified key was recently released.
      */
     public static boolean isKeyRecentlyReleased(int keyCode) {
@@ -195,14 +187,12 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key (at the specified key location) is currently pressed.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key
-     *                    is to use the KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This
-     *                    value is based on the KeyEvent location values, using {@code STANDARD},
-     *                    {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different
-     *                    possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
+     *                    KeyEvent class.
+     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
+     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key is pressed.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Keyboard.KeyLocation
      */
     public static boolean isKeyDown(int keyCode, KeyLocation keyLocation) {
@@ -215,11 +205,11 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key is currently pressed.
      * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by
-     * default it will check for the left location.
+     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
+     * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to
-     *                use the KeyEvent class.
+     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
+     *                class.
      * @return Boolean value that determines if the specified key is pressed.
      */
     public static boolean isKeyDown(int keyCode) {
@@ -291,8 +281,8 @@ public class Keyboard implements KeyListener {
     /**
      * Class to store the data and state of a key being pressed or not.
      * <p>
-     * Each {@code Key} also contains a {@code KeyDescription} that defines the code of the key, and
-     * its location on the keyboard.
+     * Each {@code Key} also contains a {@code KeyDescription} that defines the code of the key, and its location on the
+     * keyboard.
      *
      * @see io.github.lucasstarsz.fastj.engine.io.Keyboard.KeyDescription
      */
@@ -391,8 +381,7 @@ public class Keyboard implements KeyListener {
          *
          * @param keyCode     The key code to check for.
          * @param keyLocation The key description to check for.
-         * @return The {@code KeyDescription} with the specified key code. If none matches, this
-         * returns {@code null}.
+         * @return The {@code KeyDescription} with the specified key code. If none matches, this returns {@code null}.
          */
         private static KeyDescription get(int keyCode, int keyLocation) {
             for (KeyDescription k : keys.keySet()) {

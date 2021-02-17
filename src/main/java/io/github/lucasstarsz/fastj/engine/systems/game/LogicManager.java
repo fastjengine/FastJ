@@ -17,8 +17,7 @@ import java.util.Map;
 /**
  * The manager which allows for control over the scenes in a game.
  * <p>
- * A {@code LogicManager} acts as a bridge between the internals of the engine, and the developer's
- * code.
+ * A {@code LogicManager} acts as a bridge between the internals of the engine, and the developer's code.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -32,9 +31,8 @@ public abstract class LogicManager {
     /**
      * Set up the game scenes, the display, and everything in between.
      * <p>
-     * This method is called after the engine has been set up, and the display has been created. As
-     * it is only called once, it is the best place to set some initial settings that apply to the
-     * entire game.
+     * This method is called after the engine has been set up, and the display has been created. As it is only called
+     * once, it is the best place to set some initial settings that apply to the entire game.
      *
      * @param display The {@code Display} that the game renders to.
      * @see io.github.lucasstarsz.fastj.engine.io.Display
@@ -65,7 +63,6 @@ public abstract class LogicManager {
      * Gets the currently active scene.
      *
      * @return Returns the currently active scene.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public Scene getCurrentScene() {
@@ -76,7 +73,6 @@ public abstract class LogicManager {
      * Gets the list of all scenes in the logic manager.
      *
      * @return Returns the list of scenes in the logic manager.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public List<Scene> getScenes() {
@@ -88,7 +84,6 @@ public abstract class LogicManager {
      *
      * @param sceneName The name of the scene to retrieve.
      * @return The scene, if it exists.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public Scene getScene(String sceneName) {
@@ -99,8 +94,7 @@ public abstract class LogicManager {
     /**
      * Gets the boolean that specifies whether the logic manager is currently switching scenes.
      *
-     * @return Returns a boolean that specifies whether the logic manager is currently switching
-     * scenes.
+     * @return Returns a boolean that specifies whether the logic manager is currently switching scenes.
      */
     public boolean isSwitchingScenes() {
         return switchingScenes;
@@ -109,8 +103,8 @@ public abstract class LogicManager {
     /**
      * Sets the current scene to the scene specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code
-     * switchScene(String nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
+     * nextScene)} method.
      *
      * @param scene The scene which the current scene will be set to.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
@@ -122,8 +116,8 @@ public abstract class LogicManager {
     /**
      * Sets the current scene to the scene with the name specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code
-     * switchScene(String nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
+     * nextScene)} method.
      *
      * @param sceneName The name of the scene which the current scene will be set to.
      */
@@ -177,8 +171,7 @@ public abstract class LogicManager {
     /**
      * Fires a mouse wheel event to the current scene.
      * <p>
-     * This event would be with the other mouse event types, but its event type is dissimilar to the
-     * others.
+     * This event would be with the other mouse event types, but its event type is dissimilar to the others.
      *
      * @param event The mouse wheel scroll event information to be passed through.
      * @see MouseWheelEvent
@@ -251,8 +244,8 @@ public abstract class LogicManager {
     /**
      * Switches to the scene specified, loading that scene if necessary.
      * <p>
-     * This is the preferred method of switching from one scene to another. However, it does not
-     * unload the last scene. That has to be done by the user.
+     * This is the preferred method of switching from one scene to another. However, it does not unload the last scene.
+     * That has to be done by the user.
      *
      * @param nextSceneName The name of the next Scene to be loaded.
      */
@@ -339,13 +332,11 @@ public abstract class LogicManager {
     }
 
     /**
-     * Creates a snapshot of the {@code switchingScenes} and {@code isSwitchingFullscreenState}
-     * booleans, to make sure the game doesn't crash out due to an attempt to call methods and other
-     * fields illegally.
+     * Creates a snapshot of the {@code switchingScenes} and {@code isSwitchingFullscreenState} booleans, to make sure
+     * the game doesn't crash out due to an attempt to call methods and other fields illegally.
      *
      * @param display The {@code Display} to get the fullscreen state from.
      * @return An array of booleans to check through.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Display
      */
     private boolean[] createSnapshot(Display display) {
@@ -358,13 +349,13 @@ public abstract class LogicManager {
     /**
      * Checks if the logic manager was switching scenes.
      * <p>
-     * This method takes a boolean parameter, which is a record of whether the logic manager was
-     * switching scenes at the beginning of the parent method call.
+     * This method takes a boolean parameter, which is a record of whether the logic manager was switching scenes at the
+     * beginning of the parent method call.
      * <p>
      * If the logic manager was not switching scenes, this method will error out the game engine.
      *
-     * @param snapshot Record of whether the logic manager was switching scenes at the beginning of
-     *                 the parent method call.
+     * @param snapshot Record of whether the logic manager was switching scenes at the beginning of the parent method
+     *                 call.
      * @param e        The NullPointerException that would be used in the error call.
      */
     private void snapshotCheck(boolean[] snapshot, NullPointerException e) {
@@ -380,8 +371,8 @@ public abstract class LogicManager {
     /**
      * Checks if the current scene is null.
      * <p>
-     * If the current scene is null, this throws a NullPointerException that has a customized
-     * message, based on the context of the error.
+     * If the current scene is null, this throws a NullPointerException that has a customized message, based on the
+     * context of the error.
      */
     private void nullSceneCheck() {
         if (currentScene == null) {
@@ -406,8 +397,7 @@ public abstract class LogicManager {
     /**
      * Checks if the current scene is initialized.
      * <p>
-     * If the current scene isn't initialized, this throws a NullPointerException with a message
-     * that says so.
+     * If the current scene isn't initialized, this throws a NullPointerException with a message that says so.
      */
     private void initSceneCheck() {
         if (!currentScene.isInitialized()) {
@@ -440,8 +430,8 @@ public abstract class LogicManager {
     /**
      * Checks if the specified scene name corresponds with a scene in the logic manager.
      * <p>
-     * If the scene name doesn't correspond with any scenes in the logic manager, this method will
-     * error out the game engine.
+     * If the scene name doesn't correspond with any scenes in the logic manager, this method will error out the game
+     * engine.
      *
      * @param sceneName Name of the scene to be checked for.
      */

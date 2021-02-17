@@ -8,7 +8,9 @@ import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
 import io.github.lucasstarsz.fastj.engine.util.ImageUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.TexturePaint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -39,8 +41,8 @@ public class Polygon2D extends Drawable {
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
      * <p>
-     * This constructor defaults the color to black, and both the {@code fill} and {@code show}
-     * booleans to {@code true}.
+     * This constructor defaults the color to black, and both the {@code fill} and {@code show} booleans to {@code
+     * true}.
      *
      * @param pts {@code Pointf} array that defines the points for the polygon.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
@@ -50,8 +52,7 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a color, a fill variable, and a
-     * show variable.
+     * {@code Polygon2D} constructor that takes in a set of points, a color, a fill variable, and a show variable.
      *
      * @param pts   {@code Pointf} array that defines the points for the polygon.
      * @param color {@code Color} variable that sets the color of the polygon.
@@ -81,16 +82,15 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a color, fill variable, a show
-     * variable, and the translation, rotation, and scale of the polygon.
+     * {@code Polygon2D} constructor that takes in a set of points, a color, fill variable, a show variable, and the
+     * translation, rotation, and scale of the polygon.
      *
      * @param pts         {@code Pointf} array that defines the points for the polygon.
      * @param setLocation {@code Pointf} to set the initial location of the polygon.
      * @param setRotation {@code Pointf} to set the initial rotation of the polygon.
      * @param setScale    {@code Pointf} to set the initial scale of the polygon.
      * @param color       {@code Color} variable that sets the color of the polygon.
-     * @param fill        Boolean that determines whether the polygon should be filled, or only
-     *                    outlined.
+     * @param fill        Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show        Boolean that determines whether the polygon should be shown on screen.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      * @see Color
@@ -120,8 +120,8 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in an array of points, a BufferedImage (which will
-     * be used as a texture for the polygon), and a show variable.
+     * {@code Polygon2D} constructor that takes in an array of points, a BufferedImage (which will be used as a texture
+     * for the polygon), and a show variable.
      *
      * @param pts   {@code Pointf} array that defines the points for the polygon.
      * @param image {@code BufferedImage} to be used as a texture for the polygon.
@@ -141,7 +141,6 @@ public class Polygon2D extends Drawable {
      * Gets the rendered {@code Path2D.Float} for this polygon.
      *
      * @return The {@code Path2D.Float} for this polygon.
-     *
      * @see Path2D.Float
      */
     public Path2D.Float getRenderPath() {
@@ -152,7 +151,6 @@ public class Polygon2D extends Drawable {
      * Gets the rendered {@code BufferedImage} for this polygon.
      *
      * @return The {@code BufferedImage} for this polygon.
-     *
      * @see BufferedImage
      */
     public BufferedImage getRenderImage() {
@@ -163,7 +161,6 @@ public class Polygon2D extends Drawable {
      * Gets the original points that were set for this polygon.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public Pointf[] getOriginalPoints() {
@@ -174,7 +171,6 @@ public class Polygon2D extends Drawable {
      * Gets the color set for this polygon.
      *
      * @return The {@code Color} set for this polygon.
-     *
      * @see Color
      */
     public Color getColor() {
@@ -184,8 +180,8 @@ public class Polygon2D extends Drawable {
     /**
      * Gets the fill boolean for this polygon.
      *
-     * @return The boolean variable for this polygon, which determines if the polygon should be
-     * filled, or only outlined.
+     * @return The boolean variable for this polygon, which determines if the polygon should be filled, or only
+     * outlined.
      */
     public boolean isFilled() {
         return paintFilled;
@@ -195,7 +191,6 @@ public class Polygon2D extends Drawable {
      * Gets the {@code Pointf} array associated with the current state of the polygon.
      *
      * @return The {@code Pointf} array associated with the current state of the polygon.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public Pointf[] getPoints() {
@@ -216,7 +211,6 @@ public class Polygon2D extends Drawable {
      *
      * @param newColor The {@code Color} to be used for the polygon.
      * @return This instance of the {@code Polygon2D}, for method chaining.
-     *
      * @see Color
      */
     public Polygon2D setColor(Color newColor) {
@@ -240,7 +234,6 @@ public class Polygon2D extends Drawable {
      *
      * @param img {@code BufferedImage} to set as the texture for the polygon.
      * @return This instance of the {@code Polygon2D}, for method chaining.
-     *
      * @see BufferedImage
      */
     public Polygon2D setImage(BufferedImage img) {
@@ -254,11 +247,10 @@ public class Polygon2D extends Drawable {
     /**
      * Replaces the current point array with the parameter point array.
      * <p>
-     * This does not reset the rotation, scale, or location of the original, unless specified with
-     * the second, third, and fourth parameters.
+     * This does not reset the rotation, scale, or location of the original, unless specified with the second, third,
+     * and fourth parameters.
      *
-     * @param pts              {@code Pointf} array that will replace the current points of the
-     *                         polygon.
+     * @param pts              {@code Pointf} array that will replace the current points of the polygon.
      * @param resetTranslation Boolean to determine if the translation should be reset.
      * @param resetRotation    Boolean to determine if the rotation should be reset.
      * @param resetScale       Boolean to determine if the scale should be reset.
@@ -268,9 +260,15 @@ public class Polygon2D extends Drawable {
         points = pts;
         renderPath = createPath(points);
 
-        if (resetTranslation) { translation.reset(); }
-        if (resetRotation) { rotation = 0; }
-        if (resetScale) { scale.set(1, 1); }
+        if (resetTranslation) {
+            translation.reset();
+        }
+        if (resetRotation) {
+            rotation = 0;
+        }
+        if (resetScale) {
+            scale.set(1, 1);
+        }
 
         setBoundaries(renderPath);
         setCollisionPath(renderPath);
@@ -356,7 +354,9 @@ public class Polygon2D extends Drawable {
 
     @Override
     public void renderAsGUIObject(Graphics2D g, Camera camera) {
-        if (!shouldRender()) { return; }
+        if (!shouldRender()) {
+            return;
+        }
 
         AffineTransform at = new AffineTransform();
         at.translate(-camera.getTranslation().x, -camera.getTranslation().y);
@@ -402,8 +402,7 @@ public class Polygon2D extends Drawable {
     }
 
     /**
-     * Creates the {@code Path2D.Float} for the polygon, based on the specified {@code Pointf}
-     * array.
+     * Creates the {@code Path2D.Float} for the polygon, based on the specified {@code Pointf} array.
      *
      * @param pts The {@code Pointf} array which the {@code Path2D.Float} will be created from.
      * @return The resulting {@code Path2D.Float}.

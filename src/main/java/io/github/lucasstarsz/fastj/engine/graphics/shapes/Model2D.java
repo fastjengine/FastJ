@@ -7,14 +7,14 @@ import io.github.lucasstarsz.fastj.engine.systems.game.Scene;
 import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.Arrays;
 
 /**
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
  * <p>
- * This class is compatible with loading from a .PSDF file, using the {@code DrawUtil.load2DModel()}
- * method.
+ * This class is compatible with loading from a .PSDF file, using the {@code DrawUtil.load2DModel()} method.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -32,12 +32,11 @@ public class Model2D extends Drawable {
     /**
      * Model2D constructor.
      * <p>
-     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a
-     * boolean to determine whether the Model2D should be drawn.
+     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to
+     * determine whether the Model2D should be drawn.
      *
      * @param polygonArray  Array of {@code Polygon2D}s used to create the Model2D.
-     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the
-     *                      screen.
+     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
      * @see io.github.lucasstarsz.fastj.engine.graphics.shapes.Polygon2D
      */
     public Model2D(Polygon2D[] polygonArray, boolean shouldBeShown) {
@@ -57,19 +56,15 @@ public class Model2D extends Drawable {
     /**
      * Model2D constructor.
      * <p>
-     * Alongside the normal constructor, this allows you to set a location, rotation, and scale for
-     * the object, alongside the normal values needed for a Model2D.
+     * Alongside the normal constructor, this allows you to set a location, rotation, and scale for the object,
+     * alongside the normal values needed for a Model2D.
      *
      * @param polygonArray  Array of {@code Polygon2D}s used to create the Model2D.
-     * @param location      {@code Pointf} that defines the x and y location of the created Model2D.
-     *                      All Polygon2D objects will be translated to that location, relative to
-     *                      where the objects are.
-     * @param rotVal        Float value that defines the value that the Model2D will be rotated to,
-     *                      on creation.
-     * @param scaleVal      {@code Pointf} that defines the values that the Model2D will be scaled
-     *                      to, on creation.
-     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the
-     *                      screen.
+     * @param location      {@code Pointf} that defines the x and y location of the created Model2D. All Polygon2D
+     *                      objects will be translated to that location, relative to where the objects are.
+     * @param rotVal        Float value that defines the value that the Model2D will be rotated to, on creation.
+     * @param scaleVal      {@code Pointf} that defines the values that the Model2D will be scaled to, on creation.
+     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
      * @see io.github.lucasstarsz.fastj.engine.graphics.shapes.Polygon2D
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -97,7 +92,6 @@ public class Model2D extends Drawable {
      * Gets the array of {@code Polygon2D}s for this Model2D.
      *
      * @return The array of {@code Polygon2D}s.
-     *
      * @see io.github.lucasstarsz.fastj.engine.graphics.shapes.Polygon2D
      */
     public Polygon2D[] getObjects() {

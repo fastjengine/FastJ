@@ -9,12 +9,11 @@ import java.util.List;
 /**
  * Abstract class that allows you to use tags.
  * <p>
- * A {@code TaggableEntity} is an entity that can be given tags to describe what it is, such as
- * {@code "enemy"}, or {@code "player"}.
+ * A {@code TaggableEntity} is an entity that can be given tags to describe what it is, such as {@code "enemy"}, or
+ * {@code "player"}.
  * <p>
- * Each {@code TaggableEntity} can be added to a list of taggable entities for each {@code Scene}.
- * From the scene, you can find all entities with a certain tag, as well as finding the first entity
- * with a tag.
+ * Each {@code TaggableEntity} can be added to a list of taggable entities for each {@code Scene}. From the scene, you
+ * can find all entities with a certain tag, as well as finding the first entity with a tag.
  * <p>
  * This can be helpful for a few reasons:
  * <ul>
@@ -50,13 +49,11 @@ public abstract class TaggableEntity {
     /**
      * Adds the specified tag to the object's list of tags.
      *
-     * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the
-     *                    return type is {@code TaggableEntity}.
+     * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the return type is
+     *                    {@code TaggableEntity}.
      * @param tag         Tag to be added to the object's list of tags.
      * @param originScene Scene that the object will be added to, as a {@code TaggableEntity}.
-     * @return This instance of the {@code TaggableEntity} (or the specified type), for method
-     * chaining.
-     *
+     * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     @SuppressWarnings("unchecked")
@@ -76,17 +73,14 @@ public abstract class TaggableEntity {
     /**
      * Removes the specified tag from the object's list of tags.
      * <p>
-     * This can also remove this entity from the scene's list of tagged entities if the entity has
-     * no more tags left.
+     * This can also remove this entity from the scene's list of tagged entities if the entity has no more tags left.
      *
-     * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the
-     *                    return type is {@code TaggableEntity}.
+     * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the return type is
+     *                    {@code TaggableEntity}.
      * @param tag         Tag to be removed from the object;s list of tags.
-     * @param originScene Scene which this object, if it no longer has any tags, will be removed
-     *                    from as a {@code TaggableEntity}.
-     * @return This instance of the {@code TaggableEntity} (or the specified type), for method
-     * chaining.
-     *
+     * @param originScene Scene which this object, if it no longer has any tags, will be removed from as a {@code
+     *                    TaggableEntity}.
+     * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     @SuppressWarnings("unchecked")

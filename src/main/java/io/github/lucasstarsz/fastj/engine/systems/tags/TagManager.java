@@ -25,7 +25,6 @@ public class TagManager {
      *
      * @param scene The scene to get the list of taggable entities from.
      * @return The list of taggable entities, as a {@code List<Drawable>}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      * @see io.github.lucasstarsz.fastj.engine.systems.tags.TaggableEntity
      * @see Drawable
@@ -61,8 +60,7 @@ public class TagManager {
     /**
      * Adds the specified taggable entity to the list of taggable entities for the specified scene.
      * <p>
-     * The taggable entity is only added if the specified scene does not already contain the
-     * specified taggable entity.
+     * The taggable entity is only added if the specified scene does not already contain the specified taggable entity.
      *
      * @param scene          The {@code Scene} which the taggable entity will be aliased with.
      * @param taggableEntity The {@code Drawable} to add.
@@ -76,8 +74,7 @@ public class TagManager {
     }
 
     /**
-     * Removes the specified taggable entity from the list of taggable entities for the specified
-     * scene.
+     * Removes the specified taggable entity from the list of taggable entities for the specified scene.
      *
      * @param scene          The {@code Scene} that the taggable entity is aliased with.
      * @param taggableEntity The {@code Drawable} to remove.
@@ -118,7 +115,6 @@ public class TagManager {
      * @param scene The scene to search through.
      * @param tag   The tag to search for.
      * @return A list of taggable entities that have the specified tag.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public static List<Drawable> getAllInListWithTag(Scene scene, String tag) {
@@ -132,7 +128,6 @@ public class TagManager {
      *
      * @param tag The tag to search for.
      * @return A list of taggable entities that have the specified tag.
-     *
      * @see Drawable
      */
     public static List<Drawable> getAllWithTag(String tag) {

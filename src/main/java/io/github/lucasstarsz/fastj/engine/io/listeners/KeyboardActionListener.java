@@ -8,9 +8,9 @@ import java.awt.event.KeyEvent;
  * <b>NOTE:</b> For use with a FastJ {@code Scene}, a keyboard action listener must be added to a
  * {@code Scene}'s list of keyboard action listeners.
  * <br>
- * If you are planning to implement this class into a separate usage, you may consider using the
- * {@code InputManager} class to store a list of keyboard action listeners. Then, have events from a
- * class extending {@code KeyListener} fired to that {@code InputManager}.
+ * If you are planning to implement this class into a separate usage, you may consider using the {@code InputManager}
+ * class to store a list of keyboard action listeners. Then, have events from a class extending {@code KeyListener}
+ * fired to that {@code InputManager}.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -18,7 +18,6 @@ import java.awt.event.KeyEvent;
  * @see io.github.lucasstarsz.fastj.engine.systems.input.InputManager
  * @see java.awt.event.KeyListener
  */
-@SuppressWarnings("unused")
 public interface KeyboardActionListener {
 
     /** Event called when a key is currently pressed, once per game update. */

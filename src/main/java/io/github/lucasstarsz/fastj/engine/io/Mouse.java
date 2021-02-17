@@ -9,15 +9,13 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about
- * the mouse's current state.
+ * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
+ * state.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -58,19 +56,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static Pointf mouseLocation = new Pointf();
 
 
-
-
     /**
-     * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is
-     * currently performing the specified {@code MouseAction}.
+     * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the
+     * specified {@code MouseAction}.
      *
-     * @param button            The {@code Drawable} to be checked if the mouse is currently
-     *                          interacting with.
-     * @param recentMouseAction The {@code MouseAction} that the mouse has to be currently doing, in
-     *                          order to return true.
-     * @return Returns whether the mouse intersects the specified {@code Drawable}, and is currently
-     * performing the specified {@code MouseAction}.
-     *
+     * @param button            The {@code Drawable} to be checked if the mouse is currently interacting with.
+     * @param recentMouseAction The {@code MouseAction} that the mouse has to be currently doing, in order to return
+     *                          true.
+     * @return Returns whether the mouse intersects the specified {@code Drawable}, and is currently performing the
+     * specified {@code MouseAction}.
      * @see Drawable
      * @see io.github.lucasstarsz.fastj.engine.io.Mouse.MouseAction
      */
@@ -86,8 +80,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Gets the value that determines whether the mouse is currently on the {@code Display} window.
      *
-     * @return The boolean value that represents whether the mouse is currently on the {@code
-     * Display} window.
+     * @return The boolean value that represents whether the mouse is currently on the {@code Display} window.
      */
     public static boolean isOnScreen() {
         return currentlyOnScreen;
@@ -113,7 +106,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * Gets the location of the mouse on the {@code Display}.
      *
      * @return The {@code Pointf} that represents the location of the mouse on the {@code Display}.
-     *
      * @see Pointf
      */
     public static Pointf getMouseLocation() {
@@ -159,8 +151,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Forces a quick end to the specified mouse action.
      *
-     * @param e MouseAction enum that determine the type of mouse action that should be force
-     *          ended.
+     * @param e MouseAction enum that determine the type of mouse action that should be force ended.
      * @see io.github.lucasstarsz.fastj.engine.io.Mouse.MouseAction
      */
     public static void endProcess(MouseAction e) {
@@ -264,16 +255,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Creates an executor that makes a {@code MouseAction} true for 50 milliseconds, and then
-     * false.
+     * Creates an executor that makes a {@code MouseAction} true for 50 milliseconds, and then false.
      *
      * @param e The {@code MouseAction} to be used in the executor.
      * @see io.github.lucasstarsz.fastj.engine.io.Mouse.MouseAction
      */
-private static void createSleeperThread(MouseAction e) {
-    e.recentAction = true;
-    mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
-}
+    private static void createSleeperThread(MouseAction e) {
+        e.recentAction = true;
+        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
+    }
 
     /** Resets the {@code Mouse}. */
     public static void reset() {

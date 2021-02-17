@@ -20,8 +20,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to
-     * the float parameter's values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the float
+     * parameter's values.
      *
      * @param xy Value to set the x and y of this {@code Pointf} to.
      */
@@ -30,8 +30,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to
-     * the parameter {@code Pointf}'s values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code
+     * Pointf}'s values.
      *
      * @param p {@code Pointf} to set the x and y of this {@code Pointf} to.
      */
@@ -40,8 +40,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to
-     * the parameter {@code Point}'s values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code
+     * Point}'s values.
      *
      * @param p {@code Point} to set the x and y of this {@code Pointf} to.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Point
@@ -51,8 +51,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to
-     * the specified x and y parameters.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the specified x and
+     * y parameters.
      *
      * @param xVal Value to define the x coordinate for this {@code Pointf} object.
      * @param yVal Value to define the y coordinate for this {@code Pointf} object.
@@ -74,14 +74,10 @@ public class Pointf {
     }
 
     /**
-     * Determines whether a specified Rectangle2D object intersects with this {@code Pointf}
-     * object.
+     * Determines whether a specified Rectangle2D object intersects with this {@code Pointf} object.
      *
-     * @param metrics Rectangle2D object used to check for intersection between this {@code Pointf}
-     *                object and it.
-     * @return Returns a boolean value that defines whether the Rectangle2D and this {@code Pointf}
-     * object intersect.
-     *
+     * @param metrics Rectangle2D object used to check for intersection between this {@code Pointf} object and it.
+     * @return Returns a boolean value that defines whether the Rectangle2D and this {@code Pointf} object intersect.
      * @see Rectangle2D
      */
     public boolean intersects(Rectangle2D metrics) {
@@ -94,11 +90,8 @@ public class Pointf {
     /**
      * Determines whether a specified Path2D object intersects with this {@code Pointf} object.
      *
-     * @param path Path2D object used to check for intersection between this {@code Pointf} object
-     *             and it.
-     * @return Returns a boolean value that defines whether the Path2D and this {@code Pointf}
-     * object intersect.
-     *
+     * @param path Path2D object used to check for intersection between this {@code Pointf} object and it.
+     * @return Returns a boolean value that defines whether the Path2D and this {@code Pointf} object intersect.
      * @see Path2D
      */
     public boolean intersects(Path2D path) {
@@ -121,8 +114,8 @@ public class Pointf {
     }
 
     /**
-     * Adds the values of this {@code Pointf} to the specified {@code Pointf}, and returns a new
-     * {@code Pointf} with the modified values.
+     * Adds the values of this {@code Pointf} to the specified {@code Pointf}, and returns a new {@code Pointf} with the
+     * modified values.
      *
      * @param p {@code Pointf} to add this {@code Pointf} to.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -135,8 +128,8 @@ public class Pointf {
     }
 
     /**
-     * Adds the values of this {@code Pointf} to the specified float value, and returns a new {@code
-     * Pointf} with the modified values.
+     * Adds the values of this {@code Pointf} to the specified float value, and returns a new {@code Pointf} with the
+     * modified values.
      *
      * @param f Value to add this {@code Pointf} to.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -149,8 +142,8 @@ public class Pointf {
     }
 
     /**
-     * Subtracts the values of this {@code Pointf} by the specified {@code Pointf}, and returns a
-     * new {@code Pointf} with the modified values.
+     * Subtracts the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf}
+     * with the modified values.
      *
      * @param p {@code Pointf} to subtract this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -163,8 +156,8 @@ public class Pointf {
     }
 
     /**
-     * Subtracts the values of this {@code Pointf} by the specified float value, and returns a new
-     * {@code Pointf} with the modified values.
+     * Subtracts the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with
+     * the modified values.
      *
      * @param f Value to subtract this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -177,8 +170,8 @@ public class Pointf {
     }
 
     /**
-     * Multiplies the values of this {@code Pointf} by the specified {@code Pointf}, and returns a
-     * new {@code Pointf} with the modified values.
+     * Multiplies the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf}
+     * with the modified values.
      *
      * @param p {@code Pointf} to multiply this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -191,8 +184,8 @@ public class Pointf {
     }
 
     /**
-     * Multiplies the values of this {@code Pointf} by the specified float value, and returns a new
-     * {@code Pointf} with the modified values.
+     * Multiplies the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with
+     * the modified values.
      *
      * @param f Value to multiply this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -205,8 +198,8 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new
-     * {@code Pointf} with the modified values.
+     * Divides the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with
+     * the modified values.
      *
      * @param p {@code Pointf} to divide this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -219,8 +212,8 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified float value, and returns a new
-     * {@code Pointf} with the modified values.
+     * Divides the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with the
+     * modified values.
      *
      * @param f Value to divide this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -233,110 +226,101 @@ public class Pointf {
     }
 
     /**
-     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and
-     * return a new {@code Pointf} object.
+     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
+     * Pointf} object.
      *
      * @param p1 The first {@code Pointf} used for addition.
      * @param p2 The second {@code Pointf} used for addition.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the two
-     * {@code Pointf}s.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the two {@code Pointf}s.
      */
     public static Pointf add(Pointf p1, Pointf p2) {
         return new Pointf(p1.x + p2.x, p1.y + p2.y);
     }
 
     /**
-     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code
-     * Pointf}.
+     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for addition.
      * @param f float value used for addition.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the
-     * {@code Pointf} and the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
+     * float value.
      */
     public static Pointf add(Pointf p, float f) {
         return new Pointf(p.x + f, p.y + f);
     }
 
     /**
-     * Static method used to subtract two Points (from the parameters specified) together, and
-     * return a new {@code Pointf} object.
+     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
+     * Pointf} object.
      *
-     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the
-     *           first value in subtraction.
-     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the
-     *           second value in subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the
-     * two {@code Pointf}s.
+     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
+     *           subtraction.
+     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the second value in
+     *           subtraction.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the two {@code
+     * Pointf}s.
      */
     public static Pointf subtract(Pointf p1, Pointf p2) {
         return new Pointf(p1.x - p2.x, p1.y - p2.y);
     }
 
     /**
-     * Static method used to subtract a {@code Pointf} object by a float value, and return a new
-     * {@code Pointf}.
+     * Static method used to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
-     * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first
-     *          value in subtraction.
+     * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
      * @param f float value used for subtraction; the second value used in subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the
-     * {@code Pointf} and the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
+     * the float value.
      */
     public static Pointf subtract(Pointf p, float f) {
         return new Pointf(p.x - f, p.y - f);
     }
 
     /**
-     * Static method used to multiply two {@code Pointf} objects (from the parameters specified)
-     * together, and return a new {@code Pointf}.
+     * Static method used to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
+     * new {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for multiplication.
      * @param p2 The second {@code Pointf} used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the
-     * two {@code Pointf}s.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the two {@code
+     * Pointf}s.
      */
     public static Pointf multiply(Pointf p1, Pointf p2) {
         return new Pointf(p1.x * p2.x, p1.y * p2.y);
     }
 
     /**
-     * Static method used to multiply a {@code Pointf} object by a float value, and return a new
-     * {@code Pointf}.
+     * Static method used to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for multiplication.
      * @param f float value used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the
-     * {@code Pointf} and the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
+     * the float value.
      */
     public static Pointf multiply(Pointf p, float f) {
         return new Pointf(p.x * f, p.y * f);
     }
 
     /**
-     * Static method used to divide two {@code Pointf} objects (from the parameters specified)
-     * together, and return a new {@code Pointf}.
+     * Static method used to divide two {@code Pointf} objects (from the parameters specified) together, and return a
+     * new {@code Pointf}.
      *
-     * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first
-     *           value in division.
-     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the
-     *           second value in division.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the
-     * two {@code Pointf}s.
+     * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
+     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
+     *           division.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the two {@code Pointf}s.
      */
     public static Pointf divide(Pointf p1, Pointf p2) {
         return new Pointf(p1.x / p2.x, p1.y / p2.y);
     }
 
     /**
-     * Static method used to divide a {@code Pointf} object by a float value, and return a new
-     * {@code Pointf}.
+     * Static method used to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
-     * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value
-     *          in division.
+     * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param f float value used for division; the second value used in division.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the
-     * {@code Pointf} and the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
+     * float value.
      */
     public static Pointf divide(Pointf p, float f) {
         return new Pointf(p.x / f, p.y / f);

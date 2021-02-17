@@ -13,8 +13,8 @@ import java.util.List;
 /**
  * Class to manage user input.
  * <p>
- * This class fires input events to {@code KeyboardActionListener}s or {@code MouseActionListener}s
- * in its lists of keyboard/mouse action listeners.
+ * This class fires input events to {@code KeyboardActionListener}s or {@code MouseActionListener}s in its lists of
+ * keyboard/mouse action listeners.
  *
  * @see io.github.lucasstarsz.fastj.engine.io.listeners.KeyboardActionListener
  * @see io.github.lucasstarsz.fastj.engine.io.listeners.MouseActionListener
@@ -33,7 +33,6 @@ public abstract class InputManager {
      * Gets the list of keyboard action listeners for this {@code InputManager}.
      *
      * @return The list of {@code KeyboardActionListeners}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.listeners.KeyboardActionListener
      */
     public List<KeyboardActionListener> getKeyboardActionListeners() {
@@ -44,7 +43,6 @@ public abstract class InputManager {
      * Gets the list of mouse action listeners for this {@code InputManager}.
      *
      * @return The list of {@code MouseActionListeners}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.listeners.KeyboardActionListener
      */
     public List<MouseActionListener> getMouseActionListeners() {
@@ -91,8 +89,7 @@ public abstract class InputManager {
     }
 
     /**
-     * Fires a {@code key recently released} event to all listening {@code
-     * KeyboardActionListeners}.
+     * Fires a {@code key recently released} event to all listening {@code KeyboardActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
      * @see KeyEvent
@@ -162,8 +159,7 @@ public abstract class InputManager {
     }
 
     /**
-     * Fires a {@code mouse button recently pressed} event to all listening {@code
-     * MouseActionListeners}.
+     * Fires a {@code mouse button recently pressed} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
      * @see MouseEvent
@@ -177,8 +173,7 @@ public abstract class InputManager {
     }
 
     /**
-     * Fires a {@code mouse button recently released} event to all listening {@code
-     * MouseActionListeners}.
+     * Fires a {@code mouse button recently released} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
      * @see MouseEvent
@@ -192,8 +187,7 @@ public abstract class InputManager {
     }
 
     /**
-     * Fires a {@code mouse button recently clicked} event to all listening {@code
-     * MouseActionListeners}.
+     * Fires a {@code mouse button recently clicked} event to all listening {@code MouseActionListeners}.
      *
      * @param e The event to be fired through to the action listener.
      * @see MouseEvent

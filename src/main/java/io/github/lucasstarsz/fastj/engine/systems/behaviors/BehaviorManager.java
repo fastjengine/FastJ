@@ -23,7 +23,6 @@ public class BehaviorManager {
      *
      * @param scene The {@code Scene} to get the list of behavior listeners for.
      * @return The list of behavior listeners.
-     *
      * @see Drawable
      */
     public static List<Drawable> getList(Scene scene) {
@@ -33,8 +32,7 @@ public class BehaviorManager {
     /**
      * Adds the specified behavior listener to the list aliased to the specified {@code Scene}.
      *
-     * @param scene    The {@code Scene} used as the alias to add the specified behavior listener
-     *                 to.
+     * @param scene    The {@code Scene} used as the alias to add the specified behavior listener to.
      * @param listener The behavior listener to add.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      * @see Drawable
@@ -48,8 +46,7 @@ public class BehaviorManager {
     /**
      * Removes the specified behavior from the list aliased to the specified {@code Scene}.
      *
-     * @param scene    The {@code Scene} used as the alias to remove the specified behavior listener
-     *                 from.
+     * @param scene    The {@code Scene} used as the alias to remove the specified behavior listener from.
      * @param listener The behavior listener to remove.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      * @see Drawable

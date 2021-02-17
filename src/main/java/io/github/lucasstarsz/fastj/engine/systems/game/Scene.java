@@ -15,8 +15,8 @@ import java.util.Objects;
 /**
  * Class to contain the logic for a specific section, or scene, of a game.
  * <p>
- * The {@code LogicManager} of any game made with FastJ can store many scenes. Through this, the
- * user can divide their game into different sections.
+ * The {@code LogicManager} of any game made with FastJ can store many scenes. Through this, the user can divide their
+ * game into different sections.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -52,8 +52,7 @@ public abstract class Scene extends InputManager {
     /**
      * Loads the scene into an initialized state.
      * <p>
-     * This method is best used for initializing any variables necessary at the beginning of
-     * displaying a scene.
+     * This method is best used for initializing any variables necessary at the beginning of displaying a scene.
      *
      * @param display The {@code Display} that the game renders to.
      * @see io.github.lucasstarsz.fastj.engine.io.Display
@@ -93,7 +92,6 @@ public abstract class Scene extends InputManager {
      * Gets the game objects assigned to the scene.
      *
      * @return The game objects of the scene.
-     *
      * @see Drawable
      */
     public Map<String, Drawable> getGameObjects() {
@@ -104,7 +102,6 @@ public abstract class Scene extends InputManager {
      * Gets the gui objects assigned to the scene,
      *
      * @return The gui objects of the scene.
-     *
      * @see Drawable
      */
     public Map<String, Drawable> getGUIObjects() {
@@ -115,7 +112,6 @@ public abstract class Scene extends InputManager {
      * Gets the behavior listeners assigned to the scene.
      *
      * @return The behavior listeners of the scene.
-     *
      * @see Drawable
      */
     public List<Drawable> getBehaviorListeners() {
@@ -127,7 +123,6 @@ public abstract class Scene extends InputManager {
      * Gets the taggable entities assigned to the scene.
      *
      * @return The taggable entities of the scene.
-     *
      * @see Drawable
      */
     public List<Drawable> getTaggableEntities() {
@@ -138,7 +133,6 @@ public abstract class Scene extends InputManager {
      * Gets the camera of the scene.
      *
      * @return The camera of the scene.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Camera
      */
     public Camera getCamera() {
@@ -159,7 +153,6 @@ public abstract class Scene extends InputManager {
      *
      * @param tag The tag to check for.
      * @return A list of all taggable entities with the specified tag.
-     *
      * @see Drawable
      */
     public List<Drawable> getAllWithTag(String tag) {
@@ -326,10 +319,10 @@ public abstract class Scene extends InputManager {
 
     /** Removes all elements from the scene. */
     public void clearAllLists() {
-        clearGUIObjects();
-        clearGameObjects();
-        clearBehaviorListeners();
-        clearTaggableEntities();
+        this.clearGUIObjects();
+        this.clearGameObjects();
+        this.clearBehaviorListeners();
+        this.clearTaggableEntities();
     }
 
     /** Resets the scene's state entirely. */

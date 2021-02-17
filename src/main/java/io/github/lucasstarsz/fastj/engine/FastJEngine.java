@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * The main control hub of the game engine.
  * <p>
- * This class contains the methods needed to create and start a game using the FastJ Game Engine.
- * Using this, you'll have access to the engine's features in their full force.
+ * This class contains the methods needed to create and start a game using the FastJ Game Engine. Using this, you'll
+ * have access to the engine's features in their full force.
  * <p>
  * <br>
  * <a href="https://github.com/lucasstarsz/FastJ-Engine">The FastJ Game Engine</a>
@@ -110,8 +110,8 @@ public class FastJEngine {
     /**
      * Initializer for the game engine.
      * <p>
-     * This initializes the game engine with the specified title and logic manager. Other values are
-     * set to their respective default values.
+     * This initializes the game engine with the specified title and logic manager. Other values are set to their
+     * respective default values.
      * <p>
      * The other default values for the game engine are as follows:
      * <ul>
@@ -123,8 +123,8 @@ public class FastJEngine {
      * </ul>
      *
      * @param gameTitle   Sets the title of the game window, or Display.
-     * @param gameManager LogicManager object that the engine will call methods from; this is where
-     *                    the user's game methods are operated from.
+     * @param gameManager LogicManager object that the engine will call methods from; this is where the user's game
+     *                    methods are operated from.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.LogicManager
      */
     public static void init(String gameTitle, LogicManager gameManager) {
@@ -136,14 +136,11 @@ public class FastJEngine {
      *
      * @param gameTitle            Sets the title of the game window.
      * @param gameManager          Sets the engine's game manager.
-     * @param fps                  Value that defines how many times the game should be rendered per
-     *                             second.
-     * @param ups                  Value that defines how many times the game should be updated per
-     *                             second.
+     * @param fps                  Value that defines how many times the game should be rendered per second.
+     * @param ups                  Value that defines how many times the game should be updated per second.
      * @param windowResolution     Sets the game's window resolution.
-     * @param internalResolution   Sets the game's internal resolution. (This is the defined size of
-     *                             the game's canvas. As a result, the content is scaled to fit the
-     *                             size of the {@code windowResolution}).
+     * @param internalResolution   Sets the game's internal resolution. (This is the defined size of the game's canvas.
+     *                             As a result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.LogicManager
      * @see io.github.lucasstarsz.fastj.engine.util.math.Point
@@ -163,13 +160,11 @@ public class FastJEngine {
     }
 
     /**
-     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), viewer resolution,
-     * internal resolution, and hardware acceleration.
+     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), viewer resolution, internal resolution,
+     * and hardware acceleration.
      *
-     * @param fps                  Value that defines how many times the game should be rendered per
-     *                             second.
-     * @param ups                  Value that defines how many times the game should be updated per
-     *                             second.
+     * @param fps                  Value that defines how many times the game should be rendered per second.
+     * @param ups                  Value that defines how many times the game should be updated per second.
      * @param windowResolution     Sets the game's window resolution.
      * @param internalResolution   Sets the game's internal resolution.
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
@@ -205,8 +200,8 @@ public class FastJEngine {
     /**
      * Configures the game's internal resolution.
      * <p>
-     * This sets the size of the game's drawing canvas. As a result, the content displayed on the
-     * canvas will be scaled to fit the size of the {@code windowResolution}.
+     * This sets the size of the game's drawing canvas. As a result, the content displayed on the canvas will be scaled
+     * to fit the size of the {@code windowResolution}.
      *
      * @param internalResolution Point value to set the game's internal window resolution.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Point
@@ -222,11 +217,10 @@ public class FastJEngine {
     }
 
     /**
-     * Attempts to set the hardware acceleration type of this game engine to the specified
-     * parameter.
+     * Attempts to set the hardware acceleration type of this game engine to the specified parameter.
      * <p>
-     * If the parameter specified is not supported by the user's computer, then the hardware
-     * acceleration will be set to none, by default.
+     * If the parameter specified is not supported by the user's computer, then the hardware acceleration will be set to
+     * none, by default.
      *
      * @param acceleration Defines the type of hardware acceleration to use for the game.
      * @see io.github.lucasstarsz.fastj.engine.FastJEngine.HWAccel
@@ -281,8 +275,8 @@ public class FastJEngine {
     /**
      * Gets the hardware acceleration currently enabled for the game engine.
      *
-     * @return Returns the HWAccelType that defines what hardware acceleration, or lack thereof, is
-     * currently being used for the game engine.
+     * @return Returns the HWAccelType that defines what hardware acceleration, or lack thereof, is currently being used
+     * for the game engine.
      * @see io.github.lucasstarsz.fastj.engine.FastJEngine.HWAccel
      */
     public static HWAccel getHardwareAcceleration() {
@@ -451,34 +445,34 @@ public class FastJEngine {
     /**
      * As the heart of the engine, this updates and renders the game.
      */
-private static void gameLoop() {
-    float elapsedTime;
-    float accumulator = 0f;
-    float interval = 1f / targetUPS;
+    private static void gameLoop() {
+        float elapsedTime;
+        float accumulator = 0f;
+        float interval = 1f / targetUPS;
 
-    while (!display.isClosed()) {
-        elapsedTime = timer.getElapsedTime();
-        accumulator += elapsedTime;
+        while (!display.isClosed()) {
+            elapsedTime = timer.getElapsedTime();
+            accumulator += elapsedTime;
 
-        while (accumulator >= interval) {
-            gameManager.update(display);
-            accumulator -= interval;
+            while (accumulator >= interval) {
+                gameManager.update(display);
+                accumulator -= interval;
+            }
+
+            gameManager.render(display);
+            drawFrames++;
+
+            if (!display.isFullscreen()) sync();
         }
 
-        gameManager.render(display);
-        drawFrames++;
-
-        if (!display.isFullscreen()) sync();
+        exit();
     }
-
-    exit();
-}
 
     /**
      * Syncs the game engine frame rate.
      * <p>
-     * This provides a, for lack of better term, "jank" way of emulating V-Sync when the game engine
-     * is not running in fullscreen mode.
+     * This provides a, for lack of better term, "jank" way of emulating V-Sync when the game engine is not running in
+     * fullscreen mode.
      */
     private static void sync() {
         final float loopSlot = 1f / targetFPS;

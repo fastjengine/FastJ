@@ -9,7 +9,7 @@ import io.github.lucasstarsz.fastj.engine.util.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
@@ -21,9 +21,9 @@ import java.util.UUID;
 /**
  * The abstract class to objects that can be drawn to a {@code Display}.
  * <p>
- * A {@code Drawable} is any object that can be drawn to a {@code Display}, and destroyed (freed
- * from memory). A {@code Drawable} utilizes components from the {@code Java2D} graphics API,
- * allowing for an easy way to work with the following:
+ * A {@code Drawable} is any object that can be drawn to a {@code Display}, and destroyed (freed from memory). A {@code
+ * Drawable} utilizes components from the {@code Java2D} graphics API, allowing for an easy way to work with the
+ * following:
  * <ul>
  * 		<li>Transformations through {@code AffineTransform}.</li>
  * 		<li>Rendering through {@code Graphics2D}.</li>
@@ -69,7 +69,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the translation of the {@code Drawable}.
      *
      * @return A {@code Pointf} that represents the current translation of the {@code Drawable}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public abstract Pointf getTranslation();
@@ -85,7 +84,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the scale of the {@code Drawable}.
      *
      * @return A {@code Pointf} that represents the current scale of the object.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public abstract Pointf getScale();
@@ -93,15 +91,14 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Translates the {@code Drawable}'s position by the specified translation.
      *
-     * @param translationMod {@code Pointf} parameter that the {@code Drawable}'s x and y location
-     *                       will be translated by.
+     * @param translationMod {@code Pointf} parameter that the {@code Drawable}'s x and y location will be translated
+     *                       by.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public abstract void translate(Pointf translationMod);
 
     /**
-     * Rotates the {@code Drawable} in the direction of the specified rotation, about the specified
-     * centerpoint.
+     * Rotates the {@code Drawable} in the direction of the specified rotation, about the specified centerpoint.
      *
      * @param rotationMod The float parameter that the {@code Drawable} will be rotated by.
      * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be rotated about.
@@ -110,11 +107,9 @@ public abstract class Drawable extends TaggableEntity {
     public abstract void rotate(float rotationMod, Pointf centerpoint);
 
     /**
-     * Scales the {@code Drawable} in by the amount specified in the specified scale, from the
-     * specified centerpoint.
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, from the specified centerpoint.
      *
-     * @param scaleMod    {@code Pointf} parameter that the {@code Drawable}'s width and height will
-     *                    be scaled by.
+     * @param scaleMod    {@code Pointf} parameter that the {@code Drawable}'s width and height will be scaled by.
      * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be scaled about.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
@@ -129,8 +124,8 @@ public abstract class Drawable extends TaggableEntity {
     public abstract void render(Graphics2D g);
 
     /**
-     * Renders the {@code Drawable} to the parameter {@code Graphics2D} object, while avoiding the
-     * specified {@code Camera}'s transformation.
+     * Renders the {@code Drawable} to the parameter {@code Graphics2D} object, while avoiding the specified {@code
+     * Camera}'s transformation.
      *
      * @param g      {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
      * @param camera {@code Camera} to help render at the correct position on the screen.
@@ -153,7 +148,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the collision path of the {@code Drawable}.
      *
      * @return The collision path of the {@code Drawable}, as a {@code Path2D.Float}.
-     *
      * @see Path2D.Float
      */
     public Path2D.Float getCollisionPath() {
@@ -173,7 +167,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the raw {@code UUID} of the {@code Drawable}.
      *
      * @return The {@code UUID} that represents the raw ID of the {@code Drawable}.
-     *
      * @see UUID
      */
     public UUID getUUID() {
@@ -188,7 +181,6 @@ public abstract class Drawable extends TaggableEntity {
      * If you're looking to get a specific bound, use {@code getBound(Boundary)} instead.
      *
      * @return The {@code Pointf} array that contains the bounds of the {@code Drawable}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public Pointf[] getBounds() {
@@ -196,12 +188,10 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
-     * Gets one of the boundaries of the {@code Drawable}, based on the specified {@code Boundary}
-     * parameter.
+     * Gets one of the boundaries of the {@code Drawable}, based on the specified {@code Boundary} parameter.
      *
      * @param boundary The requested {@code Boundary}.
      * @return The bound that corresponds with the specified {@code Boundary}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      * @see io.github.lucasstarsz.fastj.engine.graphics.Boundary
      */
@@ -213,7 +203,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the center point of the {@code Drawable}.
      *
      * @return The center point, as a {@code Pointf}.
-     *
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public Pointf getCenter() {
@@ -224,7 +213,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the list of {@code Behavior}s for the {@code Drawable}.
      *
      * @return The list of {@code Behavior}s that the {@code Drawable} has.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.behaviors.Behavior
      */
     public List<Behavior> getBehaviors() {
@@ -244,7 +232,6 @@ public abstract class Drawable extends TaggableEntity {
      * Gets the entire transformation of the {@code Drawable}.
      *
      * @return The transformation, as an {@code AffineTransform}.
-     *
      * @see AffineTransform
      */
     public AffineTransform getTransformation() {
@@ -272,8 +259,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Sets whether the {@code Drawable} should be rendered.
      *
-     * @param shouldBeRendered Boolean parameter that defines whether the {@code Drawable} should be
-     *                         rendered.
+     * @param shouldBeRendered Boolean parameter that defines whether the {@code Drawable} should be rendered.
      */
     public void setShouldRender(boolean shouldBeRendered) {
         shouldRender = shouldBeRendered;
@@ -282,8 +268,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Sets the {@code Drawable}'s translation to the specified value.
      *
-     * @param setTranslation {@code Pointf} parameter that the {@code Drawable}'s translation will
-     *                       be set to.
+     * @param setTranslation {@code Pointf} parameter that the {@code Drawable}'s translation will be set to.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public void setTranslation(Pointf setTranslation) {
@@ -319,22 +304,18 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
-     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its
-     * center.
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its center.
      *
-     * @param scaleXY Float value that the {@code Drawable} will be scaled by, acting as both the x
-     *                and y values.
+     * @param scaleXY Float value that the {@code Drawable} will be scaled by, acting as both the x and y values.
      */
     public void scale(float scaleXY) {
         scale(new Pointf(scaleXY), getCenter());
     }
 
     /**
-     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its
-     * center.
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its center.
      *
-     * @param scale {@code Pointf} parameter that the {@code Drawable} will be scaled by, based on
-     *              its x and y values.
+     * @param scale {@code Pointf} parameter that the {@code Drawable} will be scaled by, based on its x and y values.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     public void scale(Pointf scale) {
@@ -408,7 +389,6 @@ public abstract class Drawable extends TaggableEntity {
      * @param behavior {@code Behavior} parameter to be added.
      * @param origin   Scene that the {@code Drawable} will be added to, as a behavior listener.
      * @return the {@code Drawable} is returned for method chaining.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.behaviors.Behavior
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
@@ -420,14 +400,12 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
-     * Removes the specified {@code Behavior} from the {@code Drawable}'s list of {@code
-     * Behavior}s.
+     * Removes the specified {@code Behavior} from the {@code Drawable}'s list of {@code Behavior}s.
      *
      * @param behavior    {@code Behavior} parameter to be removed from.
-     * @param originScene Scene that, if the {@code Drawable} no longer has any Behaviors, the
-     *                    {@code Drawable} will be removed from as a behavior listener.
+     * @param originScene Scene that, if the {@code Drawable} no longer has any Behaviors, the {@code Drawable} will be
+     *                    removed from as a behavior listener.
      * @return the {@code Drawable} is returned for method chaining.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.behaviors.Behavior
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
@@ -441,10 +419,8 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Adds the {@code Drawable} to the {@code Scene} parameter's list of game objects.
      *
-     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of game
-     *               objects.
+     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of game objects.
      * @return the {@code Drawable} is returned for method chaining.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public Drawable addAsGameObject(Scene origin) {
@@ -455,10 +431,8 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Adds the {@code Drawable} to the {@code Scene} parameter's list of GUI objects.
      *
-     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of GUI
-     *               objects.
+     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of GUI objects.
      * @return the {@code Drawable} is returned for method chaining.
-     *
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     public Drawable addAsGUIObject(Scene origin) {
@@ -479,11 +453,10 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Sets the boundaries of the {@code Drawable} to the specified {@code Pointf} array.
      * <p>
-     * The specified array must be exactly 4 points. If there is any deviancy from this, the game
-     * will crash out with an error specifying this.
+     * The specified array must be exactly 4 points. If there is any deviancy from this, the game will crash out with an
+     * error specifying this.
      *
-     * @param bounds The {@code Pointf} array that the boundaries of the {@code Drawable} will be
-     *               set to.
+     * @param bounds The {@code Pointf} array that the boundaries of the {@code Drawable} will be set to.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     protected void setBounds(Pointf[] bounds) {
@@ -498,8 +471,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Translates the boundaries of the {@code Drawable} by the specified {@code Pointf}.
      *
-     * @param translation {@code Pointf} that the boundaries of the {@code Drawable} will be moved
-     *                    by.
+     * @param translation {@code Pointf} that the boundaries of the {@code Drawable} will be moved by.
      * @see io.github.lucasstarsz.fastj.engine.util.math.Pointf
      */
     protected void translateBounds(Pointf translation) {
@@ -509,11 +481,10 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
-     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the
-     * {@code Drawable} has within the {@code Scene} parameter.
+     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
+     * within the {@code Scene} parameter.
      *
-     * @param origin {@code Scene} parameter that will have all references to this {@code Drawable}
-     *               removed.
+     * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
      * @see io.github.lucasstarsz.fastj.engine.systems.game.Scene
      */
     protected void destroyTheRest(Scene origin) {

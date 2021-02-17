@@ -7,7 +7,7 @@ import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Point;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -108,8 +108,7 @@ public class Display {
     /**
      * Gets the title currently being displayed in the title bar of the {@code Display}.
      * <p>
-     * This title takes from the original title, and should only be used for temporary changes of
-     * the title.
+     * This title takes from the original title, and should only be used for temporary changes of the title.
      *
      * @return The title currently being displayed.
      */
@@ -118,8 +117,7 @@ public class Display {
     }
 
     /**
-     * Gets the value that determines whether the {@code Display} is showing the FPS in the title
-     * bar.
+     * Gets the value that determines whether the {@code Display} is showing the FPS in the title bar.
      *
      * @return The status of whether the {@code Display}  is showing the FPS in the title bar.
      */
@@ -155,8 +153,8 @@ public class Display {
     }
 
     /**
-     * Gets the scaling of the {@code Display} resolution, as an expression of {@code viewer
-     * resolution / internal resolution }.
+     * Gets the scaling of the {@code Display} resolution, as an expression of {@code viewer resolution / internal
+     * resolution }.
      * <p>
      * The values for the x and y of the returned {@code Pointf} are {@code 0 < x <= 1}.
      *
@@ -197,7 +195,6 @@ public class Display {
      * Gets the background of the {@code Display}.
      *
      * @return The background, as a {@code Rectangle2D.Float}.
-     *
      * @see Rectangle2D.Float
      */
     public Rectangle2D.Float getBackground() {
@@ -208,7 +205,6 @@ public class Display {
      * Gets the color of the background of the {@code Display}.
      *
      * @return The color of the background, as a {@code Color}.
-     *
      * @see Color
      */
     public Color getBackgroundColor() {
@@ -219,7 +215,6 @@ public class Display {
      * Gets the displayed icon of the {@code Display}.
      *
      * @return The icon of the {@code Display}.
-     *
      * @see BufferedImage
      */
     public BufferedImage getIcon() {
@@ -245,11 +240,10 @@ public class Display {
     }
 
     /**
-     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the
-     * transformation of the current scene's camera.
+     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the transformation of the current
+     * scene's camera.
      *
      * @return The {@code Graphics2D} object which is associated with the {@code Display}.
-     *
      * @see Graphics2D
      */
     public Graphics2D getGraphics() {
@@ -465,8 +459,7 @@ public class Display {
     /**
      * Sets whether the title bar of the {@code Display} should be shown.
      *
-     * @param enable Boolean to determine whether the title bar of the {@code Display} should be
-     *               shown.
+     * @param enable Boolean to determine whether the title bar of the {@code Display} should be shown.
      */
     public void showTitleBar(boolean enable) {
         if (outputDisplay.isUndecorated() == !enable) return;
@@ -542,8 +535,8 @@ public class Display {
     }
 
     /**
-     * If there is a null pointer in the render method, this checks to make sure everything else in
-     * the game engine is in order before outputting a warning.
+     * If there is a null pointer in the render method, this checks to make sure everything else in the game engine is
+     * in order before outputting a warning.
      *
      * @param obj           The {@code Drawable} causing the null pointer.
      * @param isGUIDrawable Boolean that determines whether or not the {@code Drawable} is part
@@ -564,8 +557,8 @@ public class Display {
     /**
      * Changes the rendering settings for the specified key.
      * <p>
-     * This takes advantage of the {@code RenderingHints} class, allowing the programmer to change
-     * values of how the game engine renders objects.
+     * This takes advantage of the {@code RenderingHints} class, allowing the programmer to change values of how the
+     * game engine renders objects.
      *
      * @param renderHintKey   Rendering hint key used to determine which setting you are modifying.
      * @param renderHintValue The value to go along with the key.
@@ -582,7 +575,6 @@ public class Display {
      *
      * @param monitorIndicated The index number of the monitor to get.
      * @return The specified monitor, as a {@code GraphicsDevice}.
-     *
      * @see GraphicsDevice
      */
     public static GraphicsDevice getMonitor(int monitorIndicated) {
@@ -593,7 +585,6 @@ public class Display {
      * Gets the default monitor.
      *
      * @return The default monitor, as a {@code GraphicsDevice}.
-     *
      * @see GraphicsDevice
      */
     public static GraphicsDevice getDefaultMonitor() {
@@ -624,7 +615,6 @@ public class Display {
      *
      * @param monitorIndicated The monitor to get the dimensions of.
      * @return The indicated monitor's dimensions, as a {@code Point}.
-     *
      * @see Point
      */
     public static Point getMonitorDimensions(int monitorIndicated) {
@@ -636,7 +626,6 @@ public class Display {
      * Gets the dimensions of the default monitor.
      *
      * @return The default monitor's dimensions, as a {@code Point}.
-     *
      * @see Point
      */
     public static Point getDefaultMonitorDimensions() {
@@ -659,7 +648,6 @@ public class Display {
      * @param drawable The {@code Drawable} to check.
      * @param camera   The {@code Camera} to check the drawable with.
      * @return A boolean that represents whether the polygon is visible on screen.
-     *
      * @see Drawable
      * @see io.github.lucasstarsz.fastj.engine.io.Camera
      */
@@ -674,9 +662,8 @@ public class Display {
     /**
      * Initializes the {@code Display}.
      * <p>
-     * This method should only be called once per instance of the {@code Display}. Furthermore, this
-     * method should not be used on the default window for the game engine - it is initialized
-     * internally.
+     * This method should only be called once per instance of the {@code Display}. Furthermore, this method should not
+     * be used on the default window for the game engine - it is initialized internally.
      */
     public void init() {
         if (!isReady) {
@@ -784,14 +771,12 @@ public class Display {
     /**
      * Prepares the provided {@code Graphics2D} object.
      * <p>
-     * This scales the object by the current display's resolution scale, sets its rendering hints to
-     * the current {@code Display}'s rendering hints, and transforms it based on the specified
-     * camera's transformation.
+     * This scales the object by the current display's resolution scale, sets its rendering hints to the current {@code
+     * Display}'s rendering hints, and transforms it based on the specified camera's transformation.
      *
      * @param g      The {@code Graphics2D} object to be prepared.
      * @param camera The camera used to prepare the graphics object.
      * @return A prepared version of the original {@code Graphics2D} object.
-     *
      * @see io.github.lucasstarsz.fastj.engine.io.Camera
      * @see Graphics2D
      */

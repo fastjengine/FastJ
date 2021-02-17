@@ -3,8 +3,9 @@ package io.github.lucasstarsz.fastj.engine.util;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
@@ -29,7 +30,6 @@ public class ImageUtil {
      * @param newWidth  The width of the new image.
      * @param newHeight The height of the new image.
      * @return A {@code BufferedImage} that contains the resized image.
-     *
      * @see BufferedImage
      */
     public static BufferedImage resizeImage(BufferedImage source, int newWidth, int newHeight) {
@@ -44,8 +44,7 @@ public class ImageUtil {
     }
 
     /**
-     * Splits the specified image into the specified amount of rows and columns, then writes each
-     * image to a file.
+     * Splits the specified image into the specified amount of rows and columns, then writes each image to a file.
      *
      * @param source         The source image to split.
      * @param destPath       The destination path of the images that will be written.
@@ -57,8 +56,7 @@ public class ImageUtil {
     }
 
     /**
-     * Splits the specified image into the specified amount of rows and columns, then writes each
-     * image to a file.
+     * Splits the specified image into the specified amount of rows and columns, then writes each image to a file.
      *
      * @param source   The source image to split.
      * @param destPath The destination path of the images that will be written.
@@ -102,13 +100,11 @@ public class ImageUtil {
     }
 
     /**
-     * Splits the specified image into the specified amount of rows and columns, and returns the
-     * result.
+     * Splits the specified image into the specified amount of rows and columns, and returns the result.
      *
      * @param source         The source image to split.
      * @param rowsAndColumns The amount of rows and columns to split the image into.
      * @return The split image.
-     *
      * @see BufferedImage
      */
     public static BufferedImage[][] splitImage(BufferedImage source, int rowsAndColumns) {
@@ -116,14 +112,12 @@ public class ImageUtil {
     }
 
     /**
-     * Splits the specified image into the specified amount of rows and columns, and returns the
-     * result.
+     * Splits the specified image into the specified amount of rows and columns, and returns the result.
      *
      * @param source  The source image to split.
      * @param rows    The amount of rows to split the image into.
      * @param columns The amount of columns to split the image into.
      * @return The split image.
-     *
      * @see BufferedImage
      */
     public static BufferedImage[][] splitImage(BufferedImage source, int rows, int columns) {
@@ -145,7 +139,6 @@ public class ImageUtil {
      *
      * @param path The path to look for the image at.
      * @return The resultant {@code BufferedImage}.
-     *
      * @see BufferedImage
      */
     public static BufferedImage getImage(String path) {
@@ -172,7 +165,6 @@ public class ImageUtil {
      *
      * @param source The image to be copied.
      * @return A copy of the original image.
-     *
      * @see BufferedImage
      */
     public static BufferedImage copyImage(BufferedImage source) {

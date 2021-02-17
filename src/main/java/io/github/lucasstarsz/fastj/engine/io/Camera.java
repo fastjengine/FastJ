@@ -24,8 +24,7 @@ public class Camera {
     }
 
     /**
-     * Constructs a {@code Camera} with translation set to the specified value, and rotation set to
-     * 0.
+     * Constructs a {@code Camera} with translation set to the specified value, and rotation set to 0.
      *
      * @param setTranslation Sets the translation of this {@code Camera}.
      * @see Pointf
@@ -35,8 +34,7 @@ public class Camera {
     }
 
     /**
-     * Constructs a {@code Camera} with rotation set to the specified value, and translation set to
-     * 0.
+     * Constructs a {@code Camera} with rotation set to the specified value, and translation set to 0.
      *
      * @param setRotation Sets the rotation of this {@code Camera}.
      */
@@ -68,8 +66,7 @@ public class Camera {
     /**
      * Applies a modifier to the {@code Camera}'s translation.
      *
-     * @param translationMod {@code Pointf} value which the {@code Camera}'s x and y location will be
-     *                    modified by.
+     * @param translationMod {@code Pointf} value which the {@code Camera}'s x and y location will be modified by.
      * @see Pointf
      */
     public void translate(Pointf translationMod) {
@@ -89,7 +86,6 @@ public class Camera {
      * Gets the {@code Camera}'s current translation.
      *
      * @return The {@code Camera}'s current translation.
-     *
      * @see Pointf
      */
     public Pointf getTranslation() {
@@ -99,9 +95,7 @@ public class Camera {
     /**
      * Gets the transformation of this {@code Camera} object as an {@code AffineTransform}.
      *
-     * @return The overall transformation of the {@code Camera} object as an {@code AffineTransform}
-     * value.
-     *
+     * @return The overall transformation of the {@code Camera} object as an {@code AffineTransform} value.
      * @see AffineTransform
      */
     public AffineTransform getTransformation() {

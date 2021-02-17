@@ -8,7 +8,10 @@ import io.github.lucasstarsz.fastj.engine.util.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.util.DrawUtil;
 import io.github.lucasstarsz.fastj.engine.util.math.Pointf;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -34,8 +37,8 @@ public class Text2D extends Drawable {
     /**
      * {@code Text2D} Constructor.
      * <p>
-     * This constructor only requires the text, and the location. It sets the color to black, the
-     * font to {@code Text2D.DEFAULT_FONT}, and sets the {@code show} boolean to true.
+     * This constructor only requires the text, and the location. It sets the color to black, the font to {@code
+     * Text2D.DEFAULT_FONT}, and sets the {@code show} boolean to true.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the x and y location of the text.
@@ -82,7 +85,6 @@ public class Text2D extends Drawable {
      * Gets the {@code Color} of this {@code Text2D}.
      *
      * @return Returns the Color value for this Text2D.
-     *
      * @see Color
      */
     public Color getColor() {
@@ -93,7 +95,6 @@ public class Text2D extends Drawable {
      * Gets the {@code Font} of this {@code Text2D}.
      *
      * @return Returns the specified Font value for this Text2D.
-     *
      * @see Font
      */
     public Font getFont() {
@@ -118,7 +119,6 @@ public class Text2D extends Drawable {
      *
      * @param setColor The new {@code Color} value.
      * @return This instance of the {@code Text2D}, for method chaining.
-     *
      * @see Color
      */
     public Text2D setColor(Color setColor) {
@@ -131,7 +131,6 @@ public class Text2D extends Drawable {
      *
      * @param setFont The new {@code Font} value.
      * @return This instance of the {@code Text2D}, for method chaining.
-     *
      * @see Font
      */
     public Text2D setFont(Font setFont) {
@@ -159,7 +158,9 @@ public class Text2D extends Drawable {
     @Override
     public void render(Graphics2D g) {
         if (!shouldRender()) return;
-        if (!hasMetrics) { setMetrics(g); }
+        if (!hasMetrics) {
+            setMetrics(g);
+        }
 
         g.setFont(font);
         g.setColor(color);
@@ -170,7 +171,9 @@ public class Text2D extends Drawable {
     @Override
     public void renderAsGUIObject(Graphics2D g, Camera camera) {
         if (!shouldRender()) return;
-        if (!hasMetrics) { setMetrics(g); }
+        if (!hasMetrics) {
+            setMetrics(g);
+        }
 
         g.setFont(font);
         g.setColor(color);
@@ -255,7 +258,6 @@ public class Text2D extends Drawable {
      *
      * @param rect The rectangle which the result {@code Path2D.Float} is based on.
      * @return The newly created {@code Path2D.Float}.
-     *
      * @see Rectangle2D.Float
      * @see Path2D.Float
      */

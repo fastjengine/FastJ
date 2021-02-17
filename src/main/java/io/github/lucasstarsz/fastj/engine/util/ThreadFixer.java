@@ -18,7 +18,8 @@ public class ThreadFixer {
                 while (true) {
                     try {
                         Thread.sleep(Long.MAX_VALUE);
-                    } catch (InterruptedException ignored) { }
+                    } catch (InterruptedException ignored) {
+                    }
                 }
             });
             dThread.setDaemon(true);

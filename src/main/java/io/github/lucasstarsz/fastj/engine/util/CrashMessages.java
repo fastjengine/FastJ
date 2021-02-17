@@ -16,8 +16,7 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string that depicts an error caused by an illegal action in the method of the
-     * specified class.
+     * Gets a string that depicts an error caused by an illegal action in the method of the specified class.
      *
      * @param className The class to generate the error message about.
      * @return A string containing the generated error message.
@@ -27,8 +26,7 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string with {@code "The game crashed, due to "}, and adds the specified error message
-     * to the end.
+     * Gets a string with {@code "The game crashed, due to "}, and adds the specified error message to the end.
      *
      * @param errorMessage The error message to add to the end of the returned string.
      * @return A string containing the generated error message.

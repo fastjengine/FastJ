@@ -8,9 +8,9 @@ import java.awt.event.MouseEvent;
  * <b>NOTE:</b> For use with a FastJ {@code Scene}, a mouse action listener must be added to a
  * {@code Scene}'s list of mouse action listeners.
  * <br>
- * If you are planning to implement this class into a separate usage, you may consider using the
- * {@code InputManager} class to store a list of mouse action listeners. Then, have events from a
- * class extending {@code MouseListener} fired to that {@code InputManager}.
+ * If you are planning to implement this class into a separate usage, you may consider using the {@code InputManager}
+ * class to store a list of mouse action listeners. Then, have events from a class extending {@code MouseListener} fired
+ * to that {@code InputManager}.
  *
  * @author Andrew Dey
  * @version 0.3.2a
@@ -18,7 +18,6 @@ import java.awt.event.MouseEvent;
  * @see io.github.lucasstarsz.fastj.engine.systems.input.InputManager
  * @see java.awt.event.MouseListener
  */
-@SuppressWarnings("unused")
 public interface MouseActionListener {
 
     /**
