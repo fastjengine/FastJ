@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.game.scenes;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
-import io.github.lucasstarsz.fastj.framework.io.Display;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.Display;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
@@ -14,7 +14,7 @@ import java.awt.Color;
 
 public class GameScene extends Scene {
 
-    private Drawable box;
+    private GameObject box;
 
     /**
      * Constructs a scene with the specified name.

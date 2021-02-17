@@ -1,8 +1,8 @@
 package io.github.lucasstarsz.fastj.framework.systems.game;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
-import io.github.lucasstarsz.fastj.framework.io.Display;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.io.mouse.MouseAction;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;

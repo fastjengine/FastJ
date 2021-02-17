@@ -1,9 +1,9 @@
 package io.github.lucasstarsz.fastj.framework.systems.game;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
-import io.github.lucasstarsz.fastj.framework.io.Display;
+import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.framework.systems.input.InputManager;
 import io.github.lucasstarsz.fastj.framework.systems.tags.TagManager;

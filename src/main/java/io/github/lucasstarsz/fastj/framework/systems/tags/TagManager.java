@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.systems.tags;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.engine;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.io.Display;
+import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.framework.io.mouse.Mouse;
 import io.github.lucasstarsz.fastj.framework.math.Point;
@@ -195,9 +195,9 @@ public class FastJEngine {
     }
 
     /**
-     * Gets the {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
+     * Gets the {@link Display} object associated with the game engine.
      *
-     * @return The {@link io.github.lucasstarsz.fastj.framework.io.Display} object associated with the game engine.
+     * @return The {@link Display} object associated with the game engine.
      */
     public static Display getDisplay() {
         return display;

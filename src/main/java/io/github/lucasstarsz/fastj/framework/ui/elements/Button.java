@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.ui.elements;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Camera;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 

@@ -1,9 +1,9 @@
-package io.github.lucasstarsz.fastj.framework.io;
+package io.github.lucasstarsz.fastj.framework.render;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.graphics.Camera;
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.framework.io.mouse.Mouse;
 import io.github.lucasstarsz.fastj.framework.math.Point;

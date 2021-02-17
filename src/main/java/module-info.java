@@ -15,12 +15,16 @@ module fastj.library {
 
     exports io.github.lucasstarsz.fastj.framework;
 
+    exports io.github.lucasstarsz.fastj.framework.render;
+    exports io.github.lucasstarsz.fastj.framework.render.util;
+
     exports io.github.lucasstarsz.fastj.framework.graphics;
     exports io.github.lucasstarsz.fastj.framework.graphics.shapes;
     exports io.github.lucasstarsz.fastj.framework.graphics.text;
-    exports io.github.lucasstarsz.fastj.framework.graphics.util;
 
-    exports io.github.lucasstarsz.fastj.framework.io;
+    exports io.github.lucasstarsz.fastj.framework.ui;
+    exports io.github.lucasstarsz.fastj.framework.ui.elements;
+
     exports io.github.lucasstarsz.fastj.framework.io.keyboard;
     exports io.github.lucasstarsz.fastj.framework.io.mouse;
 

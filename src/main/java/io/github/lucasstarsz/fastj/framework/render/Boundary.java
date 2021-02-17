@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.framework.graphics;
+package io.github.lucasstarsz.fastj.framework.render;
 
 /**
  * Defines aliases for the order in which {@code Drawable} boundaries are ordered in an array.

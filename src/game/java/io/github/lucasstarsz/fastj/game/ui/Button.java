@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.game.ui;
 
 import io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.io.mouse.MouseActionListener;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 

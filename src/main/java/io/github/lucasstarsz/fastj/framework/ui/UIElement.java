@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.ui;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 
 import java.awt.AWTEvent;
 import java.util.List;

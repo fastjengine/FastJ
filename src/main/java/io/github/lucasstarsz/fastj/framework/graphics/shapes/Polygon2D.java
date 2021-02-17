@@ -1,9 +1,9 @@
 package io.github.lucasstarsz.fastj.framework.graphics.shapes;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Boundary;
-import io.github.lucasstarsz.fastj.framework.graphics.Camera;
+import io.github.lucasstarsz.fastj.framework.render.Boundary;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
 import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 

@@ -1,10 +1,12 @@
-package io.github.lucasstarsz.fastj.framework.graphics;
+package io.github.lucasstarsz.fastj.framework.render;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 import io.github.lucasstarsz.fastj.framework.systems.tags.TaggableEntity;
+import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -119,7 +121,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Gets the boundaries of the {@code Drawable}.
      * <p>
-     * Bounds are in the same order as specified in the {@link io.github.lucasstarsz.fastj.framework.graphics.Boundary}.
+     * Bounds are in the same order as specified in the {@link io.github.lucasstarsz.fastj.framework.render.Boundary}.
      * <p>
      * If you're looking to get a specific bound, use {@code getBound(Boundary)} instead.
      *
@@ -220,9 +222,14 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of game objects.
      * @return the {@code Drawable} is returned for method chaining.
      */
-    public Drawable addAsGameObject(Scene origin) {
-        origin.addGameObject(this);
-        return this;
+    public GameObject addAsGameObject(Scene origin) {
+        if (this instanceof GameObject) {
+            origin.addGameObject(this);
+            return (GameObject) this;
+        } else {
+            FastJEngine.error("", new IllegalStateException("Cannot add non-game object as a game object."));
+            return null;
+        }
     }
 
     /**
@@ -231,9 +238,14 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of GUI objects.
      * @return the {@code Drawable} is returned for method chaining.
      */
-    public Drawable addAsGUIObject(Scene origin) {
-        origin.addGUIObject(this);
-        return this;
+    public UIElement addAsGUIObject(Scene origin) {
+        if (this instanceof UIElement) {
+            origin.addGUIObject(this);
+            return (UIElement) this;
+        } else {
+            FastJEngine.error("", new IllegalStateException("Cannot add non-ui object as a ui object."));
+            return null;
+        }
     }
 
     /**

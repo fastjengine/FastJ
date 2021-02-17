@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.framework.io.mouse;
 
-import io.github.lucasstarsz.fastj.framework.graphics.Drawable;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;

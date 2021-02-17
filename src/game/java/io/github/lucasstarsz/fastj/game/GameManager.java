@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.game;
 
-import io.github.lucasstarsz.fastj.framework.io.Display;
+import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.systems.game.LogicManager;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 

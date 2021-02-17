@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.framework.graphics.text;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.graphics.Camera;
 import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
-import io.github.lucasstarsz.fastj.framework.graphics.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;

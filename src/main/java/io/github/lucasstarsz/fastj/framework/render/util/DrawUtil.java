@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.framework.graphics.util;
+package io.github.lucasstarsz.fastj.framework.render.util;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
 import io.github.lucasstarsz.fastj.framework.graphics.shapes.Model2D;
