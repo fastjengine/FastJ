@@ -20,6 +20,7 @@ public abstract class GameObject extends Drawable {
 
     private final List<Behavior> behaviors;
 
+    /** Initializes internals of the {@link GameObject}. */
     protected GameObject() {
         behaviors = new ArrayList<>();
     }

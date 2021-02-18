@@ -1,21 +1,18 @@
 package io.github.lucasstarsz.fastj.engine;
 
-/**
- * Enumerator which defines what types of hardware acceleration are supported.
- * <p>
- * The types of hardware acceleration are as follows:
- * <ul>
- *     	<li>{@code DIRECT3D} - Enables Direct 3D Draw hardware acceleration.
- *         	<ul><li><b>NOTE:</b> This is only supported on Windows machines.</li></ul></li>
- * 		<li>{@code OPENGL} - Enables OpenGL hardware acceleration.</li>
- * 		<li>{@code DEFAULT} - Leaves the configuration of hardware acceleration to its default.</li>
- * 		<li>{@code CPU_RENDER} - Disables all hardware acceleration. Instead, software rendering will be used.</li>
- * </ul>
- */
+/** Enumerator defining what types of hardware acceleration are supported. */
 public enum HWAccel {
+    /**
+     * Enables Direct 3D Draw hardware acceleration.
+     *
+     * <b>NOTE:</b> This is only supported on Windows machines.
+     */
     DIRECT3D("d3d", "transaccel", "ddforcevram"),
+    /** Enables OpenGL hardware acceleration. */
     OPENGL("opengl"),
+    /** Leaves the configuration of hardware acceleration as the OS-decided default. */
     DEFAULT(),
+    /** Disables all hardware acceleration. Instead, software rendering will be used. */
     CPU_RENDER("noddraw");
 
     private final String[] hardwareProperties;

@@ -30,6 +30,16 @@ plugins.withType(JavaPlugin).configureEach {
     }
 }
 
+javadoc {
+    source(sourceSets.main.allJava)
+    failOnError(false)
+
+    options.links = [
+            // resolve links to Java javadocs
+            'https://docs.oracle.com/en/java/javase/15/docs/api/'
+    ]
+}
+
 jlink {
 
     options.addAll('--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages')

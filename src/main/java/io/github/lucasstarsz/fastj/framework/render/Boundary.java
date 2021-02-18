@@ -12,11 +12,16 @@ package io.github.lucasstarsz.fastj.framework.render;
  * </ul>
  */
 public enum Boundary {
+    /** Top left boundary -- array index 0. */
     TOP_LEFT(0),
+    /** Top right boundary -- array index 1. */
     TOP_RIGHT(1),
+    /** Bottom right boundary -- array index 2. */
     BOTTOM_RIGHT(2),
+    /** Bottom left boundary -- array index 3. */
     BOTTOM_LEFT(3);
 
+    /** The array index corresponding to the enum constant. */
     public final int location;
 
     Boundary(int i) {

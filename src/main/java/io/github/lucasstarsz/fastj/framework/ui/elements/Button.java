@@ -20,7 +20,9 @@ import java.awt.geom.Rectangle2D;
  */
 public class Button extends UIElement {
 
+    /** The default location of a {@link Button}: (0, 0). */
     public static final Pointf DEFAULT_LOCATION = new Pointf();
+    /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DEFAULT_SIZE = new Pointf(100f, 25f);
 
     private Paint paint;

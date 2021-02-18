@@ -11,7 +11,9 @@ import java.awt.geom.Rectangle2D;
  */
 public class Point {
 
+    /** The x value of the {@link Point}. */
     public int x;
+    /** The y value of the {@link Point}. */
     public int y;
 
     /** {@code Point} constructor, where its x and y values are set to zero. */

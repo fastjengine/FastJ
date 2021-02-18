@@ -415,7 +415,7 @@ public class Keys {
     /** Keycode constant for the "dead semivoiced sound" key. */
     public static final int deadSemivoicedSound = KeyEvent.VK_DEAD_SEMIVOICED_SOUND;
 
-    /** Keycode constant for the "&" key. */
+    /** Keycode constant for the "&amp;" key. */
     public static final int ampersand = KeyEvent.VK_AMPERSAND;
 
     /** Keycode constant for the "*" key. */

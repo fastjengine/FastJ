@@ -48,6 +48,7 @@ public abstract class Drawable extends TaggableEntity {
     private final UUID rawID;
     private final String id;
 
+    /** The shape defining where the Drawable collides. */
     protected Shape collisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;

@@ -217,9 +217,13 @@ public class Keyboard implements KeyListener {
 
     /** Enum that defines the location of a key. */
     public enum KeyLocation {
+        /** Any key not in the other groups -- the most common type of key. */
         STANDARD(1),
+        /** A key appearing twice on the keyboard -- this specifies the version on the left. */
         LEFT(2),
+        /** A key appearing twice on the keyboard -- this specifies the version on the right. */
         RIGHT(3),
+        /** A key on the "numpad" -- a collection of keys often to the right of the main keyboard. */
         NUMPAD(4);
 
         /** Keys that can correspond with {@code KeyLocation.LEFT} or {@code KeyLocation.RIGHT}. */
