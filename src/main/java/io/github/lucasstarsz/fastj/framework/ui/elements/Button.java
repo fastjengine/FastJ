@@ -15,62 +15,112 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+/**
+ * A {@link UIElement} that can be assigned an action on left click.
+ */
 public class Button extends UIElement {
+
+    public static final Pointf DEFAULT_LOCATION = new Pointf();
+    public static final Pointf DEFAULT_SIZE = new Pointf(100f, 25f);
 
     private Paint paint;
     private Rectangle2D.Float renderPath;
-    private final Pointf translation;
+    private final Pointf location;
 
     private Font font;
     private String text = "";
     private Rectangle2D.Float textBounds;
     private boolean hasMetrics;
 
+    /**
+     * Constructs a button with a default location and size.
+     *
+     * @param origin The scene to add the button as a gui object to.
+     */
     public Button(Scene origin) {
-        this(origin, new Pointf(), new Pointf(100, 25));
+        this(origin, DEFAULT_LOCATION, DEFAULT_SIZE);
     }
 
-    public Button(Scene origin, Pointf translation, Pointf initialSize) {
+    /**
+     * Constructs a button with the specified location and initial size.
+     *
+     * @param origin      The scene to add the button as a gui object to.
+     * @param location    The location to create the button at.
+     * @param initialSize The initial size of the button, though the button will get larger if the text outgrows it.
+     */
+    public Button(Scene origin, Pointf location, Pointf initialSize) {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.PRESS) && Mouse.isMouseButtonPressed(MouseButtons.LEFT));
 
-        this.translation = translation;
-        Pointf[] buttonCoords = DrawUtil.createBox(this.translation, initialSize);
-        renderPath = DrawUtil.createRect(buttonCoords);
-        super.setCollisionPath(renderPath);
-        super.setBounds(buttonCoords);
-
+        this.location = location;
         this.setPaint(Color.cyan);
         this.setFont(Text2D.DEFAULT_FONT);
 
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
+        super.setBounds(buttonCoords);
 
-        origin.addGUIObject(this);
+        renderPath = DrawUtil.createRect(buttonCoords);
+        super.setCollisionPath(renderPath);
+
+        setMetrics(FastJEngine.getDisplay().getGraphics());
     }
 
+    /**
+     * Gets the {@link Paint} object for the button.
+     *
+     * @return The Button's {@code Paint}.
+     */
     public Paint getPaint() {
         return paint;
     }
 
+    /**
+     * Sets the {@link Paint} object for the button.
+     *
+     * @param paint The new paint for the button.
+     * @return The {@link Button}, for method chaining.
+     */
     public Button setPaint(Paint paint) {
         this.paint = paint;
         return this;
     }
 
+    /**
+     * Gets the text for the button.
+     *
+     * @return The Button's text.
+     */
     public String getText() {
         return text;
     }
 
+    /**
+     * Sets the text for the button.
+     *
+     * @param text The new text for the button.
+     * @return The {@link Button}, for method chaining.
+     */
     public Button setText(String text) {
         this.text = text;
         setMetrics(FastJEngine.getDisplay().getGraphics());
         return this;
     }
 
+    /**
+     * Gets the {@link Font} object for the button.
+     *
+     * @return The Button's {@code Font}.
+     */
     public Font getFont() {
         return font;
     }
 
+    /**
+     * Sets the {@link Font} for the button.
+     *
+     * @param font The new {@code Font} object for the button.
+     * @return The {@link Button}, for method chaining.
+     */
     public Button setFont(Font font) {
         this.font = font;
         setMetrics(FastJEngine.getDisplay().getGraphics());
@@ -103,9 +153,9 @@ public class Button extends UIElement {
     }
 
     /**
-     * Sets up the necessary boundaries for creating the metrics for this {@code Text2D}.
+     * Sets up the necessary boundaries for creating text metrics, and aligns the text with the button.
      * <p>
-     * This also sets the resulting metrics as the collision path for this {@code Text2D}.
+     * If the text metrics show that the text does not fit in the button, the button will be resized to fit the text.
      *
      * @param g {@code Graphics2D} object that the {@code Text2D} is rendered on.
      */
@@ -118,8 +168,8 @@ public class Button extends UIElement {
         int textHeight = fm.getHeight();
 
         textBounds = new Rectangle2D.Float(
-                translation.x + (renderPath.width - textWidth) / 2f,
-                translation.y + textHeight,
+                location.x + (renderPath.width - textWidth) / 2f,
+                location.y + textHeight,
                 textWidth,
                 textHeight
         );
