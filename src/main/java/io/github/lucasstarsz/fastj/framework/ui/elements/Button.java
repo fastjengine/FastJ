@@ -55,14 +55,14 @@ public class Button extends UIElement {
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.PRESS) && Mouse.isMouseButtonPressed(MouseButtons.LEFT));
 
         this.location = location;
-        this.setPaint(Color.cyan);
-        this.setFont(Text2D.DEFAULT_FONT);
-
         Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
         super.setBounds(buttonCoords);
 
         renderPath = DrawUtil.createRect(buttonCoords);
         super.setCollisionPath(renderPath);
+
+        this.setPaint(Color.cyan);
+        this.setFont(Text2D.DEFAULT_FONT);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
