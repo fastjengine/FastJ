@@ -1,9 +1,6 @@
 plugins {
     // it's a java library. What did you expect?
     id 'java-library'
-
-    // jlink and jpackage plugins are always nice
-    id 'org.beryx.jlink' version '2.23.1'
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -38,53 +35,4 @@ javadoc {
             // resolve links to Java javadocs
             'https://docs.oracle.com/en/java/javase/15/docs/api/'
     ]
-}
-
-jlink {
-
-    options.addAll('--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages')
-
-    launcher {
-        name = 'FastJ Game'
-        noConsole = true
-    }
-
-    jpackage {
-        // cross-platform options
-        jvmArgs += ['-XX:+CreateCoredumpOnCrash']
-        installerOptions += [
-                '--description', 'A game made using FastJ.',
-                '--vendor', 'Andrew Dey',
-                '--copyright', 'Copyright© 2021 Andrew Dey',
-//                '--license-file', 'src/main/resources/LICENSE.md',
-                '--app-version', project.version
-        ]
-
-        // platform-specific options
-        def currentOs = org.gradle.internal.os.OperatingSystem.current()
-
-        if (currentOs.windows) {
-            installerType = "msi"
-
-            installerOptions += [
-                    '--win-per-user-install',
-                    '--install-dir', 'FastJ-Game',
-                    '--win-dir-chooser',
-                    '--win-shortcut'
-            ]
-        } else if (currentOs.linux) {
-            installerType = "deb"
-
-            installerOptions += [
-                    '--linux-shortcut',
-                    '--linux-deb-maintainer', 'andrewrcdey@gmail.com'
-            ]
-        } else if (currentOs.macOsX) {
-            installerType = "pkg"
-
-            installerOptions += [
-                    '--mac-package-name', 'FastJ Game'
-            ]
-        }
-    }
 }
