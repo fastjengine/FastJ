@@ -539,7 +539,8 @@ public class Display {
 
     /**
      * Renders the specified game objects and GUI objects, within the viewing area of the Camera.
-     *  @param gameObjects The game objects to be rendered.
+     *
+     * @param gameObjects The game objects to be rendered.
      * @param gui         The GUI objects to be rendered.
      * @param camera      The camera that the user will view the game from.
      */
