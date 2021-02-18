@@ -1,9 +1,11 @@
 package io.github.lucasstarsz.fastj.framework.systems.game;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.io.mouse.MouseAction;
+import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -305,8 +307,8 @@ public abstract class LogicManager {
             initSceneCheck();
 
             // create reference copies to avoid concurrency modification through events
-            Map<String, Drawable> gameObjectsCopy = new LinkedHashMap<>(currentScene.getGameObjects());
-            Map<String, Drawable> guiCopy = new LinkedHashMap<>(currentScene.getGUIObjects());
+            Map<String, GameObject> gameObjectsCopy = new LinkedHashMap<>(currentScene.getGameObjects());
+            Map<String, UIElement> guiCopy = new LinkedHashMap<>(currentScene.getGUIObjects());
 
             display.render(gameObjectsCopy, guiCopy, currentScene.getCamera());
 

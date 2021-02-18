@@ -1,12 +1,13 @@
 package io.github.lucasstarsz.fastj.framework.systems.game;
 
-import io.github.lucasstarsz.fastj.framework.render.Camera;
-import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
+import io.github.lucasstarsz.fastj.framework.render.Camera;
 import io.github.lucasstarsz.fastj.framework.render.Display;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.framework.systems.input.InputManager;
 import io.github.lucasstarsz.fastj.framework.systems.tags.TagManager;
+import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Class to contain the logic for a specific section, or scene, of a game.
+ * Class containing the logic for a specific section, or scene, of a game.
  * <p>
  * The {@code LogicManager} of any game made with FastJ can store many scenes. Through this, the user can divide their
  * game into different sections.
@@ -27,8 +28,8 @@ public abstract class Scene extends InputManager {
     private final String sceneName;
     private final Camera camera;
 
-    private final Map<String, Drawable> gameObjects;
-    private final Map<String, Drawable> GUIObjects;
+    private final Map<String, GameObject> gameObjects;
+    private final Map<String, UIElement> GUIObjects;
 
     private boolean isInitialized;
 
@@ -89,7 +90,7 @@ public abstract class Scene extends InputManager {
      *
      * @return The game objects of the scene.
      */
-    public Map<String, Drawable> getGameObjects() {
+    public Map<String, GameObject> getGameObjects() {
         return gameObjects;
     }
 
@@ -98,7 +99,7 @@ public abstract class Scene extends InputManager {
      *
      * @return The gui objects of the scene.
      */
-    public Map<String, Drawable> getGUIObjects() {
+    public Map<String, UIElement> getGUIObjects() {
         return GUIObjects;
     }
 
@@ -165,7 +166,7 @@ public abstract class Scene extends InputManager {
      *
      * @param gameObject The game object to add.
      */
-    public void addGameObject(Drawable gameObject) {
+    public void addGameObject(GameObject gameObject) {
         gameObjects.put(gameObject.getID(), gameObject);
     }
 
@@ -183,7 +184,7 @@ public abstract class Scene extends InputManager {
      *
      * @param gameObject The game object to remove.
      */
-    public void removeGameObject(Drawable gameObject) {
+    public void removeGameObject(GameObject gameObject) {
         removeGameObject(gameObject.getID());
     }
 
@@ -204,7 +205,7 @@ public abstract class Scene extends InputManager {
      *
      * @param guiObject The gui object to add.
      */
-    public void addGUIObject(Drawable guiObject) {
+    public void addGUIObject(UIElement guiObject) {
         GUIObjects.put(guiObject.getID(), guiObject);
     }
 
@@ -222,7 +223,7 @@ public abstract class Scene extends InputManager {
      *
      * @param guiObject The gui object to remove.
      */
-    public void removeGUIObject(Drawable guiObject) {
+    public void removeGUIObject(UIElement guiObject) {
         removeGUIObject(guiObject.getID());
     }
 

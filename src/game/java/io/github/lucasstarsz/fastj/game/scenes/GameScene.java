@@ -7,14 +7,19 @@ import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
+import io.github.lucasstarsz.fastj.framework.ui.elements.Button;
+
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import io.github.lucasstarsz.fastj.game.scripts.PlayerScript;
 
 import java.awt.Color;
+import java.awt.Font;
 
 public class GameScene extends Scene {
 
     private GameObject box;
+    private Button button;
 
     /**
      * Constructs a scene with the specified name.
@@ -35,6 +40,11 @@ public class GameScene extends Scene {
                 .addBehavior(playerScript, this)
                 .addBehavior(rotationScript, this)
                 .addAsGameObject(this);
+
+        button = (Button) new Button(this, new Pointf(100, 100), new Pointf(100, 20))
+                .setText("Hello there")
+                .setFont(new Font("Consolas", Font.PLAIN, 36))
+                .setOnAction(action -> FastJEngine.log("you clicked me!"));
     }
 
     @Override

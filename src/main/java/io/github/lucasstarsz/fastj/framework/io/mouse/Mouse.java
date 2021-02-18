@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.framework.io.mouse;
 
-import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -59,6 +59,23 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     public static boolean isOnScreen() {
         return currentlyOnScreen;
+    }
+
+    /**
+     * Gets the value that determines whether the specified mouse button is currently pressed.
+     * <p>
+     * You can get button values from the {@code MouseEvent} class, or from predefined values in the {@link
+     * MouseButtons} class.
+     *
+     * @param mouseButton The {@link MouseButtons} enum value defining which button to check for.
+     * @return The boolean value that represents whether the specified button is pressed.
+     */
+    public static boolean isMouseButtonPressed(MouseButtons mouseButton) {
+        if (!mouseButtons.containsKey(mouseButton.buttonValue)) {
+            return false;
+        }
+
+        return mouseButtons.get(mouseButton.buttonValue).currentlyPressed;
     }
 
     /**

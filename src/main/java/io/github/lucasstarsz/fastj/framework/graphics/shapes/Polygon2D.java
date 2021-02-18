@@ -278,26 +278,6 @@ public class Polygon2D extends GameObject {
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g, Camera camera) {
-        if (!shouldRender()) {
-            return;
-        }
-
-        AffineTransform at = new AffineTransform();
-        at.translate(-camera.getTranslation().x, -camera.getTranslation().y);
-
-        Path2D.Float renderCopy = (Path2D.Float) renderPath.createTransformedShape(at);
-
-        g.setColor(color);
-
-        if (paintFilled) {
-            g.fill(renderCopy);
-        } else {
-            g.draw(renderCopy);
-        }
-    }
-
-    @Override
     public void destroy(Scene originScene) {
         points = null;
         renderPath = null;

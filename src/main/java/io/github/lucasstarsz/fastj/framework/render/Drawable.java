@@ -10,9 +10,8 @@ import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
-import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -43,11 +42,13 @@ import java.util.UUID;
 public abstract class Drawable extends TaggableEntity {
 
     private static final String collisionErrorMessage = CrashMessages.theGameCrashed("a collision error.");
+    private static final String gameObjectError = CrashMessages.theGameCrashed("a game object error.");
+    private static final String uiElementError = CrashMessages.theGameCrashed("a ui element error.");
 
     private final UUID rawID;
     private final String id;
 
-    protected Path2D.Float collisionPath;
+    protected Shape collisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;
 
@@ -56,22 +57,6 @@ public abstract class Drawable extends TaggableEntity {
         rawID = UUID.randomUUID();
         id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID.toString();
     }
-
-    /**
-     * Renders the {@code Drawable} to the specified {@code Graphics2D} parameter.
-     *
-     * @param g {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
-     */
-    public abstract void render(Graphics2D g);
-
-    /**
-     * Renders the {@code Drawable} to the parameter {@code Graphics2D} object, while avoiding the specified {@code
-     * Camera}'s transformation.
-     *
-     * @param g      {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
-     * @param camera {@code Camera} to help render at the correct position on the screen.
-     */
-    public abstract void renderAsGUIObject(Graphics2D g, Camera camera);
 
     /**
      * Destroys all memory the {@code Drawable} uses.
@@ -85,18 +70,18 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Gets the collision path of the {@code Drawable}.
      *
-     * @return The collision path of the {@code Drawable}, as a {@code Path2D.Float}.
+     * @return The collision path of the {@code Drawable}, as a {@code Shape}.
      */
-    public Path2D.Float getCollisionPath() {
+    public Shape getCollisionPath() {
         return collisionPath;
     }
 
     /**
      * Sets the collision path to the specified parameter.
      *
-     * @param path {@code Path2D.Float} parameter that the collision path will be set to.
+     * @param path {@code Shape} parameter that the collision path will be set to.
      */
-    protected void setCollisionPath(Path2D.Float path) {
+    protected void setCollisionPath(Shape path) {
         collisionPath = path;
     }
 
@@ -224,10 +209,10 @@ public abstract class Drawable extends TaggableEntity {
      */
     public GameObject addAsGameObject(Scene origin) {
         if (this instanceof GameObject) {
-            origin.addGameObject(this);
+            origin.addGameObject((GameObject) this);
             return (GameObject) this;
         } else {
-            FastJEngine.error("", new IllegalStateException("Cannot add non-game object as a game object."));
+            FastJEngine.error(gameObjectError, new IllegalStateException("Cannot add non-game object as a game object."));
             return null;
         }
     }
@@ -240,10 +225,10 @@ public abstract class Drawable extends TaggableEntity {
      */
     public UIElement addAsGUIObject(Scene origin) {
         if (this instanceof UIElement) {
-            origin.addGUIObject(this);
+            origin.addGUIObject((UIElement) this);
             return (UIElement) this;
         } else {
-            FastJEngine.error("", new IllegalStateException("Cannot add non-ui object as a ui object."));
+            FastJEngine.error(uiElementError, new IllegalStateException("Cannot add non-ui object as a ui object."));
             return null;
         }
     }
@@ -266,18 +251,10 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
      */
     protected void destroyTheRest(Scene origin) {
-        origin.removeGameObject(this);
-        origin.removeGUIObject(this);
-
         origin.removeTaggableEntity(this);
-
         clearTags();
 
-        if (collisionPath != null) {
-            collisionPath.reset();
-            collisionPath = null;
-        }
-
+        collisionPath = null;
         boundaries = null;
     }
 

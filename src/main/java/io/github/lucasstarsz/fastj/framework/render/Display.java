@@ -1,13 +1,13 @@
 package io.github.lucasstarsz.fastj.framework.render;
 
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.render.Camera;
-import io.github.lucasstarsz.fastj.framework.render.Drawable;
-import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.framework.io.mouse.Mouse;
 import io.github.lucasstarsz.fastj.framework.math.Point;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
+import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -29,6 +29,7 @@ import java.util.Map;
  * @author Andrew Dey
  * @version 1.0.0
  */
+@SuppressWarnings("unused")
 public class Display {
 
     private final Map<RenderingHints.Key, Object> renderHints;
@@ -538,12 +539,11 @@ public class Display {
 
     /**
      * Renders the specified game objects and GUI objects, within the viewing area of the Camera.
-     *
-     * @param gameObjects The game objects to be rendered.
+     *  @param gameObjects The game objects to be rendered.
      * @param gui         The GUI objects to be rendered.
      * @param camera      The camera that the user will view the game from.
      */
-    public void render(Map<String, Drawable> gameObjects, Map<String, Drawable> gui, Camera camera) {
+    public void render(Map<String, GameObject> gameObjects, Map<String, UIElement> gui, Camera camera) {
         if (!outputDisplay.isVisible()) return;
 
         try {
@@ -560,7 +560,7 @@ public class Display {
                     (int) background.height + 1
             );
 
-            for (Drawable obj : gameObjects.values()) {
+            for (GameObject obj : gameObjects.values()) {
                 try {
                     if (!isOnScreen(obj, camera)) continue;
                     obj.render(drawGraphics);
@@ -572,7 +572,7 @@ public class Display {
                 }
             }
 
-            for (Drawable guiObj : gui.values()) {
+            for (UIElement guiObj : gui.values()) {
                 try {
                     if (!isOnScreen(guiObj, camera)) continue;
                     guiObj.renderAsGUIObject(drawGraphics, camera);

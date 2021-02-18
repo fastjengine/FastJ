@@ -1,10 +1,11 @@
 package io.github.lucasstarsz.fastj.framework.graphics;
 
-import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
+import io.github.lucasstarsz.fastj.framework.render.Drawable;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
@@ -218,11 +219,20 @@ public abstract class GameObject extends Drawable {
         return this;
     }
 
+    /**
+     * Renders the {@code Drawable} to the specified {@code Graphics2D} parameter.
+     *
+     * @param g {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
+     */
+    public abstract void render(Graphics2D g);
+
     @Override
     protected void destroyTheRest(Scene origin) {
         super.destroyTheRest(origin);
 
+        origin.removeGameObject(this);
         origin.removeBehaviorListener(this);
+
         destroyAllBehaviors();
         clearAllBehaviors();
     }

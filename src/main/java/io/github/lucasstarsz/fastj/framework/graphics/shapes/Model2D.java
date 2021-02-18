@@ -159,14 +159,6 @@ public class Model2D extends GameObject {
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g, Camera camera) {
-        if (!shouldRender()) return;
-        for (Polygon2D obj : polyArr) {
-            obj.renderAsGUIObject(g, camera);
-        }
-    }
-
-    @Override
     public void destroy(Scene originScene) {
         for (Polygon2D obj : polyArr) {
             obj.destroy(originScene);

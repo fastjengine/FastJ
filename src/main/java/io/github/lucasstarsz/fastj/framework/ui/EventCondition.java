@@ -12,5 +12,5 @@ public interface EventCondition {
      * @param event The event which caused the check to be run.
      * @return Whether or not the condition is met.
      */
-    boolean condiiton(AWTEvent event);
+    boolean condition(AWTEvent event);
 }

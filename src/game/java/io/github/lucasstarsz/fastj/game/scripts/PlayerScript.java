@@ -9,7 +9,7 @@ import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 public class PlayerScript implements Behavior {
 
     private Pointf travel;
-    private float speed;
+    private final float speed;
 
     public PlayerScript(float speed) {
         this.speed = speed;

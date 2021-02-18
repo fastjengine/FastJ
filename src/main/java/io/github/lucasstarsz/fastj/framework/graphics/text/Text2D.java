@@ -3,7 +3,6 @@ package io.github.lucasstarsz.fastj.framework.graphics.text;
 import io.github.lucasstarsz.fastj.framework.CrashMessages;
 import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
 import io.github.lucasstarsz.fastj.framework.math.Pointf;
-import io.github.lucasstarsz.fastj.framework.render.Camera;
 import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
 
@@ -161,19 +160,6 @@ public class Text2D extends GameObject {
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g, Camera camera) {
-        if (!shouldRender()) return;
-        if (!hasMetrics) {
-            setMetrics(g);
-        }
-
-        g.setFont(font);
-        g.setColor(color);
-
-        g.drawString(text, -camera.getTranslation().x + translation.x, -camera.getTranslation().y + translation.y);
-    }
-
-    @Override
     public void destroy(Scene originScene) {
         text = null;
         color = null;
@@ -188,7 +174,7 @@ public class Text2D extends GameObject {
         translation.add(translationMod);
 
         AffineTransform at = AffineTransform.getTranslateInstance(translationMod.x, translationMod.y);
-        setCollisionPath((Path2D.Float) getCollisionPath().createTransformedShape(at));
+        setCollisionPath(((Path2D.Float) getCollisionPath()).createTransformedShape(at));
 
         translateBounds(translationMod);
     }
@@ -232,10 +218,10 @@ public class Text2D extends GameObject {
         hasMetrics = false;
 
         FontMetrics fm = g.getFontMetrics(font);
+        int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
-        int textAdvance = fm.stringWidth(text);
 
-        final Rectangle2D.Float bounds = new Rectangle2D.Float(translation.x, translation.y, textHeight, textAdvance);
+        final Rectangle2D.Float bounds = new Rectangle2D.Float(translation.x, translation.y, textWidth, textHeight);
         setBounds(DrawUtil.createBox(bounds));
 
         setCollisionPath(createMetricsPath(bounds));
