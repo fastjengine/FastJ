@@ -7,6 +7,7 @@ import io.github.lucasstarsz.fastj.framework.render.Display;
 import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
 import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
+import io.github.lucasstarsz.fastj.framework.ui.UIElement;
 import io.github.lucasstarsz.fastj.framework.ui.elements.Button;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
@@ -15,11 +16,13 @@ import io.github.lucasstarsz.fastj.game.scripts.PlayerScript;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
 
 public class GameScene extends Scene {
 
     private GameObject box;
-    private Button button;
+    private UIElement button;
 
     /**
      * Constructs a scene with the specified name.
@@ -41,15 +44,29 @@ public class GameScene extends Scene {
                 .addBehavior(rotationScript, this)
                 .addAsGameObject(this);
 
-        button = (Button) new Button(this, new Pointf(100, 100), new Pointf(100, 20))
+        final Pointf buttonLocation = new Pointf(100f, 100f);
+        final Pointf buttonSize = new Pointf(100f, 20f);
+        final Font buttonFont = new Font("Consolas", Font.PLAIN, 36);
+
+        final float[] gradientMixLocations = {0.0f, 0.5f, 1.0f};
+        final Color[] gradientColors = {Color.white, Color.cyan, Color.yellow};
+        final LinearGradientPaint buttonPaint = new LinearGradientPaint(0, 0, 100, 20,
+                gradientMixLocations,
+                gradientColors,
+                MultipleGradientPaint.CycleMethod.REFLECT
+        );
+
+        button = new Button(this, buttonLocation, buttonSize)
                 .setText("Hello there")
-                .setFont(new Font("Consolas", Font.PLAIN, 36))
+                .setFont(buttonFont)
+                .setPaint(buttonPaint)
                 .setOnAction(action -> FastJEngine.log("you clicked me!"));
     }
 
     @Override
     public void unload(Display display) {
         box.destroy(this);
+        button.destroy(this);
     }
 
     @Override
