@@ -35,32 +35,35 @@ public class GameScene extends Scene {
 
     @Override
     public void load(Display display) {
+        // create player
         final Pointf[] boxPoints = DrawUtil.createBox(0f, 0f, 50f);
         final PlayerScript playerScript = new PlayerScript(5f);
         final Behavior rotationScript = Behavior.simpleRotation(1f);
+
         box = new Polygon2D(boxPoints)
                 .setColor(Color.RED)
                 .addBehavior(playerScript, this)
                 .addBehavior(rotationScript, this)
                 .addAsGameObject(this);
 
+        // Create button
         final Pointf buttonLocation = new Pointf(100f, 100f);
-        final Pointf buttonSize = new Pointf(100f, 20f);
-        final Font buttonFont = new Font("Consolas", Font.PLAIN, 36);
+        final Pointf buttonSize = new Pointf(100f, 30f);
+        final Font buttonFont = new Font("Segoe UI", Font.PLAIN, 20);
 
-        final float[] gradientMixLocations = {0.0f, 0.5f, 1.0f};
-        final Color[] gradientColors = {Color.white, Color.cyan, Color.yellow};
-        final LinearGradientPaint buttonPaint = new LinearGradientPaint(0, 0, 100, 20,
+        final float[] gradientMixLocations = {0.0f, 1.0f};
+        final Color[] gradientColors = {new Color(200, 200, 200), new Color(100, 100, 100)};
+        final LinearGradientPaint buttonPaint = new LinearGradientPaint(100f, 100f, 100f, 130f,
                 gradientMixLocations,
                 gradientColors,
-                MultipleGradientPaint.CycleMethod.REFLECT
+                MultipleGradientPaint.CycleMethod.REPEAT
         );
 
         button = new Button(this, buttonLocation, buttonSize)
-                .setText("Hello there")
+                .setText("Click me")
                 .setFont(buttonFont)
                 .setPaint(buttonPaint)
-                .setOnAction(action -> FastJEngine.log("you clicked me!"));
+                .setOnAction(action -> FastJEngine.log("Playing with your heart!"));
     }
 
     @Override
