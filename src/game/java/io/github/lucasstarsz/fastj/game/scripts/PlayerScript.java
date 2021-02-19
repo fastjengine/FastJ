@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.game.scripts;
 
-import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
-import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
-import io.github.lucasstarsz.fastj.framework.io.keyboard.Keys;
-import io.github.lucasstarsz.fastj.framework.math.Pointf;
-import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
+import io.github.lucasstarsz.fastj.graphics.GameObject;
+import io.github.lucasstarsz.fastj.io.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.io.keyboard.Keys;
+import io.github.lucasstarsz.fastj.math.Pointf;
+import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 
 public class PlayerScript implements Behavior {
 

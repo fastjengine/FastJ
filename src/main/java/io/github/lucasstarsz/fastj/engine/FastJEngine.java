@@ -1,13 +1,12 @@
 package io.github.lucasstarsz.fastj.engine;
 
-import io.github.lucasstarsz.fastj.framework.CrashMessages;
-import io.github.lucasstarsz.fastj.framework.render.Display;
-import io.github.lucasstarsz.fastj.framework.io.keyboard.Keyboard;
-import io.github.lucasstarsz.fastj.framework.io.mouse.Mouse;
-import io.github.lucasstarsz.fastj.framework.math.Point;
-import io.github.lucasstarsz.fastj.framework.systems.behaviors.BehaviorManager;
-import io.github.lucasstarsz.fastj.framework.systems.game.LogicManager;
-import io.github.lucasstarsz.fastj.framework.systems.tags.TagManager;
+import io.github.lucasstarsz.fastj.render.Display;
+import io.github.lucasstarsz.fastj.io.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.io.mouse.Mouse;
+import io.github.lucasstarsz.fastj.math.Point;
+import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
+import io.github.lucasstarsz.fastj.systems.game.LogicManager;
+import io.github.lucasstarsz.fastj.systems.tags.TagManager;
 
 import io.github.lucasstarsz.fastj.engine.internals.ThreadFixer;
 import io.github.lucasstarsz.fastj.engine.internals.Timer;
@@ -209,7 +208,7 @@ public class FastJEngine {
     /**
      * Gets the logic manager associated with the game engine.
      *
-     * @return The {@link io.github.lucasstarsz.fastj.framework.systems.game.LogicManager} object associated with the
+     * @return The {@link io.github.lucasstarsz.fastj.systems.game.LogicManager} object associated with the
      * game engine.
      */
     public static LogicManager getLogicManager() {

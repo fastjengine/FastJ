@@ -1,14 +1,14 @@
 package io.github.lucasstarsz.fastj.game.scenes;
 
-import io.github.lucasstarsz.fastj.framework.graphics.GameObject;
-import io.github.lucasstarsz.fastj.framework.graphics.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.framework.math.Pointf;
-import io.github.lucasstarsz.fastj.framework.render.Display;
-import io.github.lucasstarsz.fastj.framework.render.util.DrawUtil;
-import io.github.lucasstarsz.fastj.framework.systems.behaviors.Behavior;
-import io.github.lucasstarsz.fastj.framework.systems.game.Scene;
-import io.github.lucasstarsz.fastj.framework.ui.UIElement;
-import io.github.lucasstarsz.fastj.framework.ui.elements.Button;
+import io.github.lucasstarsz.fastj.graphics.GameObject;
+import io.github.lucasstarsz.fastj.graphics.shapes.Polygon2D;
+import io.github.lucasstarsz.fastj.math.Pointf;
+import io.github.lucasstarsz.fastj.render.Display;
+import io.github.lucasstarsz.fastj.graphics.DrawUtil;
+import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
+import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.ui.UIElement;
+import io.github.lucasstarsz.fastj.ui.elements.Button;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 

@@ -15,23 +15,23 @@ module fastj.library {
 
     exports io.github.lucasstarsz.fastj.framework;
 
-    exports io.github.lucasstarsz.fastj.framework.render;
-    exports io.github.lucasstarsz.fastj.framework.render.util;
+    exports io.github.lucasstarsz.fastj.render;
+    exports io.github.lucasstarsz.fastj.render.util;
 
-    exports io.github.lucasstarsz.fastj.framework.graphics;
-    exports io.github.lucasstarsz.fastj.framework.graphics.shapes;
-    exports io.github.lucasstarsz.fastj.framework.graphics.text;
+    exports io.github.lucasstarsz.fastj.graphics;
+    exports io.github.lucasstarsz.fastj.graphics.shapes;
+    exports io.github.lucasstarsz.fastj.graphics.text;
 
-    exports io.github.lucasstarsz.fastj.framework.ui;
-    exports io.github.lucasstarsz.fastj.framework.ui.elements;
+    exports io.github.lucasstarsz.fastj.ui;
+    exports io.github.lucasstarsz.fastj.ui.elements;
 
-    exports io.github.lucasstarsz.fastj.framework.io.keyboard;
-    exports io.github.lucasstarsz.fastj.framework.io.mouse;
+    exports io.github.lucasstarsz.fastj.io.keyboard;
+    exports io.github.lucasstarsz.fastj.io.mouse;
 
-    exports io.github.lucasstarsz.fastj.framework.math;
+    exports io.github.lucasstarsz.fastj.math;
 
-    exports io.github.lucasstarsz.fastj.framework.systems.game;
-    exports io.github.lucasstarsz.fastj.framework.systems.behaviors;
-    exports io.github.lucasstarsz.fastj.framework.systems.tags;
-    exports io.github.lucasstarsz.fastj.framework.systems.input;
+    exports io.github.lucasstarsz.fastj.systems.game;
+    exports io.github.lucasstarsz.fastj.systems.behaviors;
+    exports io.github.lucasstarsz.fastj.systems.tags;
+    exports io.github.lucasstarsz.fastj.systems.input;
 }
