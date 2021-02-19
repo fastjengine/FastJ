@@ -137,7 +137,9 @@ public class TagManager {
 
     /** Wipes the {@code TagManager} of all aliases and tags. */
     public static void reset() {
-        for (List<Drawable> entityList : entityLists.values()) entityList.clear();
+        for (List<Drawable> entityList : entityLists.values()) {
+            entityList.clear();
+        }
         entityLists.clear();
         clearTags();
     }

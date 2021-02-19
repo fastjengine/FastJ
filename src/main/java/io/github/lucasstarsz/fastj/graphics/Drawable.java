@@ -1,11 +1,11 @@
 package io.github.lucasstarsz.fastj.graphics;
 
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 import io.github.lucasstarsz.fastj.systems.tags.TaggableEntity;
 import io.github.lucasstarsz.fastj.ui.UIElement;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.Shape;
@@ -208,7 +208,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public GameObject addAsGameObject(Scene origin) {
         if (this instanceof GameObject) {
-            origin.addGameObject((GameObject) this);
+            origin.drawableManager.addGameObject((GameObject) this);
             return (GameObject) this;
         } else {
             FastJEngine.error(gameObjectError, new IllegalStateException("Cannot add non-game object as a game object."));
@@ -224,7 +224,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public UIElement addAsGUIObject(Scene origin) {
         if (this instanceof UIElement) {
-            origin.addGUIObject((UIElement) this);
+            origin.drawableManager.addGUIObject((UIElement) this);
             return (UIElement) this;
         } else {
             FastJEngine.error(uiElementError, new IllegalStateException("Cannot add non-ui object as a ui object."));

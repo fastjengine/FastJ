@@ -1,18 +1,14 @@
 package io.github.lucasstarsz.fastj.systems.game;
 
+import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.render.Camera;
 import io.github.lucasstarsz.fastj.render.Display;
-import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.input.InputManager;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
-import io.github.lucasstarsz.fastj.ui.UIElement;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Class containing the logic for a specific section, or scene, of a game.
@@ -23,13 +19,13 @@ import java.util.Objects;
  * @author Andrew Dey
  * @version 1.0.0
  */
-public abstract class Scene extends InputManager {
+public abstract class Scene {
 
     private final String sceneName;
     private final Camera camera;
 
-    private final Map<String, GameObject> gameObjects;
-    private final Map<String, UIElement> GUIObjects;
+    public final InputManager inputManager;
+    public final DrawableManager drawableManager;
 
     private boolean isInitialized;
 
@@ -42,8 +38,8 @@ public abstract class Scene extends InputManager {
         sceneName = setName;
         camera = new Camera();
 
-        gameObjects = new LinkedHashMap<>();
-        GUIObjects = new LinkedHashMap<>();
+        inputManager = new InputManager();
+        drawableManager = new DrawableManager();
 
         TagManager.addTaggableEntityList(this);
         BehaviorManager.addListenerList(this);
@@ -86,24 +82,6 @@ public abstract class Scene extends InputManager {
     }
 
     /**
-     * Gets the game objects assigned to the scene.
-     *
-     * @return The game objects of the scene.
-     */
-    public Map<String, GameObject> getGameObjects() {
-        return gameObjects;
-    }
-
-    /**
-     * Gets the gui objects assigned to the scene,
-     *
-     * @return The gui objects of the scene.
-     */
-    public Map<String, UIElement> getGUIObjects() {
-        return GUIObjects;
-    }
-
-    /**
      * Gets the behavior listeners assigned to the scene.
      *
      * @return The behavior listeners of the scene.
@@ -111,7 +89,6 @@ public abstract class Scene extends InputManager {
     public List<GameObject> getBehaviorListeners() {
         return BehaviorManager.getList(this);
     }
-
 
     /**
      * Gets the taggable entities assigned to the scene.
@@ -157,84 +134,6 @@ public abstract class Scene extends InputManager {
      */
     public List<Drawable> getAllWithTag(String tag) {
         return TagManager.getAllInListWithTag(this, tag);
-    }
-
-    /* Game Objects */
-
-    /**
-     * Adds the specified game object.
-     *
-     * @param gameObject The game object to add.
-     */
-    public void addGameObject(GameObject gameObject) {
-        gameObjects.put(gameObject.getID(), gameObject);
-    }
-
-    /**
-     * Removes the game object with the specified ID.
-     *
-     * @param gameObjectID The id of the game object to remove.
-     */
-    public void removeGameObject(String gameObjectID) {
-        gameObjects.remove(gameObjectID);
-    }
-
-    /**
-     * Removes the specified game object.
-     *
-     * @param gameObject The game object to remove.
-     */
-    public void removeGameObject(GameObject gameObject) {
-        removeGameObject(gameObject.getID());
-    }
-
-    /** Removes any null values from the list of game objects for the scene. */
-    public void refreshGameObjectList() {
-        gameObjects.entrySet().removeIf(Objects::isNull);
-    }
-
-    /** Removes all game objects from the scene. */
-    public void clearGameObjects() {
-        gameObjects.clear();
-    }
-
-    /* GUI Objects */
-
-    /**
-     * Adds the specified gui object.
-     *
-     * @param guiObject The gui object to add.
-     */
-    public void addGUIObject(UIElement guiObject) {
-        GUIObjects.put(guiObject.getID(), guiObject);
-    }
-
-    /**
-     * Removes the gui object with the specified ID.
-     *
-     * @param guiObjectID The id of the gui object to remove.
-     */
-    public void removeGUIObject(String guiObjectID) {
-        GUIObjects.remove(guiObjectID);
-    }
-
-    /**
-     * Removes the specified gui object.
-     *
-     * @param guiObject The gui object to remove.
-     */
-    public void removeGUIObject(UIElement guiObject) {
-        removeGUIObject(guiObject.getID());
-    }
-
-    /** Removes any null values from the list of gui objects for the scene. */
-    public void refreshGUIObjectList() {
-        GUIObjects.entrySet().removeIf(Objects::isNull);
-    }
-
-    /** Removes all gui objects from the scene. */
-    public void clearGUIObjects() {
-        GUIObjects.clear();
     }
 
     /* Behavior Listeners */
@@ -302,8 +201,8 @@ public abstract class Scene extends InputManager {
 
     /** Removes all elements from the scene. */
     public void clearAllLists() {
-        this.clearGUIObjects();
-        this.clearGameObjects();
+        drawableManager.clearAllLists();
+        inputManager.clearAllLists();
         this.clearBehaviorListeners();
         this.clearTaggableEntities();
     }
@@ -311,7 +210,6 @@ public abstract class Scene extends InputManager {
     /** Resets the scene's state entirely. */
     public void reset() {
         this.setInitialized(false);
-        super.clearAllLists();
         this.clearAllLists();
         camera.reset();
     }

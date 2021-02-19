@@ -1,7 +1,8 @@
 package io.github.lucasstarsz.fastj.io.mouse;
 
-import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
+import io.github.lucasstarsz.fastj.math.Pointf;
+import io.github.lucasstarsz.fastj.systems.game.Scene;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
@@ -32,6 +34,73 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static boolean currentlyOnScreen;
     private static Pointf mouseLocation = new Pointf();
 
+    private static final Map<Integer, BiConsumer<Scene, MouseEvent>> mouseEventProcessor = Map.of(
+            MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
+                if (!MouseAction.PRESS.recentAction) createSleeperThread(MouseAction.PRESS);
+
+                if (!mouseButtons.containsKey(mouseEvent.getButton())) {
+                    MouseButton btn = new MouseButton(mouseEvent);
+                    mouseButtons.put(btn.buttonLocation, btn);
+                }
+                buttonLastPressed = mouseEvent.getButton();
+                mouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
+
+                scene.inputManager.fireMousePressed(mouseEvent);
+            },
+            MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
+                if (!MouseAction.RELEASE.recentAction) createSleeperThread(MouseAction.RELEASE);
+
+                if (mouseButtons.containsKey(mouseEvent.getButton())) {
+                    mouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
+                }
+                buttonLastReleased = mouseEvent.getButton();
+
+                scene.inputManager.fireMouseReleased(mouseEvent);
+            },
+            MouseEvent.MOUSE_CLICKED, (scene, mouseEvent) -> {
+                if (!MouseAction.CLICK.recentAction) createSleeperThread(MouseAction.CLICK);
+
+                buttonLastClicked = mouseEvent.getButton();
+
+                scene.inputManager.fireMouseClicked(mouseEvent);
+            },
+            MouseEvent.MOUSE_MOVED, (scene, mouseEvent) -> {
+                if (!MouseAction.MOVE.recentAction) createSleeperThread(MouseAction.MOVE);
+
+                mouseLocation = Pointf.divide(new Pointf(mouseEvent.getX(), mouseEvent.getY()), FastJEngine.getDisplay().getResolutionScale());
+
+                scene.inputManager.fireMouseMoved(mouseEvent);
+            },
+            MouseEvent.MOUSE_DRAGGED, (scene, mouseEvent) -> {
+                if (!MouseAction.DRAG.recentAction) createSleeperThread(MouseAction.DRAG);
+
+                mouseLocation = Pointf.divide(new Pointf(mouseEvent.getX(), mouseEvent.getY()), FastJEngine.getDisplay().getResolutionScale());
+
+                scene.inputManager.fireMouseDragged(mouseEvent);
+            },
+            MouseEvent.MOUSE_ENTERED, (scene, mouseEvent) -> {
+                if (MouseAction.ENTER.recentAction) createSleeperThread(MouseAction.ENTER);
+
+                currentlyOnScreen = true;
+
+                scene.inputManager.fireMouseEntered(mouseEvent);
+            },
+            MouseEvent.MOUSE_EXITED, (scene, mouseEvent) -> {
+                if (MouseAction.ENTER.recentAction) createSleeperThread(MouseAction.EXIT);
+
+                currentlyOnScreen = false;
+
+                scene.inputManager.fireMouseExited(mouseEvent);
+            },
+            MouseEvent.MOUSE_WHEEL, (scene, mouseEvent) -> {
+                MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
+                if (!MouseAction.WHEEL_SCROLL.recentAction) createSleeperThread(MouseAction.WHEEL_SCROLL);
+
+                lastScrollDirection = mouseWheelEvent.getWheelRotation();
+
+                scene.inputManager.fireMouseWheelScrolled(mouseWheelEvent);
+            }
+    );
 
     /**
      * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the
@@ -172,98 +241,46 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!MouseAction.PRESS.recentAction) createSleeperThread(MouseAction.PRESS);
-
-        if (!mouseButtons.containsKey(e.getButton())) {
-            MouseButton btn = new MouseButton(e);
-            mouseButtons.put(btn.buttonLocation, btn);
-        }
-        buttonLastPressed = e.getButton();
-        mouseButtons.get(e.getButton()).currentlyPressed = true;
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.PRESS, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!MouseAction.RELEASE.recentAction) createSleeperThread(MouseAction.RELEASE);
-
-        if (mouseButtons.containsKey(e.getButton())) {
-            mouseButtons.get(e.getButton()).currentlyPressed = false;
-        }
-        buttonLastReleased = e.getButton();
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.RELEASE, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (!MouseAction.CLICK.recentAction) createSleeperThread(MouseAction.CLICK);
-
-        buttonLastClicked = e.getButton();
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.CLICK, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (!MouseAction.MOVE.recentAction) createSleeperThread(MouseAction.MOVE);
-
-        mouseLocation = Pointf.divide(new Pointf(e.getX(), e.getY()), FastJEngine.getDisplay().getResolutionScale());
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.MOVE, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (!MouseAction.DRAG.recentAction) createSleeperThread(MouseAction.DRAG);
-
-        mouseLocation = Pointf.divide(new Pointf(e.getX(), e.getY()), FastJEngine.getDisplay().getResolutionScale());
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.DRAG, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (!MouseAction.WHEEL_SCROLL.recentAction) createSleeperThread(MouseAction.WHEEL_SCROLL);
-
-        lastScrollDirection = e.getWheelRotation();
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseWheelAction(e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (MouseAction.ENTER.recentAction) createSleeperThread(MouseAction.ENTER);
-
-        currentlyOnScreen = true;
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.ENTER, e);
-        }
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (MouseAction.EXIT.recentAction) createSleeperThread(MouseAction.EXIT);
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+    }
 
-        currentlyOnScreen = false;
-
-        if (FastJEngine.getLogicManager() != null) {
-            FastJEngine.getLogicManager().fireMouseAction(MouseAction.EXIT, e);
-        }
+    public static void processEvent(Scene current, MouseEvent event) {
+        mouseEventProcessor.get(event.getID()).accept(current, event);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */
