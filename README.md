@@ -86,10 +86,10 @@ From here, you have successfully built FastJ-Game-Library.
 [MacOS-Build-Action]: https://github.com/lucasstarsz/FastJ-Game-Library/actions?query=workflow%3ABuild-MacOS "Mac OS Build Status"
 [MacOS-Build-SVG]: https://github.com/lucasstarsz/FastJ-Game-Library/workflows/Build-MacOS/badge.svg
 
-[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz.fastj/fastj-library "Slope ECS on Maven Central"
+[Maven-Central]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz.fastj/fastj-library "FastJ on Maven Central"
 [Maven-Central-SVG]: https://maven-badges.herokuapp.com/maven-central/io.github.lucasstarsz.fastj/fastj-library/badge.svg
 
-[JavaDoc]: https://javadoc.io/doc/io.github.lucasstarsz.fastj/fastj-library "Slope ECS Documentation"
+[JavaDoc]: https://javadoc.io/doc/io.github.lucasstarsz.fastj/fastj-library "FastJ Documentation"
 [JavaDoc-SVG]: https://javadoc.io/badge2/io.github.lucasstarsz.fastj/fastj-library/javadoc.svg
 
 [fastj-engine link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
