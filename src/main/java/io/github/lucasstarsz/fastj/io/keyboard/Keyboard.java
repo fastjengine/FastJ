@@ -29,6 +29,7 @@ public class Keyboard implements KeyListener {
             KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
                 KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key k = null;
+
                 if (keys.get(kDesc) == null) {
                     k = new Key(keyEvent);
                     keys.put(k.keyDescription, k);
@@ -49,6 +50,7 @@ public class Keyboard implements KeyListener {
             KeyEvent.KEY_RELEASED, (scene, keyEvent) -> {
                 KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key k = keys.get(kDesc);
+
                 if (k != null) {
                     k.setCurrentPress(false);
                     k.setRecentPress(false);
