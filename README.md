@@ -14,7 +14,7 @@ The original version of this library can be found [here][fastj-engine link].
 This repository is licensed under the [MIT License][MIT-License].
 
 
-## Adding FastJ-Game-Library to your project
+## Adding FastJ to your project
 This ECS can be found on [Maven Central][Maven-Central].
 
 ### Adding the Dependency
@@ -45,9 +45,8 @@ A few common dependencies are provided below:
   <dependency org="io.github.lucasstarsz.fastj" name="slope-ecs" rev="[latest version here]" />
   ```
 
-### Using FastJ-Game-Library
-
-FastJ-Game-Library requires Java 15 or later to run.
+### Using FastJ
+FastJ requires Java 11 or later to run.
 
 There will likely be a small wiki added for this game engine at a later time. For now, you'll want 
 to check out [this example code][FastJ-Example] for getting started with FastJ.
