@@ -7,14 +7,14 @@ group('io.github.lucasstarsz.fastj')
 version('1.0.0')
 
 sourceSets {
-    game {
+    example {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
 
-        task game(type: JavaExec) {
-            description('A game in FastJ.')
-            classpath = files(sourceSets.main.output, sourceSets.game.runtimeClasspath)
-            main = 'io.github.lucasstarsz.fastj.game.Main'
+        task example(type: JavaExec) {
+            description('An example game using FastJ.')
+            classpath = files(sourceSets.main.output, sourceSets.example.runtimeClasspath)
+            main = 'io.github.lucasstarsz.fastj.example.Main'
         }
     }
 }

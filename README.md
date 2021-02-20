@@ -96,6 +96,6 @@ From here, you have successfully built FastJ-Game-Library.
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
-[FastJ-Example]: src/game "FastJ Game Library: Example Game"
+[FastJ-Example]: src/example "FastJ Game Library: Example Game"
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
