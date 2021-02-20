@@ -279,6 +279,12 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
+    /**
+     * Processes the specified mouse event for the specified scene, based on its event type.
+     *
+     * @param current The scene to fire the event to.
+     * @param event   The mouse event to process.
+     */
     public static void processEvent(Scene current, MouseEvent event) {
         mouseEventProcessor.get(event.getID()).accept(current, event);
     }

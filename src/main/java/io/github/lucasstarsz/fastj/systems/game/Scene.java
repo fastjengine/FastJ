@@ -24,7 +24,9 @@ public abstract class Scene {
     private final String sceneName;
     private final Camera camera;
 
+    /** Input manager instance for the scene -- it controls the scene's received events. */
     public final InputManager inputManager;
+    /** Drawable manager instance for the scene -- it controls the scene's game objects and ui elements. */
     public final DrawableManager drawableManager;
 
     private boolean isInitialized;

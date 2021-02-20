@@ -233,10 +233,10 @@ public class Keyboard implements KeyListener {
     }
 
     /**
-     * Processes the specified event for the specified scene, based on its event type.
+     * Processes the specified key event for the specified scene, based on its event type.
      *
      * @param current The scene to fire the event to.
-     * @param event   The event to process.
+     * @param event   The key event to process.
      */
     public static void processEvent(Scene current, KeyEvent event) {
         keyEventProcessor.get(event.getID()).accept(current, event);

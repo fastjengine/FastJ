@@ -14,6 +14,7 @@ public class DrawableManager {
     private final Map<String, GameObject> gameObjects;
     private final Map<String, UIElement> GUIObjects;
 
+    /** Initializes a {@code DrawawbleManager}'s internals. */
     public DrawableManager() {
         gameObjects = new LinkedHashMap<>();
         GUIObjects = new LinkedHashMap<>();
