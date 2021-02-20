@@ -52,6 +52,15 @@ FastJ-Game-Library requires Java 15 or later to run.
 There will likely be a small wiki added for this game engine at a later time. For now, you'll want 
 to check out [this example code][FastJ-Example] for getting started with FastJ.
 
+As for seeing that example in action, you'll need to clone the repository and type the following:
+```bash
+./gradlew example
+```
+_Having trouble using `gradlew`? Read [this][Terminals Are Different]._
+
+From there, explore the example code, play around with it, and read the documentation to get a better
+understanding of FastJ.
+
 
 ## Building FastJ for yourself
 Building FastJ is a generally simple task. You just need to follow these steps:
@@ -87,5 +96,7 @@ From here, you have successfully built FastJ-Game-Library.
 [fastj-engine link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
+
+[FastJ-Example]: src/game "FastJ Game Library: Example Game"
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
