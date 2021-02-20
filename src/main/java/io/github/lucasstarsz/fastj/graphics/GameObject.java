@@ -162,16 +162,14 @@ public abstract class GameObject extends Drawable {
 
     /** Calls the {@code init} method of the {@code GameObject}'s behaviors. */
     public void initBehaviors() {
-        List<Behavior> behaviorsCopy = new ArrayList<>(behaviors);
-        for (Behavior behavior : behaviorsCopy) {
+        for (Behavior behavior : behaviors) {
             behavior.init(this);
         }
     }
 
     /** Calls the {@code update} method of the {@code GameObject}'s behaviors. */
     public void updateBehaviors() {
-        List<Behavior> behaviorsCopy = new ArrayList<>(behaviors);
-        for (Behavior behavior : behaviorsCopy) {
+        for (Behavior behavior : behaviors) {
             behavior.update(this);
         }
     }
@@ -220,17 +218,23 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Renders the {@code Drawable} to the specified {@code Graphics2D} parameter.
+     * Renders the {@code GameObject} to the specified {@code Graphics2D} parameter.
      *
-     * @param g {@code Graphics2D} parameter that the {@code Drawable} will be rendered to.
+     * @param g {@code Graphics2D} parameter that the {@code GameObject} will be rendered to.
      */
     public abstract void render(Graphics2D g);
 
+    /**
+     * Destroys all references of the game object's behaviors and removes it from the scene's list of behavior
+     * listeners.
+     *
+     * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
+     */
     @Override
     protected void destroyTheRest(Scene origin) {
         super.destroyTheRest(origin);
 
-        origin.removeGameObject(this);
+        origin.drawableManager.removeGameObject(this);
         origin.removeBehaviorListener(this);
 
         destroyAllBehaviors();

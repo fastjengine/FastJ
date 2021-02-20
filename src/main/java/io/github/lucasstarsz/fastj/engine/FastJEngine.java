@@ -394,6 +394,8 @@ public class FastJEngine {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
+            gameManager.getCurrentScene().inputManager.processEvents(gameManager.getCurrentScene());
+
             while (accumulator >= interval) {
                 gameManager.update(display);
                 accumulator -= interval;

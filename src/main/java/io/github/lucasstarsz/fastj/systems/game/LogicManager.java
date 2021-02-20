@@ -1,16 +1,10 @@
 package io.github.lucasstarsz.fastj.systems.game;
 
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
-import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.render.Display;
-import io.github.lucasstarsz.fastj.io.mouse.MouseAction;
-import io.github.lucasstarsz.fastj.ui.UIElement;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -124,82 +118,6 @@ public abstract class LogicManager {
     }
 
     /**
-     * Fires an event to the current scene, based on which event type it is.
-     *
-     * @param action The type of mouse action.
-     * @param event  The mouse event information to be passed through.
-     */
-    public void fireMouseAction(MouseAction action, MouseEvent event) {
-        switch (action) {
-            case PRESS:
-                currentScene.fireMousePressed(event);
-                break;
-            case RELEASE:
-                currentScene.fireMouseReleased(event);
-                break;
-            case CLICK:
-                currentScene.fireMouseClicked(event);
-                break;
-            case MOVE:
-                currentScene.fireMouseMoved(event);
-                break;
-            case DRAG:
-                currentScene.fireMouseDragged(event);
-                break;
-            case ENTER:
-                currentScene.fireMouseEntered(event);
-                break;
-            case EXIT:
-                currentScene.fireMouseExited(event);
-                break;
-            default: {
-                FastJEngine.error(
-                        CrashMessages.theGameCrashed("an unexpected MouseAction value"),
-                        new IllegalArgumentException("Unexpected value: " + action.name())
-                );
-            }
-        }
-    }
-
-    /**
-     * Fires a mouse wheel event to the current scene.
-     * <p>
-     * This event would be with the other mouse event types, but its event type is dissimilar to the others.
-     *
-     * @param event The mouse wheel scroll event information to be passed through.
-     */
-    public void fireMouseWheelAction(MouseWheelEvent event) {
-        currentScene.fireMouseWheelScrolled(event);
-    }
-
-    /**
-     * Fires a "key recently pressed" event to the current scene.
-     *
-     * @param event The key event information to pass through.
-     */
-    public void fireKeyRecentlyPressed(KeyEvent event) {
-        currentScene.fireKeyRecentlyPressed(event);
-    }
-
-    /**
-     * Fires a "key recently released" event to the current scene.
-     *
-     * @param event The key event information to pass through.
-     */
-    public void fireKeyReleased(KeyEvent event) {
-        currentScene.fireKeyReleased(event);
-    }
-
-    /**
-     * Fires a "key recently typed" event to the current scene.
-     *
-     * @param event The key event information to pass through.
-     */
-    public void fireKeyTyped(KeyEvent event) {
-        currentScene.fireKeyTyped(event);
-    }
-
-    /**
      * Adds the specified scene into the logic manager.
      *
      * @param scene The Scene object to be added.
@@ -286,7 +204,7 @@ public abstract class LogicManager {
 
             currentScene.update(display);
             currentScene.updateBehaviorListeners();
-            currentScene.fireKeysDown();
+            currentScene.inputManager.fireKeysDown();
 
         } catch (NullPointerException e) {
             snapshotCheck(snapshot, e);
@@ -305,11 +223,11 @@ public abstract class LogicManager {
             nullSceneCheck();
             initSceneCheck();
 
-            // create reference copies to avoid concurrency modification through events
-            Map<String, GameObject> gameObjectsCopy = new LinkedHashMap<>(currentScene.getGameObjects());
-            Map<String, UIElement> guiCopy = new LinkedHashMap<>(currentScene.getGUIObjects());
-
-            display.render(gameObjectsCopy, guiCopy, currentScene.getCamera());
+            display.render(
+                    currentScene.drawableManager.getGameObjects(),
+                    currentScene.drawableManager.getGUIObjects(),
+                    currentScene.getCamera()
+            );
 
         } catch (NullPointerException e) {
             snapshotCheck(snapshot, e);

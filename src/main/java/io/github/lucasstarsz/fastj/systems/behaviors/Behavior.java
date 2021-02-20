@@ -4,9 +4,9 @@ import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
 /**
- * Interface that allows for the addition of behaviors to {@code Drawable}s.
+ * Interface that allows for the addition of behaviors to {@code GameObject}s.
  * <p>
- * Behaviors can be assigned to any Drawable, as many times as you want.
+ * Behaviors can be assigned to any GameObject, as many times as you want.
  *
  * @author Andrew Dey
  * @version 1.0.0
@@ -14,7 +14,7 @@ import io.github.lucasstarsz.fastj.math.Pointf;
 public interface Behavior {
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, translates it by the specified
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, translates it by the specified
      * translation every update call.
      *
      * @param translationModifier The {@code Pointf} value to be used for translation.
@@ -34,7 +34,7 @@ public interface Behavior {
     }
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, rotates it by the specified
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, rotates it by the specified
      * rotation every update call.
      *
      * @param rotationModifier The float value to be used for rotation.
@@ -54,8 +54,8 @@ public interface Behavior {
     }
 
     /**
-     * Gets an instance of {@code Behavior} that, when assigned to a {@code Drawable}, scales it by the specified scale
-     * every update call.
+     * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, scales it by the specified
+     * scale every update call.
      *
      * @param scaleModifier The {@code Pointf} value to be used for scaling.
      * @return The newly created {@code Behavior}.
@@ -74,23 +74,23 @@ public interface Behavior {
     }
 
     /**
-     * Initializes the assigned {@code Drawable}.
+     * Initializes the assigned {@code GameObject}.
      * <p>
-     * This method is used for modifying anything about the Drawable(s) that this behavior is assigned to, before the
+     * This method is used for modifying anything about the GameObject(s) that this behavior is assigned to, before the
      * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
      *
-     * @param obj A Drawable that has been assigned this behavior.
+     * @param obj A GameObject that has been assigned this behavior.
      */
     void init(GameObject obj);
 
     /**
-     * Updates the assigned {@code Drawable}.
+     * Updates the assigned {@code GameObject}.
      * <p>
-     * This method is used to modify anything about the assigned {@code Drawable}, every time the assigned {@code
-     * Drawable}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
+     * This method is used to modify anything about the assigned {@code GameObject}, every time the assigned {@code
+     * GameObject}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
      * {@code update()} method.
      *
-     * @param obj A Drawable that has been assigned this behavior.
+     * @param obj A GameObject that has been assigned this behavior.
      */
     void update(GameObject obj);
 

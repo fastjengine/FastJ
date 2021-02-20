@@ -1,22 +1,31 @@
 plugins {
     // it's a java library. What did you expect?
     id 'java-library'
+
+    // For publishing to Maven Central, we'll want these.
+    id 'maven-publish'
+    id 'signing'
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.0.0')
+version('1.1.0')
 
 sourceSets {
-    game {
+    example {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
 
-        task game(type: JavaExec) {
-            description('A game in FastJ.')
-            classpath = files(sourceSets.main.output, sourceSets.game.runtimeClasspath)
-            main = 'io.github.lucasstarsz.fastj.game.Main'
+        task example(type: JavaExec) {
+            description('An example game using FastJ.')
+            classpath = files(sourceSets.main.output, sourceSets.example.runtimeClasspath)
+            main = 'io.github.lucasstarsz.fastj.example.Main'
         }
     }
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 /* Java modules need this in order for the module path to be inferred based on module-info.java
@@ -33,6 +42,66 @@ javadoc {
 
     options.links = [
             // resolve links to Java javadocs
-            'https://docs.oracle.com/en/java/javase/15/docs/api/'
+            'https://docs.oracle.com/en/java/javase/11/docs/api/'
     ]
+}
+
+// Publishing
+
+def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
+publish.onlyIf { shouldPublish }
+
+if (shouldPublish) {
+    publishing {
+        publications {
+            fastjPublish(MavenPublication) {
+                groupId = project.group
+                artifactId = 'fastj-library'
+                version = project.version
+
+                pom {
+                    name = 'FastJ Game Library'
+                    description = 'A Java-based game engine + framework coming together to make an easily-accessible, easily-usable, game making library.'
+                    url = 'https://github.com/lucasstarsz/FastJ-Game-Library'
+
+                    scm {
+                        connection = 'scm:git:https://github.com/lucasstarsz/FastJ-Game-Library.git'
+                        developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ-Game-Library.git'
+                        url = 'https://github.com/lucasstarsz/FastJ-Game-Library.git'
+                    }
+
+                    licenses {
+                        license {
+                            name = 'MIT License'
+                            url = 'https://github.com/lucasstarsz/FastJ-Game-Library/blob/main/LICENSE.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'andrewd'
+                            name = 'Andrew Dey'
+                            email = 'andrewrcdey@gmail.com'
+                        }
+                    }
+                }
+
+                from components.java
+            }
+        }
+
+        repositories {
+            maven {
+                url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                credentials {
+                    username = System.getenv('ossrhUsername')
+                    password = System.getenv('ossrhPassword')
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.fastjPublish
+    }
 }

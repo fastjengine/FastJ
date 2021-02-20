@@ -1,5 +1,7 @@
 package io.github.lucasstarsz.fastj.io.keyboard;
 
+import io.github.lucasstarsz.fastj.systems.game.Scene;
+
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.event.KeyEvent;
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 /**
  * Class that stores key input information from the {@code Display}.
@@ -21,6 +24,46 @@ public class Keyboard implements KeyListener {
     private static final Map<KeyDescription, Key> keys = new HashMap<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
+
+    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> keyEventProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
+                KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                Key k = null;
+
+                if (keys.get(kDesc) == null) {
+                    k = new Key(keyEvent);
+                    keys.put(k.keyDescription, k);
+                    kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                }
+
+                if (k == null) {
+                    k = keys.get(kDesc);
+                }
+
+                if (!k.currentlyPressed) {
+                    k.setRecentPress(true);
+                    scene.inputManager.fireKeyRecentlyPressed(keyEvent);
+                }
+
+                k.setCurrentPress(true);
+            },
+            KeyEvent.KEY_RELEASED, (scene, keyEvent) -> {
+                KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                Key k = keys.get(kDesc);
+
+                if (k != null) {
+                    k.setCurrentPress(false);
+                    k.setRecentPress(false);
+                    k.setRecentRelease(true);
+                }
+
+                scene.inputManager.fireKeyReleased(keyEvent);
+            },
+            KeyEvent.KEY_TYPED, (scene, keyEvent) -> {
+                lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
+                scene.inputManager.fireKeyTyped(keyEvent);
+            }
+    );
 
     /** Initializes the keyboard. */
     public static void init() {
@@ -176,43 +219,27 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        KeyDescription kDesc = KeyDescription.get(e.getKeyCode(), e.getKeyLocation());
-        Key k = null;
-        if (keys.get(kDesc) == null) {
-            k = new Key(e);
-            keys.put(k.keyDescription, k);
-            kDesc = KeyDescription.get(e.getKeyCode(), e.getKeyLocation());
-        }
-
-        if (k == null) {
-            k = keys.get(kDesc);
-        }
-
-        if (!k.currentlyPressed) {
-            k.setRecentPress(true);
-            FastJEngine.getLogicManager().fireKeyRecentlyPressed(e);
-        }
-
-        k.setCurrentPress(true);
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        KeyDescription kDesc = KeyDescription.get(e.getKeyCode(), e.getKeyLocation());
-        Key k = keys.get(kDesc);
-        if (k != null) {
-            k.setCurrentPress(false);
-            k.setRecentPress(false);
-            k.setRecentRelease(true);
-        }
-
-        FastJEngine.getLogicManager().fireKeyReleased(e);
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        lastKeyPressed = KeyEvent.getKeyText(e.getKeyCode());
-        FastJEngine.getLogicManager().fireKeyTyped(e);
+        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+    }
+
+    /**
+     * Processes the specified key event for the specified scene, based on its event type.
+     *
+     * @param current The scene to fire the event to.
+     * @param event   The key event to process.
+     */
+    public static void processEvent(Scene current, KeyEvent event) {
+        keyEventProcessor.get(event.getID()).accept(current, event);
     }
 
     /** Enum that defines the location of a key. */

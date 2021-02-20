@@ -85,8 +85,7 @@ public class BehaviorManager {
      * @param scene The {@code Scene} used as the alias to initialize the behavior listeners for.
      */
     public static void initBehaviorListeners(Scene scene) {
-        List<GameObject> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
-        for (GameObject listener : listenerCopy) {
+        for (GameObject listener : behaviorListenerLists.get(scene)) {
             listener.initBehaviors();
         }
     }
@@ -97,8 +96,7 @@ public class BehaviorManager {
      * @param scene The {@code Scene} used as the alias to update the behavior listeners for.
      */
     public static void updateBehaviorListeners(Scene scene) {
-        List<GameObject> listenerCopy = new ArrayList<>(behaviorListenerLists.get(scene));
-        for (GameObject listener : listenerCopy) {
+        for (GameObject listener : behaviorListenerLists.get(scene)) {
             listener.updateBehaviors();
         }
     }

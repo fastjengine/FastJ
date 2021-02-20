@@ -1,6 +1,5 @@
 package io.github.lucasstarsz.fastj.render;
 
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.graphics.GameObject;
@@ -10,6 +9,7 @@ import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.ui.UIElement;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import javax.swing.JFrame;
@@ -30,7 +30,6 @@ import java.util.Map;
  * @author Andrew Dey
  * @version 1.0.0
  */
-@SuppressWarnings("unused")
 public class Display {
 
     private final Map<RenderingHints.Key, Object> renderHints;
@@ -608,9 +607,9 @@ public class Display {
             FastJEngine.warning("Null pointer for " + (isGUIDrawable ? "GUI" : "Game Object") + " Drawawble with id: " + obj.getID());
             e.printStackTrace();
             if (isGUIDrawable) {
-                FastJEngine.getLogicManager().getCurrentScene().refreshGUIObjectList();
+                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGUIObjectList();
             } else {
-                FastJEngine.getLogicManager().getCurrentScene().refreshGameObjectList();
+                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGameObjectList();
             }
         }
     }

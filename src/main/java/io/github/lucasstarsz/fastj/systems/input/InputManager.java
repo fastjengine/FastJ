@@ -2,8 +2,11 @@ package io.github.lucasstarsz.fastj.systems.input;
 
 import io.github.lucasstarsz.fastj.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.io.keyboard.KeyboardActionListener;
+import io.github.lucasstarsz.fastj.io.mouse.Mouse;
 import io.github.lucasstarsz.fastj.io.mouse.MouseActionListener;
+import io.github.lucasstarsz.fastj.systems.game.Scene;
 
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -16,14 +19,21 @@ import java.util.List;
  * This class fires input events to {@code KeyboardActionListener}s or {@code MouseActionListener}s in its lists of
  * keyboard/mouse action listeners.
  */
-public abstract class InputManager {
+public class InputManager {
     private final List<KeyboardActionListener> keyActionListeners;
     private final List<MouseActionListener> mouseActionListeners;
 
+    private final List<InputEvent> receivedInputEvents;
+    private final List<InputEvent> eventBacklog;
+    private volatile boolean isProcessingEvents;
+
     /** Constructs an {@code InputManager}, initializing its internal variables. */
-    protected InputManager() {
+    public InputManager() {
         keyActionListeners = new ArrayList<>();
         mouseActionListeners = new ArrayList<>();
+
+        receivedInputEvents = new ArrayList<>();
+        eventBacklog = new ArrayList<>();
     }
 
     /**
@@ -74,8 +84,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireKeyRecentlyPressed(KeyEvent e) {
-        List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
-        for (KeyboardActionListener listener : keyListenersCopy) {
+        for (KeyboardActionListener listener : keyActionListeners) {
             listener.onKeyRecentlyPressed(e);
         }
     }
@@ -86,9 +95,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireKeyReleased(KeyEvent e) {
-        List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
-
-        for (KeyboardActionListener listener : keyListenersCopy) {
+        for (KeyboardActionListener listener : keyActionListeners) {
             listener.onKeyReleased(e);
         }
     }
@@ -99,9 +106,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireKeyTyped(KeyEvent e) {
-        List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
-
-        for (KeyboardActionListener listener : keyListenersCopy) {
+        for (KeyboardActionListener listener : keyActionListeners) {
             listener.onKeyTyped(e);
         }
     }
@@ -115,8 +120,7 @@ public abstract class InputManager {
      */
     public void fireKeysDown() {
         if (Keyboard.areKeysDown()) {
-            List<KeyboardActionListener> keyListenersCopy = new ArrayList<>(keyActionListeners);
-            for (KeyboardActionListener listener : keyListenersCopy) {
+            for (KeyboardActionListener listener : keyActionListeners) {
                 listener.onKeyDown();
             }
         }
@@ -152,9 +156,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMousePressed(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMousePressed(e);
         }
     }
@@ -165,9 +167,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseReleased(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseReleased(e);
         }
     }
@@ -178,9 +178,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseClicked(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseClicked(e);
         }
     }
@@ -191,9 +189,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseMoved(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseMoved(e);
         }
     }
@@ -204,9 +200,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseDragged(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseDragged(e);
         }
     }
@@ -217,9 +211,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseWheelScrolled(MouseWheelEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseWheelScrolled(e);
         }
     }
@@ -230,9 +222,7 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseEntered(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseEntersScreen(e);
         }
     }
@@ -243,11 +233,54 @@ public abstract class InputManager {
      * @param e The event to be fired through to the action listener.
      */
     public void fireMouseExited(MouseEvent e) {
-        List<MouseActionListener> mouseListenersCopy = new ArrayList<>(mouseActionListeners);
-
-        for (MouseActionListener listener : mouseListenersCopy) {
+        for (MouseActionListener listener : mouseActionListeners) {
             listener.onMouseExitsScreen(e);
         }
+    }
+
+    /* Received input */
+
+    /**
+     * Stores the specified input in the event list to be processed later. (See: {@link #processEvents(Scene)}
+     * <p>
+     * If event processing is still going on when the event is received, the event gets added to the backlog. That
+     * backlog gets emptied into the main event list after all the events in that main list have been processed.
+     *
+     * @param event The event to be stored for processing later.
+     */
+    public void receivedInputEvent(InputEvent event) {
+        if (isProcessingEvents) {
+            eventBacklog.add(event);
+        } else {
+            receivedInputEvents.add(event);
+        }
+    }
+
+    /**
+     * Processes all events in the event list, then clears them from the list.
+     * <p>
+     * This method also empties the event backlog into the main event set after all the current events have been
+     * processed and removed.
+     *
+     * @param current The scene to process events for.
+     */
+    public void processEvents(Scene current) {
+        isProcessingEvents = true;
+
+        receivedInputEvents.forEach(event -> {
+            if (event instanceof MouseEvent) {
+                Mouse.processEvent(current, (MouseEvent) event);
+            } else if (event instanceof KeyEvent) {
+                Keyboard.processEvent(current, (KeyEvent) event);
+            }
+        });
+        receivedInputEvents.clear();
+
+        isProcessingEvents = false;
+
+        // empty event backlog into received input events
+        receivedInputEvents.addAll(eventBacklog);
+        eventBacklog.clear();
     }
 
     /* Reset */
