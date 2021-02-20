@@ -27,22 +27,22 @@ A few common dependencies are provided below:
   ```xml
   <dependency>
     <groupId>io.github.lucasstarsz.fastj</groupId>
-    <artifactId>slope-ecs</artifactId>
+    <artifactId>fastj-library</artifactId>
     <version>[latest version here]</version>
   </dependency>
   ```
 - **Gradle**
     - Groovy:
       ```groovy
-      implementation 'io.github.lucasstarsz.fastj:slope-ecs:[latest version here]'
+      implementation 'io.github.lucasstarsz.fastj:fastj-library:[latest version here]'
       ```
     - Kotlin:
       ```kotlin
-      implementation("io.github.lucasstarsz.fastj:slope-ecs:[latest version here]")
+      implementation("io.github.lucasstarsz.fastj:fastj-library:[latest version here]")
       ```
 - **Apache Ivy**
   ```xml
-  <dependency org="io.github.lucasstarsz.fastj" name="slope-ecs" rev="[latest version here]" />
+  <dependency org="io.github.lucasstarsz.fastj" name="fastj-library" rev="[latest version here]" />
   ```
 
 ### Using FastJ
