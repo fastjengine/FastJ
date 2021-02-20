@@ -24,6 +24,7 @@ public class InputManager {
     private final List<MouseActionListener> mouseActionListeners;
 
     private final List<InputEvent> receivedInputEvents;
+    private final List<InputEvent> eventBacklog;
     private volatile boolean isProcessingEvents;
 
     /** Constructs an {@code InputManager}, initializing its internal variables. */
@@ -32,6 +33,7 @@ public class InputManager {
         mouseActionListeners = new ArrayList<>();
 
         receivedInputEvents = new ArrayList<>();
+        eventBacklog = new ArrayList<>();
     }
 
     /**
@@ -241,20 +243,24 @@ public class InputManager {
     /**
      * Stores the specified input in the event list to be processed later. (See: {@link #processEvents(Scene)}
      * <p>
-     * This method waits to make sure event processing has concluded before trying to add the event to the event list.
+     * If event processing is still going on when the event is received, the event gets added to the backlog. That
+     * backlog gets emptied into the main event list after all the events in that main list have been processed.
      *
      * @param event The event to be stored for processing later.
      */
     public void receivedInputEvent(InputEvent event) {
-        while (isProcessingEvents) {
-            Thread.onSpinWait();
+        if (isProcessingEvents) {
+            eventBacklog.add(event);
+        } else {
+            receivedInputEvents.add(event);
         }
-
-        receivedInputEvents.add(event);
     }
 
     /**
      * Processes all events in the event list, then clears them from the list.
+     * <p>
+     * This method also empties the event backlog into the main event set after all the current events have been
+     * processed and removed.
      *
      * @param current The scene to process events for.
      */
@@ -271,6 +277,10 @@ public class InputManager {
         receivedInputEvents.clear();
 
         isProcessingEvents = false;
+
+        // empty event backlog into received input events
+        receivedInputEvents.addAll(eventBacklog);
+        eventBacklog.clear();
     }
 
     /* Reset */
