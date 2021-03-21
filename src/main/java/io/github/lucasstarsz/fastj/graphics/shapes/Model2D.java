@@ -184,7 +184,7 @@ public class Model2D extends GameObject {
     private Pointf[] createBounds() {
         Pointf[] boundaries = new Pointf[4];
 
-        /* Individually set each boundary point -- Arrays.fill uses the same object
+        /* Individually set each boundary point -- Arrays#fill uses the same object
          * for each point, making it undesirable for this use case. */
         boundaries[0] = polyArr[0].getCenter().copy();
         boundaries[1] = polyArr[0].getCenter().copy();
@@ -199,17 +199,21 @@ public class Model2D extends GameObject {
 
                 // top right
                 boundaries[1].x = Math.max(boundaries[1].x, coord.x);
-                boundaries[1].y = boundaries[0].y;
 
                 // bottom right
-                boundaries[2].x = boundaries[1].x;
                 boundaries[2].y = Math.max(boundaries[2].y, coord.y);
-
-                // bottom left
-                boundaries[3].x = boundaries[0].x;
-                boundaries[3].y = boundaries[2].y;
             }
         }
+
+        // top right
+        boundaries[1].y = boundaries[0].y;
+
+        // bottom right
+        boundaries[2].x = boundaries[1].x;
+
+        // bottom left
+        boundaries[3].x = boundaries[0].x;
+        boundaries[3].y = boundaries[2].y;
 
         return boundaries;
     }
