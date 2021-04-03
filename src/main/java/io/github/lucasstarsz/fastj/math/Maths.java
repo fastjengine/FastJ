@@ -47,4 +47,35 @@ public class Maths {
     public static double snap(double num, double leftEdge, double rightEdge) {
         return ((num - leftEdge) < (rightEdge - num)) ? leftEdge : rightEdge;
     }
+
+    /**
+     * Finds the magnitude of the specified {@code x} and {@code y} values.
+     *
+     * @param x The x value.
+     * @param y The y value.
+     * @return The magnitude, as a {@code double} value.
+     */
+    public static double magnitude(double x, double y) {
+        return Math.sqrt(x * x + y * y);
+    }
+
+    /**
+     * Finds the magnitude of the {@code Pointf} based on its {@code x} and {@code y} coordinates.
+     *
+     * @param p The {@code Pointf} to find the magnitude of.
+     * @return The magnitude, as a {@code double} value.
+     */
+    public static double magnitude(Pointf p) {
+        return Math.sqrt(p.x * p.x + p.y * p.y);
+    }
+
+    /**
+     * Finds the magnitude of the {@code Point} based on its {@code x} and {@code y} coordinates.
+     *
+     * @param p The {@code Point} to find the magnitude of.
+     * @return The magnitude, as a {@code double} value.
+     */
+    public static double magnitude(Point p) {
+        return Math.sqrt(p.x * p.x + p.y * p.y);
+    }
 }
