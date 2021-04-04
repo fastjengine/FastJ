@@ -49,6 +49,43 @@ javadoc {
     ]
 }
 
+// Testing
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13'
+}
+
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+
+tasks.withType(Test) {
+    testLogging {
+
+        def totalTestTime = 0
+
+        afterTest { desc, DefaultTestResult result ->
+            totalTestTime += result.endTime - result.startTime
+        }
+
+        afterSuite { desc, DefaultTestResult result ->
+            if (!desc.parent) { // will match the outermost suite
+                def passFailSkip = "$result.successfulTestCount passed, $result.failedTestCount failed, $result.skippedTestCount skipped"
+                def output = "Test Suite Results: $result.resultType ($result.testCount tests, $passFailSkip) in $totalTestTime ms."
+                def startItem = '|  ', endItem = '  |'
+                def repeatLength = startItem.length() + output.length() + endItem.length()
+                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength) + '\n')
+
+                if (("${result.resultType}" != "SUCCESS")) {
+                    System.exit(0)
+                }
+            }
+        }
+    }
+}
+
 // Publishing
 
 def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
