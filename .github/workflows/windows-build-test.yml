@@ -22,4 +22,4 @@ jobs:
           java-version: '11'
           architecture: x64
       - name: Build using Gradle
-        run: ./gradlew build
+        run: ./gradlew build --info
