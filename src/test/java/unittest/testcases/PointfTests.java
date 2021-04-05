@@ -137,11 +137,11 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfCopyingforEquality() {
+    public void checkPointfCopyingForEquality() {
         Pointf original = new Pointf(13f, 37f);
         Pointf copy = original.copy();
 
-        assertEquals("The two Pointfs should have the same x and y values -- (13f, 37f).", original, copy);
+        assertEquals("The two Pointf objects should have the same x and y values -- (13f, 37f).", original, copy);
     }
 
     @Test

@@ -137,7 +137,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointCopyingforEquality() {
+    public void checkPointCopyingForEquality() {
         Point original = new Point(13, 37);
         Point copy = original.copy();
 
