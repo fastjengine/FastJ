@@ -45,7 +45,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfAddition_withIntegerValues() {
+    public void checkPointfAddition_withFloatValues() {
         Pointf ptf = new Pointf();
         ptf.add(5f);
 
@@ -64,7 +64,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfSubtraction_withIntegerValues() {
+    public void checkPointfSubtraction_withFloatValues() {
         Pointf ptf = new Pointf();
         ptf.subtract(5f);
 
@@ -83,7 +83,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfMultiplication_withIntegerValues() {
+    public void checkPointfMultiplication_withFloatValues() {
         Pointf ptf = new Pointf(1f);
         ptf.multiply(5f);
 
@@ -102,7 +102,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfDivision_withIntegerValues() {
+    public void checkPointfDivision_withFloatValues() {
         Pointf ptf = new Pointf(25f);
         ptf.divide(5f);
 
@@ -115,6 +115,22 @@ public class PointfTests {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
         ptf.divide(ptf2);
+
+        assertEquals("The x value of the Pointf should equal 5f.", 5f, ptf.x);
+        assertEquals("The y value of the Pointf should equal 5f.", 5f, ptf.y);
+    }
+
+    @Test
+    public void checkArithmeticChaining_withPointfObjectsAndFloatValues() {
+        Pointf ptf = new Pointf()
+                .add(2f)                                    // (2f, 2f)
+                .add(new Pointf(3f))                    // (5f, 5f)
+                .multiply(new Pointf(3f, 4f))    // (15f, 20f)
+                .multiply(2f)                               // (30f, 40f)
+                .subtract(15f)                              // (15f, 25f)
+                .subtract(new Pointf(-5f, 5f))   // (20f, 20f)
+                .divide(new Pointf(2f))                 // (10f, 10f)
+                .divide(2f);                                // (5f, 5f)
 
         assertEquals("The x value of the Pointf should equal 5f.", 5f, ptf.x);
         assertEquals("The y value of the Pointf should equal 5f.", 5f, ptf.y);
@@ -154,20 +170,31 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DObject() {
+    public void checkIntersectionsWithRectangleObject() {
         Pointf ptf = new Pointf(13f, 37f);
-
         Rectangle rect = new Rectangle(0, 0, 20, 40);
-        Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
-        Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
 
         assertTrue("Pointf should intersect with Rectangle.", ptf.intersects(rect));
+    }
+
+    @Test
+    public void checkIntersectionsWithRectangle2DFloatObject() {
+        Pointf ptf = new Pointf(13f, 37f);
+        Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
+
         assertTrue("Pointf should intersect with Rectangle2D.Float.", ptf.intersects(rectf));
+    }
+
+    @Test
+    public void checkIntersectionsWithRectangle2DDoubleObject() {
+        Pointf ptf = new Pointf(13f, 37f);
+        Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
+
         assertTrue("Pointf should intersect with Rectangle2D.Double.", ptf.intersects(rectd));
     }
 
     @Test
-    public void checkIntersectionWithPath2DObject() {
+    public void checkIntersectionWithPath2DFloatObject() {
         Pointf ptf = new Pointf(13f, 37f);
 
         Path2D.Float pathf = new Path2D.Float();
@@ -177,13 +204,26 @@ public class PointfTests {
         pathf.lineTo(0f, 40f);
         pathf.closePath();
 
+        assertTrue("Pointf should intersect with Path2D.Float.", ptf.intersects(pathf));
+    }
+
+    @Test
+    public void checkIntersectionWithPath2DDoubleObject() {
+        Pointf ptf = new Pointf(13f, 37f);
 
         Path2D.Double pathd = new Path2D.Double();
-        pathd.moveTo(0f, 0f);
-        pathd.lineTo(20f, 0f);
-        pathd.lineTo(20f, 40f);
-        pathd.lineTo(0f, 40f);
+        pathd.moveTo(0d, 0d);
+        pathd.lineTo(20d, 0d);
+        pathd.lineTo(20d, 40d);
+        pathd.lineTo(0d, 40d);
         pathd.closePath();
+
+        assertTrue("Pointf should intersect with Path2D.Double.", ptf.intersects(pathd));
+    }
+
+    @Test
+    public void checkIntersectionWithGeneralPathObject() {
+        Pointf ptf = new Pointf(13f, 37f);
 
         GeneralPath pathg = new GeneralPath();
         pathg.moveTo(0f, 0f);
@@ -192,14 +232,12 @@ public class PointfTests {
         pathg.lineTo(0f, 40f);
         pathg.closePath();
 
-        assertTrue("Pointf should intersect with Path2D.Float.", ptf.intersects(pathf));
-        assertTrue("Pointf should intersect with Path2D.Double.", ptf.intersects(pathd));
         assertTrue("Pointf should intersect with GeneralPath.", ptf.intersects(pathg));
     }
 
 
     @Test
-    public void static_checkPointfAddition_withIntegerValues() {
+    public void static_checkPointfAddition_withFloatValues() {
         Pointf ptf = new Pointf();
         Pointf added = Pointf.add(ptf, 5f);
 
@@ -218,7 +256,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfSubtraction_withIntegerValues() {
+    public void static_checkPointfSubtraction_withFloatValues() {
         Pointf ptf = new Pointf();
         Pointf subtracted = Pointf.subtract(ptf, 5f);
 
@@ -237,7 +275,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfMultiplication_withIntegerValues() {
+    public void static_checkPointfMultiplication_withFloatValues() {
         Pointf ptf = new Pointf(1f);
         Pointf multiplied = Pointf.multiply(ptf, 5f);
 
@@ -256,7 +294,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfDivision_withIntegerValues() {
+    public void static_checkPointfDivision_withFloatValues() {
         Pointf ptf = new Pointf(25f);
         Pointf divided = Pointf.divide(ptf, 5f);
 

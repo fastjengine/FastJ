@@ -121,6 +121,22 @@ public class PointTests {
     }
 
     @Test
+    public void checkArithmeticChaining_withPointObjectsAndIntegerValues() {
+        Point pt = new Point()
+                .add(2)                                // (2, 2)
+                .add(new Point(3))                 // (5, 5)
+                .multiply(new Point(3, 4))  // (15, 20)
+                .multiply(2)                           // (30, 40)
+                .subtract(15)                          // (15, 25)
+                .subtract(new Point(-5, 5)) // (20, 20)
+                .divide(new Point(2))              // (10, 10)
+                .divide(2);                            // (5, 5)
+
+        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
+        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+    }
+
+    @Test
     public void checkPointCopyingforEquality() {
         Point original = new Point(13, 37);
         Point copy = original.copy();
@@ -163,20 +179,31 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DObject() {
-        Pointf ptf = new Pointf(13f, 37f);
-
+    public void checkIntersectionsWithRectangleObject() {
+        Point pt = new Point(13, 37);
         Rectangle rect = new Rectangle(0, 0, 20, 40);
-        Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
-        Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
 
-        assertTrue("Pointf should intersect with Rectangle.", ptf.intersects(rect));
-        assertTrue("Pointf should intersect with Rectangle2D.Float.", ptf.intersects(rectf));
-        assertTrue("Pointf should intersect with Rectangle2D.Double.", ptf.intersects(rectd));
+        assertTrue("Point should intersect with Rectangle.", pt.intersects(rect));
     }
 
     @Test
-    public void checkIntersectionWithPath2DObject() {
+    public void checkIntersectionsWithRectangle2DFloatObject() {
+        Point pt = new Point(13, 37);
+        Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
+
+        assertTrue("Point should intersect with Rectangle2D.Float.", pt.intersects(rectf));
+    }
+
+    @Test
+    public void checkIntersectionsWithRectangle2DDoubleObject() {
+        Point pt = new Point(13, 37);
+        Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
+
+        assertTrue("Point should intersect with Rectangle2D.Double.", pt.intersects(rectd));
+    }
+
+    @Test
+    public void checkIntersectionWithPath2DFloatObject() {
         Point pt = new Point(13, 37);
 
         Path2D.Float pathf = new Path2D.Float();
@@ -186,13 +213,26 @@ public class PointTests {
         pathf.lineTo(0f, 40f);
         pathf.closePath();
 
+        assertTrue("Point should intersect with Path2D.Float.", pt.intersects(pathf));
+    }
+
+    @Test
+    public void checkIntersectionWithPath2DDoubleObject() {
+        Point pt = new Point(13, 37);
 
         Path2D.Double pathd = new Path2D.Double();
-        pathd.moveTo(0f, 0f);
-        pathd.lineTo(20f, 0f);
-        pathd.lineTo(20f, 40f);
-        pathd.lineTo(0f, 40f);
+        pathd.moveTo(0d, 0d);
+        pathd.lineTo(20d, 0d);
+        pathd.lineTo(20d, 40d);
+        pathd.lineTo(0d, 40d);
         pathd.closePath();
+
+        assertTrue("Point should intersect with Path2D.Double.", pt.intersects(pathd));
+    }
+
+    @Test
+    public void checkIntersectionWithGeneralPathObject() {
+        Point pt = new Point(13, 37);
 
         GeneralPath pathg = new GeneralPath();
         pathg.moveTo(0f, 0f);
@@ -201,8 +241,6 @@ public class PointTests {
         pathg.lineTo(0f, 40f);
         pathg.closePath();
 
-        assertTrue("Point should intersect with Path2D.Float.", pt.intersects(pathf));
-        assertTrue("Point should intersect with Path2D.Double.", pt.intersects(pathd));
         assertTrue("Point should intersect with GeneralPath.", pt.intersects(pathg));
     }
 
