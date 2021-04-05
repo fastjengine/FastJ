@@ -2,6 +2,7 @@ package io.github.lucasstarsz.fastj.math;
 
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 /**
  * Class that defines a point in 2D space, using integers.
@@ -329,6 +330,47 @@ public class Point {
      */
     public Pointf asPointf() {
         return new Pointf(x, y);
+    }
+
+    /**
+     * Compares the {@code Point} with a {@link Pointf}, and returns whether their {@code x} and {@code y} values are
+     * equal.
+     *
+     * @param other The {@code Pointf} to compare against.
+     * @return Whether the two's {@code x} and {@code y} values are equal.
+     */
+    public boolean equalsPointf(Pointf other) {
+        return Float.compare(other.x, (float) x) == 0 && Float.compare(other.y, (float) y) == 0;
+    }
+
+    /**
+     * Compares two {@code Point}s, and returns whether they are equal.
+     *
+     * @param other The {@code Point} to check for equality against.
+     * @return Whether the {@code Point}s are equal.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        Point point = (Point) other;
+        return x == point.x && y == point.y;
+    }
+
+    /**
+     * Gets a hash code for the {@code Point} based on its {@link #x} and {@link #y} values.
+     *
+     * @return The hash code.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
     /**
