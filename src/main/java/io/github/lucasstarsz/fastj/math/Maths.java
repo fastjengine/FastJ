@@ -22,7 +22,10 @@ public class Maths {
      * @return Randomized double value within the range of the specified parameters.
      */
     public static double random(double min, double max) {
-        return (Math.random() * (max - min)) + min;
+        double trueMax = Math.max(min, max);
+        double trueMin = max == trueMax ? max : min;
+
+        return (Math.random() * (trueMax - trueMin)) + trueMin;
     }
 
     /**
@@ -33,11 +36,16 @@ public class Maths {
      * @return The edge that the random number is closest to.
      */
     public static double randomAtEdge(double leftEdge, double rightEdge) {
-        return rand.nextInt(2) == 1 ? leftEdge : rightEdge;
+        double trueLeftEdge = Math.min(leftEdge, rightEdge);
+        double trueRightEdge = leftEdge == trueLeftEdge ? rightEdge : leftEdge;
+
+        return rand.nextInt(2) == 1 ? trueLeftEdge : trueRightEdge;
     }
 
     /**
      * Snaps the specified number to the edge it is closest to.
+     *
+     * If the two edges are equidistant, then the right edge will be selected.
      *
      * @param num       The number to be compared.
      * @param leftEdge  The leftmost edge.
@@ -45,7 +53,10 @@ public class Maths {
      * @return The edge that the number is closest to.
      */
     public static double snap(double num, double leftEdge, double rightEdge) {
-        return ((num - leftEdge) < (rightEdge - num)) ? leftEdge : rightEdge;
+        double trueLeftEdge = Math.min(leftEdge, rightEdge);
+        double trueRightEdge = leftEdge == trueLeftEdge ? rightEdge : leftEdge;
+
+        return ((num - leftEdge) < (rightEdge - num)) ? trueLeftEdge : trueRightEdge;
     }
 
     /**
