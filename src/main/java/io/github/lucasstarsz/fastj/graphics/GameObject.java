@@ -17,6 +17,10 @@ import java.util.List;
  */
 public abstract class GameObject extends Drawable {
 
+    public static final Pointf originTranslation = Pointf.origin.copy();
+    public static final Pointf originScale = new Pointf(1f).copy();
+    public static final float originRotation = 0f;
+
     private final List<Behavior> behaviors;
 
     /** Initializes internals of the {@link GameObject}. */
@@ -45,8 +49,9 @@ public abstract class GameObject extends Drawable {
      *
      * @param setTranslation {@code Pointf} parameter that the {@code GameObject}'s translation will be set to.
      */
-    public void setTranslation(Pointf setTranslation) {
+    public GameObject setTranslation(Pointf setTranslation) {
         translate(Pointf.multiply(getTranslation(), -1f).add(setTranslation));
+        return this;
     }
 
     /**
@@ -61,8 +66,9 @@ public abstract class GameObject extends Drawable {
      *
      * @param setRotation float parameter that the {@code GameObject}'s rotation will be set to.
      */
-    public void setRotation(float setRotation) {
+    public GameObject setRotation(float setRotation) {
         rotate(-getRotation() + setRotation);
+        return this;
     }
 
     /**
@@ -77,8 +83,9 @@ public abstract class GameObject extends Drawable {
      *
      * @param setScale {@code Pointf} parameter that the {@code GameObject}'s scale will be set to.
      */
-    public void setScale(Pointf setScale) {
+    public GameObject setScale(Pointf setScale) {
         scale(Pointf.multiply(getScale(), -1f).add(setScale));
+        return this;
     }
 
     /**
