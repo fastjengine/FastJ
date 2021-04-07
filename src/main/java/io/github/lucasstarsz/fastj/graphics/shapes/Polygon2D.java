@@ -22,6 +22,10 @@ import java.util.Objects;
  */
 public class Polygon2D extends GameObject {
 
+    public static final Color defaultColor = Color.black;
+    public static final boolean defaultFill = true;
+    public static final boolean defaultShow = true;
+
     private Path2D.Float renderPath;
     private Pointf[] points;
 
@@ -42,7 +46,7 @@ public class Polygon2D extends GameObject {
      * @param pts {@code Pointf} array that defines the points for the polygon.
      */
     public Polygon2D(Pointf[] pts) {
-        this(pts, Color.black, true, true);
+        this(pts, defaultColor, defaultFill, defaultShow);
     }
 
     /**
@@ -68,7 +72,6 @@ public class Polygon2D extends GameObject {
         setFilled(fill);
 
         setCollisionPath(renderPath);
-
         setShouldRender(show);
     }
 
@@ -96,8 +99,8 @@ public class Polygon2D extends GameObject {
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setTranslation(setLocation);
-        rotate(setRotation);
-        scale(setScale);
+        setRotation(setRotation);
+        setScale(setScale);
 
         setColor(color);
         setFilled(fill);
