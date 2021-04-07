@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 public class Pointf {
 
+    public static final Pointf origin = new Pointf();
+
     /** The x value of the {@link Pointf}. */
     public float x;
     /** The y value of the {@link Pointf}. */

@@ -12,6 +12,8 @@ import java.util.Objects;
  */
 public class Point {
 
+    public static final Point origin = new Point();
+
     /** The x value of the {@link Point}. */
     public int x;
     /** The y value of the {@link Point}. */
