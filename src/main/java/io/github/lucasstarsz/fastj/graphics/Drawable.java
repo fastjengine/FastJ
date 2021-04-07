@@ -165,8 +165,9 @@ public abstract class Drawable extends TaggableEntity {
      *
      * @param shouldBeRendered Boolean parameter that defines whether the {@code Drawable} should be rendered.
      */
-    public void setShouldRender(boolean shouldBeRendered) {
+    public Drawable setShouldRender(boolean shouldBeRendered) {
         shouldRender = shouldBeRendered;
+        return this;
     }
 
     /**
