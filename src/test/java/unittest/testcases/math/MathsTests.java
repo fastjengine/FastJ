@@ -1,4 +1,4 @@
-package unittest.testcases;
+package unittest.testcases.math;
 
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Point;
