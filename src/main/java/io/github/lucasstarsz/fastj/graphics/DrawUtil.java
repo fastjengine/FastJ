@@ -1,11 +1,11 @@
 package io.github.lucasstarsz.fastj.graphics;
 
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.graphics.shapes.Model2D;
 import io.github.lucasstarsz.fastj.graphics.shapes.Polygon2D;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.Color;
@@ -89,11 +89,11 @@ public final class DrawUtil {
                         break;
                     }
                     case "f": { // set fill value
-                        fillPolygon = (Integer.parseInt(tokens[1]) == 1);
+                        fillPolygon = Boolean.parseBoolean(tokens[1]);
                         break;
                     }
                     case "s": { // set show value
-                        renderPolygon = (Integer.parseInt(tokens[1]) == 1);
+                        renderPolygon = Boolean.parseBoolean(tokens[1]);
                         break;
                     }
                     case "p": { // add point to point list
@@ -149,7 +149,8 @@ public final class DrawUtil {
                         .append(sep)
                         .append("f ").append(obj.isFilled())
                         .append(sep)
-                        .append("s ").append(obj.shouldRender());
+                        .append("s ").append(obj.shouldRender())
+                        .append(sep);
 
                 // Write each point in object
                 for (int j = 0; j < obj.getPoints().length; j++) {
@@ -158,7 +159,8 @@ public final class DrawUtil {
                             .append((int) pt.x == pt.x ? Integer.toString((int) pt.x) : pt.x)
                             .append(' ')
                             .append((int) pt.y == pt.y ? Integer.toString((int) pt.y) : pt.y)
-                            .append(j == obj.getPoints().length - 1 ? " ;" : "");
+                            .append(j == obj.getPoints().length - 1 ? " ;" : "")
+                            .append(sep);
                 }
 
                 // if there are more objects after this object, then add a new line.
@@ -176,40 +178,79 @@ public final class DrawUtil {
      * <p>
      * <b>NOTE:</b> This method likely will not provide a completely accurate outline of the array
      * of {@code Polygon2D} objects.
-     * </p>
      *
      * @param polyList The Array of {@code Polygon2D}s that will be used to create the outline of {@code Pointf}s.
      * @return A {@code Pointf} array that makes up the outline of the specified {@code Polygon2D} array.
      */
     public static Pointf[] createCollisionOutline(Polygon2D[] polyList) {
         List<Pointf> polyListPoints = new ArrayList<>();
-
         for (Polygon2D obj : polyList) {
             polyListPoints.addAll(Arrays.asList(obj.getPoints()));
-            polyListPoints.add(obj.getPoints()[0]);
         }
 
-        // sets up a Polygon2D to check for points on the inside of the object
-        Polygon2D outlineChecker = new Polygon2D(polyListPoints.toArray(new Pointf[0]), Color.black, false, false);
-        Pointf[] outlinePoints = outlineChecker.getPoints();
-        PathIterator outlineIterator = outlineChecker.getCollisionPath().getPathIterator(null);
-
-        // check if each point is inside on all corners
-        for (int i = (outlinePoints.length - 1); i > -1; i--) {
-
-            /* Makes sure the iterator starts from the beginning every intersects(...) call.
-             *
-             * Fixes bug: iterator starts on segment 1 (SEG_LINETO) instead of segment 0 (SEG_MOVETO)
-             *            on the second iteration of i, where i = (outlinePoints.length - 2). More
-             *            testing should be done with this bug. */
-            while (!outlineIterator.isDone()) outlineIterator.next();
-
-            if (Path2D.Float.intersects(outlineIterator, outlinePoints[i].x - 1, outlinePoints[i].y - 1, 3, 3)) {
-                polyListPoints.remove(i);
+        for (int i = (polyListPoints.size() - 1); i > -1; i--) {
+            int intersectionCount = 0;
+            // if a point intersects with more than one polygon, then it is an inner point and should be removed
+            for (Polygon2D polygon : polyList) {
+                if (Path2D.Float.intersects(polygon.collisionPath.getPathIterator(null), polyListPoints.get(i).x - 1f, polyListPoints.get(i).y - 1f, 2f, 2f)) {
+                    intersectionCount++;
+                    if (intersectionCount == 2) {
+                        polyListPoints.remove(i);
+                        break;
+                    }
+                }
             }
         }
 
-        return polyListPoints.toArray(new Pointf[0]);
+        Pointf[] unshiftedResult = polyListPoints.toArray(new Pointf[0]);
+        Pointf center = centerOf(unshiftedResult);
+        Arrays.sort(unshiftedResult, (a, b) -> {
+            if (a.x - center.x >= 0 && b.x - center.x < 0)
+                return 1;
+            if (a.x - center.x < 0 && b.x - center.x >= 0)
+                return -1;
+            if (a.x - center.x == 0 && b.x - center.x == 0) {
+                if (a.y - center.y >= 0 || b.y - center.y >= 0)
+                    return (a.y > b.y) ? 1 : -1;
+                return (b.y > a.y) ? 1 : -1;
+            }
+
+            // compute the cross product of vectors (center -> a) x (center -> b)
+            float det = (a.x - center.x) * (b.y - center.y) - (b.x - center.x) * (a.y - center.y);
+            if (det < 0f)
+                return 1;
+            if (det > 0f)
+                return -1;
+
+            // points a and b are on the same line from the center
+            // check which point is closer to the center
+            float d1 = (a.x - center.x) * (a.x - center.x) + (a.y - center.y) * (a.y - center.y);
+            float d2 = (b.x - center.x) * (b.x - center.x) + (b.y - center.y) * (b.y - center.y);
+            return (d1 > d2) ? 1 : -1;
+        });
+
+        /* Now, we just need to shift the array values to match the original order. */
+
+        // calculate amount to shift
+        int shiftAmount = 0;
+        for (int i = 0; i < unshiftedResult.length; i++) {
+            if (unshiftedResult[i].equals(polyListPoints.get(0))) {
+                shiftAmount = i;
+                break;
+            }
+        }
+
+        if (shiftAmount == 0) {
+            return unshiftedResult;
+        }
+
+        // do some shifting
+        Pointf[] shiftedResult = new Pointf[unshiftedResult.length];
+
+        System.arraycopy(unshiftedResult, shiftAmount, shiftedResult, 0, shiftedResult.length - shiftAmount);
+        System.arraycopy(unshiftedResult, 0, shiftedResult, shiftedResult.length - shiftAmount, shiftAmount);
+
+        return shiftedResult;
     }
 
     /**
@@ -281,6 +322,28 @@ public final class DrawUtil {
      */
     public static Pointf[] createBox(Pointf location, float size) {
         return createBox(location.x, location.y, size);
+    }
+
+    /**
+     * Creates a {@code Pointf} array of 4 points, based on the specified x and y floats, and size {@code Pointf}.
+     * <p>
+     * This creates an array with the following values:
+     * <pre>
+     * new Pointf[] {
+     *     new Pointf(x, y),
+     *     new Pointf(x + size.x, y),
+     *     new Pointf(x + size.x, y + size.y),
+     *     new Pointf(x, y + size.y)
+     * };
+     * </pre>
+     *
+     * @param x    The x location.
+     * @param y    The y location.
+     * @param size The width and height.
+     * @return A 4 {@code Pointf} array based on the x, y, and size specified.
+     */
+    public static Pointf[] createBox(float x, float y, Pointf size) {
+        return createBox(x, y, size.x, size.y);
     }
 
     /**
@@ -456,11 +519,13 @@ public final class DrawUtil {
     public static int lengthOfPath(Path2D.Float path) {
         int count = 0;
         PathIterator pi = path.getPathIterator(null);
-        while (!pi.isDone()) pi.next(); // make sure the path is starting from its beginning.
+        double[] coords = new double[2];
 
         while (!pi.isDone()) {
             pi.next();
-            count++;
+            if (pi.currentSegment(coords) == PathIterator.SEG_LINETO) {
+                count++;
+            }
         }
 
         return count;

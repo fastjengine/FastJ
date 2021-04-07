@@ -1,14 +1,15 @@
 package io.github.lucasstarsz.fastj.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.graphics.Boundary;
-import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
+import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
@@ -216,5 +217,34 @@ public class Model2D extends GameObject {
         boundaries[3].y = boundaries[2].y;
 
         return boundaries;
+    }
+
+    /**
+     * Checks for equality between the {@code Model2D} and the other specified.
+     *
+     * @param other The {@code Model2D} to check for equality against.
+     * @return Whether the two {@code Model2D}s are equal.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Model2D otherModel2D = (Model2D) other;
+        return Objects.equals(translation, otherModel2D.translation)
+                && Objects.equals(scale, otherModel2D.scale)
+                && Float.compare(otherModel2D.rotation, rotation) == 0
+                && Arrays.equals(polyArr, otherModel2D.polyArr)
+                && Objects.equals(collisionObject, otherModel2D.collisionObject);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(collisionObject, rotation, scale, translation);
+        result = 31 * result + Arrays.hashCode(polyArr);
+        return result;
     }
 }

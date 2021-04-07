@@ -1,8 +1,8 @@
 package io.github.lucasstarsz.fastj.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.graphics.Boundary;
-import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
+import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
@@ -11,6 +11,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * {@code Drawable} subclass for drawing a polygon.
@@ -317,5 +319,37 @@ public class Polygon2D extends GameObject {
      */
     private void setBoundaries(Path2D.Float p) {
         super.setBounds(DrawUtil.createBox((Rectangle2D.Float) p.getBounds2D()));
+    }
+
+    /**
+     * Checks for equality between the {@code Polygon2D} and the other specified.
+     *
+     * @param other The {@code Polygon2D} to check for equality against.
+     * @return Whether the two {@code Polygon2D}s are equal.
+     */
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Polygon2D otherPolygon2D = (Polygon2D) other;
+
+        return paintFilled == otherPolygon2D.paintFilled
+                && Objects.equals(color, otherPolygon2D.color)
+                && Objects.equals(translation, otherPolygon2D.translation)
+                && Objects.equals(scale, otherPolygon2D.scale)
+                && Float.compare(otherPolygon2D.rotation, rotation) == 0
+                && Arrays.equals(points, otherPolygon2D.points)
+                && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(otherPolygon2D.renderPath));
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(renderPath, color, paintFilled, rotation, scale, translation);
+        result = 31 * result + Arrays.hashCode(points);
+        return result;
     }
 }
