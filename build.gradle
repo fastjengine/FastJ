@@ -56,12 +56,16 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13'
+    testImplementation platform('org.junit:junit-bom:5.7.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
 tasks.withType(Test) {
+    useJUnitPlatform()
     testLogging {
 
         def totalTestTime = 0

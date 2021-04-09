@@ -4,9 +4,7 @@ import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.shapes.Model2D;
 import io.github.lucasstarsz.fastj.graphics.shapes.Polygon2D;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 
 import java.awt.Color;
 import java.awt.geom.Path2D;
@@ -18,55 +16,82 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
-import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DrawUtilTests {
 
     private static final Path tempModelDirectoryPath = Path.of("temp");
+    private static final String pathToModel = tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_house_model.psdf";
 
-    @BeforeClass
+    private static final Pointf[] expectedModelSquare = DrawUtil.createBox(25f, 25f, 50f);
+    private static final Pointf[] expectedModelTriangle = {
+            new Pointf(15f, 25f),
+            new Pointf(50f, 20f),
+            new Pointf(85f, 25f)
+    };
+
+    private static final Polygon2D[] expectedHouseArray = {
+            new Polygon2D(expectedModelSquare),
+            new Polygon2D(expectedModelTriangle)
+    };
+    private static final Model2D expectedHouse = new Model2D(expectedHouseArray, false);
+
+    @BeforeAll
     public static void createTempModelFolder_forReadWriteTests() throws IOException {
         Files.createDirectory(tempModelDirectoryPath);
-        System.out.println("Temporary Model Directory created at: " + tempModelDirectoryPath.toAbsolutePath().toString());
+        System.out.println("Temporary Model Directory created at: " + tempModelDirectoryPath.toAbsolutePath());
     }
 
-    @AfterClass
+    @AfterAll
     public static void deleteTempModelFolder() throws IOException {
         try (Stream<Path> pathWalker = Files.walk(tempModelDirectoryPath)) {
             pathWalker.sorted(Comparator.reverseOrder())
                     .map(Path::toFile)
                     .forEach(File::delete);
         }
-        System.out.println("Deleted directory \"" + tempModelDirectoryPath.toAbsolutePath().toString() + "\".");
+        System.out.println("Deleted directory \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
     }
 
     @Test
-    public void checkReadAndWriteModel_shouldMatchOriginal() {
-        Pointf[] expectedModelSquare = DrawUtil.createBox(25f, 25f, 50f);
-        Pointf[] expectedModelTriangle = {
-                new Pointf(15f, 25f),
-                new Pointf(50f, 20f),
-                new Pointf(85f, 25f)
-        };
+    @Order(1)
+    public void checkWriteModel2D_fileShouldMatchExpectedContent() throws IOException {
+        List<String> expectedContent = List.of("amt 2",
+                "c 0 0 0 255",
+                "f true",
+                "s true",
+                "p 25 25",
+                "p 75 25",
+                "p 75 75",
+                "p 25 75 ;",
+                "",
+                "c 0 0 0 255",
+                "f true",
+                "s true",
+                "p 15 25",
+                "p 50 20",
+                "p 85 25 ;",
+                "");
 
-        Polygon2D[] expectedHouseArray = {
-                new Polygon2D(expectedModelSquare),
-                new Polygon2D(expectedModelTriangle)
-        };
-        Model2D expectedHouse = new Model2D(expectedHouseArray, false);
-
-        String pathToModel = tempModelDirectoryPath.toAbsolutePath().toString() + File.separator + "temp_house_model.psdf";
         DrawUtil.writeToPSDF(pathToModel, expectedHouse);
+        List<String> actualContent = Files.readAllLines(Path.of(pathToModel));
 
+        for (int i = 0; i < actualContent.size(); i++) {
+            assertEquals(expectedContent.get(i), actualContent.get(i), "Each line of the actual content should match the expected content.");
+        }
+    }
 
+    @Test
+    @Order(2)
+    public void checkReadModel_shouldMatchOriginal() {
         Polygon2D[] actualHouseArray = DrawUtil.load2DModel(pathToModel);
         Model2D actualHouse = new Model2D(actualHouseArray, false);
 
-        assertArrayEquals("The actual Polygon2D array should match the expected array.", expectedHouseArray, actualHouseArray);
-        assertEquals("The actual Model2D should match the expected Model2D.", expectedHouse, actualHouse);
+        assertArrayEquals(expectedHouseArray, actualHouseArray, "The actual Polygon2D array should match the expected array.");
+        assertEquals(expectedHouse, actualHouse, "The actual Model2D should match the expected Model2D.");
     }
 
     @Test
@@ -88,7 +113,7 @@ public class DrawUtilTests {
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
-        assertArrayEquals("The actual outline should match the expected outline.", expectedOutline, actualOutline);
+        assertArrayEquals(expectedOutline, actualOutline, "The actual outline should match the expected outline.");
     }
 
     @Test
@@ -113,7 +138,64 @@ public class DrawUtilTests {
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
-        assertArrayEquals("The actual outline should match the expected outline.", expectedOutline, actualOutline);
+        assertArrayEquals(expectedOutline, actualOutline, "The actual outline should match the expected outline.");
+    }
+
+    @Test
+    public void checkGeneratePath2D_withPointfArray() {
+        Pointf[] polygon = {
+                new Pointf(),
+                new Pointf(50f, 30f),
+                new Pointf(-5f, 47f),
+                new Pointf(45f, 20f),
+                new Pointf(5f, 15f)
+        };
+        Path2D.Float expectedPath = new Path2D.Float();
+        expectedPath.moveTo(polygon[0].x, polygon[0].y);
+        expectedPath.lineTo(polygon[1].x, polygon[1].y);
+        expectedPath.lineTo(polygon[2].x, polygon[2].y);
+        expectedPath.lineTo(polygon[3].x, polygon[3].y);
+        expectedPath.lineTo(polygon[4].x, polygon[4].y);
+        expectedPath.closePath();
+
+        Path2D.Float actualPath = DrawUtil.createPath(polygon);
+
+        assertTrue(DrawUtil.pathEquals(expectedPath, actualPath), "The actual path should match the expected path.");
+    }
+
+    @Test
+    public void checkComparePath2Ds_wherePathsAreEqual() {
+        Pointf[] square1 = DrawUtil.createBox(50f, 50f, 50f);
+        Pointf[] square2 = DrawUtil.createBox(50f, 50f, 50f);
+        Pointf[] square3 = DrawUtil.createBox(5f, 50f, 50f);
+
+        Path2D.Float squarePath1 = DrawUtil.createPath(square1);
+        Path2D.Float squarePath2 = DrawUtil.createPath(square2);
+        Path2D.Float squarePath3 = DrawUtil.createPath(square3);
+
+        assertTrue(DrawUtil.pathEquals(squarePath1, squarePath2), "Square path 1 should match the points of square path 2.");
+        assertFalse(DrawUtil.pathEquals(squarePath2, squarePath3), "Square path 2 should not match the points of square path 3.");
+    }
+
+    @Test
+    public void tryComparePath2Ds_wherePathsAreNotEqual() {
+        Pointf[] square = DrawUtil.createBox(50f, 50f, 50f);
+        Pointf[] triangle = {
+                new Pointf(0f, 25f),
+                new Pointf(25f, 15f),
+                new Pointf(50f, 25f)
+        };
+
+        Path2D.Float path1 = DrawUtil.createPath(square);
+        Path2D.Float path2 = DrawUtil.createPath(triangle);
+
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> DrawUtil.pathEquals(path1, path2));
+
+        String expectedMessage = "Path lengths differ\nPath 1 had a length of 4, but path 2 had a length of 3.";
+        String actualMessage = exception.getMessage();
+        assertEquals(expectedMessage, actualMessage,
+                "An IllegalStateException should be thrown stating the path's lengths are inequal, as well as each path's length."
+        );
     }
 
     @Test
@@ -126,7 +208,7 @@ public class DrawUtilTests {
                 new Pointf(5f, 40f)
         };
 
-        assertArrayEquals("The generated Pointf array should match the hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match the hand-made Pointf array.");
     }
 
     @Test
@@ -139,7 +221,7 @@ public class DrawUtilTests {
                 new Pointf(5f, 20f)
         };
 
-        assertArrayEquals("The generated Pointf array should match hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
     }
 
     @Test
@@ -152,7 +234,7 @@ public class DrawUtilTests {
                 new Pointf(5f, 55f)
         };
 
-        assertArrayEquals("The generated Pointf array should match the hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match the hand-made Pointf array.");
     }
 
     @Test
@@ -165,7 +247,7 @@ public class DrawUtilTests {
                 new Pointf(5f, 45f)
         };
 
-        assertArrayEquals("The generated Pointf array should match hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
     }
 
     @Test
@@ -178,7 +260,7 @@ public class DrawUtilTests {
                 new Pointf(10f, 55f)
         };
 
-        assertArrayEquals("The generated Pointf array should match hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
     }
 
     @Test
@@ -193,7 +275,7 @@ public class DrawUtilTests {
                 new Pointf(0f, 40f)
         };
 
-        assertArrayEquals("The generated Pointf array should match hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
     }
 
     @Test
@@ -208,7 +290,7 @@ public class DrawUtilTests {
                 new Pointf(10f, 25f)
         };
 
-        assertArrayEquals("The generated Pointf array should match hand-made Pointf array.", expectedResult, generatedResult);
+        assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
     }
 
     @Test
@@ -228,7 +310,7 @@ public class DrawUtilTests {
         Rectangle2D.Float expectedRect = DrawUtil.createRect(points);
         Rectangle2D.Float actualRect = new Rectangle2D.Float(rectX, rectY, rectWidth, rectHeight);
 
-        assertEquals("The two rectangles should be equal.", expectedRect, actualRect);
+        assertEquals(expectedRect, actualRect, "The two rectangles should be equal.");
     }
 
     @Test
@@ -243,7 +325,7 @@ public class DrawUtilTests {
         Rectangle2D.Float expectedRect = DrawUtil.createRect(points);
         Rectangle2D.Float actualRect = new Rectangle2D.Float(rectX, rectY, rectWidth, rectHeight);
 
-        assertEquals("The two rectangles should be equal.", expectedRect, actualRect);
+        assertEquals(expectedRect, actualRect, "The two rectangles should be equal.");
     }
 
     @Test
@@ -259,7 +341,7 @@ public class DrawUtilTests {
         Rectangle2D.Float expectedRect = DrawUtil.createRectFromImage(image, location);
         Rectangle2D.Float actualRect = new Rectangle2D.Float(rectX, rectY, rectWidth, rectHeight);
 
-        assertEquals("The two rectangles should be equal.", expectedRect, actualRect);
+        assertEquals(expectedRect, actualRect, "The two rectangles should be equal.");
     }
 
     @Test
@@ -274,7 +356,7 @@ public class DrawUtilTests {
         Pointf expectedCenterOfSquare = new Pointf(25f, 25f);
         Pointf actualCenterOfSquare = DrawUtil.centerOf(square);
 
-        assertEquals("The actual center of the square should match the expected center.", expectedCenterOfSquare, actualCenterOfSquare);
+        assertEquals(expectedCenterOfSquare, actualCenterOfSquare, "The actual center of the square should match the expected center.");
     }
 
     @Test
@@ -307,7 +389,7 @@ public class DrawUtilTests {
 
         Pointf[] actualPoints = DrawUtil.pointsOfPath(pathFromExpectedPoints);
 
-        assertArrayEquals("The actual array of Pointfs should match the expected array.", expectedPoints, actualPoints);
+        assertArrayEquals(expectedPoints, actualPoints, "The actual array of Pointfs should match the expected array.");
     }
 
     @Test
@@ -322,7 +404,7 @@ public class DrawUtilTests {
         path.closePath();
         int actualLength = DrawUtil.lengthOfPath(path);
 
-        assertEquals("The length of the path should be the same as the original intended length.", expectedLength, actualLength);
+        assertEquals(expectedLength, actualLength, "The length of the path should be the same as the original intended length.");
     }
 
     @Test

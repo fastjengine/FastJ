@@ -3,10 +3,10 @@ package unittest.testcases.math;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MathsTests {
 
@@ -18,7 +18,7 @@ public class MathsTests {
         String assertFailMessage = "Generated random value should be within expected range.";
         for (int i = 0; i < 255; i++) {
             double generatedRandom = Maths.random(minimumRandomRange, maximumRandomRange);
-            assertTrue(assertFailMessage, generatedRandom >= minimumRandomRange && generatedRandom <= maximumRandomRange);
+            assertTrue(generatedRandom >= minimumRandomRange && generatedRandom <= maximumRandomRange, assertFailMessage);
         }
     }
 
@@ -30,7 +30,7 @@ public class MathsTests {
         String assertFailMessage = "Generated random value should match at least one edge.";
         for (int i = 0; i < 255; i++) {
             double generatedRandom = Maths.randomAtEdge(leftEdge, rightEdge);
-            assertTrue(assertFailMessage, generatedRandom == leftEdge || generatedRandom == rightEdge);
+            assertTrue(generatedRandom == leftEdge || generatedRandom == rightEdge, assertFailMessage);
         }
     }
 
@@ -41,7 +41,7 @@ public class MathsTests {
         double valueToSnap = 5.6d;
 
         double actualEdge = Maths.snap(valueToSnap, leftEdge, rightEdge_expected);
-        assertEquals("Actual edge should match the expected edge (right edge).", rightEdge_expected, actualEdge);
+        assertEquals(rightEdge_expected, actualEdge, "Actual edge should match the expected edge (right edge).");
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MathsTests {
         double valueToSnap = 5.4d;
 
         double actualEdge = Maths.snap(valueToSnap, leftEdge_expected, rightEdge);
-        assertEquals("Actual edge should match the expected edge (left edge).", leftEdge_expected, actualEdge);
+        assertEquals(leftEdge_expected, actualEdge, "Actual edge should match the expected edge (left edge).");
     }
 
     @Test
@@ -61,33 +61,33 @@ public class MathsTests {
         double valueToSnap = 5.5d;
 
         double actualEdge = Maths.snap(valueToSnap, leftEdge, rightEdge_expected);
-        assertEquals("Actual edge should match the right edge.", rightEdge_expected, actualEdge);
+        assertEquals(rightEdge_expected, actualEdge, "Actual edge should match the right edge.");
     }
 
     @Test
     public void checkMagnitudeWithDoubleValues() {
-        assertEquals("The magnitude should be equal to 0.0.", 0d, Maths.magnitude(0, 0));
-        assertEquals("The magnitude should be equal to 1.0.", 1d, Maths.magnitude(0, 1));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(1, 1));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(-1, -1));
-        assertEquals("The magnitude should be equal to 5.", Math.sqrt(25), Maths.magnitude(3, 4));
+        assertEquals(0d, Maths.magnitude(0, 0), "The magnitude should be equal to 0.0.");
+        assertEquals(1d, Maths.magnitude(0, 1), "The magnitude should be equal to 1.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(1, 1), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(-1, -1), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(25), Maths.magnitude(3, 4), "The magnitude should be equal to 5.");
     }
 
     @Test
     public void checkMagnitudeWithPointfObjects() {
-        assertEquals("The magnitude should be equal to 0.0.", 0d, Maths.magnitude(new Pointf()));
-        assertEquals("The magnitude should be equal to 1.0.", 1d, Maths.magnitude(new Pointf(0, 1)));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(new Pointf(1)));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(new Pointf(-1)));
-        assertEquals("The magnitude should be equal to 5.", Math.sqrt(25), Maths.magnitude(new Pointf(3, 4)));
+        assertEquals(0d, Maths.magnitude(new Pointf()), "The magnitude should be equal to 0.0.");
+        assertEquals(1d, Maths.magnitude(new Pointf(0, 1)), "The magnitude should be equal to 1.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(new Pointf(1)), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(new Pointf(-1)), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(25), Maths.magnitude(new Pointf(3, 4)), "The magnitude should be equal to 5.");
     }
 
     @Test
     public void checkMagnitudeWithPointObjects() {
-        assertEquals("The magnitude should be equal to 0.0.", 0d, Maths.magnitude(new Point()));
-        assertEquals("The magnitude should be equal to 1.0.", 1d, Maths.magnitude(new Point(0, 1)));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(new Point(1)));
-        assertEquals("The magnitude should be equal to the square root of 2.0.", Math.sqrt(2), Maths.magnitude(new Point(-1)));
-        assertEquals("The magnitude should be equal to 5.", Math.sqrt(25), Maths.magnitude(new Point(3, 4)));
+        assertEquals(0d, Maths.magnitude(new Point()), "The magnitude should be equal to 0.0.");
+        assertEquals(1d, Maths.magnitude(new Point(0, 1)), "The magnitude should be equal to 1.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(new Point(1)), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(2), Maths.magnitude(new Point(-1)), "The magnitude should be equal to the square root of 2.0.");
+        assertEquals(Math.sqrt(25), Maths.magnitude(new Point(3, 4)), "The magnitude should be equal to 5.");
     }
 }

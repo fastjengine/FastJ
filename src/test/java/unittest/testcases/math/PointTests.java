@@ -2,37 +2,37 @@ package unittest.testcases.math;
 
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PointTests {
 
     @Test
     public void checkPointCreation_withNoConstructorParams() {
         Point pt = new Point();
-        assertEquals("The x value of the Point should default to 0.", 0, pt.x);
-        assertEquals("The y value of the Point should default to 0.", 0, pt.y);
+        assertEquals(0, pt.x, "The x value of the Point should default to 0.");
+        assertEquals(0, pt.y, "The y value of the Point should default to 0.");
     }
 
     @Test
     public void checkPointCreation_withOneConstructorParam() {
         Point pt = new Point(5);
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
     public void checkPointCreation_withTwoConstructorParams() {
         Point pt = new Point(3, 4);
-        assertEquals("The x value of the Point should equal 3.", 3, pt.x);
-        assertEquals("The y value of the Point should equal 4.", 4, pt.y);
+        assertEquals(3, pt.x, "The x value of the Point should equal 3.");
+        assertEquals(4, pt.y, "The y value of the Point should equal 4.");
     }
 
     @Test
@@ -40,8 +40,8 @@ public class PointTests {
         Point pt = new Point(3, 4);
         Point pt2 = new Point(pt);
 
-        assertEquals("The x value of the Point should equal 3.", 3, pt2.x);
-        assertEquals("The y value of the Point should equal 4.", 4, pt2.y);
+        assertEquals(3, pt2.x, "The x value of the Point should equal 3.");
+        assertEquals(4, pt2.y, "The y value of the Point should equal 4.");
     }
 
     @Test
@@ -49,8 +49,8 @@ public class PointTests {
         Point pt = new Point();
         pt.add(5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -59,8 +59,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         pt.add(pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -68,8 +68,8 @@ public class PointTests {
         Point pt = new Point();
         pt.subtract(5);
 
-        assertEquals("The x value of the Point should equal -5.", -5, pt.x);
-        assertEquals("The y value of the Point should equal -5.", -5, pt.y);
+        assertEquals(-5, pt.x, "The x value of the Point should equal -5.");
+        assertEquals(-5, pt.y, "The y value of the Point should equal -5.");
     }
 
     @Test
@@ -78,8 +78,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         pt.subtract(pt2);
 
-        assertEquals("The x value of the Point should equal -5.", -5, pt.x);
-        assertEquals("The y value of the Point should equal -5.", -5, pt.y);
+        assertEquals(-5, pt.x, "The x value of the Point should equal -5.");
+        assertEquals(-5, pt.y, "The y value of the Point should equal -5.");
     }
 
     @Test
@@ -87,8 +87,8 @@ public class PointTests {
         Point pt = new Point(1);
         pt.multiply(5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -97,8 +97,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         pt.multiply(pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -106,8 +106,8 @@ public class PointTests {
         Point pt = new Point(25);
         pt.divide(5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -116,8 +116,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         pt.divide(pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -132,8 +132,8 @@ public class PointTests {
                 .divide(new Point(2))              // (10, 10)
                 .divide(2);                            // (5, 5)
 
-        assertEquals("The x value of the Point should equal 5.", 5, pt.x);
-        assertEquals("The y value of the Point should equal 5.", 5, pt.y);
+        assertEquals(5, pt.x, "The x value of the Point should equal 5.");
+        assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -141,7 +141,7 @@ public class PointTests {
         Point original = new Point(13, 37);
         Point copy = original.copy();
 
-        assertEquals("The two points should have the same x and y values -- (13, 37).", original, copy);
+        assertEquals(original, copy, "The two points should have the same x and y values -- (13, 37).");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         pt.reset();
 
-        assertEquals("The point's x and y values should have been reset to (0, 0).", new Point(), pt);
+        assertEquals(new Point(), pt, "The point's x and y values should have been reset to (0, 0).");
     }
 
     @Test
@@ -157,8 +157,8 @@ public class PointTests {
         Point pt = new Point();
         pt.set(13, 37);
 
-        assertEquals("The x value of the Point should equal 13.", 13, pt.x);
-        assertEquals("The y value of the Point should equal 37.", 37, pt.y);
+        assertEquals(13, pt.x, "The x value of the Point should equal 13.");
+        assertEquals(37, pt.y, "The y value of the Point should equal 37.");
     }
 
     @Test
@@ -166,8 +166,8 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Pointf ptf = pt.asPointf();
 
-        assertEquals("The x value of the Pointf should equal 13f.", 13f, ptf.x);
-        assertEquals("The y value of the Pointf should equal 37f.", 37f, ptf.y);
+        assertEquals(13f, ptf.x, "The x value of the Pointf should equal 13f.");
+        assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
     }
 
     @Test
@@ -175,7 +175,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Pointf ptf = new Pointf(13f, 37f);
 
-        assertTrue("The Point and Pointf should be equal in their x and y values.", pt.equalsPointf(ptf));
+        assertTrue(pt.equalsPointf(ptf), "The Point and Pointf should be equal in their x and y values.");
     }
 
     @Test
@@ -183,7 +183,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Rectangle rect = new Rectangle(0, 0, 20, 40);
 
-        assertTrue("Point should intersect with Rectangle.", pt.intersects(rect));
+        assertTrue(pt.intersects(rect), "Point should intersect with Rectangle.");
     }
 
     @Test
@@ -191,7 +191,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
 
-        assertTrue("Point should intersect with Rectangle2D.Float.", pt.intersects(rectf));
+        assertTrue(pt.intersects(rectf), "Point should intersect with Rectangle2D.Float.");
     }
 
     @Test
@@ -199,7 +199,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
 
-        assertTrue("Point should intersect with Rectangle2D.Double.", pt.intersects(rectd));
+        assertTrue(pt.intersects(rectd), "Point should intersect with Rectangle2D.Double.");
     }
 
     @Test
@@ -213,7 +213,7 @@ public class PointTests {
         pathf.lineTo(0f, 40f);
         pathf.closePath();
 
-        assertTrue("Point should intersect with Path2D.Float.", pt.intersects(pathf));
+        assertTrue(pt.intersects(pathf), "Point should intersect with Path2D.Float.");
     }
 
     @Test
@@ -227,7 +227,7 @@ public class PointTests {
         pathd.lineTo(0d, 40d);
         pathd.closePath();
 
-        assertTrue("Point should intersect with Path2D.Double.", pt.intersects(pathd));
+        assertTrue(pt.intersects(pathd), "Point should intersect with Path2D.Double.");
     }
 
     @Test
@@ -241,7 +241,7 @@ public class PointTests {
         pathg.lineTo(0f, 40f);
         pathg.closePath();
 
-        assertTrue("Point should intersect with GeneralPath.", pt.intersects(pathg));
+        assertTrue(pt.intersects(pathg), "Point should intersect with GeneralPath.");
     }
 
 
@@ -250,8 +250,8 @@ public class PointTests {
         Point pt = new Point();
         Point added = Point.add(pt, 5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, added.x);
-        assertEquals("The y value of the Point should equal 5.", 5, added.y);
+        assertEquals(5, added.x, "The x value of the Point should equal 5.");
+        assertEquals(5, added.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -260,8 +260,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         Point added = Point.add(pt, pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, added.x);
-        assertEquals("The y value of the Point should equal 5.", 5, added.y);
+        assertEquals(5, added.x, "The x value of the Point should equal 5.");
+        assertEquals(5, added.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -269,8 +269,8 @@ public class PointTests {
         Point pt = new Point();
         Point subtracted = Point.subtract(pt, 5);
 
-        assertEquals("The x value of the Point should equal -5.", -5, subtracted.x);
-        assertEquals("The y value of the Point should equal -5.", -5, subtracted.y);
+        assertEquals(-5, subtracted.x, "The x value of the Point should equal -5.");
+        assertEquals(-5, subtracted.y, "The y value of the Point should equal -5.");
     }
 
     @Test
@@ -279,8 +279,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         Point subtracted = Point.subtract(pt, pt2);
 
-        assertEquals("The x value of the Point should equal -5.", -5, subtracted.x);
-        assertEquals("The y value of the Point should equal -5.", -5, subtracted.y);
+        assertEquals(-5, subtracted.x, "The x value of the Point should equal -5.");
+        assertEquals(-5, subtracted.y, "The y value of the Point should equal -5.");
     }
 
     @Test
@@ -288,8 +288,8 @@ public class PointTests {
         Point pt = new Point(1);
         Point multiplied = Point.multiply(pt, 5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, multiplied.x);
-        assertEquals("The y value of the Point should equal 5.", 5, multiplied.y);
+        assertEquals(5, multiplied.x, "The x value of the Point should equal 5.");
+        assertEquals(5, multiplied.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -298,8 +298,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         Point multiplied = Point.multiply(pt, pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, multiplied.x);
-        assertEquals("The y value of the Point should equal 5.", 5, multiplied.y);
+        assertEquals(5, multiplied.x, "The x value of the Point should equal 5.");
+        assertEquals(5, multiplied.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -307,8 +307,8 @@ public class PointTests {
         Point pt = new Point(25);
         Point divided = Point.divide(pt, 5);
 
-        assertEquals("The x value of the Point should equal 5.", 5, divided.x);
-        assertEquals("The y value of the Point should equal 5.", 5, divided.y);
+        assertEquals(5, divided.x, "The x value of the Point should equal 5.");
+        assertEquals(5, divided.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -317,8 +317,8 @@ public class PointTests {
         Point pt2 = new Point(5);
         Point divided = Point.divide(pt, pt2);
 
-        assertEquals("The x value of the Point should equal 5.", 5, divided.x);
-        assertEquals("The y value of the Point should equal 5.", 5, divided.y);
+        assertEquals(5, divided.x, "The x value of the Point should equal 5.");
+        assertEquals(5, divided.y, "The y value of the Point should equal 5.");
     }
 
     @Test
@@ -326,7 +326,7 @@ public class PointTests {
         Point pt = new Point(13, 37);
         Pointf ptf = Point.toPointf(pt);
 
-        assertEquals("The x value of the Pointf should equal 13f.", 13f, ptf.x);
-        assertEquals("The y value of the Pointf should equal 37f.", 37f, ptf.y);
+        assertEquals(13f, ptf.x, "The x value of the Pointf should equal 13f.");
+        assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
     }
 }
