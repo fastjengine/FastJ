@@ -395,15 +395,38 @@ public class DrawUtilTests {
     @Test
     public void checkPathLengthGetter() {
         Path2D.Float path = new Path2D.Float();
-        int expectedLength = 25;
+        int expectedLength = 26;
 
         path.moveTo(0f, 0f);
-        for (int i = 0; i < expectedLength; i++) {
-            path.lineTo(i, i);
+
+        int initialPosition = 1;
+        int linesCreated = expectedLength - 1;
+        for (int i = initialPosition; i <= linesCreated; i++) {
+            path.lineTo(i, i * 2);
         }
         path.closePath();
-        int actualLength = DrawUtil.lengthOfPath(path);
 
+        int actualLength = DrawUtil.lengthOfPath(path);
+        assertEquals(expectedLength, actualLength, "The length of the path should be the same as the original intended length.");
+    }
+
+    @Test
+    public void checkPathLengthGetter_withMultipleSubpaths() {
+        Path2D.Float path = new Path2D.Float();
+        int subpathCount = 5;
+        int expectedLength = 26 * subpathCount;
+
+        int initialPosition = 1;
+        int linesCreated = (expectedLength / subpathCount) - 1;
+        for (int j = 0; j < subpathCount; j++) {
+            path.moveTo(0f, 0f);
+            for (int i = initialPosition; i <= linesCreated; i++) {
+                path.lineTo(i, i * 2);
+            }
+            path.closePath();
+        }
+
+        int actualLength = DrawUtil.lengthOfPath(path);
         assertEquals(expectedLength, actualLength, "The length of the path should be the same as the original intended length.");
     }
 

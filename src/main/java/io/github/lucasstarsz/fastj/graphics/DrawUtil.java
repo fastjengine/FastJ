@@ -574,17 +574,26 @@ public final class DrawUtil {
      */
     public static int lengthOfPath(Path2D path) {
         int count = 0;
-        PathIterator pi = path.getPathIterator(null);
         double[] coords = new double[2];
 
-        while (!pi.isDone()) {
-            pi.next();
-            if (pi.currentSegment(coords) == PathIterator.SEG_LINETO) {
-                count++;
+        int numSubPaths = 0;
+
+        for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
+            switch (pi.currentSegment(coords)) {
+                case PathIterator.SEG_MOVETO:
+                    break;
+                case PathIterator.SEG_CLOSE:
+                    numSubPaths++;
+                    break;
+                case PathIterator.SEG_LINETO:
+                    count++;
+                    break;
+                default:
+                    throw new IllegalArgumentException("Path contains curves");
             }
         }
 
-        return count;
+        return count + numSubPaths;
     }
 
     /**
