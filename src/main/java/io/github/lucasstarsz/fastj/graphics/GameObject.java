@@ -17,12 +17,12 @@ import java.util.List;
  */
 public abstract class GameObject extends Drawable {
 
-    /** {@link Pointf} representing an default translation of {@code 0f, 0f}. */
-    public static final Pointf originTranslation = Pointf.origin.copy();
+    /** {@link Pointf} representing a default translation of {@code 0f, 0f}. */
+    public static final Pointf defaultTranslation = Pointf.origin.copy();
     /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
-    public static final Pointf originScale = new Pointf(1f).copy();
+    public static final Pointf defaultScale = new Pointf(1f).copy();
     /** {@code float} representing a default rotation value of {@code 0f}. */
-    public static final float originRotation = 0f;
+    public static final float defaultRotation = 0f;
 
     private final List<Behavior> behaviors;
 

@@ -22,9 +22,9 @@ public class Polygon2DTests {
         assertEquals(Polygon2D.defaultColor, polygon2D.getColor(), "The created polygon's color should match the default color.");
         assertEquals(Polygon2D.defaultFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the default fill option.");
         assertEquals(Polygon2D.defaultShow, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default show option.");
-        assertEquals(GameObject.originTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
-        assertEquals(GameObject.originRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
-        assertEquals(GameObject.originScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
+        assertEquals(GameObject.defaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
+        assertEquals(GameObject.defaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
+        assertEquals(GameObject.defaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
 
@@ -41,9 +41,9 @@ public class Polygon2DTests {
         assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
-        assertEquals(GameObject.originTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
-        assertEquals(GameObject.originRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
-        assertEquals(GameObject.originScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
+        assertEquals(GameObject.defaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
+        assertEquals(GameObject.defaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
+        assertEquals(GameObject.defaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
 
