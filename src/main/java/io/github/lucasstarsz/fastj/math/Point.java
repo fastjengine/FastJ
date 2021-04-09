@@ -12,6 +12,7 @@ import java.util.Objects;
  */
 public class Point {
 
+    /** {@code Point} representing the origin as an {@code int}: {@code (0, 0)}. */
     public static final Point origin = new Point();
 
     /** The x value of the {@link Point}. */

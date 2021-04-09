@@ -273,6 +273,15 @@ public final class DrawUtil {
         return p;
     }
 
+    /**
+     * Checks for equality in length and point values between two {@link Path2D} objects.
+     *
+     * Order does not matter for equality checking.
+     *
+     * @param path1 The first {@code Path2D} specified.
+     * @param path2 The second {@code Path2D} specified.
+     * @return Whether the two {@code Path2D}s are equal.
+     */
     public static boolean pathEquals(Path2D path1, Path2D path2) {
         if (path1 == path2) {
             return true;

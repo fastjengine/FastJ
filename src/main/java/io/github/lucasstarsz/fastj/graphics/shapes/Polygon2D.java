@@ -22,8 +22,11 @@ import java.util.Objects;
  */
 public class Polygon2D extends GameObject {
 
+    /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
     public static final Color defaultColor = Color.black;
+    /** {@code boolean} representing the default "should fill" value of {@code true}. */
     public static final boolean defaultFill = true;
+    /** {@code boolean} representing the default "should render" value of {@code true}. */
     public static final boolean defaultShow = true;
 
     private Path2D.Float renderPath;

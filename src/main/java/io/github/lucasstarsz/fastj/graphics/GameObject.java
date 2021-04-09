@@ -17,8 +17,11 @@ import java.util.List;
  */
 public abstract class GameObject extends Drawable {
 
+    /** {@link Pointf} representing an default translation of {@code 0f, 0f}. */
     public static final Pointf originTranslation = Pointf.origin.copy();
+    /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
     public static final Pointf originScale = new Pointf(1f).copy();
+    /** {@code float} representing a default rotation value of {@code 0f}. */
     public static final float originRotation = 0f;
 
     private final List<Behavior> behaviors;
@@ -48,6 +51,7 @@ public abstract class GameObject extends Drawable {
      * Sets the {@code GameObject}'s translation to the specified value.
      *
      * @param setTranslation {@code Pointf} parameter that the {@code GameObject}'s translation will be set to.
+     * @return The {@code GameObject}, for method chaining.
      */
     public GameObject setTranslation(Pointf setTranslation) {
         translate(Pointf.multiply(getTranslation(), -1f).add(setTranslation));
@@ -65,6 +69,7 @@ public abstract class GameObject extends Drawable {
      * Sets the {@code GameObject}'s rotation to the specified value.
      *
      * @param setRotation float parameter that the {@code GameObject}'s rotation will be set to.
+     * @return The {@code GameObject}, for method chaining.
      */
     public GameObject setRotation(float setRotation) {
         rotate(-getRotation() + setRotation);
@@ -82,6 +87,7 @@ public abstract class GameObject extends Drawable {
      * Sets the {@code GameObject}'s scale to the specified value.
      *
      * @param setScale {@code Pointf} parameter that the {@code GameObject}'s scale will be set to.
+     * @return The {@code GameObject}, for method chaining.
      */
     public GameObject setScale(Pointf setScale) {
         scale(Pointf.multiply(getScale(), -1f).add(setScale));
