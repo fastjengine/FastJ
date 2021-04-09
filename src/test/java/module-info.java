@@ -1,6 +1,5 @@
 module fastj.library.test {
     requires fastj.library;
-    requires org.junit.jupiter;
     requires org.junit.jupiter.api;
 
     exports unittest.testcases.math;
