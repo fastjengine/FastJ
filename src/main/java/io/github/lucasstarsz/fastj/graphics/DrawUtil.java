@@ -205,6 +205,7 @@ public final class DrawUtil {
         Pointf[] unshiftedResult = polyListPoints.toArray(new Pointf[0]);
         Pointf center = centerOf(unshiftedResult);
         Arrays.sort(unshiftedResult, (a, b) -> {
+            // thank goodness for stackoverflow...
             if (a.x - center.x >= 0 && b.x - center.x < 0)
                 return 1;
             if (a.x - center.x < 0 && b.x - center.x >= 0)
@@ -240,6 +241,7 @@ public final class DrawUtil {
             }
         }
 
+        // in case shifting isn't needed
         if (shiftAmount == 0) {
             return unshiftedResult;
         }
@@ -251,6 +253,60 @@ public final class DrawUtil {
         System.arraycopy(unshiftedResult, 0, shiftedResult, shiftedResult.length - shiftAmount, shiftAmount);
 
         return shiftedResult;
+    }
+
+    /**
+     * Creates a {@code Path2D.Float} based on the specified {@code Pointf} array.
+     *
+     * @param pts The {@code Pointf} array to create the {@code Path2D.Float} from.
+     * @return The resulting {@code Path2D.Float}.
+     */
+    public static Path2D.Float createPath(Pointf[] pts) {
+        Path2D.Float p = new Path2D.Float();
+
+        p.moveTo(pts[0].x, pts[0].y);
+        for (int i = 1; i < pts.length; i++) {
+            p.lineTo(pts[i].x, pts[i].y);
+        }
+        p.closePath();
+
+        return p;
+    }
+
+    public static boolean pathEquals(Path2D path1, Path2D path2) {
+        if (path1 == path2) {
+            return true;
+        }
+
+        int pLength1 = lengthOfPath(path1);
+        int pLength2 = lengthOfPath(path2);
+        if (pLength1 != pLength2) {
+            throw new IllegalStateException("Path lengths differ\nPath 1 had a length of " + pLength1 + ", but path 2 had a length of " + pLength2 + ".");
+        }
+
+        PathIterator pathIt1 = path1.getPathIterator(null);
+        PathIterator pathIt2 = path2.getPathIterator(null);
+
+        double[] coords1 = new double[2];
+        double[] coords2 = new double[2];
+
+        while (true) {
+            pathIt1.currentSegment(coords1);
+            pathIt2.currentSegment(coords2);
+
+            if (coords1[0] != coords2[0] || coords1[1] != coords2[1]) {
+                return false;
+            }
+
+            if (!pathIt1.isDone() && !pathIt2.isDone()) {
+                pathIt1.next();
+                pathIt2.next();
+            } else {
+                break;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -511,12 +567,12 @@ public final class DrawUtil {
     }
 
     /**
-     * Gets the amount of points in the specified {@code Path2D.Float}.
+     * Gets the amount of points in the specified {@code Path2D}.
      *
      * @param path The path to check point amount of.
      * @return The amount of points in the path.
      */
-    public static int lengthOfPath(Path2D.Float path) {
+    public static int lengthOfPath(Path2D path) {
         int count = 0;
         PathIterator pi = path.getPathIterator(null);
         double[] coords = new double[2];

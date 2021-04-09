@@ -61,7 +61,7 @@ public class Polygon2D extends GameObject {
         super();
         points = pts;
 
-        renderPath = createPath(points);
+        renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
         scale = new Pointf(1);
@@ -91,7 +91,7 @@ public class Polygon2D extends GameObject {
         super();
         points = pts;
 
-        renderPath = createPath(points);
+        renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
         scale = new Pointf(1);
@@ -190,7 +190,7 @@ public class Polygon2D extends GameObject {
      */
     public void modifyPoints(Pointf[] pts, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
         points = pts;
-        renderPath = createPath(points);
+        renderPath = DrawUtil.createPath(points);
 
         if (resetTranslation) {
             translation.reset();
@@ -259,7 +259,7 @@ public class Polygon2D extends GameObject {
             pt.add(Pointf.multiply(Pointf.multiply(distanceFromCenter, -1f), scale));
         }
 
-        renderPath = createPath(renderCopy);
+        renderPath = DrawUtil.createPath(renderCopy);
 
         // TODO: Add working image scaling
 
@@ -294,24 +294,6 @@ public class Polygon2D extends GameObject {
 
         destroyTheRest(originScene);
 
-    }
-
-    /**
-     * Creates the {@code Path2D.Float} for the polygon, based on the specified {@code Pointf} array.
-     *
-     * @param pts The {@code Pointf} array which the {@code Path2D.Float} will be created from.
-     * @return The resulting {@code Path2D.Float}.
-     */
-    private Path2D.Float createPath(Pointf[] pts) {
-        Path2D.Float p = new Path2D.Float();
-
-        p.moveTo(pts[0].x, pts[0].y);
-        for (int i = 1; i < pts.length; i++) {
-            p.lineTo(pts[i].x, pts[i].y);
-        }
-        p.closePath();
-
-        return p;
     }
 
     /**
