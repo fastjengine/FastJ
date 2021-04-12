@@ -14,6 +14,7 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -24,7 +25,7 @@ public class Text2DTests {
     public void onlyRunOnWindows() {
         // hate to do it to ya, unix, but idk how to run github actions in non-headless mode
         String headless = System.getProperty("java.awt.headless");
-        assumeTrue(headless == null || headless.equalsIgnoreCase("false"));
+        assumeTrue(!GraphicsEnvironment.isHeadless() || headless != null && headless.equalsIgnoreCase("false"));
     }
 
     @Test

@@ -633,6 +633,6 @@ public final class DrawUtil {
      */
     public static Font randomFont() {
         String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        return new Font(fonts[Maths.randomInteger(0, fonts.length)], Maths.randomInteger(0, 2), Maths.randomInteger(1, 256));
+        return new Font(fonts[Maths.randomInteger(0, fonts.length - 1)], Maths.randomInteger(0, 2), Maths.randomInteger(1, 256));
     }
 }
