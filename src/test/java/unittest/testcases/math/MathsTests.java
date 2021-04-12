@@ -28,7 +28,7 @@ public class MathsTests {
 
         String assertFailMessage = "Generated random value should be within expected range.";
         for (int i = 0; i < 255; i++) {
-            float generatedRandom = Maths.random(minimumRandomRange, maximumRandomRange);
+            int generatedRandom = Maths.randomInteger(minimumRandomRange, maximumRandomRange);
             assertTrue(generatedRandom >= minimumRandomRange && generatedRandom <= maximumRandomRange, assertFailMessage);
         }
     }
