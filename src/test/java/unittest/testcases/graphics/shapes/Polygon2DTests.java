@@ -33,8 +33,8 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
-        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldFill = Maths.randomBoolean();
+        boolean shouldRender = Maths.randomBoolean();
 
         Polygon2D polygon2D = new Polygon2D(square, randomColor, shouldFill, shouldRender);
 
@@ -52,8 +52,8 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
-        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldFill = Maths.randomBoolean();
+        boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float randomRotation = Maths.random(-50f, 50f);
@@ -75,8 +75,8 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
-        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldFill = Maths.randomBoolean();
+        boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float randomRotation = Maths.random(-50f, 50f);

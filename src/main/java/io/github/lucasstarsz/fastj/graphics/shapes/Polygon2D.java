@@ -68,8 +68,8 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        scale = new Pointf(1);
-        rotation = 0;
+        rotation = GameObject.defaultRotation;
+        scale = GameObject.defaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setColor(color);
@@ -98,8 +98,8 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        scale = new Pointf(1);
-        rotation = 0;
+        rotation = GameObject.defaultRotation;
+        scale = GameObject.defaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setTranslation(setLocation);

@@ -28,6 +28,15 @@ public class Maths {
     }
 
     /**
+     * Generates a random boolean value.
+     *
+     * @return The randomized boolean value.
+     */
+    public static boolean randomBoolean() {
+        return ThreadLocalRandom.current().nextBoolean();
+    }
+
+    /**
      * Generates a random number within the specified range, then snaps it to the edge it is closest to.
      *
      * @param leftEdge  The leftmost edge.

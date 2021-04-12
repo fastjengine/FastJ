@@ -7,7 +7,6 @@ import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.Objects;
@@ -22,6 +21,9 @@ import java.util.Objects;
  */
 public class Model2D extends GameObject {
 
+    /** {@code boolean} representing the default "should render" of {@code true}. */
+    public static final boolean DefaultShow = true;
+
     private Polygon2D[] polyArr;
     private Polygon2D collisionObject;
 
@@ -30,30 +32,43 @@ public class Model2D extends GameObject {
     private Pointf translation;
 
     /**
-     * Model2D constructor.
+     * Model2D constructor that takes in an array of {@link Polygon2D} objects.
+     * <p>
+     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to defaults
+     * whether the {@code Model2D} should be shown to {@code true}.
+     *
+     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
+     */
+    public Model2D(Polygon2D[] polygonArray) {
+        this(polygonArray, DefaultShow);
+    }
+
+    /**
+     * Model2D constructor that takes in an array of {@link Polygon2D} objects and a show variable.
      * <p>
      * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to
      * determine whether the Model2D should be drawn.
      *
-     * @param polygonArray  Array of {@code Polygon2D}s used to create the Model2D.
-     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
+     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
+     * @param show         Boolean that determines whether this Model2D should be drawn to the screen.
      */
-    public Model2D(Polygon2D[] polygonArray, boolean shouldBeShown) {
+    public Model2D(Polygon2D[] polygonArray, boolean show) {
         polyArr = polygonArray;
 
         setBounds(createBounds());
 
-        rotation = 0;
-        scale = new Pointf(1);
+        rotation = GameObject.defaultRotation;
+        scale = GameObject.defaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setCollisionPoints();
 
-        setShouldRender(shouldBeShown);
+        setShouldRender(show);
     }
 
     /**
-     * Model2D constructor.
+     * {@code Model2D} constructor that takes in an array of {@code Polygon2D}s, a show variable, and an initial
+     * translation, rotation, and scale for the model.
      * <p>
      * Alongside the normal constructor, this allows you to set a location, rotation, and scale for the object,
      * alongside the normal values needed for a Model2D.
@@ -70,17 +85,17 @@ public class Model2D extends GameObject {
 
         setBounds(createBounds());
 
-        rotation = 0;
-        scale = new Pointf(1);
+        rotation = GameObject.defaultRotation;
+        scale = GameObject.defaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
+        setCollisionPoints();
+
         setTranslation(location);
-        rotate(rotVal);
-        scale(scaleVal);
+        setRotation(rotVal);
+        setScale(scaleVal);
 
         setBounds(createBounds());
-
-        setCollisionPoints();
 
         setShouldRender(shouldBeShown);
     }
@@ -178,7 +193,7 @@ public class Model2D extends GameObject {
 
     /** Sets the collision points for the {@code Model2D}. */
     private void setCollisionPoints() {
-        collisionObject = new Polygon2D(DrawUtil.createCollisionOutline(polyArr), Color.black, false, false);
+        collisionObject = new Polygon2D(DrawUtil.createCollisionOutline(polyArr));
         setCollisionPath(collisionObject.getRenderPath());
     }
 
