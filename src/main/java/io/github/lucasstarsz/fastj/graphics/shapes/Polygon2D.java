@@ -323,15 +323,15 @@ public class Polygon2D extends GameObject {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        Polygon2D otherPolygon2D = (Polygon2D) other;
+        Polygon2D polygon2D = (Polygon2D) other;
 
-        return paintFilled == otherPolygon2D.paintFilled
-                && Objects.equals(color, otherPolygon2D.color)
-                && Objects.equals(translation, otherPolygon2D.translation)
-                && Objects.equals(scale, otherPolygon2D.scale)
-                && Math.abs(otherPolygon2D.rotation - rotation) < Maths.FloatPrecision
-                && Arrays.equals(points, otherPolygon2D.points)
-                && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(otherPolygon2D.renderPath));
+        return paintFilled == polygon2D.paintFilled
+                && Objects.equals(color, polygon2D.color)
+                && Objects.equals(translation, polygon2D.translation)
+                && Objects.equals(scale, polygon2D.scale)
+                && Maths.floatEquals(polygon2D.rotation, rotation)
+                && Arrays.equals(points, polygon2D.points)
+                && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(polygon2D.renderPath));
     }
 
     @Override

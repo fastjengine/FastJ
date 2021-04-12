@@ -234,12 +234,12 @@ public class Model2D extends GameObject {
         if (other == null || getClass() != other.getClass()) {
             return false;
         }
-        Model2D otherModel2D = (Model2D) other;
-        return Objects.equals(translation, otherModel2D.translation)
-                && Objects.equals(scale, otherModel2D.scale)
-                && Math.abs(otherModel2D.rotation - rotation) < Maths.FloatPrecision
-                && Arrays.equals(polyArr, otherModel2D.polyArr)
-                && Objects.equals(collisionObject, otherModel2D.collisionObject);
+        Model2D model2D = (Model2D) other;
+        return Objects.equals(translation, model2D.translation)
+                && Objects.equals(scale, model2D.scale)
+                && Maths.floatEquals(model2D.rotation, rotation)
+                && Arrays.equals(polyArr, model2D.polyArr)
+                && Objects.equals(collisionObject, model2D.collisionObject);
     }
 
     @Override

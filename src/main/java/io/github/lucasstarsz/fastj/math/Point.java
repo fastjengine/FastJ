@@ -343,7 +343,7 @@ public class Point {
      * @return Whether the two's {@code x} and {@code y} values are equal.
      */
     public boolean equalsPointf(Pointf other) {
-        return Math.abs(other.x - (float) x) < Maths.FloatPrecision && Math.abs(other.y - (float) y) < Maths.FloatPrecision;
+        return Maths.floatEquals(other.x, (float) x) && Maths.floatEquals(other.y, (float) y);
     }
 
     /**

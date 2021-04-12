@@ -33,8 +33,8 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0d, 1d) != 0d;
-        boolean shouldRender = Maths.randomAtEdge(0d, 1d) != 0d;
+        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
 
         Polygon2D polygon2D = new Polygon2D(square, randomColor, shouldFill, shouldRender);
 
@@ -52,12 +52,12 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0d, 1d) != 0d;
-        boolean shouldRender = Maths.randomAtEdge(0d, 1d) != 0d;
+        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
 
-        Pointf randomTranslation = new Pointf((float) Maths.random(-50d, 50d), (float) Maths.random(-50d, 50d));
-        float randomRotation = (float) Maths.random(-50d, 50d);
-        Pointf randomScale = new Pointf((float) Maths.random(-50d, 50d), (float) Maths.random(-50d, 50d));
+        Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-50f, 50f);
+        Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D polygon2D = new Polygon2D(square, randomTranslation, randomRotation, randomScale, randomColor, shouldFill, shouldRender);
 
@@ -75,12 +75,12 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomAtEdge(0d, 1d) != 0d;
-        boolean shouldRender = Maths.randomAtEdge(0d, 1d) != 0d;
+        boolean shouldFill = Maths.randomAtEdge(0f, 1f) != 0f;
+        boolean shouldRender = Maths.randomAtEdge(0f, 1f) != 0f;
 
-        Pointf randomTranslation = new Pointf((float) Maths.random(-50d, 50d), (float) Maths.random(-50d, 50d));
-        float randomRotation = (float) Maths.random(-50d, 50d);
-        Pointf randomScale = new Pointf((float) Maths.random(-50d, 50d), (float) Maths.random(-50d, 50d));
+        Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-50f, 50f);
+        Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D polygon2D = (Polygon2D) new Polygon2D(square)
                 .setColor(randomColor)
@@ -103,13 +103,13 @@ public class Polygon2DTests {
     public void checkModifyPointsOfPolygon2D_withTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin, 5f);
         Pointf translationBeforeReset = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
-        float rotationBeforeReset = (float) Maths.random(0d, 1d);
+        float rotationBeforeReset = Maths.random(0f, 1f);
         Pointf scaleBeforeReset = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
 
         Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
@@ -131,13 +131,13 @@ public class Polygon2DTests {
     public void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin, 5f);
         Pointf translationBeforeReset = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
-        float rotationBeforeReset = (float) Maths.random(0d, 1d);
+        float rotationBeforeReset = Maths.random(0f, 1f);
         Pointf scaleBeforeReset = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
 
         Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
@@ -159,8 +159,8 @@ public class Polygon2DTests {
     public void checkPolygon2DTranslation_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
         Pointf randomTranslation = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
         Pointf[] expectedTranslatedPoints = {
                 originalPoints[0].copy().add(randomTranslation),
@@ -179,7 +179,7 @@ public class Polygon2DTests {
     @Test
     public void checkPolygon2DRotation_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
-        float randomRotationInDegrees = (float) Maths.random(0d, 1d);
+        float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
         float sinOfRotation = (float) Math.sin(randomRotationInRadians);
@@ -214,8 +214,8 @@ public class Polygon2DTests {
     public void checkPolygon2DScaling_atOrigin_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
         Pointf randomScaling = new Pointf(
-                (float) Maths.random(0d, 1d),
-                (float) Maths.random(0d, 1d)
+                Maths.random(0f, 1f),
+                Maths.random(0f, 1f)
         );
 
         Polygon2D polygon2D = new Polygon2D(originalPoints);
