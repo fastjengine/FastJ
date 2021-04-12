@@ -10,6 +10,11 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Maths {
 
+    /**
+     * The desired floating point precision for FastJ.
+     * <p>
+     * All floating point values should have <b>no more</b> than 6 zeros after the decimal point.
+     */
     public static final float FloatPrecision = 0.000001f;
 
     /**
@@ -53,7 +58,7 @@ public class Maths {
 
     /**
      * Snaps the specified number to the edge it is closest to.
-     *
+     * <p>
      * If the two edges are equidistant from the {@code num}, then the right edge will be returned.
      *
      * @param num       The number to be compared.
