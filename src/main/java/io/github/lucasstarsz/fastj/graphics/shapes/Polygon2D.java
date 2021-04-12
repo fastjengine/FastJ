@@ -3,6 +3,7 @@ package io.github.lucasstarsz.fastj.graphics.shapes;
 import io.github.lucasstarsz.fastj.graphics.Boundary;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.GameObject;
+import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
@@ -196,13 +197,13 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
 
         if (resetTranslation) {
-            translation.reset();
+            translation.set(GameObject.defaultTranslation.x, GameObject.defaultTranslation.y);
         }
         if (resetRotation) {
-            rotation = 0;
+            rotation = GameObject.defaultRotation;
         }
         if (resetScale) {
-            scale.set(1, 1);
+            scale.set(GameObject.defaultScale.x, GameObject.defaultScale.y);
         }
 
         setBoundaries(renderPath);
@@ -328,7 +329,7 @@ public class Polygon2D extends GameObject {
                 && Objects.equals(color, otherPolygon2D.color)
                 && Objects.equals(translation, otherPolygon2D.translation)
                 && Objects.equals(scale, otherPolygon2D.scale)
-                && Float.compare(otherPolygon2D.rotation, rotation) == 0
+                && Math.abs(otherPolygon2D.rotation - rotation) < Maths.FloatPrecision
                 && Arrays.equals(points, otherPolygon2D.points)
                 && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(otherPolygon2D.renderPath));
     }

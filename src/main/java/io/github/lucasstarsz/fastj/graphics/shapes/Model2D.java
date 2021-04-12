@@ -3,6 +3,7 @@ package io.github.lucasstarsz.fastj.graphics.shapes;
 import io.github.lucasstarsz.fastj.graphics.Boundary;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.GameObject;
+import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
@@ -236,7 +237,7 @@ public class Model2D extends GameObject {
         Model2D otherModel2D = (Model2D) other;
         return Objects.equals(translation, otherModel2D.translation)
                 && Objects.equals(scale, otherModel2D.scale)
-                && Float.compare(otherModel2D.rotation, rotation) == 0
+                && Math.abs(otherModel2D.rotation - rotation) < Maths.FloatPrecision
                 && Arrays.equals(polyArr, otherModel2D.polyArr)
                 && Objects.equals(collisionObject, otherModel2D.collisionObject);
     }

@@ -337,7 +337,7 @@ public class Pointf {
      * @return Whether the two's {@code x} and {@code y} values are equal.
      */
     public boolean equalsPoint(Point other) {
-        return Float.compare((float) other.x, x) == 0 && Float.compare((float) other.y, y) == 0;
+        return Math.abs(other.x - x) < Maths.FloatPrecision && Math.abs(other.y - y) < Maths.FloatPrecision;
     }
 
     /**
@@ -356,7 +356,7 @@ public class Pointf {
             return false;
         }
         Pointf pointf = (Pointf) other;
-        return Float.compare(pointf.x, x) == 0 && Float.compare(pointf.y, y) == 0;
+        return Math.abs(pointf.x - x) < Maths.FloatPrecision && Math.abs(pointf.y - y) < Maths.FloatPrecision;
     }
 
     @Override
