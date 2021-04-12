@@ -354,9 +354,8 @@ public class FastJEngine {
      * @param exception    The exception that caused a need for this method call.
      */
     public static <T> void error(T errorMessage, Exception exception) {
-        System.err.println("ERROR: " + errorMessage);
-        exception.printStackTrace();
-        System.exit(-1);
+        FastJEngine.closeGame();
+        throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
     /**
