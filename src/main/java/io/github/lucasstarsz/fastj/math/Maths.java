@@ -3,7 +3,7 @@ package io.github.lucasstarsz.fastj.math;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Secondary mathematics class to provide useful utility methods dealing with {@code float}s.
+ * Secondary mathematics class to provide useful utility methods dealing primarily with {@code float}s.
  *
  * @author Andrew Dey
  * @version 1.0.0
@@ -34,7 +34,7 @@ public class Maths {
 
     /**
      * Generates a random integer number within the specified min and max limits.
-     * <p/>
+     * <p>
      * Unlike the other random generator methods, this method <b>includes</b> the max number as a possibility.
      *
      * @param min The minimum number possible.
