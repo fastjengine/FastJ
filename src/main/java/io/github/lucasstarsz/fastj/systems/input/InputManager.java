@@ -267,13 +267,14 @@ public class InputManager {
     public void processEvents(Scene current) {
         isProcessingEvents = true;
 
-        receivedInputEvents.forEach(event -> {
+        for (InputEvent event : receivedInputEvents) {
             if (event instanceof MouseEvent) {
                 Mouse.processEvent(current, (MouseEvent) event);
             } else if (event instanceof KeyEvent) {
                 Keyboard.processEvent(current, (KeyEvent) event);
             }
-        });
+        }
+
         receivedInputEvents.clear();
 
         isProcessingEvents = false;
