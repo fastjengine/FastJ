@@ -4,9 +4,9 @@ import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.systems.render.Display;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
-import org.junit.jupiter.api.BeforeEach;
+import io.github.lucasstarsz.fastj.systems.render.Display;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import unittest.mock.MockManager;
 
@@ -21,11 +21,13 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class Text2DTests {
 
-    @BeforeEach
-    public void onlyRunOnWindows() {
-        // hate to do it to ya, unix, but idk how to run github actions in non-headless mode
-        String headless = System.getProperty("java.awt.headless");
-        assumeTrue(!GraphicsEnvironment.isHeadless() || headless != null && headless.equalsIgnoreCase("false"));
+    @BeforeAll
+    public static void onlyRunIfNotHeadless() {
+        // because idk how to run github actions in non-headless mode
+        assumeTrue(
+                !GraphicsEnvironment.isHeadless(),
+                "Well that's unfortunate... this device isn't running in headless mode, so Text2D tests cannot be conducted."
+        );
     }
 
     @Test
