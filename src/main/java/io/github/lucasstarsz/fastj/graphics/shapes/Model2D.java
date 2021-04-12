@@ -208,8 +208,8 @@ public class Model2D extends GameObject {
         boundaries[2] = polyArr[0].getCenter().copy();
         boundaries[3] = polyArr[0].getCenter().copy();
 
-        for (Polygon2D b : polyArr) {
-            for (Pointf coord : b.getBounds()) {
+        for (Polygon2D p : polyArr) {
+            for (Pointf coord : p.getBounds()) {
                 // top left
                 boundaries[0].x = Math.min(boundaries[0].x, coord.x);
                 boundaries[0].y = Math.min(boundaries[0].y, coord.y);

@@ -243,8 +243,6 @@ public class Polygon2D extends GameObject {
 
         rotation += rotationMod;
 
-        // TODO: Add working image rotation
-
         setCollisionPath(renderPath);
         setBoundaries(renderPath);
     }
@@ -264,8 +262,6 @@ public class Polygon2D extends GameObject {
         }
 
         renderPath = DrawUtil.createPath(renderCopy);
-
-        // TODO: Add working image scaling
 
         setCollisionPath(renderPath);
         setBoundaries(renderPath);

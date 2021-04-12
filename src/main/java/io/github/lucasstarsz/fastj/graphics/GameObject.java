@@ -17,7 +17,7 @@ import java.util.List;
  */
 public abstract class GameObject extends Drawable {
 
-    /** {@link Pointf} representing a default translation of {@code 0f, 0f}. */
+    /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
     public static final Pointf defaultTranslation = Pointf.origin.copy();
     /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
     public static final Pointf defaultScale = new Pointf(1f).copy();
