@@ -6,24 +6,25 @@ import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.render.Display;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unittest.mock.MockManager;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
-import io.github.lucasstarsz.fastj.engine.HWAccel;
 
 import java.awt.Color;
 import java.awt.Font;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class Text2DTests {
 
-    @BeforeAll
-    public static void useSoftwareRendering() {
-        FastJEngine.configureHardwareAcceleration(HWAccel.CPU_RENDER);
+    @BeforeEach
+    public void onlyRunOnWindows() {
+        // hate to do it to ya, unix, but idk how to run github actions in non-headless mode
+        String headless = System.getProperty("java.awt.headless");
+        assumeTrue(headless == null || headless.equalsIgnoreCase("false"));
     }
 
     @Test
