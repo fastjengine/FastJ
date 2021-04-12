@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.io.mouse;
+package io.github.lucasstarsz.fastj.systems.input.mouse;
 
 import java.awt.event.MouseEvent;
 

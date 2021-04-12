@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.systems.tags;
 
 import io.github.lucasstarsz.fastj.graphics.Drawable;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,9 +1,9 @@
-package io.github.lucasstarsz.fastj.graphics.text;
+package io.github.lucasstarsz.fastj.graphics.gameobject.text;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.GameObject;
+import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;

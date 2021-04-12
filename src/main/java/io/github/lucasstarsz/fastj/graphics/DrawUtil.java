@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.graphics;
 
-import io.github.lucasstarsz.fastj.graphics.shapes.Model2D;
-import io.github.lucasstarsz.fastj.graphics.shapes.Polygon2D;
+import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
+import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 

@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.io.keyboard;
+package io.github.lucasstarsz.fastj.systems.input.keyboard;
 
 import java.awt.event.KeyEvent;
 

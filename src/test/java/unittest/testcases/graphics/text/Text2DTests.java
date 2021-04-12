@@ -1,11 +1,11 @@
 package unittest.testcases.graphics.text;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.text.Text2D;
+import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.render.Display;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.render.Display;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unittest.mock.MockManager;

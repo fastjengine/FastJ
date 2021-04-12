@@ -1,8 +1,8 @@
-package io.github.lucasstarsz.fastj.systems.game;
+package io.github.lucasstarsz.fastj.systems.control;
 
 import io.github.lucasstarsz.fastj.graphics.Drawable;
-import io.github.lucasstarsz.fastj.graphics.GameObject;
-import io.github.lucasstarsz.fastj.ui.UIElement;
+import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

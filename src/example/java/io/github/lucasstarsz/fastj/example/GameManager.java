@@ -1,8 +1,8 @@
 package io.github.lucasstarsz.fastj.example;
 
 import io.github.lucasstarsz.fastj.example.scenes.GameScene;
-import io.github.lucasstarsz.fastj.render.Display;
-import io.github.lucasstarsz.fastj.systems.game.LogicManager;
+import io.github.lucasstarsz.fastj.systems.render.Display;
+import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 
 import java.awt.RenderingHints;
 

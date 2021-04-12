@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.systems.input;
 
-import io.github.lucasstarsz.fastj.io.keyboard.Keyboard;
-import io.github.lucasstarsz.fastj.io.keyboard.KeyboardActionListener;
-import io.github.lucasstarsz.fastj.io.mouse.Mouse;
-import io.github.lucasstarsz.fastj.io.mouse.MouseActionListener;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.systems.input.keyboard.KeyboardActionListener;
+import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
+import io.github.lucasstarsz.fastj.systems.input.mouse.MouseActionListener;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;

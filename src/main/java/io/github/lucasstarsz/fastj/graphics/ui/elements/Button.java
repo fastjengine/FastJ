@@ -1,14 +1,14 @@
-package io.github.lucasstarsz.fastj.ui.elements;
+package io.github.lucasstarsz.fastj.graphics.ui.elements;
 
-import io.github.lucasstarsz.fastj.graphics.text.Text2D;
-import io.github.lucasstarsz.fastj.io.mouse.Mouse;
-import io.github.lucasstarsz.fastj.io.mouse.MouseAction;
-import io.github.lucasstarsz.fastj.io.mouse.MouseButtons;
+import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
+import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
+import io.github.lucasstarsz.fastj.systems.input.mouse.MouseAction;
+import io.github.lucasstarsz.fastj.systems.input.mouse.MouseButtons;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.render.Camera;
+import io.github.lucasstarsz.fastj.systems.render.Camera;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
-import io.github.lucasstarsz.fastj.ui.UIElement;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 

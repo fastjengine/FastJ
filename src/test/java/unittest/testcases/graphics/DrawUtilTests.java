@@ -1,8 +1,8 @@
 package unittest.testcases.graphics;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.shapes.Model2D;
-import io.github.lucasstarsz.fastj.graphics.shapes.Polygon2D;
+import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
+import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import org.junit.jupiter.api.*;
 

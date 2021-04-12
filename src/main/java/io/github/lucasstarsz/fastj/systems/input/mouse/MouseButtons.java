@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.io.mouse;
+package io.github.lucasstarsz.fastj.systems.input.mouse;
 
 /** Convenience enum defining common mouse button values. */
 public enum MouseButtons {

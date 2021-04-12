@@ -1,6 +1,6 @@
-package io.github.lucasstarsz.fastj.systems.game;
+package io.github.lucasstarsz.fastj.systems.control;
 
-import io.github.lucasstarsz.fastj.render.Display;
+import io.github.lucasstarsz.fastj.systems.render.Display;
 
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;

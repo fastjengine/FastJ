@@ -1,8 +1,8 @@
-package io.github.lucasstarsz.fastj.io.mouse;
+package io.github.lucasstarsz.fastj.systems.input.mouse;
 
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 

@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.ui;
+package io.github.lucasstarsz.fastj.graphics.ui;
 
 import java.awt.AWTEvent;
 

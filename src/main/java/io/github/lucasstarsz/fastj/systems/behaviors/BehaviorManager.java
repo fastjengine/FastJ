@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.systems.behaviors;
 
-import io.github.lucasstarsz.fastj.graphics.GameObject;
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;

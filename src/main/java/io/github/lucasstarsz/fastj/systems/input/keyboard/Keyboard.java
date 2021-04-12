@@ -1,6 +1,6 @@
-package io.github.lucasstarsz.fastj.io.keyboard;
+package io.github.lucasstarsz.fastj.systems.input.keyboard;
 
-import io.github.lucasstarsz.fastj.systems.game.Scene;
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
