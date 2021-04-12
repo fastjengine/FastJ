@@ -429,11 +429,11 @@ public class FastJEngine {
     /** Gracefully removes all resources created by the game engine. */
     private static void exit() {
         isRunning = false;
-        fpsLogger.shutdown();
+        fpsLogger.shutdownNow();
         gameManager.reset();
 
-        Mouse.reset();
-        Keyboard.reset();
+        Mouse.stop();
+        Keyboard.stop();
         BehaviorManager.reset();
         TagManager.reset();
 

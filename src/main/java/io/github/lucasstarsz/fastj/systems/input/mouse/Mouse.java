@@ -239,6 +239,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         mouseLocation.reset();
     }
 
+    public static void stop() {
+        reset();
+        MouseExecutor.shutdownNow();
+    }
+
     @Override
     public void mousePressed(MouseEvent e) {
         FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);

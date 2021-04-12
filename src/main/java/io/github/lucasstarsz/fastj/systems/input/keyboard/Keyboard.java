@@ -85,7 +85,6 @@ public class Keyboard implements KeyListener {
     /** Clears all key input from the keyboard. */
     public static void reset() {
         Keys.clear();
-        keyChecker.shutdown();
     }
 
     /**
@@ -215,6 +214,11 @@ public class Keyboard implements KeyListener {
             if (key.isKeyDown) return true;
         }
         return false;
+    }
+
+    public static void stop() {
+        reset();
+        keyChecker.shutdownNow();
     }
 
     @Override
