@@ -23,7 +23,7 @@ public class Maths {
      */
     public static double random(double min, double max) {
         double trueMax = Math.max(min, max);
-        double trueMin = max == trueMax ? max : min;
+        double trueMin = max == trueMax ? min : max;
 
         return (Math.random() * (trueMax - trueMin)) + trueMin;
     }
