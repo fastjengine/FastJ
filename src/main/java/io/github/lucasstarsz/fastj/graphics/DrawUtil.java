@@ -138,10 +138,10 @@ public final class DrawUtil {
             StringBuilder fileContents = new StringBuilder();
 
             // write object count
-            fileContents.append("amt ").append(model.getObjects().length).append(sep);
+            fileContents.append("amt ").append(model.getPolygons().length).append(sep);
 
-            for (int i = 0; i < model.getObjects().length; i++) {
-                Polygon2D obj = model.getObjects()[i];
+            for (int i = 0; i < model.getPolygons().length; i++) {
+                Polygon2D obj = model.getPolygons()[i];
                 Color c = obj.getColor();
 
                 // Write obj color, fill, show
@@ -164,7 +164,7 @@ public final class DrawUtil {
                 }
 
                 // if there are more objects after this object, then add a new line.
-                if (i != model.getObjects().length - 1) fileContents.append(sep);
+                if (i != model.getPolygons().length - 1) fileContents.append(sep);
             }
 
             Files.writeString(Paths.get(destPath), fileContents, StandardCharsets.UTF_8);

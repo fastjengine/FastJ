@@ -177,7 +177,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DRotation_shouldMatchExpected() {
+    public void checkPolygon2DRotation_aroundOrigin_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);

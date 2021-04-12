@@ -105,7 +105,7 @@ public class Model2D extends GameObject {
      *
      * @return The array of {@code Polygon2D}s.
      */
-    public Polygon2D[] getObjects() {
+    public Polygon2D[] getPolygons() {
         return polyArr;
     }
 
@@ -262,5 +262,16 @@ public class Model2D extends GameObject {
         int result = Objects.hash(collisionObject, rotation, scale, translation);
         result = 31 * result + Arrays.hashCode(polyArr);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Model2D{" +
+                "polyArr=" + Arrays.toString(polyArr) +
+                ", collisionObject=" + collisionObject +
+                ", rotation=" + rotation +
+                ", scale=" + scale +
+                ", translation=" + translation +
+                '}';
     }
 }

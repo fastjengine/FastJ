@@ -336,4 +336,17 @@ public class Polygon2D extends GameObject {
         result = 31 * result + Arrays.hashCode(points);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Polygon2D{" +
+                "renderPath=" + renderPath +
+                ", points=" + Arrays.toString(points) +
+                ", color=" + color +
+                ", paintFilled=" + paintFilled +
+                ", rotation=" + rotation +
+                ", scale=" + scale +
+                ", translation=" + translation +
+                '}';
+    }
 }
