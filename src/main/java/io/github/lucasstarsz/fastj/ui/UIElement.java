@@ -1,8 +1,8 @@
 package io.github.lucasstarsz.fastj.ui;
 
+import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.io.mouse.MouseActionListener;
 import io.github.lucasstarsz.fastj.render.Camera;
-import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
 import java.awt.Graphics2D;
@@ -20,7 +20,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     private EventCondition onActionCondition;
 
     /**
-     * Instantiates the UIElement's internals, and adds it to the origin scene as a ui element/mouse listener.
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
      *
      * @param origin The scene which this UIElement is tied to.
      */

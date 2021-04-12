@@ -21,7 +21,7 @@ import java.util.function.BiConsumer;
  */
 public class Keyboard implements KeyListener {
 
-    private static final Map<KeyDescription, Key> keys = new HashMap<>();
+    private static final Map<KeyDescription, Key> Keys = new HashMap<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
@@ -30,14 +30,14 @@ public class Keyboard implements KeyListener {
                 KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key k = null;
 
-                if (keys.get(kDesc) == null) {
+                if (Keys.get(kDesc) == null) {
                     k = new Key(keyEvent);
-                    keys.put(k.keyDescription, k);
+                    Keys.put(k.keyDescription, k);
                     kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 }
 
                 if (k == null) {
-                    k = keys.get(kDesc);
+                    k = Keys.get(kDesc);
                 }
 
                 if (!k.currentlyPressed) {
@@ -49,7 +49,7 @@ public class Keyboard implements KeyListener {
             },
             KeyEvent.KEY_RELEASED, (scene, keyEvent) -> {
                 KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key k = keys.get(kDesc);
+                Key k = Keys.get(kDesc);
 
                 if (k != null) {
                     k.setCurrentPress(false);
@@ -73,7 +73,7 @@ public class Keyboard implements KeyListener {
 
     /** Updates each key if it was recently pressed. */
     private static void keyCheck() {
-        for (Key key : keys.values()) {
+        for (Key key : Keys.values()) {
             if (key.recentPress) {
                 key.setRecentPress(!key.pressProgress());
             } else if (key.recentRelease) {
@@ -84,7 +84,7 @@ public class Keyboard implements KeyListener {
 
     /** Clears all key input from the keyboard. */
     public static void reset() {
-        keys.clear();
+        Keys.clear();
         keyChecker.shutdown();
     }
 
@@ -103,7 +103,7 @@ public class Keyboard implements KeyListener {
     public static boolean isKeyRecentlyPressed(int keyCode, KeyLocation keyLocation) {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
         if (kDesc == null) return false;
-        Key k = keys.get(kDesc);
+        Key k = Keys.get(kDesc);
 
         boolean recentlyPressed = k.recentPress;
         k.recentPress = false;
@@ -142,7 +142,7 @@ public class Keyboard implements KeyListener {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
         if (kDesc == null) return false;
 
-        Key k = keys.get(kDesc);
+        Key k = Keys.get(kDesc);
         boolean save = k.recentRelease;
         k.recentRelease = false;
 
@@ -179,7 +179,7 @@ public class Keyboard implements KeyListener {
         KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
         if (kDesc == null) return false;
 
-        return keys.get(kDesc).isKeyDown;
+        return Keys.get(kDesc).isKeyDown;
     }
 
     /**
@@ -211,7 +211,7 @@ public class Keyboard implements KeyListener {
      * @return Boolean that determines whether there are any keys pressed.
      */
     public static boolean areKeysDown() {
-        for (Key key : keys.values()) {
+        for (Key key : Keys.values()) {
             if (key.isKeyDown) return true;
         }
         return false;
@@ -407,7 +407,7 @@ public class Keyboard implements KeyListener {
          * @return The {@code KeyDescription} with the specified key code. If none matches, this returns {@code null}.
          */
         private static KeyDescription get(int keyCode, int keyLocation) {
-            for (KeyDescription k : keys.keySet()) {
+            for (KeyDescription k : Keys.keySet()) {
                 if (k.keyCode == keyCode && k.keyLocation == keyLocation) {
                     return k;
                 }

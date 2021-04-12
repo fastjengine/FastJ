@@ -18,11 +18,11 @@ import java.util.List;
 public abstract class GameObject extends Drawable {
 
     /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
-    public static final Pointf defaultTranslation = Pointf.origin.copy();
+    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
     /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
-    public static final Pointf defaultScale = new Pointf(1f).copy();
+    public static final Pointf DefaultScale = new Pointf(1f).copy();
     /** {@code float} representing a default rotation value of {@code 0f}. */
-    public static final float defaultRotation = 0f;
+    public static final float DefaultRotation = 0f;
 
     private final List<Behavior> behaviors;
 

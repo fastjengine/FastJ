@@ -7,12 +7,12 @@ package io.github.lucasstarsz.fastj.engine.internals;
  * @version 1.0.0
  */
 public class ThreadFixer {
-    private static boolean isStarted;
+    private static boolean IsDaemonRunning;
 
     /** Starts a daemon thread, if one has not already been started. */
     public static void start() {
-        if (!isStarted && System.getProperty("os.name").startsWith("Win")) {
-            isStarted = true;
+        if (!IsDaemonRunning && System.getProperty("os.name").startsWith("Win")) {
+            IsDaemonRunning = true;
 
             Thread dThread = new Thread(() -> {
                 while (true) {

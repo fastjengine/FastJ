@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class BehaviorManager {
 
-    private static final Map<Scene, List<GameObject>> behaviorListenerLists = new HashMap<>();
+    private static final Map<Scene, List<GameObject>> BehaviorListenerLists = new HashMap<>();
 
     /**
      * Gets the specified list of behavior listeners aliased to the specified {@code Scene}.
@@ -25,7 +25,7 @@ public class BehaviorManager {
      * @return The list of behavior listeners.
      */
     public static List<GameObject> getList(Scene scene) {
-        return behaviorListenerLists.get(scene);
+        return BehaviorListenerLists.get(scene);
     }
 
     /**
@@ -35,8 +35,8 @@ public class BehaviorManager {
      * @param listener The behavior listener to add.
      */
     public static void addListener(Scene scene, GameObject listener) {
-        if (!behaviorListenerLists.get(scene).contains(listener)) {
-            behaviorListenerLists.get(scene).add(listener);
+        if (!BehaviorListenerLists.get(scene).contains(listener)) {
+            BehaviorListenerLists.get(scene).add(listener);
         }
     }
 
@@ -47,7 +47,7 @@ public class BehaviorManager {
      * @param listener The behavior listener to remove.
      */
     public static void removeListener(Scene scene, GameObject listener) {
-        behaviorListenerLists.get(scene).remove(listener);
+        BehaviorListenerLists.get(scene).remove(listener);
     }
 
     /**
@@ -56,8 +56,8 @@ public class BehaviorManager {
      * @param scene The {@code Scene} to add a new alias for.
      */
     public static void addListenerList(Scene scene) {
-        if (!behaviorListenerLists.containsKey(scene)) {
-            behaviorListenerLists.put(scene, new ArrayList<>());
+        if (!BehaviorListenerLists.containsKey(scene)) {
+            BehaviorListenerLists.put(scene, new ArrayList<>());
         }
     }
 
@@ -67,7 +67,7 @@ public class BehaviorManager {
      * @param scene The {@code Scene} to remove the alias for.
      */
     public static void removeListenerList(Scene scene) {
-        behaviorListenerLists.remove(scene);
+        BehaviorListenerLists.remove(scene);
     }
 
     /**
@@ -76,7 +76,7 @@ public class BehaviorManager {
      * @param scene The {@code Scene} used as the alias to remove all behavior listeners.
      */
     public static void clearListenerList(Scene scene) {
-        behaviorListenerLists.get(scene).clear();
+        BehaviorListenerLists.get(scene).clear();
     }
 
     /**
@@ -85,7 +85,7 @@ public class BehaviorManager {
      * @param scene The {@code Scene} used as the alias to initialize the behavior listeners for.
      */
     public static void initBehaviorListeners(Scene scene) {
-        for (GameObject listener : behaviorListenerLists.get(scene)) {
+        for (GameObject listener : BehaviorListenerLists.get(scene)) {
             listener.initBehaviors();
         }
     }
@@ -96,16 +96,16 @@ public class BehaviorManager {
      * @param scene The {@code Scene} used as the alias to update the behavior listeners for.
      */
     public static void updateBehaviorListeners(Scene scene) {
-        for (GameObject listener : behaviorListenerLists.get(scene)) {
+        for (GameObject listener : BehaviorListenerLists.get(scene)) {
             listener.updateBehaviors();
         }
     }
 
     /** Resets the behavior manager entirely. */
     public static void reset() {
-        for (List<GameObject> list : behaviorListenerLists.values()) {
+        for (List<GameObject> list : BehaviorListenerLists.values()) {
             list.clear();
         }
-        behaviorListenerLists.clear();
+        BehaviorListenerLists.clear();
     }
 }

@@ -40,9 +40,9 @@ public class Text2DTests {
 
                 assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
                 assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
-                assertEquals(Text2D.defaultColor, text2D.getColor(), "The actual color should match the expected color.");
-                assertEquals(Text2D.defaultFont, text2D.getFont(), "The actual font should match the default font.");
-                assertEquals(Text2D.defaultShow, text2D.shouldRender(), "The actual show variable should match the default show variable.");
+                assertEquals(Text2D.DefaultColor, text2D.getColor(), "The actual color should match the expected color.");
+                assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
+                assertEquals(Text2D.DefaultShow, text2D.shouldRender(), "The actual show variable should match the default show variable.");
             }
 
             @Override

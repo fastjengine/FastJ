@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Pointf {
 
     /** {@code Pointf} representing the origin as a {@code float}: {@code (0f, 0f)}. */
-    public static final Pointf origin = new Pointf();
+    public static final Pointf Origin = new Pointf();
 
     /** The x value of the {@link Pointf}. */
     public float x;

@@ -33,8 +33,8 @@ import java.util.List;
  */
 public final class DrawUtil {
 
-    private static final String psdfReadError = CrashMessages.theGameCrashed("a .psdf file reading error.");
-    private static final String psdfWriteError = CrashMessages.theGameCrashed("a .psdf file reading error.");
+    private static final String PsdfReadErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
+    private static final String PsdfWriteErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
 
     /**
      * Gets a {@code Polygon2D} array, loaded from a {@code .psdf} file.
@@ -51,7 +51,7 @@ public final class DrawUtil {
     public static Polygon2D[] load2DModel(String fileLocation) {
         // check for correct file extension
         if (!fileLocation.substring(fileLocation.lastIndexOf(".") + 1).equalsIgnoreCase("psdf")) {
-            FastJEngine.error(psdfReadError,
+            FastJEngine.error(PsdfReadErrorMessage,
                     new IllegalArgumentException("Unsupported file type."
                             + System.lineSeparator()
                             + "This engine currently only supports files of the extension \".psdf\".")
@@ -122,7 +122,7 @@ public final class DrawUtil {
             }
             return result;
         } catch (IOException e) {
-            FastJEngine.error(psdfReadError, e);
+            FastJEngine.error(PsdfReadErrorMessage, e);
             return null;
         }
     }
@@ -171,7 +171,7 @@ public final class DrawUtil {
 
             Files.writeString(Paths.get(destPath), fileContents, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            FastJEngine.error(psdfWriteError, e);
+            FastJEngine.error(PsdfWriteErrorMessage, e);
         }
     }
 

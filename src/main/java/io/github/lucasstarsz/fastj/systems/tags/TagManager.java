@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
  */
 public class TagManager {
 
-    private static final List<String> masterTagList = new ArrayList<>();
-    private static final Map<Scene, List<Drawable>> entityLists = new HashMap<>();
+    private static final List<String> MasterTagList = new ArrayList<>();
+    private static final Map<Scene, List<Drawable>> EntityLists = new HashMap<>();
 
     /**
      * Gets the list of taggable entities at the specified {@code Scene}.
@@ -27,7 +27,7 @@ public class TagManager {
      * @return The list of taggable entities, as a {@code List<Drawable>}.
      */
     public static List<Drawable> getEntityList(Scene scene) {
-        return entityLists.get(scene);
+        return EntityLists.get(scene);
     }
 
     /**
@@ -36,12 +36,12 @@ public class TagManager {
      * @param tag The tag to add.
      */
     public static void addTagToMasterList(String tag) {
-        if (!masterTagList.contains(tag)) masterTagList.add(tag);
+        if (!MasterTagList.contains(tag)) MasterTagList.add(tag);
     }
 
     /** Removes all the tags from the master list. */
     public static void clearTags() {
-        masterTagList.clear();
+        MasterTagList.clear();
     }
 
     /**
@@ -51,7 +51,7 @@ public class TagManager {
      * @return The resultant boolean from checking whether the tag is in the master list.
      */
     public static boolean doesTagExist(String tag) {
-        return masterTagList.contains(tag);
+        return MasterTagList.contains(tag);
     }
 
     /**
@@ -63,8 +63,8 @@ public class TagManager {
      * @param taggableEntity The {@code Drawable} to add.
      */
     public static void addTaggableEntity(Scene scene, Drawable taggableEntity) {
-        if (!entityLists.get(scene).contains(taggableEntity)) {
-            entityLists.get(scene).add(taggableEntity);
+        if (!EntityLists.get(scene).contains(taggableEntity)) {
+            EntityLists.get(scene).add(taggableEntity);
         }
     }
 
@@ -75,7 +75,7 @@ public class TagManager {
      * @param taggableEntity The {@code Drawable} to remove.
      */
     public static void removeTaggableEntity(Scene scene, Drawable taggableEntity) {
-        entityLists.get(scene).remove(taggableEntity);
+        EntityLists.get(scene).remove(taggableEntity);
     }
 
     /**
@@ -86,8 +86,8 @@ public class TagManager {
      * @param scene The scene to add.
      */
     public static void addTaggableEntityList(Scene scene) {
-        if (!entityLists.containsKey(scene)) {
-            entityLists.put(scene, new ArrayList<>());
+        if (!EntityLists.containsKey(scene)) {
+            EntityLists.put(scene, new ArrayList<>());
         }
     }
 
@@ -97,7 +97,7 @@ public class TagManager {
      * @param scene The scene to remove.
      */
     public static void removeTaggableEntityList(Scene scene) {
-        entityLists.remove(scene);
+        EntityLists.remove(scene);
     }
 
     /**
@@ -108,7 +108,7 @@ public class TagManager {
      * @return A list of taggable entities that have the specified tag.
      */
     public static List<Drawable> getAllInListWithTag(Scene scene, String tag) {
-        return entityLists.get(scene).stream()
+        return EntityLists.get(scene).stream()
                 .filter(obj -> obj.hasTag(tag))
                 .collect(Collectors.toList());
     }
@@ -120,7 +120,7 @@ public class TagManager {
      * @return A list of taggable entities that have the specified tag.
      */
     public static List<Drawable> getAllWithTag(String tag) {
-        return entityLists.values().parallelStream()
+        return EntityLists.values().parallelStream()
                 .flatMap(List::parallelStream)
                 .filter(obj -> obj.hasTag(tag))
                 .collect(Collectors.toList());
@@ -132,15 +132,15 @@ public class TagManager {
      * @param scene The scene to clear the list of taggable entities for.
      */
     public static void clearEntityList(Scene scene) {
-        entityLists.get(scene).clear();
+        EntityLists.get(scene).clear();
     }
 
     /** Wipes the {@code TagManager} of all aliases and tags. */
     public static void reset() {
-        for (List<Drawable> entityList : entityLists.values()) {
+        for (List<Drawable> entityList : EntityLists.values()) {
             entityList.clear();
         }
-        entityLists.clear();
+        EntityLists.clear();
         clearTags();
     }
 }

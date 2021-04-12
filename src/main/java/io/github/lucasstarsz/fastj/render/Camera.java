@@ -13,7 +13,7 @@ import java.awt.geom.AffineTransform;
 public class Camera {
 
     /** A camera with no transformations. */
-    public static final Camera DEFAULT = new Camera();
+    public static final Camera Default = new Camera();
 
     private final Pointf translation;
     private float rotation;

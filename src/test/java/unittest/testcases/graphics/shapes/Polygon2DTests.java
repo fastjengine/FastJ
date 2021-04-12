@@ -19,12 +19,12 @@ public class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
         Polygon2D polygon2D = new Polygon2D(square);
 
-        assertEquals(Polygon2D.defaultColor, polygon2D.getColor(), "The created polygon's color should match the default color.");
-        assertEquals(Polygon2D.defaultFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the default fill option.");
-        assertEquals(Polygon2D.defaultShow, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default show option.");
-        assertEquals(GameObject.defaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
-        assertEquals(GameObject.defaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
-        assertEquals(GameObject.defaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
+        assertEquals(Polygon2D.DefaultColor, polygon2D.getColor(), "The created polygon's color should match the default color.");
+        assertEquals(Polygon2D.DefaultFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the default fill option.");
+        assertEquals(Polygon2D.DefaultShow, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default show option.");
+        assertEquals(GameObject.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
+        assertEquals(GameObject.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
+        assertEquals(GameObject.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
 
@@ -41,9 +41,9 @@ public class Polygon2DTests {
         assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
-        assertEquals(GameObject.defaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
-        assertEquals(GameObject.defaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
-        assertEquals(GameObject.defaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
+        assertEquals(GameObject.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
+        assertEquals(GameObject.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
+        assertEquals(GameObject.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
 
@@ -101,7 +101,7 @@ public class Polygon2DTests {
 
     @Test
     public void checkModifyPointsOfPolygon2D_withTransformResetting() {
-        Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin, 5f);
+        Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf translationBeforeReset = new Pointf(
                 Maths.random(0f, 1f),
                 Maths.random(0f, 1f)
@@ -117,19 +117,19 @@ public class Polygon2DTests {
                 .setRotation(rotationBeforeReset)
                 .setScale(scaleBeforeReset);
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
         square.modifyPoints(newSquarePoints, true, true, true);
 
         assertArrayEquals(newSquarePoints, square.getPoints(), "The expected points should match the square's points -- no transformations have been performed.");
         assertArrayEquals(newSquarePoints, square.getOriginalPoints(), "The expected points should match the square's points.");
-        assertEquals(GameObject.defaultTranslation, square.getTranslation(), "The square's translation should match the default GameObject translation.");
-        assertEquals(GameObject.defaultRotation, square.getRotation(), "The square's rotation should match the default GameObject rotation.");
-        assertEquals(GameObject.defaultScale, square.getScale(), "The square's scale should match the default GameObject scale.");
+        assertEquals(GameObject.DefaultTranslation, square.getTranslation(), "The square's translation should match the default GameObject translation.");
+        assertEquals(GameObject.DefaultRotation, square.getRotation(), "The square's rotation should match the default GameObject rotation.");
+        assertEquals(GameObject.DefaultScale, square.getScale(), "The square's scale should match the default GameObject scale.");
     }
 
     @Test
     public void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
-        Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin, 5f);
+        Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf translationBeforeReset = new Pointf(
                 Maths.random(0f, 1f),
                 Maths.random(0f, 1f)
@@ -145,7 +145,7 @@ public class Polygon2DTests {
                 .setRotation(rotationBeforeReset)
                 .setScale(scaleBeforeReset);
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
         square.modifyPoints(newSquarePoints, false, false, false);
 
         assertArrayEquals(newSquarePoints, square.getPoints(), "The expected points should match the square's points -- no transformations have been performed.");
@@ -157,7 +157,7 @@ public class Polygon2DTests {
 
     @Test
     public void checkPolygon2DTranslation_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf randomTranslation = new Pointf(
                 Maths.random(0f, 1f),
                 Maths.random(0f, 1f)
@@ -178,7 +178,7 @@ public class Polygon2DTests {
 
     @Test
     public void checkPolygon2DRotation_aroundOrigin_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
@@ -204,7 +204,7 @@ public class Polygon2DTests {
         };
 
         Polygon2D polygon2D = new Polygon2D(originalPoints);
-        polygon2D.rotate(randomRotationInDegrees, Pointf.origin);
+        polygon2D.rotate(randomRotationInDegrees, Pointf.Origin);
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
 
         assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated, should match the expected Pointf array.");
@@ -212,7 +212,7 @@ public class Polygon2DTests {
 
     @Test
     public void checkPolygon2DScaling_atOrigin_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin, 5f);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf randomScaling = new Pointf(
                 Maths.random(0f, 1f),
                 Maths.random(0f, 1f)
@@ -226,7 +226,7 @@ public class Polygon2DTests {
                 originalPoints[3].copy().multiply(Pointf.add(randomScaling, polygon2D.getScale()))
         };
 
-        polygon2D.scale(randomScaling, Pointf.origin);
+        polygon2D.scale(randomScaling, Pointf.Origin);
         Pointf[] actualScaledPoints = polygon2D.getPoints();
 
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled, should match the expected Pointf array.");

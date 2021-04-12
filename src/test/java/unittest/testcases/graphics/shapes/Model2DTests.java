@@ -15,8 +15,8 @@ public class Model2DTests {
 
     @Test
     public void checkModel2DCreation_withPolygon2DArrayParam() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
 
         Polygon2D[] polygons = {
                 new Polygon2D(square1),
@@ -27,15 +27,15 @@ public class Model2DTests {
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(Model2D.DefaultShow, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(GameObject.defaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(GameObject.defaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(GameObject.defaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(GameObject.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
+        assertEquals(GameObject.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
+        assertEquals(GameObject.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
     }
 
     @Test
     public void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
 
         Polygon2D[] polygons = {
                 new Polygon2D(square1),
@@ -48,15 +48,15 @@ public class Model2DTests {
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(GameObject.defaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(GameObject.defaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(GameObject.defaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(GameObject.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
+        assertEquals(GameObject.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
+        assertEquals(GameObject.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
     }
 
     @Test
     public void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam_andRandomlyGeneratedTransformParams() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
 
         Polygon2D[] polygons = {
                 new Polygon2D(square1),
@@ -79,8 +79,8 @@ public class Model2DTests {
 
     @Test
     public void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam_andRandomlyGeneratedTransformParams_usingMethodChaining() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
 
         Polygon2D[] polygons = {
                 new Polygon2D(square1),
@@ -107,8 +107,8 @@ public class Model2DTests {
 
     @Test
     public void checkModel2DBoundsCreation_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
 
         Polygon2D[] polygons = {
                 new Polygon2D(square1),
@@ -129,8 +129,8 @@ public class Model2DTests {
 
     @Test
     public void checkModel2DTranslation_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D[] expectedPolygons = {
@@ -155,8 +155,8 @@ public class Model2DTests {
 
     @Test
     public void checkModel2DRotation_aroundOrigin_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         float randomRotation = Maths.random(-50f, 50f);
 
         Polygon2D[] expectedPolygons = {
@@ -165,7 +165,7 @@ public class Model2DTests {
         };
 
         for (Polygon2D polygon2D : expectedPolygons) {
-            polygon2D.rotate(randomRotation, Pointf.origin);
+            polygon2D.rotate(randomRotation, Pointf.Origin);
         }
 
         Polygon2D[] actualPolygons = {
@@ -174,15 +174,15 @@ public class Model2DTests {
         };
 
         Model2D model2D = new Model2D(actualPolygons);
-        model2D.rotate(randomRotation, Pointf.origin);
+        model2D.rotate(randomRotation, Pointf.Origin);
 
         assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual rotated Polygon2Ds should match the expected Polygon2Ds.");
     }
 
     @Test
     public void checkModel2DScaling_atOrigin_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.origin, 25f), 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D[] expectedPolygons = {
@@ -191,7 +191,7 @@ public class Model2DTests {
         };
 
         for (Polygon2D polygon2D : expectedPolygons) {
-            polygon2D.scale(randomScaling, Pointf.origin);
+            polygon2D.scale(randomScaling, Pointf.Origin);
         }
 
         Polygon2D[] actualPolygons = {
@@ -200,7 +200,7 @@ public class Model2DTests {
         };
 
         Model2D model2D = new Model2D(actualPolygons);
-        model2D.scale(randomScaling, Pointf.origin);
+        model2D.scale(randomScaling, Pointf.Origin);
 
         assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual scaled Polygon2Ds should match the expected Polygon2Ds.");
     }

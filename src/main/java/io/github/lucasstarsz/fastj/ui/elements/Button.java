@@ -21,9 +21,9 @@ import java.awt.geom.Rectangle2D;
 public class Button extends UIElement {
 
     /** The default location of a {@link Button}: (0, 0). */
-    public static final Pointf DEFAULT_LOCATION = new Pointf();
+    public static final Pointf DefaultLocation = new Pointf();
     /** The default size of a {@link Button}: (100f, 25f). */
-    public static final Pointf DEFAULT_SIZE = new Pointf(100f, 25f);
+    public static final Pointf DefaultSize = new Pointf(100f, 25f);
 
     private Paint paint;
     private Rectangle2D.Float renderPath;
@@ -40,7 +40,7 @@ public class Button extends UIElement {
      * @param origin The scene to add the button as a gui object to.
      */
     public Button(Scene origin) {
-        this(origin, DEFAULT_LOCATION, DEFAULT_SIZE);
+        this(origin, DefaultLocation, DefaultSize);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Button extends UIElement {
         super.setCollisionPath(renderPath);
 
         this.setPaint(Color.cyan);
-        this.setFont(Text2D.defaultFont);
+        this.setFont(Text2D.DefaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }

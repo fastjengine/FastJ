@@ -25,11 +25,11 @@ import java.awt.geom.Rectangle2D;
 public class Text2D extends GameObject {
 
     /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
-    public static final Color defaultColor = Color.black;
+    public static final Color DefaultColor = Color.black;
     /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
-    public static final Font defaultFont = new Font("Segoe UI", Font.PLAIN, 12);
+    public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
     /** {@code boolean} representing the default "should render" value of {@code true}. */
-    public static final boolean defaultShow = true;
+    public static final boolean DefaultShow = true;
 
     private String text;
     private Color color;
@@ -40,14 +40,14 @@ public class Text2D extends GameObject {
     /**
      * {@code Text2D} Constructor that takes in a string of text and a location.
      * <p>
-     * This constructor defaults the color to {@link #defaultColor}, the font to {@link #defaultFont}, and sets the
-     * {@code show} boolean to {@link #defaultShow}.
+     * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
+     * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the x and y location of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, setTranslation, defaultColor, defaultFont, defaultShow);
+        this(setText, setTranslation, DefaultColor, DefaultFont, DefaultShow);
     }
 
     /**

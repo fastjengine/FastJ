@@ -446,7 +446,7 @@ public class Display {
      * @return The {@code Graphics2D} object which is associated with the {@code Display}.
      */
     public Graphics2D getGraphics() {
-        return prepareGraphics((Graphics2D) drawingCanvas.getBufferStrategy().getDrawGraphics(), Camera.DEFAULT);
+        return prepareGraphics((Graphics2D) drawingCanvas.getBufferStrategy().getDrawGraphics(), Camera.Default);
     }
 
     /**

@@ -25,8 +25,8 @@ import java.util.function.BiConsumer;
  */
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private static final ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
-    private static final Map<Integer, MouseButton> mouseButtons = new HashMap<>();
+    private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
     private static int buttonLastPressed = -1;
     private static int buttonLastReleased = -1;
     private static int buttonLastClicked = -1;
@@ -38,20 +38,20 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
                 if (!MouseAction.PRESS.recentAction) createSleeperThread(MouseAction.PRESS);
 
-                if (!mouseButtons.containsKey(mouseEvent.getButton())) {
+                if (!MouseButtons.containsKey(mouseEvent.getButton())) {
                     MouseButton btn = new MouseButton(mouseEvent);
-                    mouseButtons.put(btn.buttonLocation, btn);
+                    MouseButtons.put(btn.buttonLocation, btn);
                 }
                 buttonLastPressed = mouseEvent.getButton();
-                mouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
+                MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
 
                 scene.inputManager.fireMousePressed(mouseEvent);
             },
             MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
                 if (!MouseAction.RELEASE.recentAction) createSleeperThread(MouseAction.RELEASE);
 
-                if (mouseButtons.containsKey(mouseEvent.getButton())) {
-                    mouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
+                if (MouseButtons.containsKey(mouseEvent.getButton())) {
+                    MouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
                 }
                 buttonLastReleased = mouseEvent.getButton();
 
@@ -140,11 +140,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * @return The boolean value that represents whether the specified button is pressed.
      */
     public static boolean isMouseButtonPressed(MouseButtons mouseButton) {
-        if (!mouseButtons.containsKey(mouseButton.buttonValue)) {
+        if (!MouseButtons.containsKey(mouseButton.buttonValue)) {
             return false;
         }
 
-        return mouseButtons.get(mouseButton.buttonValue).currentlyPressed;
+        return MouseButtons.get(mouseButton.buttonValue).currentlyPressed;
     }
 
     /**
@@ -156,11 +156,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * @return The boolean value that represents whether the specified button is pressed.
      */
     public static boolean isMouseButtonPressed(int buttonNumber) {
-        if (!mouseButtons.containsKey(buttonNumber)) {
+        if (!MouseButtons.containsKey(buttonNumber)) {
             return false;
         }
 
-        return mouseButtons.get(buttonNumber).currentlyPressed;
+        return MouseButtons.get(buttonNumber).currentlyPressed;
     }
 
     /**
@@ -224,7 +224,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     private static void createSleeperThread(MouseAction e) {
         e.recentAction = true;
-        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
+        MouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
     }
 
     /** Resets the {@code Mouse}. */
@@ -235,7 +235,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         lastScrollDirection = 0;
         currentlyOnScreen = false;
 
-        mouseButtons.clear();
+        MouseButtons.clear();
         mouseLocation.reset();
     }
 

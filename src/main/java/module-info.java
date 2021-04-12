@@ -1,9 +1,14 @@
 /**
  * The FastJ Game Library in its entirety.
  * <p>
- * This game library is split into two main parts: the framework with which to build games (every package except {@code
- * engine}), and the engine running it (just package {@code engine}). FastJ does not use any external dependencies -- it
- * relies entirely on Java 15's {@code java.desktop} module, using AWT and Swing to display output.
+ * FastJ does not use any external dependencies -- it relies entirely on Java 11's {@code java.desktop} module, using
+ * AWT and Swing to display output.
+ * <p>
+ * This game library is split into two main parts:
+ * <ul>
+ *     <li>the framework with which to build games (every package except {@link io.github.lucasstarsz.fastj.engine}), and</li>
+ *     <li>the engine running it (just package {@code engine}).</li>
+ * </ul>
  * <p>
  * For more information, check out
  * <a href="https://github.com/lucasstarsz/FastJ-Engine" target="_blank">the github repository.</a>

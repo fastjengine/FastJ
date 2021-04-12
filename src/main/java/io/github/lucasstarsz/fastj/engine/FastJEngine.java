@@ -31,13 +31,13 @@ import java.util.concurrent.TimeUnit;
 public class FastJEngine {
 
     /** Default engine value for frames per second. */
-    public static final int DEFAULT_FPS = Math.max(Display.getDefaultMonitorRefreshRate(), 1);
+    public static final int DefaultFPS = Math.max(Display.getDefaultMonitorRefreshRate(), 1);
     /** Default engine value for updates per second. */
-    public static final int DEFAULT_UPS = 60;
+    public static final int DefaultUPS = 60;
     /** Default engine value for the window resolution of the {@link Display}. */
-    public static final Point DEFAULT_WINDOW_RESOLUTION = new Point(1280, 720);
+    public static final Point DefaultWindowResolution = new Point(1280, 720);
     /** Default engine value for the internal resolution of the {@link Display}. */
-    public static final Point DEFAULT_INTERNAL_RESOLUTION = new Point(1280, 720);
+    public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     // engine speed variables
     private static int targetFPS;
@@ -81,7 +81,7 @@ public class FastJEngine {
      *                    methods are operated from.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(gameTitle, gameManager, DEFAULT_FPS, DEFAULT_UPS, DEFAULT_WINDOW_RESOLUTION, DEFAULT_INTERNAL_RESOLUTION, HWAccel.DEFAULT);
+        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.DEFAULT);
     }
 
     /**

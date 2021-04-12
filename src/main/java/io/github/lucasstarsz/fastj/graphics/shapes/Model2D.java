@@ -57,8 +57,8 @@ public class Model2D extends GameObject {
 
         setBounds(createBounds());
 
-        rotation = GameObject.defaultRotation;
-        scale = GameObject.defaultScale.copy();
+        rotation = GameObject.DefaultRotation;
+        scale = GameObject.DefaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setCollisionPoints();
@@ -85,8 +85,8 @@ public class Model2D extends GameObject {
 
         setBounds(createBounds());
 
-        rotation = GameObject.defaultRotation;
-        scale = GameObject.defaultScale.copy();
+        rotation = GameObject.DefaultRotation;
+        scale = GameObject.DefaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setCollisionPoints();

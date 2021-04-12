@@ -24,11 +24,11 @@ import java.util.Objects;
 public class Polygon2D extends GameObject {
 
     /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
-    public static final Color defaultColor = Color.black;
+    public static final Color DefaultColor = Color.black;
     /** {@code boolean} representing the default "should fill" value of {@code true}. */
-    public static final boolean defaultFill = true;
+    public static final boolean DefaultFill = true;
     /** {@code boolean} representing the default "should render" value of {@code true}. */
-    public static final boolean defaultShow = true;
+    public static final boolean DefaultShow = true;
 
     private Path2D.Float renderPath;
     private Pointf[] points;
@@ -44,13 +44,13 @@ public class Polygon2D extends GameObject {
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
      * <p>
-     * This constructor defaults the color to {@link #defaultColor}, the fill to {@link #defaultFill}, and sets the
-     * {@code show} boolean to {@link #defaultShow}.
+     * This constructor defaults the color to {@link #DefaultColor}, the fill to {@link #DefaultFill}, and sets the
+     * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param pts {@code Pointf} array that defines the points for the polygon.
      */
     public Polygon2D(Pointf[] pts) {
-        this(pts, defaultColor, defaultFill, defaultShow);
+        this(pts, DefaultColor, DefaultFill, DefaultShow);
     }
 
     /**
@@ -68,8 +68,8 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        rotation = GameObject.defaultRotation;
-        scale = GameObject.defaultScale.copy();
+        rotation = GameObject.DefaultRotation;
+        scale = GameObject.DefaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setColor(color);
@@ -98,8 +98,8 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        rotation = GameObject.defaultRotation;
-        scale = GameObject.defaultScale.copy();
+        rotation = GameObject.DefaultRotation;
+        scale = GameObject.DefaultScale.copy();
         translation = new Pointf(getBound(Boundary.TOP_LEFT));
 
         setTranslation(setLocation);
@@ -197,13 +197,13 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
 
         if (resetTranslation) {
-            translation.set(GameObject.defaultTranslation.x, GameObject.defaultTranslation.y);
+            translation.set(GameObject.DefaultTranslation.x, GameObject.DefaultTranslation.y);
         }
         if (resetRotation) {
-            rotation = GameObject.defaultRotation;
+            rotation = GameObject.DefaultRotation;
         }
         if (resetScale) {
-            scale.set(GameObject.defaultScale.x, GameObject.defaultScale.y);
+            scale.set(GameObject.DefaultScale.x, GameObject.DefaultScale.y);
         }
 
         setBoundaries(renderPath);

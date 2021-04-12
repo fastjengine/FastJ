@@ -39,9 +39,9 @@ import java.util.UUID;
  */
 public abstract class Drawable extends TaggableEntity {
 
-    private static final String collisionErrorMessage = CrashMessages.theGameCrashed("a collision error.");
-    private static final String gameObjectError = CrashMessages.theGameCrashed("a game object error.");
-    private static final String uiElementError = CrashMessages.theGameCrashed("a ui element error.");
+    private static final String CollisionErrorMessage = CrashMessages.theGameCrashed("a collision error.");
+    private static final String GameObjectErrorMessage = CrashMessages.theGameCrashed("a game object error.");
+    private static final String UiElementErrorMessage = CrashMessages.theGameCrashed("a ui element error.");
 
     private final UUID rawID;
     private final String id;
@@ -184,7 +184,7 @@ public abstract class Drawable extends TaggableEntity {
             otherObject = new Area(obj.collisionPath);
         } catch (NullPointerException e) {
             if (!FastJEngine.getLogicManager().isSwitchingScenes()) {
-                FastJEngine.error(collisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + obj.id + " is null"));
+                FastJEngine.error(CollisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + obj.id + " is null"));
             }
             return false;
         }
@@ -193,7 +193,7 @@ public abstract class Drawable extends TaggableEntity {
             thisObject = new Area(collisionPath);
         } catch (NullPointerException e) {
             if (!FastJEngine.getLogicManager().isSwitchingScenes()) {
-                FastJEngine.error(collisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + id + " is null"));
+                FastJEngine.error(CollisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + id + " is null"));
             }
             return false;
         }
@@ -213,7 +213,7 @@ public abstract class Drawable extends TaggableEntity {
             origin.drawableManager.addGameObject((GameObject) this);
             return (GameObject) this;
         } else {
-            FastJEngine.error(gameObjectError, new IllegalStateException("Cannot add non-game object as a game object."));
+            FastJEngine.error(GameObjectErrorMessage, new IllegalStateException("Cannot add non-game object as a game object."));
             return null;
         }
     }
@@ -229,7 +229,7 @@ public abstract class Drawable extends TaggableEntity {
             origin.drawableManager.addGUIObject((UIElement) this);
             return (UIElement) this;
         } else {
-            FastJEngine.error(uiElementError, new IllegalStateException("Cannot add non-ui object as a ui object."));
+            FastJEngine.error(UiElementErrorMessage, new IllegalStateException("Cannot add non-ui object as a ui object."));
             return null;
         }
     }

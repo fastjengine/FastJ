@@ -25,7 +25,7 @@ import java.util.List;
  * @version 1.0.0
  */
 public abstract class TaggableEntity {
-    List<String> tags = new ArrayList<>();
+    private final List<String> tags = new ArrayList<>();
 
     /**
      * Gets the list of tags.
