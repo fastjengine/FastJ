@@ -12,6 +12,8 @@ import java.util.Random;
  */
 public class Maths {
 
+    public static final float FloatPrecision = 0.000001f;
+
     private static final Random rand = new Random();
 
     /**
