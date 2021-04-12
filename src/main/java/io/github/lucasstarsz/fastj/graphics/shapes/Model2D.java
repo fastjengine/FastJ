@@ -34,8 +34,8 @@ public class Model2D extends GameObject {
     /**
      * Model2D constructor that takes in an array of {@link Polygon2D} objects.
      * <p>
-     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to defaults
-     * whether the {@code Model2D} should be shown to {@code true}.
+     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and defaults whether the
+     * {@code Model2D} should be shown to {@link #DefaultShow}.
      *
      * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
      */

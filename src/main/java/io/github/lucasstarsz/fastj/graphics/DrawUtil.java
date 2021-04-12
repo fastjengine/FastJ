@@ -9,6 +9,8 @@ import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
@@ -621,5 +623,16 @@ public final class DrawUtil {
      */
     public static Color randomColorWithAlpha() {
         return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255));
+    }
+
+    /**
+     * Generates a random {@link Font} using the available fonts on the system, with a font size within the range of
+     * {@code 1-256}, inclusive.
+     *
+     * @return The randomly generated {@link Font}.
+     */
+    public static Font randomFont() {
+        String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        return new Font(fonts[Maths.randomInteger(0, fonts.length)], Maths.randomInteger(0, 2), Maths.randomInteger(1, 256));
     }
 }

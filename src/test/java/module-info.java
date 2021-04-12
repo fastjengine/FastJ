@@ -6,4 +6,5 @@ module fastj.library.test {
 
     exports unittest.testcases.graphics;
     exports unittest.testcases.graphics.shapes;
+    exports unittest.testcases.graphics.text;
 }

@@ -1,9 +1,9 @@
 package io.github.lucasstarsz.fastj.engine;
 
-import io.github.lucasstarsz.fastj.render.Display;
 import io.github.lucasstarsz.fastj.io.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.io.mouse.Mouse;
 import io.github.lucasstarsz.fastj.math.Point;
+import io.github.lucasstarsz.fastj.render.Display;
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.game.LogicManager;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
@@ -208,8 +208,7 @@ public class FastJEngine {
     /**
      * Gets the logic manager associated with the game engine.
      *
-     * @return The {@link io.github.lucasstarsz.fastj.systems.game.LogicManager} object associated with the
-     * game engine.
+     * @return The {@link LogicManager} object associated with the game engine.
      */
     public static LogicManager getLogicManager() {
         return gameManager;
@@ -428,9 +427,7 @@ public class FastJEngine {
         }
     }
 
-    /**
-     * Gracefully exits the application.
-     */
+    /** Gracefully removes all resources created by the game engine. */
     private static void exit() {
         isRunning = false;
         fpsLogger.shutdown();
@@ -441,7 +438,29 @@ public class FastJEngine {
         BehaviorManager.reset();
         TagManager.reset();
 
-        System.exit(0);
+        // engine speed variables
+        targetFPS = 0;
+        targetUPS = 0;
+
+        // FPS counting
+        timer = null;
+        fpsLog = null;
+        drawFrames = 0;
+        totalFPS = 0;
+        fpsIndex = 0;
+        fpsLogger = null;
+
+        // HW acceleration
+        hwAccel = null;
+
+        // Display/Logic
+        display = null;
+        gameManager = null;
+
+        // Check values
+        isRunning = false;
+
+        System.gc();
     }
 
     /**

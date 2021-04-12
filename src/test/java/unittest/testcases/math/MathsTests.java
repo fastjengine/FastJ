@@ -22,7 +22,19 @@ public class MathsTests {
     }
 
     @Test
-    public void checkGenerateRandoms_ensureMatchAtLeastOneEdge() {
+    public void checkGenerateRandomIntegers_ensureWithinExpectedRange() {
+        int minimumRandomRange = 13;
+        int maximumRandomRange = 37;
+
+        String assertFailMessage = "Generated random value should be within expected range.";
+        for (int i = 0; i < 255; i++) {
+            float generatedRandom = Maths.random(minimumRandomRange, maximumRandomRange);
+            assertTrue(generatedRandom >= minimumRandomRange && generatedRandom <= maximumRandomRange, assertFailMessage);
+        }
+    }
+
+    @Test
+    public void checkGenerateRandomsAtEdges_ensureMatchAtLeastOneEdge() {
         float leftEdge = 3.5f;
         float rightEdge = 7.5f;
 

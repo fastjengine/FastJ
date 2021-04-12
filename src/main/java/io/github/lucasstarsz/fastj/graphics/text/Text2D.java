@@ -1,11 +1,11 @@
 package io.github.lucasstarsz.fastj.graphics.text;
 
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
+import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.GameObject;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.Color;
@@ -24,8 +24,12 @@ import java.awt.geom.Rectangle2D;
  */
 public class Text2D extends GameObject {
 
-    /** The default font used for drawing {@code Text2D} objects. */
-    public static final Font DEFAULT_FONT = new Font("Segoe UI", Font.PLAIN, 12);
+    /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
+    public static final Color defaultColor = Color.black;
+    /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
+    public static final Font defaultFont = new Font("Segoe UI", Font.PLAIN, 12);
+    /** {@code boolean} representing the default "should render" value of {@code true}. */
+    public static final boolean defaultShow = true;
 
     private String text;
     private Color color;
@@ -34,20 +38,20 @@ public class Text2D extends GameObject {
     private boolean hasMetrics;
 
     /**
-     * {@code Text2D} Constructor.
+     * {@code Text2D} Constructor that takes in a string of text and a location.
      * <p>
-     * This constructor only requires the text, and the location. It sets the color to black, the font to {@code
-     * Text2D.DEFAULT_FONT}, and sets the {@code show} boolean to true.
+     * This constructor defaults the color to {@link #defaultColor}, the font to {@link #defaultFont}, and sets the
+     * {@code show} boolean to {@link #defaultShow}.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the x and y location of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, setTranslation, Color.black, DEFAULT_FONT, true);
+        this(setText, setTranslation, defaultColor, defaultFont, defaultShow);
     }
 
     /**
-     * {@code Text2D} Constructor.
+     * {@code Text2D} Constructor that takes in a string of text, a location, a color, a font, and a show variable.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the x and y location of the text.

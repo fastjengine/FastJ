@@ -62,7 +62,7 @@ public class Button extends UIElement {
         super.setCollisionPath(renderPath);
 
         this.setPaint(Color.cyan);
-        this.setFont(Text2D.DEFAULT_FONT);
+        this.setFont(Text2D.defaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }

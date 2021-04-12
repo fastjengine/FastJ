@@ -18,7 +18,7 @@ public class Maths {
     public static final float FloatPrecision = 0.000001f;
 
     /**
-     * Generates a random number within the specified min and max limits.
+     * Generates a random float number within the specified min and max limits.
      *
      * @param min The minimum number possible.
      * @param max The maximum number possible.
@@ -30,6 +30,26 @@ public class Maths {
         }
 
         return ThreadLocalRandom.current().nextFloat() * (max - min) + min;
+    }
+
+    /**
+     * Generates a random integer number within the specified min and max limits.
+     * <p/>
+     * Unlike the other random generator methods, this method <b>includes</b> the max number as a possibility.
+     *
+     * @param min The minimum number possible.
+     * @param max The maximum number possible.
+     * @return Randomized integer value within the range of the specified parameters, including both the min and max as
+     * possible values.
+     */
+    public static int randomInteger(int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
+
+        // nextInt(...) excludes the max number as a possibility...
+        // as such, I extend the range here.
+        return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
     /**

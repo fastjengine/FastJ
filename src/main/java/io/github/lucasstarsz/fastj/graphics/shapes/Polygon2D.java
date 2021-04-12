@@ -44,8 +44,8 @@ public class Polygon2D extends GameObject {
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
      * <p>
-     * This constructor defaults the color to black, and both the {@code fill} and {@code show} booleans to {@code
-     * true}.
+     * This constructor defaults the color to {@link #defaultColor}, the fill to {@link #defaultFill}, and sets the
+     * {@code show} boolean to {@link #defaultShow}.
      *
      * @param pts {@code Pointf} array that defines the points for the polygon.
      */
