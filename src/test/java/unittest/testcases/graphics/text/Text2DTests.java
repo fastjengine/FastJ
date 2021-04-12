@@ -6,10 +6,13 @@ import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.render.Display;
 import io.github.lucasstarsz.fastj.systems.game.Scene;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import unittest.mock.MockManager;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
+import io.github.lucasstarsz.fastj.engine.HWAccel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -17,6 +20,11 @@ import java.awt.Font;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Text2DTests {
+
+    @BeforeAll
+    public static void useSoftwareRendering() {
+        FastJEngine.configureHardwareAcceleration(HWAccel.CPU_RENDER);
+    }
 
     @Test
     public void checkText2DConstructor_withStringTextParam_andPointfTranslationParam() {
