@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class FastJEngine {
 
     /** Default engine value for frames per second. */
-    public static final int DEFAULT_FPS = Display.getDefaultMonitorRefreshRate();
+    public static final int DEFAULT_FPS = Math.max(Display.getDefaultMonitorRefreshRate(), 1);
     /** Default engine value for updates per second. */
     public static final int DEFAULT_UPS = 60;
     /** Default engine value for the window resolution of the {@link Display}. */
