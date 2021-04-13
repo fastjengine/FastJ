@@ -3,11 +3,11 @@ package io.github.lucasstarsz.fastj.systems.render;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
-import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
-import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
+import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
+import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
@@ -32,27 +32,36 @@ import java.util.Map;
  */
 public class Display {
 
-    private final Map<RenderingHints.Key, Object> renderHints;
+    /** Integer representing the default back buffer amount of {@code 3}. */
+    public static final int DefaultBackBufferAmount = 3;
+
     // input
     private final Mouse mouse;
-    private final Keyboard kb;
+    private final Keyboard keyboard;
+
     // display and background
     private JFrame outputDisplay;
     private Rectangle2D.Float background;
+
     // title
     private String displayTitle;
     private String vanityDisplayTitle;
     private boolean shouldDisplayFPSInTitle = false;
+
     // resolution
     private Point viewerResolution;
     private Point internalResolution;
     private Point lastResolution;
+
     // full-screen, windowed full-screen
     private boolean isFullscreen;
     private boolean isWindowedFullscreen;
     private boolean switchingScreenState;
+
     // graphics drawing
+    private final Map<RenderingHints.Key, Object> renderHints;
     private Canvas drawingCanvas;
+
     // helpers
     private boolean isClosed = false;
     private boolean isReady = false;
@@ -70,10 +79,10 @@ public class Display {
         viewerResolution = viewerRes;
         internalResolution = internalRes.copy();
 
-        lastResolution = new Point();
+        lastResolution = Point.Origin.copy();
         renderHints = new LinkedHashMap<>();
         mouse = new Mouse();
-        kb = new Keyboard();
+        keyboard = new Keyboard();
     }
 
     /**
@@ -362,7 +371,9 @@ public class Display {
      * @param enable Boolean to set whether the display should be in windowed full-screen mode.
      */
     public void setWindowedFullscreen(boolean enable) {
-        if (enable == isWindowedFullscreen) return;
+        if (enable == isWindowedFullscreen) {
+            return;
+        }
 
         switchingScreenState = true;
 
@@ -716,16 +727,16 @@ public class Display {
         drawingCanvas.addMouseListener(mouse);
         drawingCanvas.addMouseMotionListener(mouse);
         drawingCanvas.addMouseWheelListener(mouse);
-        drawingCanvas.addKeyListener(kb);
+        drawingCanvas.addKeyListener(keyboard);
 
         outputDisplay.getContentPane().add(drawingCanvas);
         outputDisplay.pack();
         outputDisplay.setLocationRelativeTo(null);
 
-        drawingCanvas.createBufferStrategy(3);
+        drawingCanvas.createBufferStrategy(Display.DefaultBackBufferAmount);
 
         // set background rectangle
-        background = new Rectangle2D.Float(0, 0, internalResolution.x, internalResolution.y);
+        background = new Rectangle2D.Float(0f, 0f, internalResolution.x, internalResolution.y);
     }
 
     /** Sets the default state of the rendering hints for the {@code Display}. */

@@ -27,34 +27,34 @@ public class Keyboard implements KeyListener {
 
     private static final Map<Integer, BiConsumer<Scene, KeyEvent>> keyEventProcessor = Map.of(
             KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
-                KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key k = null;
+                KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                Key key = null;
 
-                if (Keys.get(kDesc) == null) {
-                    k = new Key(keyEvent);
-                    Keys.put(k.keyDescription, k);
-                    kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                if (Keys.get(keyDescription) == null) {
+                    key = new Key(keyEvent);
+                    Keys.put(key.keyDescription, key);
+                    keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 }
 
-                if (k == null) {
-                    k = Keys.get(kDesc);
+                if (key == null) {
+                    key = Keys.get(keyDescription);
                 }
 
-                if (!k.currentlyPressed) {
-                    k.setRecentPress(true);
+                if (!key.currentlyPressed) {
+                    key.setRecentPress(true);
                     scene.inputManager.fireKeyRecentlyPressed(keyEvent);
                 }
 
-                k.setCurrentPress(true);
+                key.setCurrentPress(true);
             },
             KeyEvent.KEY_RELEASED, (scene, keyEvent) -> {
-                KeyDescription kDesc = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key k = Keys.get(kDesc);
+                KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+                Key key = Keys.get(keyDescription);
 
-                if (k != null) {
-                    k.setCurrentPress(false);
-                    k.setRecentPress(false);
-                    k.setRecentRelease(true);
+                if (key != null) {
+                    key.setCurrentPress(false);
+                    key.setRecentPress(false);
+                    key.setRecentRelease(true);
                 }
 
                 scene.inputManager.fireKeyReleased(keyEvent);
@@ -100,9 +100,11 @@ public class Keyboard implements KeyListener {
      * @return Boolean value that determines if the specified key was recently pressed.
      */
     public static boolean isKeyRecentlyPressed(int keyCode, KeyLocation keyLocation) {
-        KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
-        if (kDesc == null) return false;
-        Key k = Keys.get(kDesc);
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+        if (keyDescription == null) {
+            return false;
+        }
+        Key k = Keys.get(keyDescription);
 
         boolean recentlyPressed = k.recentPress;
         k.recentPress = false;
@@ -138,14 +140,16 @@ public class Keyboard implements KeyListener {
      * @return Boolean value that determines if the specified key was recently released.
      */
     public static boolean isKeyRecentlyReleased(int keyCode, KeyLocation keyLocation) {
-        KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
-        if (kDesc == null) return false;
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+        if (keyDescription == null) {
+            return false;
+        }
+        Key key = Keys.get(keyDescription);
 
-        Key k = Keys.get(kDesc);
-        boolean save = k.recentRelease;
-        k.recentRelease = false;
+        boolean recentlyReleased = key.recentRelease;
+        key.recentRelease = false;
 
-        return save;
+        return recentlyReleased;
     }
 
     /**
@@ -175,10 +179,12 @@ public class Keyboard implements KeyListener {
      * @return Boolean value that determines if the specified key is pressed.
      */
     public static boolean isKeyDown(int keyCode, KeyLocation keyLocation) {
-        KeyDescription kDesc = KeyDescription.get(keyCode, keyLocation.location);
-        if (kDesc == null) return false;
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+        if (keyDescription == null) {
+            return false;
+        }
 
-        return Keys.get(kDesc).isKeyDown;
+        return Keys.get(keyDescription).isKeyDown;
     }
 
     /**
@@ -211,7 +217,9 @@ public class Keyboard implements KeyListener {
      */
     public static boolean areKeysDown() {
         for (Key key : Keys.values()) {
-            if (key.isKeyDown) return true;
+            if (key.isKeyDown) {
+                return true;
+            }
         }
         return false;
     }
@@ -411,9 +419,9 @@ public class Keyboard implements KeyListener {
          * @return The {@code KeyDescription} with the specified key code. If none matches, this returns {@code null}.
          */
         private static KeyDescription get(int keyCode, int keyLocation) {
-            for (KeyDescription k : Keys.keySet()) {
-                if (k.keyCode == keyCode && k.keyLocation == keyLocation) {
-                    return k;
+            for (KeyDescription keyDescription : Keys.keySet()) {
+                if (keyDescription.keyCode == keyCode && keyDescription.keyLocation == keyLocation) {
+                    return keyDescription;
                 }
             }
             return null;

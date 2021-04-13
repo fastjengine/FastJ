@@ -7,6 +7,7 @@ import io.github.lucasstarsz.fastj.math.Pointf;
 import org.junit.jupiter.api.*;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -450,5 +451,16 @@ public class DrawUtilTests {
             generatedRGBAColors[i] = DrawUtil.randomColorWithAlpha();
         }
         System.out.println("Generated RGBA colors: " + Arrays.toString(generatedRGBAColors));
+    }
+
+    @Test
+    public void checkGenerateFonts_shouldNotFail() {
+        int generatedFontCount = 255;
+        Font[] generatedFonts = new Font[generatedFontCount];
+
+        for (int i = 0; i < generatedFontCount; i++) {
+            generatedFonts[i] = DrawUtil.randomFont();
+        }
+        System.out.println("Generated fonts: " + Arrays.toString(generatedFonts));
     }
 }

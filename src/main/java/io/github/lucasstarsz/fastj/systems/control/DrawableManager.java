@@ -8,13 +8,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
-/** Class to manage renderables, or {@link Drawable} objects. */
+/** Class to manage {@link Drawable} objects. */
 public class DrawableManager {
 
     private final Map<String, GameObject> gameObjects;
     private final Map<String, UIElement> GUIObjects;
 
-    /** Initializes a {@code DrawawbleManager}'s internals. */
+    /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
         gameObjects = new LinkedHashMap<>();
         GUIObjects = new LinkedHashMap<>();

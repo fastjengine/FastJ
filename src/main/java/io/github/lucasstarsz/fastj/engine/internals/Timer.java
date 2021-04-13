@@ -25,7 +25,7 @@ public class Timer {
      * @return The current time (nanoseconds) as a double.
      */
     public double getTime() {
-        return System.nanoTime() / 1_000_000_000.0;
+        return System.nanoTime() / 1_000_000_000d;
     }
 
     /**

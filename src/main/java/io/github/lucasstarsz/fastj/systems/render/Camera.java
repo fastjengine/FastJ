@@ -20,7 +20,7 @@ public class Camera {
 
     /** Constructs a {@code Camera} with transformation set to 0. */
     public Camera() {
-        this(new Pointf(), 0f);
+        this(Pointf.Origin.copy(), 0f);
     }
 
     /**
@@ -38,7 +38,7 @@ public class Camera {
      * @param setRotation Sets the rotation of this {@code Camera}.
      */
     public Camera(float setRotation) {
-        this(new Pointf(), setRotation);
+        this(Pointf.Origin.copy(), setRotation);
     }
 
     /**
@@ -102,7 +102,7 @@ public class Camera {
 
     /** Resets the camera's transformation. */
     public void reset() {
-        translation.set(0, 0);
+        translation.reset();
         rotation = 0;
     }
 }

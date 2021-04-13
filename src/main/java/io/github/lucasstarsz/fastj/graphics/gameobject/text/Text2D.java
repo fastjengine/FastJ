@@ -142,17 +142,20 @@ public class Text2D extends GameObject {
 
     @Override
     public Pointf getScale() {
-        return new Pointf(1f);
+        return GameObject.DefaultScale.copy();
     }
 
     @Override
     public float getRotation() {
-        return 0f;
+        return GameObject.DefaultRotation;
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) return;
+        if (!shouldRender()) {
+            return;
+        }
+
         if (!hasMetrics) {
             setMetrics(g);
         }

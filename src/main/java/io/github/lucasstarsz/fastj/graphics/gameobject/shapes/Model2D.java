@@ -182,7 +182,7 @@ public class Model2D extends GameObject {
         polyArr = null;
 
         scale = null;
-        rotation = 0;
+        rotation = 0f;
         translation = null;
 
         collisionObject.destroy(originScene);

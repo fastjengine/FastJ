@@ -567,7 +567,7 @@ public final class DrawUtil {
                     break;
                 case PathIterator.SEG_CLOSE:
                     if (numSubPaths > 1) {
-                        throw new IllegalArgumentException("Path contains multiple subpaths");
+                        throw new IllegalArgumentException("Path contains multiple sub-paths");
                     }
                     return pointList.toArray(new Pointf[0]);
                 default:
@@ -632,7 +632,15 @@ public final class DrawUtil {
      * @return The randomly generated {@link Font}.
      */
     public static Font randomFont() {
-        String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        return new Font(fonts[Maths.randomInteger(0, fonts.length - 1)], Maths.randomInteger(0, 2), Maths.randomInteger(1, 256));
+        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+        int fontRandom = Maths.randomInteger(0, 2);
+        int font = fontRandom == 0
+                ? Font.PLAIN
+                : fontRandom == 1
+                ? Font.BOLD
+                : Font.ITALIC;
+
+        return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)], font, Maths.randomInteger(1, 256));
     }
 }

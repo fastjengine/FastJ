@@ -55,7 +55,7 @@ public abstract class Drawable extends TaggableEntity {
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
         rawID = UUID.randomUUID();
-        id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID.toString();
+        id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID;
     }
 
     /**

@@ -22,7 +22,7 @@ public class Pointf {
 
     /** {@code Pointf} constructor, where its x and y values are set to zero. */
     public Pointf() {
-        this(0, 0);
+        this(0f, 0f);
     }
 
     /**

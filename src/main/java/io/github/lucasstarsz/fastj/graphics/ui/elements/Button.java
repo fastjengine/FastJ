@@ -21,7 +21,7 @@ import java.awt.geom.Rectangle2D;
 public class Button extends UIElement {
 
     /** The default location of a {@link Button}: (0, 0). */
-    public static final Pointf DefaultLocation = new Pointf();
+    public static final Pointf DefaultLocation = Pointf.Origin.copy();
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
 

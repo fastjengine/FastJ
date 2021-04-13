@@ -322,7 +322,7 @@ public abstract class LogicManager {
             IllegalArgumentException e = new IllegalArgumentException(
                     "The scene name \"" + sceneName + "\" is already in use."
                             + System.lineSeparator()
-                            + "Scenes added: " + scenes.keySet().toString()
+                            + "Scenes added: " + scenes.keySet()
             );
 
             FastJEngine.error(CrashMessages.SCENE_ERROR.errorMessage, e);

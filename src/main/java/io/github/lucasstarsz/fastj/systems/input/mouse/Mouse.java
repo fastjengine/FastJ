@@ -36,68 +36,86 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     private static final Map<Integer, BiConsumer<Scene, MouseEvent>> mouseEventProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
-                if (!MouseAction.PRESS.recentAction) createSleeperThread(MouseAction.PRESS);
+                if (!MouseAction.PRESS.recentAction) {
+                    createSleeperThread(MouseAction.PRESS);
+                }
 
                 if (!MouseButtons.containsKey(mouseEvent.getButton())) {
                     MouseButton btn = new MouseButton(mouseEvent);
                     MouseButtons.put(btn.buttonLocation, btn);
                 }
+
                 buttonLastPressed = mouseEvent.getButton();
                 MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
-
                 scene.inputManager.fireMousePressed(mouseEvent);
             },
             MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
-                if (!MouseAction.RELEASE.recentAction) createSleeperThread(MouseAction.RELEASE);
+                if (!MouseAction.RELEASE.recentAction) {
+                    createSleeperThread(MouseAction.RELEASE);
+                }
 
                 if (MouseButtons.containsKey(mouseEvent.getButton())) {
                     MouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
                 }
-                buttonLastReleased = mouseEvent.getButton();
 
+                buttonLastReleased = mouseEvent.getButton();
                 scene.inputManager.fireMouseReleased(mouseEvent);
             },
             MouseEvent.MOUSE_CLICKED, (scene, mouseEvent) -> {
-                if (!MouseAction.CLICK.recentAction) createSleeperThread(MouseAction.CLICK);
+                if (!MouseAction.CLICK.recentAction) {
+                    createSleeperThread(MouseAction.CLICK);
+                }
 
                 buttonLastClicked = mouseEvent.getButton();
-
                 scene.inputManager.fireMouseClicked(mouseEvent);
             },
             MouseEvent.MOUSE_MOVED, (scene, mouseEvent) -> {
-                if (!MouseAction.MOVE.recentAction) createSleeperThread(MouseAction.MOVE);
+                if (!MouseAction.MOVE.recentAction) {
+                    createSleeperThread(MouseAction.MOVE);
+                }
 
-                mouseLocation = Pointf.divide(new Pointf(mouseEvent.getX(), mouseEvent.getY()), FastJEngine.getDisplay().getResolutionScale());
+                mouseLocation = Pointf.divide(
+                        new Pointf(mouseEvent.getX(), mouseEvent.getY()),
+                        FastJEngine.getDisplay().getResolutionScale()
+                );
 
                 scene.inputManager.fireMouseMoved(mouseEvent);
             },
             MouseEvent.MOUSE_DRAGGED, (scene, mouseEvent) -> {
-                if (!MouseAction.DRAG.recentAction) createSleeperThread(MouseAction.DRAG);
+                if (!MouseAction.DRAG.recentAction) {
+                    createSleeperThread(MouseAction.DRAG);
+                }
 
-                mouseLocation = Pointf.divide(new Pointf(mouseEvent.getX(), mouseEvent.getY()), FastJEngine.getDisplay().getResolutionScale());
+                mouseLocation = Pointf.divide(
+                        new Pointf(mouseEvent.getX(), mouseEvent.getY()),
+                        FastJEngine.getDisplay().getResolutionScale()
+                );
 
                 scene.inputManager.fireMouseDragged(mouseEvent);
             },
             MouseEvent.MOUSE_ENTERED, (scene, mouseEvent) -> {
-                if (MouseAction.ENTER.recentAction) createSleeperThread(MouseAction.ENTER);
+                if (MouseAction.ENTER.recentAction) {
+                    createSleeperThread(MouseAction.ENTER);
+                }
 
                 currentlyOnScreen = true;
-
                 scene.inputManager.fireMouseEntered(mouseEvent);
             },
             MouseEvent.MOUSE_EXITED, (scene, mouseEvent) -> {
-                if (MouseAction.ENTER.recentAction) createSleeperThread(MouseAction.EXIT);
+                if (MouseAction.ENTER.recentAction) {
+                    createSleeperThread(MouseAction.EXIT);
+                }
 
                 currentlyOnScreen = false;
-
                 scene.inputManager.fireMouseExited(mouseEvent);
             },
             MouseEvent.MOUSE_WHEEL, (scene, mouseEvent) -> {
+                if (!MouseAction.WHEEL_SCROLL.recentAction) {
+                    createSleeperThread(MouseAction.WHEEL_SCROLL);
+                }
+
                 MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
-                if (!MouseAction.WHEEL_SCROLL.recentAction) createSleeperThread(MouseAction.WHEEL_SCROLL);
-
                 lastScrollDirection = mouseWheelEvent.getWheelRotation();
-
                 scene.inputManager.fireMouseWheelScrolled(mouseWheelEvent);
             }
     );
@@ -113,8 +131,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * specified {@code MouseAction}.
      */
     public static boolean interactsWith(Drawable button, MouseAction recentMouseAction) {
-        PathIterator btnPI = button.getCollisionPath().getPathIterator(null);
-        boolean result = Path2D.Float.intersects(btnPI, mouseLocation.x, mouseLocation.y, 1, 1) && recentMouseAction.recentAction;
+        PathIterator buttonPathIterator = button.getCollisionPath().getPathIterator(null);
+        boolean result = Path2D.Float.intersects(buttonPathIterator, mouseLocation.x, mouseLocation.y, 1, 1) && recentMouseAction.recentAction;
 
         recentMouseAction.recentAction = false;
 
