@@ -1,16 +1,17 @@
 package unittest.testcases.graphics.text;
 
-import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import unittest.HeadlessHelper;
-
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
+import io.github.lucasstarsz.fastj.graphics.DrawUtil;
+import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
+
 import java.awt.Color;
 import java.awt.Font;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import unittest.HeadlessHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

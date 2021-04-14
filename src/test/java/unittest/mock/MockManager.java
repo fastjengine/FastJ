@@ -1,8 +1,8 @@
 package unittest.mock;
 
-import io.github.lucasstarsz.fastj.systems.render.Display;
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.render.Display;
 
 public class MockManager extends LogicManager {
 

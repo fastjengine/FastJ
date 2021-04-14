@@ -2,12 +2,13 @@ package unittest.testcases.math;
 
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.jupiter.api.Test;
 
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

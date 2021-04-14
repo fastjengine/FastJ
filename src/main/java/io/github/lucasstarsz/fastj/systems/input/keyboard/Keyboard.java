@@ -1,8 +1,8 @@
 package io.github.lucasstarsz.fastj.systems.input.keyboard;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
-
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
+
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

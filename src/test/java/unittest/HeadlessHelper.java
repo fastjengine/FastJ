@@ -1,13 +1,13 @@
 package unittest;
 
-import unittest.mock.MockManager;
-
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.render.Display;
 
 import java.awt.GraphicsEnvironment;
+
+import unittest.mock.MockManager;
 
 public class HeadlessHelper {
 

@@ -1,13 +1,18 @@
 package io.github.lucasstarsz.fastj.systems.input.mouse;
 
-import io.github.lucasstarsz.fastj.graphics.Drawable;
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
+
+import io.github.lucasstarsz.fastj.graphics.Drawable;
+
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.render.Display;
 
-import io.github.lucasstarsz.fastj.engine.FastJEngine;
-
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.HashMap;

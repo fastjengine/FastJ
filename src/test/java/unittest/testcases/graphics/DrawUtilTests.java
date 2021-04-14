@@ -1,10 +1,10 @@
 package unittest.testcases.graphics;
 
+import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.jupiter.api.*;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -20,7 +20,18 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DrawUtilTests {

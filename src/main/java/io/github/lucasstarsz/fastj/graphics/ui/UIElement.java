@@ -1,9 +1,10 @@
 package io.github.lucasstarsz.fastj.graphics.ui;
 
 import io.github.lucasstarsz.fastj.graphics.Drawable;
+
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.input.mouse.MouseActionListener;
 import io.github.lucasstarsz.fastj.systems.render.Camera;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;

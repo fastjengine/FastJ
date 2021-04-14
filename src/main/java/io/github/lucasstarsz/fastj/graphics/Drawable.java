@@ -1,13 +1,14 @@
 package io.github.lucasstarsz.fastj.graphics;
 
-import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
-import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.systems.tags.TaggableEntity;
-
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
+import io.github.lucasstarsz.fastj.math.Pointf;
+
+import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
+
+import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.tags.TaggableEntity;
 
 import java.awt.Shape;
 import java.awt.geom.Area;

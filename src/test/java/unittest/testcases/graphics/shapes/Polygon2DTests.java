@@ -1,13 +1,15 @@
 package unittest.testcases.graphics.shapes;
 
+import io.github.lucasstarsz.fastj.math.Maths;
+import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import org.junit.jupiter.api.Test;
 
 import java.awt.Color;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

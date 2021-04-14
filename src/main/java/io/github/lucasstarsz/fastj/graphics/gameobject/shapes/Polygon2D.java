@@ -1,10 +1,12 @@
 package io.github.lucasstarsz.fastj.graphics.gameobject.shapes;
 
+import io.github.lucasstarsz.fastj.math.Maths;
+import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.graphics.Boundary;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.Color;

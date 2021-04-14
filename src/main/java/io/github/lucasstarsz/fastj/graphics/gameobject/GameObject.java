@@ -1,7 +1,9 @@
 package io.github.lucasstarsz.fastj.graphics.gameobject;
 
-import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.math.Pointf;
+
+import io.github.lucasstarsz.fastj.graphics.Drawable;
+
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 

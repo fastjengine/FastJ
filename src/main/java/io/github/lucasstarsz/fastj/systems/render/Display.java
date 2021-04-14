@@ -1,16 +1,17 @@
 package io.github.lucasstarsz.fastj.systems.render;
 
+import io.github.lucasstarsz.fastj.engine.CrashMessages;
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
+import io.github.lucasstarsz.fastj.math.Point;
+import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
 import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
-import io.github.lucasstarsz.fastj.math.Point;
-import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
-
-import io.github.lucasstarsz.fastj.engine.CrashMessages;
-import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import javax.swing.JFrame;
 import java.awt.*;

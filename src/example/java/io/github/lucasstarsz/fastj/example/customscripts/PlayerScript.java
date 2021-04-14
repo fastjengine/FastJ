@@ -1,11 +1,14 @@
 package io.github.lucasstarsz.fastj.example.customscripts;
 
-import io.github.lucasstarsz.fastj.example.scenes.GameScene;
+import io.github.lucasstarsz.fastj.math.Pointf;
+
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+
+import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keys;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
+
+import io.github.lucasstarsz.fastj.example.scenes.GameScene;
 
 /** A custom script that moves the received game object using the WASD keys. */
 public class PlayerScript implements Behavior {
