@@ -104,15 +104,9 @@ public class Polygon2DTests {
     @Test
     public void checkModifyPointsOfPolygon2D_withTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
-        Pointf translationBeforeReset = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
-        );
+        Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 1f);
-        Pointf scaleBeforeReset = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
-        );
+        Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
         Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
                 .setTranslation(translationBeforeReset)
@@ -132,15 +126,9 @@ public class Polygon2DTests {
     @Test
     public void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
-        Pointf translationBeforeReset = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
-        );
+        Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 1f);
-        Pointf scaleBeforeReset = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
-        );
+        Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
         Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
                 .setTranslation(translationBeforeReset)
@@ -180,11 +168,12 @@ public class Polygon2DTests {
 
     @Test
     public void checkPolygon2DRotation_aroundOrigin_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
         float sinOfRotation = (float) Math.sin(randomRotationInRadians);
+        float size = 5f;
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
 
         Pointf[] expectedRotatedPoints = {
                 new Pointf(
@@ -209,28 +198,163 @@ public class Polygon2DTests {
         polygon2D.rotate(randomRotationInDegrees, Pointf.Origin);
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
 
-        assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated, should match the expected Pointf array.");
+        assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated about the origin, should match the expected Pointf array.");
     }
 
     @Test
-    public void checkPolygon2DScaling_atOrigin_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
-        Pointf randomScaling = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
-        );
+    public void checkPolygon2DRotation_aroundPolygonCenter_shouldMatchExpected() {
+        float randomRotationInDegrees = Maths.random(0f, 1f);
+        float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
+        float cosOfRotation = (float) Math.cos(randomRotationInRadians);
+        float sinOfRotation = (float) Math.sin(randomRotationInRadians);
+        float size = 5f;
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
-        Pointf[] expectedScaledPoints = {
-                originalPoints[0].copy().multiply(Pointf.add(randomScaling, polygon2D.getScale())),
-                originalPoints[1].copy().multiply(Pointf.add(randomScaling, polygon2D.getScale())),
-                originalPoints[2].copy().multiply(Pointf.add(randomScaling, polygon2D.getScale())),
-                originalPoints[3].copy().multiply(Pointf.add(randomScaling, polygon2D.getScale()))
+        Pointf[] pointsAtOrigin = {
+                originalPoints[0].copy().subtract(size / 2f),
+                originalPoints[1].copy().subtract(size / 2f),
+                originalPoints[2].copy().subtract(size / 2f),
+                originalPoints[3].copy().subtract(size / 2f),
         };
 
+        Pointf[] expectedRotatedPoints = {
+                new Pointf(
+                        pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
+                        pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
+                ).add(size / 2f),
+                new Pointf(
+                        pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
+                        pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
+                ).add(size / 2f),
+                new Pointf(
+                        pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
+                        pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
+                ).add(size / 2f),
+                new Pointf(
+                        pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
+                        pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
+                ).add(size / 2f)
+        };
+
+        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        polygon2D.rotate(randomRotationInDegrees);
+        Pointf[] actualRotatedPoints = polygon2D.getPoints();
+
+        assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated about its center, should match the expected Pointf array.");
+    }
+
+    @Test
+    public void checkPolygon2DRotation_aroundRandomPoint_shouldMatchExpected() {
+        float randomRotationInDegrees = Maths.random(0f, 1f);
+        float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
+        float cosOfRotation = (float) Math.cos(randomRotationInRadians);
+        float sinOfRotation = (float) Math.sin(randomRotationInRadians);
+        float size = 5f;
+        Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+
+        Pointf[] pointsAtOrigin = {
+                originalPoints[0].copy().subtract(randomCenter),
+                originalPoints[1].copy().subtract(randomCenter),
+                originalPoints[2].copy().subtract(randomCenter),
+                originalPoints[3].copy().subtract(randomCenter),
+        };
+
+        Pointf[] expectedRotatedPoints = {
+                new Pointf(
+                        pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
+                        pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
+                ).add(randomCenter),
+                new Pointf(
+                        pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
+                        pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
+                ).add(randomCenter),
+                new Pointf(
+                        pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
+                        pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
+                ).add(randomCenter),
+                new Pointf(
+                        pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
+                        pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
+                ).add(randomCenter)
+        };
+
+        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        polygon2D.rotate(randomRotationInDegrees, randomCenter);
+        Pointf[] actualRotatedPoints = polygon2D.getPoints();
+        assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated about " + randomCenter + ", should match the expected Pointf array.");
+    }
+
+    @Test
+    public void checkPolygon2DScaling_aroundOrigin_shouldMatchExpected() {
+        Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float size = 5f;
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+
+        Pointf newScale = Pointf.add(randomScaling, GameObject.DefaultScale);
+        Pointf[] expectedScaledPoints = {
+                originalPoints[0].copy().multiply(newScale),
+                originalPoints[1].copy().multiply(newScale),
+                originalPoints[2].copy().multiply(newScale),
+                originalPoints[3].copy().multiply(newScale)
+        };
+
+        Polygon2D polygon2D = new Polygon2D(originalPoints);
         polygon2D.scale(randomScaling, Pointf.Origin);
         Pointf[] actualScaledPoints = polygon2D.getPoints();
-
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled, should match the expected Pointf array.");
+    }
+
+    @Test
+    public void checkPolygon2DScaling_aroundPolygonCenter_shouldMatchExpected() {
+        Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float size = 5f;
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+
+        Pointf newScale = Pointf.add(randomScaling, GameObject.DefaultScale);
+        Pointf[] pointsAtOrigin = {
+                originalPoints[0].copy().subtract(size / 2f),
+                originalPoints[1].copy().subtract(size / 2f),
+                originalPoints[2].copy().subtract(size / 2f),
+                originalPoints[3].copy().subtract(size / 2f),
+        };
+        Pointf[] expectedScaledPoints = {
+                pointsAtOrigin[0].copy().multiply(newScale).add(size / 2f),
+                pointsAtOrigin[1].copy().multiply(newScale).add(size / 2f),
+                pointsAtOrigin[2].copy().multiply(newScale).add(size / 2f),
+                pointsAtOrigin[3].copy().multiply(newScale).add(size / 2f)
+        };
+
+        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        polygon2D.scale(randomScaling);
+        Pointf[] actualScaledPoints = polygon2D.getPoints();
+        assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled around its center, should match the expected Pointf array.");
+    }
+
+    @Test
+    public void checkPolygon2DScaling_aroundRandomPoint_shouldMatchExpected() {
+        Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float size = 5f;
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+
+        Pointf newScale = Pointf.add(randomScaling, GameObject.DefaultScale);
+        Pointf[] pointsAtOrigin = {
+                originalPoints[0].copy().subtract(randomCenter),
+                originalPoints[1].copy().subtract(randomCenter),
+                originalPoints[2].copy().subtract(randomCenter),
+                originalPoints[3].copy().subtract(randomCenter),
+        };
+        Pointf[] expectedScaledPoints = {
+                pointsAtOrigin[0].copy().multiply(newScale).add(randomCenter),
+                pointsAtOrigin[1].copy().multiply(newScale).add(randomCenter),
+                pointsAtOrigin[2].copy().multiply(newScale).add(randomCenter),
+                pointsAtOrigin[3].copy().multiply(newScale).add(randomCenter)
+        };
+
+        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        polygon2D.scale(randomScaling, randomCenter);
+        Pointf[] actualScaledPoints = polygon2D.getPoints();
+        assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled around " + randomScaling + ", should match the expected Pointf array.");
     }
 }
