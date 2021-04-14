@@ -12,15 +12,20 @@ import java.awt.geom.AffineTransform;
  */
 public class Camera {
 
+    /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
+    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
+    /** {@code float} representing a default rotation value of {@code 0f}. */
+    public static final float DefaultRotation = 0f;
+
     /** A camera with no transformations. */
     public static final Camera Default = new Camera();
 
     private final Pointf translation;
     private float rotation;
 
-    /** Constructs a {@code Camera} with transformation set to 0. */
+    /** Constructs a {@code Camera} with default transformations. */
     public Camera() {
-        this(Pointf.Origin.copy(), 0f);
+        this(DefaultTranslation, DefaultRotation);
     }
 
     /**
@@ -29,7 +34,7 @@ public class Camera {
      * @param setTranslation Sets the translation of this {@code Camera}.
      */
     public Camera(Pointf setTranslation) {
-        this(setTranslation, 0f);
+        this(setTranslation, DefaultRotation);
     }
 
     /**
@@ -38,7 +43,7 @@ public class Camera {
      * @param setRotation Sets the rotation of this {@code Camera}.
      */
     public Camera(float setRotation) {
-        this(Pointf.Origin.copy(), setRotation);
+        this(DefaultTranslation, setRotation);
     }
 
     /**

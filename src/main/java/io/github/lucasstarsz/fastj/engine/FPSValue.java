@@ -1,17 +1,15 @@
 package io.github.lucasstarsz.fastj.engine;
 
-/**
- * The different data options available when using {@code FastJEngine.getFPSData()}.
- */
+/** The different data options available when calling {@link FastJEngine#getFPSData}. */
 public enum FPSValue {
-    /** Enum constant defining the need to get information on the most recently calculated frame count per second. */
+    /** The most recently calculated frame count per second. */
     CURRENT,
-    /** Enum constant defining the need to get information on the overall average frame count per second. */
+    /** The overall average frame count per second. */
     AVERAGE,
-    /** Enum constant defining the need to get information on the absolute highest frame count per second. */
+    /** The highest frame count recorded in a second. */
     HIGHEST,
-    /** Enum constant defining the need to get information on the absolute lowest frame count per second. */
+    /** The lowest frame count recorded in a second. */
     LOWEST,
-    /** Enum constant defining the need to get information on the 1% low for the FPS. */
+    /** The average of the lowest 1% recorded frame count. */
     ONE_PERCENT_LOW
 }

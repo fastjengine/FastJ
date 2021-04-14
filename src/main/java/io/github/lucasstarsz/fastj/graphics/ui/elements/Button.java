@@ -17,6 +17,9 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * A {@link UIElement} that can be assigned an action on left click.
+ *
+ * @author Andrew Dey
+ * @version 1.0.0
  */
 public class Button extends UIElement {
 

@@ -13,6 +13,9 @@ import java.util.function.Consumer;
 
 /**
  * A drawable to be used as UI.
+ *
+ * @author Andrew Dey
+ * @version 1.0.0
  */
 public abstract class UIElement extends Drawable implements MouseActionListener {
 

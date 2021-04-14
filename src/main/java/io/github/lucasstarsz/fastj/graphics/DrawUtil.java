@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Class that provides supplementary methods for working with {@code Drawable}s.
+ * Class that provides supplementary methods for working with {@link Drawable}s.
  * <p>
  * This class is also used to load 2-dimensional model files, of the {@code ".psdf"} file extension.
  *

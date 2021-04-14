@@ -4,6 +4,9 @@ import java.awt.AWTEvent;
 
 /**
  * Class to ensure that an event only applies to a {@link UIElement} if the condition specified is met.
+ *
+ * @author Andrew Dey
+ * @version 1.0.0
  */
 public interface EventCondition {
 

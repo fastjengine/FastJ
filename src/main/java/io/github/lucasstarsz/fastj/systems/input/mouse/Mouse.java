@@ -3,6 +3,7 @@ package io.github.lucasstarsz.fastj.systems.input.mouse;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.render.Display;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
@@ -34,7 +35,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static boolean currentlyOnScreen;
     private static Pointf mouseLocation = new Pointf();
 
-    private static final Map<Integer, BiConsumer<Scene, MouseEvent>> mouseEventProcessor = Map.of(
+    private static final Map<Integer, BiConsumer<Scene, MouseEvent>> MouseEventProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
                 if (!MouseAction.PRESS.recentAction) {
                     createSleeperThread(MouseAction.PRESS);
@@ -158,19 +159,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * @return The boolean value that represents whether the specified button is pressed.
      */
     public static boolean isMouseButtonPressed(MouseButtons mouseButton) {
-        if (!MouseButtons.containsKey(mouseButton.buttonValue)) {
-            return false;
-        }
-
-        return MouseButtons.get(mouseButton.buttonValue).currentlyPressed;
+        return isMouseButtonPressed(mouseButton.buttonValue);
     }
 
     /**
      * Gets the value that determines whether the specified mouse button is currently pressed.
      * <p>
-     * You can get button values from the {@code MouseEvent} class.
+     * You can get button values from the {@link MouseButtons} enum, the {@code MouseEvent} class, or define your own --
+     * the button numbers are just integers corresponding to buttons on the mouse.
      *
-     * @param buttonNumber The int value that represents which button to check for.
+     * @param buttonNumber The int value defining which button to check for.
      * @return The boolean value that represents whether the specified button is pressed.
      */
     public static boolean isMouseButtonPressed(int buttonNumber) {
@@ -182,7 +180,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Gets the location of the mouse on the {@code Display}.
+     * Gets the location of the mouse on the {@link Display}.
      *
      * @return The {@code Pointf} that represents the location of the mouse on the {@code Display}.
      */
@@ -305,11 +303,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Processes the specified mouse event for the specified scene, based on its event type.
      *
-     * @param current The scene to fire the event to.
+     * @param scene The scene to fire the event to.
      * @param event   The mouse event to process.
      */
-    public static void processEvent(Scene current, MouseEvent event) {
-        mouseEventProcessor.get(event.getID()).accept(current, event);
+    public static void processEvent(Scene scene, MouseEvent event) {
+        MouseEventProcessor.get(event.getID()).accept(scene, event);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

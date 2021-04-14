@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.engine;
 
-/** An enum defining a simple and effective way to create and get crash messages in FastJ. */
+/** A simple and effective enum for creating crash messages in FastJ. */
 public enum CrashMessages {
 
     /** "The game crashed, due to a scene error." */
@@ -22,20 +22,30 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string that depicts an error caused by an illegal action in the method of the specified class.
+     * Gets a string depicting an error caused by an illegal action in the method of the specified class.
+     * <p>
+     * Example:
+     * <pre>{@code
+     * Class classCausingTheError = MyClass.class;
+     * System.out.println(CrashMessages.illegalAction(classCausingTheError));
+     *
+     * // prints the following:
+     * //
+     * // The game crashed, due to an illegal action in class MyClass.
+     * }</pre>
      *
      * @param className The class to generate the error message about.
-     * @return A string containing the generated error message.
+     * @return The generated error message.
      */
     public static String illegalAction(Class<?> className) {
-        return theGameCrashed(" an illegal action in the " + className.getSimpleName() + " class.");
+        return theGameCrashed("an illegal action in class " + className.getSimpleName() + ".");
     }
 
     /**
-     * Gets a string with {@code "The game crashed, due to "}, and adds the specified error message to the end.
+     * Gets a string starting with {@code "The game crashed, due to "}, and adds the specified error message to the end.
      *
      * @param errorMessage The error message to add to the end of the returned string.
-     * @return A string containing the generated error message.
+     * @return The generated error message.
      */
     public static String theGameCrashed(String errorMessage) {
         return "The game crashed, due to " + errorMessage;

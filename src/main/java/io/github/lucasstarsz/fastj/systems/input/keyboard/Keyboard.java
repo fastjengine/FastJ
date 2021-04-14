@@ -213,7 +213,7 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if any keys are pressed.
      *
-     * @return Boolean that determines whether there are any keys pressed.
+     * @return boolean that determines whether there are any keys pressed.
      */
     public static boolean areKeysDown() {
         for (Key key : Keys.values()) {
@@ -247,11 +247,11 @@ public class Keyboard implements KeyListener {
     /**
      * Processes the specified key event for the specified scene, based on its event type.
      *
-     * @param current The scene to fire the event to.
+     * @param scene The scene to fire the event to.
      * @param event   The key event to process.
      */
-    public static void processEvent(Scene current, KeyEvent event) {
-        keyEventProcessor.get(event.getID()).accept(current, event);
+    public static void processEvent(Scene scene, KeyEvent event) {
+        keyEventProcessor.get(event.getID()).accept(scene, event);
     }
 
     /** Enum that defines the location of a key. */

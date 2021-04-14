@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.systems.input;
 
+import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.KeyboardActionListener;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 import io.github.lucasstarsz.fastj.systems.input.mouse.MouseActionListener;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Class to manage user input.
+ * Class to manage user input and input event processing.
  * <p>
- * This class fires input events to {@code KeyboardActionListener}s or {@code MouseActionListener}s in its lists of
+ * This class fires input events to {@link KeyboardActionListener}s or {@link MouseActionListener}s in its lists of
  * keyboard/mouse action listeners.
  */
 public class InputManager {
@@ -241,12 +241,13 @@ public class InputManager {
     /* Received input */
 
     /**
-     * Stores the specified input in the event list to be processed later. (See: {@link #processEvents(Scene)}
+     * Stores the specified input in the event list to be processed later.
      * <p>
      * If event processing is still going on when the event is received, the event gets added to the backlog. That
      * backlog gets emptied into the main event list after all the events in that main list have been processed.
      *
      * @param event The event to be stored for processing later.
+     * @see #processEvents(Scene)
      */
     public void receivedInputEvent(InputEvent event) {
         if (isProcessingEvents) {

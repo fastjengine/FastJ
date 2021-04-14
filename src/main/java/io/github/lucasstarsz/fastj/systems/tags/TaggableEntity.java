@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract class that allows you to use tags.
+ * Abstract class that allows you to identify objects by tags.
  * <p>
  * A {@code TaggableEntity} is an entity that can be given tags to describe what it is, such as {@code "enemy"}, or
  * {@code "player"}.
@@ -28,7 +28,7 @@ public abstract class TaggableEntity {
     private final List<String> tags = new ArrayList<>();
 
     /**
-     * Gets the list of tags.
+     * Gets the {@code TaggableEntity}'s list of tags.
      *
      * @return The list of tags.
      */

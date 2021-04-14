@@ -6,7 +6,8 @@ import io.github.lucasstarsz.fastj.math.Pointf;
 /**
  * Interface that allows for the addition of behaviors to {@code GameObject}s.
  * <p>
- * Behaviors can be assigned to any GameObject, as many times as you want.
+ * Behaviors go hand-in-hand with {@link GameObject}s. A {@code GameObject} can have as many references to the same
+ * {@code Behavior} as you may want.
  *
  * @author Andrew Dey
  * @version 1.0.0

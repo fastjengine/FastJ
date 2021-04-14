@@ -1,7 +1,7 @@
 package io.github.lucasstarsz.fastj.engine.internals;
 
 /**
- * Class to create a daemon thread that fixes inaccurate sleep time on Windows computers.
+ * Class that fixes inaccurate sleep time on Windows computers.
  *
  * @author Andrew Dey
  * @version 1.0.0

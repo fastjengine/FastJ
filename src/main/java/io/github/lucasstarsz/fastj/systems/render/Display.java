@@ -274,8 +274,9 @@ public class Display {
     }
 
     /**
-     * Gets the scaling of the {@code Display} resolution, as an expression of {@code viewer resolution / internal
-     * resolution }.
+     * Gets the scaling of the {@code Display} resolution.
+     * <p>
+     * The scale is represented as an expression of {@code viewerResolution / internalResolution}.
      * <p>
      * The values for the x and y of the returned {@code Pointf} are {@code 0 < x <= 1}.
      *
@@ -300,7 +301,9 @@ public class Display {
      * @param enable Boolean to set whether the display should be in full-screen mode.
      */
     public void setFullscreen(boolean enable) {
-        if (isFullscreen == enable) return;
+        if (isFullscreen == enable) {
+            return;
+        }
 
         switchingScreenState = true;
 
@@ -380,7 +383,7 @@ public class Display {
         if (isFullscreen) disableFullscreenInvisibly();
 
         isWindowedFullscreen = enable;
-        outputDisplay.setExtendedState((isWindowedFullscreen) ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
+        outputDisplay.setExtendedState(isWindowedFullscreen ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
         showTitleBar(enable);
         outputDisplay.setVisible(true);
 
@@ -501,7 +504,9 @@ public class Display {
 
     /** Disables full-screen mode without showing the screen. */
     private void disableFullscreenInvisibly() {
-        if (!isFullscreen) return;
+        if (!isFullscreen) {
+            return;
+        }
 
         switchingScreenState = true;
 

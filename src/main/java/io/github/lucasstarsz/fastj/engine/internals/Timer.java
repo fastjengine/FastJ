@@ -20,7 +20,7 @@ public class Timer {
     }
 
     /**
-     * Gets the current time in nanoseconds.
+     * Gets the current time, in nanoseconds.
      *
      * @return The current time (nanoseconds) as a double.
      */
@@ -29,9 +29,9 @@ public class Timer {
     }
 
     /**
-     * Re-evaluates the last loop time, then returns the elapsed time since the last loop.
+     * Re-evaluates the last loop time, then returns the time passed since the last loop.
      *
-     * @return The elapsed time, calculated by subtracting the current time by the last loop time.
+     * @return The time elapsed since the last loop time.
      */
     public float getElapsedTime() {
         double time = getTime();
@@ -43,7 +43,7 @@ public class Timer {
     /**
      * Gets the last loop time.
      *
-     * @return Returns the last loop time.
+     * @return The last loop time.
      */
     public double getLastLoopTime() {
         return lastLoopTime;

@@ -1,10 +1,10 @@
 package io.github.lucasstarsz.fastj.graphics;
 
 import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.tags.TaggableEntity;
-import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
@@ -17,25 +17,9 @@ import java.util.UUID;
 /**
  * The abstract class to objects that can be drawn to a {@code Display}.
  * <p>
- * A {@code Drawable} is any object that can be drawn to a {@code Display}, and destroyed (freed from memory). A {@code
- * Drawable} utilizes components from the {@code Java2D} graphics API, allowing for an easy way to work with the
- * following:
- * <ul>
- * 		<li>Transformations through {@code AffineTransform}.</li>
- * 		<li>Rendering through {@code Graphics2D}.</li>
- * 		<li>Global (and soon, per-object) render quality settings through {@code RenderingHints}.</li>
- * </ul>
- * <p>
- * Besides being able to utilize {@code Java2D} components, A {@code Drawable} contains components
- * from some of FastJ's classes to organize your game into an easily managed system, such as:
- * <ul>
- * 		<li>A {@code Behavior} system that provides an easy way to modify objects on initialization, and each game update.</li>
- * 		<li>A {@code TaggableEntity} system that allows objects to be given tags, which provides an easy way to find/identify a large amount of objects at once.</li>
- * </ul>
- * <p>
- * In general, a {@code Drawable} will most often be at the base of whatever you decide to render
- * using this engine.
+ * A {@code Drawable} is any object that can be drawn to a {@code Display}, and destroyed (freed from memory).
  *
+ * @author Andrew Dey
  * @version 1.0.0
  */
 public abstract class Drawable extends TaggableEntity {

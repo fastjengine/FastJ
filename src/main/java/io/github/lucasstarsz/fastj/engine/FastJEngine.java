@@ -1,11 +1,11 @@
 package io.github.lucasstarsz.fastj.engine;
 
-import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
-import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 import io.github.lucasstarsz.fastj.math.Point;
-import io.github.lucasstarsz.fastj.systems.render.Display;
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
+import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
+import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
+import io.github.lucasstarsz.fastj.systems.render.Display;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
 
 import io.github.lucasstarsz.fastj.engine.internals.ThreadFixer;
@@ -19,10 +19,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * The main control hub of the game engine.
  * <p>
- * This class contains the methods needed to create and start a game using the FastJ Game Engine. Using this, you'll
+ * This class contains the methods needed to initialize and run a game using the FastJ Game Engine. With this, you'll
  * have access to the engine's features in their full force.
  * <p>
- * <br>
  * <a href="https://github.com/lucasstarsz/FastJ-Engine">The FastJ Game Engine</a>
  *
  * @author Andrew Dey
@@ -48,7 +47,7 @@ public class FastJEngine {
     private static int[] fpsLog;
     private static int drawFrames;
     private static int totalFPS;
-    private static int fpsIndex;
+    private static int fpsLogIndex;
     private static ScheduledExecutorService fpsLogger;
 
     // HW acceleration
@@ -62,38 +61,34 @@ public class FastJEngine {
     private static boolean isRunning;
 
     /**
-     * Initializer for the game engine.
+     * Initializes the game engine with the specified title and logic manager.
      * <p>
-     * This initializes the game engine with the specified title and logic manager. Other values are set to their
-     * respective default values.
-     * <p>
-     * The other default values for the game engine are as follows:
+     * Other values are set to their respective default values. These are as follows:
      * <ul>
-     * 		<li>Default target FPS: The refresh rate of the default monitor.</li>
-     * 		<li>Default target UPS: 60 Updates per Second.</li>
+     * 		<li>Default target FPS: The refresh rate of the default monitor (with a value of at least 1).</li>
+     * 		<li>Default target UPS: 60 Updates Per Second.</li>
      * 		<li>Default window resolution: {@code 1280 * 720 (720p)} </li>
      * 		<li>Default internal game resolution: {@code 1280 * 720 (720p)}</li>
      * 		<li>Default hardware acceleration: {@code HWAccel.DEFAULT}</li>
      * </ul>
      *
-     * @param gameTitle   Sets the title of the game window, or Display.
-     * @param gameManager LogicManager object that the engine will call methods from; this is where the user's game
-     *                    methods are operated from.
+     * @param gameTitle   The title to be used for the {@link Display} window.
+     * @param gameManager Game Manager to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
         init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.DEFAULT);
     }
 
     /**
-     * Initializer for the game engine.
+     * Initializes the game engine with the specified title, logic manager, and other options.
      *
-     * @param gameTitle            Sets the title of the game window.
-     * @param gameManager          Sets the engine's game manager.
-     * @param fps                  Value that defines how many times the game should be rendered per second.
-     * @param ups                  Value that defines how many times the game should be updated per second.
-     * @param windowResolution     Sets the game's window resolution.
-     * @param internalResolution   Sets the game's internal resolution. (This is the defined size of the game's canvas.
-     *                             As a result, the content is scaled to fit the size of the {@code windowResolution}).
+     * @param gameTitle            The title to be used for the {@link Display} window.
+     * @param gameManager          Game Manager to be controlled by the engine.
+     * @param fps                  The FPS (frames per second) target for the engine to reach.
+     * @param ups                  The UPS (updates per second) target for the engine to reach.
+     * @param windowResolution     The game's window resolution.
+     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
@@ -113,10 +108,11 @@ public class FastJEngine {
      * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), viewer resolution, internal resolution,
      * and hardware acceleration.
      *
-     * @param fps                  Value that defines how many times the game should be rendered per second.
-     * @param ups                  Value that defines how many times the game should be updated per second.
-     * @param windowResolution     Sets the game's window resolution.
-     * @param internalResolution   Sets the game's internal resolution.
+     * @param fps                  The FPS (frames per second) target for the engine to reach.
+     * @param ups                  The UPS (updates per second) target for the engine to reach.
+     * @param windowResolution     The game's window resolution.
+     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
     public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
@@ -132,7 +128,7 @@ public class FastJEngine {
     /**
      * Configures the game's window resolution.
      *
-     * @param windowResolution The resolution which the user's window will be set to.
+     * @param windowResolution The game's window resolution.
      */
     public static void configureViewerResolution(Point windowResolution) {
         runningCheck();
@@ -150,7 +146,8 @@ public class FastJEngine {
      * This sets the size of the game's drawing canvas. As a result, the content displayed on the canvas will be scaled
      * to fit the size of the {@code windowResolution}.
      *
-     * @param internalResolution Point value to set the game's internal window resolution.
+     * @param internalResolution The game's internal resolution. (This is the defined size of the game's canvas. As a
+     *                           result, the content is scaled to fit the size of the {@code windowResolution}).
      */
     public static void configureInternalResolution(Point internalResolution) {
         runningCheck();
@@ -168,27 +165,30 @@ public class FastJEngine {
      * If the parameter specified is not supported by the user's computer, then the hardware acceleration will be set to
      * none, by default.
      *
-     * @param acceleration Defines the type of hardware acceleration to use for the game.
+     * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
-    public static void configureHardwareAcceleration(HWAccel acceleration) {
+    public static void configureHardwareAcceleration(HWAccel hardwareAcceleration) {
         runningCheck();
 
-        if (acceleration.equals(HWAccel.DIRECT3D)) {
+        if (hardwareAcceleration.equals(HWAccel.DIRECT3D)) {
             if (System.getProperty("os.name").startsWith("Win")) {
                 HWAccel.setHardwareAcceleration(HWAccel.DIRECT3D);
-                hwAccel = acceleration;
+                hwAccel = hardwareAcceleration;
             } else {
                 warning("This OS doesn't support Direct3D hardware acceleration. Configuration will be left at default.");
                 configureHardwareAcceleration(HWAccel.DEFAULT);
             }
         } else {
-            HWAccel.setHardwareAcceleration(acceleration);
-            hwAccel = acceleration;
+            HWAccel.setHardwareAcceleration(hardwareAcceleration);
+            hwAccel = hardwareAcceleration;
         }
     }
 
     /**
-     * Checks if the engine is currently running. If it is, crash the game.
+     * Checks if the engine is currently running -- if it is, crash the game.
+     * <p>
+     * This method is usually for the purpose of ensuring certain methods aren't called while the game engine is
+     * running.
      */
     public static void runningCheck() {
         if (isRunning) {
@@ -199,16 +199,16 @@ public class FastJEngine {
     /**
      * Gets the {@link Display} object associated with the game engine.
      *
-     * @return The {@link Display} object associated with the game engine.
+     * @return The game engine's display instance.
      */
     public static Display getDisplay() {
         return display;
     }
 
     /**
-     * Gets the logic manager associated with the game engine.
+     * Gets the {@link LogicManager} associated with the game engine.
      *
-     * @return The {@link LogicManager} object associated with the game engine.
+     * @return The logic manager.
      */
     public static LogicManager getLogicManager() {
         return gameManager;
@@ -225,18 +225,18 @@ public class FastJEngine {
     }
 
     /**
-     * Gets the target FPS for this instance of the game engine.
+     * Gets the engine's current target FPS.
      *
-     * @return The target FPS for this instance of the game engine.
+     * @return The target FPS.
      */
     public static int getTargetFPS() {
         return targetFPS;
     }
 
     /**
-     * Sets the game's target FPS (Frames rendered per second).
+     * Sets the engine's target FPS.
      *
-     * @param fps Integer value to set the game's target FPS.
+     * @param fps The target FPS to set to.
      */
     public static void setTargetFPS(int fps) {
         if (fps < 1) {
@@ -246,18 +246,18 @@ public class FastJEngine {
     }
 
     /**
-     * Gets the target UPS for this instance of the game engine.
+     * Gets the engine's current target UPS.
      *
-     * @return The target UPS for this instance of the game engine.
+     * @return The target UPS.
      */
     public static int getTargetUPS() {
         return targetUPS;
     }
 
     /**
-     * Sets the game's UPS (Updates per second).
+     * Sets the engine's target UPS.
      *
-     * @param ups Integer value to set the game's target UPS.
+     * @param ups The target UPS to set to.
      */
     public static void setTargetUPS(int ups) {
         if (ups < 1) {
@@ -280,48 +280,44 @@ public class FastJEngine {
      * <p>
      * The types of information are as follows:
      * <ul>
-     * 		<li>FPSValue.CURRENT - gets the last recorded FPS value.</li>
-     * 		<li>FPSValue.AVERAGE - gets the average FPS, based on the recorded FPS values.</li>
-     * 		<li>FPSValue.HIGHEST - gets the highest recorded FPS value.</li>
-     * 		<li>FPSValue.LOWEST - gets the lowest recorded FPS value.</li>
-     * 		<li>FPSValue.ONE_PERCENT_LOW - gets the average FPS of the lowest 1% of all recorded FPS values.</li>
+     * 		<li>{@link FPSValue#CURRENT} - gets the last recorded FPS value.</li>
+     * 		<li>{@link FPSValue#AVERAGE} - gets the average FPS, based on the recorded FPS values.</li>
+     * 		<li>{@link FPSValue#HIGHEST} - gets the highest recorded FPS value.</li>
+     * 		<li>{@link FPSValue#LOWEST} - gets the lowest recorded FPS value.</li>
+     * 		<li>{@link FPSValue#ONE_PERCENT_LOW} - gets the average FPS of the lowest 1% of all recorded FPS values.</li>
      * </ul>
      *
      * @param dataType {@link FPSValue} parameter that specifies the information being requested.
      * @return Double value, based on the information requested.
      */
     public static double getFPSData(FPSValue dataType) {
-        int[] validFPSVals = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsIndex));
+        int[] validFPSValues = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsLogIndex));
 
         switch (dataType) {
             case CURRENT:
-                return (fpsLog[fpsIndex % 100] != -1) ? fpsLog[fpsIndex % 100] : 0;
+                return (fpsLog[fpsLogIndex % 100] != -1) ? fpsLog[fpsLogIndex % 100] : 0;
             case AVERAGE:
-                return (double) totalFPS / (double) fpsIndex;
+                return (double) totalFPS / (double) fpsLogIndex;
             case HIGHEST:
-                return Arrays.stream(validFPSVals).reduce(Integer::max).orElse(-1);
+                return Arrays.stream(validFPSValues).reduce(Integer::max).orElse(-1);
             case LOWEST:
-                return Arrays.stream(validFPSVals).reduce(Integer::min).orElse(-1);
+                return Arrays.stream(validFPSValues).reduce(Integer::min).orElse(-1);
             case ONE_PERCENT_LOW:
-                return Arrays.stream(validFPSVals).sorted()
-                        .limit(Math.max(1L, (long) (validFPSVals.length * 0.01)))
+                return Arrays.stream(validFPSValues).sorted()
+                        .limit(Math.max(1L, (long) (validFPSValues.length * 0.01)))
                         .average().orElse(-1d);
             default:
                 throw new IllegalStateException("Unexpected value: " + dataType);
         }
     }
 
-    /**
-     * Runs the game.
-     */
+    /** Runs the game. */
     public static void run() {
         initEngine();
         gameLoop();
     }
 
-    /**
-     * Closes the game.
-     */
+    /** Closes the game, without closing the JVM instance. */
     public static void closeGame() {
         display.close();
     }
@@ -347,10 +343,10 @@ public class FastJEngine {
     }
 
     /**
-     * Logs the specified error message, then force closes the game.
+     * Closes the game, then throws the error specified with the error message.
      *
      * @param <T>          This allows for any type of error message.
-     * @param errorMessage The error to log.
+     * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
      */
     public static <T> void error(T errorMessage, Exception exception) {
@@ -358,9 +354,7 @@ public class FastJEngine {
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
-    /**
-     * Initializes the game engine's components.
-     */
+    /** Initializes the game engine's components. */
     private static void initEngine() {
         runningCheck();
         isRunning = true;
@@ -380,9 +374,7 @@ public class FastJEngine {
         display.open();
     }
 
-    /**
-     * As the heart of the engine, this updates and renders the game.
-     */
+    /** Runs the game loop -- the heart of the engine. */
     private static void gameLoop() {
         float elapsedTime;
         float accumulator = 0f;
@@ -402,7 +394,9 @@ public class FastJEngine {
             gameManager.render(display);
             drawFrames++;
 
-            if (!display.isFullscreen()) sync();
+            if (!display.isFullscreen()) {
+                sync();
+            }
         }
 
         exit();
@@ -411,7 +405,7 @@ public class FastJEngine {
     /**
      * Syncs the game engine frame rate.
      * <p>
-     * This provides a, for lack of better term, "jank" way of emulating V-Sync when the game engine is not running in
+     * This provides, for a lack of better terms, "jank" way of emulating V-Sync when the game engine is not running in
      * fullscreen mode.
      */
     private static void sync() {
@@ -446,7 +440,7 @@ public class FastJEngine {
         fpsLog = null;
         drawFrames = 0;
         totalFPS = 0;
-        fpsIndex = 0;
+        fpsLogIndex = 0;
         fpsLogger = null;
 
         // HW acceleration
@@ -459,6 +453,7 @@ public class FastJEngine {
         // Check values
         isRunning = false;
 
+        // Helpful? Debatable. Do I care? Not yet....
         System.gc();
     }
 
@@ -476,13 +471,13 @@ public class FastJEngine {
     }
 
     /**
-     * Stores the specified frames rendered values in the engine's FPS log.
+     * Stores the specified frames value in the engine's FPS log.
      *
      * @param frames The count of frames rendered.
      */
     private static void storeFPS(int frames) {
-        fpsLog[fpsIndex % 100] = frames;
-        fpsIndex++;
+        fpsLog[fpsLogIndex % 100] = frames;
+        fpsLogIndex++;
         totalFPS += frames;
     }
 }

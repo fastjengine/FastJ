@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A type of {@link Drawable} that must be able to be transformed.
+ * A type of {@link Drawable} that can be easily transformed and otherwise manipulated.
  * <p>
- * This also acts as the type of object which the player interfaces with, in terms of creating objects to use and move
- * in the game.
+ * The {@code GameObject} class is one of the most useful backing classes in the engine. It contains the logic needed to
+ * transform objects that can be rendered to the screen -- polygons, models, and (still a work in progress) text.
+ *
+ * @author Andrew Dey
+ * @version 1.0.0
  */
 public abstract class GameObject extends Drawable {
 
@@ -27,22 +30,22 @@ public abstract class GameObject extends Drawable {
 
     private final List<Behavior> behaviors;
 
-    /** Initializes internals of the {@link GameObject}. */
+    /** Initializes {@link GameObject} internals. */
     protected GameObject() {
         behaviors = new ArrayList<>();
     }
 
     /**
-     * Gets the list of {@code Behavior}s for the {@code GameObject}.
+     * Gets the {@code GameObject}'s list of {@link Behavior}s.
      *
-     * @return The list of {@code Behavior}s that the {@code GameObject} has.
+     * @return The list of {@code Behavior}s.
      */
     public List<Behavior> getBehaviors() {
         return behaviors;
     }
 
     /**
-     * Gets the translation of the {@code GameObject}.
+     * Gets the {@code GameObject}'s translation.
      *
      * @return A {@code Pointf} that represents the current translation of the {@code GameObject}.
      */
@@ -60,7 +63,7 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Gets the rotation of the {@code GameObject}.
+     * Gets the {@code GameObject}'s rotation.
      *
      * @return A float that represents the current rotation of the {@code GameObject}.
      */
@@ -78,7 +81,7 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Gets the scale of the {@code GameObject}.
+     * Gets the {@code GameObject}'s scale.
      *
      * @return A {@code Pointf} that represents the current scale of the object.
      */
@@ -104,15 +107,16 @@ public abstract class GameObject extends Drawable {
     public abstract void translate(Pointf translationMod);
 
     /**
-     * Rotates the {@code GameObject} in the direction of the specified rotation, about the specified centerpoint.
+     * Rotates the {@code GameObject} in the direction of the specified rotation, about the specified center point.
      *
-     * @param rotationMod The float parameter that the {@code GameObject} will be rotated by.
+     * @param rotationMod float parameter that the {@code GameObject} will be rotated by.
      * @param centerpoint {@code Pointf} parameter that the {@code GameObject} will be rotated about.
      */
     public abstract void rotate(float rotationMod, Pointf centerpoint);
 
     /**
-     * Scales the {@code GameObject} in by the amount specified in the specified scale, from the specified centerpoint.
+     * Scales the {@code GameObject} in by the amount specified in the specified scale, from the specified center
+     * point.
      *
      * @param scaleMod    {@code Pointf} parameter that the {@code GameObject}'s width and height will be scaled by.
      * @param centerpoint {@code Pointf} parameter that the {@code GameObject} will be scaled about.
@@ -120,7 +124,7 @@ public abstract class GameObject extends Drawable {
     public abstract void scale(Pointf scaleMod, Pointf centerpoint);
 
     /**
-     * Gets the rotation, normalized to be within 360 degrees.
+     * Gets the rotation, normalized to be within a range of {@code (-360, 360)}.
      *
      * @return The normalized rotation.
      */
@@ -131,13 +135,12 @@ public abstract class GameObject extends Drawable {
     /**
      * Gets the entire transformation of the {@code GameObject}.
      *
-     * @return The transformation, as an {@code AffineTransform}.
+     * @return The transformation, as an {@link AffineTransform}.
      */
     public AffineTransform getTransformation() {
-        final AffineTransform transformation = new AffineTransform();
-
-        final Pointf scale = getScale();
-        final Pointf location = getTranslation();
+        AffineTransform transformation = new AffineTransform();
+        Pointf scale = getScale();
+        Pointf location = getTranslation();
 
         transformation.setToScale(scale.x, scale.y);
         transformation.setToRotation(getRotation());
@@ -149,16 +152,16 @@ public abstract class GameObject extends Drawable {
     /**
      * Rotates the {@code GameObject} in the direction of the specified rotation, about its center.
      *
-     * @param rotVal Float parameter that the {@code GameObject} will be rotated by.
+     * @param rotationMod float parameter that the {@code GameObject} will be rotated by.
      */
-    public void rotate(float rotVal) {
-        rotate(rotVal, getCenter());
+    public void rotate(float rotationMod) {
+        rotate(rotationMod, getCenter());
     }
 
     /**
      * Scales the {@code GameObject} in by the amount specified in the specified scale, about its center.
      *
-     * @param scaleXY Float value that the {@code GameObject} will be scaled by, acting as both the x and y values.
+     * @param scaleXY float parameter that the {@code GameObject} will be scaled by, acting as both the x and y values.
      */
     public void scale(float scaleXY) {
         scale(new Pointf(scaleXY), getCenter());
@@ -167,28 +170,28 @@ public abstract class GameObject extends Drawable {
     /**
      * Scales the {@code GameObject} in by the amount specified in the specified scale, about its center.
      *
-     * @param scale {@code Pointf} parameter that the {@code GameObject} will be scaled by, based on its x and y
-     *              values.
+     * @param scaleMod {@code Pointf} parameter that the {@code GameObject} will be scaled by, based on its x and y
+     *                 values.
      */
-    public void scale(Pointf scale) {
-        scale(scale, getCenter());
+    public void scale(Pointf scaleMod) {
+        scale(scaleMod, getCenter());
     }
 
-    /** Calls the {@code init} method of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#init} method for each of the {@code GameObject}'s behaviors. */
     public void initBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.init(this);
         }
     }
 
-    /** Calls the {@code update} method of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#update} method for each of the {@code GameObject}'s behaviors. */
     public void updateBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.update(this);
         }
     }
 
-    /** Calls the {@code destroy} method of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#destroy} method for each of the {@code GameObject}'s behaviors. */
     public void destroyAllBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.destroy();
@@ -201,7 +204,7 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Adds the specified {@code Behavior} to the {@code GameObject}'s list of {@code Behavior}s.
+     * Adds the specified {@link Behavior} to the {@code GameObject}'s list of {@code Behavior}s.
      * <p>
      * {@code Behavior}s can be added as many times as needed.
      *
@@ -217,7 +220,7 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Removes the specified {@code Behavior} from the {@code GameObject}'s list of {@code Behavior}s.
+     * Removes the specified {@link Behavior} from the {@code GameObject}'s list of {@code Behavior}s.
      *
      * @param behavior    {@code Behavior} parameter to be removed from.
      * @param originScene Scene that, if the {@code GameObject} no longer has any Behaviors, the {@code GameObject} will
@@ -226,23 +229,24 @@ public abstract class GameObject extends Drawable {
      */
     public GameObject removeBehavior(Behavior behavior, Scene originScene) {
         behaviors.remove(behavior);
-        if (behaviors.size() == 0) originScene.removeBehaviorListener(this);
+        if (behaviors.size() == 0) {
+            originScene.removeBehaviorListener(this);
+        }
 
         return this;
     }
 
     /**
-     * Renders the {@code GameObject} to the specified {@code Graphics2D} parameter.
+     * Renders the {@code GameObject} to the specified {@link Graphics2D} parameter.
      *
-     * @param g {@code Graphics2D} parameter that the {@code GameObject} will be rendered to.
+     * @param g The {@code Graphics2D} parameter to render the {@code GameObject} to.
      */
     public abstract void render(Graphics2D g);
 
     /**
-     * Destroys all references of the game object's behaviors and removes it from the scene's list of behavior
-     * listeners.
+     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the scene.
      *
-     * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
+     * @param origin {@code Scene} parameter that will have all references to this {@code GameObject} removed.
      */
     @Override
     protected void destroyTheRest(Scene origin) {
