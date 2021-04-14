@@ -1,5 +1,5 @@
 /**
- * The FastJ Game Library in its entirety.
+ * The FastJ Library in its entirety.
  * <p>
  * FastJ does not use any external dependencies -- it relies entirely on Java 11's {@code java.desktop} module, using
  * AWT and Swing to display output.

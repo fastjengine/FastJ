@@ -1,2 +1,2 @@
-rootProject.name = 'FastJ-Game-Library'
-include('FastJ-Game-Library')
+rootProject.name = 'FastJ'
+include('FastJ')

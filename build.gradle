@@ -104,18 +104,18 @@ if (shouldPublish) {
                 pom {
                     name = 'FastJ Game Library'
                     description = 'A Java-based 2D game engine.'
-                    url = 'https://github.com/lucasstarsz/FastJ-Game-Library'
+                    url = 'https://github.com/lucasstarsz/FastJ'
 
                     scm {
-                        connection = 'scm:git:https://github.com/lucasstarsz/FastJ-Game-Library.git'
-                        developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ-Game-Library.git'
-                        url = 'https://github.com/lucasstarsz/FastJ-Game-Library.git'
+                        connection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
+                        developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
+                        url = 'https://github.com/lucasstarsz/FastJ.git'
                     }
 
                     licenses {
                         license {
                             name = 'MIT License'
-                            url = 'https://github.com/lucasstarsz/FastJ-Game-Library/blob/main/LICENSE.txt'
+                            url = 'https://github.com/lucasstarsz/FastJ/blob/main/LICENSE.txt'
                         }
                     }
 
