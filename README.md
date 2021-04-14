@@ -1,5 +1,7 @@
 <div align="center">
 
+![FastJ Logo][FastJ-Logo]
+
 # FastJ Game Library
 ### Because Java game engines are non-existent.
 
@@ -13,23 +15,20 @@
 </div>
 
 ## About FastJ
-FastJ is a Java-based game engine + framework coming together to make an easily-accessible, 
-easily-usable, game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use game-making library.
+
 
 ## Features
 - [x] 2D Rendering
-- [x] Global Rendering options
 - [x] Scriptable Behavior System - attach reusable scripts to game objects to make 'em do your bidding!
 - [x] Scene Creation, Loading, and Switching
 - [x] Support for: **Windows**, **Linux**, and **macOS**.
 
-The original version of this library can be found [here][fastj-engine link].
-
 
 ## Adding FastJ to your project
-This ECS can be found in the following places:
-- [Maven Central][Maven-Central], as a dependency or as a jarfile
-- The [Releases][Releases] section of this repository
+This library can be found in the following places:
+- [Maven Central][Maven-Central], as a dependency or as a jarfile.
+- The [Releases][Releases] section of this repository.
 
 ### Adding the Dependency
 When adding the dependency, **make sure to replace `[latest version here]` with the actual latest version** (you'll find this in the Maven Central link up above). **The current latest version is 1.1.2**.
@@ -58,6 +57,7 @@ A few common dependencies are provided below:
   <dependency org="io.github.lucasstarsz.fastj" name="fastj-library" rev="[latest version here]" />
   ```
 
+
 ## Learning FastJ
 
 There will likely be a small wiki added for this game engine at a later time. For now, you'll want to check out [this example code][FastJ-Example] for getting started with FastJ.
@@ -85,10 +85,12 @@ Building FastJ is a generally simple task. You just need to follow these steps:
   ```
   _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
+
 ## License
 This repository is licensed under the [MIT License][MIT-License].
 
 
+[FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
 [Windows-Build-Action]: https://github.com/lucasstarsz/FastJ-Game-Library/actions?query=workflow%3ABuild-Windows "Windows Build Status"
 [Windows-Build-SVG]: https://img.shields.io/github/workflow/status/lucasstarsz/FastJ-Game-Library/Build-Windows?label=Windows%20Build&labelColor=363e45&logo=windows&logoColor=0078D6&style=for-the-badge
 
