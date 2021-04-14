@@ -11,14 +11,32 @@
 </div>
 
 ## What is FastJ?
-FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use, 2D game-making library.
+
+## Disclaimer
+**This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered for tests. Documentation is sparse. 
 
 
-## Features
-- [x] 2D Rendering
-- [x] Scriptable Behavior System - attach reusable scripts to game objects to make 'em do your bidding!
-- [x] Scene Creation, Loading, and Switching
-- [x] Support for: **Windows**, **Linux**, and **macOS**.
+## Projected Feature List
+
+|       Feature        |                      Description                         | Support |
+| :------------------- | :------------------------------------------------------- | :-----: |
+| 2D Rendering         | Rendering of 2D Polygons, Models, Lighting               |    ✔    |
+| Scene System         | Scene-based Rendering, Scene Switching                   |    ✔    |
+| Scriptable Behaviors | Control game object states through behaviors.            |    ✅    |
+| Desktop Support      | Full Compatibility on Windows, Linux, and macOS.         |    ✅    |
+| UI System            | Flexible UI system to replace the need for Swing UI.     |    ⭕    |
+| FastJ Model Creator  | Create & Export 2D Models quickly and easily.            |    ❌    |
+| FastJ Editor         | View, Run, Build, and Export FastJ games from an editor. |    ❌    |
+| Web Support          | Compile FastJ games to run in a browser.                 |    ❌    |
+
+✅ is complete and satisfactory.
+
+✔ is implemented and usable, but is missing certain features.
+
+⭕ is in progress.
+
+❌ is not yet implemented.
 
 
 ## Adding FastJ to your project
