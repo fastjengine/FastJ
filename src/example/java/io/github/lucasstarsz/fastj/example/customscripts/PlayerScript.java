@@ -44,16 +44,16 @@ public class PlayerScript implements Behavior {
     @Override
     public void update(GameObject obj) {
         /* Translates the Pointf based on whether the W or S key is pressed. */
-        if (Keyboard.isKeyDown(Keys.w)) {
+        if (Keyboard.isKeyDown(Keys.W)) {
             travel.y -= speed;
-        } else if (Keyboard.isKeyDown(Keys.s)) {
+        } else if (Keyboard.isKeyDown(Keys.S)) {
             travel.y += speed;
         }
 
         /* Translates the Pointf based on whether the A or D key is pressed. */
-        if (Keyboard.isKeyDown(Keys.a)) {
+        if (Keyboard.isKeyDown(Keys.A)) {
             travel.x -= speed;
-        } else if (Keyboard.isKeyDown(Keys.d)) {
+        } else if (Keyboard.isKeyDown(Keys.D)) {
             travel.x += speed;
         }
 
