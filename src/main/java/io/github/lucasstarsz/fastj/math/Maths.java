@@ -15,7 +15,7 @@ public class Maths {
      * <p>
      * All floating point values should have <b>no more</b> than 6 zeros after the decimal point.
      */
-    public static final float FloatPrecision = 0.000001f;
+    public static final float FloatPrecision = 0.00001f;
 
     /**
      * Generates a random float number within the specified min and max limits.

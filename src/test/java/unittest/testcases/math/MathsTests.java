@@ -109,8 +109,8 @@ public class MathsTests {
     public void checkFloatEquals() {
         double a = 0.00000000001d;
         float a1 = 0.00000000001f;
-        float a2 = 0.000001f;
-        float a3 = 0.000002f;
+        float a2 = 0.00001f;
+        float a3 = 0.00002f;
         float a4 = 0.1f;
 
         assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.000001f.");
