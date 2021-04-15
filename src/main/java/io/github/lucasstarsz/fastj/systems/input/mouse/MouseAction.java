@@ -1,6 +1,6 @@
 package io.github.lucasstarsz.fastj.systems.input.mouse;
 
-import io.github.lucasstarsz.fastj.systems.render.Display;
+import io.github.lucasstarsz.fastj.graphics.Display;
 
 /** Enum defining the different types of mouse actions. */
 public enum MouseAction {

@@ -4,8 +4,8 @@ import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
-import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
+import io.github.lucasstarsz.fastj.graphics.game.GameObject;
+import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
 
 import java.awt.Color;
 import java.awt.geom.AffineTransform;

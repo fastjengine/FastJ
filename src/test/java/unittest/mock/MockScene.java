@@ -1,7 +1,7 @@
 package unittest.mock;
 
 import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.systems.render.Display;
+import io.github.lucasstarsz.fastj.graphics.Display;
 
 public class MockScene extends Scene {
 

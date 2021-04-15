@@ -5,8 +5,8 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
-import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
-import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
+import io.github.lucasstarsz.fastj.graphics.game.Model2D;
+import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
 
 import java.awt.Color;
 import java.awt.Font;

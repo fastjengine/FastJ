@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.systems.behaviors;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
 
-import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
+import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 
 /**
  * Interface that allows for the addition of behaviors to {@code GameObject}s.

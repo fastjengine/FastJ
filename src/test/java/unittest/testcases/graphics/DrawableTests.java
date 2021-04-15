@@ -4,9 +4,9 @@ import io.github.lucasstarsz.fastj.math.Pointf;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
-import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
-import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
-import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
+import io.github.lucasstarsz.fastj.graphics.game.Model2D;
+import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
+import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 
 import java.util.HashMap;
 import java.util.Map;

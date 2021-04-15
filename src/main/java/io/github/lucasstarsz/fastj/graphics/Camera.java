@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.systems.render;
+package io.github.lucasstarsz.fastj.graphics;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
 

@@ -4,7 +4,7 @@ import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.gameobject.text.Text2D;
+import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 
 import java.awt.Color;
 import java.awt.Font;

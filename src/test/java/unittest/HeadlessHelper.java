@@ -3,7 +3,7 @@ package unittest;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.systems.render.Display;
+import io.github.lucasstarsz.fastj.graphics.Display;
 
 import java.awt.GraphicsEnvironment;
 
