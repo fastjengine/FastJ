@@ -1,11 +1,12 @@
 package io.github.lucasstarsz.fastj.example;
 
-import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 import io.github.lucasstarsz.fastj.graphics.Display;
 
-import io.github.lucasstarsz.fastj.example.scenes.GameScene;
+import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 
 import java.awt.RenderingHints;
+
+import io.github.lucasstarsz.fastj.example.scenes.GameScene;
 
 /**
  * Manages the game's overall state (in the background).

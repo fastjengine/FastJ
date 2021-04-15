@@ -2,7 +2,6 @@ package unittest.testcases.graphics.shapes;
 
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 import io.github.lucasstarsz.fastj.graphics.game.Model2D;

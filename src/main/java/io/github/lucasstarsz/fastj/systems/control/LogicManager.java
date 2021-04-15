@@ -2,7 +2,6 @@ package io.github.lucasstarsz.fastj.systems.control;
 
 import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
-
 import io.github.lucasstarsz.fastj.graphics.Display;
 
 import java.util.Collections;

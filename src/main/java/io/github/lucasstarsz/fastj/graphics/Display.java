@@ -4,7 +4,6 @@ import io.github.lucasstarsz.fastj.engine.CrashMessages;
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
 

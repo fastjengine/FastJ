@@ -1,7 +1,6 @@
 package unittest.testcases.graphics;
 
 import io.github.lucasstarsz.fastj.math.Maths;
-
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;

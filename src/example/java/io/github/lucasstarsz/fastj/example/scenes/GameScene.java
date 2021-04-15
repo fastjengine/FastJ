@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.example.scenes;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
+import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
@@ -11,12 +11,11 @@ import io.github.lucasstarsz.fastj.graphics.ui.elements.Button;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.graphics.Display;
-
-import io.github.lucasstarsz.fastj.example.customscripts.PlayerScript;
 
 import java.awt.Color;
 import java.awt.Font;
+
+import io.github.lucasstarsz.fastj.example.customscripts.PlayerScript;
 
 /** The game scene, where all the action happens! */
 public class GameScene extends Scene {

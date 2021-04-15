@@ -2,11 +2,10 @@ package io.github.lucasstarsz.fastj.systems.input.mouse;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
+import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 
 import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.graphics.Display;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

@@ -3,12 +3,12 @@ package io.github.lucasstarsz.fastj.engine;
 import io.github.lucasstarsz.fastj.engine.internals.ThreadFixer;
 import io.github.lucasstarsz.fastj.engine.internals.Timer;
 import io.github.lucasstarsz.fastj.math.Point;
+import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
-import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
 
 import java.util.Arrays;

@@ -1,12 +1,12 @@
 package io.github.lucasstarsz.fastj.systems.control;
 
+import io.github.lucasstarsz.fastj.graphics.Camera;
+import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.input.InputManager;
-import io.github.lucasstarsz.fastj.graphics.Camera;
-import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
 
 import java.util.List;

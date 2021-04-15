@@ -2,7 +2,6 @@ package io.github.lucasstarsz.fastj.graphics.game;
 
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
 import io.github.lucasstarsz.fastj.graphics.Boundary;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 

@@ -1,7 +1,6 @@
 package unittest.mock;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
-
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;

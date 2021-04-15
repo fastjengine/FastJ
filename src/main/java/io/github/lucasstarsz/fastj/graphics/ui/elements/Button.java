@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.graphics.ui.elements;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
-
+import io.github.lucasstarsz.fastj.graphics.Camera;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 import io.github.lucasstarsz.fastj.graphics.ui.UIElement;
@@ -11,7 +11,6 @@ import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 import io.github.lucasstarsz.fastj.systems.input.mouse.MouseAction;
 import io.github.lucasstarsz.fastj.systems.input.mouse.MouseButtons;
-import io.github.lucasstarsz.fastj.graphics.Camera;
 
 import java.awt.Color;
 import java.awt.Font;

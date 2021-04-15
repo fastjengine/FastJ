@@ -1,7 +1,6 @@
 package unittest.testcases.graphics;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
-
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.Model2D;
 import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
