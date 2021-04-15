@@ -61,9 +61,13 @@ public class DrawUtilTests {
     @AfterAll
     public static void deleteTempModelFolder() throws IOException {
         try (Stream<Path> pathWalker = Files.walk(tempModelDirectoryPath)) {
-            pathWalker.sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
+            pathWalker.sorted(Comparator.reverseOrder()).forEach(file -> {
+                try {
+                    Files.deleteIfExists(file);
+                } catch (IOException e) {
+                    throw new IllegalStateException("The file system didn't like that." + e);
+                }
+            });
         }
         System.out.println("Deleted directory \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
     }
