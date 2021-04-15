@@ -1,4 +1,4 @@
-package unittest.testcases.graphics.shapes;
+package unittest.testcases.graphics.game;
 
 import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
