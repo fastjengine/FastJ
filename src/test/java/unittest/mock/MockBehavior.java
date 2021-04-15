@@ -26,6 +26,6 @@ public class MockBehavior implements Behavior {
     }
 
     public Pointf getPointf() {
-        return pointf.copy();
+        return pointf;
     }
 }
