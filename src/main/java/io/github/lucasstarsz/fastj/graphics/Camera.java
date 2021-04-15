@@ -1,8 +1,10 @@
 package io.github.lucasstarsz.fastj.graphics;
 
+import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
+import java.util.Objects;
 
 /**
  * Class that allows for transformation of the {@code Display} which the camera is passed to.
@@ -25,7 +27,7 @@ public class Camera {
 
     /** Constructs a {@code Camera} with default transformations. */
     public Camera() {
-        this(DefaultTranslation, DefaultRotation);
+        this(DefaultTranslation.copy(), DefaultRotation);
     }
 
     /**
@@ -100,14 +102,46 @@ public class Camera {
      */
     public AffineTransform getTransformation() {
         AffineTransform at = new AffineTransform();
-        at.rotate(rotation);
-        at.translate(translation.x, translation.y);
+
+        if (rotation != Camera.DefaultRotation) {
+            at.rotate(Math.toRadians(rotation));
+        }
+        if (translation.x != Camera.DefaultTranslation.x || translation.y != Camera.DefaultTranslation.y) {
+            at.translate(translation.x, translation.y);
+        }
+
         return at;
     }
 
-    /** Resets the camera's transformation. */
+    /** Resets the camera's transformation to the default. */
     public void reset() {
         translation.reset();
-        rotation = 0;
+        rotation = Camera.DefaultRotation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Camera camera = (Camera) o;
+        return Maths.floatEquals(camera.rotation, rotation) && Objects.equals(translation, camera.translation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(translation, rotation);
+    }
+
+    @Override
+    public String toString() {
+        return "Camera{" +
+                "translation=" + translation +
+                ", rotation=" + rotation +
+                '}';
     }
 }
