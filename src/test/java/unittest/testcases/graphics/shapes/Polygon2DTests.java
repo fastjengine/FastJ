@@ -8,6 +8,7 @@ import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
 import org.junit.jupiter.api.Test;
 
@@ -58,16 +59,24 @@ public class Polygon2DTests {
         boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        float randomRotation = Maths.random(-50f, 50f);
         Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-5000f, 5000f);
+        float expectedNormalizedRotation = randomRotation % 360;
 
         Polygon2D polygon2D = new Polygon2D(square, randomTranslation, randomRotation, randomScale, randomColor, shouldFill, shouldRender);
+
+        AffineTransform expectedTransform = new AffineTransform();
+        expectedTransform.setToScale(randomScale.x, randomScale.y);
+        expectedTransform.setToRotation(Math.toRadians(randomRotation), polygon2D.getCenter().x, polygon2D.getCenter().y);
+        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
 
         assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");
         assertEquals(randomRotation, polygon2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
+        assertEquals(expectedNormalizedRotation, polygon2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+        assertEquals(expectedTransform, polygon2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
         assertEquals(randomScale, polygon2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
@@ -81,8 +90,9 @@ public class Polygon2DTests {
         boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        float randomRotation = Maths.random(-50f, 50f);
         Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-5000f, 5000f);
+        float expectedNormalizedRotation = randomRotation % 360;
 
         Polygon2D polygon2D = (Polygon2D) new Polygon2D(square)
                 .setColor(randomColor)
@@ -92,11 +102,18 @@ public class Polygon2DTests {
                 .setScale(randomScale)
                 .setShouldRender(shouldRender);
 
+        AffineTransform expectedTransform = new AffineTransform();
+        expectedTransform.setToScale(randomScale.x, randomScale.y);
+        expectedTransform.setToRotation(Math.toRadians(randomRotation), polygon2D.getCenter().x, polygon2D.getCenter().y);
+        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
+
         assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");
         assertEquals(randomRotation, polygon2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
+        assertEquals(expectedNormalizedRotation, polygon2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+        assertEquals(expectedTransform, polygon2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
         assertEquals(randomScale, polygon2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }

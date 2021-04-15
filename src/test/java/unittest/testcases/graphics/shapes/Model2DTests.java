@@ -8,6 +8,8 @@ import io.github.lucasstarsz.fastj.graphics.gameobject.GameObject;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Model2D;
 import io.github.lucasstarsz.fastj.graphics.gameobject.shapes.Polygon2D;
 
+import java.awt.geom.AffineTransform;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -67,16 +69,24 @@ public class Model2DTests {
 
         boolean shouldRender = Maths.randomBoolean();
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        float randomRotation = Maths.random(-50f, 50f);
         Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-5000f, 5000f);
+        float expectedNormalizedRotation = randomRotation % 360;
 
         Model2D model2D = new Model2D(polygons, randomTranslation, randomRotation, randomScale, shouldRender);
 
+        AffineTransform expectedTransform = new AffineTransform();
+        expectedTransform.setToScale(randomScale.x, randomScale.y);
+        expectedTransform.setToRotation(Math.toRadians(randomRotation), model2D.getCenter().x, model2D.getCenter().y);
+        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
+
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
-        assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the random show option.");
+        assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the random translation.");
+        assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the random rotation.");
+        assertEquals(expectedNormalizedRotation, model2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+        assertEquals(expectedTransform, model2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
+        assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the random scale.");
     }
 
     @Test
@@ -91,8 +101,9 @@ public class Model2DTests {
 
         boolean shouldRender = Maths.randomBoolean();
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        float randomRotation = Maths.random(-50f, 50f);
         Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+        float randomRotation = Maths.random(-5000f, 5000f);
+        float expectedNormalizedRotation = randomRotation % 360;
 
         Model2D model2D = (Model2D) new Model2D(polygons)
                 .setTranslation(randomTranslation)
@@ -100,11 +111,18 @@ public class Model2DTests {
                 .setScale(randomScale)
                 .setShouldRender(shouldRender);
 
+        AffineTransform expectedTransform = new AffineTransform();
+        expectedTransform.setToScale(randomScale.x, randomScale.y);
+        expectedTransform.setToRotation(Math.toRadians(randomRotation), model2D.getCenter().x, model2D.getCenter().y);
+        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
+
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
-        assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the expected show option.");
+        assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the expected translation.");
+        assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the expected rotation.");
+        assertEquals(expectedNormalizedRotation, model2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+        assertEquals(expectedTransform, model2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
+        assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the expected scale.");
     }
 
     @Test
@@ -157,7 +175,7 @@ public class Model2DTests {
     public void checkModel2DRotation_aroundOrigin_shouldMatchExpected() {
         Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
-        float randomRotation = Maths.random(-50f, 50f);
+        float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
                 new Polygon2D(square1),
@@ -182,7 +200,7 @@ public class Model2DTests {
         Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);
-        float randomRotation = Maths.random(-50f, 50f);
+        float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
                 new Polygon2D(square1),
@@ -207,7 +225,7 @@ public class Model2DTests {
         Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        float randomRotation = Maths.random(-50f, 50f);
+        float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
                 new Polygon2D(square1),
