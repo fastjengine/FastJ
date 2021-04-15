@@ -85,14 +85,14 @@ public class GameObjectTests {
         Scene mockScene = new MockScene();
 
         GameObject gameObject = new MockGameObject()
-                .addBehavior(mockBehavior, mockScene) // 1
-                .addBehavior(mockBehavior, mockScene) // 2
-                .addBehavior(mockBehavior, mockScene) // 3
+                .addBehavior(mockBehavior, mockScene)    // 1
+                .addBehavior(mockBehavior, mockScene)    // 2
+                .addBehavior(mockBehavior, mockScene)    // 3
                 .removeBehavior(mockBehavior, mockScene) // 2
-                .addBehavior(mockBehavior, mockScene) // 3
+                .addBehavior(mockBehavior, mockScene)    // 3
                 .removeBehavior(mockBehavior, mockScene) // 2
                 .removeBehavior(mockBehavior, mockScene) // 1
-                .addBehavior(mockBehavior, mockScene); // 2
+                .addBehavior(mockBehavior, mockScene);   // 2
 
         assertEquals(2, gameObject.getBehaviors().size(), "After the sequence of adding and removing behaviors, the remaining behavior count should be 5.");
     }
