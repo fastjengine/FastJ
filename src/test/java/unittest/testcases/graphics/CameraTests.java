@@ -66,7 +66,6 @@ public class CameraTests {
     @Test
     public void checkCameraRotation_shouldMatchExpected() {
         Camera camera = new Camera();
-        System.out.println(camera.getTransformation());
 
         float randomRotation1 = Maths.random(-50f, 50f);
         float randomRotation2 = Maths.random(-50f, 50f);
