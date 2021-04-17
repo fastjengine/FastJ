@@ -11,7 +11,15 @@ import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
@@ -438,7 +446,7 @@ public class Display {
      *
      * @return The {@code JFrame} of the {@code Display}.
      */
-    public Frame getJFrame() {
+    public JFrame getJFrame() {
         return outputDisplay;
     }
 
