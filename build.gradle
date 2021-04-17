@@ -8,7 +8,7 @@ plugins {
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.2.0')
+version('1.3.0')
 
 sourceSets {
     example {
@@ -103,7 +103,7 @@ if (shouldPublish) {
 
                 pom {
                     name = 'FastJ Game Library'
-                    description = 'A Java-based 2D game engine.'
+                    description = 'An open source, Java-based 2D game engine.'
                     url = 'https://github.com/lucasstarsz/FastJ'
 
                     scm {
