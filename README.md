@@ -48,7 +48,7 @@ This library can be found in the following places:
 - The [Releases][Releases] section of this repository.
 
 ### Adding the Dependency
-When adding the dependency, **make sure to replace `[latest version here]` with the actual latest version** (you'll find this in the Maven Central link up above). **The current latest version is 1.2.0**.
+When adding the dependency, **make sure to replace `[latest version here]` with the actual latest version** (you'll find this in the Maven Central link up above). **The current latest version is 1.3.0**.
 
 A few common dependencies are provided below:
 
