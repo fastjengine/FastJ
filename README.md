@@ -88,8 +88,10 @@ _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
 From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ.
 
+## Contributing to FastJ
+Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].
 
-## Building FastJ
+### Building FastJ
 Building FastJ is a generally simple task. You just need to follow these steps:
 
 - Clone the FastJ repository.
@@ -130,5 +132,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
 [FastJ-Example]: src/example "FastJ: Example Game"
+
+[Contributing-Guidelines]: /.github/CONTRIBUTING.md "Contributing to FastJ"
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
