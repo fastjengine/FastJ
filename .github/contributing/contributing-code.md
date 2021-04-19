@@ -63,8 +63,8 @@ For the sake of my own sanity, until further notice I will not allow the excepti
 - Otherwise, annotations must always be on a line of its own (one annotation per line).
 
 ### Constant Names
-All `static final` values should be `UpperCamelCase`, rather than `CONSTANT_CASE`. Of course, this does not change the use of `CONSTANT_CASE` for enum values.
-- Furthermore, mutable object constants (e.g. `static final Set<Integer>`) should _also_ use `UpperCamelCase`.
+All `static final` values should be `PascalCase`, rather than `CONSTANT_CASE`. Of course, this does not change the use of `CONSTANT_CASE` for enum values.
+- Furthermore, mutable object constants (e.g. `static final Set<Integer>`) should _also_ use `PascalCase`.
 
 ### Type Variable Names
 I have no preference on how these are named.
