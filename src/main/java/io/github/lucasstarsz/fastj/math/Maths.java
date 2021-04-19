@@ -136,4 +136,17 @@ public class Maths {
     public static boolean floatEquals(float a, float b) {
         return Math.abs(a - b) < FloatPrecision;
     }
+
+    /**
+     * Returns the value of lerping between x and y, by the interpolation point t.
+     *
+     * @param x The first {@code double} value.
+     * @param y THe second {@code double} value.
+     * @return The lerped value
+     */
+    public static double lerp(double x, double y, double t) {
+        return (1 - t) * x + t * y;
+    }
+
+
 }
