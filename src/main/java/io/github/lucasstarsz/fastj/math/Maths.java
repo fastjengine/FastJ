@@ -138,14 +138,14 @@ public class Maths {
     }
 
     /**
-     * Linearly interpolates the value of lerping between x and y, by the interpolation point t.
+     * Linearly interpolates between x and y, by the interpolation point t.
      *
-     * @param x The first {@code double} value.
-     * @param y THe second {@code double} value.
+     * @param x The first {@code float} value.
+     * @param y THe second {@code float} value.
      * @return The lerped value
      */
     public static float lerp(float x, float y, float t) {
-        return (1 - t) * x + t * y;
+        return (1f - t) * x + t * y;
     }
 
 
