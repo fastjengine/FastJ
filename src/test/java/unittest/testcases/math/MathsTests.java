@@ -118,4 +118,10 @@ public class MathsTests {
         assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.000001f.");
         assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.000001f.");
     }
+
+    @Test
+    public void checkLerpValues() {
+        assertEquals(5f, Maths.lerp(5f, 2f, 0f), "The lerped value should be 5f.");
+        assertEquals(-1f, Maths.lerp(5f, 2f, 2f), "The lerped value should be -1f.");
+    }
 }
