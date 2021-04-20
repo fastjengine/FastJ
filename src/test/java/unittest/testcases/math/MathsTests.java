@@ -124,4 +124,9 @@ public class MathsTests {
         assertEquals(5f, Maths.lerp(5f, 2f, 0f), "The lerped value should be 5f.");
         assertEquals(-1f, Maths.lerp(5f, 2f, 2f), "The lerped value should be -1f.");
     }
+
+    @Test
+    public void checkInverseLerpValues() {
+        assertEquals(1.0f, Maths.inverseLerp(5, 2, 2), "The inverse lerped value should be 1.0f.");
+    }
 }

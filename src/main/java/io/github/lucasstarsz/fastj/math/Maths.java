@@ -149,4 +149,7 @@ public class Maths {
     }
 
 
+    public static float inverseLerp(float x, float y, float t) {
+        return (t - x) / (y - x);
+    }
 }
