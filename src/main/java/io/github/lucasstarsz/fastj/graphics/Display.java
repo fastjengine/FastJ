@@ -14,9 +14,7 @@ import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
@@ -89,74 +87,6 @@ public class Display {
         renderHints = new LinkedHashMap<>();
         mouse = new Mouse();
         keyboard = new Keyboard();
-    }
-
-    /**
-     * Gets the specified monitor.
-     *
-     * @param monitorIndicated The index number of the monitor to get.
-     * @return The specified monitor, as a {@code GraphicsDevice}.
-     */
-    public static GraphicsDevice getMonitor(int monitorIndicated) {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[monitorIndicated];
-    }
-
-    /**
-     * Gets the default monitor.
-     *
-     * @return The default monitor, as a {@code GraphicsDevice}.
-     */
-    public static GraphicsDevice getDefaultMonitor() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    }
-
-    /**
-     * Gets the refresh rate of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the refresh rate of.
-     * @return The indicated monitor's refresh rate, as an integer value.
-     */
-    public static int getMonitorRefreshRate(int monitorIndicated) {
-        return getMonitor(monitorIndicated).getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the refresh rate of the default monitor.
-     *
-     * @return The default monitor's refresh rate, as an integer value.
-     */
-    public static int getDefaultMonitorRefreshRate() {
-        return getDefaultMonitor().getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the dimensions of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the dimensions of.
-     * @return The indicated monitor's dimensions, as a {@code Point}.
-     */
-    public static Point getMonitorDimensions(int monitorIndicated) {
-        DisplayMode monitorMode = getMonitor(monitorIndicated).getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the dimensions of the default monitor.
-     *
-     * @return The default monitor's dimensions, as a {@code Point}.
-     */
-    public static Point getDefaultMonitorDimensions() {
-        DisplayMode monitorMode = getDefaultMonitor().getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the amount of monitors the user has.
-     *
-     * @return The amount of monitors that the user has.
-     */
-    public static int getMonitorCount() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
     }
 
     /**
@@ -319,7 +249,7 @@ public class Display {
         if (isFullscreen) {
             // update res & background
             lastResolution = viewerResolution.copy();
-            viewerResolution = getDefaultMonitorDimensions();
+            viewerResolution = DisplayUtil.getDefaultMonitorDimensions();
 
             // prepare for full screen
             outputDisplay.dispose();
