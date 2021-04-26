@@ -2,8 +2,9 @@ plugins {
     // it's a java library. What did you expect?
     id 'java-library'
 
-    // For Sonarcloud code coverage testing, this is useful.
+    // For Sonarcloud code coverage testing, these are useful.
     id 'org.sonarqube' version '3.1.1'
+    id 'jacoco'
 
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
