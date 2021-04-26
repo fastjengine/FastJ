@@ -68,7 +68,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
+     * Static method to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
      * Pointf} object.
      *
      * @param p1 The first {@code Pointf} used for addition.
@@ -80,7 +80,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for addition.
      * @param f float value used for addition.
@@ -92,7 +92,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code
      * Pointf} object.
      *
      * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
@@ -107,7 +107,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
      * @param f float value used for subtraction; the second value used in subtraction.
@@ -119,7 +119,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
+     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
      * new {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for multiplication.
@@ -132,7 +132,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for multiplication.
      * @param f float value used for multiplication.
@@ -144,7 +144,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to divide two {@code Pointf} objects (from the parameters specified) together, and return a
+     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a
      * new {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
@@ -157,7 +157,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param f float value used for division; the second value used in division.
@@ -365,9 +365,9 @@ public class Pointf {
     }
 
     /**
-     * Returns this {@code Pointf}'s coordinates as a String.
+     * Formats the {@code Pointf}'s coordinates in a {@code String}.
      *
-     * @return Returns the coordinates of this {@code Pointf} as a String.
+     * @return The coordinates of the {@code Pointf}, as a {@code String}.
      */
     @Override
     public String toString() {

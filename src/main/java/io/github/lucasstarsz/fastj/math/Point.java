@@ -59,7 +59,7 @@ public class Point {
     }
 
     /**
-     * Static method used to add two {@code Point}s (from the parameters specified) together, and return a new {@code
+     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code
      * Point} object.
      *
      * @param p1 The first {@code Point} used for addition.
@@ -71,7 +71,7 @@ public class Point {
     }
 
     /**
-     * Static method used to add a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to add a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for addition.
      * @param i Integer value used for addition.
@@ -83,7 +83,7 @@ public class Point {
     }
 
     /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code
      * Point} object.
      *
      * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
@@ -97,7 +97,7 @@ public class Point {
     }
 
     /**
-     * Static method used to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
      * @param i Integer value used for subtraction; the second value used in subtraction.
@@ -109,7 +109,7 @@ public class Point {
     }
 
     /**
-     * Static method used to multiply two {@code Point} objects (from the parameters specified) together, and return a
+     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a
      * new {@code Point}.
      *
      * @param p1 The first {@code Point} used for multiplication.
@@ -121,7 +121,7 @@ public class Point {
     }
 
     /**
-     * Static method used to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for multiplication.
      * @param i Integer value used for multiplication.
@@ -133,7 +133,7 @@ public class Point {
     }
 
     /**
-     * Static method used to divide two {@code Point} objects (from the parameters specified) together, and return a new
+     * Static method to divide two {@code Point} objects (from the parameters specified) together, and return a new
      * {@code Point}.
      *
      * @param p1 The first {@code Point} used for division; the {@code Point} acting as the first value in division.
@@ -145,7 +145,7 @@ public class Point {
     }
 
     /**
-     * Static method used to divide a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to divide a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for division; the {@code Point} acting as the first value in division.
      * @param i Integer value used for division; the second value used in division.
@@ -328,9 +328,9 @@ public class Point {
     }
 
     /**
-     * Returns this {@code Point} as a {@code Pointf} object, without modification.
+     * Creates a {@link Pointf} version of the {@code Point}.
      *
-     * @return The {@code Pointf} created using the values from this {@code Point}.
+     * @return The {@code Point} created.
      */
     public Pointf asPointf() {
         return new Pointf(x, y);
@@ -387,9 +387,9 @@ public class Point {
     }
 
     /**
-     * Returns this {@code Point}'s coordinates as a String.
+     * Formats the {@code Point}'s coordinates in a {@code String}.
      *
-     * @return The coordinates of this Point as a String.
+     * @return The coordinates of the {@code Point}, as a {@code String}.
      */
     @Override
     public String toString() {
