@@ -99,6 +99,7 @@ sonarqube {
         property "sonar.organization", "lucasstarsz"
         property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.projectBaseDir", "."
+        property "sonar.sources", "src/main/java"
     }
 }
 
