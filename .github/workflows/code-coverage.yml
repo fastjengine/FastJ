@@ -32,8 +32,8 @@ jobs:
         run: chmod +x ./gradlew
       - name: Print Current Directory
         run: pwd
-      - name: Build and Analyze
+      - name: Analyze via SonarQube
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew build sonarqube --info --stacktrace
+        run: ./gradlew clean sonarqube --info --stacktrace
