@@ -306,7 +306,9 @@ public class Display {
 
         switchingScreenState = true;
 
-        if (isFullscreen) disableFullscreenInvisibly();
+        if (isFullscreen) {
+            disableFullscreenInvisibly();
+        }
 
         isWindowedFullscreen = enable;
         outputDisplay.setExtendedState(isWindowedFullscreen ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
@@ -458,7 +460,9 @@ public class Display {
      * @param enable Boolean to determine whether the title bar of the {@code Display} should be shown.
      */
     public void showTitleBar(boolean enable) {
-        if (outputDisplay.isUndecorated() == !enable) return;
+        if (outputDisplay.isUndecorated() == !enable) {
+            return;
+        }
 
         outputDisplay.setVisible(false);
 
@@ -479,7 +483,9 @@ public class Display {
      * @param camera      The camera that the user will view the game from.
      */
     public void render(Map<String, GameObject> gameObjects, Map<String, UIElement> gui, Camera camera) {
-        if (!outputDisplay.isVisible()) return;
+        if (!outputDisplay.isVisible()) {
+            return;
+        }
 
         try {
             BufferStrategy drawBuffer;
@@ -498,7 +504,9 @@ public class Display {
 
             for (GameObject obj : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(obj, camera)) continue;
+                    if (!isOnScreen(obj, camera)) {
+                        continue;
+                    }
                     obj.render(drawGraphics);
                 } catch (NullPointerException e) {
                     nullWarnCheck(obj, false, e);
@@ -510,7 +518,9 @@ public class Display {
 
             for (UIElement guiObj : gui.values()) {
                 try {
-                    if (!isOnScreen(guiObj, camera)) continue;
+                    if (!isOnScreen(guiObj, camera)) {
+                        continue;
+                    }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
                 } catch (NullPointerException e) {
                     nullWarnCheck(guiObj, true, e);
@@ -636,7 +646,9 @@ public class Display {
         outputDisplay.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                if (!isReady || isFullscreen) return;
+                if (!isReady || isFullscreen) {
+                    return;
+                }
 
                 Dimension newSize = outputDisplay.getContentPane().getSize();
                 resizeDisplay(new Point(newSize.width, newSize.height));
