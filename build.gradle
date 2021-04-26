@@ -100,6 +100,7 @@ sonarqube {
         property "sonar.projectKey", "lucasstarsz_FastJ"
         property "sonar.organization", "lucasstarsz"
         property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
     }
 }
 
