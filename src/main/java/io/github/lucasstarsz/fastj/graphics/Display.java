@@ -252,24 +252,16 @@ public class Display {
             viewerResolution = DisplayUtil.getDefaultMonitorDimensions();
 
             // prepare for full screen
-            outputDisplay.dispose();
-            outputDisplay.setUndecorated(true);
-            outputDisplay.setResizable(false);
+            disposeWindow();
 
             // set full-screen
-            GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .setFullScreenWindow(outputDisplay);
+            toggleFullScreenWindow();
         } else {
             // disable full-screen
-            GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .setFullScreenWindow(outputDisplay);
+            toggleFullScreenWindow();
 
             // update display
-            outputDisplay.dispose();
-            outputDisplay.setUndecorated(false);
-            outputDisplay.setResizable(true);
+            disposeWindow();
 
             // update res & background
             Point displayResSave = viewerResolution.copy();
@@ -279,9 +271,7 @@ public class Display {
             outputDisplay.pack();
         }
 
-        outputDisplay.revalidate();
-        outputDisplay.setVisible(true);
-        drawingCanvas.requestFocusInWindow();
+        revalidateWindow();
 
         switchingScreenState = false;
     }
@@ -424,15 +414,12 @@ public class Display {
         outputDisplay.getContentPane().setPreferredSize(new Dimension(newResolution.x, newResolution.y));
         drawingCanvas.setPreferredSize(new Dimension(newResolution.x, newResolution.y));
 
-        // set res points
         lastResolution = viewerResolution.copy();
         viewerResolution = newResolution.copy();
 
-        // set background size
         background.width = internalResolution.x;
         background.height = internalResolution.y;
 
-        // revalidate/pack
         drawingCanvas.revalidate();
         outputDisplay.revalidate();
         outputDisplay.pack();
@@ -448,24 +435,19 @@ public class Display {
 
         // disable full-screen
         isFullscreen = false;
-        GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice()
-                .setFullScreenWindow(outputDisplay);
+        toggleFullScreenWindow();
 
         // update display
-        outputDisplay.dispose();
-        outputDisplay.setUndecorated(false);
-        outputDisplay.setResizable(true);
+        disposeWindow();
 
         // update res & background
-        Point displayResSave = viewerResolution.copy();
+        Point tempViewerResolution = viewerResolution.copy();
         viewerResolution = lastResolution.copy();
-        lastResolution = displayResSave;
+        lastResolution = tempViewerResolution;
 
         // prepare window
         outputDisplay.pack();
-        outputDisplay.revalidate();
-        drawingCanvas.requestFocusInWindow();
+        revalidateWindow();
 
         switchingScreenState = false;
     }
@@ -509,6 +491,7 @@ public class Display {
             drawGraphics.clearRect(
                     (int) (background.x - camera.getTranslation().x),
                     (int) (background.y - camera.getTranslation().y),
+                    // add 1 to these values to account for floating point cutoff, since this has to be all integers
                     (int) background.width + 1,
                     (int) background.height + 1
             );
@@ -701,6 +684,30 @@ public class Display {
         // Text
         renderHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+    }
+
+    /** Toggles on/off the full-screen option for the {@link #outputDisplay}. */
+    private void toggleFullScreenWindow() {
+        GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .setFullScreenWindow(outputDisplay);
+    }
+
+    /** Removes the {@link #outputDisplay} from sight, allowing values like the title-bar to be changed. */
+    private void disposeWindow() {
+        boolean hasTitleBar = !isShowingTitleBar();
+
+        outputDisplay.setVisible(false);
+        outputDisplay.dispose();
+        outputDisplay.setUndecorated(!hasTitleBar);
+        outputDisplay.setResizable(hasTitleBar);
+    }
+
+    /** Prepares and adds the {@link #outputDisplay} back to screen visibility. */
+    private void revalidateWindow() {
+        outputDisplay.revalidate();
+        outputDisplay.setVisible(true);
+        drawingCanvas.requestFocusInWindow();
     }
 
     /**
