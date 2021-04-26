@@ -1,5 +1,6 @@
 package io.github.lucasstarsz.fastj.math;
 
+import java.awt.Dimension;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Objects;
@@ -333,6 +334,15 @@ public class Point {
      */
     public Pointf asPointf() {
         return new Pointf(x, y);
+    }
+
+    /**
+     * Creates a {@link Dimension} version of the {@code Point}.
+     *
+     * @return The {@code Dimension} created.
+     */
+    public Dimension asDimension() {
+        return new Dimension(x, y);
     }
 
     /**
