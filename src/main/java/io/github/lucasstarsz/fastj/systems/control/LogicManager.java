@@ -224,7 +224,7 @@ public abstract class LogicManager {
 
             display.render(
                     currentScene.drawableManager.getGameObjects(),
-                    currentScene.drawableManager.getGUIObjects(),
+                    currentScene.drawableManager.getUIElements(),
                     currentScene.getCamera()
             );
 

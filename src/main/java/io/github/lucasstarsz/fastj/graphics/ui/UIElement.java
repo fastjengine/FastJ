@@ -31,7 +31,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     protected UIElement(Scene origin) {
         onActionEvents = new ArrayList<>();
 
-        origin.drawableManager.addGUIObject(this);
+        origin.drawableManager.addUIElement(this);
         origin.inputManager.addMouseActionListener(this);
     }
 
@@ -86,7 +86,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     protected void destroyTheRest(Scene origin) {
         super.destroyTheRest(origin);
 
-        origin.drawableManager.removeGUIObject(this);
+        origin.drawableManager.removeUIElement(this);
         origin.inputManager.removeMouseActionListener(this);
     }
 

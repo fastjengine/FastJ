@@ -629,7 +629,7 @@ public class Display {
             FastJEngine.warning("Null pointer for " + (isGUIDrawable ? "GUI" : "Game Object") + " Drawawble with id: " + obj.getID());
             e.printStackTrace();
             if (isGUIDrawable) {
-                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGUIObjectList();
+                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshUIElementList();
             } else {
                 FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGameObjectList();
             }
