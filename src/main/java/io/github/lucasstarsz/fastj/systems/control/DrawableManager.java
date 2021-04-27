@@ -17,12 +17,12 @@ import java.util.Objects;
 public class DrawableManager {
 
     private final Map<String, GameObject> gameObjects;
-    private final Map<String, UIElement> UIElements;
+    private final Map<String, UIElement> uiElements;
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
         gameObjects = new LinkedHashMap<>();
-        UIElements = new LinkedHashMap<>();
+        uiElements = new LinkedHashMap<>();
     }
 
     /**
@@ -40,7 +40,7 @@ public class DrawableManager {
      * @return The ui elements of the scene.
      */
     public Map<String, UIElement> getUIElements() {
-        return UIElements;
+        return uiElements;
     }
 
     /* Game Objects */
@@ -90,7 +90,7 @@ public class DrawableManager {
      * @param guiObject The ui element to add.
      */
     public void addUIElement(UIElement guiObject) {
-        UIElements.put(guiObject.getID(), guiObject);
+        uiElements.put(guiObject.getID(), guiObject);
     }
 
     /**
@@ -99,7 +99,7 @@ public class DrawableManager {
      * @param guiObjectID The id of the ui element to remove.
      */
     public void removeUIElement(String guiObjectID) {
-        UIElements.remove(guiObjectID);
+        uiElements.remove(guiObjectID);
     }
 
     /**
@@ -113,12 +113,12 @@ public class DrawableManager {
 
     /** Removes any null values from the list of ui elements for the manager. */
     public void refreshUIElementList() {
-        UIElements.entrySet().removeIf(Objects::isNull);
+        uiElements.entrySet().removeIf(Objects::isNull);
     }
 
     /** Removes all ui elements from the manager. */
     public void clearUIElements() {
-        UIElements.clear();
+        uiElements.clear();
     }
 
     /* reset */
