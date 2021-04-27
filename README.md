@@ -53,14 +53,6 @@ When adding the dependency, **make sure to replace `[latest version here]` with 
 
 A few common dependencies are provided below:
 
-- **Maven**
-  ```xml
-  <dependency>
-    <groupId>io.github.lucasstarsz.fastj</groupId>
-    <artifactId>fastj-library</artifactId>
-    <version>[latest version here]</version>
-  </dependency>
-  ```
 - **Gradle**
     - Groovy:
       ```groovy
@@ -70,6 +62,14 @@ A few common dependencies are provided below:
       ```kotlin
       implementation("io.github.lucasstarsz.fastj:fastj-library:[latest version here]")
       ```
+- **Maven**
+  ```xml
+  <dependency>
+    <groupId>io.github.lucasstarsz.fastj</groupId>
+    <artifactId>fastj-library</artifactId>
+    <version>[latest version here]</version>
+  </dependency>
+  ```
 - **Apache Ivy**
   ```xml
   <dependency org="io.github.lucasstarsz.fastj" name="fastj-library" rev="[latest version here]" />
