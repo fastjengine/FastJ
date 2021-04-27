@@ -422,7 +422,6 @@ public class FastJEngine {
 
     /** Gracefully removes all resources created by the game engine. */
     private static void exit() {
-        isRunning = false;
         fpsLogger.shutdownNow();
         gameManager.reset();
 
@@ -438,10 +437,10 @@ public class FastJEngine {
         // FPS counting
         timer = null;
         fpsLog = null;
+        fpsLogger = null;
         drawFrames = 0;
         totalFPS = 0;
         fpsLogIndex = 0;
-        fpsLogger = null;
 
         // HW acceleration
         hwAccel = null;
