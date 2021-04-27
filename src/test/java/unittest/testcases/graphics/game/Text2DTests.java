@@ -109,7 +109,10 @@ class Text2DTests {
 
             Text2D text2D = new Text2D(text, originalTranslation);
             Throwable exception = assertThrows(IllegalStateException.class, () -> text2D.rotate(randomRotation, Pointf.Origin));
-            assertEquals(exception.getMessage(), "ERROR: The game crashed, due to the call of a method not yet implemented.");
+
+            String expectedErrorMessage = "ERROR: The game crashed, due to the call of a method not yet implemented.";
+            String actualErrorMessage = exception.getMessage();
+            assertEquals(expectedErrorMessage, actualErrorMessage);
         });
     }
 
@@ -122,7 +125,10 @@ class Text2DTests {
 
             Text2D text2D = new Text2D(text, originalTranslation);
             Throwable exception = assertThrows(IllegalStateException.class, () -> text2D.scale(randomScale, originalTranslation));
-            assertEquals(exception.getMessage(), "ERROR: The game crashed, due to the call of a method not yet implemented.");
+
+            String expectedErrorMessage = "ERROR: The game crashed, due to the call of a method not yet implemented.";
+            String actualErrorMessage = exception.getMessage();
+            assertEquals(expectedErrorMessage, actualErrorMessage);
         });
     }
 }
