@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static unittest.HeadlessHelper.runFastJWith;
 
-public class Text2DTests {
+class Text2DTests {
 
     @BeforeAll
     public static void onlyRunIfNotHeadless() {
@@ -25,7 +25,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkText2DConstructor_withStringTextParam_andPointfTranslationParam() {
+    void checkText2DConstructor_withStringTextParam_andPointfTranslationParam() {
         runFastJWith(() -> {
             String text = "Hello, world!";
             Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -41,7 +41,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam() {
+    void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam() {
         runFastJWith(() -> {
             String text = "Hello, world!";
 
@@ -61,7 +61,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam_usingMethodChaining() {
+    void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam_usingMethodChaining() {
         runFastJWith(() -> {
             String text = "Hello, world!";
 
@@ -84,7 +84,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkTranslateText2D_shouldMatchExpected() {
+    void checkTranslateText2D_shouldMatchExpected() {
         runFastJWith(() -> {
             String text = "Hello, world!";
             Pointf originalTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -101,7 +101,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkRotateText2D_shouldThrowError() {
+    void checkRotateText2D_shouldThrowError() {
         runFastJWith(() -> {
             String text = "Hello, world!";
             Pointf originalTranslation = Pointf.Origin.copy();
@@ -114,7 +114,7 @@ public class Text2DTests {
     }
 
     @Test
-    public void checkScaleText2D_shouldThrowException() {
+    void checkScaleText2D_shouldThrowException() {
         runFastJWith(() -> {
             String text = "Hello, world!";
             Pointf originalTranslation = Pointf.Origin.copy();

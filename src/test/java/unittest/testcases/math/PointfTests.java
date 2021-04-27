@@ -13,31 +13,31 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PointfTests {
+class PointfTests {
 
     @Test
-    public void checkPointfCreation_withNoConstructorParams() {
+    void checkPointfCreation_withNoConstructorParams() {
         Pointf ptf = new Pointf();
         assertEquals(0f, ptf.x, "The x value of the Pointf should default to 0f.");
         assertEquals(0f, ptf.y, "The y value of the Pointf should default to 0f.");
     }
 
     @Test
-    public void checkPointfCreation_withOneConstructorParam() {
+    void checkPointfCreation_withOneConstructorParam() {
         Pointf ptf = new Pointf(5f);
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f.");
     }
 
     @Test
-    public void checkPointfCreation_withTwoConstructorParams() {
+    void checkPointfCreation_withTwoConstructorParams() {
         Pointf ptf = new Pointf(3f, 4f);
         assertEquals(3f, ptf.x, "The x value of the Pointf should equal 3f.");
         assertEquals(4f, ptf.y, "The y value of the Pointf should equal 4f.");
     }
 
     @Test
-    public void checkPointfCreation_withPointfObjectParam() {
+    void checkPointfCreation_withPointfObjectParam() {
         Pointf ptf = new Pointf(3f, 4f);
         Pointf ptf2 = new Pointf(ptf);
 
@@ -46,7 +46,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfAddition_withFloatValues() {
+    void checkPointfAddition_withFloatValues() {
         Pointf ptf = new Pointf();
         ptf.add(5f);
 
@@ -55,7 +55,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfAddition_withPointfObjects() {
+    void checkPointfAddition_withPointfObjects() {
         Pointf ptf = new Pointf();
         Pointf ptf2 = new Pointf(5f);
         ptf.add(ptf2);
@@ -65,7 +65,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfSubtraction_withFloatValues() {
+    void checkPointfSubtraction_withFloatValues() {
         Pointf ptf = new Pointf();
         ptf.subtract(5f);
 
@@ -74,7 +74,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfSubtraction_withPointfObjects() {
+    void checkPointfSubtraction_withPointfObjects() {
         Pointf ptf = new Pointf();
         Pointf ptf2 = new Pointf(5f);
         ptf.subtract(ptf2);
@@ -84,7 +84,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfMultiplication_withFloatValues() {
+    void checkPointfMultiplication_withFloatValues() {
         Pointf ptf = new Pointf(1f);
         ptf.multiply(5f);
 
@@ -93,7 +93,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfMultiplication_withPointfObjects() {
+    void checkPointfMultiplication_withPointfObjects() {
         Pointf ptf = new Pointf(1f);
         Pointf ptf2 = new Pointf(5f);
         ptf.multiply(ptf2);
@@ -103,7 +103,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfDivision_withFloatValues() {
+    void checkPointfDivision_withFloatValues() {
         Pointf ptf = new Pointf(25f);
         ptf.divide(5f);
 
@@ -112,7 +112,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfDivision_withPointfObjects() {
+    void checkPointfDivision_withPointfObjects() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
         ptf.divide(ptf2);
@@ -122,7 +122,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkArithmeticChaining_withPointfObjectsAndFloatValues() {
+    void checkArithmeticChaining_withPointfObjectsAndFloatValues() {
         Pointf ptf = new Pointf()
                 .add(2f)                                    // (2f, 2f)
                 .add(new Pointf(3f))                    // (5f, 5f)
@@ -138,7 +138,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfCopyingForEquality() {
+    void checkPointfCopyingForEquality() {
         Pointf original = new Pointf(13f, 37f);
         Pointf copy = original.copy();
 
@@ -146,7 +146,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfResettingForEquality_withPointfAtOrigin() {
+    void checkPointfResettingForEquality_withPointfAtOrigin() {
         Pointf ptf = new Pointf(13f, 37f);
         ptf.reset();
 
@@ -154,7 +154,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkPointfSetting() {
+    void checkPointfSetting() {
         Pointf ptf = new Pointf();
         ptf.set(13f, 37f);
 
@@ -163,7 +163,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkEqualsAgainstPoint() {
+    void checkEqualsAgainstPoint() {
         Pointf ptf = new Pointf(13f, 37f);
         Point pt = new Point(13, 37);
 
@@ -171,7 +171,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangleObject() {
+    void checkIntersectionsWithRectangleObject() {
         Pointf ptf = new Pointf(13f, 37f);
         Rectangle rect = new Rectangle(0, 0, 20, 40);
 
@@ -179,7 +179,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DFloatObject() {
+    void checkIntersectionsWithRectangle2DFloatObject() {
         Pointf ptf = new Pointf(13f, 37f);
         Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
 
@@ -187,7 +187,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DDoubleObject() {
+    void checkIntersectionsWithRectangle2DDoubleObject() {
         Pointf ptf = new Pointf(13f, 37f);
         Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
 
@@ -195,7 +195,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionWithPath2DFloatObject() {
+    void checkIntersectionWithPath2DFloatObject() {
         Pointf ptf = new Pointf(13f, 37f);
 
         Path2D.Float pathf = new Path2D.Float();
@@ -209,7 +209,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionWithPath2DDoubleObject() {
+    void checkIntersectionWithPath2DDoubleObject() {
         Pointf ptf = new Pointf(13f, 37f);
 
         Path2D.Double pathd = new Path2D.Double();
@@ -223,7 +223,7 @@ public class PointfTests {
     }
 
     @Test
-    public void checkIntersectionWithGeneralPathObject() {
+    void checkIntersectionWithGeneralPathObject() {
         Pointf ptf = new Pointf(13f, 37f);
 
         GeneralPath pathg = new GeneralPath();
@@ -238,7 +238,7 @@ public class PointfTests {
 
 
     @Test
-    public void static_checkPointfAddition_withFloatValues() {
+    void static_checkPointfAddition_withFloatValues() {
         Pointf ptf = new Pointf();
         Pointf added = Pointf.add(ptf, 5f);
 
@@ -247,7 +247,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfAddition_withPointfObjects() {
+    void static_checkPointfAddition_withPointfObjects() {
         Pointf ptf = new Pointf();
         Pointf ptf2 = new Pointf(5f);
         Pointf added = Pointf.add(ptf, ptf2);
@@ -257,7 +257,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfSubtraction_withFloatValues() {
+    void static_checkPointfSubtraction_withFloatValues() {
         Pointf ptf = new Pointf();
         Pointf subtracted = Pointf.subtract(ptf, 5f);
 
@@ -266,7 +266,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfSubtraction_withPointfObjects() {
+    void static_checkPointfSubtraction_withPointfObjects() {
         Pointf ptf = new Pointf();
         Pointf ptf2 = new Pointf(5f);
         Pointf subtracted = Pointf.subtract(ptf, ptf2);
@@ -276,7 +276,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfMultiplication_withFloatValues() {
+    void static_checkPointfMultiplication_withFloatValues() {
         Pointf ptf = new Pointf(1f);
         Pointf multiplied = Pointf.multiply(ptf, 5f);
 
@@ -285,7 +285,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfMultiplication_withPointfObjects() {
+    void static_checkPointfMultiplication_withPointfObjects() {
         Pointf ptf = new Pointf(1f);
         Pointf ptf2 = new Pointf(5f);
         Pointf multiplied = Pointf.multiply(ptf, ptf2);
@@ -295,7 +295,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfDivision_withFloatValues() {
+    void static_checkPointfDivision_withFloatValues() {
         Pointf ptf = new Pointf(25f);
         Pointf divided = Pointf.divide(ptf, 5f);
 
@@ -304,7 +304,7 @@ public class PointfTests {
     }
 
     @Test
-    public void static_checkPointfDivision_withPointfObjects() {
+    void static_checkPointfDivision_withPointfObjects() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
         Pointf divided = Pointf.divide(ptf, ptf2);
