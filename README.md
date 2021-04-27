@@ -12,7 +12,7 @@
 </div>
 
 ## What is FastJ?
-FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use, 2D game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][FastJ-Engine-Link], it aims to provide an easy-to-use, 2D game-making library.
 
 ## Disclaimer
 **This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered for tests. Documentation is sparse. 
@@ -87,7 +87,7 @@ git clone https://github.com/lucasstarsz/FastJ.git
 ```
 _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
-From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ. 
+From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ.
 
 ## Contributing to FastJ
 Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].
@@ -132,7 +132,7 @@ This repository is licensed under the [MIT License][MIT-License].
 
 [Releases]: https://github.com/lucasstarsz/FastJ/releases/ "FastJ Releases"
 
-[fastj-engine link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
+[FastJ-Engine-Link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
