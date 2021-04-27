@@ -590,7 +590,7 @@ public class Display {
                 } catch (NullPointerException e) {
                     nullWarnCheck(obj, false, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RENDER_ERROR.errorMessage + " | Origin: Game Object Drawable " + obj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: Game Object Drawable " + obj.getID(), e);
                     return;
                 }
             }
@@ -602,7 +602,7 @@ public class Display {
                 } catch (NullPointerException e) {
                     nullWarnCheck(guiObj, true, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RENDER_ERROR.errorMessage + " | Origin: GUI Drawable " + guiObj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: GUI Drawable " + guiObj.getID(), e);
                     return;
                 }
             }

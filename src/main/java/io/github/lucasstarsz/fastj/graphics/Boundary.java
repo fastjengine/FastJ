@@ -5,10 +5,10 @@ package io.github.lucasstarsz.fastj.graphics;
  * <p>
  * Boundaries are specified in the following way:
  * <ul>
- *     <li>{@link #TOP_LEFT}: array index 0</li>
- *     <li>{@link #TOP_RIGHT}: array index 1</li>
- *     <li>{@link #BOTTOM_RIGHT}: array index 2</li>
- *     <li>{@link #BOTTOM_LEFT}: array index 3</li>
+ *     <li>{@link #TopLeft}: array index 0</li>
+ *     <li>{@link #TopRight}: array index 1</li>
+ *     <li>{@link #BottomRight}: array index 2</li>
+ *     <li>{@link #BottomLeft}: array index 3</li>
  * </ul>
  *
  * @author Andrew Dey
@@ -16,13 +16,13 @@ package io.github.lucasstarsz.fastj.graphics;
  */
 public enum Boundary {
     /** Top left boundary -- array index 0. */
-    TOP_LEFT(0),
+    TopLeft(0),
     /** Top right boundary -- array index 1. */
-    TOP_RIGHT(1),
+    TopRight(1),
     /** Bottom right boundary -- array index 2. */
-    BOTTOM_RIGHT(2),
+    BottomRight(2),
     /** Bottom left boundary -- array index 3. */
-    BOTTOM_LEFT(3);
+    BottomLeft(3);
 
     /** The array index corresponding to the enum constant. */
     public final int location;

@@ -4,15 +4,15 @@ package io.github.lucasstarsz.fastj.engine;
 public enum CrashMessages {
 
     /** "The game crashed, due to a scene error." */
-    SCENE_ERROR(theGameCrashed("a scene error.")),
+    SceneError(theGameCrashed("a scene error.")),
     /** "The game crashed, due to a rendering error." */
-    RENDER_ERROR(theGameCrashed("a rendering error.")),
+    RenderError(theGameCrashed("a rendering error.")),
     /** "The game crashed, due to a configuration error." */
-    CONFIGURATION_ERROR(theGameCrashed("a configuration error.")),
+    ConfigurationError(theGameCrashed("a configuration error.")),
     /** "The game crashed, due to a method being called that can only be called before the program starts. */
-    CALLED_AFTER_RUN_ERROR(theGameCrashed("a method being called that can only be called before the program starts.")),
+    CalledAfterRunError(theGameCrashed("a method being called that can only be called before the program starts.")),
     /** "The game crashed, due to the call of a method not yet implemented. */
-    UNIMPLEMENTED_METHOD_ERROR(theGameCrashed("the call of a method not yet implemented."));
+    UnimplementedMethodError(theGameCrashed("the call of a method not yet implemented."));
 
     /** The error message of the enum constant. */
     public final String errorMessage;

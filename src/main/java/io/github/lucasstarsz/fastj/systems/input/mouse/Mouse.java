@@ -41,8 +41,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     private static final Map<Integer, BiConsumer<Scene, MouseEvent>> MouseEventProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
-                if (!MouseAction.PRESS.recentAction) {
-                    createSleeperThread(MouseAction.PRESS);
+                if (!MouseAction.Press.recentAction) {
+                    createSleeperThread(MouseAction.Press);
                 }
 
                 if (!MouseButtons.containsKey(mouseEvent.getButton())) {
@@ -55,8 +55,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 scene.inputManager.fireMousePressed(mouseEvent);
             },
             MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
-                if (!MouseAction.RELEASE.recentAction) {
-                    createSleeperThread(MouseAction.RELEASE);
+                if (!MouseAction.Release.recentAction) {
+                    createSleeperThread(MouseAction.Release);
                 }
 
                 if (MouseButtons.containsKey(mouseEvent.getButton())) {
@@ -67,16 +67,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 scene.inputManager.fireMouseReleased(mouseEvent);
             },
             MouseEvent.MOUSE_CLICKED, (scene, mouseEvent) -> {
-                if (!MouseAction.CLICK.recentAction) {
-                    createSleeperThread(MouseAction.CLICK);
+                if (!MouseAction.Click.recentAction) {
+                    createSleeperThread(MouseAction.Click);
                 }
 
                 buttonLastClicked = mouseEvent.getButton();
                 scene.inputManager.fireMouseClicked(mouseEvent);
             },
             MouseEvent.MOUSE_MOVED, (scene, mouseEvent) -> {
-                if (!MouseAction.MOVE.recentAction) {
-                    createSleeperThread(MouseAction.MOVE);
+                if (!MouseAction.Move.recentAction) {
+                    createSleeperThread(MouseAction.Move);
                 }
 
                 mouseLocation = Pointf.divide(
@@ -87,8 +87,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 scene.inputManager.fireMouseMoved(mouseEvent);
             },
             MouseEvent.MOUSE_DRAGGED, (scene, mouseEvent) -> {
-                if (!MouseAction.DRAG.recentAction) {
-                    createSleeperThread(MouseAction.DRAG);
+                if (!MouseAction.Drag.recentAction) {
+                    createSleeperThread(MouseAction.Drag);
                 }
 
                 mouseLocation = Pointf.divide(
@@ -99,24 +99,24 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 scene.inputManager.fireMouseDragged(mouseEvent);
             },
             MouseEvent.MOUSE_ENTERED, (scene, mouseEvent) -> {
-                if (MouseAction.ENTER.recentAction) {
-                    createSleeperThread(MouseAction.ENTER);
+                if (MouseAction.Enter.recentAction) {
+                    createSleeperThread(MouseAction.Enter);
                 }
 
                 currentlyOnScreen = true;
                 scene.inputManager.fireMouseEntered(mouseEvent);
             },
             MouseEvent.MOUSE_EXITED, (scene, mouseEvent) -> {
-                if (MouseAction.ENTER.recentAction) {
-                    createSleeperThread(MouseAction.EXIT);
+                if (MouseAction.Enter.recentAction) {
+                    createSleeperThread(MouseAction.Exit);
                 }
 
                 currentlyOnScreen = false;
                 scene.inputManager.fireMouseExited(mouseEvent);
             },
             MouseEvent.MOUSE_WHEEL, (scene, mouseEvent) -> {
-                if (!MouseAction.WHEEL_SCROLL.recentAction) {
-                    createSleeperThread(MouseAction.WHEEL_SCROLL);
+                if (!MouseAction.WheelScroll.recentAction) {
+                    createSleeperThread(MouseAction.WheelScroll);
                 }
 
                 MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;

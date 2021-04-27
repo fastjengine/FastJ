@@ -155,7 +155,7 @@ public abstract class LogicManager {
      */
     public void switchScenes(String nextSceneName) {
         if (!scenes.containsKey(nextSceneName)) {
-            FastJEngine.error(CrashMessages.SCENE_ERROR.errorMessage,
+            FastJEngine.error(CrashMessages.SceneError.errorMessage,
                     new IllegalArgumentException("A scene with the name: \"" + nextSceneName + "\" hasn't been added!"));
         }
 
@@ -266,7 +266,7 @@ public abstract class LogicManager {
             }
         }
 
-        FastJEngine.error(CrashMessages.SCENE_ERROR.errorMessage, e);
+        FastJEngine.error(CrashMessages.SceneError.errorMessage, e);
     }
 
     /**
@@ -324,7 +324,7 @@ public abstract class LogicManager {
                             + "Scenes added: " + scenes.keySet()
             );
 
-            FastJEngine.error(CrashMessages.SCENE_ERROR.errorMessage, e);
+            FastJEngine.error(CrashMessages.SceneError.errorMessage, e);
         }
     }
 
@@ -338,7 +338,7 @@ public abstract class LogicManager {
      */
     private void sceneExistenceCheck(String sceneName) {
         if (!scenes.containsKey(sceneName)) {
-            FastJEngine.error(CrashMessages.SCENE_ERROR.errorMessage,
+            FastJEngine.error(CrashMessages.SceneError.errorMessage,
                     new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!"));
         }
     }
