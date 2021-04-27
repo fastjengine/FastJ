@@ -715,6 +715,7 @@ public class Display {
 
         outputDisplay.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         outputDisplay.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent displayEvent) {
                 FastJEngine.closeGame();
             }
