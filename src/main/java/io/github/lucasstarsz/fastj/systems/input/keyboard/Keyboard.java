@@ -324,8 +324,13 @@ public class Keyboard implements KeyListener {
     private static class Key {
         private final KeyDescription keyDescription;
         private boolean isKeyDown;
-        private boolean recentPress, recentRelease, currentlyPressed;
-        private int pressTimer, releaseTimer;
+
+        private boolean recentPress;
+        private boolean recentRelease;
+        private boolean currentlyPressed;
+
+        private int pressTimer;
+        private int releaseTimer;
 
         /**
          * Constructs a key with a {@link Keyboard.KeyDescription}.

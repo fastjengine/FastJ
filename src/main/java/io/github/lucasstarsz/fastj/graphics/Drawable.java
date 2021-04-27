@@ -163,7 +163,8 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that states whether the two {@code Drawable}s intersect.
      */
     public boolean collidesWith(Drawable obj) {
-        Area otherObject, thisObject;
+        Area otherObject;
+        Area thisObject;
 
         try {
             otherObject = new Area(obj.collisionPath);
