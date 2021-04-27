@@ -95,7 +95,6 @@ tasks.withType(Test) {
 // Code Coverage
 
 sonarqube {
-    println getClass().protectionDomain.codeSource.location.path
     properties {
         property "sonar.projectKey", "lucasstarsz_FastJ"
         property "sonar.organization", "lucasstarsz"
