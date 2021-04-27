@@ -17,6 +17,10 @@ public class Maths {
      */
     public static final float FloatPrecision = 0.00001f;
 
+    private Maths() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Generates a random float number within the specified min and max limits.
      *

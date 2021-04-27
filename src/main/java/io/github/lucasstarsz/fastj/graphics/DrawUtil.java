@@ -35,6 +35,10 @@ public final class DrawUtil {
     private static final String PsdfReadErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
     private static final String PsdfWriteErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
 
+    private DrawUtil() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Gets a {@code Polygon2D} array, loaded from a {@code .psdf} file.
      * <p>

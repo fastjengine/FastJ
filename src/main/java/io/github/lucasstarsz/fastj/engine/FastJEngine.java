@@ -60,6 +60,10 @@ public class FastJEngine {
     // Check values
     private static boolean isRunning;
 
+    private FastJEngine() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Initializes the game engine with the specified title and logic manager.
      * <p>
