@@ -87,7 +87,7 @@ git clone https://github.com/lucasstarsz/FastJ.git
 ```
 _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
-From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ.
+From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ. 
 
 ## Contributing to FastJ
 Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].
