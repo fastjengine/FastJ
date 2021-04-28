@@ -42,7 +42,7 @@ public class Keyboard implements KeyListener {
 
                 if (!key.currentlyPressed) {
                     key.setRecentPress(true);
-                    scene.inputManager.fireKeyRecentlyPressed(keyEvent);
+                    scene.inputManager.fireKeyEvent(keyEvent);
                 }
 
                 key.setCurrentPress(true);
@@ -57,11 +57,11 @@ public class Keyboard implements KeyListener {
                     key.setRecentRelease(true);
                 }
 
-                scene.inputManager.fireKeyReleased(keyEvent);
+                scene.inputManager.fireKeyEvent(keyEvent);
             },
             KeyEvent.KEY_TYPED, (scene, keyEvent) -> {
                 lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
-                scene.inputManager.fireKeyTyped(keyEvent);
+                scene.inputManager.fireKeyEvent(keyEvent);
             }
     );
 
@@ -252,6 +252,9 @@ public class Keyboard implements KeyListener {
      */
     public static void processEvent(Scene scene, KeyEvent event) {
         keyEventProcessor.get(event.getID()).accept(scene, event);
+        /* Don't call the fireKeyEvent here!
+         * KeyEvent.KEY_PRESSED only gets called under certain
+         * conditions, so it cannot be abstracted to work here without some serious effort. */
     }
 
     /** Enum that defines the location of a key. */

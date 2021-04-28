@@ -52,7 +52,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
                 buttonLastPressed = mouseEvent.getButton();
                 MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
-                scene.inputManager.fireMousePressed(mouseEvent);
             },
             MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
                 if (!MouseAction.Release.recentAction) {
@@ -64,7 +63,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 buttonLastReleased = mouseEvent.getButton();
-                scene.inputManager.fireMouseReleased(mouseEvent);
             },
             MouseEvent.MOUSE_CLICKED, (scene, mouseEvent) -> {
                 if (!MouseAction.Click.recentAction) {
@@ -72,7 +70,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 buttonLastClicked = mouseEvent.getButton();
-                scene.inputManager.fireMouseClicked(mouseEvent);
             },
             MouseEvent.MOUSE_MOVED, (scene, mouseEvent) -> {
                 if (!MouseAction.Move.recentAction) {
@@ -83,8 +80,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                         new Pointf(mouseEvent.getX(), mouseEvent.getY()),
                         FastJEngine.getDisplay().getResolutionScale()
                 );
-
-                scene.inputManager.fireMouseMoved(mouseEvent);
             },
             MouseEvent.MOUSE_DRAGGED, (scene, mouseEvent) -> {
                 if (!MouseAction.Drag.recentAction) {
@@ -95,8 +90,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                         new Pointf(mouseEvent.getX(), mouseEvent.getY()),
                         FastJEngine.getDisplay().getResolutionScale()
                 );
-
-                scene.inputManager.fireMouseDragged(mouseEvent);
             },
             MouseEvent.MOUSE_ENTERED, (scene, mouseEvent) -> {
                 if (MouseAction.Enter.recentAction) {
@@ -104,7 +97,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 currentlyOnScreen = true;
-                scene.inputManager.fireMouseEntered(mouseEvent);
             },
             MouseEvent.MOUSE_EXITED, (scene, mouseEvent) -> {
                 if (MouseAction.Enter.recentAction) {
@@ -112,7 +104,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 currentlyOnScreen = false;
-                scene.inputManager.fireMouseExited(mouseEvent);
             },
             MouseEvent.MOUSE_WHEEL, (scene, mouseEvent) -> {
                 if (!MouseAction.WheelScroll.recentAction) {
@@ -121,7 +112,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
                 MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
                 lastScrollDirection = mouseWheelEvent.getWheelRotation();
-                scene.inputManager.fireMouseWheelScrolled(mouseWheelEvent);
             }
     );
 
@@ -312,6 +302,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     public static void processEvent(Scene scene, MouseEvent event) {
         MouseEventProcessor.get(event.getID()).accept(scene, event);
+        scene.inputManager.fireMouseEvent(event);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */
