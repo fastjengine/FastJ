@@ -25,7 +25,7 @@ public class Keyboard implements KeyListener {
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
-    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> keyEventProcessor = Map.of(
+    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> KeyEventProcessor = Map.of(
             KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key key = null;
@@ -251,7 +251,7 @@ public class Keyboard implements KeyListener {
      * @param event   The key event to process.
      */
     public static void processEvent(Scene scene, KeyEvent event) {
-        keyEventProcessor.get(event.getID()).accept(scene, event);
+        KeyEventProcessor.get(event.getID()).accept(scene, event);
         /* Don't call the fireKeyEvent here!
          * KeyEvent.KEY_PRESSED only gets called under certain
          * conditions, so it cannot be abstracted to work here without some serious effort. */
