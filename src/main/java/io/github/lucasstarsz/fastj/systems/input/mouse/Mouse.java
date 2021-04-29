@@ -32,10 +32,15 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
-    private static int buttonLastPressed = -1;
-    private static int buttonLastReleased = -1;
-    private static int buttonLastClicked = -1;
-    private static int lastScrollDirection = 0;
+
+    private static final int InitialMouseButton = -1;
+    private static final int InitialScrollDirection = 0;
+
+    private static int buttonLastPressed = Mouse.InitialMouseButton;
+    private static int buttonLastReleased = Mouse.InitialMouseButton;
+    private static int buttonLastClicked = Mouse.InitialMouseButton;
+    private static int lastScrollDirection = Mouse.InitialScrollDirection;
+
     private static boolean currentlyOnScreen;
     private static Pointf mouseLocation = new Pointf();
 
