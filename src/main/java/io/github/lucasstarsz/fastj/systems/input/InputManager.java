@@ -29,61 +29,61 @@ public class InputManager {
     private volatile boolean isProcessingEvents;
 
     private static final Map<Integer, BiConsumer<MouseEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
-            MouseEvent.MOUSE_PRESSED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_PRESSED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMousePressed(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_RELEASED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_RELEASED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseReleased(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_CLICKED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_CLICKED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseClicked(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_MOVED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_MOVED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseMoved(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_DRAGGED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_DRAGGED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseDragged(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_ENTERED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_ENTERED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseEntersScreen(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_EXITED, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_EXITED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseExitsScreen(mouseEvent);
                 }
             },
-            MouseEvent.MOUSE_WHEEL, (mouseEvent, mouseActionListeners) -> {
-                for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            MouseEvent.MOUSE_WHEEL, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
                     mouseActionListener.onMouseWheelScrolled(mouseEvent);
                 }
             }
     );
 
     private static final Map<Integer, BiConsumer<KeyEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (keyEvent, keyActionListeners) -> {
-                for (KeyboardActionListener keyboardActionListener : keyActionListeners) {
+            KeyEvent.KEY_PRESSED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
                     keyboardActionListener.onKeyRecentlyPressed(keyEvent);
                 }
             },
-            KeyEvent.KEY_RELEASED, (keyEvent, keyActionListeners) -> {
-                for (KeyboardActionListener keyboardActionListener : keyActionListeners) {
+            KeyEvent.KEY_RELEASED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
                     keyboardActionListener.onKeyReleased(keyEvent);
                 }
             },
-            KeyEvent.KEY_TYPED, (keyEvent, keyActionListeners) -> {
-                for (KeyboardActionListener keyboardActionListener : keyActionListeners) {
+            KeyEvent.KEY_TYPED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
                     keyboardActionListener.onKeyTyped(keyEvent);
                 }
             }
