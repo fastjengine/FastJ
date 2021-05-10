@@ -18,16 +18,16 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GameObjectTests {
+class GameObjectTests {
 
     @Test
-    public void checkCreateGameObject_behaviorsShouldBeEmpty() {
+    void checkCreateGameObject_behaviorsShouldBeEmpty() {
         GameObject gameObject = new MockGameObject();
         assertEquals(0, gameObject.getBehaviors().size(), "When initially created, a GameObject's behavior list should contain no behaviors.");
     }
 
     @Test
-    public void checkAddBehaviorToGameObject_shouldAllowMultiple() {
+    void checkAddBehaviorToGameObject_shouldAllowMultiple() {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
@@ -42,7 +42,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkClearBehaviorsFromGameObject_shouldRemoveAll() {
+    void checkClearBehaviorsFromGameObject_shouldRemoveAll() {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
@@ -59,7 +59,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkRemoveBehaviorFromGameObject() {
+    void checkRemoveBehaviorFromGameObject() {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
@@ -79,7 +79,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkAddAndRemoveBehaviorsFromGameObject_usingMethodChaining() {
+    void checkAddAndRemoveBehaviorsFromGameObject_usingMethodChaining() {
         Behavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockScene();
 
@@ -97,7 +97,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkInitBehaviors_shouldInitializePointf() {
+    void checkInitBehaviors_shouldInitializePointf() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockScene();
@@ -109,7 +109,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkUpdateBehaviors_shouldIncrementPointf() {
+    void checkUpdateBehaviors_shouldIncrementPointf() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockScene();
@@ -127,7 +127,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void checkDestroyBehaviors_shouldMakePointfNull() {
+    void checkDestroyBehaviors_shouldMakePointfNull() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockScene();
@@ -141,7 +141,7 @@ public class GameObjectTests {
     }
 
     @Test
-    public void tryUpdateBehaviorWithoutInitializing_shouldThrowNullPointerException() {
+    void tryUpdateBehaviorWithoutInitializing_shouldThrowNullPointerException() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockScene();

@@ -8,10 +8,11 @@
 
 [![Javadoc][JavaDoc-SVG]][JavaDoc]
 [![Maven Central][Maven-Central-SVG]][Maven-Central]
+[![SonarCloud Code Coverage][SonarCloud-CodeCoverage-SVG]][SonarCloud-CodeCoverage-Report]
 </div>
 
 ## What is FastJ?
-FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use, 2D game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][FastJ-Engine-Link], it aims to provide an easy-to-use, 2D game-making library.
 
 ## Disclaimer
 **This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered for tests. Documentation is sparse. 
@@ -52,14 +53,6 @@ When adding the dependency, **make sure to replace `[latest version here]` with 
 
 A few common dependencies are provided below:
 
-- **Maven**
-  ```xml
-  <dependency>
-    <groupId>io.github.lucasstarsz.fastj</groupId>
-    <artifactId>fastj-library</artifactId>
-    <version>[latest version here]</version>
-  </dependency>
-  ```
 - **Gradle**
     - Groovy:
       ```groovy
@@ -69,6 +62,14 @@ A few common dependencies are provided below:
       ```kotlin
       implementation("io.github.lucasstarsz.fastj:fastj-library:[latest version here]")
       ```
+- **Maven**
+  ```xml
+  <dependency>
+    <groupId>io.github.lucasstarsz.fastj</groupId>
+    <artifactId>fastj-library</artifactId>
+    <version>[latest version here]</version>
+  </dependency>
+  ```
 - **Apache Ivy**
   ```xml
   <dependency org="io.github.lucasstarsz.fastj" name="fastj-library" rev="[latest version here]" />
@@ -110,6 +111,10 @@ This repository is licensed under the [MIT License][MIT-License].
 
 
 [FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
+
+[SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/lucasstarsz_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
+[SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=lucasstarsz_FastJ "SonarCloud Code Coverage"
+
 [Windows-Build-Action]: https://github.com/lucasstarsz/FastJ/actions?query=workflow%3ABuild-Windows "Windows Build Status"
 [Windows-Build-SVG]: https://img.shields.io/github/workflow/status/lucasstarsz/FastJ/Build-Windows?label=Windows%20Build&labelColor=363e45&logo=windows&logoColor=0078D6&style=for-the-badge
 
@@ -127,7 +132,7 @@ This repository is licensed under the [MIT License][MIT-License].
 
 [Releases]: https://github.com/lucasstarsz/FastJ/releases/ "FastJ Releases"
 
-[fastj-engine link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
+[FastJ-Engine-Link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
 

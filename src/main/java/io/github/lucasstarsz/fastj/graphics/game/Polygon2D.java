@@ -70,7 +70,7 @@ public class Polygon2D extends GameObject {
 
         rotation = GameObject.DefaultRotation;
         scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TOP_LEFT));
+        translation = new Pointf(getBound(Boundary.TopLeft));
 
         setColor(color);
         setFilled(fill);
@@ -100,7 +100,7 @@ public class Polygon2D extends GameObject {
 
         rotation = GameObject.DefaultRotation;
         scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TOP_LEFT));
+        translation = new Pointf(getBound(Boundary.TopLeft));
 
         setTranslation(setLocation);
         setRotation(setRotation);

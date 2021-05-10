@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MathsTests {
+class MathsTests {
 
     @Test
-    public void checkGenerateRandoms_ensureWithinExpectedRange() {
+    void checkGenerateRandoms_ensureWithinExpectedRange() {
         float minimumRandomRange = 3.5f;
         float maximumRandomRange = 7.5f;
 
@@ -25,7 +25,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkGenerateRandomIntegers_ensureWithinExpectedRange() {
+    void checkGenerateRandomIntegers_ensureWithinExpectedRange() {
         int minimumRandomRange = 13;
         int maximumRandomRange = 37;
 
@@ -37,7 +37,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkGenerateRandomsAtEdges_ensureMatchAtLeastOneEdge() {
+    void checkGenerateRandomsAtEdges_ensureMatchAtLeastOneEdge() {
         float leftEdge = 3.5f;
         float rightEdge = 7.5f;
 
@@ -49,7 +49,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkSnapFloatValueToEdge_whenExpectedIsRightEdge() {
+    void checkSnapFloatValueToEdge_whenExpectedIsRightEdge() {
         float leftEdge = 5.0f;
         float rightEdge_expected = 6.0f;
         float valueToSnap = 5.6f;
@@ -59,7 +59,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkSnapFloatValueToEdge_whenExpectedIsLeftEdge() {
+    void checkSnapFloatValueToEdge_whenExpectedIsLeftEdge() {
         float leftEdge_expected = 5.0f;
         float rightEdge = 6.0f;
         float valueToSnap = 5.4f;
@@ -69,7 +69,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkSnapFloatValueToEdge_whenEdgesAreEquidistant() {
+    void checkSnapFloatValueToEdge_whenEdgesAreEquidistant() {
         float leftEdge = 5.0f;
         float rightEdge_expected = 6.0f;
         float valueToSnap = 5.5f;
@@ -79,7 +79,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkMagnitudeWithFloatValues() {
+    void checkMagnitudeWithFloatValues() {
         assertEquals(0d, Maths.magnitude(0f, 0f), "The magnitude should be equal to 0.0.");
         assertEquals(1d, Maths.magnitude(0f, 1f), "The magnitude should be equal to 1.0.");
         assertEquals((float) Math.sqrt(2d), Maths.magnitude(1f, 1f), "The magnitude should be equal to the square root of 2.0.");
@@ -88,7 +88,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkMagnitudeWithPointfObjects() {
+    void checkMagnitudeWithPointfObjects() {
         assertEquals(0f, Maths.magnitude(new Pointf()), "The magnitude should be equal to 0.0.");
         assertEquals(1f, Maths.magnitude(new Pointf(0f, 1f)), "The magnitude should be equal to 1.0.");
         assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Pointf(1f)), "The magnitude should be equal to the square root of 2.0.");
@@ -97,7 +97,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkMagnitudeWithPointObjects() {
+    void checkMagnitudeWithPointObjects() {
         assertEquals(0f, Maths.magnitude(new Point()), "The magnitude should be equal to 0.0.");
         assertEquals(1f, Maths.magnitude(new Point(0, 1)), "The magnitude should be equal to 1.0.");
         assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Point(1)), "The magnitude should be equal to the square root of 2.0.");
@@ -106,7 +106,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkFloatEquals() {
+    void checkFloatEquals() {
         double a = 0.00000000001d;
         float a1 = 0.00000000001f;
         float a2 = 0.00001f;
@@ -120,7 +120,7 @@ public class MathsTests {
     }
 
     @Test
-    public void checkLerpValues() {
+    void checkLerpValues() {
         assertEquals(5f, Maths.lerp(5f, 2f, 0f), "The lerped value should be 5f.");
         assertEquals(-1f, Maths.lerp(5f, 2f, 2f), "The lerped value should be -1f.");
     }

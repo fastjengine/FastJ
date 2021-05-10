@@ -20,10 +20,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static unittest.HeadlessHelper.runFastJWith;
 
-public class DrawableTests {
+class DrawableTests {
 
     @Test
-    public void checkGenerateDrawableIDs_noneShouldMatch() {
+    void checkGenerateDrawableIDs_noneShouldMatch() {
         int generatedDrawableCount = 255;
         Map<UUID, String> drawableIDs = new HashMap<>(generatedDrawableCount);
         for (int i = 0; i < generatedDrawableCount; i++) {
@@ -35,7 +35,7 @@ public class DrawableTests {
     }
 
     @Test
-    public void checkCollision_betweenPolygon2D_andModel2D() {
+    void checkCollision_betweenPolygon2D_andModel2D() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
         Polygon2D polygon2D = new Polygon2D(square);
 
@@ -51,7 +51,7 @@ public class DrawableTests {
     }
 
     @Test
-    public void checkCollision_betweenPolygon2D_andText2D() {
+    void checkCollision_betweenPolygon2D_andText2D() {
         assumeFalse(HeadlessHelper.isEnvironmentHeadless);
 
         runFastJWith(() -> {
@@ -66,7 +66,7 @@ public class DrawableTests {
     }
 
     @Test
-    public void checkCollision_betweenText2D_andModel2D() {
+    void checkCollision_betweenText2D_andModel2D() {
         assumeFalse(HeadlessHelper.isEnvironmentHeadless);
 
         runFastJWith(() -> {

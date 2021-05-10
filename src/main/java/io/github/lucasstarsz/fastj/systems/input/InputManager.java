@@ -9,9 +9,10 @@ import io.github.lucasstarsz.fastj.systems.input.mouse.MouseActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * Class to manage user input and input event processing.
@@ -26,6 +27,67 @@ public class InputManager {
     private final List<InputEvent> receivedInputEvents;
     private final List<InputEvent> eventBacklog;
     private volatile boolean isProcessingEvents;
+
+    private static final Map<Integer, BiConsumer<MouseEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
+            MouseEvent.MOUSE_PRESSED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMousePressed(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_RELEASED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseReleased(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_CLICKED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseClicked(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_MOVED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseMoved(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_DRAGGED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseDragged(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_ENTERED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseEntersScreen(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_EXITED, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseExitsScreen(mouseEvent);
+                }
+            },
+            MouseEvent.MOUSE_WHEEL, (mouseEvent, mouseActionListenerList) -> {
+                for (MouseActionListener mouseActionListener : mouseActionListenerList) {
+                    mouseActionListener.onMouseWheelScrolled(mouseEvent);
+                }
+            }
+    );
+
+    private static final Map<Integer, BiConsumer<KeyEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
+                    keyboardActionListener.onKeyRecentlyPressed(keyEvent);
+                }
+            },
+            KeyEvent.KEY_RELEASED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
+                    keyboardActionListener.onKeyReleased(keyEvent);
+                }
+            },
+            KeyEvent.KEY_TYPED, (keyEvent, keyActionListenerList) -> {
+                for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
+                    keyboardActionListener.onKeyTyped(keyEvent);
+                }
+            }
+    );
 
     /** Constructs an {@code InputManager}, initializing its internal variables. */
     public InputManager() {
@@ -79,36 +141,12 @@ public class InputManager {
     }
 
     /**
-     * Fires a {@code key recently pressed} event to all listening {@code KeyboardActionListeners}.
+     * Fires a keyboard event to all listening {@code KeyboardActionListeners}.
      *
-     * @param e The event to be fired through to the action listener.
+     * @param keyEvent The event to be fired to the action listeners.
      */
-    public void fireKeyRecentlyPressed(KeyEvent e) {
-        for (KeyboardActionListener listener : keyActionListeners) {
-            listener.onKeyRecentlyPressed(e);
-        }
-    }
-
-    /**
-     * Fires a {@code key recently released} event to all listening {@code KeyboardActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireKeyReleased(KeyEvent e) {
-        for (KeyboardActionListener listener : keyActionListeners) {
-            listener.onKeyReleased(e);
-        }
-    }
-
-    /**
-     * Fires a {@code key recently typed} event to all listening {@code KeyboardActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireKeyTyped(KeyEvent e) {
-        for (KeyboardActionListener listener : keyActionListeners) {
-            listener.onKeyTyped(e);
-        }
+    public void fireKeyEvent(KeyEvent keyEvent) {
+        KeyboardActionProcessor.get(keyEvent.getID()).accept(keyEvent, keyActionListeners);
     }
 
     /**
@@ -151,91 +189,12 @@ public class InputManager {
     }
 
     /**
-     * Fires a {@code mouse button recently pressed} event to all listening {@code MouseActionListeners}.
+     * Fires a mouse event to all listening {@code MouseActionListeners}.
      *
-     * @param e The event to be fired through to the action listener.
+     * @param mouseEvent The event to be fired to the action listeners.
      */
-    public void fireMousePressed(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMousePressed(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse button recently released} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseReleased(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseReleased(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse button recently clicked} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseClicked(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseClicked(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse moved} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseMoved(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseMoved(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse dragged} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseDragged(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseDragged(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse wheel scrolled} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseWheelScrolled(MouseWheelEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseWheelScrolled(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse entered screen} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseEntered(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseEntersScreen(e);
-        }
-    }
-
-    /**
-     * Fires a {@code mouse exited screen} event to all listening {@code MouseActionListeners}.
-     *
-     * @param e The event to be fired through to the action listener.
-     */
-    public void fireMouseExited(MouseEvent e) {
-        for (MouseActionListener listener : mouseActionListeners) {
-            listener.onMouseExitsScreen(e);
-        }
+    public void fireMouseEvent(MouseEvent mouseEvent) {
+        MouseActionProcessor.get(mouseEvent.getID()).accept(mouseEvent, mouseActionListeners);
     }
 
     /* Received input */
@@ -275,7 +234,6 @@ public class InputManager {
                 Keyboard.processEvent(current, (KeyEvent) event);
             }
         }
-
         receivedInputEvents.clear();
 
         isProcessingEvents = false;

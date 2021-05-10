@@ -190,7 +190,7 @@ public class Text2D extends GameObject {
     @Override
     public void rotate(float rotationMod, Pointf centerpoint) {
         FastJEngine.error(
-                CrashMessages.UNIMPLEMENTED_METHOD_ERROR.errorMessage,
+                CrashMessages.UnimplementedMethodError.errorMessage,
                 new UnsupportedOperationException(
                         "Text2D does not have any implementation for rotation as of yet."
                                 + System.lineSeparator()
@@ -202,7 +202,7 @@ public class Text2D extends GameObject {
     @Override
     public void scale(Pointf scaleMod, Pointf centerpoint) {
         FastJEngine.error(
-                CrashMessages.UNIMPLEMENTED_METHOD_ERROR.errorMessage,
+                CrashMessages.UnimplementedMethodError.errorMessage,
                 new UnsupportedOperationException(
                         "Text2D does not have any implementation for scaling as of yet."
                                 + System.lineSeparator()

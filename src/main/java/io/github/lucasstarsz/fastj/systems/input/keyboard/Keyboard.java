@@ -25,7 +25,7 @@ public class Keyboard implements KeyListener {
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
-    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> keyEventProcessor = Map.of(
+    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> KeyEventProcessor = Map.of(
             KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key key = null;
@@ -42,7 +42,7 @@ public class Keyboard implements KeyListener {
 
                 if (!key.currentlyPressed) {
                     key.setRecentPress(true);
-                    scene.inputManager.fireKeyRecentlyPressed(keyEvent);
+                    scene.inputManager.fireKeyEvent(keyEvent);
                 }
 
                 key.setCurrentPress(true);
@@ -57,11 +57,11 @@ public class Keyboard implements KeyListener {
                     key.setRecentRelease(true);
                 }
 
-                scene.inputManager.fireKeyReleased(keyEvent);
+                scene.inputManager.fireKeyEvent(keyEvent);
             },
             KeyEvent.KEY_TYPED, (scene, keyEvent) -> {
                 lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
-                scene.inputManager.fireKeyTyped(keyEvent);
+                scene.inputManager.fireKeyEvent(keyEvent);
             }
     );
 
@@ -251,28 +251,31 @@ public class Keyboard implements KeyListener {
      * @param event   The key event to process.
      */
     public static void processEvent(Scene scene, KeyEvent event) {
-        keyEventProcessor.get(event.getID()).accept(scene, event);
+        KeyEventProcessor.get(event.getID()).accept(scene, event);
+        /* Don't call the fireKeyEvent here!
+         * KeyEvent.KEY_PRESSED only gets called under certain
+         * conditions, so it cannot be abstracted to work here without some serious effort. */
     }
 
     /** Enum that defines the location of a key. */
     public enum KeyLocation {
         /** Any key not in the other groups -- the most common type of key. */
-        STANDARD(1),
+        Standard(1),
         /** A key appearing twice on the keyboard -- this specifies the version on the left. */
-        LEFT(2),
+        Left(2),
         /** A key appearing twice on the keyboard -- this specifies the version on the right. */
-        RIGHT(3),
+        Right(3),
         /** A key on the "numpad" -- a collection of keys often to the right of the main keyboard. */
-        NUMPAD(4);
+        Numpad(4);
 
         /** Keys that can correspond with {@code KeyLocation.LEFT} or {@code KeyLocation.RIGHT}. */
-        private static final int[] leftRightKeys = {
+        private static final int[] LeftRightKeys = {
                 KeyEvent.VK_CONTROL,
                 KeyEvent.VK_SHIFT,
                 KeyEvent.VK_ALT
         };
         /** Keys that correspond with {@code KeyLocation.NUMPAD}. */
-        private static final int[] numpadKeys = {
+        private static final int[] NumpadKeys = {
                 KeyEvent.VK_NUMPAD0,
                 KeyEvent.VK_NUMPAD1,
                 KeyEvent.VK_NUMPAD2,
@@ -299,19 +302,19 @@ public class Keyboard implements KeyListener {
          * @return The {@code KeyLocation} that corresponds with the specified keycode.
          */
         private static KeyLocation of(int keyCode) {
-            for (int code : numpadKeys) {
+            for (int code : NumpadKeys) {
                 if (keyCode == code) {
-                    return NUMPAD;
+                    return Numpad;
                 }
             }
 
-            for (int code : leftRightKeys) {
+            for (int code : LeftRightKeys) {
                 if (keyCode == code) {
-                    return LEFT;
+                    return Left;
                 }
             }
 
-            return STANDARD;
+            return Standard;
         }
     }
 
@@ -324,8 +327,13 @@ public class Keyboard implements KeyListener {
     private static class Key {
         private final KeyDescription keyDescription;
         private boolean isKeyDown;
-        private boolean recentPress, recentRelease, currentlyPressed;
-        private int pressTimer, releaseTimer;
+
+        private boolean recentPress;
+        private boolean recentRelease;
+        private boolean currentlyPressed;
+
+        private int pressTimer;
+        private int releaseTimer;
 
         /**
          * Constructs a key with a {@link Keyboard.KeyDescription}.

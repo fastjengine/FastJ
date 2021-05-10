@@ -13,31 +13,31 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class PointTests {
+class PointTests {
 
     @Test
-    public void checkPointCreation_withNoConstructorParams() {
+    void checkPointCreation_withNoConstructorParams() {
         Point pt = new Point();
         assertEquals(0, pt.x, "The x value of the Point should default to 0.");
         assertEquals(0, pt.y, "The y value of the Point should default to 0.");
     }
 
     @Test
-    public void checkPointCreation_withOneConstructorParam() {
+    void checkPointCreation_withOneConstructorParam() {
         Point pt = new Point(5);
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
         assertEquals(5, pt.y, "The y value of the Point should equal 5.");
     }
 
     @Test
-    public void checkPointCreation_withTwoConstructorParams() {
+    void checkPointCreation_withTwoConstructorParams() {
         Point pt = new Point(3, 4);
         assertEquals(3, pt.x, "The x value of the Point should equal 3.");
         assertEquals(4, pt.y, "The y value of the Point should equal 4.");
     }
 
     @Test
-    public void checkPointCreation_withPointObjectParam() {
+    void checkPointCreation_withPointObjectParam() {
         Point pt = new Point(3, 4);
         Point pt2 = new Point(pt);
 
@@ -46,7 +46,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointAddition_withIntegerValues() {
+    void checkPointAddition_withIntegerValues() {
         Point pt = new Point();
         pt.add(5);
 
@@ -55,7 +55,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointAddition_withPointObjects() {
+    void checkPointAddition_withPointObjects() {
         Point pt = new Point();
         Point pt2 = new Point(5);
         pt.add(pt2);
@@ -65,7 +65,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointSubtraction_withIntegerValues() {
+    void checkPointSubtraction_withIntegerValues() {
         Point pt = new Point();
         pt.subtract(5);
 
@@ -74,7 +74,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointSubtraction_withPointObjects() {
+    void checkPointSubtraction_withPointObjects() {
         Point pt = new Point();
         Point pt2 = new Point(5);
         pt.subtract(pt2);
@@ -84,7 +84,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointMultiplication_withIntegerValues() {
+    void checkPointMultiplication_withIntegerValues() {
         Point pt = new Point(1);
         pt.multiply(5);
 
@@ -93,7 +93,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointMultiplication_withPointObjects() {
+    void checkPointMultiplication_withPointObjects() {
         Point pt = new Point(1);
         Point pt2 = new Point(5);
         pt.multiply(pt2);
@@ -103,7 +103,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointDivision_withIntegerValues() {
+    void checkPointDivision_withIntegerValues() {
         Point pt = new Point(25);
         pt.divide(5);
 
@@ -112,7 +112,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointDivision_withPointObjects() {
+    void checkPointDivision_withPointObjects() {
         Point pt = new Point(25);
         Point pt2 = new Point(5);
         pt.divide(pt2);
@@ -122,7 +122,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkArithmeticChaining_withPointObjectsAndIntegerValues() {
+    void checkArithmeticChaining_withPointObjectsAndIntegerValues() {
         Point pt = new Point()
                 .add(2)                                // (2, 2)
                 .add(new Point(3))                 // (5, 5)
@@ -138,7 +138,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointCopyingForEquality() {
+    void checkPointCopyingForEquality() {
         Point original = new Point(13, 37);
         Point copy = original.copy();
 
@@ -146,7 +146,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointResettingForEquality_withPointAtOrigin() {
+    void checkPointResettingForEquality_withPointAtOrigin() {
         Point pt = new Point(13, 37);
         pt.reset();
 
@@ -154,7 +154,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkPointSetting() {
+    void checkPointSetting() {
         Point pt = new Point();
         pt.set(13, 37);
 
@@ -163,7 +163,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkConversionToPointf() {
+    void checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = pt.asPointf();
 
@@ -172,7 +172,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkEqualsAgainstPointf() {
+    void checkEqualsAgainstPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = new Pointf(13f, 37f);
 
@@ -180,7 +180,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangleObject() {
+    void checkIntersectionsWithRectangleObject() {
         Point pt = new Point(13, 37);
         Rectangle rect = new Rectangle(0, 0, 20, 40);
 
@@ -188,7 +188,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DFloatObject() {
+    void checkIntersectionsWithRectangle2DFloatObject() {
         Point pt = new Point(13, 37);
         Rectangle2D.Float rectf = new Rectangle2D.Float(0f, 0f, 20f, 40f);
 
@@ -196,7 +196,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionsWithRectangle2DDoubleObject() {
+    void checkIntersectionsWithRectangle2DDoubleObject() {
         Point pt = new Point(13, 37);
         Rectangle2D.Double rectd = new Rectangle2D.Double(0d, 0d, 20d, 40d);
 
@@ -204,7 +204,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionWithPath2DFloatObject() {
+    void checkIntersectionWithPath2DFloatObject() {
         Point pt = new Point(13, 37);
 
         Path2D.Float pathf = new Path2D.Float();
@@ -218,7 +218,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionWithPath2DDoubleObject() {
+    void checkIntersectionWithPath2DDoubleObject() {
         Point pt = new Point(13, 37);
 
         Path2D.Double pathd = new Path2D.Double();
@@ -232,7 +232,7 @@ public class PointTests {
     }
 
     @Test
-    public void checkIntersectionWithGeneralPathObject() {
+    void checkIntersectionWithGeneralPathObject() {
         Point pt = new Point(13, 37);
 
         GeneralPath pathg = new GeneralPath();
@@ -247,7 +247,7 @@ public class PointTests {
 
 
     @Test
-    public void static_checkPointAddition_withIntegerValues() {
+    void static_checkPointAddition_withIntegerValues() {
         Point pt = new Point();
         Point added = Point.add(pt, 5);
 
@@ -256,7 +256,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointAddition_withPointObjects() {
+    void static_checkPointAddition_withPointObjects() {
         Point pt = new Point();
         Point pt2 = new Point(5);
         Point added = Point.add(pt, pt2);
@@ -266,7 +266,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointSubtraction_withIntegerValues() {
+    void static_checkPointSubtraction_withIntegerValues() {
         Point pt = new Point();
         Point subtracted = Point.subtract(pt, 5);
 
@@ -275,7 +275,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointSubtraction_withPointObjects() {
+    void static_checkPointSubtraction_withPointObjects() {
         Point pt = new Point();
         Point pt2 = new Point(5);
         Point subtracted = Point.subtract(pt, pt2);
@@ -285,7 +285,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointMultiplication_withIntegerValues() {
+    void static_checkPointMultiplication_withIntegerValues() {
         Point pt = new Point(1);
         Point multiplied = Point.multiply(pt, 5);
 
@@ -294,7 +294,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointMultiplication_withPointObjects() {
+    void static_checkPointMultiplication_withPointObjects() {
         Point pt = new Point(1);
         Point pt2 = new Point(5);
         Point multiplied = Point.multiply(pt, pt2);
@@ -304,7 +304,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointDivision_withIntegerValues() {
+    void static_checkPointDivision_withIntegerValues() {
         Point pt = new Point(25);
         Point divided = Point.divide(pt, 5);
 
@@ -313,7 +313,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkPointDivision_withPointObjects() {
+    void static_checkPointDivision_withPointObjects() {
         Point pt = new Point(25);
         Point pt2 = new Point(5);
         Point divided = Point.divide(pt, pt2);
@@ -323,7 +323,7 @@ public class PointTests {
     }
 
     @Test
-    public void static_checkConversionToPointf() {
+    void static_checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = Point.toPointf(pt);
 

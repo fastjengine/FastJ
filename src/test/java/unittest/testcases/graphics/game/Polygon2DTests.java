@@ -14,10 +14,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Polygon2DTests {
+class Polygon2DTests {
 
     @Test
-    public void checkPolygon2DCreation_withPointfArrayParam() {
+    void checkPolygon2DCreation_withPointfArrayParam() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
         Polygon2D polygon2D = new Polygon2D(square);
 
@@ -31,7 +31,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
@@ -50,7 +50,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
@@ -81,7 +81,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams_usingMethodChaining() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams_usingMethodChaining() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
@@ -118,7 +118,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkModifyPointsOfPolygon2D_withTransformResetting() {
+    void checkModifyPointsOfPolygon2D_withTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 1f);
@@ -140,7 +140,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
+    void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
         Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 1f);
@@ -162,7 +162,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DTranslation_shouldMatchExpected() {
+    void checkPolygon2DTranslation_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
         Pointf randomTranslation = new Pointf(
                 Maths.random(0f, 1f),
@@ -183,7 +183,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DRotation_aroundOrigin_shouldMatchExpected() {
+    void checkPolygon2DRotation_aroundOrigin_shouldMatchExpected() {
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
@@ -218,7 +218,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DRotation_aroundPolygonCenter_shouldMatchExpected() {
+    void checkPolygon2DRotation_aroundPolygonCenter_shouldMatchExpected() {
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
@@ -260,7 +260,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DRotation_aroundRandomPoint_shouldMatchExpected() {
+    void checkPolygon2DRotation_aroundRandomPoint_shouldMatchExpected() {
         float randomRotationInDegrees = Maths.random(0f, 1f);
         float randomRotationInRadians = (float) Math.toRadians(randomRotationInDegrees);
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
@@ -302,7 +302,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DScaling_aroundOrigin_shouldMatchExpected() {
+    void checkPolygon2DScaling_aroundOrigin_shouldMatchExpected() {
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
@@ -322,7 +322,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DScaling_aroundPolygonCenter_shouldMatchExpected() {
+    void checkPolygon2DScaling_aroundPolygonCenter_shouldMatchExpected() {
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
@@ -348,7 +348,7 @@ public class Polygon2DTests {
     }
 
     @Test
-    public void checkPolygon2DScaling_aroundRandomPoint_shouldMatchExpected() {
+    void checkPolygon2DScaling_aroundRandomPoint_shouldMatchExpected() {
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;

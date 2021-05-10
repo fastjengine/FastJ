@@ -86,7 +86,7 @@ public abstract class TaggableEntity {
     public <T extends TaggableEntity> T removeTag(String tag, Scene originScene) {
         tags.remove(tag);
 
-        if (tags.size() == 0 && this instanceof Drawable) {
+        if (tags.isEmpty() && this instanceof Drawable) {
             originScene.removeTaggableEntity((Drawable) this);
         }
 

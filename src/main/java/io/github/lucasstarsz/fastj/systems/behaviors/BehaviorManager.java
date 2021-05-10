@@ -19,6 +19,10 @@ public class BehaviorManager {
 
     private static final Map<Scene, List<GameObject>> BehaviorListenerLists = new HashMap<>();
 
+    private BehaviorManager() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Gets the specified list of behavior listeners aliased to the specified {@code Scene}.
      *

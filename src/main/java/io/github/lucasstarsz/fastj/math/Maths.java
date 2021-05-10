@@ -17,6 +17,10 @@ public class Maths {
      */
     public static final float FloatPrecision = 0.00001f;
 
+    private Maths() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Generates a random float number within the specified min and max limits.
      *
@@ -122,7 +126,7 @@ public class Maths {
      * @return The magnitude, as a {@code float} value.
      */
     public static float magnitude(Point p) {
-        return (float) Math.sqrt(p.x * p.x + p.y * p.y);
+        return (float) Math.sqrt((float) (p.x * p.x) + (float) (p.y * p.y));
     }
 
     /**
