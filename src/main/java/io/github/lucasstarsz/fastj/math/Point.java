@@ -331,8 +331,8 @@ public class Point {
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
      * <p>
      * This magnitude method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
-     * the {@code int} version of the calculation. If you want the magnitude calculated with floating-point math, use {@link
-     * #magnitude()} instead.
+     * the {@code int} version of the calculation. If you want the magnitude calculated with floating-point math, use
+     * {@link #magnitude()} instead.
      *
      * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
      * values.
@@ -345,14 +345,23 @@ public class Point {
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
      * <p>
      * This magnitude method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
-     * returns the {@code float} version of the calculation. If you want the magnitude calculated with integer math, use {@link
-     * #integerMagnitude()} instead.
+     * returns the {@code float} version of the calculation. If you want the magnitude calculated with integer math, use
+     * {@link #integerMagnitude()} instead.
      *
      * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
      * values.
      */
     public float magnitude() {
         return (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
+    }
+
+    /**
+     * Calculates and returns the square magnitude of the {@code Point}.
+     *
+     * @return The square magnitude of the {@code Point}'s {@link #x} and {@link #y} values.
+     */
+    public int squareMagnitude() {
+        return (x * x) + (y * y);
     }
 
     /**

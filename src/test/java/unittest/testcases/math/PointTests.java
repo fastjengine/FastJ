@@ -168,12 +168,12 @@ class PointTests {
         Point pt = new Point(2, 2);
         int expectedPtMagnitude = (int) Math.sqrt(8);
         int actualPtMagnitude = pt.integerMagnitude();
-        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first point's magnitude should equal the expected magnitude of (int) √8.");
+        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first Point's magnitude should equal the expected magnitude of (int) √8.");
 
         Point pt2 = new Point(3, 3);
         int expectedPt2Magnitude = (int) Math.sqrt(18);
         int actualPt2Magnitude = pt2.integerMagnitude();
-        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second point's magnitude should equal the expected magnitude of (int) √18.");
+        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second Point's magnitude should equal the expected magnitude of (int) √18.");
     }
 
     @Test
@@ -181,12 +181,20 @@ class PointTests {
         Point pt = new Point(2, 2);
         float expectedPtMagnitude = (float) Math.sqrt(8);
         float actualPtMagnitude = pt.magnitude();
-        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first point's magnitude should equal the expected magnitude of (float) √8.");
+        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first Point's magnitude should equal the expected magnitude of (float) √8.");
 
         Point pt2 = new Point(3, 3);
         float expectedPt2Magnitude = (float) Math.sqrt(18f);
         float actualPt2Magnitude = pt2.magnitude();
-        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second point's magnitude should equal the expected magnitude of (float) √18.");
+        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second Point's magnitude should equal the expected magnitude of (float) √18.");
+    }
+
+    @Test
+    void checkPointSquareMagnitude() {
+        Point pt = new Point(13, 37);
+        float expectedSquareMagnitude = 1538;
+        float actualSquareMagnitude = pt.squareMagnitude();
+        assertEquals(expectedSquareMagnitude, actualSquareMagnitude, "The Point's square magnitude should equal the expected magnitude of 1538.");
     }
 
     @Test

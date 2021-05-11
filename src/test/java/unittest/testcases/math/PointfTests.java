@@ -163,16 +163,24 @@ class PointfTests {
     }
 
     @Test
-    void checkPointMagnitude_usingFloatingPointMagnitude() {
+    void checkPointfMagnitude_usingFloatingPointMagnitude() {
         Pointf pt = new Pointf(2f, 2f);
         float expectedPtMagnitude = (float) Math.sqrt(8f);
         float actualPtMagnitude = pt.magnitude();
-        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first point's magnitude should equal the expected magnitude of (float) √8f.");
+        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first Pointf's magnitude should equal the expected magnitude of (float) √8f.");
 
         Pointf pt2 = new Pointf(3f, 3f);
         float expectedPt2Magnitude = (float) Math.sqrt(18f);
         float actualPt2Magnitude = pt2.magnitude();
-        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second point's magnitude should equal the expected magnitude of (float) √18f.");
+        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second Pointf's magnitude should equal the expected magnitude of (float) √18f.");
+    }
+
+    @Test
+    void checkPointfSquareMagnitude() {
+        Pointf pt = new Pointf(13f, 37f);
+        float expectedSquareMagnitude = 1538f;
+        float actualSquareMagnitude = pt.squareMagnitude();
+        assertEquals(expectedSquareMagnitude, actualSquareMagnitude, "The Pointf's square magnitude should equal the expected magnitude of 1538f.");
     }
 
     @Test

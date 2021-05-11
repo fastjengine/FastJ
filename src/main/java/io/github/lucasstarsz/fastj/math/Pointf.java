@@ -330,6 +330,15 @@ public class Pointf {
     }
 
     /**
+     * Calculates and returns the square magnitude of the {@code Pointf}.
+     *
+     * @return The square magnitude of the {@code Pointf}'s {@link #x} and {@link #y} values.
+     */
+    public float squareMagnitude() {
+        return (x * x) + (y * y);
+    }
+
+    /**
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Pointf}.
      *
      * @return The magnitude, calculated using floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y}
