@@ -336,7 +336,7 @@ class PointfTests {
     }
 
     @Test
-    void static_checkDotProduct_ofTwoPointfObjects() {
+    void static_checkDotProduct() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
 

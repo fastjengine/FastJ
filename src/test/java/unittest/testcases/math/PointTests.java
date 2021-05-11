@@ -399,7 +399,7 @@ class PointTests {
     }
 
     @Test
-    void static_checkDotProduct_ofTwoPointObjects() {
+    void static_checkDotProduct() {
         Point pt = new Point(25);
         Point pt2 = new Point(5);
 
