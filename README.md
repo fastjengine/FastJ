@@ -95,7 +95,7 @@ Plan on contributing to the repository? Great! Be sure to read over the [contrib
 ### Building FastJ
 You'll need a few things in order to work on the repository:
 - [Git][Git-Link]
-- [Java 11][AdoptOpenJDK-Java-11]
+- [Java 11][AdoptOpenJDK-Java11-Link]
 - (optional, but highly recommended!) A decent understanding of how to use [Gradle][Gradle-Link].
   **Installation of Gradle is not required -- the project supplies the Gradle tools already.**
     - For reference, this project currently makes use of Gradle 6.7.1.
