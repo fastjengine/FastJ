@@ -409,6 +409,16 @@ class PointTests {
     }
 
     @Test
+    void static_checkCrossProduct() {
+        Point pt = new Point(25, 5);
+        Point pt2 = new Point(13, 37);
+
+        int expectedCrossProduct = 860;
+        int actualCrossProduct = Point.cross(pt, pt2);
+        assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Points should equal the expected cross product of 860.");
+    }
+
+    @Test
     void static_checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = Point.toPointf(pt);

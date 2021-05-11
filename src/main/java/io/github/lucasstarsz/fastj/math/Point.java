@@ -159,12 +159,26 @@ public class Point {
     /**
      * Calculates and returns the dot product of the two specified {@code Point}s.
      *
-     * @param p The first of two {@code Point}s to calculate the dot product with.
+     * @param p  The first of two {@code Point}s to calculate the dot product with.
      * @param p1 The second of two {@code Point}s to calculate the dot product with.
      * @return The calculated dot product.
      */
     public static int dot(Point p, Point p1) {
         return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
+     * Calculates and returns the cross product of the two specified {@code Point}s.
+     * <p>
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
+     * {@code Point}s were 3-dimensional vectors with Z values implicitly set to {@code 0}.
+     *
+     * @param p  The first of two {@code Point}s to calculate the cross product with.
+     * @param p1 The second of two {@code Point}s to calculate the cross product with.
+     * @return The calculated cross product.
+     */
+    public static int cross(Point p, Point p1) {
+        return (p.x * p1.y) - (p.y * p1.x);
     }
 
     /**

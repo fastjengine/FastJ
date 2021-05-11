@@ -171,12 +171,26 @@ public class Pointf {
     /**
      * Calculates and returns the dot product of the two specified {@code Pointf}s.
      *
-     * @param p The first of two {@code Pointf}s to calculate the dot product with.
+     * @param p  The first of two {@code Pointf}s to calculate the dot product with.
      * @param p1 The second of two {@code Pointf}s to calculate the dot product with.
      * @return The calculated dot product.
      */
     public static float dot(Pointf p, Pointf p1) {
         return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
+     * Calculates and returns the cross product of the two specified {@code Pointf}s.
+     * <p>
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
+     * {@code Pointf}s were 3-dimensional vectors with Z values implicitly set to {@code 0f}.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the cross product with.
+     * @param p1 The second of two {@code Pointf}s to calculate the cross product with.
+     * @return The calculated cross product.
+     */
+    public static float cross(Pointf p, Pointf p1) {
+        return (p.x * p1.y) - (p.y * p1.x);
     }
 
     /**

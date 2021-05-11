@@ -346,6 +346,16 @@ class PointfTests {
     }
 
     @Test
+    void static_checkCrossProduct() {
+        Pointf pt = new Pointf(25.5f, 5.25f);
+        Pointf pt2 = new Pointf(13.37f, 37.13f);
+
+        float expectedCrossProduct = 876.6225f;
+        float actualCrossProduct = Pointf.cross(pt, pt2);
+        assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 860.");
+    }
+
+    @Test
     void static_checkPointfDivision_withPointfObjects() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
