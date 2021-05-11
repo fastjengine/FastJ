@@ -3,6 +3,7 @@ package unittest.testcases.math;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
+import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
@@ -172,11 +173,28 @@ class PointTests {
     }
 
     @Test
+    void checkConversionToDimension() {
+        Point pt = new Point(13, 37);
+        Dimension dimension = pt.asDimension();
+
+        assertEquals(13, dimension.width, "The width value of the Dimension should equal 13.");
+        assertEquals(37, dimension.height, "The height value of the Dimension should equal 37.");
+    }
+
+    @Test
     void checkEqualsAgainstPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = new Pointf(13f, 37f);
 
         assertTrue(pt.equalsPointf(ptf), "The Point and Pointf should be equal in their x and y values.");
+    }
+
+    @Test
+    void checkEqualsAgainstDimension() {
+        Point pt = new Point(13, 37);
+        Dimension dimension = new Dimension(13, 37);
+
+        assertTrue(pt.equalsDimension(dimension), "The Point and Dimension should be equal in their x/width and y/height values.");
     }
 
     @Test
