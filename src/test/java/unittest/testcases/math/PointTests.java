@@ -399,6 +399,16 @@ class PointTests {
     }
 
     @Test
+    void static_checkDotProduct_ofTwoPointObjects() {
+        Point pt = new Point(25);
+        Point pt2 = new Point(5);
+
+        int expectedDotProduct = 250;
+        int actualDotProduct = Point.dot(pt, pt2);
+        assertEquals(expectedDotProduct, actualDotProduct, "The resulting dot product of the two Points should equal the expected dot product of 250.");
+    }
+
+    @Test
     void static_checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = Point.toPointf(pt);

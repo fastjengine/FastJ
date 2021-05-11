@@ -336,6 +336,16 @@ class PointfTests {
     }
 
     @Test
+    void static_checkDotProduct_ofTwoPointfObjects() {
+        Pointf ptf = new Pointf(25f);
+        Pointf ptf2 = new Pointf(5f);
+
+        float expectedDotProduct = 250f;
+        float actualDotProduct = Pointf.dot(ptf, ptf2);
+        assertEquals(expectedDotProduct, actualDotProduct, "The resulting dot product of the two Pointfs should equal the expected dot product of 250f.");
+    }
+
+    @Test
     void static_checkPointfDivision_withPointfObjects() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);

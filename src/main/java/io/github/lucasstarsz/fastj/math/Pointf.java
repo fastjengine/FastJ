@@ -169,6 +169,17 @@ public class Pointf {
     }
 
     /**
+     * Calculates and returns the dot product of the two specified {@code Pointf}s.
+     *
+     * @param p The first of two {@code Pointf}s to calculate the dot product with.
+     * @param p1 The second of two {@code Pointf}s to calculate the dot product with.
+     * @return The calculated dot product.
+     */
+    public static float dot(Pointf p, Pointf p1) {
+        return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
      * @param newX Float value used to set the new x value for this {@code Pointf} object.

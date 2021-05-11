@@ -157,6 +157,17 @@ public class Point {
     }
 
     /**
+     * Calculates and returns the dot product of the two specified {@code Point}s.
+     *
+     * @param p The first of two {@code Point}s to calculate the dot product with.
+     * @param p1 The second of two {@code Point}s to calculate the dot product with.
+     * @return The calculated dot product.
+     */
+    public static int dot(Point p, Point p1) {
+        return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
      * Converts the specified {@code Point} to a {@code Pointf} object.
      *
      * @param pt {@code Point} to be converted.
