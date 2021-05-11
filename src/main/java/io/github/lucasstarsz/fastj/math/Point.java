@@ -59,8 +59,8 @@ public class Point {
     }
 
     /**
-     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code
-     * Point} object.
+     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point}
+     * object.
      *
      * @param p1 The first {@code Point} used for addition.
      * @param p2 The second {@code Point} used for addition.
@@ -83,8 +83,8 @@ public class Point {
     }
 
     /**
-     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Point} object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Point}
+     * object.
      *
      * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
      *           subtraction.
@@ -109,8 +109,8 @@ public class Point {
     }
 
     /**
-     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a
-     * new {@code Point}.
+     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new
+     * {@code Point}.
      *
      * @param p1 The first {@code Point} used for multiplication.
      * @param p2 The second {@code Point} used for multiplication.
@@ -354,6 +354,17 @@ public class Point {
      */
     public boolean equalsPointf(Pointf other) {
         return Maths.floatEquals(other.x, (float) x) && Maths.floatEquals(other.y, (float) y);
+    }
+
+    /**
+     * Compares the {@code Point} with a {@link Dimension}, and returns whether the {@code Point}'s {@code x} and {@code
+     * y} values are equal to the {@code Dimension}'s {@code width} and {@code height} values, respectively.
+     *
+     * @param other The {@code Dimension} to compare against.
+     * @return Whether the two's {@code x}/{@code width} and {@code y}/{@code height} values are equal.
+     */
+    public boolean equalsDimension(Dimension other) {
+        return x == other.width && y == other.height;
     }
 
     /**
