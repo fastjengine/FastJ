@@ -198,6 +198,30 @@ class PointTests {
     }
 
     @Test
+    void checkPointNormalization_usingFloatingPointDivision() {
+        // as floating points, the decimals are kept
+        float expectedNormalizedX = 0.3314859950125598f;
+        float expectedNormalizedY = 0.9434601396511317f;
+
+        Point pt = new Point(13, 37);
+        Pointf expectedNormalization = new Pointf(expectedNormalizedX, expectedNormalizedY);
+        Pointf actualNormalization = pt.normalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using floating-point division should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
+    void checkPointNormalization_usingIntegerDivision() {
+        // these are integers -- decimals are cut off, leaving the expected values at (0, 0)
+        int expectedNormalizedX = (int) 0.3314859950125598;
+        int expectedNormalizedY = (int) 0.9434601396511317;
+
+        Point pt = new Point(13, 37);
+        Point expectedNormalization = new Point(expectedNormalizedX, expectedNormalizedY);
+        Point actualNormalization = pt.integerNormalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using integer division should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
     void checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = pt.asPointf();

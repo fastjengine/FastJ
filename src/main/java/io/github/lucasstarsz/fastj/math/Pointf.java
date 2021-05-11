@@ -349,6 +349,25 @@ public class Pointf {
     }
 
     /**
+     * Creates a normalized version of the {@code Pointf}.
+     * <p>
+     * This method does not modify the contents of the original {@code Pointf}.
+     *
+     * @return A normalized version of the {@code Pointf}.
+     */
+    public Pointf normalized() {
+        float magnitude = (float) Math.sqrt((x * x) + (y * y));
+
+        if (magnitude == 0f) {
+            return Pointf.Origin.copy();
+        }
+
+        float normalizedX = x / magnitude;
+        float normalizedY = y / magnitude;
+        return new Pointf(normalizedX, normalizedY);
+    }
+
+    /**
      * Compares the {@code Pointf} with a {@link Point}, and returns whether their {@code x} and {@code y} values are
      * equal.
      *

@@ -365,6 +365,46 @@ public class Point {
     }
 
     /**
+     * Creates a normalized version of the {@code Point} using integer division.
+     * <p>
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
+     * Pointf} or floating-point division, consider using {@link #normalized()} instead.
+     *
+     * @return A normalized version of the {@code Point}.
+     */
+    public Point integerNormalized() {
+        int magnitude = (int) Math.sqrt((x * x) + (y * y));
+
+        if (magnitude == 0) {
+            return Point.Origin.copy();
+        }
+
+        int normalizedX = x / magnitude;
+        int normalizedY = y / magnitude;
+        return new Point(normalizedX, normalizedY);
+    }
+
+    /**
+     * Creates a normalized version of the {@code Point}, as a {@code Pointf}, using floating-point division.
+     * <p>
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
+     * Point} or integer division, consider using {@link #integerNormalized()} instead.
+     *
+     * @return A normalized version of the {@code Point}, as a {@code Pointf}.
+     */
+    public Pointf normalized() {
+        float magnitude = (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
+
+        if (magnitude == 0f) {
+            return Pointf.Origin.copy();
+        }
+
+        float normalizedX = (float) x / magnitude;
+        float normalizedY = (float) y / magnitude;
+        return new Pointf(normalizedX, normalizedY);
+    }
+
+    /**
      * Creates a {@link Pointf} version of the {@code Point}.
      *
      * @return The {@code Point} created.
