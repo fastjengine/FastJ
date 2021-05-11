@@ -93,8 +93,14 @@ From there, explore the [example code][FastJ-Example], play around with it, and 
 Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].
 
 ### Building FastJ
-Building FastJ is a generally simple task. You just need to follow these steps:
+You'll need a few things in order to work on the repository:
+- [Git][Git-Link]
+- [Java 11][AdoptOpenJDK-Java-11]
+- (optional, but highly recommended!) A decent understanding of how to use [Gradle][Gradle-Link].
+  **Installation of Gradle is not required -- the project supplies the Gradle tools already.**
+    - For reference, this project currently makes use of Gradle 6.7.1.
 
+Once you have what you need, follow these simple steps:
 - Clone the FastJ repository.
   ```bash
   git clone https://github.com/lucasstarsz/FastJ.git
@@ -141,3 +147,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [Contributing-Guidelines]: /.github/CONTRIBUTING.md "Contributing to FastJ"
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
+
+[AdoptOpenJDK-Java11-Link]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot "Download Java 11"
+[Git-Link]: https://git-scm.com/downloads "Download Git, the powerful source control management tool."
+[Gradle-Link]: https://gradle.org/install/ "Download Gradle, the powerful build tool."
