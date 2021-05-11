@@ -92,8 +92,8 @@ public class Pointf {
     }
 
     /**
-     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Pointf} object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Pointf}
+     * object.
      *
      * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
      *           subtraction.
@@ -119,8 +119,8 @@ public class Pointf {
     }
 
     /**
-     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
+     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a new
+     * {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for multiplication.
      * @param p2 The second {@code Pointf} used for multiplication.
@@ -144,8 +144,8 @@ public class Pointf {
     }
 
     /**
-     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
+     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a new
+     * {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
@@ -327,6 +327,16 @@ public class Pointf {
         y /= f;
 
         return this;
+    }
+
+    /**
+     * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Pointf}.
+     *
+     * @return The magnitude, calculated using floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y}
+     * values.
+     */
+    public float magnitude() {
+        return (float) Math.sqrt((x * x) + (y * y));
     }
 
     /**
