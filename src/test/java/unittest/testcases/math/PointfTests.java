@@ -352,7 +352,7 @@ class PointfTests {
 
         float expectedCrossProduct = 876.6225f;
         float actualCrossProduct = Pointf.cross(pt, pt2);
-        assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 860.");
+        assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 876.6225f.");
     }
 
     @Test
