@@ -193,8 +193,11 @@ public class Point {
      */
     public static Point integerRotate(Point p, int angle) {
         float angleInRadians = (float) Math.toRadians(angle);
-        int rotatedX = (int) (((float) p.x * (float) Math.cos(angleInRadians)) + ((float) p.y * (float) Math.sin(angleInRadians)));
-        int rotatedY = (int) (((float) -p.x * (float) Math.sin(angleInRadians)) + ((float) p.y * (float) Math.cos(angleInRadians)));
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        int rotatedX = (int) (((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle));
+        int rotatedY = (int) (((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle));
         return new Point(rotatedX, rotatedY);
     }
 
@@ -210,8 +213,11 @@ public class Point {
      */
     public static Pointf rotate(Point p, float angle) {
         float angleInRadians = (float) Math.toRadians(angle);
-        float rotatedX = ((float) p.x * (float) Math.cos(angleInRadians)) + ((float) p.y * (float) Math.sin(angleInRadians));
-        float rotatedY = ((float) -p.x * (float) Math.sin(angleInRadians)) + ((float) p.y * (float) Math.cos(angleInRadians));
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = ((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle);
+        float rotatedY = ((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle);
         return new Pointf(rotatedX, rotatedY);
     }
 
@@ -397,10 +403,14 @@ public class Point {
      */
     public Point rotate(int angle) {
         float angleInRadians = (float) Math.toRadians(angle);
-        float rotatedX = ((float) x * (float) Math.cos(angleInRadians)) + ((float) y * (float) Math.sin(angleInRadians));
-        float rotatedY = ((float) -x * (float) Math.sin(angleInRadians)) + ((float) y * (float) Math.cos(angleInRadians));
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = ((float) x * cosineOfAngle) + ((float) y * sineOfAngle);
+        float rotatedY = ((float) -x * sineOfAngle) + ((float) y * cosineOfAngle);
         x = (int) rotatedX;
         y = (int) rotatedY;
+
         return this;
     }
 

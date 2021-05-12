@@ -204,8 +204,11 @@ public class Pointf {
      */
     public static Pointf rotate(Pointf p, float angle) {
         float angleInRadians = (float) Math.toRadians(angle);
-        float rotatedX = (p.x * (float) Math.cos(angleInRadians)) + (p.y * (float) Math.sin(angleInRadians));
-        float rotatedY = (-p.x * (float) Math.sin(angleInRadians)) + (p.y * (float) Math.cos(angleInRadians));
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = (p.x * cosineOfAngle) + (p.y * sineOfAngle);
+        float rotatedY = (-p.x * sineOfAngle) + (p.y * cosineOfAngle);
         return new Pointf(rotatedX, rotatedY);
     }
 
@@ -381,10 +384,14 @@ public class Pointf {
      */
     public Pointf rotate(float angle) {
         float angleInRadians = (float) Math.toRadians(angle);
-        float rotatedX = (x * (float) Math.cos(angleInRadians)) + (y * (float) Math.sin(angleInRadians));
-        float rotatedY = (-x * (float) Math.sin(angleInRadians)) + (y * (float) Math.cos(angleInRadians));
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = (x * cosineOfAngle) + (y * sineOfAngle);
+        float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
         x = rotatedX;
         y = rotatedY;
+
         return this;
     }
 
