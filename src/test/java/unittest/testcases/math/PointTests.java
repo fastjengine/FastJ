@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PointTests {
@@ -286,6 +287,14 @@ class PointTests {
         Dimension dimension = new Dimension(13, 37);
 
         assertTrue(pt.equalsDimension(dimension), "The Point and Dimension should be equal in their x/width and y/height values.");
+    }
+
+    @Test
+    void checkEqualsAgainstDimension_whenPointAndDimensionAreNotEqual() {
+        Point pt = new Point(13, 37);
+        Dimension dimension = new Dimension(25, 5);
+
+        assertFalse(pt.equalsDimension(dimension), "The Point and Dimension should not be equal in their x/width and y/height values.");
     }
 
     @Test
