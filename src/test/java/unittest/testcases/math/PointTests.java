@@ -447,6 +447,22 @@ class PointTests {
     }
 
     @Test
+    void static_checkPointSignedAngleCalculation() {
+        Point ptf = new Point(13, 37);
+        Point ptf2 = new Point(25, 5);
+
+        float expectedAngle = (float) Math.toRadians(-59.33d);
+        float actualAngle = Point.signedAngle(ptf, ptf2);
+
+        assertTrue(Maths.floatEquals(expectedAngle, actualAngle), "The resulting signed angle of the two Points should equal the expected angle of " + expectedAngle + ".");
+
+        float expectedAngle2 = (float) Math.toRadians(59.33d);
+        float actualAngle2 = Point.signedAngle(ptf2, ptf);
+
+        assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting signed angle of the two Points should equal the expected angle of " + expectedAngle2 + ".");
+    }
+
+    @Test
     void static_checkDotProduct() {
         Point pt = new Point(25);
         Point pt2 = new Point(5);

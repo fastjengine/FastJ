@@ -47,6 +47,15 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfCreation_withPointObjectParam() {
+        Point pt = new Point(3, 4);
+        Pointf ptf = new Pointf(pt);
+
+        assertEquals(3f, ptf.x, "The x value of the Pointf should equal 3f.");
+        assertEquals(4f, ptf.y, "The y value of the Pointf should equal 4f.");
+    }
+
+    @Test
     void checkPointfAddition_withFloatValues() {
         Pointf ptf = new Pointf();
         ptf.add(5f);
@@ -381,6 +390,22 @@ class PointfTests {
         float actualAngle2 = Pointf.angle(ptf3, ptf4);
 
         assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting angle of the two Pointfs should equal the expected angle of " + expectedAngle2 + ".");
+    }
+
+    @Test
+    void static_checkPointfSignedAngleCalculation() {
+        Pointf ptf = new Pointf(13f, 37f);
+        Pointf ptf2 = new Pointf(25f, 5f);
+
+        float expectedAngle = (float) Math.toRadians(-59.33d);
+        float actualAngle = Pointf.signedAngle(ptf, ptf2);
+
+        assertTrue(Maths.floatEquals(expectedAngle, actualAngle), "The resulting signed angle of the two Pointfs should equal the expected angle of " + expectedAngle + ".");
+
+        float expectedAngle2 = (float) Math.toRadians(59.33d);
+        float actualAngle2 = Pointf.signedAngle(ptf2, ptf);
+
+        assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting signed angle of the two Pointfs should equal the expected angle of " + expectedAngle2 + ".");
     }
 
     @Test
