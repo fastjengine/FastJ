@@ -336,6 +336,16 @@ class PointfTests {
     }
 
     @Test
+    void static_checkPointfDivision_withPointfObjects() {
+        Pointf ptf = new Pointf(25f);
+        Pointf ptf2 = new Pointf(5f);
+        Pointf divided = Pointf.divide(ptf, ptf2);
+
+        assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(5f, divided.y, "The y value of the Pointf should equal 5f.");
+    }
+
+    @Test
     void static_checkDotProduct() {
         Pointf ptf = new Pointf(25f);
         Pointf ptf2 = new Pointf(5f);
@@ -353,15 +363,5 @@ class PointfTests {
         float expectedCrossProduct = 876.6225f;
         float actualCrossProduct = Pointf.cross(pt, pt2);
         assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 876.6225f.");
-    }
-
-    @Test
-    void static_checkPointfDivision_withPointfObjects() {
-        Pointf ptf = new Pointf(25f);
-        Pointf ptf2 = new Pointf(5f);
-        Pointf divided = Pointf.divide(ptf, ptf2);
-
-        assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
-        assertEquals(5f, divided.y, "The y value of the Pointf should equal 5f.");
     }
 }
