@@ -213,6 +213,34 @@ public class Pointf {
     }
 
     /**
+     * Calculates and returns the signed angle between the specified {@code Pointf}s.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the angle with.
+     * @param p1 The second of two {@code Pointf}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float signedAngle(Pointf p, Pointf p1) {
+        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
+        float determinant = (p.x * p1.y) - (p.y * p1.x);
+
+        return (float) Math.atan2(determinant, dotProduct);
+    }
+
+    /**
+     * Calculates and returns the angle between the specified {@code Pointf}s.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the angle with.
+     * @param p1 The second of two {@code Pointf}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float angle(Pointf p, Pointf p1) {
+        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
+        float magnitudeProduct = (float) Math.sqrt((p.x * p.x) + (p.y * p.y)) * (float) Math.sqrt((p1.x * p1.x) + (p1.y * p1.y));
+
+        return (float) Math.acos(dotProduct / magnitudeProduct);
+    }
+
+    /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
      * @param newX Float value used to set the new x value for this {@code Pointf} object.

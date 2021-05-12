@@ -222,6 +222,34 @@ public class Point {
     }
 
     /**
+     * Calculates and returns the signed angle between the specified {@code Point}s.
+     *
+     * @param p  The first of two {@code Point}s to calculate the angle with.
+     * @param p1 The second of two {@code Point}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float signedAngle(Point p, Point p1) {
+        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
+        float determinant = (p.x * p1.y) - (p.y * p1.x);
+
+        return (float) Math.atan2(determinant, dotProduct);
+    }
+
+    /**
+     * Calculates and returns the angle between the specified {@code Point}s.
+     *
+     * @param p  The first of two {@code Point}s to calculate the angle with.
+     * @param p1 The second of two {@code Point}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float angle(Point p, Point p1) {
+        float dotProduct = (float) (p.x * p1.x) + (float) (p.y * p1.y);
+        float magnitudeProduct = (float) Math.sqrt((float) (p.x * p.x) + (float) (p.y * p.y)) * (float) Math.sqrt((float) (p1.x * p1.x) + (float) (p1.y * p1.y));
+
+        return (float) Math.acos(dotProduct / magnitudeProduct);
+    }
+
+    /**
      * Converts the specified {@code Point} to a {@code Pointf} object.
      *
      * @param pt {@code Point} to be converted.

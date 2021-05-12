@@ -1,5 +1,6 @@
 package unittest.testcases.math;
 
+import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
@@ -363,6 +364,23 @@ class PointfTests {
         Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
         Pointf actualRotation = Pointf.rotate(ptf, angle);
         assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointfAngleCalculation() {
+        Pointf ptf = new Pointf(1f, 0f);
+        Pointf ptf2 = new Pointf(0f, 1f);
+        float expectedAngle = (float) Math.toRadians(90d);
+        float actualAngle = Pointf.angle(ptf, ptf2);
+
+        assertEquals(expectedAngle, actualAngle, "The resulting angle of the two Pointfs should equal the expected angle of " + expectedAngle + ".");
+
+        Pointf ptf3 = new Pointf(13f, 37f);
+        Pointf ptf4 = new Pointf(25f, 5f);
+        float expectedAngle2 = (float) Math.toRadians(59.33d);
+        float actualAngle2 = Pointf.angle(ptf3, ptf4);
+
+        assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting angle of the two Pointfs should equal the expected angle of " + expectedAngle2 + ".");
     }
 
     @Test
