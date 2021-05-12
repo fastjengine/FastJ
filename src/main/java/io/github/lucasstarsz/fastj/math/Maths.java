@@ -10,12 +10,8 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Maths {
 
-    /**
-     * The desired floating point precision for FastJ.
-     * <p>
-     * All floating point values should have <b>no more</b> than 6 zeros after the decimal point.
-     */
-    public static final float FloatPrecision = 0.00001f;
+    /** The desired floating point precision for FastJ. */
+    public static final float FloatPrecision = 0.0001f;
 
     private Maths() {
         throw new java.lang.IllegalStateException();

@@ -91,14 +91,14 @@ class MathsTests {
     void checkFloatEquals() {
         double a = 0.00000000001d;
         float a1 = 0.00000000001f;
-        float a2 = 0.00001f;
-        float a3 = 0.00002f;
+        float a2 = 0.0001f;
+        float a3 = 0.0002f;
         float a4 = 0.1f;
 
-        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.000001f.");
-        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than 0.000001f.");
-        assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.000001f.");
-        assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.000001f.");
+        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.0001f.");
+        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than 0.0001f.");
+        assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.0001f.");
+        assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.0001f.");
     }
 
     @Test
