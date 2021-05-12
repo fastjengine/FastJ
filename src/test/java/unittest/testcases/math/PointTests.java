@@ -221,6 +221,17 @@ class PointTests {
     }
 
     @Test
+    void checkPointNormalization_whenMagnitudeIsZero_usingFloatingPointDivision() {
+        Point pt = new Point();
+        float expectedNormalizedX = 0f;
+        float expectedNormalizedY = 0f;
+
+        Pointf expectedNormalization = new Pointf(expectedNormalizedX, expectedNormalizedY);
+        Pointf actualNormalization = pt.normalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using floating-point division should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
     void checkPointNormalization_usingIntegerDivision() {
         // these are integers -- decimals are cut off, leaving the expected values at (0, 0)
         int expectedNormalizedX = (int) 0.3314859950125598;
@@ -230,6 +241,17 @@ class PointTests {
         Point expectedNormalization = new Point(expectedNormalizedX, expectedNormalizedY);
         Point actualNormalization = pt.integerNormalized();
         assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using integer division should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
+    void checkPointNormalization_whenMagnitudeIsZero_usingIntegerDivision() {
+        Point pt = new Point();
+        int expectedNormalizedX = 0;
+        int expectedNormalizedY = 0;
+
+        Point expectedNormalization = new Point(expectedNormalizedX, expectedNormalizedY);
+        Point actualNormalization = pt.integerNormalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using floating-point division should equal the expected values of %s", expectedNormalization));
     }
 
     @Test

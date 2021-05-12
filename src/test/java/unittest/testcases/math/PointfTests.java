@@ -215,6 +215,17 @@ class PointfTests {
     }
 
     @Test
+    void checkPointNormalization_whenMagnitudeIsZero() {
+        Pointf pt = new Pointf();
+        float expectedNormalizedX = 0f;
+        float expectedNormalizedY = 0f;
+
+        Pointf expectedNormalization = new Pointf(expectedNormalizedX, expectedNormalizedY);
+        Pointf actualNormalization = pt.normalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using floating-point division should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
     void checkEqualsAgainstPoint() {
         Pointf ptf = new Pointf(13f, 37f);
         Point pt = new Point(13, 37);
