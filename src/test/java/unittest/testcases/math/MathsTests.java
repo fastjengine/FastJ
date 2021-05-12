@@ -1,13 +1,12 @@
 package unittest.testcases.math;
 
 import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Point;
-import io.github.lucasstarsz.fastj.math.Pointf;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MathsTests {
@@ -25,6 +24,17 @@ class MathsTests {
     }
 
     @Test
+    void tryGenerateRandoms_withInvalidParameters_shouldThrowException() {
+        float minimumRandomRange = 3.5f;
+        float maximumRandomRange = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.random(maximumRandomRange, minimumRandomRange));
+        String expectedExceptionMessage = "The minimum must be less than the maximum.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#random(min, max) method should throw an error when the maximum is less than the minimum.");
+    }
+
+    @Test
     void checkGenerateRandomIntegers_ensureWithinExpectedRange() {
         int minimumRandomRange = 13;
         int maximumRandomRange = 37;
@@ -37,6 +47,17 @@ class MathsTests {
     }
 
     @Test
+    void tryGenerateRandomIntegers_withInvalidParameters_shouldThrowException() {
+        int minimumRandomRange = 13;
+        int maximumRandomRange = 37;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomInteger(maximumRandomRange, minimumRandomRange));
+        String expectedExceptionMessage = "The minimum must be less than the maximum.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#random(min, max) method should throw an error when the maximum is less than the minimum.");
+    }
+
+    @Test
     void checkGenerateRandomsAtEdges_ensureMatchAtLeastOneEdge() {
         float leftEdge = 3.5f;
         float rightEdge = 7.5f;
@@ -46,6 +67,17 @@ class MathsTests {
             float generatedRandom = Maths.randomAtEdge(leftEdge, rightEdge);
             assertTrue(generatedRandom == leftEdge || generatedRandom == rightEdge, assertFailMessage);
         }
+    }
+
+    @Test
+    void tryGenerateRandomAtEdge_withInvalidParameters_shouldThrowException() {
+        float leftEdge = 3.5f;
+        float rightEdge = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomAtEdge(rightEdge, leftEdge));
+        String expectedExceptionMessage = "The left edge must be less than the right edge.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#randomAtEdge(leftEdge, rightEdge) method should throw an error when the right edge is less than the left edge.");
     }
 
     @Test
@@ -76,6 +108,17 @@ class MathsTests {
 
         float actualEdge = Maths.snap(valueToSnap, leftEdge, rightEdge_expected);
         assertEquals(rightEdge_expected, actualEdge, "Actual edge should match the right edge.");
+    }
+
+    @Test
+    void trySnapFloatValueToEdge_withInvalidParameters_shouldThrowException() {
+        float leftEdge = 3.5f;
+        float rightEdge = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomAtEdge(rightEdge, leftEdge));
+        String expectedExceptionMessage = "The left edge must be less than the right edge.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#snap(num, leftEdge, rightEdge) method should throw an error when the right edge is less than the left edge.");
     }
 
     @Test
