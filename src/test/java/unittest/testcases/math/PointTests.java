@@ -295,6 +295,11 @@ class PointTests {
         Dimension dimension = new Dimension(25, 5);
 
         assertFalse(pt.equalsDimension(dimension), "The Point and Dimension should not be equal in their x/width and y/height values.");
+
+        Point pt2 = new Point(13, 37);
+        Dimension dimension2 = new Dimension(13, 5);
+
+        assertFalse(pt2.equalsDimension(dimension2), "The Point and Dimension should not be equal in their x/width and y/height values.");
     }
 
     @Test
