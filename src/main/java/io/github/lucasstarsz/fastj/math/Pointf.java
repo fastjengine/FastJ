@@ -194,6 +194,22 @@ public class Pointf {
     }
 
     /**
+     * Creates a rotated version of the {@code Pointf} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
+     * returning a {@code Pointf}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Pointf}.
+     */
+    public static Pointf rotate(Pointf p, float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float rotatedX = (p.x * (float) Math.cos(angleInRadians)) + (p.y * (float) Math.sin(angleInRadians));
+        float rotatedY = (-p.x * (float) Math.sin(angleInRadians)) + (p.y * (float) Math.cos(angleInRadians));
+        return new Pointf(rotatedX, rotatedY);
+    }
+
+    /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
      * @param newX Float value used to set the new x value for this {@code Pointf} object.
@@ -351,6 +367,24 @@ public class Pointf {
         x /= f;
         y /= f;
 
+        return this;
+    }
+
+    /**
+     * Creates a rotated version of the {@code Pointf} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
+     * returning a {@code Pointf}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return The {@code Pointf} with the rotated values.
+     */
+    public Pointf rotate(float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float rotatedX = (x * (float) Math.cos(angleInRadians)) + (y * (float) Math.sin(angleInRadians));
+        float rotatedY = (-x * (float) Math.sin(angleInRadians)) + (y * (float) Math.cos(angleInRadians));
+        x = rotatedX;
+        y = rotatedY;
         return this;
     }
 

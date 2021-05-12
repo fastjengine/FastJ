@@ -182,6 +182,40 @@ public class Point {
     }
 
     /**
+     * Creates a rotated version of the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
+     * the {@code Point} version of the calculation. If you want the rotation calculated with floating-point math, use
+     * {@link Point#rotate(Point, float)} instead.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Point}.
+     */
+    public static Point integerRotate(Point p, int angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        int rotatedX = (int) (((float) p.x * (float) Math.cos(angleInRadians)) + ((float) p.y * (float) Math.sin(angleInRadians)));
+        int rotatedY = (int) (((float) -p.x * (float) Math.sin(angleInRadians)) + ((float) p.y * (float) Math.cos(angleInRadians)));
+        return new Point(rotatedX, rotatedY);
+    }
+
+    /**
+     * Creates a rotated version of the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
+     * returns the {@code Pointf} version of the calculation. If you want the rotation calculated with integer math, use
+     * {@link Point#integerRotate(Point, int)} instead.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Point}, as a {@code Pointf}.
+     */
+    public static Pointf rotate(Point p, float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float rotatedX = ((float) p.x * (float) Math.cos(angleInRadians)) + ((float) p.y * (float) Math.sin(angleInRadians));
+        float rotatedY = ((float) -p.x * (float) Math.sin(angleInRadians)) + ((float) p.y * (float) Math.cos(angleInRadians));
+        return new Pointf(rotatedX, rotatedY);
+    }
+
+    /**
      * Converts the specified {@code Point} to a {@code Pointf} object.
      *
      * @param pt {@code Point} to be converted.
@@ -349,6 +383,24 @@ public class Point {
         x /= f;
         y /= f;
 
+        return this;
+    }
+
+    /**
+     * Rotates the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
+     * the {@code Point} version of the calculation.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return The {@code Point} with the rotated values.
+     */
+    public Point rotate(int angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float rotatedX = ((float) x * (float) Math.cos(angleInRadians)) + ((float) y * (float) Math.sin(angleInRadians));
+        float rotatedY = ((float) -x * (float) Math.sin(angleInRadians)) + ((float) y * (float) Math.cos(angleInRadians));
+        x = (int) rotatedX;
+        y = (int) rotatedY;
         return this;
     }
 

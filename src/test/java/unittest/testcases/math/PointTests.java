@@ -139,6 +139,16 @@ class PointTests {
     }
 
     @Test
+    void checkPointRotation() {
+        Point pt = new Point(25, 5);
+        int angle = 1337;
+
+        Point expectedRotation = new Point(-10, 23);
+        pt.rotate(angle);
+        assertEquals(expectedRotation, pt, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
     void checkPointCopyingForEquality() {
         Point original = new Point(13, 37);
         Point copy = original.copy();
@@ -396,6 +406,26 @@ class PointTests {
 
         assertEquals(5, divided.x, "The x value of the Point should equal 5.");
         assertEquals(5, divided.y, "The y value of the Point should equal 5.");
+    }
+
+    @Test
+    void static_checkPointRotation_usingIntegerMath() {
+        Point pt = new Point(25, 5);
+        int angle = 1337;
+
+        Point expectedRotation = new Point(-10, 23);
+        Point actualRotation = Point.integerRotate(pt, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointRotation_usingFloatingPointMath() {
+        Point pt = new Point(25, 5);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
+        Pointf actualRotation = Point.rotate(pt, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
     }
 
     @Test

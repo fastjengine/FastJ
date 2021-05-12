@@ -138,6 +138,16 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfRotation() {
+        Pointf ptf = new Pointf(25f, 5f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
+        ptf.rotate(angle);
+        assertEquals(expectedRotation, ptf, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
     void checkPointfCopyingForEquality() {
         Pointf original = new Pointf(13f, 37f);
         Pointf copy = original.copy();
@@ -343,6 +353,16 @@ class PointfTests {
 
         assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, divided.y, "The y value of the Pointf should equal 5f.");
+    }
+
+    @Test
+    void static_checkPointfRotation() {
+        Pointf ptf = new Pointf(25f, 5f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
+        Pointf actualRotation = Pointf.rotate(ptf, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
     }
 
     @Test
