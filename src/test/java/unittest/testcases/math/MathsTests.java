@@ -1,13 +1,12 @@
 package unittest.testcases.math;
 
 import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Point;
-import io.github.lucasstarsz.fastj.math.Pointf;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MathsTests {
@@ -25,6 +24,17 @@ class MathsTests {
     }
 
     @Test
+    void tryGenerateRandoms_withInvalidParameters_shouldThrowException() {
+        float minimumRandomRange = 3.5f;
+        float maximumRandomRange = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.random(maximumRandomRange, minimumRandomRange));
+        String expectedExceptionMessage = "The minimum must be less than the maximum.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#random(min, max) method should throw an error when the maximum is less than the minimum.");
+    }
+
+    @Test
     void checkGenerateRandomIntegers_ensureWithinExpectedRange() {
         int minimumRandomRange = 13;
         int maximumRandomRange = 37;
@@ -37,6 +47,17 @@ class MathsTests {
     }
 
     @Test
+    void tryGenerateRandomIntegers_withInvalidParameters_shouldThrowException() {
+        int minimumRandomRange = 13;
+        int maximumRandomRange = 37;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomInteger(maximumRandomRange, minimumRandomRange));
+        String expectedExceptionMessage = "The minimum must be less than the maximum.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#random(min, max) method should throw an error when the maximum is less than the minimum.");
+    }
+
+    @Test
     void checkGenerateRandomsAtEdges_ensureMatchAtLeastOneEdge() {
         float leftEdge = 3.5f;
         float rightEdge = 7.5f;
@@ -46,6 +67,17 @@ class MathsTests {
             float generatedRandom = Maths.randomAtEdge(leftEdge, rightEdge);
             assertTrue(generatedRandom == leftEdge || generatedRandom == rightEdge, assertFailMessage);
         }
+    }
+
+    @Test
+    void tryGenerateRandomAtEdge_withInvalidParameters_shouldThrowException() {
+        float leftEdge = 3.5f;
+        float rightEdge = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomAtEdge(rightEdge, leftEdge));
+        String expectedExceptionMessage = "The left edge must be less than the right edge.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#randomAtEdge(leftEdge, rightEdge) method should throw an error when the right edge is less than the left edge.");
     }
 
     @Test
@@ -79,6 +111,17 @@ class MathsTests {
     }
 
     @Test
+    void trySnapFloatValueToEdge_withInvalidParameters_shouldThrowException() {
+        float leftEdge = 3.5f;
+        float rightEdge = 7.5f;
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomAtEdge(rightEdge, leftEdge));
+        String expectedExceptionMessage = "The left edge must be less than the right edge.";
+        String actualExceptionMessage = exception.getMessage();
+        assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#snap(num, leftEdge, rightEdge) method should throw an error when the right edge is less than the left edge.");
+    }
+
+    @Test
     void checkMagnitudeWithFloatValues() {
         assertEquals(0d, Maths.magnitude(0f, 0f), "The magnitude should be equal to 0.0.");
         assertEquals(1d, Maths.magnitude(0f, 1f), "The magnitude should be equal to 1.0.");
@@ -88,35 +131,17 @@ class MathsTests {
     }
 
     @Test
-    void checkMagnitudeWithPointfObjects() {
-        assertEquals(0f, Maths.magnitude(new Pointf()), "The magnitude should be equal to 0.0.");
-        assertEquals(1f, Maths.magnitude(new Pointf(0f, 1f)), "The magnitude should be equal to 1.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Pointf(1f)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Pointf(-1f)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(25d), Maths.magnitude(new Pointf(3f, 4f)), "The magnitude should be equal to 5.");
-    }
-
-    @Test
-    void checkMagnitudeWithPointObjects() {
-        assertEquals(0f, Maths.magnitude(new Point()), "The magnitude should be equal to 0.0.");
-        assertEquals(1f, Maths.magnitude(new Point(0, 1)), "The magnitude should be equal to 1.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Point(1)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Point(-1)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(25d), Maths.magnitude(new Point(3, 4)), "The magnitude should be equal to 5.");
-    }
-
-    @Test
     void checkFloatEquals() {
         double a = 0.00000000001d;
         float a1 = 0.00000000001f;
-        float a2 = 0.00001f;
-        float a3 = 0.00002f;
+        float a2 = 0.0001f;
+        float a3 = 0.0002f;
         float a4 = 0.1f;
 
-        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.000001f.");
-        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than 0.000001f.");
-        assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.000001f.");
-        assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.000001f.");
+        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.0001f.");
+        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than 0.0001f.");
+        assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.0001f.");
+        assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.0001f.");
     }
 
     @Test

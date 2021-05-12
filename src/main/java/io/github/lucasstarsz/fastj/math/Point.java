@@ -1,5 +1,6 @@
 package io.github.lucasstarsz.fastj.math;
 
+import java.awt.Dimension;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Objects;
@@ -58,8 +59,8 @@ public class Point {
     }
 
     /**
-     * Static method used to add two {@code Point}s (from the parameters specified) together, and return a new {@code
-     * Point} object.
+     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point}
+     * object.
      *
      * @param p1 The first {@code Point} used for addition.
      * @param p2 The second {@code Point} used for addition.
@@ -70,7 +71,7 @@ public class Point {
     }
 
     /**
-     * Static method used to add a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to add a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for addition.
      * @param i Integer value used for addition.
@@ -82,8 +83,8 @@ public class Point {
     }
 
     /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Point} object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Point}
+     * object.
      *
      * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
      *           subtraction.
@@ -96,7 +97,7 @@ public class Point {
     }
 
     /**
-     * Static method used to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to subtract a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
      * @param i Integer value used for subtraction; the second value used in subtraction.
@@ -108,8 +109,8 @@ public class Point {
     }
 
     /**
-     * Static method used to multiply two {@code Point} objects (from the parameters specified) together, and return a
-     * new {@code Point}.
+     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new
+     * {@code Point}.
      *
      * @param p1 The first {@code Point} used for multiplication.
      * @param p2 The second {@code Point} used for multiplication.
@@ -120,7 +121,7 @@ public class Point {
     }
 
     /**
-     * Static method used to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to multiply a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for multiplication.
      * @param i Integer value used for multiplication.
@@ -132,7 +133,7 @@ public class Point {
     }
 
     /**
-     * Static method used to divide two {@code Point} objects (from the parameters specified) together, and return a new
+     * Static method to divide two {@code Point} objects (from the parameters specified) together, and return a new
      * {@code Point}.
      *
      * @param p1 The first {@code Point} used for division; the {@code Point} acting as the first value in division.
@@ -144,7 +145,7 @@ public class Point {
     }
 
     /**
-     * Static method used to divide a {@code Point} object by an integer value, and return a new {@code Point}.
+     * Static method to divide a {@code Point} object by an integer value, and return a new {@code Point}.
      *
      * @param p The {@code Point} used for division; the {@code Point} acting as the first value in division.
      * @param i Integer value used for division; the second value used in division.
@@ -153,6 +154,99 @@ public class Point {
      */
     public static Point divide(Point p, int i) {
         return new Point(p.x / i, p.y / i);
+    }
+
+    /**
+     * Calculates and returns the dot product of the two specified {@code Point}s.
+     *
+     * @param p  The first of two {@code Point}s to calculate the dot product with.
+     * @param p1 The second of two {@code Point}s to calculate the dot product with.
+     * @return The calculated dot product.
+     */
+    public static int dot(Point p, Point p1) {
+        return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
+     * Calculates and returns the cross product of the two specified {@code Point}s.
+     * <p>
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
+     * {@code Point}s were 3-dimensional vectors with Z values implicitly set to {@code 0}.
+     *
+     * @param p  The first of two {@code Point}s to calculate the cross product with.
+     * @param p1 The second of two {@code Point}s to calculate the cross product with.
+     * @return The calculated cross product.
+     */
+    public static int cross(Point p, Point p1) {
+        return (p.x * p1.y) - (p.y * p1.x);
+    }
+
+    /**
+     * Creates a rotated version of the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
+     * the {@code Point} version of the calculation. If you want the rotation calculated with floating-point math, use
+     * {@link Point#rotate(Point, float)} instead.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Point}.
+     */
+    public static Point integerRotate(Point p, int angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        int rotatedX = (int) (((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle));
+        int rotatedY = (int) (((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle));
+        return new Point(rotatedX, rotatedY);
+    }
+
+    /**
+     * Creates a rotated version of the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
+     * returns the {@code Pointf} version of the calculation. If you want the rotation calculated with integer math, use
+     * {@link Point#integerRotate(Point, int)} instead.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Point}, as a {@code Pointf}.
+     */
+    public static Pointf rotate(Point p, float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = ((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle);
+        float rotatedY = ((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle);
+        return new Pointf(rotatedX, rotatedY);
+    }
+
+    /**
+     * Calculates and returns the signed angle between the specified {@code Point}s.
+     *
+     * @param p  The first of two {@code Point}s to calculate the angle with.
+     * @param p1 The second of two {@code Point}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float signedAngle(Point p, Point p1) {
+        float dotProduct = (float) (p.x * p1.x) + (float) (p.y * p1.y);
+        float determinant = (float) (p.x * p1.y) - (float) (p.y * p1.x);
+
+        return (float) Math.atan2(determinant, dotProduct);
+    }
+
+    /**
+     * Calculates and returns the angle between the specified {@code Point}s.
+     *
+     * @param p  The first of two {@code Point}s to calculate the angle with.
+     * @param p1 The second of two {@code Point}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float angle(Point p, Point p1) {
+        float dotProduct = (float) (p.x * p1.x) + (float) (p.y * p1.y);
+        float magnitudeProduct = (float) Math.sqrt((float) (p.x * p.x) + (float) (p.y * p.y)) * (float) Math.sqrt((float) (p1.x * p1.x) + (float) (p1.y * p1.y));
+
+        return (float) Math.acos(dotProduct / magnitudeProduct);
     }
 
     /**
@@ -327,12 +421,120 @@ public class Point {
     }
 
     /**
-     * Returns this {@code Point} as a {@code Pointf} object, without modification.
+     * Rotates the {@code Point} based on the provided angle.
+     * <p>
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
+     * the {@code Point} version of the calculation.
      *
-     * @return The {@code Pointf} created using the values from this {@code Point}.
+     * @param angle The angle to rotate by, in degrees.
+     * @return The {@code Point} with the rotated values.
+     */
+    public Point rotate(int angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = ((float) x * cosineOfAngle) + ((float) y * sineOfAngle);
+        float rotatedY = ((float) -x * sineOfAngle) + ((float) y * cosineOfAngle);
+        x = (int) rotatedX;
+        y = (int) rotatedY;
+
+        return this;
+    }
+
+    /**
+     * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
+     * <p>
+     * This magnitude method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
+     * the {@code int} version of the calculation. If you want the magnitude calculated with floating-point math, use
+     * {@link #magnitude()} instead.
+     *
+     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
+     * values.
+     */
+    public int integerMagnitude() {
+        return (int) Math.sqrt((double) (x * x) + (double) (y * y));
+    }
+
+    /**
+     * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
+     * <p>
+     * This magnitude method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
+     * returns the {@code float} version of the calculation. If you want the magnitude calculated with integer math, use
+     * {@link #integerMagnitude()} instead.
+     *
+     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
+     * values.
+     */
+    public float magnitude() {
+        return (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
+    }
+
+    /**
+     * Calculates and returns the square magnitude of the {@code Point}.
+     *
+     * @return The square magnitude of the {@code Point}'s {@link #x} and {@link #y} values.
+     */
+    public int squareMagnitude() {
+        return (x * x) + (y * y);
+    }
+
+    /**
+     * Creates a normalized version of the {@code Point} using integer division.
+     * <p>
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
+     * Pointf} or floating-point division, consider using {@link #normalized()} instead.
+     *
+     * @return A normalized version of the {@code Point}.
+     */
+    public Point integerNormalized() {
+        int magnitude = (int) Math.sqrt((double) (x * x) + (double) (y * y));
+
+        if (magnitude == 0) {
+            return Point.Origin.copy();
+        }
+
+        int normalizedX = x / magnitude;
+        int normalizedY = y / magnitude;
+        return new Point(normalizedX, normalizedY);
+    }
+
+    /**
+     * Creates a normalized version of the {@code Point}, as a {@code Pointf}, using floating-point division.
+     * <p>
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
+     * Point} or integer division, consider using {@link #integerNormalized()} instead.
+     *
+     * @return A normalized version of the {@code Point}, as a {@code Pointf}.
+     */
+    public Pointf normalized() {
+        float magnitude = (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
+
+        if (magnitude == 0f) {
+            return Pointf.Origin.copy();
+        }
+
+        float normalizedX = (float) x / magnitude;
+        float normalizedY = (float) y / magnitude;
+        return new Pointf(normalizedX, normalizedY);
+    }
+
+    /**
+     * Creates a {@link Pointf} version of the {@code Point}.
+     *
+     * @return The {@code Point} created.
      */
     public Pointf asPointf() {
         return new Pointf(x, y);
+    }
+
+    /**
+     * Creates a {@link Dimension} version of the {@code Point}.
+     *
+     * @return The {@code Dimension} created.
+     */
+    public Dimension asDimension() {
+        return new Dimension(x, y);
     }
 
     /**
@@ -344,6 +546,17 @@ public class Point {
      */
     public boolean equalsPointf(Pointf other) {
         return Maths.floatEquals(other.x, (float) x) && Maths.floatEquals(other.y, (float) y);
+    }
+
+    /**
+     * Compares the {@code Point} with a {@link Dimension}, and returns whether the {@code Point}'s {@code x} and {@code
+     * y} values are equal to the {@code Dimension}'s {@code width} and {@code height} values, respectively.
+     *
+     * @param other The {@code Dimension} to compare against.
+     * @return Whether the two's {@code x}/{@code width} and {@code y}/{@code height} values are equal.
+     */
+    public boolean equalsDimension(Dimension other) {
+        return x == other.width && y == other.height;
     }
 
     /**
@@ -377,9 +590,9 @@ public class Point {
     }
 
     /**
-     * Returns this {@code Point}'s coordinates as a String.
+     * Formats the {@code Point}'s coordinates in a {@code String}.
      *
-     * @return The coordinates of this Point as a String.
+     * @return The coordinates of the {@code Point}, as a {@code String}.
      */
     @Override
     public String toString() {

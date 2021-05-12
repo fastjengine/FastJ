@@ -1,5 +1,6 @@
 package unittest.testcases.math;
 
+import io.github.lucasstarsz.fastj.math.Maths;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.math.Pointf;
 
@@ -43,6 +44,15 @@ class PointfTests {
 
         assertEquals(3f, ptf2.x, "The x value of the Pointf should equal 3f.");
         assertEquals(4f, ptf2.y, "The y value of the Pointf should equal 4f.");
+    }
+
+    @Test
+    void checkPointfCreation_withPointObjectParam() {
+        Point pt = new Point(3, 4);
+        Pointf ptf = new Pointf(pt);
+
+        assertEquals(3f, ptf.x, "The x value of the Pointf should equal 3f.");
+        assertEquals(4f, ptf.y, "The y value of the Pointf should equal 4f.");
     }
 
     @Test
@@ -138,6 +148,16 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfRotation() {
+        Pointf ptf = new Pointf(25f, 5f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
+        ptf.rotate(angle);
+        assertEquals(expectedRotation, ptf, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
     void checkPointfCopyingForEquality() {
         Pointf original = new Pointf(13f, 37f);
         Pointf copy = original.copy();
@@ -160,6 +180,49 @@ class PointfTests {
 
         assertEquals(13f, ptf.x, "The x value of the Pointf should equal 13f.");
         assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
+    }
+
+    @Test
+    void checkPointfMagnitude_usingFloatingPointMagnitude() {
+        Pointf pt = new Pointf(2f, 2f);
+        float expectedPtMagnitude = (float) Math.sqrt(8f);
+        float actualPtMagnitude = pt.magnitude();
+        assertEquals(expectedPtMagnitude, actualPtMagnitude, "The first Pointf's magnitude should equal the expected magnitude of (float) √8f.");
+
+        Pointf pt2 = new Pointf(3f, 3f);
+        float expectedPt2Magnitude = (float) Math.sqrt(18f);
+        float actualPt2Magnitude = pt2.magnitude();
+        assertEquals(expectedPt2Magnitude, actualPt2Magnitude, "The second Pointf's magnitude should equal the expected magnitude of (float) √18f.");
+    }
+
+    @Test
+    void checkPointfSquareMagnitude() {
+        Pointf pt = new Pointf(13f, 37f);
+        float expectedSquareMagnitude = 1538f;
+        float actualSquareMagnitude = pt.squareMagnitude();
+        assertEquals(expectedSquareMagnitude, actualSquareMagnitude, "The Pointf's square magnitude should equal the expected magnitude of 1538f.");
+    }
+
+    @Test
+    void checkPointfNormalization() {
+        float expectedNormalizedX = 0.3314859950125598f;
+        float expectedNormalizedY = 0.9434601396511317f;
+
+        Pointf pt = new Pointf(13, 37);
+        Pointf expectedNormalization = new Pointf(expectedNormalizedX, expectedNormalizedY);
+        Pointf actualNormalization = pt.normalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Pointf's normalized value should equal the expected values of %s", expectedNormalization));
+    }
+
+    @Test
+    void checkPointNormalization_whenMagnitudeIsZero() {
+        Pointf pt = new Pointf();
+        float expectedNormalizedX = 0f;
+        float expectedNormalizedY = 0f;
+
+        Pointf expectedNormalization = new Pointf(expectedNormalizedX, expectedNormalizedY);
+        Pointf actualNormalization = pt.normalized();
+        assertEquals(expectedNormalization, actualNormalization, String.format("The Point's normalized value when using floating-point division should equal the expected values of %s", expectedNormalization));
     }
 
     @Test
@@ -311,5 +374,68 @@ class PointfTests {
 
         assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, divided.y, "The y value of the Pointf should equal 5f.");
+    }
+
+    @Test
+    void static_checkPointfRotation() {
+        Pointf ptf = new Pointf(25f, 5f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
+        Pointf actualRotation = Pointf.rotate(ptf, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointfAngleCalculation() {
+        Pointf ptf = new Pointf(1f, 0f);
+        Pointf ptf2 = new Pointf(0f, 1f);
+        float expectedAngle = (float) Math.toRadians(90d);
+        float actualAngle = Pointf.angle(ptf, ptf2);
+
+        assertEquals(expectedAngle, actualAngle, "The resulting angle of the two Pointfs should equal the expected angle of " + expectedAngle + ".");
+
+        Pointf ptf3 = new Pointf(13f, 37f);
+        Pointf ptf4 = new Pointf(25f, 5f);
+        float expectedAngle2 = (float) Math.toRadians(59.33d);
+        float actualAngle2 = Pointf.angle(ptf3, ptf4);
+
+        assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting angle of the two Pointfs should equal the expected angle of " + expectedAngle2 + ".");
+    }
+
+    @Test
+    void static_checkPointfSignedAngleCalculation() {
+        Pointf ptf = new Pointf(13f, 37f);
+        Pointf ptf2 = new Pointf(25f, 5f);
+
+        float expectedAngle = (float) Math.toRadians(-59.33d);
+        float actualAngle = Pointf.signedAngle(ptf, ptf2);
+
+        assertTrue(Maths.floatEquals(expectedAngle, actualAngle), "The resulting signed angle of the two Pointfs should equal the expected angle of " + expectedAngle + ".");
+
+        float expectedAngle2 = (float) Math.toRadians(59.33d);
+        float actualAngle2 = Pointf.signedAngle(ptf2, ptf);
+
+        assertTrue(Maths.floatEquals(expectedAngle2, actualAngle2), "The resulting signed angle of the two Pointfs should equal the expected angle of " + expectedAngle2 + ".");
+    }
+
+    @Test
+    void static_checkDotProduct() {
+        Pointf ptf = new Pointf(25f);
+        Pointf ptf2 = new Pointf(5f);
+
+        float expectedDotProduct = 250f;
+        float actualDotProduct = Pointf.dot(ptf, ptf2);
+        assertEquals(expectedDotProduct, actualDotProduct, "The resulting dot product of the two Pointfs should equal the expected dot product of 250f.");
+    }
+
+    @Test
+    void static_checkCrossProduct() {
+        Pointf pt = new Pointf(25.5f, 5.25f);
+        Pointf pt2 = new Pointf(13.37f, 37.13f);
+
+        float expectedCrossProduct = 876.6225f;
+        float actualCrossProduct = Pointf.cross(pt, pt2);
+        assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 876.6225f.");
     }
 }
