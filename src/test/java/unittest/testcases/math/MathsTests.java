@@ -88,24 +88,6 @@ class MathsTests {
     }
 
     @Test
-    void checkMagnitudeWithPointfObjects() {
-        assertEquals(0f, Maths.magnitude(new Pointf()), "The magnitude should be equal to 0.0.");
-        assertEquals(1f, Maths.magnitude(new Pointf(0f, 1f)), "The magnitude should be equal to 1.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Pointf(1f)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Pointf(-1f)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(25d), Maths.magnitude(new Pointf(3f, 4f)), "The magnitude should be equal to 5.");
-    }
-
-    @Test
-    void checkMagnitudeWithPointObjects() {
-        assertEquals(0f, Maths.magnitude(new Point()), "The magnitude should be equal to 0.0.");
-        assertEquals(1f, Maths.magnitude(new Point(0, 1)), "The magnitude should be equal to 1.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Point(1)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(2d), Maths.magnitude(new Point(-1)), "The magnitude should be equal to the square root of 2.0.");
-        assertEquals((float) Math.sqrt(25d), Maths.magnitude(new Point(3, 4)), "The magnitude should be equal to 5.");
-    }
-
-    @Test
     void checkFloatEquals() {
         double a = 0.00000000001d;
         float a1 = 0.00000000001f;

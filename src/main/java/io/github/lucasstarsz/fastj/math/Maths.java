@@ -110,26 +110,6 @@ public class Maths {
     }
 
     /**
-     * Finds the magnitude of the {@code Pointf} based on its {@code x} and {@code y} coordinates.
-     *
-     * @param p The {@code Pointf} to find the magnitude of.
-     * @return The magnitude, as a {@code float} value.
-     */
-    public static float magnitude(Pointf p) {
-        return (float) Math.sqrt(p.x * p.x + p.y * p.y);
-    }
-
-    /**
-     * Finds the magnitude of the {@code Point} based on its {@code x} and {@code y} coordinates.
-     *
-     * @param p The {@code Point} to find the magnitude of.
-     * @return The magnitude, as a {@code float} value.
-     */
-    public static float magnitude(Point p) {
-        return (float) Math.sqrt((float) (p.x * p.x) + (float) (p.y * p.y));
-    }
-
-    /**
      * Checks for 'equality' between two floating point values through ensuring their difference is less than the
      * defined float precision value {@link #FloatPrecision}.
      *
@@ -151,6 +131,4 @@ public class Maths {
     public static float lerp(float x, float y, float t) {
         return (1f - t) * x + t * y;
     }
-
-
 }
