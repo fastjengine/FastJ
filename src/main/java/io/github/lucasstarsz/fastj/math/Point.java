@@ -229,8 +229,8 @@ public class Point {
      * @return The calculated angle, in radians.
      */
     public static float signedAngle(Point p, Point p1) {
-        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
-        float determinant = (p.x * p1.y) - (p.y * p1.x);
+        float dotProduct = (float) (p.x * p1.x) + (float) (p.y * p1.y);
+        float determinant = (float) (p.x * p1.y) - (float) (p.y * p1.x);
 
         return (float) Math.atan2(determinant, dotProduct);
     }
@@ -453,7 +453,7 @@ public class Point {
      * values.
      */
     public int integerMagnitude() {
-        return (int) Math.sqrt((x * x) + (y * y));
+        return (int) Math.sqrt((double) (x * x) + (double) (y * y));
     }
 
     /**
@@ -488,7 +488,7 @@ public class Point {
      * @return A normalized version of the {@code Point}.
      */
     public Point integerNormalized() {
-        int magnitude = (int) Math.sqrt((x * x) + (y * y));
+        int magnitude = (int) Math.sqrt((double) (x * x) + (double) (y * y));
 
         if (magnitude == 0) {
             return Point.Origin.copy();
