@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.example;
+package io.github.lucasstarsz.fastj.example.helloworld;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
