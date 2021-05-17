@@ -1,5 +1,6 @@
 package io.github.lucasstarsz.fastj.example.bullethell.scripts;
 
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
@@ -37,18 +38,17 @@ public class Cannon implements Behavior {
     @Override
     public void update(GameObject obj) {
         if (Keyboard.isKeyRecentlyPressed(Keys.Space)) {
-            playerBullets.add(createBullet(obj));
+            FastJEngine.runAfterUpdate(() -> createBullet(obj));
         }
     }
 
-    private Polygon2D createBullet(GameObject player) {
+    private void createBullet(GameObject player) {
         Pointf cannonFront = player.getTranslation().copy().rotate(player.getRotation());
         Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
 
         Polygon2D bullet = new Polygon2D(bulletMesh, Color.green, true, true);
         bullet.addBehavior(new BulletMovement(), gameScene);
         bullet.addAsGameObject(gameScene);
-        return bullet;
     }
 
     @Override
