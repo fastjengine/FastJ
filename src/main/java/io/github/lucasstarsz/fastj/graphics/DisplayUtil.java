@@ -13,6 +13,10 @@ import java.awt.GraphicsEnvironment;
  */
 public class DisplayUtil {
 
+    private DisplayUtil() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Gets the specified monitor.
      *
