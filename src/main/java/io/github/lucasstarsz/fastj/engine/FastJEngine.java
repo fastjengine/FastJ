@@ -4,6 +4,7 @@ import io.github.lucasstarsz.fastj.engine.internals.ThreadFixer;
 import io.github.lucasstarsz.fastj.engine.internals.Timer;
 import io.github.lucasstarsz.fastj.math.Point;
 import io.github.lucasstarsz.fastj.graphics.Display;
+import io.github.lucasstarsz.fastj.graphics.DisplayUtil;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
@@ -32,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 public class FastJEngine {
 
     /** Default engine value for frames per second. */
-    public static final int DefaultFPS = Math.max(Display.getDefaultMonitorRefreshRate(), 1);
+    public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 1);
     /** Default engine value for updates per second. */
     public static final int DefaultUPS = 60;
     /** Default engine value for the window resolution of the {@link Display}. */

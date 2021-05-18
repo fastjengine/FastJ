@@ -14,9 +14,7 @@ import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.DisplayMode;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
@@ -89,74 +87,6 @@ public class Display {
         renderHints = new LinkedHashMap<>();
         mouse = new Mouse();
         keyboard = new Keyboard();
-    }
-
-    /**
-     * Gets the specified monitor.
-     *
-     * @param monitorIndicated The index number of the monitor to get.
-     * @return The specified monitor, as a {@code GraphicsDevice}.
-     */
-    public static GraphicsDevice getMonitor(int monitorIndicated) {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[monitorIndicated];
-    }
-
-    /**
-     * Gets the default monitor.
-     *
-     * @return The default monitor, as a {@code GraphicsDevice}.
-     */
-    public static GraphicsDevice getDefaultMonitor() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    }
-
-    /**
-     * Gets the refresh rate of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the refresh rate of.
-     * @return The indicated monitor's refresh rate, as an integer value.
-     */
-    public static int getMonitorRefreshRate(int monitorIndicated) {
-        return getMonitor(monitorIndicated).getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the refresh rate of the default monitor.
-     *
-     * @return The default monitor's refresh rate, as an integer value.
-     */
-    public static int getDefaultMonitorRefreshRate() {
-        return getDefaultMonitor().getDisplayMode().getRefreshRate();
-    }
-
-    /**
-     * Gets the dimensions of the specified monitor.
-     *
-     * @param monitorIndicated The monitor to get the dimensions of.
-     * @return The indicated monitor's dimensions, as a {@code Point}.
-     */
-    public static Point getMonitorDimensions(int monitorIndicated) {
-        DisplayMode monitorMode = getMonitor(monitorIndicated).getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the dimensions of the default monitor.
-     *
-     * @return The default monitor's dimensions, as a {@code Point}.
-     */
-    public static Point getDefaultMonitorDimensions() {
-        DisplayMode monitorMode = getDefaultMonitor().getDisplayMode();
-        return new Point(monitorMode.getWidth(), monitorMode.getHeight());
-    }
-
-    /**
-     * Gets the amount of monitors the user has.
-     *
-     * @return The amount of monitors that the user has.
-     */
-    public static int getMonitorCount() {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
     }
 
     /**
@@ -319,27 +249,19 @@ public class Display {
         if (isFullscreen) {
             // update res & background
             lastResolution = viewerResolution.copy();
-            viewerResolution = getDefaultMonitorDimensions();
+            viewerResolution = DisplayUtil.getDefaultMonitorDimensions();
 
             // prepare for full screen
-            outputDisplay.dispose();
-            outputDisplay.setUndecorated(true);
-            outputDisplay.setResizable(false);
+            disposeWindow();
 
             // set full-screen
-            GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .setFullScreenWindow(outputDisplay);
+            toggleFullScreenWindow();
         } else {
             // disable full-screen
-            GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .setFullScreenWindow(outputDisplay);
+            toggleFullScreenWindow();
 
             // update display
-            outputDisplay.dispose();
-            outputDisplay.setUndecorated(false);
-            outputDisplay.setResizable(true);
+            disposeWindow();
 
             // update res & background
             Point displayResSave = viewerResolution.copy();
@@ -349,9 +271,7 @@ public class Display {
             outputDisplay.pack();
         }
 
-        outputDisplay.revalidate();
-        outputDisplay.setVisible(true);
-        drawingCanvas.requestFocusInWindow();
+        revalidateWindow();
 
         switchingScreenState = false;
     }
@@ -386,7 +306,9 @@ public class Display {
 
         switchingScreenState = true;
 
-        if (isFullscreen) disableFullscreenInvisibly();
+        if (isFullscreen) {
+            disableFullscreenInvisibly();
+        }
 
         isWindowedFullscreen = enable;
         outputDisplay.setExtendedState(isWindowedFullscreen ? JFrame.MAXIMIZED_BOTH : JFrame.NORMAL);
@@ -494,15 +416,12 @@ public class Display {
         outputDisplay.getContentPane().setPreferredSize(new Dimension(newResolution.x, newResolution.y));
         drawingCanvas.setPreferredSize(new Dimension(newResolution.x, newResolution.y));
 
-        // set res points
         lastResolution = viewerResolution.copy();
         viewerResolution = newResolution.copy();
 
-        // set background size
         background.width = internalResolution.x;
         background.height = internalResolution.y;
 
-        // revalidate/pack
         drawingCanvas.revalidate();
         outputDisplay.revalidate();
         outputDisplay.pack();
@@ -518,24 +437,19 @@ public class Display {
 
         // disable full-screen
         isFullscreen = false;
-        GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice()
-                .setFullScreenWindow(outputDisplay);
+        toggleFullScreenWindow();
 
         // update display
-        outputDisplay.dispose();
-        outputDisplay.setUndecorated(false);
-        outputDisplay.setResizable(true);
+        disposeWindow();
 
         // update res & background
-        Point displayResSave = viewerResolution.copy();
+        Point tempViewerResolution = viewerResolution.copy();
         viewerResolution = lastResolution.copy();
-        lastResolution = displayResSave;
+        lastResolution = tempViewerResolution;
 
         // prepare window
         outputDisplay.pack();
-        outputDisplay.revalidate();
-        drawingCanvas.requestFocusInWindow();
+        revalidateWindow();
 
         switchingScreenState = false;
     }
@@ -546,7 +460,9 @@ public class Display {
      * @param enable Boolean to determine whether the title bar of the {@code Display} should be shown.
      */
     public void showTitleBar(boolean enable) {
-        if (outputDisplay.isUndecorated() == !enable) return;
+        if (outputDisplay.isUndecorated() == !enable) {
+            return;
+        }
 
         outputDisplay.setVisible(false);
 
@@ -567,7 +483,9 @@ public class Display {
      * @param camera      The camera that the user will view the game from.
      */
     public void render(Map<String, GameObject> gameObjects, Map<String, UIElement> gui, Camera camera) {
-        if (!outputDisplay.isVisible()) return;
+        if (!outputDisplay.isVisible()) {
+            return;
+        }
 
         try {
             BufferStrategy drawBuffer;
@@ -579,13 +497,16 @@ public class Display {
             drawGraphics.clearRect(
                     (int) (background.x - camera.getTranslation().x),
                     (int) (background.y - camera.getTranslation().y),
+                    // add 1 to these values to account for floating point cutoff, since this has to be all integers
                     (int) background.width + 1,
                     (int) background.height + 1
             );
 
             for (GameObject obj : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(obj, camera)) continue;
+                    if (!isOnScreen(obj, camera)) {
+                        continue;
+                    }
                     obj.render(drawGraphics);
                 } catch (NullPointerException e) {
                     nullWarnCheck(obj, false, e);
@@ -597,7 +518,9 @@ public class Display {
 
             for (UIElement guiObj : gui.values()) {
                 try {
-                    if (!isOnScreen(guiObj, camera)) continue;
+                    if (!isOnScreen(guiObj, camera)) {
+                        continue;
+                    }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
                 } catch (NullPointerException e) {
                     nullWarnCheck(guiObj, true, e);
@@ -724,7 +647,9 @@ public class Display {
         outputDisplay.getContentPane().addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                if (!isReady || isFullscreen) return;
+                if (!isReady || isFullscreen) {
+                    return;
+                }
 
                 Dimension newSize = outputDisplay.getContentPane().getSize();
                 resizeDisplay(new Point(newSize.width, newSize.height));
@@ -772,6 +697,30 @@ public class Display {
         // Text
         renderHints.put(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         renderHints.put(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT);
+    }
+
+    /** Toggles on/off the full-screen option for the {@link #outputDisplay}. */
+    private void toggleFullScreenWindow() {
+        GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .setFullScreenWindow(outputDisplay);
+    }
+
+    /** Removes the {@link #outputDisplay} from sight, allowing values like the title-bar to be changed. */
+    private void disposeWindow() {
+        boolean hasTitleBar = !isShowingTitleBar();
+
+        outputDisplay.setVisible(false);
+        outputDisplay.dispose();
+        outputDisplay.setUndecorated(!hasTitleBar);
+        outputDisplay.setResizable(hasTitleBar);
+    }
+
+    /** Prepares and adds the {@link #outputDisplay} back to screen visibility. */
+    private void revalidateWindow() {
+        outputDisplay.revalidate();
+        outputDisplay.setVisible(true);
+        drawingCanvas.requestFocusInWindow();
     }
 
     /**
