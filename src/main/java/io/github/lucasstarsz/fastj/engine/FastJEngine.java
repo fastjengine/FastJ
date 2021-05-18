@@ -362,9 +362,6 @@ public class FastJEngine {
      */
     public static <T> void error(T errorMessage, Exception exception) {
         FastJEngine.closeGame();
-        if (FastJEngine.isRunning()) {
-            FastJEngine.exit();
-        }
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
