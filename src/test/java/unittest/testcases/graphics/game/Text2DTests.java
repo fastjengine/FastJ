@@ -101,7 +101,7 @@ class Text2DTests {
     }
 
     @Test
-    void checkRotateText2D_shouldThrowError() {
+    void checkRotateText2D_shouldThrowException() {
         runFastJWith(() -> {
             String text = "Hello, world!";
             Pointf originalTranslation = Pointf.Origin.copy();
