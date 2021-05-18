@@ -11,7 +11,9 @@ import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
 import io.github.lucasstarsz.fastj.systems.tags.TagManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +61,9 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
+
+    // Late-running Runnables
+    private static final List<Runnable> AfterUpdateList = new ArrayList<>();
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -358,6 +363,19 @@ public class FastJEngine {
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
+    /**
+     * Runs the specified action after the game engine's next update call ends.
+     * <p>
+     * This method generally serves the purpose of running certain necessary actions for a game that wouldn't be
+     * possible easily otherwise, such as adding a game object to a scene while in an {@link
+     * LogicManager#update(Display)} call.
+     *
+     * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
+     */
+    public static void runAfterUpdate(Runnable action) {
+        AfterUpdateList.add(action);
+    }
+
     /** Initializes the game engine's components. */
     private static void initEngine() {
         runningCheck();
@@ -392,6 +410,14 @@ public class FastJEngine {
 
             while (accumulator >= interval) {
                 gameManager.update(display);
+
+                if (!AfterUpdateList.isEmpty()) {
+                    for (Runnable action : AfterUpdateList) {
+                        action.run();
+                    }
+                    AfterUpdateList.clear();
+                }
+
                 accumulator -= interval;
             }
 

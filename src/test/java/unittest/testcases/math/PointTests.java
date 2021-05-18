@@ -141,13 +141,24 @@ class PointTests {
     }
 
     @Test
-    void checkPointRotation() {
+    void checkPointRotation_aroundOrigin() {
         Point pt = new Point(25, 5);
         int angle = 1337;
 
         Point expectedRotation = new Point(-10, 23);
         pt.rotate(angle);
         assertEquals(expectedRotation, pt, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void checkPointRotation_aroundOtherPoint() {
+        Point pt = new Point(25, 5);
+        Point pt2 = new Point(13, 37);
+        int angle = 1337;
+
+        Point expectedRotation = new Point(41, 55);
+        Point actualRotation = pt.rotate(angle, pt2);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
     }
 
     @Test
@@ -456,12 +467,34 @@ class PointTests {
     }
 
     @Test
-    void static_checkPointRotation_usingFloatingPointMath() {
+    void static_checkPointRotation_aroundOrigin_usingFloatingPointMath() {
         Point pt = new Point(25, 5);
         float angle = 1337f;
 
         Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
         Pointf actualRotation = Point.rotate(pt, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointRotation_aroundOtherPointf_usingFloatingPointMath() {
+        Point pt = new Point(25, 5);
+        Pointf ptf = new Pointf(13f, 37f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(41.4804f, 55.8909f);
+        Pointf actualRotation = Point.rotate(pt, angle, ptf);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointRotation_aroundOtherPoint_usingIntegerMath() {
+        Point pt = new Point(25, 5);
+        Point pt2 = new Point(13, 37);
+        int angle = 1337;
+
+        Point expectedRotation = new Point(41, 55);
+        Point actualRotation = Point.integerRotate(pt, angle, pt2);
         assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Point should equal the expected rotated value of " + expectedRotation + ".");
     }
 

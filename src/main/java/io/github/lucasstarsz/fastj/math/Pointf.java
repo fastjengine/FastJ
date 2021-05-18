@@ -196,8 +196,8 @@ public class Pointf {
     /**
      * Creates a rotated version of the {@code Pointf} based on the provided angle.
      * <p>
-     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
-     * returning a {@code Pointf}.
+     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not
+     * the origin, use {@link #rotate(float, Pointf)}.
      *
      * @param angle The angle to rotate by, in degrees.
      * @return A rotated version of the original {@code Pointf}.
@@ -210,6 +210,29 @@ public class Pointf {
         float rotatedX = (p.x * cosineOfAngle) + (p.y * sineOfAngle);
         float rotatedY = (-p.x * sineOfAngle) + (p.y * cosineOfAngle);
         return new Pointf(rotatedX, rotatedY);
+    }
+
+    /**
+     * Creates a rotated version of the {@code Pointf} based on the provided angle and center point.
+     * <p>
+     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
+     * {@link #rotate(Pointf, float)}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Pointf}.
+     */
+    public static Pointf rotate(Pointf p, float angle, Pointf center) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float translatedX = p.x - center.x;
+        float translatedY = p.y - center.y;
+
+        float rotatedX = (translatedX * cosineOfAngle) + (translatedY * sineOfAngle);
+        float rotatedY = (-translatedX * sineOfAngle) + (translatedY * cosineOfAngle);
+
+        return new Pointf(rotatedX + center.x, rotatedY + center.y);
     }
 
     /**
@@ -402,10 +425,10 @@ public class Pointf {
     }
 
     /**
-     * Creates a rotated version of the {@code Pointf} based on the provided angle.
+     * Rotates the {@code Pointf} based on the provided angle.
      * <p>
-     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
-     * returning a {@code Pointf}.
+     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not
+     * the origin, use {@link #rotate(float, Pointf)}.
      *
      * @param angle The angle to rotate by, in degrees.
      * @return The {@code Pointf} with the rotated values.
@@ -419,6 +442,32 @@ public class Pointf {
         float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
         x = rotatedX;
         y = rotatedY;
+
+        return this;
+    }
+
+    /**
+     * Rotates the {@code Pointf} based on the provided angle and center point.
+     * <p>
+     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
+     * {@link #rotate(float)}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return The {@code Pointf} with the rotated values.
+     */
+    public Pointf rotate(float angle, Pointf center) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        x -= center.x;
+        y -= center.y;
+
+        float rotatedX = (x * cosineOfAngle) + (y * sineOfAngle);
+        float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
+
+        x = rotatedX + center.x;
+        y = rotatedY + center.y;
 
         return this;
     }
