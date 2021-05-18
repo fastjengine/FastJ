@@ -37,13 +37,13 @@ public class Cannon implements Behavior {
 
     @Override
     public void update(GameObject obj) {
-        if (Keyboard.isKeyRecentlyPressed(Keys.Space)) {
+        if (Keyboard.isKeyDown(Keys.Space)) {
             FastJEngine.runAfterUpdate(() -> createBullet(obj));
         }
     }
 
     private void createBullet(GameObject player) {
-        Pointf cannonFront = player.getTranslation().copy().rotate(player.getRotation());
+        Pointf cannonFront = player.getCenter().copy().rotate(player.getRotation(), player.getCenter());
         Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
 
         Polygon2D bullet = new Polygon2D(bulletMesh, Color.green, true, true);
