@@ -110,6 +110,7 @@ public class FastJEngine {
 
         fpsLog = new int[100];
         Arrays.fill(fpsLog, -1);
+        fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
     }
@@ -390,7 +391,6 @@ public class FastJEngine {
         gameManager.setup(display);
 
         timer.init();
-        fpsLogger = Executors.newSingleThreadScheduledExecutor();
         fpsLogger.scheduleWithFixedDelay(() -> {
             FastJEngine.logFPS(drawFrames);
             drawFrames = 0;
