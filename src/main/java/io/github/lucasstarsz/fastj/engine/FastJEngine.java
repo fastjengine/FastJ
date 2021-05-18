@@ -411,7 +411,7 @@ public class FastJEngine {
             while (accumulator >= interval) {
                 gameManager.update(display);
 
-                if (AfterUpdateList.size() > 0) {
+                if (!AfterUpdateList.isEmpty()) {
                     for (Runnable action : AfterUpdateList) {
                         action.run();
                     }
