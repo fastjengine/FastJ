@@ -52,15 +52,15 @@ public class PlayerController implements Behavior {
         } else if (Keyboard.isKeyDown(Keys.S)) {
             inputTranslation.y += speed;
         }
-
         inputTranslation.rotate(-currentRotation);
+
         obj.rotate(inputRotation);
         obj.translate(inputTranslation);
 
         if (currentRotation >= 360f) {
             currentRotation -= 360f;
             obj.setRotation(currentRotation);
-        } else if (currentRotation <= -360f) {
+        } else if (currentRotation < -0f) {
             currentRotation += 360f;
             obj.setRotation(currentRotation);
         }

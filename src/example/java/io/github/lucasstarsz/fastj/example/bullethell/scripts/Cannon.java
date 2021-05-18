@@ -10,9 +10,6 @@ import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keys;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
@@ -20,19 +17,16 @@ import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
 public class Cannon implements Behavior {
 
     private final GameScene gameScene;
-    private final List<Polygon2D> playerBullets;
     private static final int MaxPlayerBulletCount = 3;
 
     private static final Pointf BulletSize = new Pointf(5f);
 
     public Cannon(GameScene scene) {
         gameScene = Objects.requireNonNull(scene);
-        playerBullets = new ArrayList<>(MaxPlayerBulletCount);
     }
 
     @Override
     public void init(GameObject obj) {
-        playerBullets.clear();
     }
 
     @Override
@@ -43,16 +37,19 @@ public class Cannon implements Behavior {
     }
 
     private void createBullet(GameObject player) {
-        Pointf cannonFront = player.getCenter().copy().rotate(player.getRotation(), player.getCenter());
-        Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
+        Pointf startingPoint = Pointf.add(player.getCenter(), new Pointf(0f, -50f));
+        Pointf cannonFront = Pointf.rotate(startingPoint, 360f - Math.abs(player.getRotation()), player.getCenter());
 
-        Polygon2D bullet = new Polygon2D(bulletMesh, Color.green, true, true);
-        bullet.addBehavior(new BulletMovement(), gameScene);
+        Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
+        Polygon2D bullet = new Polygon2D(bulletMesh, DrawUtil.randomColorWithAlpha(), true, true);
+
+        bullet.addBehavior(new BulletMovement(player.getRotation(), gameScene), gameScene);
+        bullet.addTag("bullet", gameScene);
         bullet.addAsGameObject(gameScene);
+        bullet.initBehaviors();
     }
 
     @Override
     public void destroy() {
-        playerBullets.clear();
     }
 }
