@@ -2,8 +2,8 @@ module fastj.library.test {
     requires fastj.library;
     requires org.junit.jupiter.api;
 
-    exports unittest.testcases.math;
+    opens unittest.testcases.graphics to org.junit.platform.commons;
+    opens unittest.testcases.graphics.game to org.junit.platform.commons;
 
-    exports unittest.testcases.graphics;
-    exports unittest.testcases.graphics.game;
+    opens unittest.testcases.math to org.junit.platform.commons;
 }

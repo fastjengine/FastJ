@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class DrawUtilTests {
+class DrawUtilTests {
 
     private static final Path tempModelDirectoryPath = Path.of("temp");
     private static final String pathToModel = tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_house_model.psdf";
@@ -73,7 +73,7 @@ public class DrawUtilTests {
 
     @Test
     @Order(1)
-    public void checkWriteModel2D_fileShouldMatchExpectedContent() throws IOException {
+    void checkWriteModel2D_fileShouldMatchExpectedContent() throws IOException {
         List<String> expectedContent = List.of("amt 2",
                 "c 0 0 0 255",
                 "f true",
@@ -101,7 +101,7 @@ public class DrawUtilTests {
 
     @Test
     @Order(2)
-    public void checkReadModel_shouldMatchOriginal() {
+    void checkReadModel_shouldMatchOriginal() {
         Polygon2D[] actualHouseArray = DrawUtil.load2DModel(pathToModel);
         Model2D actualHouse = new Model2D(actualHouseArray, false);
 
@@ -110,7 +110,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkCreateCollisionOutline_withTwoSquares_shouldMatchExpected() {
+    void checkCreateCollisionOutline_withTwoSquares_shouldMatchExpected() {
         Pointf[] square1Points = DrawUtil.createBox(0f, 0f, 50f);
         Pointf[] square2Points = DrawUtil.createBox(25f, 25f, 50f);
         Pointf[] expectedOutline = {
@@ -132,7 +132,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkCreateCollisionOutline_withThreeSquares_shouldMatchExpected() {
+    void checkCreateCollisionOutline_withThreeSquares_shouldMatchExpected() {
         Pointf[] square1Points = DrawUtil.createBox(0f, 0f, 60f);
         Pointf[] square2Points = DrawUtil.createBox(40f, 20f, 60f);
         Pointf[] square3Points = DrawUtil.createBox(20f, 40f, 60f);
@@ -157,7 +157,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGeneratePath2D_withPointfArray() {
+    void checkGeneratePath2D_withPointfArray() {
         Pointf[] polygon = {
                 new Pointf(),
                 new Pointf(50f, 30f),
@@ -179,7 +179,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkComparePath2Ds_wherePathsAreEqual() {
+    void checkComparePath2Ds_wherePathsAreEqual() {
         Pointf[] square1 = DrawUtil.createBox(50f, 50f, 50f);
         Pointf[] square2 = DrawUtil.createBox(50f, 50f, 50f);
         Pointf[] square3 = DrawUtil.createBox(5f, 50f, 50f);
@@ -193,7 +193,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void tryComparePath2Ds_wherePathsAreNotEqual() {
+    void tryComparePath2Ds_wherePathsAreNotEqual() {
         Pointf[] square = DrawUtil.createBox(50f, 50f, 50f);
         Pointf[] triangle = {
                 new Pointf(0f, 25f),
@@ -214,7 +214,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_withFloatXAndY_andFloatSize() {
+    void checkGenerateBox_withFloatXAndY_andFloatSize() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, 35f);
         Pointf[] expectedResult = {
                 new Pointf(5f, 5f),
@@ -227,7 +227,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_withFloatXAndY_andFloatSizeXAndY() {
+    void checkGenerateBox_withFloatXAndY_andFloatSizeXAndY() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, 20f, 15f);
         Pointf[] expectedResult = {
                 new Pointf(5f, 5f),
@@ -240,7 +240,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_withFloatXAndY_andPointfSize() {
+    void checkGenerateBox_withFloatXAndY_andPointfSize() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, new Pointf(25f, 50f));
         Pointf[] expectedResult = {
                 new Pointf(5f, 5f),
@@ -253,7 +253,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_withPointfLocation_andFloatSize() {
+    void checkGenerateBox_withPointfLocation_andFloatSize() {
         Pointf[] generatedResult = DrawUtil.createBox(new Pointf(5f, 10f), 35f);
         Pointf[] expectedResult = {
                 new Pointf(5f, 10f),
@@ -266,7 +266,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_withPointfLocationY_andPointfSize() {
+    void checkGenerateBox_withPointfLocationY_andPointfSize() {
         Pointf[] generatedResult = DrawUtil.createBox(new Pointf(10f, 15f), new Pointf(25f, 40f));
         Pointf[] expectedResult = {
                 new Pointf(10f, 15f),
@@ -279,7 +279,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_fromBufferedImage() {
+    void checkGenerateBox_fromBufferedImage() {
         BufferedImage image = new BufferedImage(15, 40, BufferedImage.TYPE_INT_RGB);
 
         Pointf[] generatedResult = DrawUtil.createBoxFromImage(image);
@@ -294,7 +294,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateBox_fromBufferedImage_withPointfLocation() {
+    void checkGenerateBox_fromBufferedImage_withPointfLocation() {
         BufferedImage image = new BufferedImage(50, 25, BufferedImage.TYPE_INT_RGB);
 
         Pointf[] generatedResult = DrawUtil.createBoxFromImage(image, new Pointf(10f, 0f));
@@ -309,7 +309,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateRectangleFloat_withHandwrittenPointfArray() {
+    void checkGenerateRectangleFloat_withHandwrittenPointfArray() {
         float rectX = 0f;
         float rectY = 5f;
         float rectWidth = 25f;
@@ -329,7 +329,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateRectangleFloat_withPointfArrayFromGeneratedBox() {
+    void checkGenerateRectangleFloat_withPointfArrayFromGeneratedBox() {
         float rectX = 0f;
         float rectY = 5f;
         float rectWidth = 25f;
@@ -344,7 +344,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateRectangleFloat_withPointfLocation_andSizeFromBufferedImage() {
+    void checkGenerateRectangleFloat_withPointfLocation_andSizeFromBufferedImage() {
         float rectX = 0f;
         float rectY = 5f;
         int rectWidth = 25;
@@ -360,7 +360,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGetCenterOfPointfArray() {
+    void checkGetCenterOfPointfArray() {
         Pointf[] square = {
                 new Pointf(13f),
                 new Pointf(37f, 13f),
@@ -375,7 +375,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGetPointsOfPath2DFloat_shouldMatchOriginalPointfArray() {
+    void checkGetPointsOfPath2DFloat_shouldMatchOriginalPointfArray() {
         float top = 0f;
         float bottom = 75f;
         float left = 0f;
@@ -408,7 +408,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkPathLengthGetter() {
+    void checkPathLengthGetter() {
         Path2D.Float path = new Path2D.Float();
         int expectedLength = 26;
 
@@ -426,7 +426,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkPathLengthGetter_withMultipleSubpaths() {
+    void checkPathLengthGetter_withMultipleSubpaths() {
         Path2D.Float path = new Path2D.Float();
         int subpathCount = 5;
         int expectedLength = 26 * subpathCount;
@@ -446,7 +446,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateColors_shouldNotFail() {
+    void checkGenerateColors_shouldNotFail() {
         int generatedColorCount = 255;
         Color[] generatedRGBColors = new Color[generatedColorCount];
 
@@ -457,7 +457,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateColorsWithRandomAlpha_shouldNotFail() {
+    void checkGenerateColorsWithRandomAlpha_shouldNotFail() {
         int generatedColorCount = 255;
         Color[] generatedRGBAColors = new Color[generatedColorCount];
 
@@ -468,7 +468,7 @@ public class DrawUtilTests {
     }
 
     @Test
-    public void checkGenerateFonts_shouldNotFail() {
+    void checkGenerateFonts_shouldNotFail() {
         int generatedFontCount = 255;
         Font[] generatedFonts = new Font[generatedFontCount];
 

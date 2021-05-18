@@ -11,6 +11,10 @@ import java.awt.event.KeyEvent;
  */
 public class Keys {
 
+    private Keys() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /** Keycode constant for the "Enter" key. */
     public static final int Enter = KeyEvent.VK_ENTER;
 

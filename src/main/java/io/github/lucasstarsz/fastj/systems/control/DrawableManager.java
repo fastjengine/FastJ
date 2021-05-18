@@ -17,12 +17,12 @@ import java.util.Objects;
 public class DrawableManager {
 
     private final Map<String, GameObject> gameObjects;
-    private final Map<String, UIElement> GUIObjects;
+    private final Map<String, UIElement> uiElements;
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
         gameObjects = new LinkedHashMap<>();
-        GUIObjects = new LinkedHashMap<>();
+        uiElements = new LinkedHashMap<>();
     }
 
     /**
@@ -35,12 +35,12 @@ public class DrawableManager {
     }
 
     /**
-     * Gets the gui objects assigned to the manager.
+     * Gets the ui elements assigned to the manager.
      *
-     * @return The gui objects of the scene.
+     * @return The ui elements of the scene.
      */
-    public Map<String, UIElement> getGUIObjects() {
-        return GUIObjects;
+    public Map<String, UIElement> getUIElements() {
+        return uiElements;
     }
 
     /* Game Objects */
@@ -82,50 +82,50 @@ public class DrawableManager {
         gameObjects.clear();
     }
 
-    /* GUI Objects */
+    /* ui elements */
 
     /**
-     * Adds the specified gui object.
+     * Adds the specified ui element.
      *
-     * @param guiObject The gui object to add.
+     * @param guiObject The ui element to add.
      */
-    public void addGUIObject(UIElement guiObject) {
-        GUIObjects.put(guiObject.getID(), guiObject);
-    }
-
-    /**
-     * Removes the gui object with the specified ID.
-     *
-     * @param guiObjectID The id of the gui object to remove.
-     */
-    public void removeGUIObject(String guiObjectID) {
-        GUIObjects.remove(guiObjectID);
+    public void addUIElement(UIElement guiObject) {
+        uiElements.put(guiObject.getID(), guiObject);
     }
 
     /**
-     * Removes the specified gui object.
+     * Removes the ui element with the specified ID.
      *
-     * @param guiObject The gui object to remove.
+     * @param guiObjectID The id of the ui element to remove.
      */
-    public void removeGUIObject(UIElement guiObject) {
-        removeGUIObject(guiObject.getID());
+    public void removeUIElement(String guiObjectID) {
+        uiElements.remove(guiObjectID);
     }
 
-    /** Removes any null values from the list of gui objects for the manager. */
-    public void refreshGUIObjectList() {
-        GUIObjects.entrySet().removeIf(Objects::isNull);
+    /**
+     * Removes the specified ui element.
+     *
+     * @param guiObject The ui element to remove.
+     */
+    public void removeUIElement(UIElement guiObject) {
+        removeUIElement(guiObject.getID());
     }
 
-    /** Removes all gui objects from the manager. */
-    public void clearGUIObjects() {
-        GUIObjects.clear();
+    /** Removes any null values from the list of ui elements for the manager. */
+    public void refreshUIElementList() {
+        uiElements.entrySet().removeIf(Objects::isNull);
+    }
+
+    /** Removes all ui elements from the manager. */
+    public void clearUIElements() {
+        uiElements.clear();
     }
 
     /* reset */
 
-    /** Removes all game objects and gui objects. */
+    /** Removes all game objects and ui elements from the manager. */
     public void clearAllLists() {
-        clearGUIObjects();
         clearGameObjects();
+        clearUIElements();
     }
 }

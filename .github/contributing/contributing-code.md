@@ -42,7 +42,7 @@ public class ... {
 }
 ```
 
-A bit excessive, but for me (the owner of the repo, hi) it provides the most optimal reading -- not that anyone else reads them.
+A bit excessive, but for me (the owner of the repo, lucasstarsz, hi) it provides the most optimal reading -- not that anyone else reads them.
 
 
 ## General Code Style
@@ -63,14 +63,14 @@ For the sake of my own sanity, until further notice I will not allow the excepti
 - Otherwise, annotations must always be on a line of its own (one annotation per line).
 
 ### Constant Names
-All `static final` values should be `PascalCase`, rather than `CONSTANT_CASE`. Of course, this does not change the use of `CONSTANT_CASE` for enum values.
-- Furthermore, mutable object constants (e.g. `static final Set<Integer>`) should _also_ use `PascalCase`.
+All constant values (`static final`, `enum`) should follow `PascalCase`, rather than `CONSTANT_CASE`.
+- Furthermore, shallow constants (e.g. `static final Set<Integer>`) should _also_ use `PascalCase`.
 
 ### Type Variable Names
 I have no preference on how these are named.
 
-### Camel Case Defined
-I will most definitely end up changing this style a lot over time, but do note I prefer `newCustomerID` to `newCustomerId`.
+### Acronyms in Variable Names
+So long as they are only used when it makes the most sense to (e.g. FPS, UPS, or GL in the context of OpenGL), they are preferred. If it is not something easily recognized by acronym, it should not be given one (e.g. FJGL -- FastJ Game Library).
 
 
 ## Documentation

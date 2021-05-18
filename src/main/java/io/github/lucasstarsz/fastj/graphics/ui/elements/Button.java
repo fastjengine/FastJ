@@ -59,7 +59,7 @@ public class Button extends UIElement {
      */
     public Button(Scene origin, Pointf location, Pointf initialSize) {
         super(origin);
-        super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.PRESS) && Mouse.isMouseButtonPressed(MouseButtons.LEFT));
+        super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
         this.location = location;
         Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);

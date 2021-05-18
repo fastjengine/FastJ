@@ -68,7 +68,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
+     * Static method to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
      * Pointf} object.
      *
      * @param p1 The first {@code Pointf} used for addition.
@@ -80,7 +80,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to add a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for addition.
      * @param f float value used for addition.
@@ -92,8 +92,8 @@ public class Pointf {
     }
 
     /**
-     * Static method used to subtract two Points (from the parameters specified) together, and return a new {@code
-     * Pointf} object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Pointf}
+     * object.
      *
      * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
      *           subtraction.
@@ -107,7 +107,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to subtract a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
      * @param f float value used for subtraction; the second value used in subtraction.
@@ -119,8 +119,8 @@ public class Pointf {
     }
 
     /**
-     * Static method used to multiply two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
+     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a new
+     * {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for multiplication.
      * @param p2 The second {@code Pointf} used for multiplication.
@@ -132,7 +132,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to multiply a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for multiplication.
      * @param f float value used for multiplication.
@@ -144,8 +144,8 @@ public class Pointf {
     }
 
     /**
-     * Static method used to divide two {@code Pointf} objects (from the parameters specified) together, and return a
-     * new {@code Pointf}.
+     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a new
+     * {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
@@ -157,7 +157,7 @@ public class Pointf {
     }
 
     /**
-     * Static method used to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     * Static method to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
      *
      * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param f float value used for division; the second value used in division.
@@ -166,6 +166,78 @@ public class Pointf {
      */
     public static Pointf divide(Pointf p, float f) {
         return new Pointf(p.x / f, p.y / f);
+    }
+
+    /**
+     * Calculates and returns the dot product of the two specified {@code Pointf}s.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the dot product with.
+     * @param p1 The second of two {@code Pointf}s to calculate the dot product with.
+     * @return The calculated dot product.
+     */
+    public static float dot(Pointf p, Pointf p1) {
+        return (p.x * p1.x) + (p.y * p1.y);
+    }
+
+    /**
+     * Calculates and returns the cross product of the two specified {@code Pointf}s.
+     * <p>
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
+     * {@code Pointf}s were 3-dimensional vectors with Z values implicitly set to {@code 0f}.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the cross product with.
+     * @param p1 The second of two {@code Pointf}s to calculate the cross product with.
+     * @return The calculated cross product.
+     */
+    public static float cross(Pointf p, Pointf p1) {
+        return (p.x * p1.y) - (p.y * p1.x);
+    }
+
+    /**
+     * Creates a rotated version of the {@code Pointf} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
+     * returning a {@code Pointf}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return A rotated version of the original {@code Pointf}.
+     */
+    public static Pointf rotate(Pointf p, float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = (p.x * cosineOfAngle) + (p.y * sineOfAngle);
+        float rotatedY = (-p.x * sineOfAngle) + (p.y * cosineOfAngle);
+        return new Pointf(rotatedX, rotatedY);
+    }
+
+    /**
+     * Calculates and returns the signed angle between the specified {@code Pointf}s.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the angle with.
+     * @param p1 The second of two {@code Pointf}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float signedAngle(Pointf p, Pointf p1) {
+        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
+        float determinant = (p.x * p1.y) - (p.y * p1.x);
+
+        return (float) Math.atan2(determinant, dotProduct);
+    }
+
+    /**
+     * Calculates and returns the angle between the specified {@code Pointf}s.
+     *
+     * @param p  The first of two {@code Pointf}s to calculate the angle with.
+     * @param p1 The second of two {@code Pointf}s to calculate the angle with.
+     * @return The calculated angle, in radians.
+     */
+    public static float angle(Pointf p, Pointf p1) {
+        float dotProduct = (p.x * p1.x) + (p.y * p1.y);
+        float magnitudeProduct = (float) Math.sqrt((p.x * p.x) + (p.y * p.y)) * (float) Math.sqrt((p1.x * p1.x) + (p1.y * p1.y));
+
+        return (float) Math.acos(dotProduct / magnitudeProduct);
     }
 
     /**
@@ -330,6 +402,66 @@ public class Pointf {
     }
 
     /**
+     * Creates a rotated version of the {@code Pointf} based on the provided angle.
+     * <p>
+     * This rotation method uses floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values,
+     * returning a {@code Pointf}.
+     *
+     * @param angle The angle to rotate by, in degrees.
+     * @return The {@code Pointf} with the rotated values.
+     */
+    public Pointf rotate(float angle) {
+        float angleInRadians = (float) Math.toRadians(angle);
+        float sineOfAngle = (float) Math.sin(angleInRadians);
+        float cosineOfAngle = (float) Math.cos(angleInRadians);
+
+        float rotatedX = (x * cosineOfAngle) + (y * sineOfAngle);
+        float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
+        x = rotatedX;
+        y = rotatedY;
+
+        return this;
+    }
+
+    /**
+     * Calculates and returns the square magnitude of the {@code Pointf}.
+     *
+     * @return The square magnitude of the {@code Pointf}'s {@link #x} and {@link #y} values.
+     */
+    public float squareMagnitude() {
+        return (x * x) + (y * y);
+    }
+
+    /**
+     * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Pointf}.
+     *
+     * @return The magnitude, calculated using floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y}
+     * values.
+     */
+    public float magnitude() {
+        return (float) Math.sqrt((x * x) + (y * y));
+    }
+
+    /**
+     * Creates a normalized version of the {@code Pointf}.
+     * <p>
+     * This method does not modify the contents of the original {@code Pointf}.
+     *
+     * @return A normalized version of the {@code Pointf}.
+     */
+    public Pointf normalized() {
+        float magnitude = (float) Math.sqrt((x * x) + (y * y));
+
+        if (magnitude == 0f) {
+            return Pointf.Origin.copy();
+        }
+
+        float normalizedX = x / magnitude;
+        float normalizedY = y / magnitude;
+        return new Pointf(normalizedX, normalizedY);
+    }
+
+    /**
      * Compares the {@code Pointf} with a {@link Point}, and returns whether their {@code x} and {@code y} values are
      * equal.
      *
@@ -365,9 +497,9 @@ public class Pointf {
     }
 
     /**
-     * Returns this {@code Pointf}'s coordinates as a String.
+     * Formats the {@code Pointf}'s coordinates in a {@code String}.
      *
-     * @return Returns the coordinates of this {@code Pointf} as a String.
+     * @return The coordinates of the {@code Pointf}, as a {@code String}.
      */
     @Override
     public String toString() {

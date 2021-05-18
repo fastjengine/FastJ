@@ -230,7 +230,7 @@ public abstract class GameObject extends Drawable {
      */
     public GameObject removeBehavior(Behavior behavior, Scene originScene) {
         behaviors.remove(behavior);
-        if (behaviors.size() == 0) {
+        if (behaviors.isEmpty()) {
             originScene.removeBehaviorListener(this);
         }
 

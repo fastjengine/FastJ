@@ -5,21 +5,21 @@ import io.github.lucasstarsz.fastj.graphics.Display;
 /** Enum defining the different types of mouse actions. */
 public enum MouseAction {
     /** Mouse action where a mouse button was pressed. */
-    PRESS,
+    Press,
     /** Mouse action where a mouse button, originally pressed, was released. */
-    RELEASE,
+    Release,
     /** Mouse action where a mouse button was pressed and released. */
-    CLICK,
+    Click,
     /** Mouse action where the mouse was moved. */
-    MOVE,
+    Move,
     /** Mouse action where the mouse was moved while a button was clicked. */
-    DRAG,
+    Drag,
     /** Mouse action where the scroll wheel was scrolled. */
-    WHEEL_SCROLL,
+    WheelScroll,
     /** Mouse action where the mouse has moved onto the {@link Display}. */
-    ENTER,
+    Enter,
     /** Mouse action where the mouse has moved off of the {@link Display}. */
-    EXIT;
+    Exit;
 
     boolean recentAction;
 

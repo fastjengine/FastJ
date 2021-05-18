@@ -8,13 +8,14 @@
 
 [![Javadoc][JavaDoc-SVG]][JavaDoc]
 [![Maven Central][Maven-Central-SVG]][Maven-Central]
+[![SonarCloud Code Coverage][SonarCloud-CodeCoverage-SVG]][SonarCloud-CodeCoverage-Report]
 </div>
 
 ## What is FastJ?
-FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][fastj-engine link], it aims to provide an easy-to-use, 2D game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][FastJ-Engine-Link], it aims to provide an easy-to-use, 2D game-making library.
 
 ## Disclaimer
-**This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered for tests. Documentation is sparse. 
+**This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered by unit tests. Documentation is readily available, but may change over time. [If you would like to help out, all help is appreciated!](#contributing-to-fastj)
 
 
 ## Projected Feature List
@@ -52,14 +53,6 @@ When adding the dependency, **make sure to replace `[latest version here]` with 
 
 A few common dependencies are provided below:
 
-- **Maven**
-  ```xml
-  <dependency>
-    <groupId>io.github.lucasstarsz.fastj</groupId>
-    <artifactId>fastj-library</artifactId>
-    <version>[latest version here]</version>
-  </dependency>
-  ```
 - **Gradle**
     - Groovy:
       ```groovy
@@ -69,6 +62,14 @@ A few common dependencies are provided below:
       ```kotlin
       implementation("io.github.lucasstarsz.fastj:fastj-library:[latest version here]")
       ```
+- **Maven**
+  ```xml
+  <dependency>
+    <groupId>io.github.lucasstarsz.fastj</groupId>
+    <artifactId>fastj-library</artifactId>
+    <version>[latest version here]</version>
+  </dependency>
+  ```
 - **Apache Ivy**
   ```xml
   <dependency org="io.github.lucasstarsz.fastj" name="fastj-library" rev="[latest version here]" />
@@ -92,8 +93,14 @@ From there, explore the [example code][FastJ-Example], play around with it, and 
 Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].
 
 ### Building FastJ
-Building FastJ is a generally simple task. You just need to follow these steps:
+You'll need a few things in order to work on the repository:
+- [Git][Git-Link]
+- [Java 11][AdoptOpenJDK-Java11-Link]
+- (optional, but highly recommended!) A decent understanding of how to use [Gradle][Gradle-Link].
+  **Installation of Gradle is not required -- the project supplies the Gradle tools already.**
+    - For reference, this project currently makes use of Gradle 6.7.1.
 
+Once you have what you need, follow these simple steps:
 - Clone the FastJ repository.
   ```bash
   git clone https://github.com/lucasstarsz/FastJ.git
@@ -110,6 +117,10 @@ This repository is licensed under the [MIT License][MIT-License].
 
 
 [FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
+
+[SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/lucasstarsz_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
+[SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=lucasstarsz_FastJ "SonarCloud Code Coverage"
+
 [Windows-Build-Action]: https://github.com/lucasstarsz/FastJ/actions?query=workflow%3ABuild-Windows "Windows Build Status"
 [Windows-Build-SVG]: https://img.shields.io/github/workflow/status/lucasstarsz/FastJ/Build-Windows?label=Windows%20Build&labelColor=363e45&logo=windows&logoColor=0078D6&style=for-the-badge
 
@@ -127,7 +138,7 @@ This repository is licensed under the [MIT License][MIT-License].
 
 [Releases]: https://github.com/lucasstarsz/FastJ/releases/ "FastJ Releases"
 
-[fastj-engine link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
+[FastJ-Engine-Link]: https://github.com/lucasstarsz/FastJ-Engine "The original: FastJ Game Engine"
 
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
@@ -136,3 +147,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [Contributing-Guidelines]: /.github/CONTRIBUTING.md "Contributing to FastJ"
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
+
+[AdoptOpenJDK-Java11-Link]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot "Download Java 11"
+[Git-Link]: https://git-scm.com/downloads "Download Git, the powerful source control management tool."
+[Gradle-Link]: https://gradle.org/install/ "Download Gradle, the powerful build tool."

@@ -61,6 +61,10 @@ public class FastJEngine {
     // Check values
     private static boolean isRunning;
 
+    private FastJEngine() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Initializes the game engine with the specified title and logic manager.
      * <p>
@@ -77,7 +81,7 @@ public class FastJEngine {
      * @param gameManager Game Manager to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.DEFAULT);
+        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
     }
 
     /**
@@ -135,7 +139,7 @@ public class FastJEngine {
         runningCheck();
 
         if ((windowResolution.x | windowResolution.y) < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
         }
 
         display.setViewerResolution(windowResolution);
@@ -154,7 +158,7 @@ public class FastJEngine {
         runningCheck();
 
         if ((internalResolution.x | internalResolution.y) < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("internal resolution values must be at least 1."));
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("internal resolution values must be at least 1."));
         }
 
         display.setInternalResolution(internalResolution);
@@ -171,13 +175,13 @@ public class FastJEngine {
     public static void configureHardwareAcceleration(HWAccel hardwareAcceleration) {
         runningCheck();
 
-        if (hardwareAcceleration.equals(HWAccel.DIRECT3D)) {
+        if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
             if (System.getProperty("os.name").startsWith("Win")) {
-                HWAccel.setHardwareAcceleration(HWAccel.DIRECT3D);
+                HWAccel.setHardwareAcceleration(HWAccel.Direct3D);
                 hwAccel = hardwareAcceleration;
             } else {
                 warning("This OS doesn't support Direct3D hardware acceleration. Configuration will be left at default.");
-                configureHardwareAcceleration(HWAccel.DEFAULT);
+                configureHardwareAcceleration(HWAccel.Default);
             }
         } else {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
@@ -193,7 +197,7 @@ public class FastJEngine {
      */
     public static void runningCheck() {
         if (isRunning) {
-            error(CrashMessages.CALLED_AFTER_RUN_ERROR.errorMessage, new IllegalStateException("This method cannot be called after the game begins running."));
+            error(CrashMessages.CalledAfterRunError.errorMessage, new IllegalStateException("This method cannot be called after the game begins running."));
         }
     }
 
@@ -241,7 +245,7 @@ public class FastJEngine {
      */
     public static void setTargetFPS(int fps) {
         if (fps < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("FPS amount must be at least 1."));
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("FPS amount must be at least 1."));
         }
         targetFPS = fps;
     }
@@ -262,7 +266,7 @@ public class FastJEngine {
      */
     public static void setTargetUPS(int ups) {
         if (ups < 1) {
-            error(CrashMessages.CONFIGURATION_ERROR.errorMessage, new IllegalArgumentException("UPS amount must be at least 1."));
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("UPS amount must be at least 1."));
         }
         targetUPS = ups;
     }
@@ -281,11 +285,11 @@ public class FastJEngine {
      * <p>
      * The types of information are as follows:
      * <ul>
-     * 		<li>{@link FPSValue#CURRENT} - gets the last recorded FPS value.</li>
-     * 		<li>{@link FPSValue#AVERAGE} - gets the average FPS, based on the recorded FPS values.</li>
-     * 		<li>{@link FPSValue#HIGHEST} - gets the highest recorded FPS value.</li>
-     * 		<li>{@link FPSValue#LOWEST} - gets the lowest recorded FPS value.</li>
-     * 		<li>{@link FPSValue#ONE_PERCENT_LOW} - gets the average FPS of the lowest 1% of all recorded FPS values.</li>
+     * 		<li>{@link FPSValue#Current} - gets the last recorded FPS value.</li>
+     * 		<li>{@link FPSValue#Average} - gets the average FPS, based on the recorded FPS values.</li>
+     * 		<li>{@link FPSValue#Highest} - gets the highest recorded FPS value.</li>
+     * 		<li>{@link FPSValue#Lowest} - gets the lowest recorded FPS value.</li>
+     * 		<li>{@link FPSValue#OnePercentLow} - gets the average FPS of the lowest 1% of all recorded FPS values.</li>
      * </ul>
      *
      * @param dataType {@link FPSValue} parameter that specifies the information being requested.
@@ -295,15 +299,15 @@ public class FastJEngine {
         int[] validFPSValues = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsLogIndex));
 
         switch (dataType) {
-            case CURRENT:
+            case Current:
                 return (fpsLog[fpsLogIndex % 100] != -1) ? fpsLog[fpsLogIndex % 100] : 0;
-            case AVERAGE:
+            case Average:
                 return (double) totalFPS / (double) fpsLogIndex;
-            case HIGHEST:
+            case Highest:
                 return Arrays.stream(validFPSValues).reduce(Integer::max).orElse(-1);
-            case LOWEST:
+            case Lowest:
                 return Arrays.stream(validFPSValues).reduce(Integer::min).orElse(-1);
-            case ONE_PERCENT_LOW:
+            case OnePercentLow:
                 return Arrays.stream(validFPSValues).sorted()
                         .limit(Math.max(1L, (long) (validFPSValues.length * 0.01)))
                         .average().orElse(-1d);
@@ -423,7 +427,6 @@ public class FastJEngine {
 
     /** Gracefully removes all resources created by the game engine. */
     private static void exit() {
-        isRunning = false;
         fpsLogger.shutdownNow();
         gameManager.reset();
 
@@ -439,10 +442,10 @@ public class FastJEngine {
         // FPS counting
         timer = null;
         fpsLog = null;
+        fpsLogger = null;
         drawFrames = 0;
         totalFPS = 0;
         fpsLogIndex = 0;
-        fpsLogger = null;
 
         // HW acceleration
         hwAccel = null;

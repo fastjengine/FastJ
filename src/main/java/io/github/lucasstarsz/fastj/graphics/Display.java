@@ -511,7 +511,7 @@ public class Display {
                 } catch (NullPointerException e) {
                     nullWarnCheck(obj, false, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RENDER_ERROR.errorMessage + " | Origin: Game Object Drawable " + obj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: Game Object Drawable " + obj.getID(), e);
                     return;
                 }
             }
@@ -525,7 +525,7 @@ public class Display {
                 } catch (NullPointerException e) {
                     nullWarnCheck(guiObj, true, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RENDER_ERROR.errorMessage + " | Origin: GUI Drawable " + guiObj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: GUI Drawable " + guiObj.getID(), e);
                     return;
                 }
             }
@@ -552,7 +552,7 @@ public class Display {
             FastJEngine.warning("Null pointer for " + (isGUIDrawable ? "GUI" : "Game Object") + " Drawawble with id: " + obj.getID());
             e.printStackTrace();
             if (isGUIDrawable) {
-                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGUIObjectList();
+                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshUIElementList();
             } else {
                 FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGameObjectList();
             }
@@ -638,6 +638,7 @@ public class Display {
 
         outputDisplay.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         outputDisplay.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent displayEvent) {
                 FastJEngine.closeGame();
             }

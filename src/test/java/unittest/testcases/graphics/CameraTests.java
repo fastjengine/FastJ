@@ -10,16 +10,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CameraTests {
+class CameraTests {
 
     @Test
-    public void createCamera_shouldMatchDefaultCamera() {
+    void createCamera_shouldMatchDefaultCamera() {
         Camera camera = new Camera();
         assertEquals(Camera.Default, camera, "The created camera should match the default camera.");
     }
 
     @Test
-    public void createCamera_withTranslationPointf_andDefaultRotation_shouldMatchExpected() {
+    void createCamera_withTranslationPointf_andDefaultRotation_shouldMatchExpected() {
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         Camera camera = new Camera(randomTranslation);
 
@@ -27,7 +27,7 @@ public class CameraTests {
     }
 
     @Test
-    public void createCamera_withDefaultTranslation_andRotationFloat_shouldMatchExpected() {
+    void createCamera_withDefaultTranslation_andRotationFloat_shouldMatchExpected() {
         float randomRotation = Maths.random(-50f, 50f);
         Camera camera = new Camera(randomRotation);
 
@@ -35,7 +35,7 @@ public class CameraTests {
     }
 
     @Test
-    public void createCamera_withTranslationPointf_andRotationFloat_shouldMatchExpected() {
+    void createCamera_withTranslationPointf_andRotationFloat_shouldMatchExpected() {
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float randomRotation = Maths.random(-50f, 50f);
         Camera camera = new Camera(randomTranslation, randomRotation);
@@ -45,7 +45,7 @@ public class CameraTests {
     }
 
     @Test
-    public void checkCameraTranslation_shouldMatchExpected() {
+    void checkCameraTranslation_shouldMatchExpected() {
         Camera camera = new Camera();
 
         Pointf randomTranslation1 = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -64,7 +64,7 @@ public class CameraTests {
     }
 
     @Test
-    public void checkCameraRotation_shouldMatchExpected() {
+    void checkCameraRotation_shouldMatchExpected() {
         Camera camera = new Camera();
 
         float randomRotation1 = Maths.random(-50f, 50f);

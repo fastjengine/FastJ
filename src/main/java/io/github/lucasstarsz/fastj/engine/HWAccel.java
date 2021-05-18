@@ -7,13 +7,13 @@ public enum HWAccel {
      * <p>
      * <b>NOTE:</b> This is only supported on Windows machines.
      */
-    DIRECT3D("d3d", "transaccel", "ddforcevram"),
+    Direct3D("d3d", "transaccel", "ddforcevram"),
     /** Enables OpenGL hardware acceleration. */
-    OPENGL("opengl"),
+    OpenGL("opengl"),
     /** Leaves the configuration of hardware acceleration as the OS-decided default. */
-    DEFAULT(),
+    Default(),
     /** Disables all hardware acceleration. Instead, software rendering will be used. */
-    CPU_RENDER("noddraw");
+    CpuRender("noddraw");
 
     private final String[] hardwareProperties;
 

@@ -163,7 +163,8 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that states whether the two {@code Drawable}s intersect.
      */
     public boolean collidesWith(Drawable obj) {
-        Area otherObject, thisObject;
+        Area otherObject;
+        Area thisObject;
 
         try {
             otherObject = new Area(obj.collisionPath);
@@ -211,7 +212,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public UIElement addAsGUIObject(Scene origin) {
         if (this instanceof UIElement) {
-            origin.drawableManager.addGUIObject((UIElement) this);
+            origin.drawableManager.addUIElement((UIElement) this);
             return (UIElement) this;
         } else {
             FastJEngine.error(UiElementErrorMessage, new IllegalStateException("Cannot add non-ui object as a ui object."));

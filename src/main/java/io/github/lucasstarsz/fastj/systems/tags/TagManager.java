@@ -21,6 +21,10 @@ public class TagManager {
     private static final List<String> MasterTagList = new ArrayList<>();
     private static final Map<Scene, List<Drawable>> EntityLists = new HashMap<>();
 
+    private TagManager() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Gets the list of taggable entities at the specified {@code Scene}.
      *
