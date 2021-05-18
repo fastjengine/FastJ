@@ -148,13 +148,24 @@ class PointfTests {
     }
 
     @Test
-    void checkPointfRotation() {
+    void checkPointfRotation_aroundOrigin() {
         Pointf ptf = new Pointf(25f, 5f);
         float angle = 1337f;
 
         Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
         ptf.rotate(angle);
         assertEquals(expectedRotation, ptf, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void checkPointfRotation_aroundOtherPointf() {
+        Pointf ptf = new Pointf(25f, 5f);
+        Pointf ptf2 = new Pointf(13f, 37f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(41.4804f, 55.8909f);
+        Pointf actualRotation = ptf.rotate(angle, ptf2);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
     }
 
     @Test
@@ -377,12 +388,23 @@ class PointfTests {
     }
 
     @Test
-    void static_checkPointfRotation() {
+    void static_checkPointfRotation_aroundOrigin() {
         Pointf ptf = new Pointf(25f, 5f);
         float angle = 1337f;
 
         Pointf expectedRotation = new Pointf(-10.495626682523f, 23.234496347912f);
         Pointf actualRotation = Pointf.rotate(ptf, angle);
+        assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
+    }
+
+    @Test
+    void static_checkPointfRotation_aroundOtherPointf() {
+        Pointf ptf = new Pointf(25f, 5f);
+        Pointf ptf2 = new Pointf(13f, 37f);
+        float angle = 1337f;
+
+        Pointf expectedRotation = new Pointf(41.4804f, 55.8909f);
+        Pointf actualRotation = Pointf.rotate(ptf, angle, ptf2);
         assertEquals(expectedRotation, actualRotation, "The resulting rotation of the Pointf should equal the expected rotated value of " + expectedRotation + ".");
     }
 
