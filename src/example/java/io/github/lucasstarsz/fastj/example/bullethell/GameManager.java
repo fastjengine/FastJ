@@ -1,5 +1,6 @@
 package io.github.lucasstarsz.fastj.example.bullethell;
 
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
@@ -15,5 +16,11 @@ public class GameManager extends LogicManager {
         this.addScene(gameScene);
         this.setCurrentScene(gameScene);
         this.loadCurrentScene();
+    }
+
+    public static void main(String[] args) {
+        FastJEngine.init("Simple Bullet Hell", new GameManager());
+        FastJEngine.setTargetFPS(120);
+        FastJEngine.run();
     }
 }
