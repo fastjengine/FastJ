@@ -37,9 +37,19 @@ public class PlayerController implements Behavior {
 
     @Override
     public void update(GameObject obj) {
+        resetTransformations();
+        pollMovement();
+        movePlayer(obj);
+
+        playerInfo.setText(String.format("Rotation: %s, Location: %s", obj.getRotation(), obj.getTranslation()));
+    }
+
+    private void resetTransformations() {
         inputTranslation.reset();
         inputRotation = 0f;
+    }
 
+    private void pollMovement() {
         if (Keyboard.isKeyDown(Keys.A)) {
             inputRotation -= rotation;
         } else if (Keyboard.isKeyDown(Keys.D)) {
@@ -53,7 +63,9 @@ public class PlayerController implements Behavior {
             inputTranslation.y += speed;
         }
         inputTranslation.rotate(-currentRotation);
+    }
 
+    private void movePlayer(GameObject obj) {
         obj.rotate(inputRotation);
         obj.translate(inputTranslation);
 
@@ -64,8 +76,6 @@ public class PlayerController implements Behavior {
             currentRotation += 360f;
             obj.setRotation(currentRotation);
         }
-
-        playerInfo.setText(String.format("Rotation: %s, Location: %s", obj.getRotation(), obj.getTranslation()));
     }
 
     @Override
