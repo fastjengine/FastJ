@@ -1,5 +1,6 @@
 package io.github.lucasstarsz.fastj.example.bullethell.scripts;
 
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.DrawUtil;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
@@ -13,6 +14,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
+import io.github.lucasstarsz.fastj.example.bullethell.util.SceneNames;
+
 public class PlayerHealthBar implements Behavior {
 
     private static final int initialHealth = 100;
@@ -21,11 +25,13 @@ public class PlayerHealthBar implements Behavior {
     private boolean takenDamage;
     private boolean canTakeDamage;
 
+    private final GameScene gameScene;
     private final ScheduledExecutorService damageCooldown = Executors.newSingleThreadScheduledExecutor();
     private final Text2D playerMetadata;
 
-    public PlayerHealthBar(Text2D playerMetadata) {
+    public PlayerHealthBar(Text2D playerMetadata, GameScene gameScene) {
         this.playerMetadata = Objects.requireNonNull(playerMetadata);
+        this.gameScene = gameScene;
     }
 
     @Override
@@ -59,6 +65,13 @@ public class PlayerHealthBar implements Behavior {
             takenDamage = true;
             canTakeDamage = false;
             damageCooldown.schedule(() -> canTakeDamage = true, 1, TimeUnit.SECONDS);
+
+            if (health == 0) {
+                FastJEngine.runAfterUpdate(() -> {
+                    FastJEngine.getLogicManager().switchScenes(SceneNames.LoseSceneName);
+                    FastJEngine.getLogicManager().getScene(SceneNames.GameSceneName).unload(FastJEngine.getDisplay());
+                });
+            }
         }
     }
 }

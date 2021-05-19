@@ -8,6 +8,7 @@ import io.github.lucasstarsz.fastj.systems.control.LogicManager;
 import java.awt.Color;
 
 import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
+import io.github.lucasstarsz.fastj.example.bullethell.scenes.LoseScene;
 
 public class GameManager extends LogicManager {
 
@@ -17,6 +18,9 @@ public class GameManager extends LogicManager {
         this.addScene(gameScene);
         this.setCurrentScene(gameScene);
         this.loadCurrentScene();
+
+        LoseScene loseScene = new LoseScene();
+        this.addScene(loseScene);
 
         display.setBackgroundColor(Color.lightGray);
         display.showFPSInTitle(true);

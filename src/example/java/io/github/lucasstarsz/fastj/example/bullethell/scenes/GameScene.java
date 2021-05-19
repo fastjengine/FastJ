@@ -22,6 +22,7 @@ import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerCannon;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerController;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerHealthBar;
 import io.github.lucasstarsz.fastj.example.bullethell.util.FilePaths;
+import io.github.lucasstarsz.fastj.example.bullethell.util.SceneNames;
 import io.github.lucasstarsz.fastj.example.bullethell.util.Tags;
 
 public class GameScene extends Scene {
@@ -35,14 +36,14 @@ public class GameScene extends Scene {
     private int wave = 0;
 
     public GameScene() {
-        super("Game Scene");
+        super(SceneNames.GameSceneName);
     }
 
     @Override
     public void load(Display display) {
         playerMetadata = createPlayerMetaData();
         playerHealthBar = createPlayerHealthBar();
-        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata);
+        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata, this);
         playerHealthBar.addBehavior(playerHealthBarScript, this)
                 .<GameObject>addTag(Tags.PlayerHealthBar, this);
 
@@ -67,21 +68,28 @@ public class GameScene extends Scene {
 
     @Override
     public void unload(Display display) {
-        player.destroy(this);
-        player = null;
+        if (player != null) {
+            player.destroy(this);
+            player = null;
+        }
 
-        playerMetadata.destroy(this);
-        playerMetadata = null;
+        if (playerMetadata != null) {
+            playerMetadata.destroy(this);
+            playerMetadata = null;
+        }
 
-        playerHealthBar.destroy(this);
-        playerHealthBar = null;
+        if (playerHealthBar != null) {
+            playerHealthBar.destroy(this);
+            playerHealthBar = null;
+        }
 
-        enemies.forEach(enemy -> enemy.destroy(this));
-        enemies.clear();
-        enemies = null;
+        if (enemies != null) {
+            enemies.forEach(enemy -> enemy.destroy(this));
+            enemies.clear();
+            enemies = null;
+        }
 
         enemyCount = 0;
-        wave = 0;
     }
 
     @Override
@@ -99,6 +107,10 @@ public class GameScene extends Scene {
                 FastJEngine.log(enemies.size());
             }
         }
+    }
+
+    public int getWaveNumber() {
+        return wave;
     }
 
     private Text2D createPlayerMetaData() {
