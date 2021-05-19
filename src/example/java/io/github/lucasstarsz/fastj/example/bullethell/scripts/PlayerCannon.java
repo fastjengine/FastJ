@@ -21,7 +21,7 @@ import io.github.lucasstarsz.fastj.example.bullethell.util.Tags;
 public class PlayerCannon implements Behavior {
 
     private static final Pointf BulletSize = new Pointf(5f);
-    private static final int MaxBulletCount = 5;
+    private static final int MaxBulletCount = 4;
 
     private final GameScene gameScene;
     private int bulletCount;
