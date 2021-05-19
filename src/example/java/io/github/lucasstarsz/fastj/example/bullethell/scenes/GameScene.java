@@ -34,18 +34,14 @@ public class GameScene extends Scene {
 
         PlayerController playerControllerScript = new PlayerController(5f, 3f, playerMetadata);
         Cannon playerCannonScript = new Cannon(this);
-
         player = createPlayer(centerOfDisplay);
         player.addBehavior(playerControllerScript, this)
                 .addBehavior(playerCannonScript, this)
                 .addAsGameObject(this);
 
-        Pointf playerHealthBarMeshLocation = new Pointf(25f, 40f);
-        Pointf playerHealthBarMeshSize = new Pointf(100f, 20f);
-        Pointf[] playerHealthBarMesh = DrawUtil.createBox(playerHealthBarMeshLocation, playerHealthBarMeshSize);
-        playerHealthBar = (Polygon2D) new Polygon2D(playerHealthBarMesh)
-                .setColor(Color.green)
-                .addBehavior(new PlayerHealthBar(), this)
+        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar();
+        playerHealthBar = createPlayerHealthBar();
+        playerHealthBar.addBehavior(playerHealthBarScript, this)
                 .addAsGameObject(this);
     }
 
@@ -85,5 +81,13 @@ public class GameScene extends Scene {
         Polygon2D playerCannonConnection = new Polygon2D(cannonConnectionMesh, Color.red.darker().darker(), true, true);
 
         return new Model2D(new Polygon2D[]{playerBody, playerCannon, playerCannonConnection});
+    }
+
+    public Polygon2D createPlayerHealthBar() {
+        Pointf playerHealthBarMeshLocation = new Pointf(25f, 40f);
+        Pointf playerHealthBarMeshSize = new Pointf(100f, 20f);
+        Pointf[] playerHealthBarMesh = DrawUtil.createBox(playerHealthBarMeshLocation, playerHealthBarMeshSize);
+
+        return new Polygon2D(playerHealthBarMesh, Color.green, true, true);
     }
 }

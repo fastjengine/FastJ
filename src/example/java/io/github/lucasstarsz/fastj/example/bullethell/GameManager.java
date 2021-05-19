@@ -4,7 +4,6 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.control.LogicManager;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.Color;
 
@@ -14,7 +13,7 @@ public class GameManager extends LogicManager {
 
     @Override
     public void setup(Display display) {
-        Scene gameScene = new GameScene();
+        GameScene gameScene = new GameScene();
         this.addScene(gameScene);
         this.setCurrentScene(gameScene);
         this.loadCurrentScene();
