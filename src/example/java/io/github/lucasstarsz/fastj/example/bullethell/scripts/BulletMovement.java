@@ -10,15 +10,18 @@ import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
 
 public class BulletMovement implements Behavior {
 
-    private static final float travelSpeed = 3f;
+    private static final float travelSpeed = 15f;
 
     private final GameScene gameScene;
     private final float travelAngle;
+    private final Cannon cannonScript;
+
     private Pointf travelVector;
 
-    public BulletMovement(float travelAngle, GameScene gameScene) {
+    public BulletMovement(GameScene gameScene, float travelAngle, Cannon cannonScript) {
         this.travelAngle = travelAngle;
         this.gameScene = gameScene;
+        this.cannonScript = cannonScript;
     }
 
     @Override
@@ -30,7 +33,10 @@ public class BulletMovement implements Behavior {
     public void update(GameObject obj) {
         obj.translate(travelVector);
         if (!FastJEngine.getDisplay().isOnScreen(obj, gameScene.getCamera())) {
-            FastJEngine.runAfterUpdate(() -> obj.destroy(gameScene));
+            FastJEngine.runAfterUpdate(() -> {
+                obj.destroy(gameScene);
+                cannonScript.bulletDied();
+            });
         }
     }
 
