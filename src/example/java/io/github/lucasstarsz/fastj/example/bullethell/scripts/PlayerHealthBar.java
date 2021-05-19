@@ -47,6 +47,11 @@ public class PlayerHealthBar implements Behavior {
         }
     }
 
+    @Override
+    public void destroy() {
+        damageCooldown.shutdownNow();
+    }
+
     void takeDamage() {
         if (canTakeDamage) {
             health -= 10;
