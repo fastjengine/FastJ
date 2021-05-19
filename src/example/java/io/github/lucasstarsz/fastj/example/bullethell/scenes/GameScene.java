@@ -13,13 +13,15 @@ import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerCannon;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.EnemyMovement;
+import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerCannon;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerController;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerHealthBar;
+import io.github.lucasstarsz.fastj.example.bullethell.util.FilePaths;
 import io.github.lucasstarsz.fastj.example.bullethell.util.Tags;
 
 public class GameScene extends Scene {
@@ -38,27 +40,26 @@ public class GameScene extends Scene {
 
     @Override
     public void load(Display display) {
-        Pointf centerOfDisplay = display.getInternalResolution().asPointf().divide(2f);
-
-
         playerMetadata = createPlayerMetaData();
-        playerMetadata.addAsGameObject(this);
-
-
-        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata);
         playerHealthBar = createPlayerHealthBar();
+        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata);
         playerHealthBar.addBehavior(playerHealthBarScript, this)
-                .<GameObject>addTag(Tags.PlayerHealthBar, this)
-                .addAsGameObject(this);
+                .<GameObject>addTag(Tags.PlayerHealthBar, this);
 
 
         PlayerController playerControllerScript = new PlayerController(5f, 3f);
         PlayerCannon playerCannonScript = new PlayerCannon(this);
-        player = createPlayer(centerOfDisplay);
+        player = createPlayer();
         player.addBehavior(playerControllerScript, this)
                 .addBehavior(playerCannonScript, this)
-                .<GameObject>addTag(Tags.Player, this)
-                .addAsGameObject(this);
+                .<GameObject>addTag(Tags.Player, this);
+
+
+        // add game objects to the screen in order!
+        player.addAsGameObject(this);
+        playerHealthBar.addAsGameObject(this);
+        playerMetadata.addAsGameObject(this);
+
 
         enemies = new ArrayList<>();
         newWave();
@@ -101,7 +102,8 @@ public class GameScene extends Scene {
     }
 
     private Text2D createPlayerMetaData() {
-        return new Text2D("Health: 100", new Pointf(25f));
+        return new Text2D("Health: 100", new Pointf(27.5f, 55f))
+                .setFont(new Font("Consolas", Font.BOLD, 16));
     }
 
     private Polygon2D createPlayerHealthBar() {
@@ -112,28 +114,8 @@ public class GameScene extends Scene {
         return new Polygon2D(playerHealthBarMesh, Color.green, true, true);
     }
 
-    private Model2D createPlayer(Pointf centerOfDisplay) {
-        Pointf[] bodyMesh = DrawUtil.createBox(Pointf.subtract(centerOfDisplay, new Pointf(30f)), 60f);
-        Polygon2D playerBody = new Polygon2D(bodyMesh);
-
-        Pointf[] cannonMesh = DrawUtil.createBox(Pointf.subtract(centerOfDisplay, new Pointf(10f, 50f)), new Pointf(20f, 50f));
-        Polygon2D playerCannon = new Polygon2D(cannonMesh, Color.red.darker(), true, true);
-
-        Pointf[] cannonConnectionMesh = {
-                Pointf.subtract(centerOfDisplay, new Pointf(10f, 25f)),
-                Pointf.subtract(centerOfDisplay, new Pointf(15f, 20f)),
-                Pointf.subtract(centerOfDisplay, new Pointf(15f, 0f)),
-
-                Pointf.add(centerOfDisplay, new Pointf(-5f, 15f)),
-                Pointf.add(centerOfDisplay, new Pointf(5f, 15f)),
-
-                Pointf.add(centerOfDisplay, new Pointf(15f, 0f)),
-                Pointf.add(centerOfDisplay, new Pointf(15f, -20f)),
-                Pointf.add(centerOfDisplay, new Pointf(10f, -25f))
-        };
-        Polygon2D playerCannonConnection = new Polygon2D(cannonConnectionMesh, Color.red.darker().darker(), true, true);
-
-        return new Model2D(new Polygon2D[]{playerBody, playerCannon, playerCannonConnection});
+    private Model2D createPlayer() {
+        return new Model2D(DrawUtil.load2DModel(FilePaths.PathToResources + "player.psdf"));
     }
 
     private void newWave() {
@@ -153,34 +135,12 @@ public class GameScene extends Scene {
     }
 
     private Model2D createEnemy() {
-        Pointf[] enemyBodyMesh = DrawUtil.createBox(0f, 0f, 50f);
-        Polygon2D enemyBody = new Polygon2D(enemyBodyMesh, Color.cyan, true, true);
-
-        Pointf[] enemyLeftDetailMesh = {
-                new Pointf(10f, 5f),
-                new Pointf(20f, 25f),
-                new Pointf(10f, 25f)
-        };
-        Polygon2D enemyLeftDetail = new Polygon2D(enemyLeftDetailMesh);
-
-        Pointf[] enemyRightDetailMesh = {
-                new Pointf(40f, 45f),
-                new Pointf(30f, 25f),
-                new Pointf(40f, 25f)
-        };
-        Polygon2D enemyRightDetail = new Polygon2D(enemyRightDetailMesh);
-
-        Polygon2D[] enemyParts = {
-                enemyBody,
-                enemyLeftDetail,
-                enemyRightDetail
-        };
         Pointf randomPosition = new Pointf(
                 Maths.random(-500f, 1780f),
                 Maths.randomAtEdge(-500f, 1220f)
         );
 
-        return (Model2D) new Model2D(enemyParts)
+        return (Model2D) new Model2D(DrawUtil.load2DModel(FilePaths.PathToResources + "enemy.psdf"))
                 .setTranslation(randomPosition)
                 .addBehavior(new EnemyMovement(this), this)
                 .addAsGameObject(this);

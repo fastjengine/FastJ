@@ -8,6 +8,7 @@ import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +25,7 @@ public class PlayerHealthBar implements Behavior {
     private final Text2D playerMetadata;
 
     public PlayerHealthBar(Text2D playerMetadata) {
-        this.playerMetadata = playerMetadata;
+        this.playerMetadata = Objects.requireNonNull(playerMetadata);
     }
 
     @Override
