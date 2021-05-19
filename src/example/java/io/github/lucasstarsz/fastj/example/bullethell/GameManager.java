@@ -20,6 +20,7 @@ public class GameManager extends LogicManager {
 
         display.setBackgroundColor(Color.lightGray);
         display.showFPSInTitle(true);
+        display.getJFrame().setResizable(false);
     }
 
     public static void main(String[] args) {

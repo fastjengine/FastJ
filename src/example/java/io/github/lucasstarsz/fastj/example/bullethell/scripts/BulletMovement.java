@@ -33,15 +33,19 @@ public class BulletMovement implements Behavior {
     public void update(GameObject obj) {
         obj.translate(travelVector);
         if (!FastJEngine.getDisplay().isOnScreen(obj, gameScene.getCamera())) {
-            FastJEngine.runAfterUpdate(() -> {
-                obj.destroy(gameScene);
-                cannonScript.bulletDied();
-            });
+            bulletDied(obj);
         }
     }
 
     @Override
     public void destroy() {
         travelVector.reset();
+    }
+
+    public void bulletDied(GameObject obj) {
+        FastJEngine.runAfterUpdate(() -> {
+            obj.destroy(gameScene);
+            cannonScript.bulletDied();
+        });
     }
 }

@@ -2,19 +2,15 @@ package io.github.lucasstarsz.fastj.example.bullethell.scripts;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;
-import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keys;
 
-import java.util.Objects;
-
 public class PlayerController implements Behavior {
 
     private final float speed;
     private final float rotation;
-    private final Text2D playerInfo;
 
     private float currentRotation;
     private float inputRotation;
@@ -22,10 +18,9 @@ public class PlayerController implements Behavior {
     private Pointf inputTranslation;
 
 
-    public PlayerController(float speedInterval, float rotationInterval, Text2D playerStats) {
+    public PlayerController(float speedInterval, float rotationInterval) {
         speed = speedInterval;
         rotation = rotationInterval;
-        playerInfo = Objects.requireNonNull(playerStats);
     }
 
     @Override
@@ -40,8 +35,6 @@ public class PlayerController implements Behavior {
         resetTransformations();
         pollMovement();
         movePlayer(obj);
-
-        playerInfo.setText(String.format("Rotation: %s, Location: %s", obj.getRotation(), obj.getTranslation()));
     }
 
     private void resetTransformations() {
