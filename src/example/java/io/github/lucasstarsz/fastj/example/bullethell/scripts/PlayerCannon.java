@@ -18,7 +18,7 @@ import java.util.Objects;
 import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
 import io.github.lucasstarsz.fastj.example.bullethell.util.Tags;
 
-public class Cannon implements Behavior {
+public class PlayerCannon implements Behavior {
 
     private static final Pointf BulletSize = new Pointf(5f);
     private static final int MaxBulletCount = 5;
@@ -26,7 +26,7 @@ public class Cannon implements Behavior {
     private final GameScene gameScene;
     private int bulletCount;
 
-    public Cannon(GameScene scene) {
+    public PlayerCannon(GameScene scene) {
         gameScene = Objects.requireNonNull(scene);
     }
 

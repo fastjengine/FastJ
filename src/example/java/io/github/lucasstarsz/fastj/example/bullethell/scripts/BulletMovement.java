@@ -14,14 +14,14 @@ public class BulletMovement implements Behavior {
 
     private final GameScene gameScene;
     private final float travelAngle;
-    private final Cannon cannonScript;
+    private final PlayerCannon playerCannonScript;
 
     private Pointf travelVector;
 
-    public BulletMovement(GameScene gameScene, float travelAngle, Cannon cannonScript) {
+    public BulletMovement(GameScene gameScene, float travelAngle, PlayerCannon playerCannonScript) {
         this.travelAngle = travelAngle;
         this.gameScene = gameScene;
-        this.cannonScript = cannonScript;
+        this.playerCannonScript = playerCannonScript;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BulletMovement implements Behavior {
     public void bulletDied(GameObject obj) {
         FastJEngine.runAfterUpdate(() -> {
             obj.destroy(gameScene);
-            cannonScript.bulletDied();
+            playerCannonScript.bulletDied();
         });
     }
 }

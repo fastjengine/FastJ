@@ -16,7 +16,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.lucasstarsz.fastj.example.bullethell.scripts.Cannon;
+import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerCannon;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.EnemyMovement;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerController;
 import io.github.lucasstarsz.fastj.example.bullethell.scripts.PlayerHealthBar;
@@ -53,7 +53,7 @@ public class GameScene extends Scene {
 
 
         PlayerController playerControllerScript = new PlayerController(5f, 3f);
-        Cannon playerCannonScript = new Cannon(this);
+        PlayerCannon playerCannonScript = new PlayerCannon(this);
         player = createPlayer(centerOfDisplay);
         player.addBehavior(playerControllerScript, this)
                 .addBehavior(playerCannonScript, this)
