@@ -51,8 +51,12 @@ public class GameScene extends Scene {
 
     @Override
     public void unload(Display display) {
+        player.destroy(this);
         player = null;
+        playerMetadata.destroy(this);
         playerMetadata = null;
+        playerHealthBar.destroy(this);
+        playerHealthBar = null;
     }
 
     @Override
