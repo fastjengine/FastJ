@@ -98,13 +98,11 @@ public class GameScene extends Scene {
 
     public void enemyDied(GameObject enemy) {
         if (enemies.remove((Model2D) enemy)) {
-            FastJEngine.log(enemies.size());
             enemy.destroy(this);
             enemyCount--;
 
             if (enemyCount == 0) {
                 newWave();
-                FastJEngine.log(enemies.size());
             }
         }
     }

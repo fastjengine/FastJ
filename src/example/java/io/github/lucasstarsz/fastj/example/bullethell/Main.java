@@ -10,7 +10,7 @@ import java.awt.Color;
 import io.github.lucasstarsz.fastj.example.bullethell.scenes.GameScene;
 import io.github.lucasstarsz.fastj.example.bullethell.scenes.LoseScene;
 
-public class GameManager extends LogicManager {
+public class Main extends LogicManager {
 
     @Override
     public void setup(Display display) {
@@ -28,7 +28,7 @@ public class GameManager extends LogicManager {
     }
 
     public static void main(String[] args) {
-        FastJEngine.init("Simple Bullet Hell", new GameManager());
+        FastJEngine.init("Simple Bullet Hell", new Main());
         FastJEngine.run();
     }
 }
