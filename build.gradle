@@ -12,7 +12,7 @@ plugins {
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.3.0')
+version('1.4.0')
 
 sourceSets {
     example {
@@ -20,9 +20,17 @@ sourceSets {
         runtimeClasspath += sourceSets.main.output
 
         task example(type: JavaExec) {
+            doFirst {
+                if (!project.hasProperty("example")) {
+                    throw new IllegalStateException("""
+You need to specify which example using the "example" property!
+E.G. \"./gradlew example -Pexample=helloworld\"""")
+                }
+            }
+
             description('An example game using FastJ.')
             classpath = files(sourceSets.main.output, sourceSets.example.runtimeClasspath)
-            main = 'io.github.lucasstarsz.fastj.example.Main'
+            main = "io.github.lucasstarsz.fastj.example.${project.hasProperty("example") ? project.getProperty("example") : ""}.Main"
         }
     }
 }
