@@ -42,7 +42,8 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string starting with {@code "The game crashed, due to "}, and adds the specified error message to the end.
+     * Gets a string starting with {@code "The game crashed, due to "}, and adds the specified error message to the
+     * end.
      *
      * @param errorMessage The error message to add to the end of the returned string.
      * @return The generated error message.

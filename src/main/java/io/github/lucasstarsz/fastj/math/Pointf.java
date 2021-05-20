@@ -199,6 +199,7 @@ public class Pointf {
      * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not
      * the origin, use {@link #rotate(float, Pointf)}.
      *
+     * @param p     The point to rotate.
      * @param angle The angle to rotate by, in degrees.
      * @return A rotated version of the original {@code Pointf}.
      */
@@ -218,7 +219,9 @@ public class Pointf {
      * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
      * {@link #rotate(Pointf, float)}.
      *
-     * @param angle The angle to rotate by, in degrees.
+     * @param p      The point to rotate.
+     * @param angle  The angle to rotate by, in degrees.
+     * @param center The point to rotate around.
      * @return A rotated version of the original {@code Pointf}.
      */
     public static Pointf rotate(Pointf p, float angle, Pointf center) {
@@ -452,7 +455,8 @@ public class Pointf {
      * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
      * {@link #rotate(float)}.
      *
-     * @param angle The angle to rotate by, in degrees.
+     * @param angle  The angle to rotate by, in degrees.
+     * @param center The point to rotate around.
      * @return The {@code Pointf} with the rotated values.
      */
     public Pointf rotate(float angle, Pointf center) {

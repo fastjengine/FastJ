@@ -303,7 +303,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * Processes the specified mouse event for the specified scene, based on its event type.
      *
      * @param scene The scene to fire the event to.
-     * @param event   The mouse event to process.
+     * @param event The mouse event to process.
      */
     public static void processEvent(Scene scene, MouseEvent event) {
         MouseEventProcessor.get(event.getID()).accept(scene, event);

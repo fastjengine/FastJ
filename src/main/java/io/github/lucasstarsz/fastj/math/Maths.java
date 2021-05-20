@@ -120,8 +120,9 @@ public class Maths {
     /**
      * Linearly interpolates between x and y, by the interpolation point t.
      *
-     * @param x The first {@code float} value.
-     * @param y THe second {@code float} value.
+     * @param x The starting value.
+     * @param y The end value.
+     * @param t The interpolation value to work with (preferably within a range of 0.0 to 1.0).
      * @return The lerped value
      */
     public static float lerp(float x, float y, float t) {

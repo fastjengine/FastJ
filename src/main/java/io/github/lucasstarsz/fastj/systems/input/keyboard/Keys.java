@@ -3,8 +3,7 @@ package io.github.lucasstarsz.fastj.systems.input.keyboard;
 import java.awt.event.KeyEvent;
 
 /**
- * Based on the {@link KeyEvent} class, the {@code Key} class defines better-looking
- * names for keyboard input keycodes.
+ * Based on the {@link KeyEvent} class, the {@code Key} class defines better-looking names for keyboard input keycodes.
  *
  * @author Andrew Dey
  * @version 1.0.0

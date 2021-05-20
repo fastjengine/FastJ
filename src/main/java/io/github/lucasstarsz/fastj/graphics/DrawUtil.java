@@ -280,7 +280,7 @@ public final class DrawUtil {
 
     /**
      * Checks for equality in length and point values between two {@link Path2D} objects.
-     *
+     * <p>
      * Order does not matter for equality checking.
      *
      * @param path1 The first {@code Path2D} specified.

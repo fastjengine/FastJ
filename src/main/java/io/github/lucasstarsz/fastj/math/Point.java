@@ -188,6 +188,7 @@ public class Point {
      * the {@code Point} version of the calculation. If you want the rotation calculated with floating-point math, use
      * {@link Point#rotate(Point, float)} instead.
      *
+     * @param p     The point to rotate.
      * @param angle The angle to rotate by, in degrees.
      * @return A rotated version of the original {@code Point}.
      */
@@ -207,7 +208,9 @@ public class Point {
      * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
      * {@link #rotate(Point, float)}.
      *
-     * @param angle The angle to rotate by, in degrees.
+     * @param p      The point to rotate.
+     * @param angle  The angle to rotate by, in degrees.
+     * @param center The point to rotate about.
      * @return A rotated version of the original {@code Pointf}.
      */
     public static Point integerRotate(Point p, float angle, Point center) {
@@ -231,6 +234,7 @@ public class Point {
      * returns the {@code Pointf} version of the calculation. If you want the rotation calculated with integer math, use
      * {@link Point#integerRotate(Point, int)} instead.
      *
+     * @param p     The point to rotate.
      * @param angle The angle to rotate by, in degrees.
      * @return A rotated version of the original {@code Point}, as a {@code Pointf}.
      */
@@ -250,7 +254,9 @@ public class Point {
      * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
      * {@link #rotate(Point, float)}.
      *
-     * @param angle The angle to rotate by, in degrees.
+     * @param p      The point to rotate.
+     * @param angle  The angle to rotate by, in degrees.
+     * @param center The point to rotate around.
      * @return A rotated version of the original {@code Pointf}.
      */
     public static Pointf rotate(Point p, float angle, Pointf center) {
@@ -494,7 +500,8 @@ public class Point {
      * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
      * {@link #rotate(int)}.
      *
-     * @param angle The angle to rotate by, in degrees.
+     * @param angle  The angle to rotate by, in degrees.
+     * @param center The point to rotate about.
      * @return The {@code Pointf} with the rotated values.
      */
     public Point rotate(float angle, Point center) {
