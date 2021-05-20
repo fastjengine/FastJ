@@ -78,16 +78,9 @@ A few common dependencies are provided below:
 
 ## Learning FastJ
 
-There will likely be a small wiki added for this game engine at a later time. For now, you'll want to check out [this example code][FastJ-Example] for getting started with FastJ.
+There will likely be a small wiki added for this game engine at a later time. For now, you'll want to check out [the example projects][FastJ-Example] for getting started with FastJ.
 
-As for seeing that example in action, you'll need to clone the repository, and run the gradle task `example`:
-```bash
-git clone https://github.com/lucasstarsz/FastJ.git
-./gradlew example
-```
-_Having trouble using `gradlew`? Read [this][Terminals Are Different]._
-
-From there, explore the [example code][FastJ-Example], play around with it, and read the documentation to get a better understanding of FastJ.
+From there, explore the example code, play around with it, and read the [API documentation][Javadoc] to get a better understanding of FastJ.
 
 ## Contributing to FastJ
 Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines].

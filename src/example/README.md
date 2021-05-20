@@ -1,0 +1,35 @@
+# Examples
+
+
+As for seeing that example in action, you'll need to clone the repository.
+```bash
+git clone https://github.com/lucasstarsz/FastJ.git
+```
+
+Then, run the gradle task `example`. When you do this, you'll need to specify which example you want to run. This can be done by adding `-P<example project name, without the brackets>`
+```bash
+./gradlew example -Pexample=helloworld
+```
+_Having trouble using `gradlew`? Read [this][Terminals Are Different]._
+
+## Example Projects
+
+### Hello, World!
+This project is an introduction to working with FastJ, and covers many of the essential topics:
+- Engine Initialization/Running
+- Window Creation
+- Working with a Scene
+- Drawing game objects and UI
+- Applying Behaviors to Game Objects
+
+Command to run: `./gradlew example -Pexample=helloworld`
+
+### Bullet Hell
+This project takes the concepts we've learned so far and meshes them together into a game!
+
+**WARNING: UNFINISHED PROJECT**
+
+Command to run: `./gradlew example -Pexample=bullethell`
+
+
+[Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
