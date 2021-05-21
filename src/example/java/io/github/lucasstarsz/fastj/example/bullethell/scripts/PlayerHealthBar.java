@@ -8,6 +8,7 @@ import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
 import io.github.lucasstarsz.fastj.graphics.game.Text2D;
 
 import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
+import io.github.lucasstarsz.fastj.systems.control.SceneManager;
 
 import java.util.Objects;
 import java.util.concurrent.Executors;
@@ -68,8 +69,9 @@ public class PlayerHealthBar implements Behavior {
 
             if (health == 0) {
                 FastJEngine.runAfterUpdate(() -> {
-                    FastJEngine.getLogicManager().switchScenes(SceneNames.LoseSceneName);
-                    FastJEngine.getLogicManager().getScene(SceneNames.GameSceneName).unload(FastJEngine.getDisplay());
+                    SceneManager sceneManager = FastJEngine.getLogicManager();
+                    sceneManager.switchScenes(SceneNames.LoseSceneName);
+                    sceneManager.getScene(SceneNames.GameSceneName).unload(FastJEngine.getDisplay());
                 });
             }
         }

@@ -123,9 +123,10 @@ public abstract class SceneManager implements LogicManager {
      * @param sceneName The name of the scene to retrieve.
      * @return The scene, if it exists.
      */
-    public Scene getScene(String sceneName) {
+    @SuppressWarnings("unchecked")
+    public <T extends Scene> T getScene(String sceneName) {
         sceneExistenceCheck(sceneName);
-        return scenes.get(sceneName);
+        return (T) scenes.get(sceneName);
     }
 
     /**

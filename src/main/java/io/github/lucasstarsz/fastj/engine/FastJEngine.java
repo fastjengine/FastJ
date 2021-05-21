@@ -221,8 +221,9 @@ public class FastJEngine {
      *
      * @return The logic manager.
      */
-    public static LogicManager getLogicManager() {
-        return gameManager;
+    @SuppressWarnings("unchecked")
+    public static <T extends LogicManager> T getLogicManager() {
+        return (T) gameManager;
     }
 
     /**
