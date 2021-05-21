@@ -261,42 +261,42 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     /**

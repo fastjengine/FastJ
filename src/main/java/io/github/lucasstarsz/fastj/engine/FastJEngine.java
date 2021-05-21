@@ -385,7 +385,7 @@ public class FastJEngine {
 
         ThreadFixer.start();
         display.init();
-        gameManager.setup(display);
+        gameManager.init(display);
 
         timer.init();
         fpsLogger.scheduleWithFixedDelay(() -> {
@@ -401,15 +401,15 @@ public class FastJEngine {
     private static void gameLoop() {
         float elapsedTime;
         float accumulator = 0f;
-        float interval = 1f / targetUPS;
+        float updateInterval = 1f / targetUPS;
 
         while (!display.isClosed()) {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
-            gameManager.getCurrentScene().inputManager.processEvents(gameManager.getCurrentScene());
+            gameManager.processInputEvents();
 
-            while (accumulator >= interval) {
+            while (accumulator >= updateInterval) {
                 gameManager.update(display);
 
                 if (!AfterUpdateList.isEmpty()) {
@@ -419,7 +419,7 @@ public class FastJEngine {
                     AfterUpdateList.clear();
                 }
 
-                accumulator -= interval;
+                accumulator -= updateInterval;
             }
 
             gameManager.render(display);

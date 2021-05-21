@@ -508,10 +508,8 @@ public class Display {
                         continue;
                     }
                     obj.render(drawGraphics);
-                } catch (NullPointerException e) {
-                    nullWarnCheck(obj, false, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: Game Object Drawable " + obj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + obj.getID(), e);
                     return;
                 }
             }
@@ -522,10 +520,8 @@ public class Display {
                         continue;
                     }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
-                } catch (NullPointerException e) {
-                    nullWarnCheck(guiObj, true, e);
                 } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: GUI Drawable " + guiObj.getID(), e);
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + guiObj.getID(), e);
                     return;
                 }
             }
@@ -535,26 +531,6 @@ public class Display {
         } catch (IllegalStateException e) {
             if (!switchingScreenState && !FastJEngine.isRunning()) {
                 FastJEngine.error(CrashMessages.illegalAction(getClass()), e);
-            }
-        }
-    }
-
-    /**
-     * If there is a null pointer in the render method, this checks to make sure everything else in the game engine is
-     * in order before outputting a warning.
-     *
-     * @param obj           The {@code Drawable} causing the null pointer.
-     * @param isGUIDrawable Boolean that determines whether or not the {@code Drawable} is part
-     * @param e             The null pointer exception.
-     */
-    private void nullWarnCheck(Drawable obj, boolean isGUIDrawable, NullPointerException e) {
-        if (!FastJEngine.getLogicManager().isSwitchingScenes()) {
-            FastJEngine.warning("Null pointer for " + (isGUIDrawable ? "GUI" : "Game Object") + " Drawawble with id: " + obj.getID());
-            e.printStackTrace();
-            if (isGUIDrawable) {
-                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshUIElementList();
-            } else {
-                FastJEngine.getLogicManager().getCurrentScene().drawableManager.refreshGameObjectList();
             }
         }
     }

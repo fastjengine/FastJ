@@ -231,17 +231,17 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        FastJEngine.getLogicManager().getCurrentScene().inputManager.receivedInputEvent(e);
+        FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     /**
