@@ -24,16 +24,6 @@ public abstract class SceneManager implements LogicManager {
     private Scene currentScene;
     private boolean switchingScenes;
 
-    /**
-     * Set up the game scenes, the display, and everything in between.
-     * <p>
-     * This method is called after the engine has been set up, and the display has been created. As it is only called
-     * once, it is the best place to set some initial settings that apply to the entire game.
-     *
-     * @param display The {@code Display} that the game renders to.
-     */
-    public abstract void init(Display display);
-
     /** Processes all pending input events. */
     public void processInputEvents() {
         currentScene.inputManager.processEvents(currentScene);
