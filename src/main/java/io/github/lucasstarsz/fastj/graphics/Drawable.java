@@ -24,7 +24,6 @@ import java.util.UUID;
  */
 public abstract class Drawable extends TaggableEntity {
 
-    private static final String CollisionErrorMessage = CrashMessages.theGameCrashed("a collision error.");
     private static final String GameObjectErrorMessage = CrashMessages.theGameCrashed("a game object error.");
     private static final String UiElementErrorMessage = CrashMessages.theGameCrashed("a ui element error.");
 
