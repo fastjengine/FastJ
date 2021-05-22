@@ -65,10 +65,13 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Gets the currently active scene.
      *
+     * @param <T> The type of the scene being retrieved. This type must match the actual type of the retrieved scene,
+     *            and must always extend {@link Scene}.
      * @return Returns the currently active scene.
      */
-    public Scene getCurrentScene() {
-        return currentScene;
+    @SuppressWarnings("unchecked")
+    public <T extends Scene> T getCurrentScene() {
+        return (T) currentScene;
     }
 
     /**
@@ -110,6 +113,8 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Gets the scene with the specified scene name, if it exists.
      *
+     * @param <T>       The type of the scene being retrieved. This type must match the actual type of the retrieved
+     *                  scene, and must always extend {@link Scene}.
      * @param sceneName The name of the scene to retrieve.
      * @return The scene, if it exists.
      */

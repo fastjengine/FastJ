@@ -219,6 +219,8 @@ public class FastJEngine {
     /**
      * Gets the {@link LogicManager} associated with the game engine.
      *
+     * @param <T> The type of the logic manager being retrieved. This type must match the actual type of the retrieved
+     *            logic manager, and must always extend {@link LogicManager}.
      * @return The logic manager.
      */
     @SuppressWarnings("unchecked")
