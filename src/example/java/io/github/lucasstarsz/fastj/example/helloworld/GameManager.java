@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.example.helloworld;
 
 import io.github.lucasstarsz.fastj.graphics.Display;
 
-import io.github.lucasstarsz.fastj.systems.control.LogicManager;
+import io.github.lucasstarsz.fastj.systems.control.SceneManager;
 
 import java.awt.RenderingHints;
 
@@ -13,7 +13,7 @@ import io.github.lucasstarsz.fastj.example.helloworld.scenes.GameScene;
  * <p>
  * A {@code LogicManager} is used to setup scenes, display settings, etc.
  */
-public class GameManager extends LogicManager {
+public class GameManager extends SceneManager {
 
     /**
      * Sets up the game manager with the needed scenes, display settings, etc.
@@ -21,7 +21,7 @@ public class GameManager extends LogicManager {
      * @param display The {@code Display} that the game renders to.
      */
     @Override
-    public void setup(Display display) {
+    public void init(Display display) {
         /* Globally enables anti-aliasing for all objects in the game. */
         display.modifyRenderSettings(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 

@@ -24,7 +24,6 @@ import java.util.UUID;
  */
 public abstract class Drawable extends TaggableEntity {
 
-    private static final String CollisionErrorMessage = CrashMessages.theGameCrashed("a collision error.");
     private static final String GameObjectErrorMessage = CrashMessages.theGameCrashed("a game object error.");
     private static final String UiElementErrorMessage = CrashMessages.theGameCrashed("a ui element error.");
 
@@ -163,26 +162,8 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that states whether the two {@code Drawable}s intersect.
      */
     public boolean collidesWith(Drawable obj) {
-        Area otherObject;
-        Area thisObject;
-
-        try {
-            otherObject = new Area(obj.collisionPath);
-        } catch (NullPointerException e) {
-            if (!FastJEngine.getLogicManager().isSwitchingScenes()) {
-                FastJEngine.error(CollisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + obj.id + " is null"));
-            }
-            return false;
-        }
-
-        try {
-            thisObject = new Area(collisionPath);
-        } catch (NullPointerException e) {
-            if (!FastJEngine.getLogicManager().isSwitchingScenes()) {
-                FastJEngine.error(CollisionErrorMessage, new NullPointerException("Collision path for Drawable with id: " + id + " is null"));
-            }
-            return false;
-        }
+        Area thisObject = new Area(collisionPath);
+        Area otherObject = new Area(obj.collisionPath);
 
         otherObject.intersect(thisObject);
         return !otherObject.isEmpty();

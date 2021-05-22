@@ -219,10 +219,13 @@ public class FastJEngine {
     /**
      * Gets the {@link LogicManager} associated with the game engine.
      *
+     * @param <T> The type of the logic manager being retrieved. This type must match the actual type of the retrieved
+     *            logic manager, and must always extend {@link LogicManager}.
      * @return The logic manager.
      */
-    public static LogicManager getLogicManager() {
-        return gameManager;
+    @SuppressWarnings("unchecked")
+    public static <T extends LogicManager> T getLogicManager() {
+        return (T) gameManager;
     }
 
     /**
@@ -328,9 +331,28 @@ public class FastJEngine {
         gameLoop();
     }
 
-    /** Closes the game, without closing the JVM instance. */
+    /**
+     * Closes the game gracefully, without closing the JVM instance.
+     * <p>
+     * This method is useful for closing the game engine in normal cases, like exiting the game naturally. This should
+     * be your go-to method call for closing the game.
+     */
     public static void closeGame() {
         display.close();
+    }
+
+    /**
+     * Closes the game forcefully, without closing the JVM instance.
+     * <p>
+     * This method is useful for closing the game engine in special cases, such as if rendering has not yet started, or
+     * when a fatal error occurs that prevents the game from functioning properly. It attempts to close the game as soon
+     * as possible, without waiting for the next game update/render to be finished.
+     */
+    public static void forceCloseGame() {
+        if (display != null) {
+            display.close();
+        }
+        exit();
     }
 
     /**
@@ -354,14 +376,14 @@ public class FastJEngine {
     }
 
     /**
-     * Closes the game, then throws the error specified with the error message.
+     * Forcefully closes the game, then throws the error specified with the error message.
      *
      * @param <T>          This allows for any type of error message.
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
      */
     public static <T> void error(T errorMessage, Exception exception) {
-        FastJEngine.closeGame();
+        FastJEngine.forceCloseGame();
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
@@ -385,7 +407,7 @@ public class FastJEngine {
 
         ThreadFixer.start();
         display.init();
-        gameManager.setup(display);
+        gameManager.init(display);
 
         timer.init();
         fpsLogger.scheduleWithFixedDelay(() -> {
@@ -401,15 +423,15 @@ public class FastJEngine {
     private static void gameLoop() {
         float elapsedTime;
         float accumulator = 0f;
-        float interval = 1f / targetUPS;
+        float updateInterval = 1f / targetUPS;
 
         while (!display.isClosed()) {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
-            gameManager.getCurrentScene().inputManager.processEvents(gameManager.getCurrentScene());
+            gameManager.processInputEvents();
 
-            while (accumulator >= interval) {
+            while (accumulator >= updateInterval) {
                 gameManager.update(display);
 
                 if (!AfterUpdateList.isEmpty()) {
@@ -419,7 +441,7 @@ public class FastJEngine {
                     AfterUpdateList.clear();
                 }
 
-                accumulator -= interval;
+                accumulator -= updateInterval;
             }
 
             gameManager.render(display);
@@ -451,10 +473,14 @@ public class FastJEngine {
         }
     }
 
-    /** Gracefully removes all resources created by the game engine. */
+    /** Removes all resources created by the game engine. */
     private static void exit() {
-        fpsLogger.shutdownNow();
-        gameManager.reset();
+        if (fpsLogger != null) {
+            fpsLogger.shutdownNow();
+        }
+        if (gameManager != null) {
+            gameManager.reset();
+        }
 
         Mouse.stop();
         Keyboard.stop();

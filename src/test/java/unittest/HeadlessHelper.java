@@ -32,6 +32,7 @@ public class HeadlessHelper {
             @Override
             public void load(Display display) {
                 runnable.run();
+                FastJEngine.forceCloseGame();
             }
 
             @Override
@@ -40,10 +41,7 @@ public class HeadlessHelper {
 
             @Override
             public void update(Display display) {
-                FastJEngine.closeGame();
             }
         }));
-
-        FastJEngine.run();
     }
 }
