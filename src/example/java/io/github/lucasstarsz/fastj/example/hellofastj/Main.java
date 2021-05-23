@@ -5,7 +5,7 @@ import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.control.SimpleManager;
 
-public class HelloFastJ extends SimpleManager {
+public class Main extends SimpleManager {
 
     @Override
     public void init(Display display) {
@@ -16,7 +16,7 @@ public class HelloFastJ extends SimpleManager {
     }
 
     public static void main(String[] args) {
-        FastJEngine.init("Hello, FastJ!", new HelloFastJ());
+        FastJEngine.init("Hello, FastJ!", new Main());
         FastJEngine.run();
     }
 }
