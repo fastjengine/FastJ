@@ -12,9 +12,14 @@ Then, run the gradle task `example`. When you do this, you'll need to specify wh
 ```
 _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
-## Example Projects
+## Example Programs
 
-### Hello, World!
+### Hello, FastJ!
+This program is a remarkably simple introduction to starting work with FastJ. It initializes the engine and runs the engine, which results in an empty window. This also can serve as a project template for working with FastJ.
+
+Command to run: `./gradlew example -Pexample=hellofastj`
+
+### (Old) Hello, World!
 This project is an introduction to working with FastJ, and covers many of the essential topics:
 - Engine Initialization/Running
 - Window Creation
@@ -22,7 +27,7 @@ This project is an introduction to working with FastJ, and covers many of the es
 - Drawing game objects and UI
 - Applying Behaviors to Game Objects
 
-Command to run: `./gradlew example -Pexample=helloworld`
+Command to run: `./gradlew example -Pexample=oldhelloworld`
 
 ### Bullet Hell
 This project takes the concepts we've learned so far and meshes them together into a game!
