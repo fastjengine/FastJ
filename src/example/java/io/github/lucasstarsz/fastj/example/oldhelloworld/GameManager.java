@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.example.helloworld;
+package io.github.lucasstarsz.fastj.example.oldhelloworld;
 
 import io.github.lucasstarsz.fastj.graphics.Display;
 
@@ -6,7 +6,7 @@ import io.github.lucasstarsz.fastj.systems.control.SceneManager;
 
 import java.awt.RenderingHints;
 
-import io.github.lucasstarsz.fastj.example.helloworld.scenes.GameScene;
+import io.github.lucasstarsz.fastj.example.oldhelloworld.scenes.GameScene;
 
 /**
  * Manages the game's overall state (in the background).
