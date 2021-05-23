@@ -24,21 +24,12 @@ public abstract class SceneManager implements LogicManager {
     private Scene currentScene;
     private boolean switchingScenes;
 
-    /** Processes all pending input events. */
-    public void processInputEvents() {
-        currentScene.inputManager.processEvents();
-    }
-
-    @Override
-    public void receivedInputEvent(InputEvent inputEvent) {
-        currentScene.inputManager.receivedInputEvent(inputEvent);
-    }
-
     /**
      * Updates the current scene, its behaviors, and listeners.
      *
      * @param display The {@code Display} that the game renders to.
      */
+    @Override
     public void update(Display display) {
         updateCurrentScene(display);
     }
@@ -48,11 +39,24 @@ public abstract class SceneManager implements LogicManager {
      *
      * @param display The {@code Display} that the game renders to.
      */
+    @Override
     public void render(Display display) {
         renderCurrentScene(display);
     }
 
+    /** Processes all pending input events. */
+    @Override
+    public void processInputEvents() {
+        currentScene.inputManager.processEvents();
+    }
+
+    @Override
+    public void receivedInputEvent(InputEvent inputEvent) {
+        currentScene.inputManager.receivedInputEvent(inputEvent);
+    }
+
     /** Resets the logic manager. */
+    @Override
     public void reset() {
         for (Scene s : scenes.values()) {
             if (s.isInitialized()) {
@@ -228,7 +232,7 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
-     * Safely renders the current scene to the Display.
+     * Safely renders the current scene to the {@code Display}.
      *
      * @param display The {@code Display} that the game renders to.
      */
