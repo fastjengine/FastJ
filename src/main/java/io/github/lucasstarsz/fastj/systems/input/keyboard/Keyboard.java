@@ -2,7 +2,7 @@ package io.github.lucasstarsz.fastj.systems.input.keyboard;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.input.InputManager;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -25,8 +25,8 @@ public class Keyboard implements KeyListener {
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
-    private static final Map<Integer, BiConsumer<Scene, KeyEvent>> KeyEventProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (scene, keyEvent) -> {
+    private static final Map<Integer, BiConsumer<InputManager, KeyEvent>> KeyEventProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (inputManager, keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key key = null;
 
@@ -42,12 +42,12 @@ public class Keyboard implements KeyListener {
 
                 if (!key.currentlyPressed) {
                     key.setRecentPress(true);
-                    scene.inputManager.fireKeyEvent(keyEvent);
+                    inputManager.fireKeyEvent(keyEvent);
                 }
 
                 key.setCurrentPress(true);
             },
-            KeyEvent.KEY_RELEASED, (scene, keyEvent) -> {
+            KeyEvent.KEY_RELEASED, (inputManager, keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key key = Keys.get(keyDescription);
 
@@ -57,11 +57,11 @@ public class Keyboard implements KeyListener {
                     key.setRecentRelease(true);
                 }
 
-                scene.inputManager.fireKeyEvent(keyEvent);
+                inputManager.fireKeyEvent(keyEvent);
             },
-            KeyEvent.KEY_TYPED, (scene, keyEvent) -> {
+            KeyEvent.KEY_TYPED, (inputManager, keyEvent) -> {
                 lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
-                scene.inputManager.fireKeyEvent(keyEvent);
+                inputManager.fireKeyEvent(keyEvent);
             }
     );
 
@@ -245,13 +245,13 @@ public class Keyboard implements KeyListener {
     }
 
     /**
-     * Processes the specified key event for the specified scene, based on its event type.
+     * Processes the specified key event for the specified input manager, based on its event type.
      *
-     * @param scene The scene to fire the event to.
-     * @param event The key event to process.
+     * @param inputManager The input manager to fire the event to.
+     * @param event        The key event to process.
      */
-    public static void processEvent(Scene scene, KeyEvent event) {
-        KeyEventProcessor.get(event.getID()).accept(scene, event);
+    public static void processEvent(InputManager inputManager, KeyEvent event) {
+        KeyEventProcessor.get(event.getID()).accept(inputManager, event);
         /* Don't call the fireKeyEvent here!
          * KeyEvent.KEY_PRESSED only gets called under certain
          * conditions, so it cannot be abstracted to work here without some serious effort. */

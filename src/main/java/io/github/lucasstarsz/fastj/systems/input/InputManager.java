@@ -1,6 +1,5 @@
 package io.github.lucasstarsz.fastj.systems.input;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.Keyboard;
 import io.github.lucasstarsz.fastj.systems.input.keyboard.KeyboardActionListener;
 import io.github.lucasstarsz.fastj.systems.input.mouse.Mouse;
@@ -149,13 +148,7 @@ public class InputManager {
         KeyboardActionProcessor.get(keyEvent.getID()).accept(keyEvent, keyActionListeners);
     }
 
-    /**
-     * Fires a {@code keys down} event to all listening {@code KeyboardActionListeners}.
-     * <p>
-     *
-     * <b>NOTE:</b> When used by a FastJ {@code Scene}, this event gets fired every engine update
-     * call, if there are any keys pressed.
-     */
+    /** Fires a {@code keys down} event to all listening {@code KeyboardActionListeners}. */
     public void fireKeysDown() {
         if (Keyboard.areKeysDown()) {
             for (KeyboardActionListener listener : keyActionListeners) {
@@ -206,7 +199,7 @@ public class InputManager {
      * backlog gets emptied into the main event list after all the events in that main list have been processed.
      *
      * @param event The event to be stored for processing later.
-     * @see #processEvents(Scene)
+     * @see #processEvents()
      */
     public void receivedInputEvent(InputEvent event) {
         if (isProcessingEvents) {
@@ -221,17 +214,15 @@ public class InputManager {
      * <p>
      * This method also empties the event backlog into the main event set after all the current events have been
      * processed and removed.
-     *
-     * @param current The scene to process events for.
      */
-    public void processEvents(Scene current) {
+    public void processEvents() {
         isProcessingEvents = true;
 
-        for (InputEvent event : receivedInputEvents) {
-            if (event instanceof MouseEvent) {
-                Mouse.processEvent(current, (MouseEvent) event);
-            } else if (event instanceof KeyEvent) {
-                Keyboard.processEvent(current, (KeyEvent) event);
+        for (InputEvent inputEvent : receivedInputEvents) {
+            if (inputEvent instanceof MouseEvent) {
+                Mouse.processEvent(this, (MouseEvent) inputEvent);
+            } else if (inputEvent instanceof KeyEvent) {
+                Keyboard.processEvent(this, (KeyEvent) inputEvent);
             }
         }
         receivedInputEvents.clear();

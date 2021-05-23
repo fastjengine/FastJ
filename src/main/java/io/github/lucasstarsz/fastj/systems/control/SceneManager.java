@@ -26,7 +26,7 @@ public abstract class SceneManager implements LogicManager {
 
     /** Processes all pending input events. */
     public void processInputEvents() {
-        currentScene.inputManager.processEvents(currentScene);
+        currentScene.inputManager.processEvents();
     }
 
     @Override
