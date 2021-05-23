@@ -1,4 +1,4 @@
-package io.github.lucasstarsz.fastj.example.helloworld.scenes;
+package io.github.lucasstarsz.fastj.example.oldhelloworld.scenes;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.math.Pointf;
@@ -15,7 +15,7 @@ import io.github.lucasstarsz.fastj.systems.control.Scene;
 import java.awt.Color;
 import java.awt.Font;
 
-import io.github.lucasstarsz.fastj.example.helloworld.customscripts.PlayerScript;
+import io.github.lucasstarsz.fastj.example.oldhelloworld.customscripts.PlayerScript;
 
 /** The game scene, where all the action happens! */
 public class GameScene extends Scene {

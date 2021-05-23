@@ -5,7 +5,7 @@ import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.Display;
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.input.InputManager;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
@@ -44,8 +44,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static boolean currentlyOnScreen;
     private static Pointf mouseLocation = new Pointf();
 
-    private static final Map<Integer, BiConsumer<Scene, MouseEvent>> MouseEventProcessor = Map.of(
-            MouseEvent.MOUSE_PRESSED, (scene, mouseEvent) -> {
+    private static final Map<Integer, Consumer<MouseEvent>> MouseEventProcessor = Map.of(
+            MouseEvent.MOUSE_PRESSED, mouseEvent -> {
                 if (!MouseAction.Press.recentAction) {
                     createSleeperThread(MouseAction.Press);
                 }
@@ -58,7 +58,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 buttonLastPressed = mouseEvent.getButton();
                 MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
             },
-            MouseEvent.MOUSE_RELEASED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_RELEASED, mouseEvent -> {
                 if (!MouseAction.Release.recentAction) {
                     createSleeperThread(MouseAction.Release);
                 }
@@ -69,14 +69,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
                 buttonLastReleased = mouseEvent.getButton();
             },
-            MouseEvent.MOUSE_CLICKED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 if (!MouseAction.Click.recentAction) {
                     createSleeperThread(MouseAction.Click);
                 }
 
                 buttonLastClicked = mouseEvent.getButton();
             },
-            MouseEvent.MOUSE_MOVED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_MOVED, mouseEvent -> {
                 if (!MouseAction.Move.recentAction) {
                     createSleeperThread(MouseAction.Move);
                 }
@@ -86,7 +86,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                         FastJEngine.getDisplay().getResolutionScale()
                 );
             },
-            MouseEvent.MOUSE_DRAGGED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
                 if (!MouseAction.Drag.recentAction) {
                     createSleeperThread(MouseAction.Drag);
                 }
@@ -96,21 +96,21 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                         FastJEngine.getDisplay().getResolutionScale()
                 );
             },
-            MouseEvent.MOUSE_ENTERED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_ENTERED, mouseEvent -> {
                 if (MouseAction.Enter.recentAction) {
                     createSleeperThread(MouseAction.Enter);
                 }
 
                 currentlyOnScreen = true;
             },
-            MouseEvent.MOUSE_EXITED, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_EXITED, mouseEvent -> {
                 if (MouseAction.Enter.recentAction) {
                     createSleeperThread(MouseAction.Exit);
                 }
 
                 currentlyOnScreen = false;
             },
-            MouseEvent.MOUSE_WHEEL, (scene, mouseEvent) -> {
+            MouseEvent.MOUSE_WHEEL, mouseEvent -> {
                 if (!MouseAction.WheelScroll.recentAction) {
                     createSleeperThread(MouseAction.WheelScroll);
                 }
@@ -300,14 +300,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Processes the specified mouse event for the specified scene, based on its event type.
+     * Processes the specified mouse event for the specified input manager, based on its event type.
      *
-     * @param scene The scene to fire the event to.
-     * @param event The mouse event to process.
+     * @param inputManager The input manager to fire the event to.
+     * @param event        The mouse event to process.
      */
-    public static void processEvent(Scene scene, MouseEvent event) {
-        MouseEventProcessor.get(event.getID()).accept(scene, event);
-        scene.inputManager.fireMouseEvent(event);
+    public static void processEvent(InputManager inputManager, MouseEvent event) {
+        MouseEventProcessor.get(event.getID()).accept(event);
+        inputManager.fireMouseEvent(event);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

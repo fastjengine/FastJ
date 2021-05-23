@@ -2,8 +2,6 @@ package io.github.lucasstarsz.fastj.systems.tags;
 
 import io.github.lucasstarsz.fastj.graphics.Drawable;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Class to manage tags and taggable entities for all game scenes.
+ * Class to manage tags and taggable entities for all {@link TagHandler}s.
  *
  * @author Andrew Dey
  * @version 1.0.0
@@ -19,20 +17,20 @@ import java.util.stream.Collectors;
 public class TagManager {
 
     private static final List<String> MasterTagList = new ArrayList<>();
-    private static final Map<Scene, List<Drawable>> EntityLists = new HashMap<>();
+    private static final Map<TagHandler, List<Drawable>> EntityLists = new HashMap<>();
 
     private TagManager() {
         throw new java.lang.IllegalStateException();
     }
 
     /**
-     * Gets the list of taggable entities at the specified {@code Scene}.
+     * Gets the list of taggable entities at the specified {@link TagHandler}.
      *
-     * @param scene The scene to get the list of taggable entities from.
+     * @param tagHandler The tag handler to get the list of taggable entities from.
      * @return The list of taggable entities, as a {@code List<Drawable>}.
      */
-    public static List<Drawable> getEntityList(Scene scene) {
-        return EntityLists.get(scene);
+    public static List<Drawable> getEntityList(TagHandler tagHandler) {
+        return EntityLists.get(tagHandler);
     }
 
     /**
@@ -60,66 +58,67 @@ public class TagManager {
     }
 
     /**
-     * Adds the specified taggable entity to the list of taggable entities for the specified scene.
+     * Adds the specified taggable entity to the list of taggable entities for the specified tag handler.
      * <p>
-     * The taggable entity is only added if the specified scene does not already contain the specified taggable entity.
+     * The taggable entity is only added if the specified tag handler does not already contain the specified taggable
+     * entity.
      *
-     * @param scene          The {@code Scene} which the taggable entity will be aliased with.
+     * @param tagHandler     The {@link TagHandler} which the taggable entity will be aliased with.
      * @param taggableEntity The {@code Drawable} to add.
      */
-    public static void addTaggableEntity(Scene scene, Drawable taggableEntity) {
-        if (!EntityLists.get(scene).contains(taggableEntity)) {
-            EntityLists.get(scene).add(taggableEntity);
+    public static void addTaggableEntity(TagHandler tagHandler, Drawable taggableEntity) {
+        if (!EntityLists.get(tagHandler).contains(taggableEntity)) {
+            EntityLists.get(tagHandler).add(taggableEntity);
         }
     }
 
     /**
-     * Removes the specified taggable entity from the list of taggable entities for the specified scene.
+     * Removes the specified taggable entity from the list of taggable entities for the specified tag handler.
      *
-     * @param scene          The {@code Scene} that the taggable entity is aliased with.
+     * @param tagHandler     The {@link TagHandler} that the taggable entity is aliased with.
      * @param taggableEntity The {@code Drawable} to remove.
      */
-    public static void removeTaggableEntity(Scene scene, Drawable taggableEntity) {
-        EntityLists.get(scene).remove(taggableEntity);
+    public static void removeTaggableEntity(TagHandler tagHandler, Drawable taggableEntity) {
+        EntityLists.get(tagHandler).remove(taggableEntity);
     }
 
     /**
-     * Adds the specified {@code Scene} as an alias to store a list of taggable entities for.
+     * Adds the specified {@link TagHandler} as an alias to store a list of taggable entities for.
      * <p>
-     * The specified {@code Scene} is only added if it is not already in the tag manager.
+     * The specified {@link TagHandler} is only added if it is not already in the tag manager.
      *
-     * @param scene The scene to add.
+     * @param tagHandler The tag handler to add.
      */
-    public static void addTaggableEntityList(Scene scene) {
-        if (!EntityLists.containsKey(scene)) {
-            EntityLists.put(scene, new ArrayList<>());
+    public static void addTaggableEntityList(TagHandler tagHandler) {
+        if (!EntityLists.containsKey(tagHandler)) {
+            EntityLists.put(tagHandler, new ArrayList<>());
         }
     }
 
     /**
-     * Removes the list of taggable entities aliased to the specified {@code Scene}.
+     * Removes the list of taggable entities aliased to the specified {@link TagHandler}.
      *
-     * @param scene The scene to remove.
+     * @param tagHandler The tag handler to remove.
      */
-    public static void removeTaggableEntityList(Scene scene) {
-        EntityLists.remove(scene);
+    public static void removeTaggableEntityList(TagHandler tagHandler) {
+        EntityLists.remove(tagHandler);
     }
 
     /**
-     * Gets all taggable entities in the specified {@code Scene} with the specified tag.
+     * Gets all taggable entities in the specified {@link TagHandler} with the specified tag.
      *
-     * @param scene The scene to search through.
-     * @param tag   The tag to search for.
+     * @param tagHandler The tag handler to search through.
+     * @param tag        The tag to search for.
      * @return A list of taggable entities that have the specified tag.
      */
-    public static List<Drawable> getAllInListWithTag(Scene scene, String tag) {
-        return EntityLists.get(scene).stream()
+    public static List<Drawable> getAllInListWithTag(TagHandler tagHandler, String tag) {
+        return EntityLists.get(tagHandler).stream()
                 .filter(obj -> obj.hasTag(tag))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Gets all taggable entities from all {@code Scene}s with the specified tag.
+     * Gets all taggable entities from all {@link TagHandler}s with the specified tag.
      *
      * @param tag The tag to search for.
      * @return A list of taggable entities that have the specified tag.
@@ -132,12 +131,12 @@ public class TagManager {
     }
 
     /**
-     * Clears the taggable entity list aliased to the specified scene.
+     * Clears the taggable entity list aliased to the specified tag handler.
      *
-     * @param scene The scene to clear the list of taggable entities for.
+     * @param tagHandler The tag handler to clear the list of taggable entities for.
      */
-    public static void clearEntityList(Scene scene) {
-        EntityLists.get(scene).clear();
+    public static void clearEntityList(TagHandler tagHandler) {
+        EntityLists.get(tagHandler).clear();
     }
 
     /** Wipes the {@code TagManager} of all aliases and tags. */
