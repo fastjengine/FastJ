@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * Interface denoting that the implementing classes directly interface with the {@link BehaviorManager} class.
- *
+ * <p>
  * <b>FOR IMPLEMENTORS:</b> In order for these methods to work you need to call {@link
  * BehaviorManager#addListenerList(BehaviorHandler)} upon construction.
  */
