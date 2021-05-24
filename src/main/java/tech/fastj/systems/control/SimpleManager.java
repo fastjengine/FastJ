@@ -44,11 +44,13 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         );
     }
 
+    /** Processes all stored input events. */
     @Override
     public void processInputEvents() {
         inputManager.processEvents();
     }
 
+    /** Stores the specified input event to be processed later ({@link #processInputEvents()}). */
     @Override
     public void receivedInputEvent(InputEvent inputEvent) {
         inputManager.receivedInputEvent(inputEvent);
