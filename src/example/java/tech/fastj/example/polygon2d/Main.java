@@ -51,11 +51,7 @@ public class Main extends SimpleManager {
 
         /* You can set the following properties of a Polygon2D:
          * - Mesh (Pointf[])
-<<<<<<< HEAD
-         * - Paint (solid color, gradient)
-=======
          * - Color
->>>>>>> 0ac5fa4 ((#20) Added examples)
          * - PaintFilled (render the outline or fill)
          * - Rotation
          * - Scale
