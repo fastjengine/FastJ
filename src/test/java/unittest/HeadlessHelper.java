@@ -1,9 +1,6 @@
 package unittest;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
-import io.github.lucasstarsz.fastj.graphics.Display;
-
-import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import java.awt.GraphicsEnvironment;
 
@@ -28,20 +25,11 @@ public class HeadlessHelper {
     }
 
     public static void runFastJWith(Runnable runnable) {
-        FastJEngine.init("For those sweet, sweet testing purposes", new MockManager(new Scene("") {
-            @Override
-            public void load(Display display) {
-                runnable.run();
-                FastJEngine.forceCloseGame();
-            }
-
-            @Override
-            public void unload(Display display) {
-            }
-
-            @Override
-            public void update(Display display) {
-            }
-        }));
+        FastJEngine.init("For those sweet, sweet testing purposes", new MockManager(runnable));
+        try {
+            FastJEngine.run();
+        } catch (NullPointerException ignored) {
+            // Exception caught to prevent game window opening
+        }
     }
 }

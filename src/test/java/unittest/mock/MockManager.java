@@ -1,22 +1,25 @@
 package unittest.mock;
 
+import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.graphics.Display;
 
-import io.github.lucasstarsz.fastj.systems.control.SceneManager;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import io.github.lucasstarsz.fastj.systems.control.SimpleManager;
 
-public class MockManager extends SceneManager {
+public class MockManager extends SimpleManager {
 
-    Scene scene;
+    private final Runnable runnable;
 
-    public MockManager(Scene scene) {
-        this.scene = scene;
+    public MockManager(Runnable runnable) {
+        this.runnable = runnable;
     }
 
     @Override
     public void init(Display display) {
-        addScene(scene);
-        setCurrentScene(scene);
-        loadCurrentScene();
+        runnable.run();
+        FastJEngine.forceCloseGame();
+    }
+
+    @Override
+    public void update(Display display) {
     }
 }
