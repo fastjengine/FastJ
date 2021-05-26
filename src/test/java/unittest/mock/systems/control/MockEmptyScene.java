@@ -1,13 +1,15 @@
-package unittest.mock;
+package unittest.mock.systems.control;
 
 import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 
-public class MockScene extends Scene {
+import java.util.UUID;
 
-    public MockScene() {
-        super("");
+public class MockEmptyScene extends Scene {
+
+    public MockEmptyScene() {
+        super(UUID.randomUUID().toString());
     }
 
     @Override

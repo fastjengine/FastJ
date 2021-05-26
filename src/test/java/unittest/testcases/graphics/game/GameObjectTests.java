@@ -7,8 +7,8 @@ import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
 import io.github.lucasstarsz.fastj.systems.control.Scene;
 
 import org.junit.jupiter.api.Test;
-import unittest.mock.MockBehavior;
-import unittest.mock.MockScene;
+import unittest.mock.systems.behaviors.MockBehavior;
+import unittest.mock.systems.control.MockEmptyScene;
 import unittest.mock.graphics.MockGameObject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +31,7 @@ class GameObjectTests {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
         int behaviorCount = 255;
 
         for (int i = 0; i < behaviorCount; i++) {
@@ -46,7 +46,7 @@ class GameObjectTests {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
         int behaviorCount = 255;
 
         for (int i = 0; i < behaviorCount; i++) {
@@ -63,7 +63,7 @@ class GameObjectTests {
         GameObject gameObject = new MockGameObject();
 
         Behavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
         int behaviorCount = 255;
 
         for (int i = 0; i < behaviorCount; i++) {
@@ -81,7 +81,7 @@ class GameObjectTests {
     @Test
     void checkAddAndRemoveBehaviorsFromGameObject_usingMethodChaining() {
         Behavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
 
         GameObject gameObject = new MockGameObject()
                 .addBehavior(mockBehavior, mockScene)    // 1
@@ -100,7 +100,7 @@ class GameObjectTests {
     void checkInitBehaviors_shouldInitializePointf() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
 
         gameObject.addBehavior(mockBehavior, mockScene);
         gameObject.initBehaviors();
@@ -112,7 +112,7 @@ class GameObjectTests {
     void checkUpdateBehaviors_shouldIncrementPointf() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
 
         gameObject.addBehavior(mockBehavior, mockScene);
         gameObject.initBehaviors();
@@ -130,7 +130,7 @@ class GameObjectTests {
     void checkDestroyBehaviors_shouldMakePointfNull() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
 
         gameObject.addBehavior(mockBehavior, mockScene);
         gameObject.initBehaviors(); // pointf is not null here
@@ -144,7 +144,7 @@ class GameObjectTests {
     void tryUpdateBehaviorWithoutInitializing_shouldThrowNullPointerException() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();
-        Scene mockScene = new MockScene();
+        Scene mockScene = new MockEmptyScene();
 
         gameObject.addBehavior(mockBehavior, mockScene);
 

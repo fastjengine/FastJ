@@ -6,4 +6,6 @@ module fastj.library.test {
     opens unittest.testcases.graphics.game to org.junit.platform.commons;
 
     opens unittest.testcases.math to org.junit.platform.commons;
+
+    opens unittest.testcases.systems.control to org.junit.platform.commons;
 }

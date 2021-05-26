@@ -1,4 +1,4 @@
-package unittest.mock;
+package unittest.mock.systems.behaviors;
 
 import io.github.lucasstarsz.fastj.math.Pointf;
 import io.github.lucasstarsz.fastj.graphics.game.GameObject;

@@ -1,15 +1,15 @@
-package unittest.mock;
+package unittest.mock.systems.control;
 
 import io.github.lucasstarsz.fastj.engine.FastJEngine;
 import io.github.lucasstarsz.fastj.graphics.Display;
 
 import io.github.lucasstarsz.fastj.systems.control.SimpleManager;
 
-public class MockManager extends SimpleManager {
+public class MockRunnableSimpleManager extends SimpleManager {
 
     private final Runnable runnable;
 
-    public MockManager(Runnable runnable) {
+    public MockRunnableSimpleManager(Runnable runnable) {
         this.runnable = runnable;
     }
 

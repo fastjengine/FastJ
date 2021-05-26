@@ -4,7 +4,7 @@ import io.github.lucasstarsz.fastj.engine.FastJEngine;
 
 import java.awt.GraphicsEnvironment;
 
-import unittest.mock.MockManager;
+import unittest.mock.systems.control.MockRunnableSimpleManager;
 
 public class HeadlessHelper {
 
@@ -25,7 +25,7 @@ public class HeadlessHelper {
     }
 
     public static void runFastJWith(Runnable runnable) {
-        FastJEngine.init("For those sweet, sweet testing purposes", new MockManager(runnable));
+        FastJEngine.init("For those sweet, sweet testing purposes", new MockRunnableSimpleManager(runnable));
         try {
             FastJEngine.run();
         } catch (NullPointerException ignored) {
