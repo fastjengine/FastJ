@@ -20,7 +20,7 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
     /**
      * Initializes the contents of the {@code SimpleManager}.
      */
-    public SimpleManager() {
+    protected SimpleManager() {
         camera = new Camera();
 
         inputManager = new InputManager();
