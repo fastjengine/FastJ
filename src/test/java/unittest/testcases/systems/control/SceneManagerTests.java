@@ -4,14 +4,16 @@ import io.github.lucasstarsz.fastj.systems.control.Scene;
 import io.github.lucasstarsz.fastj.systems.control.SceneManager;
 
 import org.junit.jupiter.api.Test;
-import unittest.mock.systems.control.MockNameSettingScene;
+import unittest.HeadlessHelper;
 import unittest.mock.systems.control.MockEmptyScene;
+import unittest.mock.systems.control.MockNameSettingScene;
 import unittest.mock.systems.control.MockSceneManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class SceneManagerTests {
 
@@ -36,6 +38,8 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSceneAdding_withNameThatAlreadyExists() {
+        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "having two scenes with the same name should throw an exception";
@@ -64,6 +68,8 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerGetScene_withSceneNameThatDoesNotExist() {
+        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to get a scene with a scene name that doesn't exist should throw an exception";
@@ -97,6 +103,8 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSceneRemoving_bySceneName_withSceneNameThatDoesNotExist() {
+        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to remove a scene with a scene name that doesn't exist should throw an exception";
@@ -130,6 +138,8 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSetCurrentScene_bySceneName_withSceneNameThatDoesNotExist() {
+        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to set the current scene with a scene name that doesn't exist should throw an exception";
