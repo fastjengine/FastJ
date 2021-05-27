@@ -28,6 +28,7 @@ module fastj.library {
     exports io.github.lucasstarsz.fastj.systems.input.keyboard;
     exports io.github.lucasstarsz.fastj.systems.input.mouse;
 
+    exports io.github.lucasstarsz.fastj.systems.audio;
     exports io.github.lucasstarsz.fastj.systems.behaviors;
     exports io.github.lucasstarsz.fastj.systems.control;
     exports io.github.lucasstarsz.fastj.systems.tags;
