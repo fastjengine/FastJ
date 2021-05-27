@@ -26,7 +26,7 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | Scene System         | Scene-based Rendering, Scene Switching                      |    ✔    |
 | Scriptable Behaviors | Control game object states through behaviors.               |    ✅    |
 | Desktop Support      | Full Compatibility on Windows, Linux, and macOS.            |    ✅    |
-| Audio Engine         | Play sounds of several different formats at any given time. |    ❌    |
+| Audio Engine         | Play sounds of several different formats at any given time. |    ⭕    |
 | Image Support        | Image rendering, transformations, and sprite animation.     |    ❌    |
 | Animation Support    | Interpolation and tweening framework.                       |    ❌    |
 | UI System            | Flexible UI system to replace the need for Swing UI.        |    ⭕    |
