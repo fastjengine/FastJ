@@ -1,8 +1,8 @@
 package unittest.testcases.math;
 
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Point;
-import io.github.lucasstarsz.fastj.math.Pointf;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Point;
+import tech.fastj.math.Pointf;
 
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;

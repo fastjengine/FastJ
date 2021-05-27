@@ -1,6 +1,6 @@
 package unittest;
 
-import io.github.lucasstarsz.fastj.engine.FastJEngine;
+import tech.fastj.engine.FastJEngine;
 
 import java.awt.GraphicsEnvironment;
 

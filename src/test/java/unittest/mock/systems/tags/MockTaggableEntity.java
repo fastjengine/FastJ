@@ -1,8 +1,8 @@
 package unittest.mock.systems.tags;
 
-import io.github.lucasstarsz.fastj.graphics.Drawable;
+import tech.fastj.graphics.Drawable;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import tech.fastj.systems.control.Scene;
 
 public class MockTaggableEntity extends Drawable {
     @Override

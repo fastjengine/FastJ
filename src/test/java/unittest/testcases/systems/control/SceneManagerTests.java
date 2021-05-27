@@ -1,7 +1,7 @@
 package unittest.testcases.systems.control;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
-import io.github.lucasstarsz.fastj.systems.control.SceneManager;
+import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SceneManager;
 
 import org.junit.jupiter.api.Test;
 import unittest.HeadlessHelper;

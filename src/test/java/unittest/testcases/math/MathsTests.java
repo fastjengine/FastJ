@@ -1,6 +1,6 @@
 package unittest.testcases.math;
 
-import io.github.lucasstarsz.fastj.math.Maths;
+import tech.fastj.math.Maths;
 
 import org.junit.jupiter.api.Test;
 

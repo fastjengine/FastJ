@@ -1,8 +1,8 @@
 package unittest.testcases.graphics;
 
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.Camera;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Camera;
 
 import java.awt.geom.AffineTransform;
 

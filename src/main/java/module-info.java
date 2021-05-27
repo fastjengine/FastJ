@@ -16,19 +16,19 @@
 module fastj.library {
     requires transitive java.desktop;
 
-    exports io.github.lucasstarsz.fastj.engine;
-    exports io.github.lucasstarsz.fastj.math;
+    exports tech.fastj.engine;
+    exports tech.fastj.math;
 
-    exports io.github.lucasstarsz.fastj.graphics;
-    exports io.github.lucasstarsz.fastj.graphics.game;
-    exports io.github.lucasstarsz.fastj.graphics.ui;
-    exports io.github.lucasstarsz.fastj.graphics.ui.elements;
+    exports tech.fastj.graphics;
+    exports tech.fastj.graphics.game;
+    exports tech.fastj.graphics.ui;
+    exports tech.fastj.graphics.ui.elements;
 
-    exports io.github.lucasstarsz.fastj.systems.input;
-    exports io.github.lucasstarsz.fastj.systems.input.keyboard;
-    exports io.github.lucasstarsz.fastj.systems.input.mouse;
+    exports tech.fastj.systems.input;
+    exports tech.fastj.systems.input.keyboard;
+    exports tech.fastj.systems.input.mouse;
 
-    exports io.github.lucasstarsz.fastj.systems.behaviors;
-    exports io.github.lucasstarsz.fastj.systems.control;
-    exports io.github.lucasstarsz.fastj.systems.tags;
+    exports tech.fastj.systems.behaviors;
+    exports tech.fastj.systems.control;
+    exports tech.fastj.systems.tags;
 }
