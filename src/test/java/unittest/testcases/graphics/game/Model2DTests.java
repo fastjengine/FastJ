@@ -1,11 +1,11 @@
 package unittest.testcases.graphics.game;
 
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.game.GameObject;
-import io.github.lucasstarsz.fastj.graphics.game.Model2D;
-import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.game.GameObject;
+import tech.fastj.graphics.game.Model2D;
+import tech.fastj.graphics.game.Polygon2D;
 
 import java.awt.geom.AffineTransform;
 

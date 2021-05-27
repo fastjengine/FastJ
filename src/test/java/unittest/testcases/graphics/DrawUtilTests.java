@@ -1,9 +1,9 @@
 package unittest.testcases.graphics;
 
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.game.Model2D;
-import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.game.Model2D;
+import tech.fastj.graphics.game.Polygon2D;
 
 import java.awt.Color;
 import java.awt.Font;

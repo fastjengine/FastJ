@@ -1,10 +1,10 @@
 package unittest.testcases.graphics.game;
 
-import io.github.lucasstarsz.fastj.math.Maths;
-import io.github.lucasstarsz.fastj.graphics.game.GameObject;
+import tech.fastj.math.Maths;
+import tech.fastj.graphics.game.GameObject;
 
-import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import tech.fastj.systems.behaviors.Behavior;
+import tech.fastj.systems.control.Scene;
 
 import org.junit.jupiter.api.Test;
 import unittest.mock.systems.behaviors.MockBehavior;

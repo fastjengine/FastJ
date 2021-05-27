@@ -1,12 +1,12 @@
 package unittest.testcases.systems.control;
 
-import io.github.lucasstarsz.fastj.graphics.Camera;
-import io.github.lucasstarsz.fastj.graphics.Drawable;
-import io.github.lucasstarsz.fastj.graphics.game.GameObject;
+import tech.fastj.graphics.Camera;
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.game.GameObject;
 
-import io.github.lucasstarsz.fastj.systems.behaviors.BehaviorManager;
-import io.github.lucasstarsz.fastj.systems.control.SimpleManager;
-import io.github.lucasstarsz.fastj.systems.tags.TagManager;
+import tech.fastj.systems.behaviors.BehaviorManager;
+import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.tags.TagManager;
 
 import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockDrawable;

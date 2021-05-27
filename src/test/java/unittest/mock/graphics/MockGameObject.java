@@ -1,9 +1,9 @@
 package unittest.mock.graphics;
 
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.game.GameObject;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.game.GameObject;
 
-import io.github.lucasstarsz.fastj.systems.control.Scene;
+import tech.fastj.systems.control.Scene;
 
 import java.awt.Graphics2D;
 

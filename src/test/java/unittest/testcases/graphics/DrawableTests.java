@@ -1,11 +1,11 @@
 package unittest.testcases.graphics;
 
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.DrawUtil;
-import io.github.lucasstarsz.fastj.graphics.Drawable;
-import io.github.lucasstarsz.fastj.graphics.game.Model2D;
-import io.github.lucasstarsz.fastj.graphics.game.Polygon2D;
-import io.github.lucasstarsz.fastj.graphics.game.Text2D;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.game.Model2D;
+import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.game.Text2D;
 
 import java.util.HashMap;
 import java.util.Map;

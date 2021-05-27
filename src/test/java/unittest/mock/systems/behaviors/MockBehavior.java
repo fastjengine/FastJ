@@ -1,9 +1,9 @@
 package unittest.mock.systems.behaviors;
 
-import io.github.lucasstarsz.fastj.math.Pointf;
-import io.github.lucasstarsz.fastj.graphics.game.GameObject;
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.game.GameObject;
 
-import io.github.lucasstarsz.fastj.systems.behaviors.Behavior;
+import tech.fastj.systems.behaviors.Behavior;
 
 public class MockBehavior implements Behavior {
 
