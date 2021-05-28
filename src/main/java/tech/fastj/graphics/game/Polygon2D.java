@@ -9,6 +9,7 @@ import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -34,6 +35,7 @@ public class Polygon2D extends GameObject {
     private Pointf[] points;
 
     private Color color;
+    private Paint paint;
     private boolean paintFilled;
 
     private float rotation;
@@ -138,6 +140,26 @@ public class Polygon2D extends GameObject {
      */
     public Color getColor() {
         return color;
+    }
+
+    /**
+     * Gets the paint for this polygon.
+     *
+     * @return The {@code Color} set for this polygon.
+     */
+    public Paint getPaint() {
+        return paint;
+    }
+
+    /**
+     * Sets the pain for this polygon.
+     *
+     * @param newPaint The {@code Paint} to be used for the polygon.
+     * @return This instance of the {@code Polygon2D}, for method chaining.
+     */
+    public Polygon2D setPaint(Paint newPaint) {
+        paint = newPaint;
+        return this;
     }
 
     /**
@@ -271,13 +293,19 @@ public class Polygon2D extends GameObject {
     public void render(Graphics2D g) {
         if (!shouldRender()) return;
 
-        g.setColor(color);
+//        g.setColor(color);
+
+        Paint oldPaint = g.getPaint();
+
+        g.setPaint(paint);
 
         if (paintFilled) {
             g.fill(renderPath);
         } else {
             g.draw(renderPath);
         }
+
+        g.setPaint(oldPaint);
     }
 
     @Override

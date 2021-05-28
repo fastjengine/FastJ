@@ -23,6 +23,7 @@ module fastj.library {
     exports tech.fastj.graphics.game;
     exports tech.fastj.graphics.ui;
     exports tech.fastj.graphics.ui.elements;
+    exports tech.fastj.graphics.util;
 
     exports tech.fastj.systems.input;
     exports tech.fastj.systems.input.keyboard;
