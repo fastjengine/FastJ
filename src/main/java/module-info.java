@@ -11,7 +11,7 @@
  * </ul>
  * <p>
  * For more information, check out
- * <a href="https://github.com/lucasstarsz/FastJ-Engine" target="_blank">the github repository.</a>
+ * <a href="https://github.com/fastjengine/FastJ" target="_blank">the github repository.</a>
  */
 module fastj.library {
     requires transitive java.desktop;
