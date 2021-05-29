@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util;
+package tech.fastj.graphics.util.gradients;
 
 import tech.fastj.engine.CrashMessages;
 

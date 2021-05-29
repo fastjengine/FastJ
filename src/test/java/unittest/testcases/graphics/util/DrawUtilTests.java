@@ -1,28 +1,17 @@
-package unittest.testcases.graphics;
+package unittest.testcases.graphics.util;
 
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.DrawUtil;
-import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
@@ -34,80 +23,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DrawUtilTests {
-
-    private static final Path tempModelDirectoryPath = Path.of("temp");
-    private static final String pathToModel = tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_house_model.psdf";
-
-    private static final Pointf[] expectedModelSquare = DrawUtil.createBox(25f, 25f, 50f);
-    private static final Pointf[] expectedModelTriangle = {
-            new Pointf(15f, 25f),
-            new Pointf(50f, 20f),
-            new Pointf(85f, 25f)
-    };
-
-    private static final Polygon2D[] expectedHouseArray = {
-            new Polygon2D(expectedModelSquare),
-            new Polygon2D(expectedModelTriangle)
-    };
-    private static final Model2D expectedHouse = new Model2D(expectedHouseArray, false);
-
-    @BeforeAll
-    public static void createTempModelFolder_forReadWriteTests() throws IOException {
-        Files.createDirectory(tempModelDirectoryPath);
-        System.out.println("Temporary Model Directory created at: " + tempModelDirectoryPath.toAbsolutePath());
-    }
-
-    @AfterAll
-    public static void deleteTempModelFolder() throws IOException {
-        try (Stream<Path> pathWalker = Files.walk(tempModelDirectoryPath)) {
-            pathWalker.sorted(Comparator.reverseOrder()).forEach(file -> {
-                try {
-                    Files.deleteIfExists(file);
-                } catch (IOException e) {
-                    throw new IllegalStateException("The file system didn't like that." + e);
-                }
-            });
-        }
-        System.out.println("Deleted directory \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
-    }
-
-    @Test
-    @Order(1)
-    void checkWriteModel2D_fileShouldMatchExpectedContent() throws IOException {
-        List<String> expectedContent = List.of("amt 2",
-                "c 0 0 0 255",
-                "f true",
-                "s true",
-                "p 25 25",
-                "p 75 25",
-                "p 75 75",
-                "p 25 75 ;",
-                "",
-                "c 0 0 0 255",
-                "f true",
-                "s true",
-                "p 15 25",
-                "p 50 20",
-                "p 85 25 ;",
-                "");
-
-        DrawUtil.writeToPSDF(pathToModel, expectedHouse);
-        List<String> actualContent = Files.readAllLines(Path.of(pathToModel));
-
-        for (int i = 0; i < actualContent.size(); i++) {
-            assertEquals(expectedContent.get(i), actualContent.get(i), "Each line of the actual content should match the expected content.");
-        }
-    }
-
-    @Test
-    @Order(2)
-    void checkReadModel_shouldMatchOriginal() {
-        Polygon2D[] actualHouseArray = DrawUtil.load2DModel(pathToModel);
-        Model2D actualHouse = new Model2D(actualHouseArray, false);
-
-        assertArrayEquals(expectedHouseArray, actualHouseArray, "The actual Polygon2D array should match the expected array.");
-        assertEquals(expectedHouse, actualHouse, "The actual Model2D should match the expected Model2D.");
-    }
 
     @Test
     void checkCreateCollisionOutline_withTwoSquares_shouldMatchExpected() {

@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util;
+package tech.fastj.graphics.util.gradients;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
@@ -7,6 +7,9 @@ import tech.fastj.graphics.Drawable;
 
 import java.awt.Color;
 import java.awt.RadialGradientPaint;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /** A builder class for creating {@link RadialGradientPaint} objects. */
 public class RadialGradientBuilder implements GradientBuilder {
@@ -14,12 +17,12 @@ public class RadialGradientBuilder implements GradientBuilder {
     private Pointf center;
     private float radius;
 
-    private final Color[] colors;
+    private final List<Color> colors;
     private int count;
 
     /** Initializes a {@code RadialGradientBuilder}'s internals. */
     RadialGradientBuilder() {
-        colors = new Color[Gradients.ColorLimit];
+        colors = new ArrayList<>(Gradients.ColorLimit);
     }
 
     /**
@@ -72,7 +75,7 @@ public class RadialGradientBuilder implements GradientBuilder {
             );
         }
 
-        colors[count] = color;
+        colors.add(color);
         count++;
         return this;
     }
@@ -84,8 +87,23 @@ public class RadialGradientBuilder implements GradientBuilder {
      */
     @Override
     public RadialGradientPaint build() {
-        float[] fractions = generateIntervals(colors.length);
-        return new RadialGradientPaint(center.x, center.y, radius, fractions, colors);
+        if (count < 2) {
+            FastJEngine.error(
+                    GradientBuilder.GradientCreationError,
+                    new IllegalStateException(
+                            "Gradients must contain at least 2 colors."
+                                    + System.lineSeparator()
+                                    + "This gradient builder only contains the following gradients: " + colors
+                    )
+            );
+        }
+
+        float[] fractions = generateIntervals(colors.size());
+        System.out.println(center);
+        System.out.println(radius);
+        System.out.println(Arrays.toString(fractions));
+        System.out.println(colors);
+        return new RadialGradientPaint(center.x, center.y, radius, fractions, colors.toArray(new Color[0]));
     }
 
     /**

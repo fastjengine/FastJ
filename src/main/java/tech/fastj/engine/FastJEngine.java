@@ -4,7 +4,7 @@ import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.DisplayUtil;
+import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;

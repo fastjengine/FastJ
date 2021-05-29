@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util;
+package tech.fastj.graphics.util.gradients;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
@@ -7,6 +7,7 @@ import tech.fastj.graphics.Drawable;
 
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
+import java.util.Arrays;
 
 /** A builder class for creating {@link LinearGradientPaint} objects. */
 public class LinearGradientBuilder implements GradientBuilder {
@@ -101,6 +102,17 @@ public class LinearGradientBuilder implements GradientBuilder {
      */
     @Override
     public LinearGradientPaint build() {
+        if (count < 2) {
+            FastJEngine.error(
+                    GradientBuilder.GradientCreationError,
+                    new IllegalStateException(
+                            "Gradients must contain at least 2 colors."
+                                    + System.lineSeparator()
+                                    + "This gradient builder only contains the following gradients: " + Arrays.toString(colors)
+                    )
+            );
+        }
+
         float[] fractions = generateIntervals(colors.length);
         return new LinearGradientPaint(from.x, from.y, to.x, to.y, fractions, colors);
     }

@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util;
+package tech.fastj.graphics.util.gradients;
 
 import java.awt.GradientPaint;
 import java.awt.LinearGradientPaint;
