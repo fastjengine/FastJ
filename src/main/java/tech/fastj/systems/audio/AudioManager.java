@@ -10,7 +10,6 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +36,27 @@ public class AudioManager {
         }
     }
 
+    public static void unloadAudio(Path... audioPaths) {
+        for (Path audioPath : audioPaths) {
+            AudioFiles.remove(audioPath.toString());
+        }
+    }
+
     public static Audio getAudio(Path audioPath) {
         return getAudio(audioPath.toString());
     }
 
     public static Audio getAudio(String audioPath) {
         return AudioFiles.get(audioPath);
+    }
+
+    public static void unloadAllAudio() {
+        AudioFiles.clear();
+    }
+
+    public static void stop() {
+        AudioPlayer.shutdownNow();
+        unloadAllAudio();
     }
 
     static Clip newClip() {
@@ -68,24 +82,62 @@ public class AudioManager {
 
             return null;
         }
-
-
-    }
-
-    public static void stop() {
-        AudioPlayer.shutdownNow();
     }
 
     static void playAudio(Audio audio) {
         AudioPlayer.execute(() -> {
             Clip clip = audio.getClip();
-            AudioInputStream audioInputStream = audio.getAudioInputStream();
+
+            if (clip.isOpen()) {
+                FastJEngine.warning("Tried to play audio file \"" + audio.getAudioPath().toString() + "\", but it was already open (and likely being used elsewhere.)");
+                return;
+            }
+
             try {
-                System.out.println("?");
+                AudioInputStream audioInputStream = audio.getAudioInputStream();
                 clip.open(audioInputStream);
                 clip.start();
             } catch (LineUnavailableException | IOException exception) {
                 FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+            }
+        });
+    }
+
+    static void pauseAudio(Audio audio) {
+        AudioPlayer.execute(() -> {
+            Clip clip = audio.getClip();
+
+            if (!clip.isOpen()) {
+                FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            } else {
+                clip.stop();
+            }
+        });
+    }
+
+    static void resumeAudio(Audio audio) {
+        AudioPlayer.execute(() -> {
+            Clip clip = audio.getClip();
+
+            if (!clip.isOpen()) {
+                FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            } else {
+                clip.start();
+            }
+        });
+    }
+
+    static void stopAudio(Audio audio) {
+        AudioPlayer.execute(() -> {
+            Clip clip = audio.getClip();
+
+            if (!clip.isOpen()) {
+                FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            } else {
+                clip.stop();
+                clip.flush();
+                clip.drain();
+                clip.close();
             }
         });
     }
