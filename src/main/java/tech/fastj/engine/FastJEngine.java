@@ -485,7 +485,7 @@ public class FastJEngine {
 
         Mouse.stop();
         Keyboard.stop();
-        AudioManager.stop();
+        AudioManager.reset();
         BehaviorManager.reset();
         TagManager.reset();
 
