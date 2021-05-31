@@ -149,4 +149,58 @@ class MathsTests {
         assertEquals(5f, Maths.lerp(5f, 2f, 0f), "The lerped value should be 5f.");
         assertEquals(-1f, Maths.lerp(5f, 2f, 2f), "The lerped value should be -1f.");
     }
+
+    @Test
+    void checkValueWithinRange_withFloatingPointValues() {
+        float value = 35f;
+        float minRange = 13f;
+        float maxRange = 37f;
+        float lowerThanRange = 5f;
+        float higherThanRange = 40f;
+
+        float actualValueInRange = Maths.withinRange(value, minRange, maxRange);
+        float actualValueLowerThanRange = Maths.withinRange(lowerThanRange, minRange, maxRange);
+        float actualValueHigherThanRange = Maths.withinRange(higherThanRange, minRange, maxRange);
+        assertEquals(value, actualValueInRange, "The value should be within the given range -- as such, it should be the same value that is returned.");
+        assertEquals(minRange, actualValueLowerThanRange, "The value should be lower than the given range -- as such, the minimum in the range should be returned.");
+        assertEquals(maxRange, actualValueHigherThanRange, "The value should be higher than the given range -- as such, the maximum in the range should be returned.");
+    }
+
+    @Test
+    void checkValueWithinRange_withIntegerValues() {
+        int value = 35;
+        int minRange = 13;
+        int maxRange = 37;
+        int lowerThanRange = 5;
+        int higherThanRange = 40;
+
+        int actualValueInRange = Maths.withinIntegerRange(value, minRange, maxRange);
+        int actualValueLowerThanRange = Maths.withinIntegerRange(lowerThanRange, minRange, maxRange);
+        int actualValueHigherThanRange = Maths.withinIntegerRange(higherThanRange, minRange, maxRange);
+        assertEquals(value, actualValueInRange, "The value should be within the given range -- as such, it should be the same value that is returned.");
+        assertEquals(minRange, actualValueLowerThanRange, "The value should be lower than the given range -- as such, the minimum in the range should be returned.");
+        assertEquals(maxRange, actualValueHigherThanRange, "The value should be higher than the given range -- as such, the maximum in the range should be returned.");
+    }
+
+    @Test
+    void tryValueWithinRange_withFloatingPointValues_butMinimumIsHigherThanMaximum() {
+        float value = 35f;
+        float minRangeHigherThanMaxRange = 37f;
+        float maxRange = 13f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.withinRange(value, minRangeHigherThanMaxRange, maxRange));
+        String expectedErrorMessage = "The minimum must be less than the maximum.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void tryValueWithinRange_withIntegerValues_butMinimumIsHigherThanMaximum() {
+        int value = 35;
+        int minRangeHigherThanMaxRange = 37;
+        int maxRange = 13;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.withinIntegerRange(value, minRangeHigherThanMaxRange, maxRange));
+        String expectedErrorMessage = "The minimum must be less than the maximum.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
 }

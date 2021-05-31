@@ -138,6 +138,9 @@ public class Maths {
      * @return The number, within the range of the minimum and maximum numbers.
      */
     public static float withinRange(float num, float min, float max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
         return Math.min(Math.max(num, min), max);
     }
 
@@ -150,6 +153,9 @@ public class Maths {
      * @return The number, within the range of the minimum and maximum numbers.
      */
     public static int withinIntegerRange(int num, int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
         return Math.min(Math.max(num, min), max);
     }
 }
