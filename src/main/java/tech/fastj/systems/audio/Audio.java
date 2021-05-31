@@ -2,45 +2,41 @@ package tech.fastj.systems.audio;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.FloatControl;
 import java.net.URL;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Audio {
 
     /** Signifies that the audio should loop when it finishes playing. */
     public static final int LoopWhenFinishedPlaying = -1;
 
-    private Clip clip;
-    private AudioInputStream audioInputStream;
+    private final Clip clip;
+    private final AudioInputStream audioInputStream;
+    private final SimpleLineListener simpleLineListener;
 
-    private Runnable clipOpenAction;
-    private Runnable clipCloseAction;
-    private Runnable clipStartAction;
-    private Runnable clipStopAction;
-
-    Audio(URL audioPath) {
-        clip = AudioManager.newClip();
+    Audio(Path audioPath) {
+        clip = Objects.requireNonNull(AudioManager.newClip());
         audioInputStream = AudioManager.newAudioStream(audioPath);
 
-        clip.addLineListener(new SimpleAudioListener() {
-            @Override
-            public void update(LineEvent event) {
-                LineEvent.Type lineEventType = event.getType();
-                if (LineEvent.Type.OPEN.equals(lineEventType)) {
-                    clipOpenAction.run();
-                } else if (LineEvent.Type.CLOSE.equals(lineEventType)) {
-                    clipCloseAction.run();
-                } else if (LineEvent.Type.START.equals(lineEventType)) {
-                    clipStartAction.run();
-                } else if (LineEvent.Type.STOP.equals(lineEventType)) {
-                    clipStopAction.run();
+        simpleLineListener = new SimpleLineListener(
+                () -> {
+                },
+                () -> {
+                },
+                () -> {
+                },
+                () -> {
                     clip.stop();
                     clip.flush();
                     clip.drain();
                     clip.close();
                 }
-            }
-        });
+        );
+
+        clip.addLineListener(simpleLineListener);
     }
 
     public Clip getClip() {
@@ -49,6 +45,10 @@ public class Audio {
 
     public AudioInputStream getAudioInputStream() {
         return audioInputStream;
+    }
+
+    public SimpleLineListener getSimpleLineListener() {
+        return simpleLineListener;
     }
 
     public void setLoopPoints(int loopStart, int loopEnd) {

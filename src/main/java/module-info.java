@@ -6,7 +6,7 @@
  * <p>
  * This game library is split into two main parts:
  * <ul>
- *     <li>the framework with which to build games (every package except {@link io.github.lucasstarsz.fastj.engine}), and</li>
+ *     <li>the framework with which to build games (every package except {@link tech.fastj.engine}), and</li>
  *     <li>the engine running it (just package {@code engine}).</li>
  * </ul>
  * <p>

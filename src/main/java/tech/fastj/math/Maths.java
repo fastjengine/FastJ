@@ -128,4 +128,28 @@ public class Maths {
     public static float lerp(float x, float y, float t) {
         return (1f - t) * x + t * y;
     }
+
+    /**
+     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     *
+     * @param num The original number.
+     * @param min The minimum number allowed.
+     * @param max The maximum number allowed.
+     * @return The number, within the range of the minimum and maximum numbers.
+     */
+    public static float withinRange(float num, float min, float max) {
+        return Math.min(Math.max(num, min), max);
+    }
+
+    /**
+     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     *
+     * @param num The original number.
+     * @param min The minimum number allowed.
+     * @param max The maximum number allowed.
+     * @return The number, within the range of the minimum and maximum numbers.
+     */
+    public static int withinIntegerRange(int num, int min, int max) {
+        return Math.min(Math.max(num, min), max);
+    }
 }
