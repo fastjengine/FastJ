@@ -4,7 +4,7 @@ import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SceneManager;
 
 import org.junit.jupiter.api.Test;
-import unittest.HeadlessHelper;
+import unittest.EnvironmentHelper;
 import unittest.mock.systems.control.MockEmptyScene;
 import unittest.mock.systems.control.MockNameSettingScene;
 import unittest.mock.systems.control.MockSceneManager;
@@ -38,7 +38,7 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSceneAdding_withNameThatAlreadyExists() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         SceneManager sceneManager = new MockSceneManager();
 
@@ -68,7 +68,7 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerGetScene_withSceneNameThatDoesNotExist() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         SceneManager sceneManager = new MockSceneManager();
 
@@ -103,7 +103,7 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSceneRemoving_bySceneName_withSceneNameThatDoesNotExist() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         SceneManager sceneManager = new MockSceneManager();
 
@@ -138,7 +138,7 @@ class SceneManagerTests {
 
     @Test
     void trySceneManagerSetCurrentScene_bySceneName_withSceneNameThatDoesNotExist() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         SceneManager sceneManager = new MockSceneManager();
 

@@ -6,7 +6,10 @@ import tech.fastj.engine.FastJEngine;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,6 +21,23 @@ import java.util.concurrent.TimeUnit;
 public class AudioManager {
 
     private static final Map<String, Audio> AudioFiles = new HashMap<>();
+
+    /**
+     * Checks whether the computer supports audio output.
+     *
+     * @return Whether the computer supports audio output.
+     */
+    public static boolean isOutputSupported() {
+        Line.Info outputLineInfo = new Line.Info(SourceDataLine.class);
+        for (Mixer.Info mixerInfo : AudioSystem.getMixerInfo()) {
+            Mixer mixer = AudioSystem.getMixer(mixerInfo);
+            if (mixer.isLineSupported(outputLineInfo)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Loads all {@link Audio} objects at the specified paths into memory.
@@ -61,7 +81,14 @@ public class AudioManager {
         return AudioFiles.get(audioPath);
     }
 
+    /** Resets the {@code AudioManager}, removing all of its loaded audio files. */
     public static void reset() {
+        AudioFiles.forEach((s, audio) -> {
+            if (audio.currentPlaybackState != PlaybackState.Stopped) {
+                audio.stop();
+            }
+        });
+
         AudioFiles.clear();
     }
 
@@ -82,14 +109,19 @@ public class AudioManager {
     static AudioInputStream newAudioStream(Path audioPath) {
         try {
             return AudioSystem.getAudioInputStream(audioPath.toFile());
-        } catch (UnsupportedAudioFileException | IOException exception) {
+        } catch (IOException exception) {
             FastJEngine.error(
-                    CrashMessages.theGameCrashed("an error while loading sound."),
+                    CrashMessages.theGameCrashed("an I/O error while loading sound."),
                     exception
             );
-
-            return null;
+        } catch (UnsupportedAudioFileException exception) {
+            FastJEngine.error(
+                    CrashMessages.theGameCrashed("an audio file reading error."),
+                    new UnsupportedAudioFileException(audioPath.toAbsolutePath() + " seems to be of an unsupported file format.")
+            );
         }
+
+        return null;
     }
 
     /** See {@link Audio#play()}. */
@@ -104,7 +136,16 @@ public class AudioManager {
         try {
             AudioInputStream audioInputStream = audio.getAudioInputStream();
             clip.open(audioInputStream);
-            clip.start();
+
+            if (audio.shouldLoop()) {
+                clip.setLoopPoints(audio.getLoopStart(), audio.getLoopEnd());
+                clip.loop(audio.getLoopCount());
+            } else {
+                clip.start();
+            }
+
+            audio.previousPlaybackState = audio.currentPlaybackState;
+            audio.currentPlaybackState = PlaybackState.Playing;
         } catch (LineUnavailableException | IOException exception) {
             FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
         }
@@ -116,9 +157,12 @@ public class AudioManager {
 
         if (!clip.isOpen()) {
             FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
-        } else {
-            clip.stop();
+            return;
         }
+
+        clip.stop();
+        audio.previousPlaybackState = audio.currentPlaybackState;
+        audio.currentPlaybackState = PlaybackState.Paused;
     }
 
     /** See {@link Audio#resume()}. */
@@ -127,9 +171,18 @@ public class AudioManager {
 
         if (!clip.isOpen()) {
             FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            return;
+        }
+
+        if (audio.shouldLoop()) {
+            clip.setLoopPoints(audio.getLoopStart(), audio.getLoopEnd());
+            clip.loop(audio.getLoopCount());
         } else {
             clip.start();
         }
+
+        audio.previousPlaybackState = audio.currentPlaybackState;
+        audio.currentPlaybackState = PlaybackState.Playing;
     }
 
     /** See {@link Audio#stop()}. */
@@ -138,12 +191,15 @@ public class AudioManager {
 
         if (!clip.isOpen()) {
             FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
-        } else {
-            clip.stop();
-            clip.flush();
-            clip.drain();
-            clip.close();
+            return;
         }
+
+        clip.stop();
+        clip.flush();
+        clip.drain();
+        clip.close();
+        audio.previousPlaybackState = audio.currentPlaybackState;
+        audio.currentPlaybackState = PlaybackState.Stopped;
     }
 
     /** See {@link Audio#seek(long)}. */

@@ -9,8 +9,11 @@ import java.util.concurrent.TimeUnit;
 /** An audio object used for sound playback. */
 public class Audio {
 
-    /** Signifies that the audio should loop when it finishes playing. */
+    /** Signifies that the audio should loop indefinitely when it finishes playing. */
     public static final int ContinuousLoop = Clip.LOOP_CONTINUOUSLY;
+    /** Signifies that the audio should stop looping. */
+    public static final int StopLooping = 0;
+
     /** Signifies that the audio should start its loop from the beginning of the audio track. */
     public static final int LoopFromStart = 0;
     /** Signifies that the audio should loop back once it reaches the end of the audio track. */
@@ -21,6 +24,10 @@ public class Audio {
     private final AudioEventListener audioEventListener;
     private final Path audioPath;
 
+    private int loopStart;
+    private int loopEnd;
+    private int loopCount;
+    boolean shouldLoop;
     PlaybackState currentPlaybackState;
     PlaybackState previousPlaybackState;
 
@@ -31,6 +38,8 @@ public class Audio {
      */
     Audio(Path audioPath) {
         this.audioPath = audioPath;
+        loopStart = LoopFromStart;
+        loopEnd = LoopAtEnd;
 
         clip = Objects.requireNonNull(AudioManager.newClip());
         audioEventListener = new AudioEventListener(this);
@@ -103,6 +112,22 @@ public class Audio {
         return TimeUnit.MILLISECONDS.convert(clip.getMicrosecondPosition(), TimeUnit.MILLISECONDS);
     }
 
+    public int getLoopStart() {
+        return loopStart;
+    }
+
+    public int getLoopEnd() {
+        return loopEnd;
+    }
+
+    public int getLoopCount() {
+        return loopCount;
+    }
+
+    public boolean shouldLoop() {
+        return shouldLoop;
+    }
+
     /**
      * Sets the playback position to the specified {@code playbackPosition} value, in milliseconds.
      *
@@ -126,7 +151,9 @@ public class Audio {
             throw new IllegalArgumentException("The loop starting point should be less than or equal to the loop ending point.");
         }
 
-        clip.setLoopPoints(loopStart, loopEnd);
+        this.loopStart = loopStart;
+        this.loopEnd = loopEnd;
+        shouldLoop = true;
     }
 
     /**
@@ -140,7 +167,16 @@ public class Audio {
      * @param loopCount The amount of times to loop.
      */
     public void setLoopCount(int loopCount) {
-        clip.loop(loopCount);
+        if (loopCount < -1) {
+            throw new IllegalArgumentException("The loop count should not be less than -1.");
+        }
+
+        this.loopCount = loopCount;
+        shouldLoop = (this.loopCount != StopLooping);
+    }
+
+    public void setShouldLoop(boolean shouldLoop) {
+        this.shouldLoop = shouldLoop;
     }
 
     /**
@@ -207,6 +243,11 @@ public class Audio {
      */
     public void stop() {
         AudioManager.stopAudio(this);
+    }
+
+    public void stopLoopingNow() {
+        clip.loop(StopLooping);
+        shouldLoop = false;
     }
 
     @Override

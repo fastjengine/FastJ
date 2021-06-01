@@ -10,18 +10,18 @@ import java.awt.Font;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import unittest.HeadlessHelper;
+import unittest.EnvironmentHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static unittest.HeadlessHelper.runFastJWith;
+import static unittest.EnvironmentHelper.runFastJWith;
 
 class Text2DTests {
 
     @BeforeAll
     public static void onlyRunIfNotHeadless() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
     }
 
     @Test
