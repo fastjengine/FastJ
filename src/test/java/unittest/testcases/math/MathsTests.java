@@ -111,11 +111,12 @@ class MathsTests {
     }
 
     @Test
-    void trySnapFloatValueToEdge_withInvalidParameters_shouldThrowException() {
-        float leftEdge = 3.5f;
-        float rightEdge = 7.5f;
+    void trySnapFloatValueToEdge_butLeftEdgeIsLargerThanRightEdge() {
+        float leftEdgeLargerThanRightEdge = 7.0f;
+        float rightEdge = 6.0f;
+        float valueToSnap = 5.5f;
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.randomAtEdge(rightEdge, leftEdge));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> Maths.snap(valueToSnap, leftEdgeLargerThanRightEdge, rightEdge));
         String expectedExceptionMessage = "The left edge must be less than the right edge.";
         String actualExceptionMessage = exception.getMessage();
         assertEquals(expectedExceptionMessage, actualExceptionMessage, "The Maths#snap(num, leftEdge, rightEdge) method should throw an error when the right edge is less than the left edge.");
@@ -201,6 +202,83 @@ class MathsTests {
 
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.withinIntegerRange(value, minRangeHigherThanMaxRange, maxRange));
         String expectedErrorMessage = "The minimum must be less than the maximum.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void checkNormalization_usingFloatingPointMath() {
+        float value = 5f;
+        float minimum = 0f;
+        float maximum = 25f;
+
+        float expectedNormalizedValue = 0.2f;
+        float actualNormalizedValue = Maths.normalize(value, minimum, maximum);
+        assertEquals(expectedNormalizedValue, actualNormalizedValue, "The normalized value should match the expected normalized value.");
+    }
+
+    @Test
+    void tryNormalization_usingFloatingPointMath_butMinimumIsLargerThanMaximum() {
+        float value = 5f;
+        float minimumHigherThanMaximum = 37f;
+        float maximum = 25f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.normalize(value, minimumHigherThanMaximum, maximum));
+        String expectedErrorMessage = "The provided number must be more than the minimum number.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void tryNormalization_usingFloatingPointMath_butMaximumIsSmallerThanMinimum() {
+        float value = 5f;
+        float minimum = 0f;
+        float maximumLowerThanMinimum = -13f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.normalize(value, minimum, maximumLowerThanMinimum));
+        String expectedErrorMessage = "The provided number must be less than the maximum number.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void checkDenormalization_usingFloatingPointMath() {
+        float normalizedValue = 0.2f;
+        float minimum = 0f;
+        float maximum = 25f;
+
+        float expectedDenormalizedValue = 5f;
+        float actualDenormalizedValue = Maths.denormalize(normalizedValue, minimum, maximum);
+        assertEquals(expectedDenormalizedValue, actualDenormalizedValue, "The de-normalized value should match the expected de-normalized value.");
+    }
+
+    @Test
+    void tryDenormalization_usingFloatingPointMath_butMinimumIsLargerThanMaximum() {
+        float normalizedValue = 0.2f;
+        float minimumHigherThanMaximum = 37f;
+        float maximum = 25f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.denormalize(normalizedValue, minimumHigherThanMaximum, maximum));
+        String expectedErrorMessage = "The minimum must be less than the maximum.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void tryDenormalization_usingFloatingPointMath_butProvidedNumberIsSmallerThanZero() {
+        float normalizedValueLessThanZero = -37.13f;
+        float minimum = 0f;
+        float maximum = 25f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.denormalize(normalizedValueLessThanZero, minimum, maximum));
+        String expectedErrorMessage = "The normalized number must be more than 0.0f.";
+        assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
+    }
+
+    @Test
+    void tryDenormalization_usingFloatingPointMath_butProvidedNumberIsLargerThanOne() {
+        float normalizedValueMoreThanOne = 13.37f;
+        float minimum = 0f;
+        float maximum = 25f;
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.denormalize(normalizedValueMoreThanOne, minimum, maximum));
+        String expectedErrorMessage = "The normalized number must be less than 1.0f.";
         assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
     }
 }
