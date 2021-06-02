@@ -2,7 +2,7 @@ package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
 
@@ -21,7 +21,7 @@ class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
         Polygon2D polygon2D = new Polygon2D(square);
 
-        assertEquals(Polygon2D.DefaultColor, polygon2D.getColor(), "The created polygon's color should match the default color.");
+        assertEquals(Polygon2D.DefaultPaint, polygon2D.getPaint(), "The created polygon's paint should match the default paint.");
         assertEquals(Polygon2D.DefaultFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the default fill option.");
         assertEquals(Polygon2D.DefaultShow, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default show option.");
         assertEquals(GameObject.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
@@ -40,7 +40,7 @@ class Polygon2DTests {
 
         Polygon2D polygon2D = new Polygon2D(square, randomColor, shouldFill, shouldRender);
 
-        assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
+        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
         assertEquals(GameObject.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
@@ -69,7 +69,7 @@ class Polygon2DTests {
         expectedTransform.setToRotation(Math.toRadians(randomRotation), polygon2D.getCenter().x, polygon2D.getCenter().y);
         expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
 
-        assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
+        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");
@@ -94,7 +94,7 @@ class Polygon2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Polygon2D polygon2D = (Polygon2D) new Polygon2D(square)
-                .setColor(randomColor)
+                .setPaint(randomColor)
                 .setFilled(shouldFill)
                 .setTranslation(randomTranslation)
                 .setRotation(randomRotation)
@@ -106,7 +106,7 @@ class Polygon2DTests {
         expectedTransform.setToRotation(Math.toRadians(randomRotation), polygon2D.getCenter().x, polygon2D.getCenter().y);
         expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
 
-        assertEquals(randomColor, polygon2D.getColor(), "The created polygon's color should match the randomly generated color.");
+        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");

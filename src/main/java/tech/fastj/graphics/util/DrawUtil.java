@@ -1,23 +1,29 @@
-package tech.fastj.graphics;
+package tech.fastj.graphics.util;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.game.Model2D;
+import tech.fastj.graphics.Boundary;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.gradients.Gradients;
+import tech.fastj.graphics.util.gradients.LinearGradientBuilder;
+import tech.fastj.graphics.util.gradients.RadialGradientBuilder;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.GraphicsEnvironment;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
+import java.awt.Paint;
+import java.awt.RadialGradientPaint;
+import java.awt.TexturePaint;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,150 +38,8 @@ import java.util.List;
  */
 public final class DrawUtil {
 
-    private static final String PsdfReadErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
-    private static final String PsdfWriteErrorMessage = CrashMessages.theGameCrashed("a .psdf file reading error.");
-
     private DrawUtil() {
         throw new java.lang.IllegalStateException();
-    }
-
-    /**
-     * Gets a {@code Polygon2D} array, loaded from a {@code .psdf} file.
-     * <p>
-     * This method allows the user to load an array of {@code Polygon2D}s from a single file, decreasing the amount of
-     * models that have to be programmed in.
-     * <p>
-     * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly use the resulting
-     * array from this method to create a {@code Model2D} object.
-     *
-     * @param fileLocation Location of the file.
-     * @return An array of {@code Polygon2D}s.
-     */
-    public static Polygon2D[] load2DModel(String fileLocation) {
-        // check for correct file extension
-        if (!fileLocation.substring(fileLocation.lastIndexOf(".") + 1).equalsIgnoreCase("psdf")) {
-            FastJEngine.error(PsdfReadErrorMessage,
-                    new IllegalArgumentException("Unsupported file type."
-                            + System.lineSeparator()
-                            + "This engine currently only supports files of the extension \".psdf\".")
-            );
-        }
-
-        return parseModelFile(fileLocation);
-    }
-
-    /**
-     * Parses the content of the file at the location of the string into a {@code Polygon2D} array.
-     *
-     * @param fileLocation The location of the .psdf file.
-     * @return An array of {@code Polygon2D}s.
-     */
-    private static Polygon2D[] parseModelFile(String fileLocation) {
-        try {
-            Polygon2D[] result = null;
-            List<String> lines = Files.readAllLines(Paths.get(fileLocation));
-            List<Pointf> polygonPoints = new ArrayList<>();
-            Color polygonColor = null;
-            boolean fillPolygon = false;
-            boolean renderPolygon = false;
-            int arrayLoc = 0;
-
-            /* Checks through each line in the list, and sets variables based on the
-             * first word of each line. */
-            for (String words : lines) {
-                String[] tokens = words.split("\\s+");
-                switch (tokens[0]) {
-                    case "amt": { // sets the total amount of polygons in the array
-                        result = new Polygon2D[Integer.parseInt(tokens[1])];
-                        break;
-                    }
-                    case "c": { // set color r, g, b, a
-                        polygonColor = new Color(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
-                        break;
-                    }
-                    case "f": { // set fill value
-                        fillPolygon = Boolean.parseBoolean(tokens[1]);
-                        break;
-                    }
-                    case "s": { // set show value
-                        renderPolygon = Boolean.parseBoolean(tokens[1]);
-                        break;
-                    }
-                    case "p": { // add point to point list
-                        polygonPoints.add(new Pointf(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2])));
-
-                        // if end of polygon, add polygon to array
-                        if (tokens.length == 4 && tokens[3].equals(";")) {
-                            assert result != null;
-                            result[arrayLoc] = new Polygon2D(polygonPoints.toArray(new Pointf[0]), polygonColor, fillPolygon, renderPolygon);
-
-                            // reset values
-                            polygonColor = null;
-                            fillPolygon = false;
-                            renderPolygon = false;
-                            polygonPoints.clear();
-
-                            // increase array location
-                            arrayLoc++;
-                        }
-
-                        break;
-                    }
-                }
-            }
-            return result;
-        } catch (IOException e) {
-            FastJEngine.error(PsdfReadErrorMessage, e);
-            return null;
-        }
-    }
-
-    /**
-     * Writes a {@code .psdf} file containing the current state of the {@code Polygon2D}s that make up the specified
-     * {@code Model2D}.
-     *
-     * @param destPath The destination path of the {@code .psdf} file that will be written.
-     * @param model    The {@code Model2D} that will be written to the file.
-     */
-    public static void writeToPSDF(String destPath, Model2D model) {
-        try {
-            String sep = System.lineSeparator();
-            StringBuilder fileContents = new StringBuilder();
-
-            // write object count
-            fileContents.append("amt ").append(model.getPolygons().length).append(sep);
-
-            for (int i = 0; i < model.getPolygons().length; i++) {
-                Polygon2D obj = model.getPolygons()[i];
-                Color c = obj.getColor();
-
-                // Write obj color, fill, show
-                fileContents.append("c ").append(c.getRed()).append(' ').append(c.getGreen()).append(' ').append(c.getBlue()).append(' ').append(c.getAlpha())
-                        .append(sep)
-                        .append("f ").append(obj.isFilled())
-                        .append(sep)
-                        .append("s ").append(obj.shouldRender())
-                        .append(sep);
-
-                // Write each point in object
-                for (int j = 0; j < obj.getPoints().length; j++) {
-                    Pointf pt = obj.getPoints()[j];
-                    fileContents.append("p ")
-                            .append((int) pt.x == pt.x ? Integer.toString((int) pt.x) : pt.x)
-                            .append(' ')
-                            .append((int) pt.y == pt.y ? Integer.toString((int) pt.y) : pt.y)
-                            .append(j == obj.getPoints().length - 1 ? " ;" : "")
-                            .append(sep);
-                }
-
-                // if there are more objects after this object, then add a new line.
-                if (i != model.getPolygons().length - 1) fileContents.append(sep);
-            }
-
-            Files.writeString(Paths.get(destPath), fileContents, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            FastJEngine.error(PsdfWriteErrorMessage, e);
-        }
     }
 
     /**
@@ -197,7 +61,7 @@ public final class DrawUtil {
             int intersectionCount = 0;
             // if a point intersects with more than one polygon, then it is an inner point and should be removed
             for (Polygon2D polygon : polyList) {
-                if (Path2D.Float.intersects(polygon.collisionPath.getPathIterator(null), polyListPoints.get(i).x - 1f, polyListPoints.get(i).y - 1f, 2f, 2f)) {
+                if (Path2D.Float.intersects(polygon.getCollisionPath().getPathIterator(null), polyListPoints.get(i).x - 1f, polyListPoints.get(i).y - 1f, 2f, 2f)) {
                     intersectionCount++;
                     if (intersectionCount == 2) {
                         polyListPoints.remove(i);
@@ -321,6 +185,80 @@ public final class DrawUtil {
         }
 
         return true;
+    }
+
+    /**
+     * Shorthand for checking equality between two {@link MultipleGradientPaint} objects.
+     *
+     * @param mGradientPaint1 The first {@code Paint} specified.
+     * @param mGradientPaint2 The second {@code Paint} specified.
+     * @return Whether the two {@code Paint}s are equal.
+     */
+    private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
+        return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
+                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
+                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
+                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
+                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
+                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
+    }
+
+    /**
+     * Checks for equality between two {@link Paint} objects as best as possible.
+     *
+     * @param paint1 The first {@code Paint} specified.
+     * @param paint2 The second {@code Paint} specified.
+     * @return Whether the two {@code Paint}s are equal.
+     */
+    public static boolean paintEquals(Paint paint1, Paint paint2) {
+        if (paint1 == paint2) {
+            return true;
+        }
+        if (paint1 == null || paint2 == null || paint1.getClass() != paint2.getClass()) {
+            return false;
+        }
+
+        if (paint1 instanceof RadialGradientPaint) {
+            var radialGradientPaint1 = (RadialGradientPaint) paint1;
+            var radialGradientPaint2 = (RadialGradientPaint) paint2;
+
+            return radialGradientPaint1.getCenterPoint().equals(radialGradientPaint2.getCenterPoint())
+                    && radialGradientPaint1.getFocusPoint().equals(radialGradientPaint2.getFocusPoint())
+                    && Maths.floatEquals(radialGradientPaint1.getRadius(), radialGradientPaint2.getRadius())
+                    && mGradientEquals(radialGradientPaint1, radialGradientPaint2);
+        }
+
+        if (paint1 instanceof LinearGradientPaint) {
+            var linearGradientPaint1 = (LinearGradientPaint) paint1;
+            var linearGradientPaint2 = (LinearGradientPaint) paint2;
+
+            return linearGradientPaint1.getStartPoint().equals(linearGradientPaint2.getStartPoint())
+                    && linearGradientPaint1.getEndPoint().equals(linearGradientPaint2.getEndPoint())
+                    && mGradientEquals(linearGradientPaint1, linearGradientPaint2);
+        }
+
+        if (paint1 instanceof GradientPaint) {
+            var gradientPaint1 = (GradientPaint) paint1;
+            var gradientPaint2 = (GradientPaint) paint2;
+
+            return gradientPaint1.isCyclic() == gradientPaint2.isCyclic()
+                    && gradientPaint1.getTransparency() == gradientPaint2.getTransparency()
+                    && gradientPaint1.getColor1().equals(gradientPaint2.getColor1())
+                    && gradientPaint1.getColor2().equals(gradientPaint2.getColor2())
+                    && gradientPaint1.getPoint1().equals(gradientPaint2.getPoint1())
+                    && gradientPaint1.getPoint2().equals(gradientPaint2.getPoint2());
+        }
+
+        if (paint1 instanceof TexturePaint) {
+            var texturePaint1 = (TexturePaint) paint1;
+            var texturePaint2 = (TexturePaint) paint2;
+
+            return texturePaint1.getTransparency() == texturePaint2.getTransparency()
+                    && texturePaint1.getAnchorRect().equals(texturePaint2.getAnchorRect())
+                    && texturePaint1.getImage().equals(texturePaint2.getImage());
+        }
+
+        return paint1.equals(paint2);
     }
 
     /**
@@ -635,15 +573,59 @@ public final class DrawUtil {
      * @return The randomly generated {@link Font}.
      */
     public static Font randomFont() {
-        String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        Font[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
 
-        int fontRandom = Maths.randomInteger(0, 2);
-        int font = fontRandom == 0
+        int randomFontStyle = Maths.randomInteger(0, 2);
+        int font = randomFontStyle == 0
                 ? Font.PLAIN
-                : fontRandom == 1
+                : randomFontStyle == 1
                 ? Font.BOLD
                 : Font.ITALIC;
 
-        return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)], font, Maths.randomInteger(1, 256));
+        return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName(), font, Maths.randomInteger(1, 256));
+    }
+
+    public static LinearGradientPaint randomLinearGradient(Drawable drawable, Boundary start, Boundary end) {
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
+
+        int randomColorCount = Maths.randomInteger(2, 8);
+        for (int i = 0; i < randomColorCount; i++) {
+            linearGradientBuilder.withColor(randomColor());
+        }
+
+        return linearGradientBuilder.build();
+    }
+
+    public static LinearGradientPaint randomLinearGradientWithAlpha(Drawable drawable, Boundary start, Boundary end) {
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
+
+        int randomColorCount = Maths.randomInteger(2, 8);
+        for (int i = 0; i < randomColorCount; i++) {
+            linearGradientBuilder.withColor(randomColorWithAlpha());
+        }
+
+        return linearGradientBuilder.build();
+    }
+
+    public static RadialGradientPaint randomRadialGradient(Drawable drawable) {
+        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
+
+        int randomColorCount = Maths.randomInteger(2, 8);
+        for (int i = 0; i < randomColorCount; i++) {
+            radialGradientBuilder.withColor(randomColor());
+        }
+
+        return radialGradientBuilder.build();
+    }
+
+    public static RadialGradientPaint randomRadialGradientWithAlpha(Drawable drawable) {
+        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
+
+        int randomColorCount = Maths.randomInteger(2, 8);
+        for (int i = 0; i < randomColorCount; i++) {
+            radialGradientBuilder.withColor(randomColorWithAlpha());
+        }
+
+        return radialGradientBuilder.build();
     }
 }

@@ -3,7 +3,7 @@ package tech.fastj.example.oldhelloworld.scenes;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.ui.UIElement;
@@ -63,7 +63,7 @@ public class GameScene extends Scene {
 
         /* With all that out of the way, we can create our player! */
         player = new Polygon2D(boxPoints) // the Polygon2D class is for game objects that are polygons, so it makes sense to use for our square player.
-                .setColor(Color.RED) // Just to show it off, we'll set the player's color to red.
+                .setPaint(Color.red) // Just to show it off, we'll set the player's color to red.
                 .addBehavior(playerScript, this) // Then, we'll add our two behaviors -- the player script...
                 .addBehavior(rotationScript, this) // ...and the rotation script. The second param is the scene itself -- read the docs for more info.
                 .addAsGameObject(this); // and lastly, we need to add the game object to the scene.
