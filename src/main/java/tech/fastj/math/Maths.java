@@ -158,4 +158,96 @@ public class Maths {
         }
         return Math.min(Math.max(num, min), max);
     }
+
+    /**
+     * Scales the provided number {@code num} on a scale of {@code 0.0} to {@code 1.0} based on the provided {@code
+     * minimum} and {@code maximum} values.
+     * <p>
+     * This method calculates normalization through floating-point division. If you want to calculate normalization
+     * through integer division, use {@link Maths#integerNormalize(int, int, int)}.
+     *
+     * @param num The number to normalize.
+     * @param min The minimum value in a range of possible values for {@code num}.
+     * @param max The maximum value in a range of possible values for {@code num}.
+     * @return The normalized version of {@code num}, on a scale of {@code 0.0} to {@code 1.0}.
+     */
+    public static float normalize(float num, float min, float max) {
+        if (num > max) {
+            throw new IllegalArgumentException("The provided number must be less than the maximum number.");
+        }
+        if (num < min) {
+            throw new IllegalArgumentException("The provided number must be more than the minimum number.");
+        }
+
+        return (num - min) / (max - min);
+    }
+
+    /**
+     * Scales the provided number {@code num} on a scale of {@code 0} to {@code 1} based on the provided {@code min} and
+     * {@code max} values.
+     * <p>
+     * This method calculates normalization through integer division. If you want to calculate normalization through
+     * floating-point division, use {@link Maths#normalize(float, float, float)}.
+     *
+     * @param num The number to normalize.
+     * @param min The minimum value in a range of possible values for {@code num}.
+     * @param max The maximum value in a range of possible values for {@code num}.
+     * @return The normalized version of {@code num}, on a scale of {@code 0} to {@code 1}.
+     */
+    public static int integerNormalize(int num, int min, int max) {
+        if (num > max) {
+            throw new IllegalArgumentException("The provided number must be less than the maximum number.");
+        }
+        if (num < min) {
+            throw new IllegalArgumentException("The provided number must be more than the minimum number.");
+        }
+
+        return (num - min) / (max - min);
+    }
+
+    /**
+     * Scales a normalized number {@code normalizedNum} on a scale of {@code min} to {@code max}, based on the provided
+     * {@code min} and {@code max} values.
+     * <p>
+     * This method calculates de-normalization through floating-point division. If you want to calculate
+     * de-normalization through integer division, use {@link Maths#integerDenormalize(int, int, int)}.
+     *
+     * @param normalizedNum The number to de-normalize.
+     * @param min           The minimum value in a range of possible values for the result of the method.
+     * @param max           The maximum value in a range of possible values for the result of the method.
+     * @return The denormalized version of {@code normalizedNum}, on a scale of {@code min} to {@code max}.
+     */
+    public static float denormalize(float normalizedNum, float min, float max) {
+        if (normalizedNum > 1.0f) {
+            throw new IllegalArgumentException("The normalized number must be less than 1.0f.");
+        }
+        if (normalizedNum < 0.0f) {
+            throw new IllegalArgumentException("The normalized number must be more than 0.0f.");
+        }
+
+        return (normalizedNum * (max - min)) + min;
+    }
+
+    /**
+     * Scales a normalized number {@code normalizedNum} on a scale of {@code min} to {@code max}, based on the provided
+     * {@code min} and {@code max} values.
+     * <p>
+     * This method calculates de-normalization through integer division. If you want to calculate de-normalization
+     * through floating-point division, use {@link Maths#denormalize(float, float, float)}.
+     *
+     * @param normalizedNum The number to de-normalize.
+     * @param min           The minimum value in a range of possible values for the result of the method.
+     * @param max           The maximum value in a range of possible values for the result of the method.
+     * @return The denormalized version of {@code normalizedNum}, on a scale of {@code min} to {@code max}.
+     */
+    public static int integerDenormalize(int normalizedNum, int min, int max) {
+        if (normalizedNum > 1) {
+            throw new IllegalArgumentException("The normalized number must be less than 1.");
+        }
+        if (normalizedNum < 0) {
+            throw new IllegalArgumentException("The normalized number must be more than 0.");
+        }
+
+        return (normalizedNum * (max - min)) + min;
+    }
 }
