@@ -2,6 +2,7 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.math.Maths;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -137,15 +138,7 @@ public class AudioManager {
             AudioInputStream audioInputStream = audio.getAudioInputStream();
             clip.open(audioInputStream);
 
-            if (audio.shouldLoop()) {
-                clip.setLoopPoints(audio.getLoopStart(), audio.getLoopEnd());
-                clip.loop(audio.getLoopCount());
-            } else {
-                clip.start();
-            }
-
-            audio.previousPlaybackState = audio.currentPlaybackState;
-            audio.currentPlaybackState = PlaybackState.Playing;
+            playOrLoopAudio(audio);
         } catch (LineUnavailableException | IOException exception) {
             FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
         }
@@ -174,15 +167,7 @@ public class AudioManager {
             return;
         }
 
-        if (audio.shouldLoop()) {
-            clip.setLoopPoints(audio.getLoopStart(), audio.getLoopEnd());
-            clip.loop(audio.getLoopCount());
-        } else {
-            clip.start();
-        }
-
-        audio.previousPlaybackState = audio.currentPlaybackState;
-        audio.currentPlaybackState = PlaybackState.Playing;
+        playOrLoopAudio(audio);
     }
 
     /** See {@link Audio#stop()}. */
@@ -238,5 +223,44 @@ public class AudioManager {
         }
 
         clip.setMicrosecondPosition(0L);
+    }
+
+    /**
+     * Plays -- or loops -- an {@link Audio} object.
+     *
+     * @param audio The audio to play/loop.
+     */
+    private static void playOrLoopAudio(Audio audio) {
+        Clip clip = audio.getClip();
+
+        if (audio.shouldLoop()) {
+            int clipFrameCount = clip.getFrameLength();
+            int denormalizedLoopStart = denormalizeLoopStart(audio.getLoopStart(), clipFrameCount);
+            int denormalizedLoopEnd = denormalizeLoopEnd(audio.getLoopEnd(), clipFrameCount);
+
+            clip.setLoopPoints(denormalizedLoopStart, denormalizedLoopEnd);
+            clip.loop(audio.getLoopCount());
+        } else {
+            clip.start();
+        }
+
+        audio.previousPlaybackState = audio.currentPlaybackState;
+        audio.currentPlaybackState = PlaybackState.Playing;
+    }
+
+    private static int denormalizeLoopStart(float normalizedLoopStart, int clipFrameCount) {
+        if (normalizedLoopStart == Audio.LoopFromStart) {
+            return Audio.LoopFromStart;
+        }
+
+        return (int) Maths.denormalize(normalizedLoopStart, 0f, (float) clipFrameCount);
+    }
+
+    private static int denormalizeLoopEnd(float normalizedLoopEnd, int clipFrameCount) {
+        if (normalizedLoopEnd == Audio.LoopAtEnd) {
+            return Audio.LoopAtEnd;
+        }
+
+        return (int) Maths.denormalize(normalizedLoopEnd, 0f, (float) clipFrameCount);
     }
 }
