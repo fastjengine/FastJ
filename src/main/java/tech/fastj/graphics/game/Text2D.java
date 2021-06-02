@@ -3,7 +3,7 @@ package tech.fastj.graphics.game;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 

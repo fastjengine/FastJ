@@ -3,7 +3,7 @@ package tech.fastj.graphics.ui.elements;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Camera;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.ui.UIElement;
 

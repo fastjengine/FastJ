@@ -6,6 +6,8 @@ import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
+import tech.fastj.graphics.util.DisplayUtil;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.input.keyboard.Keyboard;
 import tech.fastj.systems.input.mouse.Mouse;

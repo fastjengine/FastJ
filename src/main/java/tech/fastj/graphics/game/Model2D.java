@@ -3,7 +3,8 @@ package tech.fastj.graphics.game;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
 
@@ -14,7 +15,7 @@ import java.util.Objects;
 /**
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
  * <p>
- * This class is compatible with loading from a .PSDF file, using the {@code DrawUtil.load2DModel()} method.
+ * This class is compatible with loading from a .PSDF file, using the {@link PsdfUtil#loadPsdf(String)} method.
  *
  * @author Andrew Dey
  * @version 1.0.0

@@ -4,7 +4,7 @@ import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.DisplayUtil;
+import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * This class contains the methods needed to initialize and run a game using the FastJ Game Engine. With this, you'll
  * have access to the engine's features in their full force.
  * <p>
- * <a href="https://github.com/lucasstarsz/FastJ-Engine">The FastJ Game Engine</a>
+ * <a href="https://github.com/fastjengine/FastJ">The FastJ Game Engine</a>
  *
  * @author Andrew Dey
  * @version 1.0.0

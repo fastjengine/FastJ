@@ -3,12 +3,13 @@ package tech.fastj.graphics.game;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
-import tech.fastj.graphics.DrawUtil;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -23,8 +24,8 @@ import java.util.Objects;
  */
 public class Polygon2D extends GameObject {
 
-    /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
-    public static final Color DefaultColor = Color.black;
+    /** {@link Paint} representing the default paint value as the color black: {@code (0, 0, 0)}. */
+    public static final Paint DefaultPaint = Color.black;
     /** {@code boolean} representing the default "should fill" value of {@code true}. */
     public static final boolean DefaultFill = true;
     /** {@code boolean} representing the default "should render" value of {@code true}. */
@@ -33,8 +34,8 @@ public class Polygon2D extends GameObject {
     private Path2D.Float renderPath;
     private Pointf[] points;
 
-    private Color color;
-    private boolean paintFilled;
+    private Paint paint;
+    private boolean shouldFill;
 
     private float rotation;
     private Pointf scale;
@@ -44,24 +45,24 @@ public class Polygon2D extends GameObject {
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
      * <p>
-     * This constructor defaults the color to {@link #DefaultColor}, the fill to {@link #DefaultFill}, and sets the
+     * This constructor defaults the paint to {@link #DefaultPaint}, the fill to {@link #DefaultFill}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param pts {@code Pointf} array that defines the points for the polygon.
      */
     public Polygon2D(Pointf[] pts) {
-        this(pts, DefaultColor, DefaultFill, DefaultShow);
+        this(pts, DefaultPaint, DefaultFill, DefaultShow);
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a color, a fill variable, and a show variable.
+     * {@code Polygon2D} constructor that takes in a set of points, a paint, a fill variable, and a show variable.
      *
      * @param pts   {@code Pointf} array that defines the points for the polygon.
-     * @param color {@code Color} variable that sets the color of the polygon.
+     * @param paint {@code Paint} variable that sets the paint of the polygon.
      * @param fill  Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show  Boolean that determines whether the polygon should be shown on screen.
      */
-    public Polygon2D(Pointf[] pts, Color color, boolean fill, boolean show) {
+    public Polygon2D(Pointf[] pts, Paint paint, boolean fill, boolean show) {
         super();
         points = pts;
 
@@ -72,7 +73,7 @@ public class Polygon2D extends GameObject {
         scale = GameObject.DefaultScale.copy();
         translation = new Pointf(getBound(Boundary.TopLeft));
 
-        setColor(color);
+        setPaint(paint);
         setFilled(fill);
 
         setCollisionPath(renderPath);
@@ -80,18 +81,18 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a color, fill variable, a show variable, and the
+     * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable, and the
      * translation, rotation, and scale of the polygon.
      *
      * @param pts         {@code Pointf} array that defines the points for the polygon.
      * @param setLocation {@code Pointf} to set the initial location of the polygon.
      * @param setRotation {@code Pointf} to set the initial rotation of the polygon.
      * @param setScale    {@code Pointf} to set the initial scale of the polygon.
-     * @param color       {@code Color} variable that sets the color of the polygon.
+     * @param paint       {@code Paint} variable that sets the paint of the polygon.
      * @param fill        Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show        Boolean that determines whether the polygon should be shown on screen.
      */
-    public Polygon2D(Pointf[] pts, Pointf setLocation, float setRotation, Pointf setScale, Color color, boolean fill, boolean show) {
+    public Polygon2D(Pointf[] pts, Pointf setLocation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
         super();
         points = pts;
 
@@ -106,7 +107,7 @@ public class Polygon2D extends GameObject {
         setRotation(setRotation);
         setScale(setScale);
 
-        setColor(color);
+        setPaint(paint);
         setFilled(fill);
 
         setCollisionPath(renderPath);
@@ -132,22 +133,22 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets the color set for this polygon.
+     * Gets the paint for this polygon.
      *
-     * @return The {@code Color} set for this polygon.
+     * @return The {@code Paint} set for this polygon.
      */
-    public Color getColor() {
-        return color;
+    public Paint getPaint() {
+        return paint;
     }
 
     /**
-     * Sets the color for the polygon.
+     * Sets the paint for this polygon.
      *
-     * @param newColor The {@code Color} to be used for the polygon.
+     * @param newPaint The {@code Paint} to be used for the polygon.
      * @return This instance of the {@code Polygon2D}, for method chaining.
      */
-    public Polygon2D setColor(Color newColor) {
-        color = newColor;
+    public Polygon2D setPaint(Paint newPaint) {
+        paint = newPaint;
         return this;
     }
 
@@ -158,7 +159,7 @@ public class Polygon2D extends GameObject {
      * outlined.
      */
     public boolean isFilled() {
-        return paintFilled;
+        return shouldFill;
     }
 
     /**
@@ -168,7 +169,7 @@ public class Polygon2D extends GameObject {
      * @return This instance of the {@code Polygon2D}, for method chaining.
      */
     public Polygon2D setFilled(boolean fill) {
-        paintFilled = fill;
+        shouldFill = fill;
         return this;
     }
 
@@ -271,13 +272,17 @@ public class Polygon2D extends GameObject {
     public void render(Graphics2D g) {
         if (!shouldRender()) return;
 
-        g.setColor(color);
+        Paint oldPaint = g.getPaint();
 
-        if (paintFilled) {
+        g.setPaint(paint);
+
+        if (shouldFill) {
             g.fill(renderPath);
         } else {
             g.draw(renderPath);
         }
+
+        g.setPaint(oldPaint);
     }
 
     @Override
@@ -285,8 +290,8 @@ public class Polygon2D extends GameObject {
         points = null;
         renderPath = null;
 
-        color = null;
-        paintFilled = false;
+        paint = null;
+        shouldFill = false;
 
         scale = null;
         translation = null;
@@ -321,8 +326,8 @@ public class Polygon2D extends GameObject {
         }
         Polygon2D polygon2D = (Polygon2D) other;
 
-        return paintFilled == polygon2D.paintFilled
-                && Objects.equals(color, polygon2D.color)
+        return shouldFill == polygon2D.shouldFill
+                && DrawUtil.paintEquals(paint, polygon2D.paint)
                 && Objects.equals(translation, polygon2D.translation)
                 && Objects.equals(scale, polygon2D.scale)
                 && Maths.floatEquals(polygon2D.rotation, rotation)
@@ -332,7 +337,7 @@ public class Polygon2D extends GameObject {
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(renderPath, color, paintFilled, rotation, scale, translation);
+        int result = Objects.hash(renderPath, paint, shouldFill, rotation, scale, translation);
         result = 31 * result + Arrays.hashCode(points);
         return result;
     }
@@ -342,8 +347,8 @@ public class Polygon2D extends GameObject {
         return "Polygon2D{" +
                 "renderPath=" + renderPath +
                 ", points=" + Arrays.toString(points) +
-                ", color=" + color +
-                ", paintFilled=" + paintFilled +
+                ", paint=" + paint +
+                ", paintFilled=" + shouldFill +
                 ", rotation=" + rotation +
                 ", scale=" + scale +
                 ", translation=" + translation +

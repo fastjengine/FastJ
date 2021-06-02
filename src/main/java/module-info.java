@@ -7,11 +7,11 @@
  * This game library is split into two main parts:
  * <ul>
  *     <li>the framework with which to build games (every package except {@link tech.fastj.engine}), and</li>
- *     <li>the engine running it (just package {@code engine}).</li>
+ *     <li>the engine running it (just package {@link tech.fastj.engine}).</li>
  * </ul>
  * <p>
  * For more information, check out
- * <a href="https://github.com/lucasstarsz/FastJ-Engine" target="_blank">the github repository.</a>
+ * <a href="https://github.com/fastjengine/FastJ" target="_blank">the github repository.</a>
  */
 module fastj.library {
     requires transitive java.desktop;
@@ -23,6 +23,7 @@ module fastj.library {
     exports tech.fastj.graphics.game;
     exports tech.fastj.graphics.ui;
     exports tech.fastj.graphics.ui.elements;
+    exports tech.fastj.graphics.util;
 
     exports tech.fastj.systems.input;
     exports tech.fastj.systems.input.keyboard;
@@ -32,4 +33,5 @@ module fastj.library {
     exports tech.fastj.systems.behaviors;
     exports tech.fastj.systems.control;
     exports tech.fastj.systems.tags;
+    exports tech.fastj.graphics.util.gradients;
 }

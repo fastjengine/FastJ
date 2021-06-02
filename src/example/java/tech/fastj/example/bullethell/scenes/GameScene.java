@@ -4,11 +4,12 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.DrawUtil;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
+import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
 
@@ -125,7 +126,7 @@ public class GameScene extends Scene {
     }
 
     private Model2D createPlayer() {
-        return new Model2D(DrawUtil.load2DModel(FilePaths.PathToResources + "player.psdf"));
+        return new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "player.psdf"));
     }
 
     private void newWave() {
@@ -150,7 +151,7 @@ public class GameScene extends Scene {
                 Maths.randomAtEdge(-500f, 1220f)
         );
 
-        return (Model2D) new Model2D(DrawUtil.load2DModel(FilePaths.PathToResources + "enemy.psdf"))
+        return (Model2D) new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"))
                 .setTranslation(randomPosition)
                 .addBehavior(new EnemyMovement(this), this)
                 .addAsGameObject(this);
