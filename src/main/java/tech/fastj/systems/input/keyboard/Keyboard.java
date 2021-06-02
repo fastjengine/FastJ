@@ -226,7 +226,9 @@ public class Keyboard implements KeyListener {
 
     public static void stop() {
         reset();
-        keyChecker.shutdownNow();
+        if (keyChecker != null) {
+            keyChecker.shutdownNow();
+        }
     }
 
     @Override

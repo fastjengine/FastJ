@@ -6,6 +6,7 @@ import tech.fastj.math.Point;
 import tech.fastj.graphics.Display;
 import tech.fastj.graphics.util.DisplayUtil;
 
+import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.input.keyboard.Keyboard;
@@ -484,6 +485,7 @@ public class FastJEngine {
 
         Mouse.stop();
         Keyboard.stop();
+        AudioManager.reset();
         BehaviorManager.reset();
         TagManager.reset();
 

@@ -1,7 +1,7 @@
 # Examples
 
 
-As for seeing that example in action, you'll need to clone the repository.
+To see the examples in action, you'll need to clone the repository.
 ```bash
 git clone https://github.com/lucasstarsz/FastJ.git
 ```
