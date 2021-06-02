@@ -8,7 +8,6 @@ import tech.fastj.graphics.Drawable;
 import java.awt.Color;
 import java.awt.RadialGradientPaint;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /** A builder class for creating {@link RadialGradientPaint} objects. */
@@ -99,10 +98,6 @@ public class RadialGradientBuilder implements GradientBuilder {
         }
 
         float[] fractions = generateIntervals(colors.size());
-        System.out.println(center);
-        System.out.println(radius);
-        System.out.println(Arrays.toString(fractions));
-        System.out.println(colors);
         return new RadialGradientPaint(center.x, center.y, radius, fractions, colors.toArray(new Color[0]));
     }
 
