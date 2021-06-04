@@ -37,8 +37,8 @@ public class Maths {
      * <p>
      * Unlike the other random generator methods, this method <b>includes</b> the max number as a possibility.
      *
-     * @param min The minimum number possible.
-     * @param max The maximum number possible.
+     * @param min The minimum number possible, inclusive.
+     * @param max The maximum number possible, inclusive.
      * @return Randomized integer value within the range of the specified parameters, including both the min and max as
      * possible values.
      */
@@ -127,5 +127,78 @@ public class Maths {
      */
     public static float lerp(float x, float y, float t) {
         return (1f - t) * x + t * y;
+    }
+
+    /**
+     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     *
+     * @param num The original number.
+     * @param min The minimum number allowed.
+     * @param max The maximum number allowed.
+     * @return The number, within the range of the minimum and maximum numbers.
+     */
+    public static float withinRange(float num, float min, float max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
+        return Math.min(Math.max(num, min), max);
+    }
+
+    /**
+     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     *
+     * @param num The original number.
+     * @param min The minimum number allowed.
+     * @param max The maximum number allowed.
+     * @return The number, within the range of the minimum and maximum numbers.
+     */
+    public static int withinIntegerRange(int num, int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
+        return Math.min(Math.max(num, min), max);
+    }
+
+    /**
+     * Scales the provided number {@code num} on a scale of {@code 0.0} to {@code 1.0} based on the provided {@code
+     * minimum} and {@code maximum} values.
+     *
+     * @param num The number to normalize.
+     * @param min The minimum value in a range of possible values for {@code num}.
+     * @param max The maximum value in a range of possible values for {@code num}.
+     * @return The normalized version of {@code num}, on a scale of {@code 0.0} to {@code 1.0}.
+     */
+    public static float normalize(float num, float min, float max) {
+        if (num > max) {
+            throw new IllegalArgumentException("The provided number must be less than the maximum number.");
+        }
+        if (num < min) {
+            throw new IllegalArgumentException("The provided number must be more than the minimum number.");
+        }
+
+        return (num - min) / (max - min);
+    }
+
+    /**
+     * Scales a normalized number {@code normalizedNum} on a scale of {@code min} to {@code max}, based on the provided
+     * {@code min} and {@code max} values.
+     *
+     * @param normalizedNum The number to de-normalize.
+     * @param min           The minimum value in a range of possible values for the result of the method.
+     * @param max           The maximum value in a range of possible values for the result of the method.
+     * @return The denormalized version of {@code normalizedNum}, on a scale of {@code min} to {@code max}.
+     */
+    public static float denormalize(float normalizedNum, float min, float max) {
+        if (normalizedNum > 1.0f) {
+            throw new IllegalArgumentException("The normalized number must be less than 1.0f.");
+        }
+        if (normalizedNum < 0.0f) {
+            throw new IllegalArgumentException("The normalized number must be more than 0.0f.");
+        }
+        if (min > max) {
+            throw new IllegalArgumentException("The minimum must be less than the maximum.");
+        }
+
+        return (normalizedNum * (max - min)) + min;
     }
 }

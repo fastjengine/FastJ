@@ -12,13 +12,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import unittest.HeadlessHelper;
+import unittest.EnvironmentHelper;
 import unittest.mock.graphics.MockDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static unittest.HeadlessHelper.runFastJWith;
+import static unittest.EnvironmentHelper.runFastJWith;
 
 class DrawableTests {
 
@@ -52,7 +52,7 @@ class DrawableTests {
 
     @Test
     void checkCollision_betweenPolygon2D_andText2D() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         runFastJWith(() -> {
             String text = "Hello, world!";
@@ -67,7 +67,7 @@ class DrawableTests {
 
     @Test
     void checkCollision_betweenText2D_andModel2D() {
-        assumeFalse(HeadlessHelper.isEnvironmentHeadless);
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
         runFastJWith(() -> {
             String text = "Hello, world!";

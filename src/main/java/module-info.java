@@ -29,6 +29,7 @@ module fastj.library {
     exports tech.fastj.systems.input.keyboard;
     exports tech.fastj.systems.input.mouse;
 
+    exports tech.fastj.systems.audio;
     exports tech.fastj.systems.behaviors;
     exports tech.fastj.systems.control;
     exports tech.fastj.systems.tags;
