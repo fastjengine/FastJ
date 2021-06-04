@@ -113,8 +113,8 @@ public class LinearGradientBuilder implements GradientBuilder {
             );
         }
 
-        float[] fractions = generateIntervals(colors.length);
-        return new LinearGradientPaint(from.x, from.y, to.x, to.y, fractions, colors);
+        float[] fractions = generateIntervals(count);
+        return new LinearGradientPaint(from.x, from.y, to.x, to.y, Arrays.copyOf(fractions, count), Arrays.copyOf(colors, count));
     }
 
     /**
