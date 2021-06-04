@@ -30,7 +30,7 @@ E.G. \"./gradlew example -Pexample=hellofastj\"""")
 
             description('Runs a FastJ example program.')
             classpath = files(sourceSets.main.output, sourceSets.example.runtimeClasspath)
-            main = "io.github.lucasstarsz.fastj.example.${project.hasProperty("example") ? project.getProperty("example") : ""}.Main"
+            main = "tech.fastj.example.${project.hasProperty("example") ? project.getProperty("example") : ""}.Main"
         }
     }
 }
