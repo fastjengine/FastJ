@@ -80,8 +80,7 @@ public class PsdfUtil {
                         break;
                     }
                     case "lg": { // set paint as LinearGradientPaint
-                        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient();
-                        linearGradientBuilder.position(
+                        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(
                                 new Pointf(
                                         Float.parseFloat(tokens[1]),
                                         Float.parseFloat(tokens[2])

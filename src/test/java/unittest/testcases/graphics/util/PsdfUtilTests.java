@@ -49,8 +49,7 @@ class PsdfUtilTests {
             new Pointf(85f, 25f)
     };
     private static final Polygon2D expectedHouseRoof = new Polygon2D(expectedHouseRoofMesh);
-    private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient()
-            .position(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
+    private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
             .withColor(Color.blue)
             .withColor(Color.cyan)
             .withColor(Color.yellow)

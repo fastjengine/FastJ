@@ -48,8 +48,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .build();
@@ -91,8 +90,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)
@@ -136,8 +134,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3, randomColor4}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)
@@ -183,8 +180,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)
@@ -232,8 +228,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)
@@ -284,8 +279,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)
@@ -338,8 +332,7 @@ class LinearGradientTests {
                 new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8}
         );
 
-        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient()
-                .position(randomStartingPoint, randomEndingPoint)
+        LinearGradientPaint actualLinearGradientPaint = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
                 .withColor(randomColor1)
                 .withColor(randomColor2)
                 .withColor(randomColor3)

@@ -1,5 +1,9 @@
 package tech.fastj.graphics.util.gradients;
 
+import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Boundary;
+import tech.fastj.graphics.Drawable;
+
 import java.awt.GradientPaint;
 import java.awt.LinearGradientPaint;
 import java.awt.RadialGradientPaint;
@@ -15,8 +19,17 @@ public class Gradients {
      *
      * @return A {@link LinearGradientPaint} builder.
      */
-    public static LinearGradientBuilder linearGradient() {
-        return LinearGradientBuilder.builder();
+    public static LinearGradientBuilder linearGradient(Drawable drawable, Boundary start, Boundary end) {
+        return LinearGradientBuilder.builder(drawable, start, end);
+    }
+
+    /**
+     * Gets a builder instance for creating a {@link LinearGradientPaint}.
+     *
+     * @return A {@link LinearGradientPaint} builder.
+     */
+    public static LinearGradientBuilder linearGradient(Pointf start, Pointf end) {
+        return LinearGradientBuilder.builder(start, end);
     }
 
     /**

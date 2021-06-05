@@ -586,7 +586,7 @@ public final class DrawUtil {
     }
 
     public static LinearGradientPaint randomLinearGradient(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(drawable, start, end);
 
         int randomColorCount = Maths.randomInteger(2, 8);
         for (int i = 0; i < randomColorCount; i++) {
@@ -597,7 +597,7 @@ public final class DrawUtil {
     }
 
     public static LinearGradientPaint randomLinearGradientWithAlpha(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(drawable, start, end);
 
         int randomColorCount = Maths.randomInteger(2, 8);
         for (int i = 0; i < randomColorCount; i++) {
