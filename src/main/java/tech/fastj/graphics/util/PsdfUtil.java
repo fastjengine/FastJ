@@ -107,8 +107,7 @@ public class PsdfUtil {
                         break;
                     }
                     case "rg": { // set paint as RadialGradientPaint
-                        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient();
-                        radialGradientBuilder.position(
+                        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(
                                 new Pointf(
                                         Float.parseFloat(tokens[1]),
                                         Float.parseFloat(tokens[2])

@@ -608,7 +608,7 @@ public final class DrawUtil {
     }
 
     public static RadialGradientPaint randomRadialGradient(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
+        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(drawable);
 
         int randomColorCount = Maths.randomInteger(2, 8);
         for (int i = 0; i < randomColorCount; i++) {
@@ -619,7 +619,7 @@ public final class DrawUtil {
     }
 
     public static RadialGradientPaint randomRadialGradientWithAlpha(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
+        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(drawable);
 
         int randomColorCount = Maths.randomInteger(2, 8);
         for (int i = 0; i < randomColorCount; i++) {

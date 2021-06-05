@@ -37,8 +37,7 @@ class PsdfUtilTests {
 
     private static final Pointf[] expectedHouseWallsMesh = DrawUtil.createBox(25f, 25f, 50f);
     private static final Polygon2D expectedHouseWalls = new Polygon2D(expectedHouseWallsMesh);
-    private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient()
-            .position(expectedHouseWalls)
+    private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient(expectedHouseWalls)
             .withColor(Color.magenta)
             .withColor(Color.lightGray)
             .build();
