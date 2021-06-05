@@ -1,6 +1,5 @@
 package tech.fastj.graphics.util.gradients;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
@@ -41,13 +40,10 @@ public class LinearGradientBuilder implements GradientBuilder {
      */
     private void position(Drawable drawable, Boundary start, Boundary end) {
         if (start.equals(end)) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "The starting and ending positions for a gradient must not be the same."
-                                    + System.lineSeparator()
-                                    + "Both positions evaluated to: " + start.name()
-                    )
+            throw new IllegalArgumentException(
+                    "The starting and ending positions for a gradient must not be the same."
+                            + System.lineSeparator()
+                            + "Both positions evaluated to: " + start.name()
             );
         }
 
@@ -63,13 +59,10 @@ public class LinearGradientBuilder implements GradientBuilder {
      */
     private void position(Pointf start, Pointf end) {
         if (start.equals(end)) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "The starting and ending positions for a gradient must not be the same."
-                                    + System.lineSeparator()
-                                    + "Both positions evaluated to: " + start
-                    )
+            throw new IllegalArgumentException(
+                    "The starting and ending positions for a gradient must not be the same."
+                            + System.lineSeparator()
+                            + "Both positions evaluated to: " + start
             );
         }
 
@@ -86,10 +79,12 @@ public class LinearGradientBuilder implements GradientBuilder {
      * @return The {@code LinearGradientBuilder}, for method chaining.
      */
     public LinearGradientBuilder withColor(Color color) {
-        if (count == Gradients.ColorLimit) {
-            FastJEngine.error(GradientBuilder.GradientCreationError,
-                    new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.")
-            );
+        if (count >= Gradients.ColorLimit) {
+            throw new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.");
+        }
+
+        if (color == null) {
+            throw new IllegalArgumentException("Gradients cannot contain null color values.");
         }
 
         colors[count] = color;
@@ -107,20 +102,12 @@ public class LinearGradientBuilder implements GradientBuilder {
      * @return The {@code LinearGradientBuilder}, for method chaining.
      */
     public LinearGradientBuilder withColors(Color... colors) {
-        if (count == Gradients.ColorLimit) {
-            FastJEngine.error(GradientBuilder.GradientCreationError,
-                    new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.")
-            );
+        if (count + colors.length > Gradients.ColorLimit) {
+            throw new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.");
         }
 
         if (Arrays.stream(colors).anyMatch(Objects::isNull)) {
-            FastJEngine.error(GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "Gradients cannot contain null color values."
-                                    + System.lineSeparator()
-                                    + "Colors: " + Arrays.toString(colors)
-                    )
-            );
+            throw new IllegalArgumentException("Gradients cannot contain null color values.");
         }
 
         System.arraycopy(colors, count, this.colors, 0, count + colors.length);
@@ -136,13 +123,10 @@ public class LinearGradientBuilder implements GradientBuilder {
     @Override
     public LinearGradientPaint build() {
         if (count < 2) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "Gradients must contain at least 2 colors."
-                                    + System.lineSeparator()
-                                    + "This gradient builder only contains the following gradients: " + Arrays.toString(colors)
-                    )
+            throw new IllegalStateException(
+                    "Gradients must contain at least 2 colors."
+                            + System.lineSeparator()
+                            + "This gradient builder only contains the following gradients: " + Arrays.toString(Arrays.stream(colors).filter(Objects::nonNull).toArray())
             );
         }
 

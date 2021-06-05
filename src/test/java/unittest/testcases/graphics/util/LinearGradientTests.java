@@ -2,15 +2,20 @@ package unittest.testcases.graphics.util;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Boundary;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.gradients.Gradients;
+import tech.fastj.graphics.util.gradients.LinearGradientBuilder;
 
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
 
 import org.junit.jupiter.api.Test;
+import unittest.mock.graphics.MockDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LinearGradientTests {
@@ -663,5 +668,142 @@ class LinearGradientTests {
                     "The created linear gradient's fractions should match the expected linear gradient's fractions."
             );
         }
+    }
+
+    @Test
+    void tryCreateLinearGradient_butPositionUsesTheSamePointfsForStartAndEndParams() {
+        Pointf invalid_startAndEndPosition = randomPointf();
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Gradients.linearGradient(invalid_startAndEndPosition, invalid_startAndEndPosition));
+
+        String expectedExceptionMessage = "The starting and ending positions for a gradient must not be the same."
+                + System.lineSeparator()
+                + "Both positions evaluated to: " + invalid_startAndEndPosition;
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butPositionUsesTheSameBoundariesForStartAndEndParams() {
+        Drawable mockDrawable = new MockDrawable();
+        Boundary invalid_startAndEndPosition = Boundary.values()[Maths.randomInteger(0, Boundary.values().length - 1)];
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> Gradients.linearGradient(mockDrawable, invalid_startAndEndPosition, invalid_startAndEndPosition));
+
+        String expectedExceptionMessage = "The starting and ending positions for a gradient must not be the same."
+                + System.lineSeparator()
+                + "Both positions evaluated to: " + invalid_startAndEndPosition.name();
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butTooManyColorsWereAdded_usingWithColor() {
+        Color randomColor1 = randomColor();
+        Color randomColor2 = randomColor();
+        Color randomColor3 = randomColor();
+        Color randomColor4 = randomColor();
+        Color randomColor5 = randomColor();
+        Color randomColor6 = randomColor();
+        Color randomColor7 = randomColor();
+        Color randomColor8 = randomColor();
+        Color invalid_randomColor9 = randomColor();
+
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
+                .withColor(randomColor1)
+                .withColor(randomColor2)
+                .withColor(randomColor3)
+                .withColor(randomColor4)
+                .withColor(randomColor5)
+                .withColor(randomColor6)
+                .withColor(randomColor7)
+                .withColor(randomColor8);
+
+        Throwable exception = assertThrows(IllegalStateException.class, () -> linearGradientBuilder.withColor(invalid_randomColor9));
+
+        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.ColorLimit + " colors.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butTooManyColorsWereAdded_usingWithColors() {
+        Color randomColor1 = randomColor();
+        Color randomColor2 = randomColor();
+        Color randomColor3 = randomColor();
+        Color randomColor4 = randomColor();
+        Color randomColor5 = randomColor();
+        Color randomColor6 = randomColor();
+        Color randomColor7 = randomColor();
+        Color randomColor8 = randomColor();
+        Color invalid_randomColor9 = randomColor();
+
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
+                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8);
+
+        Throwable exception = assertThrows(IllegalStateException.class, () -> linearGradientBuilder.withColors(invalid_randomColor9));
+
+        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.ColorLimit + " colors.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butAddedNullColor_usingWithColor() {
+        Color invalid_nullColor = null;
+
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> linearGradientBuilder.withColor(invalid_nullColor));
+
+        String expectedExceptionMessage = "Gradients cannot contain null color values.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butAddedNullColor_usingWithColors() {
+        Color invalid_nullColor = null;
+
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint);
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> linearGradientBuilder.withColors(invalid_nullColor));
+
+        String expectedExceptionMessage = "Gradients cannot contain null color values.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butTooFewColorsWereAddedToBuild_withColorCountOfZero() {
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint);
+        Throwable exception = assertThrows(IllegalStateException.class, linearGradientBuilder::build);
+
+        String expectedExceptionMessage = "Gradients must contain at least 2 colors."
+                + System.lineSeparator()
+                + "This gradient builder only contains the following gradients: []";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryCreateLinearGradient_butTooFewColorsWereAddedToBuild_withColorCountOfOne() {
+        Color randomColor1 = randomColor();
+
+        Pointf randomStartingPoint = randomPointf();
+        Pointf randomEndingPoint = randomPointf();
+
+        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(randomStartingPoint, randomEndingPoint)
+                .withColor(randomColor1);
+        Throwable exception = assertThrows(IllegalStateException.class, linearGradientBuilder::build);
+
+        String expectedExceptionMessage = "Gradients must contain at least 2 colors."
+                + System.lineSeparator()
+                + "This gradient builder only contains the following gradients: [" + randomColor1 + "]";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 }
