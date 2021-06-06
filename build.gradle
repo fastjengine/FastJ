@@ -14,63 +14,79 @@ plugins {
 group('io.github.lucasstarsz.fastj')
 version('1.4.0')
 
+
+/* ********************* *
+ * General Configuration *
+ * ********************* */
+
+
+def javaVersion = JavaVersion.VERSION_11
+
+java.withSourcesJar()
+java.withJavadocJar()
+java.sourceCompatibility(javaVersion)
+java.targetCompatibility(javaVersion)
+
+javadoc.source(sourceSets.main.allJava)
+javadoc.failOnError(false)
+javadoc.options.links = ['https://docs.oracle.com/en/java/javase/11/docs/api/']
+
+// Java modules need this in order for the module path to be inferred based on module-info.java files.
+plugins.withType(JavaPlugin).configureEach {
+    java.modularity.inferModulePath = true
+}
+
+repositories.mavenCentral()
+dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.1'))
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter')
+
+
+/* ********************* *
+ *   Example Programs    *
+ * ********************* */
+
+
+import java.nio.file.Files
+import java.nio.file.Path
+
 sourceSets {
     example {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
 
-        task example(type: JavaExec) {
+        task example(type: Exec) {
             doFirst {
-                if (!project.hasProperty("example")) {
-                    throw new IllegalStateException("""
-You need to specify which example using the "example" property!
-E.G. \"./gradlew example -Pexample=hellofastj\"""")
+                if (!project.hasProperty('toRun')) {
+                    throw new IllegalArgumentException(
+                            'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew example -PtoRun=hellofastj\"'
+                    )
+                }
+
+                if (!Files.exists(Path.of('src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
+                    throw new IllegalArgumentException(
+                            "The example ${project.getProperty('toRun')} does not exist."
+                    )
                 }
             }
 
-            description('Runs a FastJ example program.')
-            classpath = files(sourceSets.main.output, sourceSets.example.runtimeClasspath)
-            main = "tech.fastj.example.${project.hasProperty("example") ? project.getProperty("example") : ""}.Main"
+            dependsOn(tasks.compileExampleJava)
+            description = 'Runs a FastJ example program.'
+            group = 'Execution'
+
+            commandLine(
+                    'java',
+                    '-classpath', sourceSets.example.runtimeClasspath.getAsPath(),
+                    "tech.fastj.example.${project.hasProperty('toRun') ? project.getProperty('toRun') : ''}.Main"
+            )
         }
     }
 }
 
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
 
-sourceCompatibility = 11
-targetCompatibility = 11
+/* ********************* *
+ *     Unit Testing      *
+ * ********************* */
 
-/* Java modules need this in order for the module path to be inferred based on module-info.java
- * files. */
-plugins.withType(JavaPlugin).configureEach {
-    java {
-        modularity.inferModulePath = true
-    }
-}
-
-javadoc {
-    source(sourceSets.main.allJava)
-    failOnError(false)
-
-    options.links = [
-            // resolve links to Java javadocs
-            'https://docs.oracle.com/en/java/javase/11/docs/api/'
-    ]
-}
-
-// Testing
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.7.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
@@ -87,12 +103,16 @@ tasks.withType(Test) {
         afterSuite { desc, DefaultTestResult result ->
             if (!desc.parent) { // will match the outermost suite
                 def passFailSkip = "$result.successfulTestCount passed, $result.failedTestCount failed, $result.skippedTestCount skipped"
-                def output = "Test Suite Results: $result.resultType ($result.testCount tests, $passFailSkip) in $totalTestTime ms."
-                def startItem = '|  ', endItem = '  |'
-                def repeatLength = startItem.length() + output.length() + endItem.length()
-                println('\n' + ('-' * repeatLength) + '\n' + startItem + output + endItem + '\n' + ('-' * repeatLength) + '\n')
+                def results = "Test Suite Results: $result.resultType ($result.testCount tests, $passFailSkip) in $totalTestTime ms."
 
-                if (("${result.resultType}" != "SUCCESS")) {
+                def startItem = '|  '
+                def endItem = '  |'
+                def repeatLength = startItem.length() + results.length() + endItem.length()
+                def dashes = '-' * repeatLength
+
+                logger.info(String.format('%n%n%s%n%s%s%s%n%s%n%n', dashes, startItem, results, endItem, dashes))
+
+                if (result.resultType != TestResult.ResultType.SUCCESS) {
                     System.exit(0)
                 }
             }
@@ -100,81 +120,78 @@ tasks.withType(Test) {
     }
 }
 
-// Code Coverage
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "fastjengine_FastJ"
-        property "sonar.organization", "fastjengine"
-        property "sonar.host.url", "https://sonarcloud.io"
-    }
+/* ********************* *
+ *     Code Coverage     *
+ * ********************* */
+
+
+sonarqube.properties {
+    property 'sonar.projectKey', 'fastjengine_FastJ'
+    property 'sonar.organization', 'fastjengine'
+    property 'sonar.host.url', 'https://sonarcloud.io'
 }
 
 jacocoTestReport {
-    dependsOn test // tests are required to run before generating the report
-    reports {
-        xml.enabled true
-        csv.enabled false
-        xml.destination layout.buildDirectory.dir('build/reports/jacoco/test/jacocoTestReport.xml').get().asFile
-    }
+    dependsOn(test) // tests are required to run before generating the report
+    reports.xml.enabled(true)
+    reports.csv.enabled(false)
+    reports.xml.destination(layout.buildDirectory.dir('build/reports/jacoco/test/jacocoTestReport.xml').get().asFile)
 }
 
-// Publishing
+
+/* ********************* *
+ *      Publishing       *
+ * ********************* */
+
 
 def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
 publish.onlyIf { shouldPublish }
 
 if (shouldPublish) {
-    publishing {
-        publications {
-            fastjPublish(MavenPublication) {
-                groupId = project.group
-                artifactId = 'fastj-library'
-                version = project.version
+    publishing.publications {
+        fastjPublish(MavenPublication) {
 
-                pom {
-                    name = 'FastJ Game Library'
-                    description = 'An open source, Java-based 2D game engine.'
-                    url = 'https://github.com/lucasstarsz/FastJ'
+            groupId = project.group
+            artifactId = 'fastj-library' as Publication
+            version = project.version
 
-                    scm {
-                        connection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
-                        developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
-                        url = 'https://github.com/lucasstarsz/FastJ.git'
-                    }
+            pom {
+                name = 'FastJ Game Library'
+                description = 'An open source, Java-based 2D game engine.'
+                url = 'https://github.com/lucasstarsz/FastJ'
 
-                    licenses {
-                        license {
-                            name = 'MIT License'
-                            url = 'https://github.com/lucasstarsz/FastJ/blob/main/LICENSE.txt'
-                        }
-                    }
+                scm {
+                    connection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
+                    developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
+                    url = 'https://github.com/lucasstarsz/FastJ.git'
+                }
 
-                    developers {
-                        developer {
-                            id = 'andrewd'
-                            name = 'Andrew Dey'
-                            email = 'andrewrcdey@gmail.com'
-                        }
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://github.com/lucasstarsz/FastJ/blob/main/LICENSE.txt'
                     }
                 }
 
-                from components.java
-            }
-        }
-
-        repositories {
-            maven {
-                url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-                credentials {
-                    username = System.getenv('ossrhUsername')
-                    password = System.getenv('ossrhPassword')
+                developers {
+                    developer {
+                        id = 'andrewd'
+                        name = 'Andrew Dey'
+                        email = 'andrewrcdey@gmail.com'
+                    }
                 }
             }
+
+            from(components.java)
         }
     }
 
-    signing {
-        sign publishing.publications.fastjPublish
+    publishing.repositories.maven {
+        url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+        credentials.username = System.getenv('ossrhUsername')
+        credentials.password = System.getenv('ossrhPassword')
     }
+
+    signing.sign publishing.publications.fastjPublish
 }
