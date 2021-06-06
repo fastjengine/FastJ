@@ -190,22 +190,6 @@ public final class DrawUtil {
     }
 
     /**
-     * Shorthand for checking equality between two {@link MultipleGradientPaint} objects.
-     *
-     * @param mGradientPaint1 The first {@code Paint} specified.
-     * @param mGradientPaint2 The second {@code Paint} specified.
-     * @return Whether the two {@code Paint}s are equal.
-     */
-    private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
-        return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
-                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
-                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
-                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
-                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
-                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
-    }
-
-    /**
      * Checks for equality between two {@link Paint} objects as best as possible.
      *
      * @param paint1 The first {@code Paint} specified.
@@ -261,6 +245,22 @@ public final class DrawUtil {
         }
 
         return paint1.equals(paint2);
+    }
+
+    /**
+     * Shorthand for checking equality between two {@link MultipleGradientPaint} objects.
+     *
+     * @param mGradientPaint1 The first {@code Paint} specified.
+     * @param mGradientPaint2 The second {@code Paint} specified.
+     * @return Whether the two {@code Paint}s are equal.
+     */
+    private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
+        return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
+                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
+                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
+                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
+                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
+                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
     }
 
     /**
@@ -455,10 +455,7 @@ public final class DrawUtil {
      */
     public static Rectangle2D.Float createRect(Pointf[] pts) {
         if (pts.length != 4) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("a rectangle creation error."),
-                    new IllegalArgumentException("The length of the parameter point array must be 4.")
-            );
+            throw new IllegalArgumentException("The length of the parameter point array must be 4.");
         }
 
         return new Rectangle2D.Float(pts[0].x, pts[0].y, pts[1].x - pts[0].x, pts[3].y - pts[0].y);
@@ -484,7 +481,9 @@ public final class DrawUtil {
      */
     public static Pointf centerOf(Pointf[] points) {
         Pointf result = new Pointf();
-        for (Pointf p : points) result.add(p);
+        for (Pointf p : points) {
+            result.add(p);
+        }
         return result.divide(points.length);
     }
 
