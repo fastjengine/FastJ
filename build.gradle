@@ -11,7 +11,7 @@ plugins {
     id 'signing'
 }
 
-group('io.github.lucasstarsz.fastj')
+group('lucasstarsz.tech.fastj')
 version('1.4.0')
 
 
@@ -159,18 +159,18 @@ if (shouldPublish) {
             pom {
                 name = 'FastJ Game Library'
                 description = 'An open source, Java-based 2D game engine.'
-                url = 'https://github.com/lucasstarsz/FastJ'
+                url = 'https://github.com/fastjengine/FastJ'
 
                 scm {
-                    connection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
-                    developerConnection = 'scm:git:https://github.com/lucasstarsz/FastJ.git'
-                    url = 'https://github.com/lucasstarsz/FastJ.git'
+                    connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+                    developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+                    url = 'https://github.com/fastjengine/FastJ.git'
                 }
 
                 licenses {
                     license {
                         name = 'MIT License'
-                        url = 'https://github.com/lucasstarsz/FastJ/blob/main/LICENSE.txt'
+                        url = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
                     }
                 }
 
