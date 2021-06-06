@@ -111,8 +111,8 @@ This repository is licensed under the [MIT License][MIT-License].
 
 [FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
 
-[SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/lucasstarsz_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
-[SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=lucasstarsz_FastJ "SonarCloud Code Coverage"
+[SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/fastjengine_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
+[SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=fastjengine_FastJ "SonarCloud Code Coverage"
 
 [Windows-Build-Action]: https://github.com/lucasstarsz/FastJ/actions?query=workflow%3ABuild-Windows "Windows Build Status"
 [Windows-Build-SVG]: https://img.shields.io/github/workflow/status/lucasstarsz/FastJ/Build-Windows?label=Windows%20Build&labelColor=363e45&logo=windows&logoColor=0078D6&style=for-the-badge
