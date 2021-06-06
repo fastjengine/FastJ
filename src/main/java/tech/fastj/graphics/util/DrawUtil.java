@@ -1,7 +1,5 @@
 package tech.fastj.graphics.util;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;

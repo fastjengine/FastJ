@@ -3,9 +3,9 @@ package tech.fastj.graphics.ui.elements;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Camera;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.ui.UIElement;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.input.mouse.Mouse;
