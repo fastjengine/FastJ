@@ -71,22 +71,28 @@ public final class DrawUtil {
         Pointf center = centerOf(unshiftedResult);
         Arrays.sort(unshiftedResult, (a, b) -> {
             // thank goodness for stackoverflow...
-            if (a.x - center.x >= 0 && b.x - center.x < 0)
+            if (a.x - center.x >= 0 && b.x - center.x < 0) {
                 return 1;
-            if (a.x - center.x < 0 && b.x - center.x >= 0)
+            }
+            if (a.x - center.x < 0 && b.x - center.x >= 0) {
                 return -1;
+            }
             if (a.x - center.x == 0 && b.x - center.x == 0) {
-                if (a.y - center.y >= 0 || b.y - center.y >= 0)
+                if (a.y - center.y >= 0 || b.y - center.y >= 0) {
                     return (a.y > b.y) ? 1 : -1;
+                }
+
                 return (b.y > a.y) ? 1 : -1;
             }
 
             // compute the cross product of vectors (center -> a) x (center -> b)
             float det = (a.x - center.x) * (b.y - center.y) - (b.x - center.x) * (a.y - center.y);
-            if (det < 0f)
+            if (det < 0f) {
                 return 1;
-            if (det > 0f)
+            }
+            if (det > 0f) {
                 return -1;
+            }
 
             // points a and b are on the same line from the center
             // check which point is closer to the center
@@ -495,22 +501,28 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_MOVETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     numSubPaths++;
                     break;
-                case PathIterator.SEG_LINETO:
+                }
+                case PathIterator.SEG_LINETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     break;
-                case PathIterator.SEG_CLOSE:
+                }
+                case PathIterator.SEG_CLOSE: {
                     if (numSubPaths > 1) {
                         throw new IllegalArgumentException("Path contains multiple sub-paths");
                     }
+
                     return pointList.toArray(new Pointf[0]);
-                default:
+                }
+                default: {
                     throw new IllegalArgumentException("Path contains curves");
+                }
             }
         }
+
         throw new IllegalArgumentException("Unclosed path");
     }
 
@@ -528,16 +540,20 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_MOVETO: {
                     break;
-                case PathIterator.SEG_CLOSE:
+                }
+                case PathIterator.SEG_CLOSE: {
                     numSubPaths++;
                     break;
-                case PathIterator.SEG_LINETO:
+                }
+                case PathIterator.SEG_LINETO: {
                     count++;
                     break;
-                default:
+                }
+                default: {
                     throw new IllegalArgumentException("Path contains curves");
+                }
             }
         }
 
@@ -550,7 +566,12 @@ public final class DrawUtil {
      * @return The randomly generated {@code Color}.
      */
     public static Color randomColor() {
-        return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), 255);
+        return new Color(
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                255
+        );
     }
 
     /**
@@ -559,7 +580,12 @@ public final class DrawUtil {
      * @return The randomly generated {@code Color}.
      */
     public static Color randomColorWithAlpha() {
-        return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255));
+        return new Color(
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255)
+        );
     }
 
     /**
@@ -570,14 +596,20 @@ public final class DrawUtil {
      */
     public static Font randomFont() {
         Font[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+        String randomFontName = fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName();
 
-        int randomFontStyle = Maths.randomInteger(0, 2);
-        int font = randomFontStyle == 0
-                ? Font.PLAIN
-                : randomFontStyle == 1
-                ? Font.BOLD
-                : Font.ITALIC;
+        int styleValue = Maths.randomInteger(0, 2);
+        int randomFontStyle;
+        if (styleValue == 0) {
+            randomFontStyle = Font.PLAIN;
+        } else if (styleValue == 1) {
+            randomFontStyle = Font.BOLD;
+        } else {
+            randomFontStyle = Font.ITALIC;
+        }
 
-        return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName(), font, Maths.randomInteger(1, 256));
+        int randomFontSize = Maths.randomInteger(1, 256);
+
+        return new Font(randomFontName, randomFontStyle, randomFontSize);
     }
 }
