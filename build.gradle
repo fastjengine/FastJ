@@ -11,8 +11,9 @@ plugins {
     id 'signing'
 }
 
-group('lucasstarsz.tech.fastj')
+group('io.github.lucasstarsz.fastj')
 version('1.4.0')
+description('An open source, Java-based 2D game engine.')
 
 
 /* ********************* *
@@ -153,12 +154,11 @@ if (shouldPublish) {
         fastjPublish(MavenPublication) {
 
             groupId = project.group
-            artifactId = 'fastj-library' as Publication
             version = project.version
 
             pom {
                 name = 'FastJ Game Library'
-                description = 'An open source, Java-based 2D game engine.'
+                description = project.description
                 url = 'https://github.com/fastjengine/FastJ'
 
                 scm {
