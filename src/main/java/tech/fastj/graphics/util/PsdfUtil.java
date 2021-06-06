@@ -40,10 +40,10 @@ public class PsdfUtil {
     public static Polygon2D[] loadPsdf(String fileLocation) {
         // check for correct file extension
         if (!fileLocation.substring(fileLocation.lastIndexOf(".") + 1).equalsIgnoreCase("psdf")) {
-            FastJEngine.error(PsdfReadErrorMessage,
-                    new IllegalArgumentException("Unsupported file type."
+            throw new IllegalArgumentException(
+                    "Unsupported file type."
                             + System.lineSeparator()
-                            + "This engine currently only supports files of the extension \".psdf\".")
+                            + "This engine currently only supports files of the extension \".psdf\"."
             );
         }
 

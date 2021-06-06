@@ -14,9 +14,11 @@ import java.awt.RadialGradientPaint;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PsdfUtilTests {
@@ -136,5 +139,26 @@ class PsdfUtilTests {
 
         assertArrayEquals(expectedHouseArray, actualHouseArray, "The actual Polygon2D array should match the expected array.");
         assertEquals(expectedHouse, actualHouse, "The actual Model2D should match the expected Model2D.");
+    }
+
+    @Test
+    void tryReadPsdf_withIncorrectFileExtension() {
+        String invalid_path = UUID.randomUUID() + ".notsupported";
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> PsdfUtil.loadPsdf(invalid_path));
+
+        String expectedExceptionMessage = "Unsupported file type."
+                + System.lineSeparator()
+                + "This engine currently only supports files of the extension \".psdf\".";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryReadPsdf_withFileThatDoesNotExist() {
+        String invalid_pathThatDoesNotResolveToFile = UUID.randomUUID() + ".psdf";
+
+        Throwable exception = assertThrows(IllegalStateException.class, () -> PsdfUtil.loadPsdf(invalid_pathThatDoesNotResolveToFile)).getCause();
+        assertEquals(NoSuchFileException.class, exception.getClass(), "The exception's class should match the expected class.");
+
+        assertEquals(invalid_pathThatDoesNotResolveToFile, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 }
