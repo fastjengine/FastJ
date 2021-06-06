@@ -6,6 +6,7 @@ import tech.fastj.graphics.util.DrawUtil;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Paint;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -129,6 +130,15 @@ class DrawUtilTests {
     }
 
     @Test
+    void comparePaints_withNullPaintParameters() {
+        Paint paint1 = null;
+        Color paint2 = Color.red;
+
+        assertFalse(DrawUtil.paintEquals(paint1, paint2), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint2, paint1), "The two paints should not be equal.");
+    }
+
+    @Test
     void checkGenerateBox_withFloatXAndY_andFloatSize() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, 35f);
         Pointf[] expectedResult = {
@@ -241,6 +251,24 @@ class DrawUtilTests {
         Rectangle2D.Float actualRect = new Rectangle2D.Float(rectX, rectY, rectWidth, rectHeight);
 
         assertEquals(expectedRect, actualRect, "The two rectangles should be equal.");
+    }
+
+    @Test
+    void tryGenerateRectangleFloat_withHandwrittenPointfArray_butArraySizeIsNotFour() {
+        float rectX = 0f;
+        float rectY = 5f;
+        float rectWidth = 25f;
+        float rectHeight = 30f;
+
+        Pointf[] points = {
+                new Pointf(rectX, rectY),
+                new Pointf(rectX + rectWidth, rectY),
+                new Pointf(rectX + rectWidth, rectY + rectHeight)
+        };
+
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> DrawUtil.createRect(points));
+        String expectedExceptionMessage = "The length of the parameter point array must be 4.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 
     @Test

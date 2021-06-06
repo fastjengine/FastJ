@@ -1,14 +1,12 @@
 package tech.fastj.graphics.util.gradients;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 
 import java.awt.Color;
 import java.awt.RadialGradientPaint;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 /** A builder class for creating {@link RadialGradientPaint} objects. */
 public class RadialGradientBuilder implements GradientBuilder {
@@ -16,27 +14,31 @@ public class RadialGradientBuilder implements GradientBuilder {
     private Pointf center;
     private float radius;
 
-    private final List<Color> colors;
+    private final Color[] colors;
     private int count;
 
     /** Initializes a {@code RadialGradientBuilder}'s internals. */
-    RadialGradientBuilder() {
-        colors = new ArrayList<>(Gradients.ColorLimit);
+    RadialGradientBuilder(Drawable drawable) {
+        colors = new Color[Gradients.MaximumColorCount];
+        position(drawable);
+    }
+
+    /** Initializes a {@code RadialGradientBuilder}'s internals. */
+    RadialGradientBuilder(Pointf center, float radius) {
+        colors = new Color[Gradients.MaximumColorCount];
+        position(center, radius);
     }
 
     /**
      * Sets the centerpoint and radius for the builder, based on the provided {@link Drawable}.
      *
      * @param drawable The drawable to get the center and radius from.
-     * @return The {@code RadialGradientBuilder}, for method chaining.
      */
-    public RadialGradientBuilder position(Drawable drawable) {
+    private void position(Drawable drawable) {
         this.center = drawable.getCenter();
 
         Pointf drawableSize = Pointf.subtract(this.center, drawable.getBound(Boundary.TopLeft));
         this.radius = (float) Math.hypot(drawableSize.x, drawableSize.y);
-
-        return this;
     }
 
     /**
@@ -44,38 +46,46 @@ public class RadialGradientBuilder implements GradientBuilder {
      *
      * @param center The {@code Pointf} defining the centerpoint for the gradient.
      * @param radius The {@code float} defining the radius for the gradient.
-     * @return The {@code LinearGradientBuilder}, for method chaining.
      */
-    public RadialGradientBuilder position(Pointf center, float radius) {
-        if (radius <= 0f) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException("The radius for a gradient must be larger than 0.")
-            );
-        }
+    private void position(Pointf center, float radius) {
+        Gradients.minimumRadiusValueCheck(radius);
+
         this.center = center;
         this.radius = radius;
-
-        return this;
     }
 
     /**
      * Adds a {@link Color} to the builder to be used in the resulting gradient.
      * <p>
-     * The amount of colors used in a {@link RadialGradientBuilder} not exceed {@link Gradients#ColorLimit}.
+     * The amount of colors used in a {@link RadialGradientBuilder} not exceed {@link Gradients#MaximumColorCount}.
      *
      * @param color The {@code Color} being added.
      * @return The {@code LinearGradientBuilder}, for method chaining.
      */
     public RadialGradientBuilder withColor(Color color) {
-        if (count == Gradients.ColorLimit) {
-            FastJEngine.error(GradientBuilder.GradientCreationError,
-                    new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.")
-            );
-        }
+        Gradients.colorLimitCheck(count);
+        Gradients.nullColorCheck(color);
 
-        colors.add(color);
+        colors[count] = color;
         count++;
+        return this;
+    }
+
+    /**
+     * Adds several {@link Color}s to the builder to be used in the resulting gradient.
+     * <p>
+     * The amount of colors used in a {@link RadialGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
+     *
+     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8
+     *               colors.
+     * @return The {@code RadialGradientBuilder}, for method chaining.
+     */
+    public RadialGradientBuilder withColors(Color... colors) {
+        Gradients.colorLimitCheck(count, colors);
+        Gradients.nullColorCheck(colors);
+
+        System.arraycopy(colors, count, this.colors, 0, count + colors.length);
+        count += colors.length;
         return this;
     }
 
@@ -86,19 +96,10 @@ public class RadialGradientBuilder implements GradientBuilder {
      */
     @Override
     public RadialGradientPaint build() {
-        if (count < 2) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "Gradients must contain at least 2 colors."
-                                    + System.lineSeparator()
-                                    + "This gradient builder only contains the following gradients: " + colors
-                    )
-            );
-        }
+        Gradients.minimumColorCheck(count, colors);
 
-        float[] fractions = generateIntervals(colors.size());
-        return new RadialGradientPaint(center.x, center.y, radius, fractions, colors.toArray(new Color[0]));
+        float[] fractions = Gradients.generateIntervals(count);
+        return new RadialGradientPaint(center.x, center.y, radius, Arrays.copyOf(fractions, count), Arrays.copyOf(colors, count));
     }
 
     /**
@@ -106,7 +107,16 @@ public class RadialGradientBuilder implements GradientBuilder {
      *
      * @return The {@code RadialGradientBuilder} instance.
      */
-    static RadialGradientBuilder builder() {
-        return new RadialGradientBuilder();
+    static RadialGradientBuilder builder(Pointf center, float radius) {
+        return new RadialGradientBuilder(center, radius);
+    }
+
+    /**
+     * Gets a new instance of a {@link RadialGradientBuilder}.
+     *
+     * @return The {@code RadialGradientBuilder} instance.
+     */
+    static RadialGradientBuilder builder(Drawable drawable) {
+        return new RadialGradientBuilder(drawable);
     }
 }

@@ -1,15 +1,9 @@
 package tech.fastj.graphics.util;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.util.gradients.Gradients;
-import tech.fastj.graphics.util.gradients.LinearGradientBuilder;
-import tech.fastj.graphics.util.gradients.RadialGradientBuilder;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -75,22 +69,28 @@ public final class DrawUtil {
         Pointf center = centerOf(unshiftedResult);
         Arrays.sort(unshiftedResult, (a, b) -> {
             // thank goodness for stackoverflow...
-            if (a.x - center.x >= 0 && b.x - center.x < 0)
+            if (a.x - center.x >= 0 && b.x - center.x < 0) {
                 return 1;
-            if (a.x - center.x < 0 && b.x - center.x >= 0)
+            }
+            if (a.x - center.x < 0 && b.x - center.x >= 0) {
                 return -1;
+            }
             if (a.x - center.x == 0 && b.x - center.x == 0) {
-                if (a.y - center.y >= 0 || b.y - center.y >= 0)
+                if (a.y - center.y >= 0 || b.y - center.y >= 0) {
                     return (a.y > b.y) ? 1 : -1;
+                }
+
                 return (b.y > a.y) ? 1 : -1;
             }
 
             // compute the cross product of vectors (center -> a) x (center -> b)
             float det = (a.x - center.x) * (b.y - center.y) - (b.x - center.x) * (a.y - center.y);
-            if (det < 0f)
+            if (det < 0f) {
                 return 1;
-            if (det > 0f)
+            }
+            if (det > 0f) {
                 return -1;
+            }
 
             // points a and b are on the same line from the center
             // check which point is closer to the center
@@ -188,22 +188,6 @@ public final class DrawUtil {
     }
 
     /**
-     * Shorthand for checking equality between two {@link MultipleGradientPaint} objects.
-     *
-     * @param mGradientPaint1 The first {@code Paint} specified.
-     * @param mGradientPaint2 The second {@code Paint} specified.
-     * @return Whether the two {@code Paint}s are equal.
-     */
-    private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
-        return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
-                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
-                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
-                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
-                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
-                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
-    }
-
-    /**
      * Checks for equality between two {@link Paint} objects as best as possible.
      *
      * @param paint1 The first {@code Paint} specified.
@@ -259,6 +243,22 @@ public final class DrawUtil {
         }
 
         return paint1.equals(paint2);
+    }
+
+    /**
+     * Shorthand for checking equality between two {@link MultipleGradientPaint} objects.
+     *
+     * @param mGradientPaint1 The first {@code Paint} specified.
+     * @param mGradientPaint2 The second {@code Paint} specified.
+     * @return Whether the two {@code Paint}s are equal.
+     */
+    private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
+        return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
+                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
+                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
+                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
+                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
+                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
     }
 
     /**
@@ -453,10 +453,7 @@ public final class DrawUtil {
      */
     public static Rectangle2D.Float createRect(Pointf[] pts) {
         if (pts.length != 4) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("a rectangle creation error."),
-                    new IllegalArgumentException("The length of the parameter point array must be 4.")
-            );
+            throw new IllegalArgumentException("The length of the parameter point array must be 4.");
         }
 
         return new Rectangle2D.Float(pts[0].x, pts[0].y, pts[1].x - pts[0].x, pts[3].y - pts[0].y);
@@ -482,7 +479,9 @@ public final class DrawUtil {
      */
     public static Pointf centerOf(Pointf[] points) {
         Pointf result = new Pointf();
-        for (Pointf p : points) result.add(p);
+        for (Pointf p : points) {
+            result.add(p);
+        }
         return result.divide(points.length);
     }
 
@@ -499,22 +498,28 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_MOVETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     numSubPaths++;
                     break;
-                case PathIterator.SEG_LINETO:
+                }
+                case PathIterator.SEG_LINETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     break;
-                case PathIterator.SEG_CLOSE:
+                }
+                case PathIterator.SEG_CLOSE: {
                     if (numSubPaths > 1) {
                         throw new IllegalArgumentException("Path contains multiple sub-paths");
                     }
+
                     return pointList.toArray(new Pointf[0]);
-                default:
+                }
+                default: {
                     throw new IllegalArgumentException("Path contains curves");
+                }
             }
         }
+
         throw new IllegalArgumentException("Unclosed path");
     }
 
@@ -532,16 +537,20 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_MOVETO: {
                     break;
-                case PathIterator.SEG_CLOSE:
+                }
+                case PathIterator.SEG_CLOSE: {
                     numSubPaths++;
                     break;
-                case PathIterator.SEG_LINETO:
+                }
+                case PathIterator.SEG_LINETO: {
                     count++;
                     break;
-                default:
+                }
+                default: {
                     throw new IllegalArgumentException("Path contains curves");
+                }
             }
         }
 
@@ -554,7 +563,12 @@ public final class DrawUtil {
      * @return The randomly generated {@code Color}.
      */
     public static Color randomColor() {
-        return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), 255);
+        return new Color(
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                255
+        );
     }
 
     /**
@@ -563,7 +577,12 @@ public final class DrawUtil {
      * @return The randomly generated {@code Color}.
      */
     public static Color randomColorWithAlpha() {
-        return new Color((int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255), (int) Maths.random(0, 255));
+        return new Color(
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255),
+                (int) Maths.random(0, 255)
+        );
     }
 
     /**
@@ -574,58 +593,20 @@ public final class DrawUtil {
      */
     public static Font randomFont() {
         Font[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+        String randomFontName = fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName();
 
-        int randomFontStyle = Maths.randomInteger(0, 2);
-        int font = randomFontStyle == 0
-                ? Font.PLAIN
-                : randomFontStyle == 1
-                ? Font.BOLD
-                : Font.ITALIC;
-
-        return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName(), font, Maths.randomInteger(1, 256));
-    }
-
-    public static LinearGradientPaint randomLinearGradient(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            linearGradientBuilder.withColor(randomColor());
+        int styleValue = Maths.randomInteger(0, 2);
+        int randomFontStyle;
+        if (styleValue == 0) {
+            randomFontStyle = Font.PLAIN;
+        } else if (styleValue == 1) {
+            randomFontStyle = Font.BOLD;
+        } else {
+            randomFontStyle = Font.ITALIC;
         }
 
-        return linearGradientBuilder.build();
-    }
+        int randomFontSize = Maths.randomInteger(1, 256);
 
-    public static LinearGradientPaint randomLinearGradientWithAlpha(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient().position(drawable, start, end);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            linearGradientBuilder.withColor(randomColorWithAlpha());
-        }
-
-        return linearGradientBuilder.build();
-    }
-
-    public static RadialGradientPaint randomRadialGradient(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            radialGradientBuilder.withColor(randomColor());
-        }
-
-        return radialGradientBuilder.build();
-    }
-
-    public static RadialGradientPaint randomRadialGradientWithAlpha(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient().position(drawable);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            radialGradientBuilder.withColor(randomColorWithAlpha());
-        }
-
-        return radialGradientBuilder.build();
+        return new Font(randomFontName, randomFontStyle, randomFontSize);
     }
 }

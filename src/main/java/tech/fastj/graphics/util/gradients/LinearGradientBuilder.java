@@ -1,6 +1,5 @@
 package tech.fastj.graphics.util.gradients;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
@@ -19,8 +18,15 @@ public class LinearGradientBuilder implements GradientBuilder {
     private int count;
 
     /** Initializes a {@code LinearGradientBuilder}'s internals. */
-    LinearGradientBuilder() {
-        colors = new Color[Gradients.ColorLimit];
+    LinearGradientBuilder(Drawable drawable, Boundary start, Boundary end) {
+        colors = new Color[Gradients.MaximumColorCount];
+        position(drawable, start, end);
+    }
+
+    /** Initializes a {@code LinearGradientBuilder}'s internals. */
+    LinearGradientBuilder(Pointf start, Pointf end) {
+        colors = new Color[Gradients.MaximumColorCount];
+        position(start, end);
     }
 
     /**
@@ -30,24 +36,12 @@ public class LinearGradientBuilder implements GradientBuilder {
      * @param drawable The basis for what the {@code start} and {@code end} end positions evaluate to.
      * @param start    The starting boundary to create the gradient from.
      * @param end      The ending boundary to create the gradient from.
-     * @return The {@code LinearGradientBuilder}, for method chaining.
      */
-    public LinearGradientBuilder position(Drawable drawable, Boundary start, Boundary end) {
-        if (start.equals(end)) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "The starting and ending positions for a gradient must not be the same."
-                                    + System.lineSeparator()
-                                    + "Both positions evaluated to: " + start.name()
-                    )
-            );
-        }
+    private void position(Drawable drawable, Boundary start, Boundary end) {
+        Gradients.sameBoundaryCheck(start, end);
 
         this.from = drawable.getBound(start);
         this.to = drawable.getBound(end);
-
-        return this;
     }
 
     /**
@@ -55,43 +49,46 @@ public class LinearGradientBuilder implements GradientBuilder {
      *
      * @param start The {@code Pointf} defining the starting point of the gradient.
      * @param end   The {@code Pointf} defining the ending point of the gradient.
-     * @return The {@code LinearGradientBuilder}, for method chaining.
      */
-    public LinearGradientBuilder position(Pointf start, Pointf end) {
-        if (start.equals(end)) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "The starting and ending positions for a gradient must not be the same."
-                                    + System.lineSeparator()
-                                    + "Both positions evaluated to: " + start
-                    )
-            );
-        }
+    private void position(Pointf start, Pointf end) {
+        Gradients.samePointfCheck(start, end);
 
         this.from = start;
         this.to = end;
-
-        return this;
     }
 
     /**
      * Adds a {@link Color} to the builder to be used in the resulting gradient.
      * <p>
-     * The amount of colors used in a {@link LinearGradientBuilder} not exceed {@link Gradients#ColorLimit}.
+     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
      *
      * @param color The {@code Color} being added.
      * @return The {@code LinearGradientBuilder}, for method chaining.
      */
     public LinearGradientBuilder withColor(Color color) {
-        if (count == Gradients.ColorLimit) {
-            FastJEngine.error(GradientBuilder.GradientCreationError,
-                    new IllegalStateException("Gradients cannot contain more than " + Gradients.ColorLimit + " colors.")
-            );
-        }
+        Gradients.colorLimitCheck(count);
+        Gradients.nullColorCheck(color);
 
         colors[count] = color;
         count++;
+        return this;
+    }
+
+    /**
+     * Adds several {@link Color}s to the builder to be used in the resulting gradient.
+     * <p>
+     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
+     *
+     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8
+     *               colors.
+     * @return The {@code LinearGradientBuilder}, for method chaining.
+     */
+    public LinearGradientBuilder withColors(Color... colors) {
+        Gradients.colorLimitCheck(count, colors);
+        Gradients.nullColorCheck(colors);
+
+        System.arraycopy(colors, count, this.colors, 0, count + colors.length);
+        count += colors.length;
         return this;
     }
 
@@ -102,19 +99,10 @@ public class LinearGradientBuilder implements GradientBuilder {
      */
     @Override
     public LinearGradientPaint build() {
-        if (count < 2) {
-            FastJEngine.error(
-                    GradientBuilder.GradientCreationError,
-                    new IllegalStateException(
-                            "Gradients must contain at least 2 colors."
-                                    + System.lineSeparator()
-                                    + "This gradient builder only contains the following gradients: " + Arrays.toString(colors)
-                    )
-            );
-        }
+        Gradients.minimumColorCheck(count, colors);
 
-        float[] fractions = generateIntervals(colors.length);
-        return new LinearGradientPaint(from.x, from.y, to.x, to.y, fractions, colors);
+        float[] fractions = Gradients.generateIntervals(count);
+        return new LinearGradientPaint(from.x, from.y, to.x, to.y, Arrays.copyOf(fractions, count), Arrays.copyOf(colors, count));
     }
 
     /**
@@ -122,7 +110,16 @@ public class LinearGradientBuilder implements GradientBuilder {
      *
      * @return The {@code LinearGradientBuilder} instance.
      */
-    static LinearGradientBuilder builder() {
-        return new LinearGradientBuilder();
+    static LinearGradientBuilder builder(Pointf start, Pointf end) {
+        return new LinearGradientBuilder(start, end);
+    }
+
+    /**
+     * Gets a new instance of a {@link LinearGradientBuilder}.
+     *
+     * @return The {@code LinearGradientBuilder} instance.
+     */
+    static LinearGradientBuilder builder(Drawable drawable, Boundary start, Boundary end) {
+        return new LinearGradientBuilder(drawable, start, end);
     }
 }

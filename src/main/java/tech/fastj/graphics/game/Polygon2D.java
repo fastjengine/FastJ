@@ -81,8 +81,8 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable, and the
-     * translation, rotation, and scale of the polygon.
+     * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable,
+     * and the translation, rotation, and scale of the polygon.
      *
      * @param pts         {@code Pointf} array that defines the points for the polygon.
      * @param setLocation {@code Pointf} to set the initial location of the polygon.

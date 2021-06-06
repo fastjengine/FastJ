@@ -16,6 +16,7 @@ import java.awt.RadialGradientPaint;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +41,10 @@ public class PsdfUtil {
     public static Polygon2D[] loadPsdf(String fileLocation) {
         // check for correct file extension
         if (!fileLocation.substring(fileLocation.lastIndexOf(".") + 1).equalsIgnoreCase("psdf")) {
-            FastJEngine.error(PsdfReadErrorMessage,
-                    new IllegalArgumentException("Unsupported file type."
+            throw new IllegalArgumentException(
+                    "Unsupported file type."
                             + System.lineSeparator()
-                            + "This engine currently only supports files of the extension \".psdf\".")
+                            + "This engine currently only supports files of the extension \".psdf\"."
             );
         }
 
@@ -59,7 +60,7 @@ public class PsdfUtil {
     private static Polygon2D[] parsePsdf(String fileLocation) {
         try {
             Polygon2D[] result = null;
-            List<String> lines = Files.readAllLines(Paths.get(fileLocation));
+            List<String> lines = Files.readAllLines(Path.of(fileLocation));
             List<Pointf> polygonPoints = new ArrayList<>();
             Paint paint = null;
             boolean fillPolygon = false;
@@ -80,8 +81,7 @@ public class PsdfUtil {
                         break;
                     }
                     case "lg": { // set paint as LinearGradientPaint
-                        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient();
-                        linearGradientBuilder.position(
+                        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(
                                 new Pointf(
                                         Float.parseFloat(tokens[1]),
                                         Float.parseFloat(tokens[2])
@@ -108,8 +108,7 @@ public class PsdfUtil {
                         break;
                     }
                     case "rg": { // set paint as RadialGradientPaint
-                        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient();
-                        radialGradientBuilder.position(
+                        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(
                                 new Pointf(
                                         Float.parseFloat(tokens[1]),
                                         Float.parseFloat(tokens[2])
@@ -164,8 +163,7 @@ public class PsdfUtil {
             }
             return result;
         } catch (IOException e) {
-            FastJEngine.error(PsdfReadErrorMessage, e);
-            return null;
+            throw new IllegalStateException("An issue occurred while trying to parse file \"" + fileLocation + "\".", e);
         }
     }
 

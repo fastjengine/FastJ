@@ -14,9 +14,11 @@ import java.awt.RadialGradientPaint;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
@@ -28,6 +30,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PsdfUtilTests {
@@ -37,8 +40,7 @@ class PsdfUtilTests {
 
     private static final Pointf[] expectedHouseWallsMesh = DrawUtil.createBox(25f, 25f, 50f);
     private static final Polygon2D expectedHouseWalls = new Polygon2D(expectedHouseWallsMesh);
-    private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient()
-            .position(expectedHouseWalls)
+    private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient(expectedHouseWalls)
             .withColor(Color.magenta)
             .withColor(Color.lightGray)
             .build();
@@ -49,8 +51,7 @@ class PsdfUtilTests {
             new Pointf(85f, 25f)
     };
     private static final Polygon2D expectedHouseRoof = new Polygon2D(expectedHouseRoofMesh);
-    private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient()
-            .position(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
+    private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
             .withColor(Color.blue)
             .withColor(Color.cyan)
             .withColor(Color.yellow)
@@ -138,5 +139,28 @@ class PsdfUtilTests {
 
         assertArrayEquals(expectedHouseArray, actualHouseArray, "The actual Polygon2D array should match the expected array.");
         assertEquals(expectedHouse, actualHouse, "The actual Model2D should match the expected Model2D.");
+    }
+
+    @Test
+    void tryReadPsdf_withIncorrectFileExtension() {
+        String invalid_path = UUID.randomUUID() + ".notsupported";
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> PsdfUtil.loadPsdf(invalid_path));
+
+        String expectedExceptionMessage = "Unsupported file type."
+                + System.lineSeparator()
+                + "This engine currently only supports files of the extension \".psdf\".";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+    }
+
+    @Test
+    void tryReadPsdf_withFileThatDoesNotExist() {
+        String invalid_pathThatDoesNotResolveToFile = UUID.randomUUID() + ".psdf";
+
+        Throwable exception = assertThrows(IllegalStateException.class, () -> PsdfUtil.loadPsdf(invalid_pathThatDoesNotResolveToFile));
+        assertEquals(NoSuchFileException.class, exception.getCause().getClass(), "The underlying exception's class should match the expected class.");
+
+        String expectedExceptionMessage = "An issue occurred while trying to parse file \"" + invalid_pathThatDoesNotResolveToFile + "\".";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+        assertEquals(invalid_pathThatDoesNotResolveToFile, exception.getCause().getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 }

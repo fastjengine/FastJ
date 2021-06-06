@@ -7,9 +7,9 @@ import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
 
 import org.junit.jupiter.api.Test;
+import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.behaviors.MockBehavior;
 import unittest.mock.systems.control.MockEmptyScene;
-import unittest.mock.graphics.MockGameObject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
