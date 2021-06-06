@@ -156,9 +156,11 @@ class PsdfUtilTests {
     void tryReadPsdf_withFileThatDoesNotExist() {
         String invalid_pathThatDoesNotResolveToFile = UUID.randomUUID() + ".psdf";
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> PsdfUtil.loadPsdf(invalid_pathThatDoesNotResolveToFile)).getCause();
-        assertEquals(NoSuchFileException.class, exception.getClass(), "The exception's class should match the expected class.");
+        Throwable exception = assertThrows(IllegalStateException.class, () -> PsdfUtil.loadPsdf(invalid_pathThatDoesNotResolveToFile));
+        assertEquals(NoSuchFileException.class, exception.getCause().getClass(), "The underlying exception's class should match the expected class.");
 
-        assertEquals(invalid_pathThatDoesNotResolveToFile, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+        String expectedExceptionMessage = "An issue occurred while trying to parse file \"" + invalid_pathThatDoesNotResolveToFile + "\".";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
+        assertEquals(invalid_pathThatDoesNotResolveToFile, exception.getCause().getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 }

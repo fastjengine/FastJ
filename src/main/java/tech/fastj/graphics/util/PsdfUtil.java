@@ -16,6 +16,7 @@ import java.awt.RadialGradientPaint;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class PsdfUtil {
     private static Polygon2D[] parsePsdf(String fileLocation) {
         try {
             Polygon2D[] result = null;
-            List<String> lines = Files.readAllLines(Paths.get(fileLocation));
+            List<String> lines = Files.readAllLines(Path.of(fileLocation));
             List<Pointf> polygonPoints = new ArrayList<>();
             Paint paint = null;
             boolean fillPolygon = false;
@@ -162,8 +163,7 @@ public class PsdfUtil {
             }
             return result;
         } catch (IOException e) {
-            FastJEngine.error(PsdfReadErrorMessage, e);
-            return null;
+            throw new IllegalStateException("An issue occurred while trying to parse file \"" + fileLocation + "\".", e);
         }
     }
 
