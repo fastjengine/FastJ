@@ -1,11 +1,16 @@
 package unittest.testcases.graphics.util;
 
+import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Boundary;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.LinearGradientPaint;
+import java.awt.RadialGradientPaint;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +19,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import unittest.mock.graphics.MockBoundariesDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -391,5 +397,61 @@ class DrawUtilTests {
             generatedFonts[i] = DrawUtil.randomFont();
         }
         System.out.println("Generated fonts: " + Arrays.toString(generatedFonts));
+    }
+
+    @Test
+    void checkGenerateLinearGradientPaints_shouldNotFail() {
+        int generatedGradientCount = 255;
+        LinearGradientPaint[] generatedLinearGradients = new LinearGradientPaint[generatedGradientCount];
+        Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
+
+        for (int i = 0; i < generatedGradientCount; i++) {
+            generatedLinearGradients[i] = DrawUtil.randomLinearGradient(
+                    mockBoundariesDrawable,
+                    Boundary.values()[Maths.randomInteger(0, (Boundary.values().length / 2) - 1)],
+                    Boundary.values()[Maths.randomInteger(Boundary.values().length / 2, Boundary.values().length - 1)]
+            );
+        }
+        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+    }
+
+    @Test
+    void checkGenerateLinearGradientPaintsWithRandomAlpha_shouldNotFail() {
+        int generatedGradientCount = 255;
+        LinearGradientPaint[] generatedLinearGradients = new LinearGradientPaint[generatedGradientCount];
+        Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
+
+        for (int i = 0; i < generatedGradientCount; i++) {
+            generatedLinearGradients[i] = DrawUtil.randomLinearGradientWithAlpha(
+                    mockBoundariesDrawable,
+                    Boundary.values()[Maths.randomInteger(0, (Boundary.values().length / 2) - 1)],
+                    Boundary.values()[Maths.randomInteger(Boundary.values().length / 2, Boundary.values().length - 1)]
+            );
+        }
+        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+    }
+
+    @Test
+    void checkGenerateRadialGradientPaints_shouldNotFail() {
+        int generatedGradientCount = 255;
+        RadialGradientPaint[] generatedRadialGradients = new RadialGradientPaint[generatedGradientCount];
+        Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
+
+        for (int i = 0; i < generatedGradientCount; i++) {
+            generatedRadialGradients[i] = DrawUtil.randomRadialGradient(mockBoundariesDrawable);
+        }
+        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
+    }
+
+    @Test
+    void checkGenerateRadialGradientPaintsWithRandomAlpha_shouldNotFail() {
+        int generatedGradientCount = 255;
+        RadialGradientPaint[] generatedRadialGradients = new RadialGradientPaint[generatedGradientCount];
+        Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
+
+        for (int i = 0; i < generatedGradientCount; i++) {
+            generatedRadialGradients[i] = DrawUtil.randomRadialGradientWithAlpha(mockBoundariesDrawable);
+        }
+        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
     }
 }
