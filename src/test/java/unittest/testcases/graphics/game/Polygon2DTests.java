@@ -2,9 +2,9 @@ package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
 
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
