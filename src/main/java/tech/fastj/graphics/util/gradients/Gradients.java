@@ -75,7 +75,7 @@ public class Gradients {
 
     static void minimumRadiusValueCheck(float radius) {
         if (radius <= 0f) {
-            throw new IllegalStateException("The radius for a gradient must be larger than 0.");
+            throw new IllegalArgumentException("The radius for a gradient must be larger than 0.");
         }
     }
 
