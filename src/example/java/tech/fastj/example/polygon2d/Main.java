@@ -3,8 +3,8 @@ package tech.fastj.example.polygon2d;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.SimpleManager;
 
