@@ -4,12 +4,8 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.util.gradients.Gradients;
-import tech.fastj.graphics.util.gradients.LinearGradientBuilder;
-import tech.fastj.graphics.util.gradients.RadialGradientBuilder;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -583,49 +579,5 @@ public final class DrawUtil {
                 : Font.ITALIC;
 
         return new Font(fontNames[Maths.randomInteger(0, fontNames.length - 1)].getFontName(), font, Maths.randomInteger(1, 256));
-    }
-
-    public static LinearGradientPaint randomLinearGradient(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(drawable, start, end);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            linearGradientBuilder.withColor(randomColor());
-        }
-
-        return linearGradientBuilder.build();
-    }
-
-    public static LinearGradientPaint randomLinearGradientWithAlpha(Drawable drawable, Boundary start, Boundary end) {
-        LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(drawable, start, end);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            linearGradientBuilder.withColor(randomColorWithAlpha());
-        }
-
-        return linearGradientBuilder.build();
-    }
-
-    public static RadialGradientPaint randomRadialGradient(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(drawable);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            radialGradientBuilder.withColor(randomColor());
-        }
-
-        return radialGradientBuilder.build();
-    }
-
-    public static RadialGradientPaint randomRadialGradientWithAlpha(Drawable drawable) {
-        RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(drawable);
-
-        int randomColorCount = Maths.randomInteger(2, 8);
-        for (int i = 0; i < randomColorCount; i++) {
-            radialGradientBuilder.withColor(randomColorWithAlpha());
-        }
-
-        return radialGradientBuilder.build();
     }
 }

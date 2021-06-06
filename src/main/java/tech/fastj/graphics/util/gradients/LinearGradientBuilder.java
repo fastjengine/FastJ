@@ -19,13 +19,13 @@ public class LinearGradientBuilder implements GradientBuilder {
 
     /** Initializes a {@code LinearGradientBuilder}'s internals. */
     LinearGradientBuilder(Drawable drawable, Boundary start, Boundary end) {
-        colors = new Color[Gradients.ColorLimit];
+        colors = new Color[Gradients.MaximumColorCount];
         position(drawable, start, end);
     }
 
     /** Initializes a {@code LinearGradientBuilder}'s internals. */
     LinearGradientBuilder(Pointf start, Pointf end) {
-        colors = new Color[Gradients.ColorLimit];
+        colors = new Color[Gradients.MaximumColorCount];
         position(start, end);
     }
 
@@ -60,7 +60,7 @@ public class LinearGradientBuilder implements GradientBuilder {
     /**
      * Adds a {@link Color} to the builder to be used in the resulting gradient.
      * <p>
-     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#ColorLimit}.
+     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
      *
      * @param color The {@code Color} being added.
      * @return The {@code LinearGradientBuilder}, for method chaining.
@@ -77,7 +77,7 @@ public class LinearGradientBuilder implements GradientBuilder {
     /**
      * Adds several {@link Color}s to the builder to be used in the resulting gradient.
      * <p>
-     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#ColorLimit}.
+     * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
      *
      * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8
      *               colors.

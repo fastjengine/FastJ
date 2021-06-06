@@ -706,7 +706,7 @@ class RadialGradientTests {
 
         Throwable exception = assertThrows(IllegalStateException.class, () -> RadialGradientBuilder.withColor(invalid_randomColor9));
 
-        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.ColorLimit + " colors.";
+        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.MaximumColorCount + " colors.";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 
@@ -730,7 +730,7 @@ class RadialGradientTests {
 
         Throwable exception = assertThrows(IllegalStateException.class, () -> RadialGradientBuilder.withColors(invalid_randomColor9));
 
-        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.ColorLimit + " colors.";
+        String expectedExceptionMessage = "Gradients cannot contain more than " + Gradients.MaximumColorCount + " colors.";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 
