@@ -2,9 +2,10 @@ package tech.fastj.example.modelreadwrite;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.graphics.util.PsdfUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -47,7 +48,7 @@ public class Main {
         String smallSquaresFilePath = "src/example/resources/modelreadwrite/smallSquares.psdf";
 
         // And now, we can call the model-writing method.
-        DrawUtil.writeToPSDF(smallSquaresFilePath, smallSquares);
+        PsdfUtil.writePsdf(smallSquaresFilePath, smallSquares);
 
 
         /* As a small aside, this gets the file and prints out its contents.
@@ -62,7 +63,7 @@ public class Main {
 
         /* Next up, we'll read the file back.
          * Since we already have the string denoting the location of the file, we can reuse it. */
-        Polygon2D[] smallSquaresArrayFromFile = DrawUtil.load2DModel(smallSquaresFilePath);
+        Polygon2D[] smallSquaresArrayFromFile = PsdfUtil.loadPsdf(smallSquaresFilePath);
 
         // We can use this to create a new Model2D.
         Model2D smallSquaresFromFile = new Model2D(smallSquaresArrayFromFile);

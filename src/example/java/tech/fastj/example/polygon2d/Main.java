@@ -3,8 +3,8 @@ package tech.fastj.example.polygon2d;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.SimpleManager;
 
@@ -51,7 +51,11 @@ public class Main extends SimpleManager {
 
         /* You can set the following properties of a Polygon2D:
          * - Mesh (Pointf[])
+<<<<<<< HEAD
          * - Color
+=======
+         * - Paint (solid color, gradient)
+>>>>>>> e9b11c827a41835f1ac3015178f140626cb74912
          * - PaintFilled (render the outline or fill)
          * - Rotation
          * - Scale
