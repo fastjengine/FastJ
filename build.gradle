@@ -15,6 +15,11 @@ group('io.github.lucasstarsz.fastj')
 version('1.4.0')
 description('An open source, Java-based 2D game engine.')
 
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+
+import java.nio.file.Files
+import java.nio.file.Path
+
 
 /* ********************* *
  * General Configuration *
@@ -46,9 +51,6 @@ dependencies.testImplementation('org.junit.jupiter:junit-jupiter')
  *   Example Programs    *
  * ********************* */
 
-
-import java.nio.file.Files
-import java.nio.file.Path
 
 sourceSets {
     example {
@@ -88,8 +90,6 @@ sourceSets {
  *     Unit Testing      *
  * ********************* */
 
-
-import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
 tasks.withType(Test) {
     useJUnitPlatform()
