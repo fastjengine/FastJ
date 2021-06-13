@@ -75,21 +75,21 @@ public class Polygon2D extends GameObject {
      * and the translation, rotation, and scale of the polygon.
      *
      * @param pts         {@code Pointf} array that defines the points for the polygon.
-     * @param setLocation {@code Pointf} to set the initial location of the polygon.
+     * @param setTranslation {@code Pointf} to set the initial translation of the polygon.
      * @param setRotation {@code Pointf} to set the initial rotation of the polygon.
      * @param setScale    {@code Pointf} to set the initial scale of the polygon.
      * @param paint       {@code Paint} variable that sets the paint of the polygon.
      * @param fill        Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show        Boolean that determines whether the polygon should be shown on screen.
      */
-    public Polygon2D(Pointf[] pts, Pointf setLocation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
+    public Polygon2D(Pointf[] pts, Pointf setTranslation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
         super();
         points = pts;
 
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        setTranslation(setLocation);
+        setTranslation(setTranslation);
         setRotation(setRotation);
         setScale(setScale);
 
