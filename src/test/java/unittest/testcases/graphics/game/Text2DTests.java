@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import unittest.EnvironmentHelper;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
 import static unittest.EnvironmentHelper.runFastJWith;
 
@@ -22,6 +22,20 @@ class Text2DTests {
     @BeforeAll
     public static void onlyRunIfNotHeadless() {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
+    }
+
+    @Test
+    void checkText2DConstructor_withStringTextParam() {
+        runFastJWith(() -> {
+            String text = "Hello, world!";
+
+            Text2D text2D = new Text2D(text);
+
+            assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
+            assertEquals(Text2D.DefaultColor, text2D.getColor(), "The actual color should match the expected color.");
+            assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
+            assertEquals(Text2D.DefaultShow, text2D.shouldRender(), "The actual show variable should match the default show variable.");
+        });
     }
 
     @Test
@@ -41,45 +55,82 @@ class Text2DTests {
     }
 
     @Test
-    void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam() {
+    void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedTranslationParam_andRandomlyGeneratedColorFontShowParams() {
         runFastJWith(() -> {
             String text = "Hello, world!";
 
             Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
             Color randomColor = DrawUtil.randomColorWithAlpha();
             Font randomFont = DrawUtil.randomFont();
-            boolean shouldRender = Maths.randomBoolean();
+            boolean randomShouldRender = Maths.randomBoolean();
 
-            Text2D text2D = new Text2D(text, randomTranslation, randomColor, randomFont, shouldRender);
+            Text2D text2D = new Text2D(text, randomTranslation, randomColor, randomFont, randomShouldRender);
 
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
             assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
             assertEquals(randomColor, text2D.getColor(), "The actual color should match the expected random color.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
-            assertEquals(shouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
+            assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
         });
     }
 
     @Test
-    void checkText2DConstructor_withStringTextParam_andPointfTranslationParam_andColorParam_andFontParam_andShowParam_usingMethodChaining() {
+    void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedTransformationParams_andRandomlyGeneratedColorFontShowParams() {
         runFastJWith(() -> {
             String text = "Hello, world!";
 
-            Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
             Color randomColor = DrawUtil.randomColorWithAlpha();
             Font randomFont = DrawUtil.randomFont();
-            boolean shouldRender = Maths.randomBoolean();
+            boolean randomShouldRender = Maths.randomBoolean();
 
-            Text2D text2D = (Text2D) new Text2D(text, randomTranslation)
-                    .setColor(randomColor)
-                    .setFont(randomFont)
-                    .setShouldRender(shouldRender);
+            Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+            Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+            float randomRotation = Maths.random(-5000f, 5000f);
+            float expectedNormalizedRotation = randomRotation % 360;
+
+            Text2D text2D = new Text2D(text, randomTranslation, randomRotation, randomScale, randomColor, randomFont, randomShouldRender);
 
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
             assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
+            assertEquals(randomRotation, text2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
+            assertEquals(expectedNormalizedRotation, text2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+            assertEquals(randomScale, text2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
             assertEquals(randomColor, text2D.getColor(), "The actual color should match the expected random color.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
-            assertEquals(shouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
+            assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
+        });
+    }
+
+    @Test
+    void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedTransformationParams_andRandomlyGeneratedColorFontShowParams_usingMethodChaining() {
+        runFastJWith(() -> {
+            String text = "Hello, world!";
+
+            Color randomColor = DrawUtil.randomColorWithAlpha();
+            Font randomFont = DrawUtil.randomFont();
+            boolean randomShouldRender = Maths.randomBoolean();
+
+            Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+            Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
+            float randomRotation = Maths.random(-5000f, 5000f);
+            float expectedNormalizedRotation = randomRotation % 360;
+
+            Text2D text2D = (Text2D) new Text2D(text)
+                    .setColor(randomColor)
+                    .setFont(randomFont)
+                    .setTranslation(randomTranslation)
+                    .setRotation(randomRotation)
+                    .setScale(randomScale)
+                    .setShouldRender(randomShouldRender);
+
+            assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
+            assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
+            assertEquals(randomRotation, text2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
+            assertEquals(expectedNormalizedRotation, text2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
+            assertEquals(randomScale, text2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
+            assertEquals(randomColor, text2D.getColor(), "The actual color should match the expected random color.");
+            assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
+            assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
         });
     }
 
@@ -101,34 +152,28 @@ class Text2DTests {
     }
 
     @Test
-    void checkRotateText2D_shouldThrowException() {
+    void checkRotateText2D_shouldMatchExpected() {
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Pointf originalTranslation = Pointf.Origin.copy();
             float randomRotation = Maths.random(-50f, 50f);
 
-            Text2D text2D = new Text2D(text, originalTranslation);
-            Throwable exception = assertThrows(IllegalStateException.class, () -> text2D.rotate(randomRotation, Pointf.Origin));
+            Text2D text2D = new Text2D(text);
 
-            String expectedErrorMessage = "ERROR: The game crashed, due to the call of a method not yet implemented.";
-            String actualErrorMessage = exception.getMessage();
-            assertEquals(expectedErrorMessage, actualErrorMessage);
+            assertDoesNotThrow(() -> text2D.rotate(randomRotation, Pointf.Origin), "Rotating Text2D objects is implemented, and should not throw an exception.");
+            assertEquals(randomRotation, text2D.getRotation(), "The actual rotation should match the expected rotation.");
         });
     }
 
     @Test
-    void checkScaleText2D_shouldThrowException() {
+    void checkScaleText2D_shouldMatchExpected() {
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Pointf originalTranslation = Pointf.Origin.copy();
             Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
-            Text2D text2D = new Text2D(text, originalTranslation);
-            Throwable exception = assertThrows(IllegalStateException.class, () -> text2D.scale(randomScale, originalTranslation));
+            Text2D text2D = new Text2D(text);
 
-            String expectedErrorMessage = "ERROR: The game crashed, due to the call of a method not yet implemented.";
-            String actualErrorMessage = exception.getMessage();
-            assertEquals(expectedErrorMessage, actualErrorMessage);
+            assertDoesNotThrow(() -> text2D.scale(randomScale), "Scaling Text2D objects is implemented, and should not throw an exception.");
+            assertEquals(Pointf.add(randomScale, 1f), text2D.getScale(), "The actual scale should match the expected scale.");
         });
     }
 }

@@ -5,6 +5,7 @@ import tech.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
 
+/** Convenience class for storing/performing 2D transformations using {@link AffineTransform}. */
 public class Transform2D {
 
     /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
@@ -39,16 +40,18 @@ public class Transform2D {
 
     public float getRotation() {
         float approximatedRotation = (float) Math.toDegrees(Math.atan2(rotationTransform.getShearY(), rotationTransform.getScaleY()));
+        float normalizedRotation = rotation % 360f;
 
-        if (Maths.floatEquals(rotation % 360f, approximatedRotation)) {
+        if (Maths.floatEquals(normalizedRotation, approximatedRotation)) {
             return rotation;
         }
 
-        float rotationCheck = Math.abs(rotation % 360f) + Math.abs(approximatedRotation);
+        float rotationCheck = Math.abs(normalizedRotation) + Math.abs(approximatedRotation);
         if (Maths.floatEquals(rotationCheck, 360f) || Maths.floatEquals(rotationCheck, 0f)) {
             return rotation;
         }
 
+        // according to logical thinking, this should not be reached.
         throw new IllegalStateException(
                 "Something went wrong calculating the rotation.... we expected " + rotation + ", but we got " + approximatedRotation + " instead. :("
         );
