@@ -11,6 +11,7 @@ import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.tags.TaggableEntity;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.Arrays;
 import java.util.UUID;
@@ -35,11 +36,13 @@ public abstract class Drawable extends TaggableEntity {
     protected Shape collisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;
+    protected final Transform2D transform;
 
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
         rawID = UUID.randomUUID();
         id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID;
+        transform = new Transform2D();
     }
 
     /**
@@ -168,6 +171,142 @@ public abstract class Drawable extends TaggableEntity {
 
         otherObject.intersect(thisObject);
         return !otherObject.isEmpty();
+    }
+
+    /**
+     * Gets the {@code Drawable}'s translation.
+     *
+     * @return A {@code Pointf} that represents the current translation of the {@code Drawable}.
+     */
+    public Pointf getTranslation() {
+        return transform.getTranslation();
+    }
+
+    /**
+     * Sets the {@code Drawable}'s translation to the specified value.
+     *
+     * @param setTranslation {@code Pointf} parameter that the {@code Drawable}'s translation will be set to.
+     * @return The {@code Drawable}, for method chaining.
+     */
+    public Drawable setTranslation(Pointf setTranslation) {
+        transform.setTranslation(setTranslation);
+        return this;
+    }
+
+    /**
+     * Gets the {@code Drawable}'s rotation.
+     *
+     * @return A float that represents the current rotation of the {@code Drawable}.
+     */
+    public float getRotation() {
+        return transform.getRotation();
+    }
+
+    /**
+     * Sets the {@code Drawable}'s rotation to the specified value.
+     *
+     * @param setRotation float parameter that the {@code Drawable}'s rotation will be set to.
+     * @return The {@code Drawable}, for method chaining.
+     */
+    public Drawable setRotation(float setRotation) {
+        transform.setRotation(setRotation);
+        return this;
+    }
+
+    /**
+     * Gets the {@code Drawable}'s scale.
+     *
+     * @return A {@code Pointf} that represents the current scale of the object.
+     */
+    public Pointf getScale() {
+        return transform.getScale();
+    }
+
+    /**
+     * Sets the {@code Drawable}'s scale to the specified value.
+     *
+     * @param setScale {@code Pointf} parameter that the {@code Drawable}'s scale will be set to.
+     * @return The {@code Drawable}, for method chaining.
+     */
+    public Drawable setScale(Pointf setScale) {
+        transform.setScale(setScale);
+        return this;
+    }
+
+    /**
+     * Translates the {@code Drawable}'s position by the specified translation.
+     *
+     * @param translationMod {@code Pointf} parameter that the {@code Drawable}'s x and y location will be translated
+     *                       by.
+     */
+    public void translate(Pointf translationMod) {
+        transform.translate(translationMod);
+    }
+
+    /**
+     * Rotates the {@code Drawable} in the direction of the specified rotation, about the specified center point.
+     *
+     * @param rotationMod float parameter that the {@code Drawable} will be rotated by.
+     * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be rotated about.
+     */
+    public void rotate(float rotationMod, Pointf centerpoint) {
+        transform.rotate(rotationMod, centerpoint);
+    }
+
+    /**
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, from the specified center point.
+     *
+     * @param scaleMod    {@code Pointf} parameter that the {@code Drawable}'s width and height will be scaled by.
+     * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be scaled about.
+     */
+    public void scale(Pointf scaleMod, Pointf centerpoint) {
+        transform.scale(scaleMod, centerpoint);
+    }
+
+    /**
+     * Gets the rotation, normalized to be within a range of {@code (-360, 360)}.
+     *
+     * @return The normalized rotation.
+     */
+    public float getRotationWithin360() {
+        return transform.getRotationWithin360();
+    }
+
+    /**
+     * Gets the entire transformation of the {@code Drawable}.
+     *
+     * @return The transformation, as an {@link AffineTransform}.
+     */
+    public AffineTransform getTransformation() {
+        return transform.getAffineTransform();
+    }
+
+    /**
+     * Rotates the {@code Drawable} in the direction of the specified rotation, about its center.
+     *
+     * @param rotationMod float parameter that the {@code Drawable} will be rotated by.
+     */
+    public void rotate(float rotationMod) {
+        rotate(rotationMod, getCenter());
+    }
+
+    /**
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its center.
+     *
+     * @param scaleXY float parameter that the {@code Drawable} will be scaled by, acting as both the x and y values.
+     */
+    public void scale(float scaleXY) {
+        scale(new Pointf(scaleXY), getCenter());
+    }
+
+    /**
+     * Scales the {@code Drawable} in by the amount specified in the specified scale, about its center.
+     *
+     * @param scaleMod {@code Pointf} parameter that the {@code Drawable} will be scaled by, based on its x and y
+     *                 values.
+     */
+    public void scale(Pointf scaleMod) {
+        scale(scaleMod, getCenter());
     }
 
     /**

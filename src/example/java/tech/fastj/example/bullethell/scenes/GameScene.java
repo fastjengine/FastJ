@@ -152,8 +152,8 @@ public class GameScene extends Scene {
         );
 
         return (Model2D) new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"))
-                .setTranslation(randomPosition)
                 .addBehavior(new EnemyMovement(this), this)
+                .setTranslation(randomPosition)
                 .addAsGameObject(this);
     }
 }

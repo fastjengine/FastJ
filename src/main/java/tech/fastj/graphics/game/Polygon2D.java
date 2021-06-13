@@ -1,8 +1,6 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
@@ -37,10 +35,6 @@ public class Polygon2D extends GameObject {
     private Paint paint;
     private boolean shouldFill;
 
-    private float rotation;
-    private Pointf scale;
-    private Pointf translation;
-
 
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
@@ -69,10 +63,6 @@ public class Polygon2D extends GameObject {
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
 
-        rotation = GameObject.DefaultRotation;
-        scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TopLeft));
-
         setPaint(paint);
         setFilled(fill);
 
@@ -98,10 +88,6 @@ public class Polygon2D extends GameObject {
 
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
-
-        rotation = GameObject.DefaultRotation;
-        scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TopLeft));
 
         setTranslation(setLocation);
         setRotation(setRotation);
@@ -179,7 +165,9 @@ public class Polygon2D extends GameObject {
      * @return The {@code Pointf} array associated with the current state of the polygon.
      */
     public Pointf[] getPoints() {
-        return DrawUtil.pointsOfPath(renderPath);
+        Path2D.Float renderPathCopy = (Path2D.Float) renderPath.clone();
+        renderPathCopy.transform(getTransformation());
+        return DrawUtil.pointsOfPath(renderPathCopy);
     }
 
     /**
@@ -197,83 +185,39 @@ public class Polygon2D extends GameObject {
         points = pts;
         renderPath = DrawUtil.createPath(points);
 
-        if (resetTranslation) {
-            translation.set(GameObject.DefaultTranslation.x, GameObject.DefaultTranslation.y);
+        if (!resetTranslation && !resetRotation && !resetScale) {
+            return;
         }
-        if (resetRotation) {
-            rotation = GameObject.DefaultRotation;
-        }
-        if (resetScale) {
-            scale.set(GameObject.DefaultScale.x, GameObject.DefaultScale.y);
+
+        if (resetTranslation && resetRotation && resetScale) {
+            transform.reset();
+        } else {
+            if (resetTranslation) {
+                transform.resetTranslation();
+            }
+            if (resetRotation) {
+                transform.resetRotation();
+            }
+            if (resetScale) {
+                System.out.println("reset?");
+                transform.resetScale();
+            }
         }
 
         setBoundaries(renderPath);
         setCollisionPath(renderPath);
-    }
-
-    @Override
-    public Pointf getTranslation() {
-        return translation;
-    }
-
-    @Override
-    public float getRotation() {
-        return rotation;
-    }
-
-    @Override
-    public Pointf getScale() {
-        return scale;
-    }
-
-    @Override
-    public void translate(Pointf translationMod) {
-        AffineTransform at = AffineTransform.getTranslateInstance(translationMod.x, translationMod.y);
-        renderPath = (Path2D.Float) renderPath.createTransformedShape(at);
-
-        translation.add(translationMod);
-
-        translateBounds(translationMod);
-        setCollisionPath(renderPath);
-    }
-
-    @Override
-    public void rotate(float rotationMod, Pointf centerpoint) {
-        AffineTransform polyAT = AffineTransform.getRotateInstance(Math.toRadians(rotationMod), centerpoint.x, centerpoint.y);
-        renderPath = (Path2D.Float) renderPath.createTransformedShape(polyAT);
-
-        rotation += rotationMod;
-
-        setCollisionPath(renderPath);
-        setBoundaries(renderPath);
-    }
-
-    @Override
-    public void scale(Pointf scaleMod, Pointf centerpoint) {
-        final Pointf[] renderCopy = DrawUtil.pointsOfPath(renderPath);
-        final Pointf oldScale = new Pointf(scale);
-
-        scale.add(scaleMod);
-
-        for (Pointf pt : renderCopy) {
-            final Pointf distanceFromCenter = Pointf.subtract(centerpoint, pt);
-
-            pt.add(Pointf.multiply(distanceFromCenter, oldScale));
-            pt.add(Pointf.multiply(Pointf.multiply(distanceFromCenter, -1f), scale));
-        }
-
-        renderPath = DrawUtil.createPath(renderCopy);
-
-        setCollisionPath(renderPath);
-        setBoundaries(renderPath);
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) return;
+        if (!shouldRender()) {
+            return;
+        }
 
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Paint oldPaint = g.getPaint();
 
+        g.transform(getTransformation());
         g.setPaint(paint);
 
         if (shouldFill) {
@@ -282,6 +226,7 @@ public class Polygon2D extends GameObject {
             g.draw(renderPath);
         }
 
+        g.setTransform(oldTransform);
         g.setPaint(oldPaint);
     }
 
@@ -292,10 +237,6 @@ public class Polygon2D extends GameObject {
 
         paint = null;
         shouldFill = false;
-
-        scale = null;
-        translation = null;
-        rotation = 0;
 
         destroyTheRest(originScene);
 
@@ -328,16 +269,13 @@ public class Polygon2D extends GameObject {
 
         return shouldFill == polygon2D.shouldFill
                 && DrawUtil.paintEquals(paint, polygon2D.paint)
-                && Objects.equals(translation, polygon2D.translation)
-                && Objects.equals(scale, polygon2D.scale)
-                && Maths.floatEquals(polygon2D.rotation, rotation)
                 && Arrays.equals(points, polygon2D.points)
                 && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(polygon2D.renderPath));
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(renderPath, paint, shouldFill, rotation, scale, translation);
+        int result = Objects.hash(renderPath, paint, shouldFill);
         result = 31 * result + Arrays.hashCode(points);
         return result;
     }
@@ -349,9 +287,9 @@ public class Polygon2D extends GameObject {
                 ", points=" + Arrays.toString(points) +
                 ", paint=" + paint +
                 ", paintFilled=" + shouldFill +
-                ", rotation=" + rotation +
-                ", scale=" + scale +
-                ", translation=" + translation +
+                ", rotation=" + getRotation() +
+                ", scale=" + getScale() +
+                ", translation=" + getTranslation() +
                 '}';
     }
 }

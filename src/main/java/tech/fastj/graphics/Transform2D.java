@@ -1,70 +1,118 @@
 package tech.fastj.graphics;
 
+import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
 
-public class Transform {
+public class Transform2D {
 
-    private final AffineTransform affineTransform = new AffineTransform();
+    /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
+    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
+    /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
+    public static final Pointf DefaultScale = new Pointf(1f).copy();
+    /** {@code float} representing a default rotation value of {@code 0f}. */
+    public static final float DefaultRotation = 0f;
+
+    private final AffineTransform translationTransform = new AffineTransform();
+    private final AffineTransform rotationTransform = new AffineTransform();
+    private final AffineTransform scaleTransform = new AffineTransform();
+    private Pointf lastRotationPoint = Pointf.Origin.copy();
+    private Pointf lastScalePoint = Pointf.Origin.copy();
+    private float rotation = DefaultRotation;
 
     public AffineTransform getAffineTransform() {
-        return affineTransform;
+        AffineTransform result = new AffineTransform();
+        result.preConcatenate(rotationTransform);
+        result.preConcatenate(translationTransform);
+        result.preConcatenate(scaleTransform);
+        return result;
     }
 
     public Pointf getTranslation() {
-        return new Pointf((float) affineTransform.getTranslateX(), (float) affineTransform.getTranslateY());
+        return new Pointf((float) translationTransform.getTranslateX(), (float) translationTransform.getTranslateY());
     }
 
     public Pointf getScale() {
-        return new Pointf((float) affineTransform.getScaleX(), (float) affineTransform.getScaleY());
+        return new Pointf((float) scaleTransform.getScaleX(), (float) scaleTransform.getScaleY());
     }
 
     public float getRotation() {
-        return (float) Math.atan2(affineTransform.getShearY(), affineTransform.getScaleY());
+        float approximatedRotation = (float) Math.toDegrees(Math.atan2(rotationTransform.getShearY(), rotationTransform.getScaleY()));
+
+        if (Maths.floatEquals(rotation % 360f, approximatedRotation)) {
+            return rotation;
+        }
+
+        float rotationCheck = Math.abs(rotation % 360f) + Math.abs(approximatedRotation);
+        if (Maths.floatEquals(rotationCheck, 360f) || Maths.floatEquals(rotationCheck, 0f)) {
+            return rotation;
+        }
+
+        throw new IllegalStateException(
+                "Something went wrong calculating the rotation.... we expected " + rotation + ", but we got " + approximatedRotation + " instead. :("
+        );
     }
 
     public float getRotationWithin360() {
-        return getRotation() % 360.0f;
-    }
-
-    public Pointf getShear() {
-        return new Pointf((float) affineTransform.getShearX(), (float) affineTransform.getShearY());
+        return getRotation() % 360f;
     }
 
     public void setTranslation(Pointf translation) {
-        affineTransform.setToTranslation(translation.x, translation.y);
+        Pointf oldTranslation = getTranslation();
+        translate(new Pointf(-oldTranslation.x + translation.x, -oldTranslation.y + translation.y));
     }
 
     public void setScale(Pointf scale) {
-        affineTransform.setToScale(scale.x, scale.y);
+        Pointf oldScale = getScale();
+        scale(new Pointf(-oldScale.x + scale.x, -oldScale.y + scale.y), lastScalePoint);
     }
 
     public void setRotation(float rotation) {
-        affineTransform.setToRotation(Math.toRadians(rotation));
-    }
-
-    public void setShear(Pointf shear) {
-        affineTransform.setToShear(shear.x, shear.y);
+        rotate(-getRotation() + rotation, lastRotationPoint);
     }
 
     public void translate(Pointf translation) {
-        affineTransform.translate(translation.x, translation.y);
+        translationTransform.concatenate(AffineTransform.getTranslateInstance(translation.x, translation.y));
     }
 
-    public void scale(Pointf scale) {
-        affineTransform.scale(scale.x, scale.y);
+    public void scale(Pointf scale, Pointf centerpoint) {
+        lastScalePoint = centerpoint.copy();
+
+        Pointf newScale = Pointf.add(scale, getScale());
+        Pointf scaleDifference = Pointf.subtract(getScale(), scale);
+        Pointf moveBack = Pointf.multiply(scaleDifference, centerpoint);
+
+        scaleTransform.translate(-centerpoint.x, -centerpoint.y);
+
+        scaleTransform.scale(1f / scaleTransform.getScaleX(), 1f / scaleTransform.getScaleY());
+
+        scaleTransform.translate(moveBack.x, moveBack.y);
+        scaleTransform.scale(newScale.x, newScale.y);
     }
 
-    public void rotate(float rotation) {
-        affineTransform.rotate(Math.toRadians(rotation));
-    }
-
-    public void shear(Pointf shear) {
-        affineTransform.shear(shear.x, shear.y);
+    public void rotate(float rotation, Pointf centerpoint) {
+        this.rotation += rotation;
+        lastRotationPoint = centerpoint.copy();
+        rotationTransform.concatenate(AffineTransform.getRotateInstance(Math.toRadians(rotation), centerpoint.x, centerpoint.y));
     }
 
     public void reset() {
-        affineTransform.setToIdentity();
+        rotation = DefaultRotation;
+        resetTranslation();
+        resetRotation();
+        resetScale();
+    }
+
+    public void resetTranslation() {
+        translationTransform.setToIdentity();
+    }
+
+    public void resetRotation() {
+        rotationTransform.setToIdentity();
+    }
+
+    public void resetScale() {
+        scaleTransform.setToIdentity();
     }
 }
