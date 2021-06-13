@@ -2,12 +2,10 @@ package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.game.GameObject;
+import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
-import java.awt.geom.AffineTransform;
 
 import org.junit.jupiter.api.Test;
 
@@ -30,9 +28,9 @@ class Model2DTests {
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(Model2D.DefaultShow, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(GameObject.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(GameObject.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(GameObject.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(Transform2D.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
+        assertEquals(Transform2D.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
+        assertEquals(Transform2D.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
     }
 
     @Test
@@ -51,9 +49,9 @@ class Model2DTests {
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the default show option.");
-        assertEquals(GameObject.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
-        assertEquals(GameObject.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
-        assertEquals(GameObject.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
+        assertEquals(Transform2D.DefaultTranslation, model2D.getTranslation(), "The created model's translation should match the default translation.");
+        assertEquals(Transform2D.DefaultRotation, model2D.getRotation(), "The created model's rotation should match the default rotation.");
+        assertEquals(Transform2D.DefaultScale, model2D.getScale(), "The created model's scaling should match the default scale.");
     }
 
     @Test
@@ -74,17 +72,11 @@ class Model2DTests {
 
         Model2D model2D = new Model2D(polygons, randomTranslation, randomRotation, randomScale, shouldRender);
 
-        AffineTransform expectedTransform = new AffineTransform();
-        expectedTransform.setToScale(randomScale.x, randomScale.y);
-        expectedTransform.setToRotation(Math.toRadians(randomRotation), model2D.getCenter().x, model2D.getCenter().y);
-        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
-
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the random show option.");
         assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the random translation.");
         assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the random rotation.");
         assertEquals(expectedNormalizedRotation, model2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
-        assertEquals(expectedTransform, model2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
         assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the random scale.");
     }
 
@@ -110,17 +102,11 @@ class Model2DTests {
                 .setScale(randomScale)
                 .setShouldRender(shouldRender);
 
-        AffineTransform expectedTransform = new AffineTransform();
-        expectedTransform.setToScale(randomScale.x, randomScale.y);
-        expectedTransform.setToRotation(Math.toRadians(randomRotation), model2D.getCenter().x, model2D.getCenter().y);
-        expectedTransform.setToTranslation(randomTranslation.x, randomTranslation.y);
-
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'show' option should match the expected show option.");
         assertEquals(randomTranslation, model2D.getTranslation(), "The created model's translation should match the expected translation.");
         assertEquals(randomRotation, model2D.getRotation(), "The created model's rotation should match the expected rotation.");
         assertEquals(expectedNormalizedRotation, model2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
-        assertEquals(expectedTransform, model2D.getTransformation(), "The created polygon's generated transform should match the expected transform.");
         assertEquals(randomScale, model2D.getScale(), "The created model's scaling should match the expected scale.");
     }
 
