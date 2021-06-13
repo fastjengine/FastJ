@@ -36,36 +36,85 @@ public class Text2D extends GameObject {
     private boolean hasMetrics;
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text and a location.
+     * {@code Text2D} Constructor that takes in a string of text.
+     * <p>
+     * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
+     * {@code show} boolean to {@link #DefaultShow}.
+     *
+     * @param setText Sets the displayed text.
+     */
+    public Text2D(String setText) {
+        this(setText, DefaultColor, DefaultFont, DefaultShow);
+    }
+
+    /**
+     * {@code Text2D} Constructor that takes in a string of text and an initial translation.
      * <p>
      * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the x and y location of the text.
+     * @param setTranslation Sets the initial x and y translation of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, setTranslation, DefaultColor, DefaultFont, DefaultShow);
+        this(setText, DefaultColor, DefaultFont, DefaultShow);
+        setTranslation(setTranslation);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a location, a color, a font, and a show variable.
+     * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a show variable.
+     *
+     * @param setText  Sets the displayed text.
+     * @param setColor Sets the text's color.
+     * @param setFont  Sets the text's font.
+     * @param show     Sets whether the text will be drawn to the screen.
+     */
+    public Text2D(String setText, Color setColor, Font setFont, boolean show) {
+        text = setText;
+        font = setFont;
+
+        setColor(setColor);
+        setFont(setFont);
+        setShouldRender(show);
+    }
+
+    /**
+     * {@code Text2D} Constructor that takes in a string of text, a translation, a color, a font, and a show variable.
      *
      * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the x and y location of the text.
+     * @param setTranslation Sets the initial x and y translation of the text.
      * @param setColor       Sets the text's color.
      * @param setFont        Sets the text's font.
      * @param show           Sets whether the text will be drawn to the screen.
      */
     public Text2D(String setText, Pointf setTranslation, Color setColor, Font setFont, boolean show) {
+        this(setText, setColor, setFont, show);
+        setTranslation(setTranslation);
+    }
+
+    /**
+     * {@code Text2D} Constructor that takes in a string of text, a translation/rotation/scale, a color, a font, and a
+     * show variable.
+     *
+     * @param setText        Sets the displayed text.
+     * @param setTranslation Sets the initial x and y translation of the text.
+     * @param setRotation    Sets the initial rotation of the text.
+     * @param setScale       Sets the initial scale of the text.
+     * @param setColor       Sets the text's color.
+     * @param setFont        Sets the text's font.
+     * @param show           Sets whether the text will be drawn to the screen.
+     */
+    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Color setColor, Font setFont, boolean show) {
         text = setText;
         font = setFont;
 
         setTranslation(setTranslation);
-        setColor(setColor);
-        setShouldRender(show);
+        setRotation(setRotation);
+        setScale(setScale);
 
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setColor(setColor);
+        setFont(setFont);
+        setShouldRender(show);
     }
 
     /**
@@ -162,6 +211,7 @@ public class Text2D extends GameObject {
         text = null;
         color = null;
         font = null;
+        hasMetrics = false;
 
         super.destroyTheRest(originScene);
     }
