@@ -65,7 +65,7 @@ sourceSets {
                     )
                 }
 
-                if (!Files.exists(Path.of('src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
+                if (!Files.exists(Path.of(projectDir.toString(), 'src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
                     throw new IllegalArgumentException(
                             "The example ${project.getProperty('toRun')} does not exist."
                     )
