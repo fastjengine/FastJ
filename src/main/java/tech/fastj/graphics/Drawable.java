@@ -10,7 +10,7 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.tags.TaggableEntity;
 
-import java.awt.Shape;
+import java.awt.geom.Path2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public abstract class Drawable extends TaggableEntity {
     private final String id;
 
     /** The shape defining where the Drawable collides. */
-    protected Shape collisionPath;
+    protected Path2D.Float collisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;
     protected final Transform2D transform;
@@ -57,18 +57,18 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Gets the collision path of the {@code Drawable}.
      *
-     * @return The collision path of the {@code Drawable}, as a {@code Shape}.
+     * @return The collision path of the {@code Drawable}, as a {@code Path2D.Float}.
      */
-    public Shape getCollisionPath() {
+    public Path2D.Float getCollisionPath() {
         return collisionPath;
     }
 
     /**
      * Sets the collision path to the specified parameter.
      *
-     * @param path {@code Shape} parameter that the collision path will be set to.
+     * @param path {@code Path2D.Float} parameter that the collision path will be set to.
      */
-    protected void setCollisionPath(Shape path) {
+    protected void setCollisionPath(Path2D.Float path) {
         collisionPath = path;
     }
 

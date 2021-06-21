@@ -17,6 +17,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -33,7 +34,7 @@ public class Button extends UIElement {
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
 
     private Paint paint;
-    private Rectangle2D.Float renderPath;
+    private Path2D.Float renderPath;
     private final Pointf location;
 
     private Font font;
@@ -65,7 +66,7 @@ public class Button extends UIElement {
         Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
         super.setBounds(buttonCoords);
 
-        renderPath = DrawUtil.createRect(buttonCoords);
+        renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
         this.setPaint(Color.cyan);
@@ -138,7 +139,7 @@ public class Button extends UIElement {
 
     @Override
     public void renderAsGUIObject(Graphics2D g2, Camera camera) {
-        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.clone();
+        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
         renderCopy.x -= camera.getTranslation().x;
         renderCopy.y -= camera.getTranslation().y;
 
@@ -175,22 +176,23 @@ public class Button extends UIElement {
 
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
+        Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) renderPath.getBounds2D();
 
         textBounds = new Rectangle2D.Float(
-                location.x + (renderPath.width - textWidth) / 2f,
+                location.x + (renderPathBounds.width - textWidth) / 2f,
                 location.y + textHeight,
                 textWidth,
                 textHeight
         );
 
-        if (renderPath.width < textBounds.width) {
-            float diff = (textBounds.width - renderPath.width) / 2f;
-            renderPath.width = textBounds.width;
+        if (renderPathBounds.width < textBounds.width) {
+            float diff = (textBounds.width - renderPathBounds.width) / 2f;
+            renderPathBounds.width = textBounds.width;
             textBounds.x += diff;
         }
 
-        if (renderPath.height < textBounds.height) {
-            renderPath.height = textBounds.height;
+        if (renderPathBounds.height < textBounds.height) {
+            renderPathBounds.height = textBounds.height;
         }
 
         g.dispose();
