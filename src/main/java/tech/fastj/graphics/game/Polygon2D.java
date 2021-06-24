@@ -10,7 +10,6 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -61,7 +60,6 @@ public class Polygon2D extends GameObject {
         points = pts;
 
         renderPath = DrawUtil.createPath(points);
-        setBoundaries(renderPath);
         setCollisionPath(renderPath);
 
         setPaint(paint);
@@ -74,20 +72,19 @@ public class Polygon2D extends GameObject {
      * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable,
      * and the translation, rotation, and scale of the polygon.
      *
-     * @param pts         {@code Pointf} array that defines the points for the polygon.
+     * @param pts            {@code Pointf} array that defines the points for the polygon.
      * @param setTranslation {@code Pointf} to set the initial translation of the polygon.
-     * @param setRotation {@code Pointf} to set the initial rotation of the polygon.
-     * @param setScale    {@code Pointf} to set the initial scale of the polygon.
-     * @param paint       {@code Paint} variable that sets the paint of the polygon.
-     * @param fill        Boolean that determines whether the polygon should be filled, or only outlined.
-     * @param show        Boolean that determines whether the polygon should be shown on screen.
+     * @param setRotation    {@code Pointf} to set the initial rotation of the polygon.
+     * @param setScale       {@code Pointf} to set the initial scale of the polygon.
+     * @param paint          {@code Paint} variable that sets the paint of the polygon.
+     * @param fill           Boolean that determines whether the polygon should be filled, or only outlined.
+     * @param show           Boolean that determines whether the polygon should be shown on screen.
      */
     public Polygon2D(Pointf[] pts, Pointf setTranslation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
         super();
         points = pts;
 
         renderPath = DrawUtil.createPath(points);
-        setBoundaries(renderPath);
         setCollisionPath(renderPath);
 
         setTranslation(setTranslation);
@@ -199,12 +196,10 @@ public class Polygon2D extends GameObject {
                 transform.resetRotation();
             }
             if (resetScale) {
-                System.out.println("reset?");
                 transform.resetScale();
             }
         }
 
-        setBoundaries(renderPath);
         setCollisionPath(renderPath);
     }
 
@@ -240,15 +235,6 @@ public class Polygon2D extends GameObject {
 
         destroyTheRest(originScene);
 
-    }
-
-    /**
-     * Sets the boundaries of the polygon, using the specified {@code Path2D.Float}.
-     *
-     * @param p The {@code Path2D.Float} which the boundaries will be based off of.
-     */
-    private void setBoundaries(Path2D.Float p) {
-        super.setBounds(DrawUtil.createBox((Rectangle2D.Float) p.getBounds2D()));
     }
 
     /**

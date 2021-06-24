@@ -2,7 +2,6 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 
@@ -232,7 +231,6 @@ public class Text2D extends GameObject {
 
         Pointf translation = getTranslation();
         final Rectangle2D.Float bounds = new Rectangle2D.Float(translation.x, translation.y, textWidth, textHeight);
-        setBounds(DrawUtil.createBox(bounds));
 
         setCollisionPath(createMetricsPath(bounds));
 

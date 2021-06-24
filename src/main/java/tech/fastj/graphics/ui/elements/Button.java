@@ -64,7 +64,6 @@ public class Button extends UIElement {
 
         this.location = location;
         Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
-        super.setBounds(buttonCoords);
 
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);

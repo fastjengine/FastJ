@@ -37,7 +37,6 @@ public abstract class Drawable extends TaggableEntity {
     protected Path2D.Float collisionPath;
     protected Path2D.Float transformedCollisionPath;
     private boolean shouldRender;
-    private Pointf[] boundaries;
     protected final Transform2D transform;
     private Pointf initialCenter;
 
@@ -107,23 +106,6 @@ public abstract class Drawable extends TaggableEntity {
      */
     public Pointf[] getBounds() {
         return DrawUtil.createBox((Rectangle2D.Float) transformedCollisionPath.getBounds2D());
-    }
-
-    /**
-     * Sets the boundaries of the {@code Drawable} to the specified {@code Pointf} array.
-     * <p>
-     * The specified array must be exactly 4 points. If there is any deviancy from this, the game will crash out with an
-     * error specifying this.
-     *
-     * @param bounds The {@code Pointf} array that the boundaries of the {@code Drawable} will be set to.
-     */
-    protected void setBounds(Pointf[] bounds) {
-        if (bounds.length != 4) {
-            FastJEngine.error(CrashMessages.illegalAction(getClass()),
-                    new IllegalArgumentException("The boundaries for a Drawable must only have 4 points."));
-        }
-
-        boundaries = bounds;
     }
 
     /**
@@ -374,7 +356,6 @@ public abstract class Drawable extends TaggableEntity {
         clearTags();
 
         collisionPath = null;
-        boundaries = null;
     }
 
     private void updateTransformedCollisionPath() {
