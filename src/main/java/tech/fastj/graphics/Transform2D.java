@@ -76,7 +76,7 @@ public class Transform2D {
     }
 
     public void translate(Pointf translation) {
-        translationTransform.concatenate(AffineTransform.getTranslateInstance(translation.x, translation.y));
+        translationTransform.translate(translation.x, translation.y);
     }
 
     public void scale(Pointf scale, Pointf centerpoint) {
@@ -97,7 +97,7 @@ public class Transform2D {
     public void rotate(float rotation, Pointf centerpoint) {
         this.rotation += rotation;
         lastRotationPoint = centerpoint.copy();
-        rotationTransform.concatenate(AffineTransform.getRotateInstance(Math.toRadians(rotation), centerpoint.x, centerpoint.y));
+        rotationTransform.rotate(Math.toRadians(rotation), centerpoint.x, centerpoint.y);
     }
 
     public void reset() {

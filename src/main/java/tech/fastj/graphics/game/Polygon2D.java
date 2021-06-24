@@ -62,11 +62,11 @@ public class Polygon2D extends GameObject {
 
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
+        setCollisionPath(renderPath);
 
         setPaint(paint);
         setFilled(fill);
 
-        setCollisionPath(renderPath);
         setShouldRender(show);
     }
 
@@ -88,6 +88,7 @@ public class Polygon2D extends GameObject {
 
         renderPath = DrawUtil.createPath(points);
         setBoundaries(renderPath);
+        setCollisionPath(renderPath);
 
         setTranslation(setTranslation);
         setRotation(setRotation);
@@ -96,7 +97,6 @@ public class Polygon2D extends GameObject {
         setPaint(paint);
         setFilled(fill);
 
-        setCollisionPath(renderPath);
         setShouldRender(show);
     }
 

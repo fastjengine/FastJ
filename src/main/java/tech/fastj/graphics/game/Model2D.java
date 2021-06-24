@@ -51,9 +51,9 @@ public class Model2D extends GameObject {
     public Model2D(Polygon2D[] polygonArray, boolean show) {
         polyArr = polygonArray;
 
+        setCollisionPoints();
         setBounds(createBounds());
 
-        setCollisionPoints();
 
         setShouldRender(show);
     }
@@ -75,9 +75,9 @@ public class Model2D extends GameObject {
     public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldBeShown) {
         polyArr = polygonArray;
 
-        setBounds(createBounds());
-
         setCollisionPoints();
+
+        setBounds(createBounds());
 
         setTranslation(location);
         setRotation(rotVal);

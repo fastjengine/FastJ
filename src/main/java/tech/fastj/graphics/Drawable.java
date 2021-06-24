@@ -10,9 +10,10 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.tags.TaggableEntity;
 
-import java.awt.geom.Path2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -34,9 +35,11 @@ public abstract class Drawable extends TaggableEntity {
 
     /** The shape defining where the Drawable collides. */
     protected Path2D.Float collisionPath;
+    protected Path2D.Float transformedCollisionPath;
     private boolean shouldRender;
     private Pointf[] boundaries;
     protected final Transform2D transform;
+    private Pointf initialCenter;
 
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
@@ -60,7 +63,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return The collision path of the {@code Drawable}, as a {@code Path2D.Float}.
      */
     public Path2D.Float getCollisionPath() {
-        return collisionPath;
+        return transformedCollisionPath;
     }
 
     /**
@@ -70,6 +73,9 @@ public abstract class Drawable extends TaggableEntity {
      */
     protected void setCollisionPath(Path2D.Float path) {
         collisionPath = path;
+        updateTransformedCollisionPath();
+
+        initialCenter = getCenter();
     }
 
     /**
@@ -100,7 +106,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return The {@code Pointf} array that contains the bounds of the {@code Drawable}.
      */
     public Pointf[] getBounds() {
-        return boundaries;
+        return DrawUtil.createBox((Rectangle2D.Float) transformedCollisionPath.getBounds2D());
     }
 
     /**
@@ -127,7 +133,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return The bound that corresponds with the specified {@code Boundary}.
      */
     public Pointf getBound(Boundary boundary) {
-        return boundaries[boundary.location];
+        return getBounds()[boundary.location];
     }
 
     /**
@@ -136,7 +142,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return The center point, as a {@code Pointf}.
      */
     public Pointf getCenter() {
-        return DrawUtil.centerOf(boundaries);
+        return DrawUtil.centerOf(getBounds());
     }
 
     /**
@@ -166,8 +172,8 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that states whether the two {@code Drawable}s intersect.
      */
     public boolean collidesWith(Drawable obj) {
-        Area thisObject = new Area(collisionPath);
-        Area otherObject = new Area(obj.collisionPath);
+        Area thisObject = new Area(transformedCollisionPath);
+        Area otherObject = new Area(obj.transformedCollisionPath);
 
         otherObject.intersect(thisObject);
         return !otherObject.isEmpty();
@@ -190,6 +196,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public Drawable setTranslation(Pointf setTranslation) {
         transform.setTranslation(setTranslation);
+        updateTransformedCollisionPath();
         return this;
     }
 
@@ -210,6 +217,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public Drawable setRotation(float setRotation) {
         transform.setRotation(setRotation);
+        updateTransformedCollisionPath();
         return this;
     }
 
@@ -230,6 +238,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public Drawable setScale(Pointf setScale) {
         transform.setScale(setScale);
+        updateTransformedCollisionPath();
         return this;
     }
 
@@ -241,6 +250,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public void translate(Pointf translationMod) {
         transform.translate(translationMod);
+        updateTransformedCollisionPath();
     }
 
     /**
@@ -251,6 +261,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public void rotate(float rotationMod, Pointf centerpoint) {
         transform.rotate(rotationMod, centerpoint);
+        updateTransformedCollisionPath();
     }
 
     /**
@@ -287,7 +298,7 @@ public abstract class Drawable extends TaggableEntity {
      * @param rotationMod float parameter that the {@code Drawable} will be rotated by.
      */
     public void rotate(float rotationMod) {
-        rotate(rotationMod, getCenter());
+        rotate(rotationMod, initialCenter);
     }
 
     /**
@@ -347,7 +358,7 @@ public abstract class Drawable extends TaggableEntity {
      * @param translation {@code Pointf} that the boundaries of the {@code Drawable} will be moved by.
      */
     protected void translateBounds(Pointf translation) {
-        for (Pointf bound : boundaries) {
+        for (Pointf bound : getBounds()) {
             bound.add(translation);
         }
     }
@@ -366,6 +377,10 @@ public abstract class Drawable extends TaggableEntity {
         boundaries = null;
     }
 
+    private void updateTransformedCollisionPath() {
+        transformedCollisionPath = (Path2D.Float) collisionPath.createTransformedShape(transform.getAffineTransform());
+    }
+
     @Override
     public String toString() {
         return "Drawable{" +
@@ -373,7 +388,7 @@ public abstract class Drawable extends TaggableEntity {
                 ", id='" + id + '\'' +
                 ", collisionPath=" + collisionPath +
                 ", shouldRender=" + shouldRender +
-                ", boundaries=" + Arrays.toString(boundaries) +
+                ", boundaries=" + Arrays.toString(getBounds()) +
                 '}';
     }
 }

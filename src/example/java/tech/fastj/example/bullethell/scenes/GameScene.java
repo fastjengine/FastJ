@@ -12,9 +12,12 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.input.keyboard.KeyboardActionListener;
+import tech.fastj.systems.input.keyboard.Keys;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,6 +68,15 @@ public class GameScene extends Scene {
 
         enemies = new ArrayList<>();
         newWave();
+
+        inputManager.addKeyboardActionListener(new KeyboardActionListener() {
+            @Override
+            public void onKeyRecentlyPressed(KeyEvent keyEvent) {
+                if (keyEvent.getKeyCode() == Keys.Q) {
+                    FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
+                }
+            }
+        });
     }
 
     @Override

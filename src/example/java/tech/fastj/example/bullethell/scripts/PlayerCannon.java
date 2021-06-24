@@ -44,7 +44,7 @@ public class PlayerCannon implements Behavior {
 
     private void createBullet(GameObject player) {
         Pointf startingPoint = Pointf.add(player.getCenter(), new Pointf(0f, -50f));
-        float rotationAngle = 360f - Math.abs(player.getRotation());
+        float rotationAngle = -player.getRotation();
         Pointf rotationPoint = player.getCenter();
 
         BulletMovement bulletMovementScript = new BulletMovement(gameScene, player.getRotation(), this);
@@ -62,6 +62,10 @@ public class PlayerCannon implements Behavior {
 
     void bulletDied() {
         bulletCount--;
+    }
+
+    public int getBulletCount() {
+        return bulletCount;
     }
 
     @Override
