@@ -41,6 +41,7 @@ public class EnvironmentHelper {
     }
 
     public static void runFastJWith(Runnable runnable) {
+        FastJEngine.forceCloseGame();
         FastJEngine.init("For those sweet, sweet testing purposes", new MockRunnableSimpleManager(runnable));
         try {
             FastJEngine.run();

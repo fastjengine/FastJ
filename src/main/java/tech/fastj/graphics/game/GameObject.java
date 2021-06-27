@@ -1,15 +1,14 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A type of {@link Drawable} that can be easily transformed and otherwise manipulated.
@@ -21,13 +20,6 @@ import java.util.List;
  * @version 1.0.0
  */
 public abstract class GameObject extends Drawable {
-
-    /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
-    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
-    /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
-    public static final Pointf DefaultScale = new Pointf(1f).copy();
-    /** {@code float} representing a default rotation value of {@code 0f}. */
-    public static final float DefaultRotation = 0f;
 
     private final List<Behavior> behaviors;
 
@@ -43,139 +35,6 @@ public abstract class GameObject extends Drawable {
      */
     public List<Behavior> getBehaviors() {
         return behaviors;
-    }
-
-    /**
-     * Gets the {@code GameObject}'s translation.
-     *
-     * @return A {@code Pointf} that represents the current translation of the {@code GameObject}.
-     */
-    public abstract Pointf getTranslation();
-
-    /**
-     * Sets the {@code GameObject}'s translation to the specified value.
-     *
-     * @param setTranslation {@code Pointf} parameter that the {@code GameObject}'s translation will be set to.
-     * @return The {@code GameObject}, for method chaining.
-     */
-    public GameObject setTranslation(Pointf setTranslation) {
-        translate(Pointf.multiply(getTranslation(), -1f).add(setTranslation));
-        return this;
-    }
-
-    /**
-     * Gets the {@code GameObject}'s rotation.
-     *
-     * @return A float that represents the current rotation of the {@code GameObject}.
-     */
-    public abstract float getRotation();
-
-    /**
-     * Sets the {@code GameObject}'s rotation to the specified value.
-     *
-     * @param setRotation float parameter that the {@code GameObject}'s rotation will be set to.
-     * @return The {@code GameObject}, for method chaining.
-     */
-    public GameObject setRotation(float setRotation) {
-        rotate(-getRotation() + setRotation);
-        return this;
-    }
-
-    /**
-     * Gets the {@code GameObject}'s scale.
-     *
-     * @return A {@code Pointf} that represents the current scale of the object.
-     */
-    public abstract Pointf getScale();
-
-    /**
-     * Sets the {@code GameObject}'s scale to the specified value.
-     *
-     * @param setScale {@code Pointf} parameter that the {@code GameObject}'s scale will be set to.
-     * @return The {@code GameObject}, for method chaining.
-     */
-    public GameObject setScale(Pointf setScale) {
-        scale(Pointf.multiply(getScale(), -1f).add(setScale));
-        return this;
-    }
-
-    /**
-     * Translates the {@code GameObject}'s position by the specified translation.
-     *
-     * @param translationMod {@code Pointf} parameter that the {@code GameObject}'s x and y location will be translated
-     *                       by.
-     */
-    public abstract void translate(Pointf translationMod);
-
-    /**
-     * Rotates the {@code GameObject} in the direction of the specified rotation, about the specified center point.
-     *
-     * @param rotationMod float parameter that the {@code GameObject} will be rotated by.
-     * @param centerpoint {@code Pointf} parameter that the {@code GameObject} will be rotated about.
-     */
-    public abstract void rotate(float rotationMod, Pointf centerpoint);
-
-    /**
-     * Scales the {@code GameObject} in by the amount specified in the specified scale, from the specified center
-     * point.
-     *
-     * @param scaleMod    {@code Pointf} parameter that the {@code GameObject}'s width and height will be scaled by.
-     * @param centerpoint {@code Pointf} parameter that the {@code GameObject} will be scaled about.
-     */
-    public abstract void scale(Pointf scaleMod, Pointf centerpoint);
-
-    /**
-     * Gets the rotation, normalized to be within a range of {@code (-360, 360)}.
-     *
-     * @return The normalized rotation.
-     */
-    public float getRotationWithin360() {
-        return getRotation() % 360;
-    }
-
-    /**
-     * Gets the entire transformation of the {@code GameObject}.
-     *
-     * @return The transformation, as an {@link AffineTransform}.
-     */
-    public AffineTransform getTransformation() {
-        AffineTransform transformation = new AffineTransform();
-        Pointf scale = getScale();
-        Pointf location = getTranslation();
-
-        transformation.setToScale(scale.x, scale.y);
-        transformation.setToRotation(getRotation());
-        transformation.setToTranslation(location.x, location.y);
-
-        return transformation;
-    }
-
-    /**
-     * Rotates the {@code GameObject} in the direction of the specified rotation, about its center.
-     *
-     * @param rotationMod float parameter that the {@code GameObject} will be rotated by.
-     */
-    public void rotate(float rotationMod) {
-        rotate(rotationMod, getCenter());
-    }
-
-    /**
-     * Scales the {@code GameObject} in by the amount specified in the specified scale, about its center.
-     *
-     * @param scaleXY float parameter that the {@code GameObject} will be scaled by, acting as both the x and y values.
-     */
-    public void scale(float scaleXY) {
-        scale(new Pointf(scaleXY), getCenter());
-    }
-
-    /**
-     * Scales the {@code GameObject} in by the amount specified in the specified scale, about its center.
-     *
-     * @param scaleMod {@code Pointf} parameter that the {@code GameObject} will be scaled by, based on its x and y
-     *                 values.
-     */
-    public void scale(Pointf scaleMod) {
-        scale(scaleMod, getCenter());
     }
 
     /** Calls the {@link Behavior#init} method for each of the {@code GameObject}'s behaviors. */
@@ -255,16 +114,34 @@ public abstract class GameObject extends Drawable {
 
         origin.drawableManager.removeGameObject(this);
         origin.removeBehaviorListener(this);
+        transform.reset();
 
         destroyAllBehaviors();
         clearAllBehaviors();
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        GameObject gameObject = (GameObject) other;
+        return behaviors.equals(gameObject.behaviors) && transform.equals(gameObject.transform);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(behaviors, transform);
+    }
+
+    @Override
     public String toString() {
         return "GameObject{" +
-                "collisionPath=" + collisionPath +
-                ", behaviors=" + behaviors +
+                "behaviors=" + behaviors +
+                ", transform=" + transform +
                 '}';
     }
 }

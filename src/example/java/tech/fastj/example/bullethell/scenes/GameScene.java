@@ -12,9 +12,12 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.input.keyboard.KeyboardActionListener;
+import tech.fastj.systems.input.keyboard.Keys;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,13 +61,33 @@ public class GameScene extends Scene {
 
 
         // add game objects to the screen in order!
-        player.addAsGameObject(this);
-        playerHealthBar.addAsGameObject(this);
-        playerMetadata.addAsGameObject(this);
+        drawableManager.addGameObject(player);
+        drawableManager.addGameObject(playerHealthBar);
+        drawableManager.addGameObject(playerMetadata);
 
 
         enemies = new ArrayList<>();
         newWave();
+
+        inputManager.addKeyboardActionListener(new KeyboardActionListener() {
+            @Override
+            public void onKeyRecentlyPressed(KeyEvent keyEvent) {
+                switch (keyEvent.getKeyCode()) {
+                    case Keys.Q: {
+                        FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
+                        break;
+                    }
+                    case Keys.P: {
+                        FastJEngine.log("current enemy count: " + enemies.size());
+                        break;
+                    }
+                    case Keys.L: {
+                        FastJEngine.log("printing enemy statuses...");
+                        enemies.forEach(FastJEngine::log);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -113,7 +136,7 @@ public class GameScene extends Scene {
     }
 
     private Text2D createPlayerMetaData() {
-        return new Text2D("Health: 100", new Pointf(27.5f, 55f))
+        return new Text2D("Health: 100", new Pointf(27.5f, 40f))
                 .setFont(new Font("Consolas", Font.BOLD, 16));
     }
 
@@ -148,12 +171,13 @@ public class GameScene extends Scene {
     private Model2D createEnemy() {
         Pointf randomPosition = new Pointf(
                 Maths.random(-500f, 1780f),
-                Maths.randomAtEdge(-500f, 1220f)
+                Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
         );
 
-        return (Model2D) new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"))
-                .setTranslation(randomPosition)
-                .addBehavior(new EnemyMovement(this), this)
-                .addAsGameObject(this);
+        Model2D enemy = new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"));
+        enemy.addBehavior(new EnemyMovement(this), this);
+        enemy.setTranslation(randomPosition);
+        drawableManager.addGameObject(enemy);
+        return enemy;
     }
 }

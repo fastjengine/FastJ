@@ -2,10 +2,10 @@ package tech.fastj.example.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.input.keyboard.Keyboard;
@@ -44,7 +44,7 @@ public class PlayerCannon implements Behavior {
 
     private void createBullet(GameObject player) {
         Pointf startingPoint = Pointf.add(player.getCenter(), new Pointf(0f, -50f));
-        float rotationAngle = 360f - Math.abs(player.getRotation());
+        float rotationAngle = -player.getRotation();
         Pointf rotationPoint = player.getCenter();
 
         BulletMovement bulletMovementScript = new BulletMovement(gameScene, player.getRotation(), this);
@@ -53,8 +53,8 @@ public class PlayerCannon implements Behavior {
 
         Polygon2D bullet = (Polygon2D) new Polygon2D(bulletMesh, Color.red, true, true)
                 .addBehavior(bulletMovementScript, gameScene)
-                .<GameObject>addTag(Tags.Bullet, gameScene)
-                .addAsGameObject(gameScene);
+                .<GameObject>addTag(Tags.Bullet, gameScene);
+        gameScene.drawableManager.addGameObject(bullet);
         bullet.initBehaviors();
 
         bulletCount++;
@@ -62,6 +62,10 @@ public class PlayerCannon implements Behavior {
 
     void bulletDied() {
         bulletCount--;
+    }
+
+    public int getBulletCount() {
+        return bulletCount;
     }
 
     @Override

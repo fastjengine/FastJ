@@ -9,11 +9,13 @@ import tech.fastj.systems.control.Scene;
 public class MockBoundariesDrawable extends Drawable {
 
     public MockBoundariesDrawable() {
-        setBounds(
-                DrawUtil.createBox(
-                        Maths.random(0.0f, 400.0f),
-                        Maths.random(0.0f, 400.0f),
-                        Maths.random(1.0f, 400.0f)
+        setCollisionPath(
+                DrawUtil.createPath(
+                        DrawUtil.createBox(
+                                Maths.random(0.0f, 400.0f),
+                                Maths.random(0.0f, 400.0f),
+                                Maths.random(1.0f, 400.0f)
+                        )
                 )
         );
     }

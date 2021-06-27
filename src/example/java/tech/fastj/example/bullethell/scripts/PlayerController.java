@@ -62,13 +62,13 @@ public class PlayerController implements Behavior {
         obj.rotate(inputRotation);
         obj.translate(inputTranslation);
 
-        if (currentRotation >= 360f) {
-            currentRotation -= 360f;
-            obj.setRotation(currentRotation);
-        } else if (currentRotation < -0f) {
-            currentRotation += 360f;
-            obj.setRotation(currentRotation);
-        }
+//        if (currentRotation >= 360f) {
+//            currentRotation -= 360f;
+//            obj.setRotation(currentRotation);
+//        } else if (currentRotation < -0f) {
+//            currentRotation += 360f;
+//            obj.setRotation(currentRotation);
+//        }
     }
 
     @Override
