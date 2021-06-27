@@ -350,7 +350,7 @@ public class FastJEngine {
      * as possible, without waiting for the next game update/render to be finished.
      */
     public static void forceCloseGame() {
-        if (display != null) {
+        if (display != null && display.isReady()) {
             display.close();
         }
         exit();
