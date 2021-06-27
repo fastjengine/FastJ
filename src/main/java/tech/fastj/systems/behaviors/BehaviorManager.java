@@ -4,6 +4,7 @@ import tech.fastj.graphics.game.GameObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import java.util.Map;
  */
 public class BehaviorManager {
 
-    private static final Map<BehaviorHandler, List<GameObject>> BehaviorListenerLists = new HashMap<>();
+    private static final Map<BehaviorHandler, Map<String, GameObject>> BehaviorListenerLists = new HashMap<>();
 
     private BehaviorManager() {
         throw new java.lang.IllegalStateException();
@@ -28,7 +29,7 @@ public class BehaviorManager {
      * @return The list of behavior listeners.
      */
     public static List<GameObject> getList(BehaviorHandler behaviorHandler) {
-        return BehaviorListenerLists.get(behaviorHandler);
+        return new ArrayList<>(BehaviorListenerLists.get(behaviorHandler).values());
     }
 
     /**
@@ -38,8 +39,10 @@ public class BehaviorManager {
      * @param listener        The behavior listener to add.
      */
     public static void addListener(BehaviorHandler behaviorHandler, GameObject listener) {
-        if (!BehaviorListenerLists.get(behaviorHandler).contains(listener)) {
-            BehaviorListenerLists.get(behaviorHandler).add(listener);
+        if (!BehaviorListenerLists.get(behaviorHandler).containsKey(listener.getID())) {
+            BehaviorListenerLists.get(behaviorHandler).put(listener.getID(), listener);
+        } else {
+            System.out.println("already contains " + listener.getID());
         }
     }
 
@@ -51,7 +54,7 @@ public class BehaviorManager {
      * @param listener        The behavior listener to remove.
      */
     public static void removeListener(BehaviorHandler behaviorHandler, GameObject listener) {
-        BehaviorListenerLists.get(behaviorHandler).remove(listener);
+        BehaviorListenerLists.get(behaviorHandler).remove(listener.getID());
     }
 
     /**
@@ -61,7 +64,7 @@ public class BehaviorManager {
      */
     public static void addListenerList(BehaviorHandler behaviorHandler) {
         if (!BehaviorListenerLists.containsKey(behaviorHandler)) {
-            BehaviorListenerLists.put(behaviorHandler, new ArrayList<>());
+            BehaviorListenerLists.put(behaviorHandler, new LinkedHashMap<>());
         }
     }
 
@@ -89,7 +92,7 @@ public class BehaviorManager {
      * @param behaviorHandler The {@code BehaviorHandler} used as the alias to initialize the behavior listeners for.
      */
     public static void initBehaviorListeners(BehaviorHandler behaviorHandler) {
-        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler)) {
+        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler).values()) {
             listener.initBehaviors();
         }
     }
@@ -100,15 +103,15 @@ public class BehaviorManager {
      * @param behaviorHandler The {@code BehaviorHandler} used as the alias to update the behavior listeners for.
      */
     public static void updateBehaviorListeners(BehaviorHandler behaviorHandler) {
-        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler)) {
+        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler).values()) {
             listener.updateBehaviors();
         }
     }
 
     /** Resets the behavior manager entirely. */
     public static void reset() {
-        for (List<GameObject> list : BehaviorListenerLists.values()) {
-            list.clear();
+        for (Map<String, GameObject> map : BehaviorListenerLists.values()) {
+            map.clear();
         }
         BehaviorListenerLists.clear();
     }
