@@ -15,6 +15,11 @@ group('io.github.lucasstarsz.fastj')
 version('1.4.0')
 description('An open source, Java-based 2D game engine.')
 
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+
+import java.nio.file.Files
+import java.nio.file.Path
+
 
 /* ********************* *
  * General Configuration *
@@ -47,9 +52,6 @@ dependencies.testImplementation('org.junit.jupiter:junit-jupiter')
  * ********************* */
 
 
-import java.nio.file.Files
-import java.nio.file.Path
-
 sourceSets {
     example {
         compileClasspath += sourceSets.main.output
@@ -63,7 +65,7 @@ sourceSets {
                     )
                 }
 
-                if (!Files.exists(Path.of('src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
+                if (!Files.exists(Path.of(projectDir.toString(), 'src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
                     throw new IllegalArgumentException(
                             "The example ${project.getProperty('toRun')} does not exist."
                     )
@@ -88,8 +90,6 @@ sourceSets {
  *     Unit Testing      *
  * ********************* */
 
-
-import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
 tasks.withType(Test) {
     useJUnitPlatform()

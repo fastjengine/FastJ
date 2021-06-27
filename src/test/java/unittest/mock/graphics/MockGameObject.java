@@ -1,6 +1,7 @@
 package unittest.mock.graphics;
 
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.control.Scene;
@@ -15,17 +16,17 @@ public class MockGameObject extends GameObject {
 
     @Override
     public Pointf getTranslation() {
-        return GameObject.DefaultTranslation;
+        return Transform2D.DefaultTranslation;
     }
 
     @Override
     public float getRotation() {
-        return GameObject.DefaultRotation;
+        return Transform2D.DefaultRotation;
     }
 
     @Override
     public Pointf getScale() {
-        return GameObject.DefaultScale;
+        return Transform2D.DefaultScale;
     }
 
     @Override

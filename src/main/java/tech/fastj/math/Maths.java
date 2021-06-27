@@ -11,7 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Maths {
 
     /** The desired floating point precision for FastJ. */
-    public static final float FloatPrecision = 0.0001f;
+    public static final float FloatPrecision = 0.0005f;
 
     private Maths() {
         throw new java.lang.IllegalStateException();

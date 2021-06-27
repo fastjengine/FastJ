@@ -137,12 +137,18 @@ class MathsTests {
         float a1 = 0.00000000001f;
         float a2 = 0.0001f;
         float a3 = 0.0002f;
-        float a4 = 0.1f;
+        float a4 = 0.0003f;
+        float a5 = 0.0006f;
+        float a6 = 0.1f;
 
-        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than 0.0001f.");
-        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than 0.0001f.");
-        assertFalse(Maths.floatEquals((float) a, a4), "The two floats should not be equal -- their difference is more than 0.0001f.");
-        assertFalse(Maths.floatEquals(a2, a3), "The two floats should not be equal -- their difference is equal to 0.0001f.");
+        assertTrue(Maths.floatEquals((float) a, a1), "The two floats should be equal -- their difference is less than " + Maths.FloatPrecision + ".");
+        assertTrue(Maths.floatEquals((float) a, a2), "The two floats should be equal -- their difference is less than " + Maths.FloatPrecision + ".");
+        assertFalse(Maths.floatEquals((float) a, a6), "The two floats should not be equal -- their difference is more than " + Maths.FloatPrecision + ".");
+        assertTrue(Maths.floatEquals(a2, a3), "The two floats should be equal -- their difference is less than " + Maths.FloatPrecision + ".");
+        assertTrue(Maths.floatEquals(a3, a4), "The two floats should be equal -- their difference is less than " + Maths.FloatPrecision + ".");
+        assertTrue(Maths.floatEquals(a2, a4), "The two floats should be equal -- their difference is less than " + Maths.FloatPrecision + ".");
+        assertFalse(Maths.floatEquals(a2, a5), "The two floats should not be equal -- their difference is equal to " + Maths.FloatPrecision + ".");
+        assertFalse(Maths.floatEquals(a5, a6), "The two floats should not be equal -- their difference is more than " + Maths.FloatPrecision + ".");
     }
 
     @Test

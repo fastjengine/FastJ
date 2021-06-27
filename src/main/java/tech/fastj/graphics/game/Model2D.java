@@ -1,16 +1,14 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
@@ -26,11 +24,6 @@ public class Model2D extends GameObject {
     public static final boolean DefaultShow = true;
 
     private Polygon2D[] polyArr;
-    private Polygon2D collisionObject;
-
-    private float rotation;
-    private Pointf scale;
-    private Pointf translation;
 
     /**
      * Model2D constructor that takes in an array of {@link Polygon2D} objects.
@@ -56,14 +49,7 @@ public class Model2D extends GameObject {
     public Model2D(Polygon2D[] polygonArray, boolean show) {
         polyArr = polygonArray;
 
-        setBounds(createBounds());
-
-        rotation = GameObject.DefaultRotation;
-        scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TopLeft));
-
-        setCollisionPoints();
-
+        setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
         setShouldRender(show);
     }
 
@@ -84,19 +70,11 @@ public class Model2D extends GameObject {
     public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldBeShown) {
         polyArr = polygonArray;
 
-        setBounds(createBounds());
-
-        rotation = GameObject.DefaultRotation;
-        scale = GameObject.DefaultScale.copy();
-        translation = new Pointf(getBound(Boundary.TopLeft));
-
-        setCollisionPoints();
+        setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
 
         setTranslation(location);
         setRotation(rotVal);
         setScale(scaleVal);
-
-        setBounds(createBounds());
 
         setShouldRender(shouldBeShown);
     }
@@ -111,68 +89,19 @@ public class Model2D extends GameObject {
     }
 
     @Override
-    public float getRotation() {
-        return rotation;
-    }
-
-    @Override
-    public Pointf getScale() {
-        return scale;
-    }
-
-    @Override
-    public Pointf getTranslation() {
-        return translation;
-    }
-
-    @Override
-    public void translate(Pointf translationMod) {
-        translation.add(translationMod);
-
-        for (Polygon2D obj : polyArr) {
-            obj.translate(translationMod);
-        }
-
-        collisionObject.translate(translationMod);
-        setCollisionPath(collisionObject.getRenderPath());
-
-        translateBounds(translationMod);
-    }
-
-    @Override
-    public void rotate(float rotationMod, Pointf centerpoint) {
-        rotation += rotationMod;
-
-        for (Polygon2D obj : polyArr) {
-            obj.rotate(rotationMod, centerpoint);
-        }
-
-        collisionObject.rotate(rotationMod, centerpoint);
-        setCollisionPath(collisionObject.getRenderPath());
-
-        setBounds(createBounds());
-    }
-
-    @Override
-    public void scale(Pointf scaleMod, Pointf centerpoint) {
-        scale.add(scaleMod);
-
-        for (Polygon2D obj : polyArr) {
-            obj.scale(scaleMod, centerpoint);
-        }
-
-        collisionObject.scale(scaleMod, centerpoint);
-        setCollisionPath(collisionObject.getRenderPath());
-
-        setBounds(createBounds());
-    }
-
-    @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) return;
+        if (!shouldRender()) {
+            return;
+        }
+
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        g.transform(getTransformation());
+
         for (Polygon2D obj : polyArr) {
             obj.render(g);
         }
+
+        g.setTransform(oldTransform);
     }
 
     @Override
@@ -182,58 +111,7 @@ public class Model2D extends GameObject {
         }
         polyArr = null;
 
-        scale = null;
-        rotation = 0f;
-        translation = null;
-
-        collisionObject.destroy(originScene);
-        collisionObject = null;
-
         destroyTheRest(originScene);
-    }
-
-    /** Sets the collision points for the {@code Model2D}. */
-    private void setCollisionPoints() {
-        collisionObject = new Polygon2D(DrawUtil.createCollisionOutline(polyArr));
-        setCollisionPath(collisionObject.getRenderPath());
-    }
-
-    /** Creates the boundaries for the {@code Model2D}. */
-    private Pointf[] createBounds() {
-        Pointf[] boundaries = new Pointf[4];
-
-        /* Individually set each boundary point -- Arrays#fill uses the same object
-         * for each point, making it undesirable for this use case. */
-        boundaries[0] = polyArr[0].getCenter().copy();
-        boundaries[1] = polyArr[0].getCenter().copy();
-        boundaries[2] = polyArr[0].getCenter().copy();
-        boundaries[3] = polyArr[0].getCenter().copy();
-
-        for (Polygon2D p : polyArr) {
-            for (Pointf coord : p.getBounds()) {
-                // top left
-                boundaries[0].x = Math.min(boundaries[0].x, coord.x);
-                boundaries[0].y = Math.min(boundaries[0].y, coord.y);
-
-                // top right
-                boundaries[1].x = Math.max(boundaries[1].x, coord.x);
-
-                // bottom right
-                boundaries[2].y = Math.max(boundaries[2].y, coord.y);
-            }
-        }
-
-        // top right
-        boundaries[1].y = boundaries[0].y;
-
-        // bottom right
-        boundaries[2].x = boundaries[1].x;
-
-        // bottom left
-        boundaries[3].x = boundaries[0].x;
-        boundaries[3].y = boundaries[2].y;
-
-        return boundaries;
     }
 
     /**
@@ -251,16 +129,12 @@ public class Model2D extends GameObject {
             return false;
         }
         Model2D model2D = (Model2D) other;
-        return Objects.equals(translation, model2D.translation)
-                && Objects.equals(scale, model2D.scale)
-                && Maths.floatEquals(model2D.rotation, rotation)
-                && Arrays.equals(polyArr, model2D.polyArr)
-                && Objects.equals(collisionObject, model2D.collisionObject);
+        return Arrays.deepEquals(polyArr, model2D.polyArr);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(collisionObject, rotation, scale, translation);
+        int result = super.hashCode();
         result = 31 * result + Arrays.hashCode(polyArr);
         return result;
     }
@@ -268,11 +142,10 @@ public class Model2D extends GameObject {
     @Override
     public String toString() {
         return "Model2D{" +
-                "polyArr=" + Arrays.toString(polyArr) +
-                ", collisionObject=" + collisionObject +
-                ", rotation=" + rotation +
-                ", scale=" + scale +
-                ", translation=" + translation +
+                "polyArr=" + Arrays.deepToString(polyArr) +
+                ", rotation=" + getRotation() +
+                ", scale=" + getScale() +
+                ", translation=" + getTranslation() +
                 '}';
     }
 }
