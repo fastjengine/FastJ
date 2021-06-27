@@ -6,6 +6,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -22,41 +23,41 @@ import java.util.Objects;
  */
 public class Text2D extends GameObject {
 
-    /** {@link Color} representing the default color value of {@code (0, 0, 0)}. */
-    public static final Color DefaultColor = Color.black;
+    /** {@link Paint} representing the default color value of {@code (0, 0, 0)}. */
+    public static final Paint DefaultPaint = Color.black;
     /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
     public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
     /** {@code boolean} representing the default "should render" value of {@code true}. */
     public static final boolean DefaultShow = true;
 
     private String text;
-    private Color color;
+    private Paint color;
     private Font font;
     private boolean hasMetrics;
 
     /**
      * {@code Text2D} Constructor that takes in a string of text.
      * <p>
-     * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
+     * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param setText Sets the displayed text.
      */
     public Text2D(String setText) {
-        this(setText, DefaultColor, DefaultFont, DefaultShow);
+        this(setText, DefaultPaint, DefaultFont, DefaultShow);
     }
 
     /**
      * {@code Text2D} Constructor that takes in a string of text and an initial translation.
      * <p>
-     * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
+     * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the initial x and y translation of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, DefaultColor, DefaultFont, DefaultShow);
+        this(setText, DefaultPaint, DefaultFont, DefaultShow);
         setTranslation(setTranslation);
     }
 
@@ -64,15 +65,15 @@ public class Text2D extends GameObject {
      * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a show variable.
      *
      * @param setText  Sets the displayed text.
-     * @param setColor Sets the text's color.
+     * @param setPaint Sets the text's color.
      * @param setFont  Sets the text's font.
      * @param show     Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Color setColor, Font setFont, boolean show) {
+    public Text2D(String setText, Paint setPaint, Font setFont, boolean show) {
         text = setText;
         font = setFont;
 
-        setColor(setColor);
+        setPaint(setPaint);
         setFont(setFont);
         setShouldRender(show);
     }
@@ -82,12 +83,12 @@ public class Text2D extends GameObject {
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the initial x and y translation of the text.
-     * @param setColor       Sets the text's color.
+     * @param setPaint       Sets the text's color.
      * @param setFont        Sets the text's font.
      * @param show           Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Pointf setTranslation, Color setColor, Font setFont, boolean show) {
-        this(setText, setColor, setFont, show);
+    public Text2D(String setText, Pointf setTranslation, Paint setPaint, Font setFont, boolean show) {
+        this(setText, setPaint, setFont, show);
         setTranslation(setTranslation);
     }
 
@@ -99,11 +100,11 @@ public class Text2D extends GameObject {
      * @param setTranslation Sets the initial x and y translation of the text.
      * @param setRotation    Sets the initial rotation of the text.
      * @param setScale       Sets the initial scale of the text.
-     * @param setColor       Sets the text's color.
+     * @param setPaint       Sets the text's color.
      * @param setFont        Sets the text's font.
      * @param show           Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Color setColor, Font setFont, boolean show) {
+    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Paint setPaint, Font setFont, boolean show) {
         text = setText;
         font = setFont;
 
@@ -111,7 +112,7 @@ public class Text2D extends GameObject {
         setRotation(setRotation);
         setScale(setScale);
 
-        setColor(setColor);
+        setPaint(setPaint);
         setFont(setFont);
         setShouldRender(show);
     }
@@ -139,22 +140,22 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Gets the {@code Color} of this {@code Text2D}.
+     * Gets the {@code Paint} of this {@code Text2D}.
      *
-     * @return Returns the Color value for this Text2D.
+     * @return Returns the Paint value for this Text2D.
      */
-    public Color getColor() {
+    public Paint getPaint() {
         return color;
     }
 
     /**
-     * Sets the {@code Color} for this {@code Text2D}.
+     * Sets the {@code Paint} for this {@code Text2D}.
      *
-     * @param setColor The new {@code Color} value.
+     * @param setPaint The new {@code Paint} value.
      * @return This instance of the {@code Text2D}, for method chaining.
      */
-    public Text2D setColor(Color setColor) {
-        color = setColor;
+    public Text2D setPaint(Paint setPaint) {
+        color = setPaint;
         return this;
     }
 
@@ -192,17 +193,17 @@ public class Text2D extends GameObject {
 
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Font oldFont = g.getFont();
-        Color oldColor = g.getColor();
+        Paint oldPaint = g.getPaint();
 
         g.transform(getTransformation());
         g.setFont(font);
-        g.setColor(color);
+        g.setPaint(color);
 
         g.drawString(text, Pointf.Origin.x, font.getSize2D());
 
         g.setTransform(oldTransform);
         g.setFont(oldFont);
-        g.setColor(oldColor);
+        g.setPaint(oldPaint);
     }
 
     @Override
