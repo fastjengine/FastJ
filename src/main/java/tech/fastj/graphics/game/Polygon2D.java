@@ -9,7 +9,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -28,12 +27,10 @@ public class Polygon2D extends GameObject {
     /** {@code boolean} representing the default "should render" value of {@code true}. */
     public static final boolean DefaultShow = true;
 
-    private Path2D.Float renderPath;
-    private Pointf[] points;
+    private Pointf[] originalPoints;
 
     private Paint paint;
     private boolean shouldFill;
-
 
     /**
      * {@code Polygon2D} constructor that takes in a set of points.
@@ -41,26 +38,24 @@ public class Polygon2D extends GameObject {
      * This constructor defaults the paint to {@link #DefaultPaint}, the fill to {@link #DefaultFill}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
-     * @param pts {@code Pointf} array that defines the points for the polygon.
+     * @param points {@code Pointf} array that defines the points for the polygon.
      */
-    public Polygon2D(Pointf[] pts) {
-        this(pts, DefaultPaint, DefaultFill, DefaultShow);
+    public Polygon2D(Pointf[] points) {
+        this(points, DefaultPaint, DefaultFill, DefaultShow);
     }
 
     /**
      * {@code Polygon2D} constructor that takes in a set of points, a paint, a fill variable, and a show variable.
      *
-     * @param pts   {@code Pointf} array that defines the points for the polygon.
+     * @param points   {@code Pointf} array that defines the points for the polygon.
      * @param paint {@code Paint} variable that sets the paint of the polygon.
      * @param fill  Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show  Boolean that determines whether the polygon should be shown on screen.
      */
-    public Polygon2D(Pointf[] pts, Paint paint, boolean fill, boolean show) {
-        super();
-        points = pts;
+    public Polygon2D(Pointf[] points, Paint paint, boolean fill, boolean show) {
+        originalPoints = points;
 
-        renderPath = DrawUtil.createPath(points);
-        setCollisionPath(renderPath);
+        setCollisionPath(DrawUtil.createPath(originalPoints));
 
         setPaint(paint);
         setFilled(fill);
@@ -72,7 +67,7 @@ public class Polygon2D extends GameObject {
      * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable,
      * and the translation, rotation, and scale of the polygon.
      *
-     * @param pts            {@code Pointf} array that defines the points for the polygon.
+     * @param points            {@code Pointf} array that defines the points for the polygon.
      * @param setTranslation {@code Pointf} to set the initial translation of the polygon.
      * @param setRotation    {@code Pointf} to set the initial rotation of the polygon.
      * @param setScale       {@code Pointf} to set the initial scale of the polygon.
@@ -80,12 +75,10 @@ public class Polygon2D extends GameObject {
      * @param fill           Boolean that determines whether the polygon should be filled, or only outlined.
      * @param show           Boolean that determines whether the polygon should be shown on screen.
      */
-    public Polygon2D(Pointf[] pts, Pointf setTranslation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
-        super();
-        points = pts;
+    public Polygon2D(Pointf[] points, Pointf setTranslation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
+        originalPoints = points;
 
-        renderPath = DrawUtil.createPath(points);
-        setCollisionPath(renderPath);
+        setCollisionPath(DrawUtil.createPath(originalPoints));
 
         setTranslation(setTranslation);
         setRotation(setRotation);
@@ -98,21 +91,12 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets the rendered {@code Path2D.Float} for this polygon.
-     *
-     * @return The {@code Path2D.Float} for this polygon.
-     */
-    public Path2D.Float getRenderPath() {
-        return renderPath;
-    }
-
-    /**
      * Gets the original points that were set for this polygon.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
      */
     public Pointf[] getOriginalPoints() {
-        return points;
+        return originalPoints;
     }
 
     /**
@@ -131,7 +115,7 @@ public class Polygon2D extends GameObject {
      * @return This instance of the {@code Polygon2D}, for method chaining.
      */
     public Polygon2D setPaint(Paint newPaint) {
-        paint = newPaint;
+        paint = Objects.requireNonNull(newPaint);
         return this;
     }
 
@@ -162,9 +146,7 @@ public class Polygon2D extends GameObject {
      * @return The {@code Pointf} array associated with the current state of the polygon.
      */
     public Pointf[] getPoints() {
-        Path2D.Float renderPathCopy = (Path2D.Float) renderPath.clone();
-        renderPathCopy.transform(getTransformation());
-        return DrawUtil.pointsOfPath(renderPathCopy);
+        return DrawUtil.pointsOfPath(transformedCollisionPath);
     }
 
     /**
@@ -173,18 +155,13 @@ public class Polygon2D extends GameObject {
      * This does not reset the rotation, scale, or location of the original, unless specified with the second, third,
      * and fourth parameters.
      *
-     * @param pts              {@code Pointf} array that will replace the current points of the polygon.
+     * @param points              {@code Pointf} array that will replace the current points of the polygon.
      * @param resetTranslation Boolean to determine if the translation should be reset.
      * @param resetRotation    Boolean to determine if the rotation should be reset.
      * @param resetScale       Boolean to determine if the scale should be reset.
      */
-    public void modifyPoints(Pointf[] pts, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
-        points = pts;
-        renderPath = DrawUtil.createPath(points);
-
-        if (!resetTranslation && !resetRotation && !resetScale) {
-            return;
-        }
+    public void modifyPoints(Pointf[] points, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
+        originalPoints = points;
 
         if (resetTranslation && resetRotation && resetScale) {
             transform.reset();
@@ -200,7 +177,7 @@ public class Polygon2D extends GameObject {
             }
         }
 
-        setCollisionPath(renderPath);
+        setCollisionPath(DrawUtil.createPath(originalPoints));
     }
 
     @Override
@@ -216,9 +193,9 @@ public class Polygon2D extends GameObject {
         g.setPaint(paint);
 
         if (shouldFill) {
-            g.fill(renderPath);
+            g.fill(collisionPath);
         } else {
-            g.draw(renderPath);
+            g.draw(collisionPath);
         }
 
         g.setTransform(oldTransform);
@@ -227,14 +204,12 @@ public class Polygon2D extends GameObject {
 
     @Override
     public void destroy(Scene originScene) {
-        points = null;
-        renderPath = null;
+        originalPoints = null;
 
         paint = null;
         shouldFill = false;
 
         destroyTheRest(originScene);
-
     }
 
     /**
@@ -252,27 +227,25 @@ public class Polygon2D extends GameObject {
             return false;
         }
         Polygon2D polygon2D = (Polygon2D) other;
-
         return shouldFill == polygon2D.shouldFill
-                && DrawUtil.paintEquals(paint, polygon2D.paint)
-                && Arrays.equals(points, polygon2D.points)
-                && Arrays.equals(DrawUtil.pointsOfPath(renderPath), DrawUtil.pointsOfPath(polygon2D.renderPath));
+                && Arrays.equals(originalPoints, polygon2D.originalPoints)
+                && DrawUtil.paintEquals(paint, polygon2D.paint);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(renderPath, paint, shouldFill);
-        result = 31 * result + Arrays.hashCode(points);
+        int result = Objects.hash(paint, shouldFill);
+        result = 31 * result + Arrays.hashCode(originalPoints);
         return result;
     }
 
     @Override
     public String toString() {
         return "Polygon2D{" +
-                "renderPath=" + renderPath +
-                ", points=" + Arrays.toString(points) +
+                "renderPath=" + Arrays.toString(getPoints()) +
+                ", points=" + Arrays.toString(originalPoints) +
                 ", paint=" + paint +
-                ", paintFilled=" + shouldFill +
+                ", shouldFill=" + shouldFill +
                 ", rotation=" + getRotation() +
                 ", scale=" + getScale() +
                 ", translation=" + getTranslation() +
