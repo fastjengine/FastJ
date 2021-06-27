@@ -41,8 +41,6 @@ public class BehaviorManager {
     public static void addListener(BehaviorHandler behaviorHandler, GameObject listener) {
         if (!BehaviorListenerLists.get(behaviorHandler).containsKey(listener.getID())) {
             BehaviorListenerLists.get(behaviorHandler).put(listener.getID(), listener);
-        } else {
-            System.out.println("already contains " + listener.getID());
         }
     }
 
