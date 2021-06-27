@@ -1,4 +1,4 @@
-package tech.fastj.example.fastjengineconfig;
+package tech.fastj.example.engineconfig;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
@@ -74,6 +74,19 @@ public class Main extends SimpleManager {
          * For this example, we're going to set the hardware acceleration to OpenGL. */
         FastJEngine.configureHardwareAcceleration(HWAccel.OpenGL);
 
+
+        /* Lastly, FPS and UPS configuration.
+         *
+         * - FPS: Frames Per Second (how many times the game renders to the screen in a second)
+         * - UPS: Updates Per Second (how many times the game updates in a second)
+         *
+         * FPS can be configured with "FastJEngine#setTargetFPS".
+         * UPS can be configured with "FastJEngine#setTargetUPS".
+         *
+         * FPS defaults to the refresh rate of your default monitor -- check your monitor's specifications to determine
+         * what this value is. On the other hand, UPS defaults to 60. */
+        FastJEngine.setTargetFPS(60);
+        FastJEngine.setTargetUPS(30);
 
         FastJEngine.run();
     }
