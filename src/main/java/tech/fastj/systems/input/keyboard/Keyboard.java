@@ -23,7 +23,7 @@ public class Keyboard implements KeyListener {
 
     private static final Map<KeyDescription, Key> Keys = new HashMap<>();
     private static String lastKeyPressed = "";
-    private static final ScheduledExecutorService KeyChecker = Executors.newSingleThreadScheduledExecutor();
+    private static ScheduledExecutorService keyChecker;
 
     private static final Map<Integer, BiConsumer<InputManager, KeyEvent>> KeyEventProcessor = Map.of(
             KeyEvent.KEY_PRESSED, (inputManager, keyEvent) -> {
@@ -67,7 +67,8 @@ public class Keyboard implements KeyListener {
 
     /** Initializes the keyboard. */
     public static void init() {
-        KeyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
+        keyChecker = Executors.newSingleThreadScheduledExecutor();
+        keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
     }
 
     /** Updates each key if it was recently pressed. */
@@ -225,7 +226,11 @@ public class Keyboard implements KeyListener {
 
     public static void stop() {
         reset();
-        KeyChecker.shutdownNow();
+
+        if (keyChecker != null) {
+            keyChecker.shutdownNow();
+        }
+        keyChecker = null;
     }
 
     @Override
