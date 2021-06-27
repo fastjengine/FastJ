@@ -153,7 +153,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.translate(randomTranslation);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual translated Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getTranslation(), model2D.getTranslation(), "The translation of the Model2D should equal to the translation of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -177,7 +180,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.rotate(randomRotation, Pointf.Origin);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual rotated Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getRotation(), model2D.getRotation(), "The rotation of the Model2D should equal to the rotation of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -202,7 +208,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.rotate(randomRotation);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual rotated Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getRotation(), model2D.getRotation(), "The rotation of the Model2D should equal to the rotation of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -227,7 +236,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.rotate(randomRotation, randomCenter);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual rotated Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getRotation(), model2D.getRotation(), "The rotation of the Model2D should equal to the rotation of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -251,7 +263,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.scale(randomScaling, Pointf.Origin);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual scaled Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getScale(), model2D.getScale(), "The scale of the Model2D should equal to the scale of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -276,7 +291,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.scale(randomScaling);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual scaled Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getScale(), model2D.getScale(), "The scale of the Model2D should equal to the scale of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -301,7 +319,10 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.scale(randomScaling, randomCenter);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual scaled Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getScale(), model2D.getScale(), "The scale of the Model2D should equal to the scale of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 
     @Test
@@ -326,6 +347,9 @@ class Model2DTests {
         Model2D model2D = new Model2D(actualPolygons);
         model2D.scale(randomScaling);
 
-        assertArrayEquals(expectedPolygons, model2D.getPolygons(), "The array of actual scaled Polygon2Ds should match the expected Polygon2Ds.");
+        for (Polygon2D polygon2D : expectedPolygons) {
+            assertEquals(polygon2D.getScale(), model2D.getScale(), "The scale of the Model2D should equal to the scale of the Polygon2Ds.");
+            assertEquals(polygon2D.getTransformation(), model2D.getTransformation(), "The transformation of the Model2D should equal to the transformation of the Polygon2Ds.");
+        }
     }
 }
