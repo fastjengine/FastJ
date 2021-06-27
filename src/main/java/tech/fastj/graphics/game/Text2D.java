@@ -1,9 +1,7 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 
@@ -14,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Objects;
 
 /**
  * {@code Drawable} subclass for drawing text.
@@ -33,41 +32,88 @@ public class Text2D extends GameObject {
     private String text;
     private Color color;
     private Font font;
-    private Pointf translation;
     private boolean hasMetrics;
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text and a location.
+     * {@code Text2D} Constructor that takes in a string of text.
+     * <p>
+     * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
+     * {@code show} boolean to {@link #DefaultShow}.
+     *
+     * @param setText Sets the displayed text.
+     */
+    public Text2D(String setText) {
+        this(setText, DefaultColor, DefaultFont, DefaultShow);
+    }
+
+    /**
+     * {@code Text2D} Constructor that takes in a string of text and an initial translation.
      * <p>
      * This constructor defaults the color to {@link #DefaultColor}, the font to {@link #DefaultFont}, and sets the
      * {@code show} boolean to {@link #DefaultShow}.
      *
      * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the x and y location of the text.
+     * @param setTranslation Sets the initial x and y translation of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, setTranslation, DefaultColor, DefaultFont, DefaultShow);
+        this(setText, DefaultColor, DefaultFont, DefaultShow);
+        setTranslation(setTranslation);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a location, a color, a font, and a show variable.
+     * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a show variable.
+     *
+     * @param setText  Sets the displayed text.
+     * @param setColor Sets the text's color.
+     * @param setFont  Sets the text's font.
+     * @param show     Sets whether the text will be drawn to the screen.
+     */
+    public Text2D(String setText, Color setColor, Font setFont, boolean show) {
+        text = setText;
+        font = setFont;
+
+        setColor(setColor);
+        setFont(setFont);
+        setShouldRender(show);
+    }
+
+    /**
+     * {@code Text2D} Constructor that takes in a string of text, a translation, a color, a font, and a show variable.
      *
      * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the x and y location of the text.
+     * @param setTranslation Sets the initial x and y translation of the text.
      * @param setColor       Sets the text's color.
      * @param setFont        Sets the text's font.
      * @param show           Sets whether the text will be drawn to the screen.
      */
     public Text2D(String setText, Pointf setTranslation, Color setColor, Font setFont, boolean show) {
-        translation = new Pointf(setTranslation);
+        this(setText, setColor, setFont, show);
+        setTranslation(setTranslation);
+    }
 
+    /**
+     * {@code Text2D} Constructor that takes in a string of text, a translation/rotation/scale, a color, a font, and a
+     * show variable.
+     *
+     * @param setText        Sets the displayed text.
+     * @param setTranslation Sets the initial x and y translation of the text.
+     * @param setRotation    Sets the initial rotation of the text.
+     * @param setScale       Sets the initial scale of the text.
+     * @param setColor       Sets the text's color.
+     * @param setFont        Sets the text's font.
+     * @param show           Sets whether the text will be drawn to the screen.
+     */
+    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Color setColor, Font setFont, boolean show) {
         text = setText;
         font = setFont;
 
-        setColor(setColor);
-        setShouldRender(show);
+        setTranslation(setTranslation);
+        setRotation(setRotation);
+        setScale(setScale);
 
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setColor(setColor);
+        setFont(setFont);
+        setShouldRender(show);
     }
 
     /**
@@ -135,21 +181,6 @@ public class Text2D extends GameObject {
     }
 
     @Override
-    public Pointf getTranslation() {
-        return translation;
-    }
-
-    @Override
-    public Pointf getScale() {
-        return GameObject.DefaultScale.copy();
-    }
-
-    @Override
-    public float getRotation() {
-        return GameObject.DefaultRotation;
-    }
-
-    @Override
     public void render(Graphics2D g) {
         if (!shouldRender()) {
             return;
@@ -159,10 +190,19 @@ public class Text2D extends GameObject {
             setMetrics(g);
         }
 
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        Font oldFont = g.getFont();
+        Color oldColor = g.getColor();
+
+        g.transform(getTransformation());
         g.setFont(font);
         g.setColor(color);
 
-        g.drawString(text, translation.x, translation.y);
+        g.drawString(text, Pointf.Origin.x, font.getSize2D());
+
+        g.setTransform(oldTransform);
+        g.setFont(oldFont);
+        g.setColor(oldColor);
     }
 
     @Override
@@ -170,47 +210,9 @@ public class Text2D extends GameObject {
         text = null;
         color = null;
         font = null;
-        translation = null;
+        hasMetrics = false;
 
         super.destroyTheRest(originScene);
-    }
-
-    @Override
-    public void translate(Pointf translationMod) {
-        translation.add(translationMod);
-
-        AffineTransform at = AffineTransform.getTranslateInstance(translationMod.x, translationMod.y);
-        setCollisionPath(((Path2D.Float) getCollisionPath()).createTransformedShape(at));
-
-        translateBounds(translationMod);
-    }
-
-    // TODO Add support for rotation and scaling
-
-    @Override
-    public void rotate(float rotationMod, Pointf centerpoint) {
-        FastJEngine.error(
-                CrashMessages.UnimplementedMethodError.errorMessage,
-                new UnsupportedOperationException(
-                        "Text2D does not have any implementation for rotation as of yet."
-                                + System.lineSeparator()
-                                + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
-                )
-        );
-    }
-
-    @Override
-    public void scale(Pointf scaleMod, Pointf centerpoint) {
-        FastJEngine.error(
-                CrashMessages.UnimplementedMethodError.errorMessage,
-                new UnsupportedOperationException(
-                        "Text2D does not have any implementation for scaling as of yet."
-                                + System.lineSeparator()
-                                + "As an alternative, you should increase the font size of the current Font for the object."
-                                + System.lineSeparator()
-                                + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
-                )
-        );
     }
 
     /**
@@ -227,8 +229,8 @@ public class Text2D extends GameObject {
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
 
+        Pointf translation = getTranslation();
         final Rectangle2D.Float bounds = new Rectangle2D.Float(translation.x, translation.y, textWidth, textHeight);
-        setBounds(DrawUtil.createBox(bounds));
 
         setCollisionPath(createMetricsPath(bounds));
 
@@ -252,5 +254,27 @@ public class Text2D extends GameObject {
         result.closePath();
 
         return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        Text2D text2D = (Text2D) o;
+        return Objects.equals(text, text2D.text)
+                && Objects.equals(color, text2D.color)
+                && Objects.equals(font, text2D.font);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), text, color, font, hasMetrics);
     }
 }

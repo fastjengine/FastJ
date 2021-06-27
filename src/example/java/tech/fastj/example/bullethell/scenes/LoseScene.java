@@ -33,8 +33,8 @@ public class LoseScene extends Scene {
         deathInfo = new Text2D("You died on wave: " + waveNumber, new Pointf(500f, 400f))
                 .setFont(new Font("Consolas", Font.PLAIN, 16));
 
-        loseText.addAsGameObject(this);
-        deathInfo.addAsGameObject(this);
+        drawableManager.addGameObject(loseText);
+        drawableManager.addGameObject(deathInfo);
     }
 
     @Override
