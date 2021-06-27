@@ -61,6 +61,7 @@ public class EnemyMovement implements Behavior {
         Pointf travelDistance = Pointf.subtract(player.getCenter(), obj.getCenter())
                 .normalized()
                 .multiply(2f);
+//        System.out.println("travel distance: " + travelDistance + ", " + obj.getID());
         obj.translate(travelDistance);
     }
 }

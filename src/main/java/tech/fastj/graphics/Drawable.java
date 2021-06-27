@@ -1,10 +1,6 @@
 package tech.fastj.graphics;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.game.GameObject;
-import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
@@ -26,9 +22,6 @@ import java.util.UUID;
  * @version 1.0.0
  */
 public abstract class Drawable extends TaggableEntity {
-
-    private static final String GameObjectErrorMessage = CrashMessages.theGameCrashed("a game object error.");
-    private static final String UiElementErrorMessage = CrashMessages.theGameCrashed("a ui element error.");
 
     private final UUID rawID;
     private final String id;
@@ -254,6 +247,7 @@ public abstract class Drawable extends TaggableEntity {
      */
     public void scale(Pointf scaleMod, Pointf centerpoint) {
         transform.scale(scaleMod, centerpoint);
+        updateTransformedCollisionPath();
     }
 
     /**
@@ -300,49 +294,6 @@ public abstract class Drawable extends TaggableEntity {
      */
     public void scale(Pointf scaleMod) {
         scale(scaleMod, getCenter());
-    }
-
-    /**
-     * Adds the {@code Drawable} to the {@code Scene} parameter's list of game objects.
-     *
-     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of game objects.
-     * @return the {@code Drawable} is returned for method chaining.
-     */
-    public GameObject addAsGameObject(Scene origin) {
-        if (this instanceof GameObject) {
-            origin.drawableManager.addGameObject((GameObject) this);
-            return (GameObject) this;
-        } else {
-            FastJEngine.error(GameObjectErrorMessage, new IllegalStateException("Cannot add non-game object as a game object."));
-            return null;
-        }
-    }
-
-    /**
-     * Adds the {@code Drawable} to the {@code Scene} parameter's list of GUI objects.
-     *
-     * @param origin {@code Scene} parameter that will add the {@code Drawable} to its list of GUI objects.
-     * @return the {@code Drawable} is returned for method chaining.
-     */
-    public UIElement addAsGUIObject(Scene origin) {
-        if (this instanceof UIElement) {
-            origin.drawableManager.addUIElement((UIElement) this);
-            return (UIElement) this;
-        } else {
-            FastJEngine.error(UiElementErrorMessage, new IllegalStateException("Cannot add non-ui object as a ui object."));
-            return null;
-        }
-    }
-
-    /**
-     * Translates the boundaries of the {@code Drawable} by the specified {@code Pointf}.
-     *
-     * @param translation {@code Pointf} that the boundaries of the {@code Drawable} will be moved by.
-     */
-    protected void translateBounds(Pointf translation) {
-        for (Pointf bound : getBounds()) {
-            bound.add(translation);
-        }
     }
 
     /**

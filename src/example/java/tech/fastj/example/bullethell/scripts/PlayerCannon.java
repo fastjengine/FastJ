@@ -53,8 +53,8 @@ public class PlayerCannon implements Behavior {
 
         Polygon2D bullet = (Polygon2D) new Polygon2D(bulletMesh, Color.red, true, true)
                 .addBehavior(bulletMovementScript, gameScene)
-                .<GameObject>addTag(Tags.Bullet, gameScene)
-                .addAsGameObject(gameScene);
+                .<GameObject>addTag(Tags.Bullet, gameScene);
+        gameScene.drawableManager.addGameObject(bullet);
         bullet.initBehaviors();
 
         bulletCount++;
