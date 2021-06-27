@@ -35,7 +35,7 @@ public class Main extends SimpleManager {
          * - onKeyDown: this method is called when a key is held down.
          * - onKeyRecentlyPressed: this method is called when a key is first pressed.
          * - onKeyReleased: this method is called when a key is released.
-         * - onKeyTyped: this method is called when a key is pressed and released.
+         * - onKeyTyped: this method is called when a key is typed -- first pressed or held down.
          *
          * To demonstrate each method, I've chosen to log whenever any of the methods is called. Run the program to see
          * this in action. */
