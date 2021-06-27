@@ -198,7 +198,7 @@ public class Text2D extends GameObject {
         g.setFont(font);
         g.setColor(color);
 
-        g.drawString(text, Pointf.Origin.x, Pointf.Origin.y);
+        g.drawString(text, Pointf.Origin.x, font.getSize2D());
 
         g.setTransform(oldTransform);
         g.setFont(oldFont);
