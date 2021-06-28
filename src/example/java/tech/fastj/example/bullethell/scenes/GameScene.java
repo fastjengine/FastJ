@@ -18,8 +18,8 @@ import tech.fastj.systems.input.keyboard.Keys;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import tech.fastj.example.bullethell.scripts.EnemyMovement;
 import tech.fastj.example.bullethell.scripts.PlayerCannon;
@@ -35,7 +35,7 @@ public class GameScene extends Scene {
     private Text2D playerMetadata;
     private Polygon2D playerHealthBar;
 
-    private List<Model2D> enemies;
+    private Map<String, Model2D> enemies;
     private int enemyCount = 0;
     private int wave = 0;
 
@@ -66,7 +66,7 @@ public class GameScene extends Scene {
         drawableManager.addGameObject(playerMetadata);
 
 
-        enemies = new ArrayList<>();
+        enemies = new HashMap<>();
         newWave();
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {
@@ -83,7 +83,7 @@ public class GameScene extends Scene {
                     }
                     case Keys.L: {
                         FastJEngine.log("printing enemy statuses...");
-                        enemies.forEach(FastJEngine::log);
+                        enemies.values().forEach(FastJEngine::log);
                     }
                 }
             }
@@ -108,7 +108,7 @@ public class GameScene extends Scene {
         }
 
         if (enemies != null) {
-            enemies.forEach(enemy -> enemy.destroy(this));
+            enemies.forEach((id, enemy) -> enemy.destroy(this));
             enemies.clear();
             enemies = null;
         }
@@ -120,8 +120,8 @@ public class GameScene extends Scene {
     public void update(Display display) {
     }
 
-    public void enemyDied(GameObject enemy) {
-        if (enemies.remove((Model2D) enemy)) {
+    public void enemyDied(Model2D enemy) {
+        if (enemies.remove(enemy.getID()) == enemy) {
             enemy.destroy(this);
             enemyCount--;
 
@@ -158,7 +158,7 @@ public class GameScene extends Scene {
         for (int i = 0; i < enemyCount; i++) {
             Model2D enemy = createEnemy();
             enemy.initBehaviors();
-            enemies.add(enemy);
+            enemies.put(enemy.getID(), enemy);
         }
 
         FastJEngine.log("New wave of " + enemyCount + " enemies!");

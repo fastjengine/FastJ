@@ -54,14 +54,13 @@ public class EnemyMovement implements Behavior {
     }
 
     private void enemyDied(GameObject enemy) {
-        FastJEngine.runAfterUpdate(() -> gameScene.enemyDied(enemy));
+        FastJEngine.runAfterUpdate(() -> gameScene.enemyDied((Model2D) enemy));
     }
 
     private void moveToPlayer(GameObject obj) {
         Pointf travelDistance = Pointf.subtract(player.getCenter(), obj.getCenter())
                 .normalized()
                 .multiply(2f);
-//        System.out.println("travel distance: " + travelDistance + ", " + obj.getID());
         obj.translate(travelDistance);
     }
 }
