@@ -27,7 +27,6 @@ public class BulletMovement implements Behavior {
     @Override
     public void init(GameObject obj) {
         travelVector = new Pointf(0f, travelSpeed).rotate(180 - travelAngle);
-        FastJEngine.log(travelVector);
     }
 
     @Override
@@ -36,7 +35,6 @@ public class BulletMovement implements Behavior {
         obj.translate(travelVector);
         if (!FastJEngine.getDisplay().isOnScreen(obj, gameScene.getCamera())) {
             bulletDied(obj);
-            FastJEngine.log("death! of bullet " + travelAngle + "f " + travelVector);
         }
 
         Pointf newTranslation = obj.getTranslation();
@@ -52,6 +50,7 @@ public class BulletMovement implements Behavior {
 
     public void bulletDied(GameObject obj) {
         FastJEngine.runAfterUpdate(() -> {
+            FastJEngine.log("death! of bullet " + travelAngle + "f " + travelVector);
             obj.destroy(gameScene);
             playerCannonScript.bulletDied();
         });
