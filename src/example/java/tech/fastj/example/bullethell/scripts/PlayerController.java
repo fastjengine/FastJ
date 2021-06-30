@@ -17,7 +17,6 @@ public class PlayerController implements Behavior {
 
     private Pointf inputTranslation;
 
-
     public PlayerController(float speedInterval, float rotationInterval) {
         speed = speedInterval;
         rotation = rotationInterval;
@@ -61,14 +60,6 @@ public class PlayerController implements Behavior {
     private void movePlayer(GameObject obj) {
         obj.rotate(inputRotation);
         obj.translate(inputTranslation);
-
-//        if (currentRotation >= 360f) {
-//            currentRotation -= 360f;
-//            obj.setRotation(currentRotation);
-//        } else if (currentRotation < -0f) {
-//            currentRotation += 360f;
-//            obj.setRotation(currentRotation);
-//        }
     }
 
     @Override
