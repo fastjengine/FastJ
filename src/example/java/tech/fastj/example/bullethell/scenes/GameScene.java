@@ -110,7 +110,6 @@ public class GameScene extends Scene {
         if (enemies != null) {
             enemies.forEach((id, enemy) -> enemy.destroy(this));
             enemies.clear();
-            enemies = null;
         }
 
         enemyCount = 0;
@@ -145,7 +144,9 @@ public class GameScene extends Scene {
         Pointf playerHealthBarMeshSize = new Pointf(100f, 20f);
         Pointf[] playerHealthBarMesh = DrawUtil.createBox(playerHealthBarMeshLocation, playerHealthBarMeshSize);
 
-        return new Polygon2D(playerHealthBarMesh, Color.green, true, true);
+        return Polygon2D.create(playerHealthBarMesh)
+                .withFill(Color.green)
+                .build();
     }
 
     private Model2D createPlayer() {
