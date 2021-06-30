@@ -1,8 +1,8 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.graphics.util.PsdfUtil;
 
 import tech.fastj.systems.control.Scene;
 
@@ -12,16 +12,11 @@ import java.util.Arrays;
 
 /**
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
- * <p>
- * This class is compatible with loading from a .PSDF file, using the {@link PsdfUtil#loadPsdf(String)} method.
  *
  * @author Andrew Dey
  * @version 1.0.0
  */
 public class Model2D extends GameObject {
-
-    /** {@code boolean} representing the default "should render" of {@code true}. */
-    public static final boolean DefaultShow = true;
 
     private Polygon2D[] polyArr;
 
@@ -29,45 +24,45 @@ public class Model2D extends GameObject {
      * Model2D constructor that takes in an array of {@link Polygon2D} objects.
      * <p>
      * This takes an array of {@code Pointf} values (which make up the points of the polygon), and defaults whether the
-     * {@code Model2D} should be shown to {@link #DefaultShow}.
+     * {@code Model2D} should be shown to {@link Drawable#DefaultShouldRender}.
      *
      * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
      */
     public Model2D(Polygon2D[] polygonArray) {
-        this(polygonArray, DefaultShow);
+        this(polygonArray, Drawable.DefaultShouldRender);
     }
 
     /**
-     * Model2D constructor that takes in an array of {@link Polygon2D} objects and a show variable.
+     * Model2D constructor that takes in an array of {@link Polygon2D} objects and a shouldRender variable.
      * <p>
      * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to
-     * determine whether the Model2D should be drawn.
+     * determine whether the Model2D should be rendered.
      *
      * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
-     * @param show         Boolean that determines whether this Model2D should be drawn to the screen.
+     * @param shouldRender Boolean that determines whether this Model2D should be drawn to the screen.
      */
-    public Model2D(Polygon2D[] polygonArray, boolean show) {
+    public Model2D(Polygon2D[] polygonArray, boolean shouldRender) {
         polyArr = polygonArray;
 
         setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
-        setShouldRender(show);
+        setShouldRender(shouldRender);
     }
 
     /**
-     * {@code Model2D} constructor that takes in an array of {@code Polygon2D}s, a show variable, and an initial
+     * {@code Model2D} constructor that takes in an array of {@code Polygon2D}s, a shouldRender variable, and an initial
      * translation, rotation, and scale for the model.
      * <p>
      * Alongside the normal constructor, this allows you to set a location, rotation, and scale for the object,
      * alongside the normal values needed for a Model2D.
      *
-     * @param polygonArray  Array of {@code Polygon2D}s used to create the Model2D.
-     * @param location      {@code Pointf} that defines the x and y location of the created Model2D. All Polygon2D
-     *                      objects will be translated to that location, relative to where the objects are.
-     * @param rotVal        Float value that defines the value that the Model2D will be rotated to, on creation.
-     * @param scaleVal      {@code Pointf} that defines the values that the Model2D will be scaled to, on creation.
-     * @param shouldBeShown Boolean that determines whether this Model2D should be drawn to the screen.
+     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
+     * @param location     {@code Pointf} that defines the x and y location of the created Model2D. All Polygon2D
+     *                     objects will be translated to that location, relative to where the objects are.
+     * @param rotVal       Float value that defines the value that the Model2D will be rotated to, on creation.
+     * @param scaleVal     {@code Pointf} that defines the values that the Model2D will be scaled to, on creation.
+     * @param shouldRender Boolean that determines whether this Model2D should be drawn to the screen.
      */
-    public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldBeShown) {
+    public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldRender) {
         polyArr = polygonArray;
 
         setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
@@ -76,7 +71,7 @@ public class Model2D extends GameObject {
         setRotation(rotVal);
         setScale(scaleVal);
 
-        setShouldRender(shouldBeShown);
+        setShouldRender(shouldRender);
     }
 
     /**
