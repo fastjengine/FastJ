@@ -1,13 +1,17 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.RenderStyle;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.util.Arrays;
 import java.util.Objects;
@@ -20,74 +24,92 @@ import java.util.Objects;
  */
 public class Polygon2D extends GameObject {
 
-    /** {@link Paint} representing the default paint value as the color black: {@code (0, 0, 0)}. */
+    /** {@link RenderStyle} representing the default render style as fill only, or {@link RenderStyle#Fill}. */
+    public static final RenderStyle DefaultRenderStyle = RenderStyle.Fill;
+    /** {@link Paint} representing the default fill paint value as the color black. */
     public static final Paint DefaultPaint = Color.black;
-    /** {@code boolean} representing the default "should fill" value of {@code true}. */
-    public static final boolean DefaultFill = true;
-    /** {@code boolean} representing the default "should render" value of {@code true}. */
-    public static final boolean DefaultShow = true;
+    /** {@link Stroke} representing the default outline stroke value as a 1px outline with sharp edges. */
+    public static final Stroke DefaultOutlineStroke = new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f);
+    /** {@link Color} representing the default outline color value as the color black. */
+    public static final Color DefaultOutlineColor = Color.black;
 
     private Pointf[] originalPoints;
 
-    private Paint paint;
-    private boolean shouldFill;
+    private RenderStyle renderStyle;
+    private Paint fillPaint;
+    private Color outlineColor;
+    private Stroke outlineStroke;
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points.
+     * {@code Polygon2D} constructor that takes in an array of points.
      * <p>
-     * This constructor defaults the paint to {@link #DefaultPaint}, the fill to {@link #DefaultFill}, and sets the
-     * {@code show} boolean to {@link #DefaultShow}.
+     * This constructor defaults the fill paint to {@link #DefaultPaint}, the outline stroke to {@link
+     * #DefaultOutlineStroke}, the outline color to {@link #DefaultOutlineColor}, the render style to {@link
+     * #DefaultRenderStyle}, and the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
      * @param points {@code Pointf} array that defines the points for the polygon.
      */
-    public Polygon2D(Pointf[] points) {
-        this(points, DefaultPaint, DefaultFill, DefaultShow);
+    Polygon2D(Pointf[] points) {
+        originalPoints = points;
+        setCollisionPath(DrawUtil.createPath(originalPoints));
+
+        setFill(DefaultPaint);
+        setOutlineStroke(DefaultOutlineStroke);
+        setOutlineColor(DefaultOutlineColor);
+        setRenderStyle(DefaultRenderStyle);
+        setShouldRender(Drawable.DefaultShouldRender);
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a paint, a fill variable, and a show variable.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points}, {@code
+     * renderStyle}, and {@code shouldRender} fields.
+     * <p>
      *
-     * @param points   {@code Pointf} array that defines the points for the polygon.
-     * @param paint {@code Paint} variable that sets the paint of the polygon.
-     * @param fill  Boolean that determines whether the polygon should be filled, or only outlined.
-     * @param show  Boolean that determines whether the polygon should be shown on screen.
+     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
-    public Polygon2D(Pointf[] points, Paint paint, boolean fill, boolean show) {
-        originalPoints = points;
-
-        setCollisionPath(DrawUtil.createPath(originalPoints));
-
-        setPaint(paint);
-        setFilled(fill);
-
-        setShouldRender(show);
+    public static Polygon2DBuilder create(Pointf[] points) {
+        return new Polygon2DBuilder(points, DefaultRenderStyle, Drawable.DefaultShouldRender);
     }
 
     /**
-     * {@code Polygon2D} constructor that takes in a set of points, a paint variable, fill variable, a show variable,
-     * and the translation, rotation, and scale of the polygon.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code
+     * shouldRender} fields.
+     * <p>
      *
-     * @param points            {@code Pointf} array that defines the points for the polygon.
-     * @param setTranslation {@code Pointf} to set the initial translation of the polygon.
-     * @param setRotation    {@code Pointf} to set the initial rotation of the polygon.
-     * @param setScale       {@code Pointf} to set the initial scale of the polygon.
-     * @param paint          {@code Paint} variable that sets the paint of the polygon.
-     * @param fill           Boolean that determines whether the polygon should be filled, or only outlined.
-     * @param show           Boolean that determines whether the polygon should be shown on screen.
+     * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
+     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
-    public Polygon2D(Pointf[] points, Pointf setTranslation, float setRotation, Pointf setScale, Paint paint, boolean fill, boolean show) {
-        originalPoints = points;
+    public static Polygon2DBuilder create(Pointf[] points, boolean shouldRender) {
+        return new Polygon2DBuilder(points, DefaultRenderStyle, shouldRender);
+    }
 
-        setCollisionPath(DrawUtil.createPath(originalPoints));
+    /**
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code
+     * renderStyle} fields.
+     * <p>
+     *
+     * @param points      {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param renderStyle {@code RenderStyle} that defines the render style for the {@code Polygon2D}.
+     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
+     */
+    public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle) {
+        return new Polygon2DBuilder(points, renderStyle, Drawable.DefaultShouldRender);
+    }
 
-        setTranslation(setTranslation);
-        setRotation(setRotation);
-        setScale(setScale);
-
-        setPaint(paint);
-        setFilled(fill);
-
-        setShouldRender(show);
+    /**
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points}, {@code
+     * renderStyle}, and {@code shouldRender} fields.
+     * <p>
+     *
+     * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param renderStyle  {@code RenderStyle} that defines the render style for the {@code Polygon2D}.
+     * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
+     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
+     */
+    public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle, boolean shouldRender) {
+        return new Polygon2DBuilder(points, renderStyle, shouldRender);
     }
 
     /**
@@ -104,8 +126,20 @@ public class Polygon2D extends GameObject {
      *
      * @return The {@code Paint} set for this polygon.
      */
-    public Paint getPaint() {
-        return paint;
+    public Paint getFill() {
+        return fillPaint;
+    }
+
+    public Color getOutlineColor() {
+        return outlineColor;
+    }
+
+    public Stroke getOutlineStroke() {
+        return outlineStroke;
+    }
+
+    public RenderStyle getRenderStyle() {
+        return renderStyle;
     }
 
     /**
@@ -114,29 +148,29 @@ public class Polygon2D extends GameObject {
      * @param newPaint The {@code Paint} to be used for the polygon.
      * @return This instance of the {@code Polygon2D}, for method chaining.
      */
-    public Polygon2D setPaint(Paint newPaint) {
-        paint = Objects.requireNonNull(newPaint);
+    public Polygon2D setFill(Paint newPaint) {
+        fillPaint = Objects.requireNonNull(newPaint);
         return this;
     }
 
-    /**
-     * Gets the fill boolean for this polygon.
-     *
-     * @return The boolean variable for this polygon, which determines if the polygon should be filled, or only
-     * outlined.
-     */
-    public boolean isFilled() {
-        return shouldFill;
+    public Polygon2D setOutlineColor(Color newOutlineColor) {
+        outlineColor = newOutlineColor;
+        return this;
     }
 
-    /**
-     * Sets the fill boolean for the object.
-     *
-     * @param fill Boolean to determine if the polygon should be filled, or only outlined.
-     * @return This instance of the {@code Polygon2D}, for method chaining.
-     */
-    public Polygon2D setFilled(boolean fill) {
-        shouldFill = fill;
+    public Polygon2D setOutlineStroke(Stroke newStroke) {
+        outlineStroke = newStroke;
+        return this;
+    }
+
+    public Polygon2D setOutline(Stroke newStroke, Color newOutlineColor) {
+        outlineStroke = newStroke;
+        outlineColor = newOutlineColor;
+        return this;
+    }
+
+    public Polygon2D setRenderStyle(RenderStyle newRenderStyle) {
+        renderStyle = newRenderStyle;
         return this;
     }
 
@@ -155,7 +189,7 @@ public class Polygon2D extends GameObject {
      * This does not reset the rotation, scale, or location of the original, unless specified with the second, third,
      * and fourth parameters.
      *
-     * @param points              {@code Pointf} array that will replace the current points of the polygon.
+     * @param points           {@code Pointf} array that will replace the current points of the polygon.
      * @param resetTranslation Boolean to determine if the translation should be reset.
      * @param resetRotation    Boolean to determine if the rotation should be reset.
      * @param resetScale       Boolean to determine if the scale should be reset.
@@ -188,26 +222,46 @@ public class Polygon2D extends GameObject {
 
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Paint oldPaint = g.getPaint();
+        Stroke oldStroke = g.getStroke();
 
         g.transform(getTransformation());
-        g.setPaint(paint);
 
-        if (shouldFill) {
-            g.fill(collisionPath);
-        } else {
-            g.draw(collisionPath);
+        switch (renderStyle) {
+            case Fill: {
+                g.setPaint(fillPaint);
+                g.fill(collisionPath);
+                break;
+            }
+            case Outline: {
+                g.setStroke(outlineStroke);
+                g.setPaint(outlineColor);
+                g.draw(collisionPath);
+                break;
+            }
+            case FillAndOutline: {
+                g.setPaint(fillPaint);
+                g.fill(collisionPath);
+
+                g.setStroke(outlineStroke);
+                g.setPaint(outlineColor);
+                g.draw(collisionPath);
+                break;
+            }
         }
 
-        g.setTransform(oldTransform);
+        g.setStroke(oldStroke);
         g.setPaint(oldPaint);
+        g.setTransform(oldTransform);
     }
 
     @Override
     public void destroy(Scene originScene) {
         originalPoints = null;
 
-        paint = null;
-        shouldFill = false;
+        renderStyle = null;
+        fillPaint = null;
+        outlineColor = null;
+        outlineStroke = null;
 
         destroyTheRest(originScene);
     }
@@ -227,14 +281,16 @@ public class Polygon2D extends GameObject {
             return false;
         }
         Polygon2D polygon2D = (Polygon2D) other;
-        return shouldFill == polygon2D.shouldFill
-                && Arrays.equals(originalPoints, polygon2D.originalPoints)
-                && DrawUtil.paintEquals(paint, polygon2D.paint);
+        return Arrays.equals(originalPoints, polygon2D.originalPoints)
+                && renderStyle == polygon2D.renderStyle
+                && DrawUtil.paintEquals(fillPaint, polygon2D.fillPaint)
+                && outlineColor.equals(polygon2D.outlineColor)
+                && outlineStroke.equals(polygon2D.outlineStroke);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(paint, shouldFill);
+        int result = Objects.hash(renderStyle, fillPaint, outlineColor, outlineStroke);
         result = 31 * result + Arrays.hashCode(originalPoints);
         return result;
     }
@@ -242,13 +298,11 @@ public class Polygon2D extends GameObject {
     @Override
     public String toString() {
         return "Polygon2D{" +
-                "renderPath=" + Arrays.toString(getPoints()) +
-                ", points=" + Arrays.toString(originalPoints) +
-                ", paint=" + paint +
-                ", shouldFill=" + shouldFill +
-                ", rotation=" + getRotation() +
-                ", scale=" + getScale() +
-                ", translation=" + getTranslation() +
+                "originalPoints=" + Arrays.toString(originalPoints) +
+                ", renderStyle=" + renderStyle +
+                ", fillPaint=" + fillPaint +
+                ", outlineColor=" + outlineColor +
+                ", outlineStroke=" + outlineStroke +
                 '}';
     }
 }
