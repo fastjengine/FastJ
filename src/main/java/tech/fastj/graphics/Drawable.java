@@ -23,6 +23,9 @@ import java.util.UUID;
  */
 public abstract class Drawable extends TaggableEntity {
 
+    /** {@code boolean} representing the default value for if a {@code Drawable} should be rendered as {@code true}. */
+    public static final boolean DefaultShouldRender = true;
+
     private final UUID rawID;
     private final String id;
 
@@ -170,6 +173,10 @@ public abstract class Drawable extends TaggableEntity {
      * @return The {@code Drawable}, for method chaining.
      */
     public Drawable setTranslation(Pointf setTranslation) {
+        if (getTranslation().equals(setTranslation)) {
+            return this;
+        }
+
         transform.setTranslation(setTranslation);
         updateTransformedCollisionPath();
         return this;
@@ -191,6 +198,10 @@ public abstract class Drawable extends TaggableEntity {
      * @return The {@code Drawable}, for method chaining.
      */
     public Drawable setRotation(float setRotation) {
+        if (getRotation() == setRotation) {
+            return this;
+        }
+
         transform.setRotation(setRotation);
         updateTransformedCollisionPath();
         return this;
@@ -212,8 +223,27 @@ public abstract class Drawable extends TaggableEntity {
      * @return The {@code Drawable}, for method chaining.
      */
     public Drawable setScale(Pointf setScale) {
+        if (getScale().equals(setScale)) {
+            return this;
+        }
+
         transform.setScale(setScale);
         updateTransformedCollisionPath();
+        return this;
+    }
+
+    /**
+     * Sets the {@code Drawable}'s translation, rotation, and scale to the specified values.
+     *
+     * @param setTranslation {@code Pointf} parameter that the {@code Drawable}'s translation will be set to.
+     * @param setRotation    float parameter that the {@code Drawable}'s rotation will be set to.
+     * @param setScale       {@code Pointf} parameter that the {@code Drawable}'s scale will be set to.
+     * @return The {@code Drawable}, for method chaining.
+     */
+    public Drawable setTransform(Pointf setTranslation, float setRotation, Pointf setScale) {
+        setTranslation(setTranslation);
+        setRotation(setRotation);
+        setScale(setScale);
         return this;
     }
 
@@ -224,6 +254,10 @@ public abstract class Drawable extends TaggableEntity {
      *                       by.
      */
     public void translate(Pointf translationMod) {
+        if (Transform2D.DefaultTranslation.equals(translationMod)) {
+            return;
+        }
+
         transform.translate(translationMod);
         updateTransformedCollisionPath();
     }
@@ -235,6 +269,10 @@ public abstract class Drawable extends TaggableEntity {
      * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be rotated about.
      */
     public void rotate(float rotationMod, Pointf centerpoint) {
+        if (rotationMod == Transform2D.DefaultRotation) {
+            return;
+        }
+
         transform.rotate(rotationMod, centerpoint);
         updateTransformedCollisionPath();
     }
@@ -246,6 +284,10 @@ public abstract class Drawable extends TaggableEntity {
      * @param centerpoint {@code Pointf} parameter that the {@code Drawable} will be scaled about.
      */
     public void scale(Pointf scaleMod, Pointf centerpoint) {
+        if (Transform2D.DefaultScale.equals(scaleMod)) {
+            return;
+        }
+
         transform.scale(scaleMod, centerpoint);
         updateTransformedCollisionPath();
     }

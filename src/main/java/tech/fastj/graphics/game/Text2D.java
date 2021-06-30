@@ -2,14 +2,15 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -27,8 +28,6 @@ public class Text2D extends GameObject {
     public static final Paint DefaultPaint = Color.black;
     /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
     public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
-    /** {@code boolean} representing the default "should render" value of {@code true}. */
-    public static final boolean DefaultShow = true;
 
     private String text;
     private Paint color;
@@ -39,62 +38,63 @@ public class Text2D extends GameObject {
      * {@code Text2D} Constructor that takes in a string of text.
      * <p>
      * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
-     * {@code show} boolean to {@link #DefaultShow}.
+     * {@code show} boolean to {@link Drawable#DefaultShouldRender}.
      *
      * @param setText Sets the displayed text.
      */
     public Text2D(String setText) {
-        this(setText, DefaultPaint, DefaultFont, DefaultShow);
+        this(setText, DefaultPaint, DefaultFont, Drawable.DefaultShouldRender);
     }
 
     /**
      * {@code Text2D} Constructor that takes in a string of text and an initial translation.
      * <p>
      * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
-     * {@code show} boolean to {@link #DefaultShow}.
+     * {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the initial x and y translation of the text.
      */
     public Text2D(String setText, Pointf setTranslation) {
-        this(setText, DefaultPaint, DefaultFont, DefaultShow);
+        this(setText, DefaultPaint, DefaultFont, Drawable.DefaultShouldRender);
         setTranslation(setTranslation);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a show variable.
+     * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a shouldRender variable.
      *
-     * @param setText  Sets the displayed text.
-     * @param setPaint Sets the text's color.
-     * @param setFont  Sets the text's font.
-     * @param show     Sets whether the text will be drawn to the screen.
+     * @param setText      Sets the displayed text.
+     * @param setPaint     Sets the text's color.
+     * @param setFont      Sets the text's font.
+     * @param shouldRender Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Paint setPaint, Font setFont, boolean show) {
+    public Text2D(String setText, Paint setPaint, Font setFont, boolean shouldRender) {
         text = setText;
         font = setFont;
 
         setPaint(setPaint);
         setFont(setFont);
-        setShouldRender(show);
+        setShouldRender(shouldRender);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a translation, a color, a font, and a show variable.
+     * {@code Text2D} Constructor that takes in a string of text, a translation, a color, a font, and a shouldRender
+     * variable.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the initial x and y translation of the text.
      * @param setPaint       Sets the text's color.
      * @param setFont        Sets the text's font.
-     * @param show           Sets whether the text will be drawn to the screen.
+     * @param shouldRender   Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Pointf setTranslation, Paint setPaint, Font setFont, boolean show) {
-        this(setText, setPaint, setFont, show);
+    public Text2D(String setText, Pointf setTranslation, Paint setPaint, Font setFont, boolean shouldRender) {
+        this(setText, setPaint, setFont, shouldRender);
         setTranslation(setTranslation);
     }
 
     /**
      * {@code Text2D} Constructor that takes in a string of text, a translation/rotation/scale, a color, a font, and a
-     * show variable.
+     * shouldRender variable.
      *
      * @param setText        Sets the displayed text.
      * @param setTranslation Sets the initial x and y translation of the text.
@@ -102,9 +102,9 @@ public class Text2D extends GameObject {
      * @param setScale       Sets the initial scale of the text.
      * @param setPaint       Sets the text's color.
      * @param setFont        Sets the text's font.
-     * @param show           Sets whether the text will be drawn to the screen.
+     * @param shouldRender   Sets whether the text will be drawn to the screen.
      */
-    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Paint setPaint, Font setFont, boolean show) {
+    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Paint setPaint, Font setFont, boolean shouldRender) {
         text = setText;
         font = setFont;
 
@@ -114,7 +114,7 @@ public class Text2D extends GameObject {
 
         setPaint(setPaint);
         setFont(setFont);
-        setShouldRender(show);
+        setShouldRender(shouldRender);
     }
 
     /**
