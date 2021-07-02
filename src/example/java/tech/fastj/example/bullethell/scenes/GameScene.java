@@ -18,10 +18,7 @@ import tech.fastj.systems.input.keyboard.Keys;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
-<<<<<<< HEAD
 import java.nio.file.Path;
-=======
->>>>>>> 944c9fc (fix issues with bullethell example)
 import java.util.HashMap;
 import java.util.Map;
 
