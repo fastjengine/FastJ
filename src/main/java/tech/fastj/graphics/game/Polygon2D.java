@@ -113,6 +113,16 @@ public class Polygon2D extends GameObject {
     }
 
     /**
+     * Creates a {@code Polygon2D} from the specified points.
+     *
+     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @return The resulting {@code Polygon2D}.
+     */
+    public static Polygon2D fromPoints(Pointf[] points) {
+        return new Polygon2DBuilder(points, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
+    }
+
+    /**
      * Gets the original points that were set for this polygon.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
