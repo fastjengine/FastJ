@@ -9,7 +9,7 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.graphics.util.PsdfUtil;
+import tech.fastj.graphics.util.ModelUtil;
 
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.input.keyboard.KeyboardActionListener;
@@ -18,6 +18,7 @@ import tech.fastj.systems.input.keyboard.Keys;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -150,7 +151,7 @@ public class GameScene extends Scene {
     }
 
     private Model2D createPlayer() {
-        return new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "player.psdf"));
+        return new Model2D(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "player.psdf")));
     }
 
     private void newWave() {
@@ -175,7 +176,7 @@ public class GameScene extends Scene {
                 Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
         );
 
-        Model2D enemy = new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"));
+        Model2D enemy = new Model2D(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
         enemy.addBehavior(new EnemyMovement(this), this);
         enemy.setTranslation(randomPosition);
         drawableManager.addGameObject(enemy);
