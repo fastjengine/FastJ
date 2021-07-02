@@ -4,9 +4,9 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.RenderStyle;
 import tech.fastj.graphics.Transform2D;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
-import java.awt.Stroke;
 import java.util.Objects;
 
 public class Polygon2DBuilder {
@@ -16,7 +16,7 @@ public class Polygon2DBuilder {
     private final RenderStyle renderStyle;
 
     private Paint fillPaint = Polygon2D.DefaultPaint;
-    private Stroke outlineStroke = Polygon2D.DefaultOutlineStroke;
+    private BasicStroke outlineStroke = Polygon2D.DefaultOutlineStroke;
     private Color outlineColor = Polygon2D.DefaultOutlineColor;
 
     private Pointf translation = Transform2D.DefaultTranslation.copy();
@@ -34,7 +34,7 @@ public class Polygon2DBuilder {
         return this;
     }
 
-    public Polygon2DBuilder withOutline(Stroke outlineStroke, Color outlineColor) {
+    public Polygon2DBuilder withOutline(BasicStroke outlineStroke, Color outlineColor) {
         this.outlineStroke = Objects.requireNonNull(outlineStroke, "The outline stroke must not be null.");
         this.outlineColor = Objects.requireNonNull(outlineColor, "The outline color must not be null.");
         return this;
