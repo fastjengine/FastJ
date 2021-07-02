@@ -34,4 +34,5 @@ module fastj.library {
     exports tech.fastj.systems.control;
     exports tech.fastj.systems.tags;
     exports tech.fastj.graphics.util.gradients;
+    exports tech.fastj.graphics.util.io;
 }

@@ -29,7 +29,7 @@ public class Polygon2D extends GameObject {
     /** {@link Paint} representing the default fill paint value as the color black. */
     public static final Paint DefaultPaint = Color.black;
     /** {@link Stroke} representing the default outline stroke value as a 1px outline with sharp edges. */
-    public static final Stroke DefaultOutlineStroke = new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f);
+    public static final BasicStroke DefaultOutlineStroke = new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f);
     /** {@link Color} representing the default outline color value as the color black. */
     public static final Color DefaultOutlineColor = Color.black;
 
@@ -38,7 +38,7 @@ public class Polygon2D extends GameObject {
     private RenderStyle renderStyle;
     private Paint fillPaint;
     private Color outlineColor;
-    private Stroke outlineStroke;
+    private BasicStroke outlineStroke;
 
     /**
      * {@code Polygon2D} constructor that takes in an array of points.
@@ -134,7 +134,7 @@ public class Polygon2D extends GameObject {
         return outlineColor;
     }
 
-    public Stroke getOutlineStroke() {
+    public BasicStroke getOutlineStroke() {
         return outlineStroke;
     }
 
@@ -158,12 +158,12 @@ public class Polygon2D extends GameObject {
         return this;
     }
 
-    public Polygon2D setOutlineStroke(Stroke newStroke) {
+    public Polygon2D setOutlineStroke(BasicStroke newStroke) {
         outlineStroke = newStroke;
         return this;
     }
 
-    public Polygon2D setOutline(Stroke newStroke, Color newOutlineColor) {
+    public Polygon2D setOutline(BasicStroke newStroke, Color newOutlineColor) {
         outlineStroke = newStroke;
         outlineColor = newOutlineColor;
         return this;
