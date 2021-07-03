@@ -51,24 +51,12 @@ public class Polygon2DBuilder {
     }
 
     public Polygon2D build() {
-        Polygon2D polygon2D = (Polygon2D) new Polygon2D(points)
+        return (Polygon2D) new Polygon2D(points)
+                .setOutlineStroke(outlineStroke)
+                .setOutlineColor(outlineColor)
                 .setRenderStyle(renderStyle)
+                .setFill(fillPaint)
                 .setShouldRender(shouldRender)
                 .setTransform(translation, rotation, scale);
-
-        switch (renderStyle) {
-            case Fill: {
-                return polygon2D.setFill(fillPaint);
-            }
-            case Outline: {
-                return polygon2D.setOutline(outlineStroke, outlineColor);
-            }
-            case FillAndOutline: {
-                return polygon2D.setFill(fillPaint).setOutline(outlineStroke, outlineColor);
-            }
-            default: {
-                throw new IllegalStateException("Invalid render style: " + renderStyle.name());
-            }
-        }
     }
 }

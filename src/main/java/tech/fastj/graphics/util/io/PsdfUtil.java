@@ -224,7 +224,7 @@ public class PsdfUtil {
             }
         }
 
-        return new BasicStroke(Integer.parseInt(tokens[1]), basicStrokeCap, basicStrokeJoinStyle, Integer.parseInt(tokens[4]), null, 0.0f);
+        return new BasicStroke(Float.parseFloat(tokens[1]), basicStrokeCap, basicStrokeJoinStyle, Float.parseFloat(tokens[4]), null, 0.0f);
     }
 
     private static Color parseOutlineColor(String[] tokens) {
@@ -307,12 +307,15 @@ public class PsdfUtil {
         switch (renderStyle) {
             case Fill: {
                 fileContents.append(PsdfUtil.ParsingKeys.RenderStyle_Fill);
+                break;
             }
             case Outline: {
-                fileContents.append(PsdfUtil.ParsingKeys.RenderStyle_Outline);
+                fileContents.append(ParsingKeys.RenderStyle_Outline);
+                break;
             }
             case FillAndOutline: {
                 fileContents.append(PsdfUtil.ParsingKeys.RenderStyle_FillAndOutline);
+                break;
             }
         }
         fileContents.append(LineSeparator);

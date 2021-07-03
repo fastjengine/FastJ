@@ -2,6 +2,7 @@ package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -34,7 +35,7 @@ class Text2DTests {
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
             assertEquals(Text2D.DefaultPaint, text2D.getPaint(), "The actual color should match the expected color.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
-            assertEquals(Text2D.DefaultShow, text2D.shouldRender(), "The actual show variable should match the default show variable.");
+            assertEquals(Drawable.DefaultShouldRender, text2D.shouldRender(), "The actual show variable should match the default show variable.");
         });
     }
 
@@ -50,7 +51,7 @@ class Text2DTests {
             assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
             assertEquals(Text2D.DefaultPaint, text2D.getPaint(), "The actual color should match the expected color.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
-            assertEquals(Text2D.DefaultShow, text2D.shouldRender(), "The actual show variable should match the default show variable.");
+            assertEquals(Drawable.DefaultShouldRender, text2D.shouldRender(), "The actual show variable should match the default show variable.");
         });
     }
 
