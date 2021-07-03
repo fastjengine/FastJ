@@ -627,7 +627,7 @@ public final class DrawUtil {
                 Maths.random(0.0f, 32.0f),
                 randomCap,
                 randomJoin,
-                randomJoin == BasicStroke.JOIN_MITER ? Maths.random(Maths.FloatPrecision, 64.0f) : 0.0f
+                randomJoin == BasicStroke.JOIN_MITER ? Maths.random(1.0f, 64.0f) : 0.0f
         );
     }
 }
