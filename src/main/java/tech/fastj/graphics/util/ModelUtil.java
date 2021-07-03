@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -76,7 +77,7 @@ public class ModelUtil {
     }
 
     private static void checkFileExtension(String fileExtension) {
-        if (SupportedFileFormats.valuesStream.noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
+        if (Arrays.stream(SupportedFileFormats.values).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
             throw new IllegalArgumentException(
                     "Unsupported file extension \"" + fileExtension + "\"."
                             + System.lineSeparator()

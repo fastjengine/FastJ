@@ -2,10 +2,13 @@ package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.RenderStyle;
 import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.Arrays;
 
@@ -20,11 +23,13 @@ class Polygon2DTests {
     @Test
     void checkPolygon2DCreation_withPointfArrayParam() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
-        Polygon2D polygon2D = new Polygon2D(square);
+        Polygon2D polygon2D = Polygon2D.fromPoints(square);
 
-        assertEquals(Polygon2D.DefaultPaint, polygon2D.getPaint(), "The created polygon's paint should match the default paint.");
-        assertEquals(Polygon2D.DefaultFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the default fill option.");
-        assertEquals(Polygon2D.DefaultShow, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default show option.");
+        assertEquals(Polygon2D.DefaultPaint, polygon2D.getFill(), "The created polygon's paint should match the default paint.");
+        assertEquals(Polygon2D.DefaultRenderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
+        assertEquals(Drawable.DefaultShouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default shouldRender option.");
+        assertEquals(Polygon2D.DefaultOutlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the default outline stroke.");
+        assertEquals(Polygon2D.DefaultOutlineColor, polygon2D.getOutlineColor(), "The created polygon's outline color option should match the default outline color.");
         assertEquals(Transform2D.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
         assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
@@ -32,18 +37,22 @@ class Polygon2DTests {
     }
 
     @Test
-    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedRenderStyleFillOutlineParams_andShouldRenderParam() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomBoolean();
+        RenderStyle renderStyle = RenderStyle.values()[Maths.randomInteger(0, RenderStyle.values().length - 1)];
         boolean shouldRender = Maths.randomBoolean();
 
-        Polygon2D polygon2D = new Polygon2D(square, randomColor, shouldFill, shouldRender);
+        Polygon2D polygon2D = Polygon2D.create(square, renderStyle, shouldRender)
+                .withFill(randomColor)
+                .build();
 
-        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
-        assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
-        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
+        assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
+        assertEquals(renderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
+        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated shouldRender option.");
+        assertEquals(Polygon2D.DefaultOutlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the default outline stroke.");
+        assertEquals(Polygon2D.DefaultOutlineColor, polygon2D.getOutlineColor(), "The created polygon's outline color option should match the default outline color.");
         assertEquals(Transform2D.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
         assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
@@ -51,11 +60,13 @@ class Polygon2DTests {
     }
 
     @Test
-    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedRenderStyleFillOutlineParams_andShouldRenderParam_andRandomlyGeneratedTransformParams() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomBoolean();
+        RenderStyle renderStyle = RenderStyle.values()[Maths.randomInteger(0, RenderStyle.values().length - 1)];
+        BasicStroke outlineStroke = DrawUtil.randomOutlineStroke();
+        Color outlineColor = DrawUtil.randomColorWithAlpha();
         boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -63,11 +74,17 @@ class Polygon2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
         float expectedNormalizedRotation = randomRotation % 360;
 
-        Polygon2D polygon2D = new Polygon2D(square, randomTranslation, randomRotation, randomScale, randomColor, shouldFill, shouldRender);
+        Polygon2D polygon2D = Polygon2D.create(square, renderStyle, shouldRender)
+                .withTransform(randomTranslation, randomRotation, randomScale)
+                .withOutline(outlineStroke, outlineColor)
+                .withFill(randomColor)
+                .build();
 
-        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
-        assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
-        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
+        assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
+        assertEquals(renderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
+        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated shouldRender option.");
+        assertEquals(outlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the randomly generated outline stroke.");
+        assertEquals(outlineColor, polygon2D.getOutlineColor(), "The created polygon's outline color option should match the randomly generated outline color.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");
         assertEquals(randomRotation, polygon2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
         assertEquals(expectedNormalizedRotation, polygon2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
@@ -76,11 +93,13 @@ class Polygon2DTests {
     }
 
     @Test
-    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedColorFillShowParams_andRandomlyGeneratedTransformParams_usingMethodChaining() {
+    void checkPolygon2DCreation_withPointfArrayParam_andRandomlyGeneratedRenderStyleFillOutlineParams_andShouldRenderParam_andRandomlyGeneratedTransformParams_usingMethodChaining() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
 
         Color randomColor = DrawUtil.randomColorWithAlpha();
-        boolean shouldFill = Maths.randomBoolean();
+        RenderStyle renderStyle = RenderStyle.values()[Maths.randomInteger(0, RenderStyle.values().length - 1)];
+        BasicStroke outlineStroke = DrawUtil.randomOutlineStroke();
+        Color outlineColor = DrawUtil.randomColorWithAlpha();
         boolean shouldRender = Maths.randomBoolean();
 
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -88,17 +107,18 @@ class Polygon2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
         float expectedNormalizedRotation = randomRotation % 360;
 
-        Polygon2D polygon2D = (Polygon2D) new Polygon2D(square)
-                .setPaint(randomColor)
-                .setFilled(shouldFill)
-                .setTranslation(randomTranslation)
-                .setRotation(randomRotation)
-                .setScale(randomScale)
-                .setShouldRender(shouldRender);
+        Polygon2D polygon2D = (Polygon2D) Polygon2D.fromPoints(square)
+                .setOutline(outlineStroke, outlineColor)
+                .setRenderStyle(renderStyle)
+                .setFill(randomColor)
+                .setShouldRender(shouldRender)
+                .setTransform(randomTranslation, randomRotation, randomScale);
 
-        assertEquals(randomColor, polygon2D.getPaint(), "The created polygon's paint should match the randomly generated paint.");
-        assertEquals(shouldFill, polygon2D.isFilled(), "The created polygon's 'fill' option should match the randomly generated fill option.");
-        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated show option.");
+        assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
+        assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated shouldRender option.");
+        assertEquals(renderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
+        assertEquals(outlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the randomly generated outline stroke.");
+        assertEquals(outlineColor, polygon2D.getOutlineColor(), "The created polygon's outline color option should match the randomly generated outline color.");
         assertEquals(randomTranslation, polygon2D.getTranslation(), "The created polygon's translation should match the randomly generated translation.");
         assertEquals(randomRotation, polygon2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
         assertEquals(expectedNormalizedRotation, polygon2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
@@ -113,10 +133,9 @@ class Polygon2DTests {
         float rotationBeforeReset = Maths.random(0f, 100f);
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
-        Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
-                .setTranslation(translationBeforeReset)
-                .setRotation(rotationBeforeReset)
-                .setScale(scaleBeforeReset);
+        Polygon2D square = Polygon2D.create(squarePoints)
+                .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
+                .build();
 
         Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
         square.modifyPoints(newSquarePoints, true, true, true);
@@ -135,10 +154,9 @@ class Polygon2DTests {
         float rotationBeforeReset = Maths.random(0f, 100f);
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
-        Polygon2D square = (Polygon2D) new Polygon2D(squarePoints)
-                .setTranslation(translationBeforeReset)
-                .setRotation(rotationBeforeReset)
-                .setScale(scaleBeforeReset);
+        Polygon2D square = Polygon2D.create(squarePoints)
+                .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
+                .build();
 
         Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
         square.modifyPoints(newSquarePoints, false, false, false);
@@ -164,7 +182,7 @@ class Polygon2DTests {
                 originalPoints[3].copy().add(randomTranslation)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.translate(randomTranslation);
         Pointf[] actualTranslatedPoints = polygon2D.getPoints();
 
@@ -199,7 +217,7 @@ class Polygon2DTests {
                 )
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.rotate(randomRotationInDegrees, Pointf.Origin);
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
 
@@ -241,7 +259,7 @@ class Polygon2DTests {
                 ).add(size / 2f)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.rotate(randomRotationInDegrees);
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
 
@@ -284,7 +302,7 @@ class Polygon2DTests {
                 ).add(randomCenter)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.rotate(randomRotationInDegrees, randomCenter);
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
         assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated about " + randomCenter + ", should match the expected Pointf array.");
@@ -304,7 +322,7 @@ class Polygon2DTests {
                 originalPoints[3].copy().multiply(newScale)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.scale(randomScaling, Pointf.Origin);
         Pointf[] actualScaledPoints = polygon2D.getPoints();
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled, should match the expected Pointf array.");
@@ -330,7 +348,7 @@ class Polygon2DTests {
                 pointsAtOrigin[3].copy().multiply(newScale).add(size / 2f)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.scale(randomScaling);
         Pointf[] actualScaledPoints = polygon2D.getPoints();
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled around its center, should match the expected Pointf array.");
@@ -357,7 +375,7 @@ class Polygon2DTests {
                 pointsAtOrigin[3].copy().multiply(newScale).add(randomCenter)
         };
 
-        Polygon2D polygon2D = new Polygon2D(originalPoints);
+        Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
         polygon2D.scale(randomScaling, randomCenter);
         Pointf[] actualScaledPoints = polygon2D.getPoints();
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled around " + randomScaling + ", should match the expected Pointf array.");

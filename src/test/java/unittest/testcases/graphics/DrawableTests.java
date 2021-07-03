@@ -37,13 +37,13 @@ class DrawableTests {
     @Test
     void checkCollision_betweenPolygon2D_andModel2D() {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
-        Polygon2D polygon2D = new Polygon2D(square);
+        Polygon2D polygon2D = Polygon2D.fromPoints(square);
 
         Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
         Polygon2D[] polygons = {
-                new Polygon2D(square1),
-                new Polygon2D(square2)
+                Polygon2D.fromPoints(square1),
+                Polygon2D.fromPoints(square2)
         };
         Model2D model2D = new Model2D(polygons);
 
@@ -59,7 +59,7 @@ class DrawableTests {
             Text2D text2D = new Text2D(text, Pointf.Origin.copy());
 
             Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
-            Polygon2D polygon2D = new Polygon2D(square);
+            Polygon2D polygon2D = Polygon2D.fromPoints(square);
 
             assertTrue(text2D.collidesWith(polygon2D) && polygon2D.collidesWith(text2D), "The Polygon2D and Text2D should be intersecting.");
         });
@@ -76,8 +76,8 @@ class DrawableTests {
             Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
             Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
             Polygon2D[] polygons = {
-                    new Polygon2D(square1),
-                    new Polygon2D(square2)
+                    Polygon2D.fromPoints(square1),
+                    Polygon2D.fromPoints(square2)
             };
             Model2D model2D = new Model2D(polygons);
 
