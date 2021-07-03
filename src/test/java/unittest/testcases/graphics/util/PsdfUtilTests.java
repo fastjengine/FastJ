@@ -149,7 +149,6 @@ class PsdfUtilTests {
                 "p 20.0 50.0 ;"
         );
 
-
         ModelUtil.writeModel(pathToModel, expectedHouse);
         List<String> actualContent = Files.readAllLines(pathToModel);
 
