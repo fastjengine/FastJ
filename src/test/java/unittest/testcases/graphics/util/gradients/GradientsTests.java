@@ -13,6 +13,8 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockBoundariesDrawable;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 class GradientsTests {
 
     private static float randomFloat() {
@@ -40,13 +42,18 @@ class GradientsTests {
         LinearGradientPaint[] generatedLinearGradients = new LinearGradientPaint[generatedGradientCount];
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedLinearGradients[i] = Gradients.randomLinearGradient(
-                    mockBoundariesDrawable,
-                    randomBeginningBoundary(),
-                    randomEndingBoundary()
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedLinearGradients[i] = Gradients.randomLinearGradient(
+                                mockBoundariesDrawable,
+                                randomBeginningBoundary(),
+                                randomEndingBoundary()
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random linear gradients (using a drawable with random boundaries)."
+        );
+
         System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
     }
 
@@ -56,13 +63,18 @@ class GradientsTests {
         LinearGradientPaint[] generatedLinearGradients = new LinearGradientPaint[generatedGradientCount];
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedLinearGradients[i] = Gradients.randomLinearGradientWithAlpha(
-                    mockBoundariesDrawable,
-                    randomBeginningBoundary(),
-                    randomEndingBoundary()
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedLinearGradients[i] = Gradients.randomLinearGradientWithAlpha(
+                                mockBoundariesDrawable,
+                                randomBeginningBoundary(),
+                                randomEndingBoundary()
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random linear gradients with random alpha (using a drawable with random boundaries)."
+        );
+
         System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
     }
 
@@ -73,12 +85,17 @@ class GradientsTests {
         Pointf randomStartingPosition = randomPointf();
         Pointf randomEndingPosition = randomPointf();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedLinearGradients[i] = Gradients.randomLinearGradient(
-                    randomStartingPosition,
-                    randomEndingPosition
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedLinearGradients[i] = Gradients.randomLinearGradient(
+                                randomStartingPosition,
+                                randomEndingPosition
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random linear gradients (using random starting and ending points)."
+        );
+
         System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
     }
 
@@ -89,12 +106,17 @@ class GradientsTests {
         Pointf randomStartingPosition = randomPointf();
         Pointf randomEndingPosition = randomPointf();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedLinearGradients[i] = Gradients.randomLinearGradientWithAlpha(
-                    randomStartingPosition,
-                    randomEndingPosition
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedLinearGradients[i] = Gradients.randomLinearGradientWithAlpha(
+                                randomStartingPosition,
+                                randomEndingPosition
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random linear gradients with random alpha (using random starting and ending points)."
+        );
+
         System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
     }
 
@@ -104,9 +126,14 @@ class GradientsTests {
         RadialGradientPaint[] generatedRadialGradients = new RadialGradientPaint[generatedGradientCount];
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedRadialGradients[i] = Gradients.randomRadialGradient(mockBoundariesDrawable);
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedRadialGradients[i] = Gradients.randomRadialGradient(mockBoundariesDrawable);
+                    }
+                },
+                "Errors should not be produced while generating random radial gradients (using a drawable)."
+        );
+
         System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
     }
 
@@ -116,9 +143,14 @@ class GradientsTests {
         RadialGradientPaint[] generatedRadialGradients = new RadialGradientPaint[generatedGradientCount];
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedRadialGradients[i] = Gradients.randomRadialGradientWithAlpha(mockBoundariesDrawable);
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedRadialGradients[i] = Gradients.randomRadialGradientWithAlpha(mockBoundariesDrawable);
+                    }
+                },
+                "Errors should not be produced while generating random radial gradients with random alpha (using a drawable)."
+        );
+
         System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
     }
 
@@ -129,12 +161,17 @@ class GradientsTests {
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedRadialGradients[i] = Gradients.randomRadialGradient(
-                    randomCenterpoint,
-                    randomRadius
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedRadialGradients[i] = Gradients.randomRadialGradient(
+                                randomCenterpoint,
+                                randomRadius
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random radial gradients (using a random center and radius)."
+        );
+
         System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
     }
 
@@ -145,12 +182,17 @@ class GradientsTests {
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
-        for (int i = 0; i < generatedGradientCount; i++) {
-            generatedRadialGradients[i] = Gradients.randomRadialGradientWithAlpha(
-                    randomCenterpoint,
-                    randomRadius
-            );
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedGradientCount; i++) {
+                        generatedRadialGradients[i] = Gradients.randomRadialGradientWithAlpha(
+                                randomCenterpoint,
+                                randomRadius
+                        );
+                    }
+                },
+                "Errors should not be produced while generating random radial gradients with alpha (using a random center and radius)."
+        );
+
         System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
     }
 }
