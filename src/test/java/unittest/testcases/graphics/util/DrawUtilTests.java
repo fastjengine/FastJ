@@ -39,8 +39,8 @@ class DrawUtilTests {
         };
 
         Polygon2D[] squareArray = {
-                new Polygon2D(square1Points),
-                new Polygon2D(square2Points)
+                Polygon2D.fromPoints(square1Points),
+                Polygon2D.fromPoints(square2Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -63,9 +63,9 @@ class DrawUtilTests {
         };
 
         Polygon2D[] squareArray = {
-                new Polygon2D(square1Points),
-                new Polygon2D(square2Points),
-                new Polygon2D(square3Points)
+                Polygon2D.fromPoints(square1Points),
+                Polygon2D.fromPoints(square2Points),
+                Polygon2D.fromPoints(square3Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -131,11 +131,11 @@ class DrawUtilTests {
 
     @Test
     void comparePaints_withNullPaintParameters() {
-        Paint paint1 = null;
+        Paint paint1_null = null;
         Color paint2 = Color.red;
 
-        assertFalse(DrawUtil.paintEquals(paint1, paint2), "The two paints should not be equal.");
-        assertFalse(DrawUtil.paintEquals(paint2, paint1), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint1_null, paint2), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint2, paint1_null), "The two paints should not be equal.");
     }
 
     @Test
