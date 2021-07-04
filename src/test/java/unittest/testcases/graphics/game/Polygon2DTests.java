@@ -25,7 +25,7 @@ class Polygon2DTests {
         Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
         Polygon2D polygon2D = Polygon2D.fromPoints(square);
 
-        assertEquals(Polygon2D.DefaultPaint, polygon2D.getFill(), "The created polygon's paint should match the default paint.");
+        assertEquals(Polygon2D.DefaultFill, polygon2D.getFill(), "The created polygon's paint should match the default paint.");
         assertEquals(Polygon2D.DefaultRenderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
         assertEquals(Drawable.DefaultShouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default shouldRender option.");
         assertEquals(Polygon2D.DefaultOutlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the default outline stroke.");

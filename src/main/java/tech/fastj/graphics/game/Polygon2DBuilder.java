@@ -16,7 +16,7 @@ public class Polygon2DBuilder {
     private final boolean shouldRender;
     private final RenderStyle renderStyle;
 
-    private Paint fillPaint = Polygon2D.DefaultPaint;
+    private Paint fillPaint = Polygon2D.DefaultFill;
     private BasicStroke outlineStroke = Polygon2D.DefaultOutlineStroke;
     private Color outlineColor = Polygon2D.DefaultOutlineColor;
 

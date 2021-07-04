@@ -27,7 +27,7 @@ public class Polygon2D extends GameObject {
     /** {@link RenderStyle} representing the default render style as fill only, or {@link RenderStyle#Fill}. */
     public static final RenderStyle DefaultRenderStyle = RenderStyle.Fill;
     /** {@link Paint} representing the default fill paint value as the color black. */
-    public static final Paint DefaultPaint = Color.black;
+    public static final Paint DefaultFill = Color.black;
     /** {@link Stroke} representing the default outline stroke value as a 1px outline with sharp edges. */
     public static final BasicStroke DefaultOutlineStroke = new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1.0f);
     /** {@link Color} representing the default outline color value as the color black. */
@@ -43,7 +43,7 @@ public class Polygon2D extends GameObject {
     /**
      * {@code Polygon2D} constructor that takes in an array of points.
      * <p>
-     * This constructor defaults the fill paint to {@link #DefaultPaint}, the outline stroke to {@link
+     * This constructor defaults the fill paint to {@link #DefaultFill}, the outline stroke to {@link
      * #DefaultOutlineStroke}, the outline color to {@link #DefaultOutlineColor}, the render style to {@link
      * #DefaultRenderStyle}, and the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
@@ -53,7 +53,7 @@ public class Polygon2D extends GameObject {
         originalPoints = points;
         setCollisionPath(DrawUtil.createPath(originalPoints));
 
-        setFill(DefaultPaint);
+        setFill(DefaultFill);
         setOutlineStroke(DefaultOutlineStroke);
         setOutlineColor(DefaultOutlineColor);
         setRenderStyle(DefaultRenderStyle);
@@ -61,8 +61,7 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points}, {@code
-     * renderStyle}, and {@code shouldRender} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} field.
      * <p>
      *
      * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
