@@ -33,7 +33,7 @@ class Text2DTests {
             Text2D text2D = new Text2D(text);
 
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
-            assertEquals(Text2D.DefaultPaint, text2D.getPaint(), "The actual color should match the expected color.");
+            assertEquals(Text2D.DefaultPaint, text2D.getFill(), "The actual color should match the expected color.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
             assertEquals(Drawable.DefaultShouldRender, text2D.shouldRender(), "The actual show variable should match the default show variable.");
         });
@@ -49,7 +49,7 @@ class Text2DTests {
 
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
             assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
-            assertEquals(Text2D.DefaultPaint, text2D.getPaint(), "The actual color should match the expected color.");
+            assertEquals(Text2D.DefaultPaint, text2D.getFill(), "The actual color should match the expected color.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
             assertEquals(Drawable.DefaultShouldRender, text2D.shouldRender(), "The actual show variable should match the default show variable.");
         });
@@ -69,7 +69,7 @@ class Text2DTests {
 
             assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
             assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
-            assertEquals(randomColor, text2D.getPaint(), "The actual color should match the expected random color.");
+            assertEquals(randomColor, text2D.getFill(), "The actual color should match the expected random color.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
         });
@@ -96,7 +96,7 @@ class Text2DTests {
             assertEquals(randomRotation, text2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
             assertEquals(expectedNormalizedRotation, text2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
             assertEquals(randomScale, text2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
-            assertEquals(randomColor, text2D.getPaint(), "The actual color should match the expected random color.");
+            assertEquals(randomColor, text2D.getFill(), "The actual color should match the expected random color.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
         });
@@ -117,7 +117,7 @@ class Text2DTests {
             float expectedNormalizedRotation = randomRotation % 360;
 
             Text2D text2D = (Text2D) new Text2D(text)
-                    .setPaint(randomColor)
+                    .setFill(randomColor)
                     .setFont(randomFont)
                     .setTranslation(randomTranslation)
                     .setRotation(randomRotation)
@@ -129,7 +129,7 @@ class Text2DTests {
             assertEquals(randomRotation, text2D.getRotation(), "The created polygon's rotation should match the randomly generated rotation.");
             assertEquals(expectedNormalizedRotation, text2D.getRotationWithin360(), "The created model's normalized rotation should match the normalized rotation.");
             assertEquals(randomScale, text2D.getScale(), "The created polygon's scaling should match the randomly generated scale.");
-            assertEquals(randomColor, text2D.getPaint(), "The actual color should match the expected random color.");
+            assertEquals(randomColor, text2D.getFill(), "The actual color should match the expected random color.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual show variable should match the expected random show variable.");
         });

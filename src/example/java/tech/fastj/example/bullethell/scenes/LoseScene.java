@@ -29,7 +29,7 @@ public class LoseScene extends Scene {
 
         loseText = new Text2D("You Lost...", new Pointf(300f, 375f))
                 .setFont(new Font("Consolas", Font.PLAIN, 96))
-                .setPaint(Color.red);
+                .setFill(Color.red);
         deathInfo = new Text2D("You died on wave: " + waveNumber, new Pointf(500f, 400f))
                 .setFont(new Font("Consolas", Font.PLAIN, 16));
 

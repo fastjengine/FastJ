@@ -30,7 +30,7 @@ public class Text2D extends GameObject {
     public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
 
     private String text;
-    private Paint color;
+    private Paint fillPaint;
     private Font font;
     private boolean hasMetrics;
 
@@ -72,7 +72,7 @@ public class Text2D extends GameObject {
         text = setText;
         font = setFont;
 
-        setPaint(setPaint);
+        setFill(setPaint);
         setFont(setFont);
         setShouldRender(shouldRender);
     }
@@ -112,13 +112,13 @@ public class Text2D extends GameObject {
         setRotation(setRotation);
         setScale(setScale);
 
-        setPaint(setPaint);
+        setFill(setPaint);
         setFont(setFont);
         setShouldRender(shouldRender);
     }
 
     /**
-     * Gets the displayed text of this {@code Text2D}.
+     * Gets the {@code Text2D}'s displayed text.
      *
      * @return Returns a String that contains the text displayed.
      */
@@ -127,40 +127,16 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Sets the text for this {@code Text2D}.
-     *
-     * @param setText The new text value.
-     * @return This instance of the {@code Text2D}, for method chaining.
-     */
-    public Text2D setText(String setText) {
-        text = setText;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
-
-        return this;
-    }
-
-    /**
-     * Gets the {@code Paint} of this {@code Text2D}.
+     * Gets the {@code Text2D}'s fill {@code Paint}.
      *
      * @return Returns the Paint value for this Text2D.
      */
-    public Paint getPaint() {
-        return color;
+    public Paint getFill() {
+        return fillPaint;
     }
 
     /**
-     * Sets the {@code Paint} for this {@code Text2D}.
-     *
-     * @param setPaint The new {@code Paint} value.
-     * @return This instance of the {@code Text2D}, for method chaining.
-     */
-    public Text2D setPaint(Paint setPaint) {
-        color = setPaint;
-        return this;
-    }
-
-    /**
-     * Gets the {@code Font} of this {@code Text2D}.
+     * Gets the {@code Text2D}'s {@code Font}.
      *
      * @return Returns the specified Font value for this Text2D.
      */
@@ -169,13 +145,37 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Sets the {@code Font} for this {@code Text2D}.
+     * Sets the {@code Text2D}'s text.
      *
-     * @param setFont The new {@code Font} value.
-     * @return This instance of the {@code Text2D}, for method chaining.
+     * @param newText The new text value.
+     * @return The {@code Text2D} instance, for method chaining.
      */
-    public Text2D setFont(Font setFont) {
-        font = setFont;
+    public Text2D setText(String newText) {
+        text = newText;
+        setMetrics(FastJEngine.getDisplay().getGraphics());
+
+        return this;
+    }
+
+    /**
+     * Sets the {@code Text2D}'s {@code Paint}.
+     *
+     * @param newPaint The new {@code Paint} value.
+     * @return The {@code Text2D} instance, for method chaining.
+     */
+    public Text2D setFill(Paint newPaint) {
+        fillPaint = newPaint;
+        return this;
+    }
+
+    /**
+     * Sets the {@code Text2D}'s {@code Font}.
+     *
+     * @param newFont The new {@code Font} value.
+     * @return The {@code Text2D} instance, for method chaining.
+     */
+    public Text2D setFont(Font newFont) {
+        font = newFont;
         setMetrics(FastJEngine.getDisplay().getGraphics());
 
         return this;
@@ -197,7 +197,7 @@ public class Text2D extends GameObject {
 
         g.transform(getTransformation());
         g.setFont(font);
-        g.setPaint(color);
+        g.setPaint(fillPaint);
 
         g.drawString(text, Pointf.Origin.x, font.getSize2D());
 
@@ -209,7 +209,7 @@ public class Text2D extends GameObject {
     @Override
     public void destroy(Scene originScene) {
         text = null;
-        color = null;
+        fillPaint = null;
         font = null;
         hasMetrics = false;
 
@@ -217,9 +217,9 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Sets up the necessary boundaries for creating the metrics for this {@code Text2D}.
+     * Sets up the necessary boundaries for creating the {@code Text2D}'s metrics.
      * <p>
-     * This also sets the resulting metrics as the collision path for this {@code Text2D}.
+     * This also sets the resulting metrics as the {@code Text2D}'s collision path.
      *
      * @param g {@code Graphics2D} object that the {@code Text2D} is rendered on.
      */
@@ -270,12 +270,12 @@ public class Text2D extends GameObject {
         }
         Text2D text2D = (Text2D) o;
         return Objects.equals(text, text2D.text)
-                && Objects.equals(color, text2D.color)
+                && Objects.equals(fillPaint, text2D.fillPaint)
                 && Objects.equals(font, text2D.font);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), text, color, font, hasMetrics);
+        return Objects.hash(super.hashCode(), text, fillPaint, font, hasMetrics);
     }
 }
