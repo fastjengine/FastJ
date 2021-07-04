@@ -61,17 +61,17 @@ public class PsdfUtil {
                     polygons = parsePolygonCount(tokens);
                     break;
                 }
-                case ParsingKeys.FillPaint_Color:
-                case ParsingKeys.FillPaint_LinearGradient:
-                case ParsingKeys.FillPaint_RadialGradient: {
+                case ParsingKeys.FillPaintColor:
+                case ParsingKeys.FillPaintLinearGradient:
+                case ParsingKeys.FillPaintRadialGradient: {
                     fillPaint = parsePaint(tokens);
                     break;
                 }
-                case ParsingKeys.Outline_Stroke: {
+                case ParsingKeys.OutlineStroke: {
                     outlineStroke = parseOutlineStroke(tokens);
                     break;
                 }
-                case ParsingKeys.Outline_Color: {
+                case ParsingKeys.OutlineColor: {
                     outlineColor = parseOutlineColor(tokens);
                     break;
                 }
@@ -120,6 +120,9 @@ public class PsdfUtil {
 
                     break;
                 }
+                default: {
+                    throw new IllegalStateException("Invalid .psdf token: \"" + tokens[0] + "\".");
+                }
             }
         }
         return polygons;
@@ -131,10 +134,10 @@ public class PsdfUtil {
 
     private static Paint parsePaint(String[] tokens) {
         switch (tokens[0]) {
-            case ParsingKeys.FillPaint_Color: {
+            case ParsingKeys.FillPaintColor: {
                 return new Color(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
             }
-            case ParsingKeys.FillPaint_LinearGradient: {
+            case ParsingKeys.FillPaintLinearGradient: {
                 LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(
                         new Pointf(
                                 Float.parseFloat(tokens[1]),
@@ -160,7 +163,7 @@ public class PsdfUtil {
 
                 return linearGradientBuilder.build();
             }
-            case ParsingKeys.FillPaint_RadialGradient: {
+            case ParsingKeys.FillPaintRadialGradient: {
                 RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(
                         new Pointf(
                                 Float.parseFloat(tokens[1]),
@@ -237,13 +240,13 @@ public class PsdfUtil {
 
     private static RenderStyle parseRenderStyle(String[] tokens) {
         switch (tokens[1]) {
-            case ParsingKeys.RenderStyle_Fill: {
+            case ParsingKeys.RenderStyleFill: {
                 return RenderStyle.Fill;
             }
-            case ParsingKeys.RenderStyle_Outline: {
+            case ParsingKeys.RenderStyleOutline: {
                 return RenderStyle.Outline;
             }
-            case ParsingKeys.RenderStyle_FillAndOutline: {
+            case ParsingKeys.RenderStyleFillAndOutline: {
                 return RenderStyle.FillAndOutline;
             }
             default: {
@@ -310,15 +313,15 @@ public class PsdfUtil {
         fileContents.append(PsdfUtil.ParsingKeys.RenderStyle).append(' ');
         switch (renderStyle) {
             case Fill: {
-                fileContents.append(PsdfUtil.ParsingKeys.RenderStyle_Fill);
+                fileContents.append(PsdfUtil.ParsingKeys.RenderStyleFill);
                 break;
             }
             case Outline: {
-                fileContents.append(ParsingKeys.RenderStyle_Outline);
+                fileContents.append(ParsingKeys.RenderStyleOutline);
                 break;
             }
             case FillAndOutline: {
-                fileContents.append(PsdfUtil.ParsingKeys.RenderStyle_FillAndOutline);
+                fileContents.append(PsdfUtil.ParsingKeys.RenderStyleFillAndOutline);
                 break;
             }
         }
@@ -327,11 +330,11 @@ public class PsdfUtil {
 
     private static void writeFill(StringBuilder fileContents, Paint paint) {
         if (paint instanceof LinearGradientPaint) {
-            writeFill_LinearGradient(fileContents, (LinearGradientPaint) paint);
+            writeFillLinearGradient(fileContents, (LinearGradientPaint) paint);
         } else if (paint instanceof RadialGradientPaint) {
-            writeFill_RadialGradient(fileContents, (RadialGradientPaint) paint);
+            writeFillRadialGradient(fileContents, (RadialGradientPaint) paint);
         } else if (paint instanceof Color) {
-            writeFill_Color(fileContents, (Color) paint);
+            writeFillColor(fileContents, (Color) paint);
         } else {
             FastJEngine.error(
                     CrashMessages.UnimplementedMethodError.errorMessage,
@@ -344,8 +347,8 @@ public class PsdfUtil {
         }
     }
 
-    private static void writeFill_LinearGradient(StringBuilder fileContents, LinearGradientPaint linearGradientPaint) {
-        fileContents.append(PsdfUtil.ParsingKeys.FillPaint_LinearGradient)
+    private static void writeFillLinearGradient(StringBuilder fileContents, LinearGradientPaint linearGradientPaint) {
+        fileContents.append(PsdfUtil.ParsingKeys.FillPaintLinearGradient)
                 .append(' ')
                 .append(linearGradientPaint.getStartPoint().getX())
                 .append(' ')
@@ -371,8 +374,8 @@ public class PsdfUtil {
         }
     }
 
-    private static void writeFill_RadialGradient(StringBuilder fileContents, RadialGradientPaint radialGradientPaint) {
-        fileContents.append(PsdfUtil.ParsingKeys.FillPaint_RadialGradient)
+    private static void writeFillRadialGradient(StringBuilder fileContents, RadialGradientPaint radialGradientPaint) {
+        fileContents.append(PsdfUtil.ParsingKeys.FillPaintRadialGradient)
                 .append(' ')
                 .append(radialGradientPaint.getCenterPoint().getX())
                 .append(' ')
@@ -396,8 +399,8 @@ public class PsdfUtil {
         }
     }
 
-    private static void writeFill_Color(StringBuilder fileContents, Color color) {
-        fileContents.append(PsdfUtil.ParsingKeys.FillPaint_Color)
+    private static void writeFillColor(StringBuilder fileContents, Color color) {
+        fileContents.append(PsdfUtil.ParsingKeys.FillPaintColor)
                 .append(' ')
                 .append(color.getRed())
                 .append(' ')
@@ -410,7 +413,7 @@ public class PsdfUtil {
 
     private static void writeOutline(StringBuilder fileContents, BasicStroke outlineStroke, Color outlineColor) {
         fileContents.append(LineSeparator)
-                .append(PsdfUtil.ParsingKeys.Outline_Stroke)
+                .append(PsdfUtil.ParsingKeys.OutlineStroke)
                 .append(' ')
                 .append(outlineStroke.getLineWidth())
                 .append(' ')
@@ -420,7 +423,7 @@ public class PsdfUtil {
                 .append(' ')
                 .append(outlineStroke.getMiterLimit())
                 .append(LineSeparator)
-                .append(PsdfUtil.ParsingKeys.Outline_Color)
+                .append(PsdfUtil.ParsingKeys.OutlineColor)
                 .append(' ')
                 .append(outlineColor.getRed())
                 .append(' ')
@@ -475,14 +478,14 @@ public class PsdfUtil {
 
         public static final String Amount = "amt";
         public static final String RenderStyle = "rs";
-        public static final String RenderStyle_Fill = "fill";
-        public static final String RenderStyle_Outline = "outline";
-        public static final String RenderStyle_FillAndOutline = "filloutline";
-        public static final String FillPaint_Color = "c";
-        public static final String FillPaint_LinearGradient = "lg";
-        public static final String FillPaint_RadialGradient = "rg";
-        public static final String Outline_Stroke = "otls";
-        public static final String Outline_Color = "otlc";
+        public static final String RenderStyleFill = "fill";
+        public static final String RenderStyleOutline = "outline";
+        public static final String RenderStyleFillAndOutline = "filloutline";
+        public static final String FillPaintColor = "c";
+        public static final String FillPaintLinearGradient = "lg";
+        public static final String FillPaintRadialGradient = "rg";
+        public static final String OutlineStroke = "otls";
+        public static final String OutlineColor = "otlc";
         public static final String Transform = "tfm";
         public static final String ShouldRender = "sr";
         public static final String MeshPoint = "p";
