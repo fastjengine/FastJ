@@ -123,7 +123,7 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets the original points that were set for this polygon.
+     * Gets the polygon's original point set.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
      */
@@ -132,7 +132,7 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets the paint for this polygon.
+     * Gets the polygon's fill paint.
      *
      * @return The {@code Paint} set for this polygon.
      */
@@ -140,45 +140,85 @@ public class Polygon2D extends GameObject {
         return fillPaint;
     }
 
+    /**
+     * Gets the polygon's outline color.
+     *
+     * @return The polygon's outline {@code Color}.
+     */
     public Color getOutlineColor() {
         return outlineColor;
     }
 
+    /**
+     * Gets the polygon's outline stroke.
+     *
+     * @return The polygon's outline {@code BasicStroke}.
+     */
     public BasicStroke getOutlineStroke() {
         return outlineStroke;
     }
 
+    /**
+     * Gets the polygon's render style.
+     *
+     * @return The polygon's {@code RenderStyle}.
+     */
     public RenderStyle getRenderStyle() {
         return renderStyle;
     }
 
     /**
-     * Sets the paint for this polygon.
+     * Sets the polygon's fill paint.
      *
-     * @param newPaint The {@code Paint} to be used for the polygon.
-     * @return This instance of the {@code Polygon2D}, for method chaining.
+     * @param newPaint The fill {@code Paint} to be used for the polygon.
+     * @return The polygon instance, for method chaining.
      */
     public Polygon2D setFill(Paint newPaint) {
         fillPaint = Objects.requireNonNull(newPaint);
         return this;
     }
 
+    /**
+     * Sets the polygon's outline color.
+     *
+     * @param newOutlineColor The outline {@code Color} to be used for the polygon.
+     * @return The polygon instance, for method chaining.
+     */
     public Polygon2D setOutlineColor(Color newOutlineColor) {
         outlineColor = newOutlineColor;
         return this;
     }
 
-    public Polygon2D setOutlineStroke(BasicStroke newStroke) {
-        outlineStroke = newStroke;
+    /**
+     * Sets the polygon's outline stroke.
+     *
+     * @param newOutlineStroke The outline {@code BasicStroke} to be used for the polygon.
+     * @return The polygon instance, for method chaining.
+     */
+    public Polygon2D setOutlineStroke(BasicStroke newOutlineStroke) {
+        outlineStroke = newOutlineStroke;
         return this;
     }
 
-    public Polygon2D setOutline(BasicStroke newStroke, Color newOutlineColor) {
-        outlineStroke = newStroke;
+    /**
+     * Sets the polygon's outline stroke and color.
+     *
+     * @param newOutlineStroke The outline {@code BasicStroke} to be used for the polygon.
+     * @param newOutlineColor  The outline {@code Color} to be used for the polygon.
+     * @return The polygon instance, for method chaining.
+     */
+    public Polygon2D setOutline(BasicStroke newOutlineStroke, Color newOutlineColor) {
+        outlineStroke = newOutlineStroke;
         outlineColor = newOutlineColor;
         return this;
     }
 
+    /**
+     * Sets the polygon's render style.
+     *
+     * @param newRenderStyle The {@code RenderStyle} to be used for the polygon.
+     * @return The polygon instance, for method chaining.
+     */
     public Polygon2D setRenderStyle(RenderStyle newRenderStyle) {
         renderStyle = newRenderStyle;
         return this;
