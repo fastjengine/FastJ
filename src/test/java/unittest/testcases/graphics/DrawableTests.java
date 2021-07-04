@@ -56,7 +56,7 @@ class DrawableTests {
 
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Text2D text2D = new Text2D(text, Pointf.Origin.copy());
+            Text2D text2D = Text2D.fromText(text);
 
             Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
             Polygon2D polygon2D = Polygon2D.fromPoints(square);
@@ -71,7 +71,7 @@ class DrawableTests {
 
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Text2D text2D = new Text2D(text, Pointf.Origin.copy());
+            Text2D text2D = Text2D.fromText(text);
 
             Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
             Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
