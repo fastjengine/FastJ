@@ -45,7 +45,7 @@ class DrawableTests {
                 Polygon2D.fromPoints(square1),
                 Polygon2D.fromPoints(square2)
         };
-        Model2D model2D = new Model2D(polygons);
+        Model2D model2D = Model2D.fromPolygons(polygons);
 
         assertTrue(polygon2D.collidesWith(model2D) && model2D.collidesWith(polygon2D), "The Model2D and Polygon2D should be intersecting.");
     }
@@ -79,7 +79,7 @@ class DrawableTests {
                     Polygon2D.fromPoints(square1),
                     Polygon2D.fromPoints(square2)
             };
-            Model2D model2D = new Model2D(polygons);
+            Model2D model2D = Model2D.fromPolygons(polygons);
 
             assertTrue(text2D.collidesWith(model2D) && model2D.collidesWith(text2D), "The Model2D and Text2D should be intersecting.");
         });
