@@ -58,16 +58,6 @@ This program demonstrates how to read and write polygons from and to a file.
 
 Command to run: `./gradlew example -PtoRun=modelreadwrite`
 
-### (Old) Hello, World!
-This project is an introduction to working with FastJ, and covers many of the essential topics:
-- Engine Initialization/Running
-- Window Creation
-- Working with a Scene
-- Drawing game objects and UI
-- Applying Behaviors to Game Objects
-
-Command to run: `./gradlew example -PtoRun=oldhelloworld`
-
 
 ## Games
 _Example programs to demonstrate FastJ through games._
