@@ -28,6 +28,10 @@ public class PsdfUtil {
 
     private static final String LineSeparator = System.lineSeparator();
 
+    private PsdfUtil() {
+        throw new java.lang.IllegalStateException();
+    }
+
     /**
      * Parses the specified file contents into a {@code Polygon2D} array.
      *
@@ -465,6 +469,10 @@ public class PsdfUtil {
 
     /** Keys for parsing .psdf files. */
     public static class ParsingKeys {
+        private ParsingKeys() {
+            throw new java.lang.IllegalStateException();
+        }
+
         public static final String Amount = "amt";
         public static final String RenderStyle = "rs";
         public static final String RenderStyle_Fill = "fill";

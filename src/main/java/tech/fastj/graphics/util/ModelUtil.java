@@ -18,6 +18,10 @@ import java.util.function.Function;
 
 public class ModelUtil {
 
+    private ModelUtil() {
+        throw new java.lang.IllegalStateException();
+    }
+
     private static final Map<String, Function<List<String>, Polygon2D[]>> ModelParser = Map.of(
             SupportedFileFormats.Psdf, PsdfUtil::parse
     );
@@ -77,7 +81,7 @@ public class ModelUtil {
     }
 
     private static void checkFileExtension(String fileExtension) {
-        if (Arrays.stream(SupportedFileFormats.values).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
+        if (Arrays.stream(SupportedFileFormats.values()).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
             throw new IllegalArgumentException(
                     "Unsupported file extension \"" + fileExtension + "\"."
                             + System.lineSeparator()
