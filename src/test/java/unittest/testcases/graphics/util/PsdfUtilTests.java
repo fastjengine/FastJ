@@ -58,7 +58,11 @@ class PsdfUtilTests {
             new Pointf(50f, 20f),
             new Pointf(85f, 25f)
     };
-    private static final Polygon2D expectedHouseRoof = Polygon2D.fromPoints(expectedHouseRoofMesh);
+    private static final RenderStyle expectedHouseRoofRenderStyle = RenderStyle.Outline;
+    private static final BasicStroke expectedHouseRoofOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f);
+    private static final Polygon2D expectedHouseRoof = Polygon2D.create(expectedHouseRoofMesh, expectedHouseRoofRenderStyle)
+            .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
+            .build();
     private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
             .withColor(Color.blue)
             .withColor(Color.cyan)
@@ -71,7 +75,11 @@ class PsdfUtilTests {
             .build();
 
     private static final Pointf[] expectedHouseDoorMesh = DrawUtil.createBox(20f, 35f, 15f);
-    private static final Polygon2D expectedHouseDoor = Polygon2D.fromPoints(expectedHouseDoorMesh);
+    private static final BasicStroke expectedHouseDoorOutlineStroke = new BasicStroke(25.13f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.0f);
+    private static final Color expectedHouseDoorOutlineColor = new Color(40, 200, 0, 1);
+    private static final Polygon2D expectedHouseDoor = Polygon2D.create(expectedHouseDoorMesh)
+            .withOutline(expectedHouseDoorOutlineStroke, expectedHouseDoorOutlineColor)
+            .build();
     private static final Color expectedHouseDoorGradient = new Color(88, 243, 240, 226);
 
     private static final Polygon2D[] expectedHouseArray = {
@@ -84,9 +92,9 @@ class PsdfUtilTests {
     @BeforeAll
     public static void createTempDirectoryAndFile_forReadWriteTests() throws IOException {
         Files.createDirectory(tempModelDirectoryPath);
-        System.out.println("Temporary Model Directory created at: " + tempModelDirectoryPath.toAbsolutePath());
+        System.out.println("Temporary directory created at: " + tempModelDirectoryPath.toAbsolutePath());
         Files.createFile(pathToTempFile);
-        System.out.println("Temporary txt file created at: " + pathToTempFile.toAbsolutePath());
+        System.out.println("Temporary .txt file created at: " + pathToTempFile.toAbsolutePath());
     }
 
     @AfterAll
@@ -100,7 +108,7 @@ class PsdfUtilTests {
                 }
             });
         }
-        System.out.println("Deleted directory \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
+        System.out.println("Deleted directory and files at \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
     }
 
     @Test
@@ -119,9 +127,9 @@ class PsdfUtilTests {
                 "p 75.0 75.0",
                 "p 25.0 75.0 ;",
                 "",
-                "rs fill",
+                "rs outline",
                 "lg 15.0 20.0 85.0 25.0 0 0 255 255 0 255 255 255 255 255 0 255 0 0 0 255 255 0 0 255 64 64 64 255 255 200 0 255 255 255 255 255",
-                "otls 1.0 2 0 1.0",
+                "otls 1.0 0 2 0.0",
                 "otlc 0 0 0 255",
                 "tfm 0.0 0.0 0.0 1.0 1.0",
                 "sr true",
@@ -131,8 +139,8 @@ class PsdfUtilTests {
                 "",
                 "rs fill",
                 "c 88 243 240 226",
-                "otls 1.0 2 0 1.0",
-                "otlc 0 0 0 255",
+                "otls 25.13 2 1 0.0",
+                "otlc 40 200 0 1",
                 "tfm 0.0 0.0 0.0 1.0 1.0",
                 "sr true",
                 "p 20.0 35.0",
@@ -142,11 +150,9 @@ class PsdfUtilTests {
         );
 
 
-        System.out.println(pathToModel);
         ModelUtil.writeModel(pathToModel, expectedHouse);
         List<String> actualContent = Files.readAllLines(pathToModel);
 
-        System.out.println(actualContent);
         for (int i = 0; i < actualContent.size(); i++) {
             assertEquals(expectedContent.get(i), actualContent.get(i), "Each line of the actual content should match the expected content.");
         }
