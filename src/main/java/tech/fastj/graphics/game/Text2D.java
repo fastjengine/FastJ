@@ -25,96 +25,60 @@ import java.util.Objects;
 public class Text2D extends GameObject {
 
     /** {@link Paint} representing the default color value of {@code (0, 0, 0)}. */
-    public static final Paint DefaultPaint = Color.black;
+    public static final Paint DefaultFill = Color.black;
     /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
     public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
 
     private String text;
     private Paint fillPaint;
     private Font font;
+
     private boolean hasMetrics;
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text.
+     * {@code Text2D} constructor that takes in a string of text.
      * <p>
-     * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
-     * {@code show} boolean to {@link Drawable#DefaultShouldRender}.
-     *
-     * @param setText Sets the displayed text.
-     */
-    public Text2D(String setText) {
-        this(setText, DefaultPaint, DefaultFont, Drawable.DefaultShouldRender);
-    }
-
-    /**
-     * {@code Text2D} Constructor that takes in a string of text and an initial translation.
-     * <p>
-     * This constructor defaults the color to {@link #DefaultPaint}, the font to {@link #DefaultFont}, and sets the
+     * This constructor defaults the fill paint to {@link #DefaultFill}, the font to {@link #DefaultFont}, and sets the
      * {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
-     * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the initial x and y translation of the text.
+     * @param text {@code String} that defines the text for the {@code Text2D}.
      */
-    public Text2D(String setText, Pointf setTranslation) {
-        this(setText, DefaultPaint, DefaultFont, Drawable.DefaultShouldRender);
-        setTranslation(setTranslation);
+    Text2D(String text) {
+        this.text = text;
+        setFont(DefaultFont);
+        setFill(DefaultFill);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a color, a font, and a shouldRender variable.
+     * Gets a {@link Text2DBuilder} instance while setting the eventual {@link Text2D}'s {@code text} field.
      *
-     * @param setText      Sets the displayed text.
-     * @param setPaint     Sets the text's color.
-     * @param setFont      Sets the text's font.
-     * @param shouldRender Sets whether the text will be drawn to the screen.
+     * @param text {@code String} that defines the text for the {@code Text2D}.
+     * @return A {@code Text2DBuilder} instance for creating a {@code Text2D}.
      */
-    public Text2D(String setText, Paint setPaint, Font setFont, boolean shouldRender) {
-        text = setText;
-        font = setFont;
-
-        setFill(setPaint);
-        setFont(setFont);
-        setShouldRender(shouldRender);
+    public static Text2DBuilder create(String text) {
+        return new Text2DBuilder(text, Drawable.DefaultShouldRender);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a translation, a color, a font, and a shouldRender
-     * variable.
+     * Gets a {@link Text2DBuilder} instance while setting the eventual {@link Text2D}'s {@code text} and {@code
+     * shouldRender} fields.
      *
-     * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the initial x and y translation of the text.
-     * @param setPaint       Sets the text's color.
-     * @param setFont        Sets the text's font.
-     * @param shouldRender   Sets whether the text will be drawn to the screen.
+     * @param text         {@code String} that defines the text for the {@code Text2D}.
+     * @param shouldRender {@code boolean} that defines whether the {@code Text2D} would be rendered to the screen.
+     * @return A {@code Text2DBuilder} instance for creating a {@code Text2D}.
      */
-    public Text2D(String setText, Pointf setTranslation, Paint setPaint, Font setFont, boolean shouldRender) {
-        this(setText, setPaint, setFont, shouldRender);
-        setTranslation(setTranslation);
+    public static Text2DBuilder create(String text, boolean shouldRender) {
+        return new Text2DBuilder(text, shouldRender);
     }
 
     /**
-     * {@code Text2D} Constructor that takes in a string of text, a translation/rotation/scale, a color, a font, and a
-     * shouldRender variable.
+     * Creates a {@code Text2D} from the specified text.
      *
-     * @param setText        Sets the displayed text.
-     * @param setTranslation Sets the initial x and y translation of the text.
-     * @param setRotation    Sets the initial rotation of the text.
-     * @param setScale       Sets the initial scale of the text.
-     * @param setPaint       Sets the text's color.
-     * @param setFont        Sets the text's font.
-     * @param shouldRender   Sets whether the text will be drawn to the screen.
+     * @param text {@code String} that defines the text for the {@code Text2D}.
+     * @return The resulting {@code Text2D}.
      */
-    public Text2D(String setText, Pointf setTranslation, float setRotation, Pointf setScale, Paint setPaint, Font setFont, boolean shouldRender) {
-        text = setText;
-        font = setFont;
-
-        setTranslation(setTranslation);
-        setRotation(setRotation);
-        setScale(setScale);
-
-        setFill(setPaint);
-        setFont(setFont);
-        setShouldRender(shouldRender);
+    public static Text2D fromText(String text) {
+        return new Text2DBuilder(text, DefaultShouldRender).build();
     }
 
     /**
