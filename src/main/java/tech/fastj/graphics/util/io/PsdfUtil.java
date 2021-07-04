@@ -120,6 +120,9 @@ public class PsdfUtil {
 
                     break;
                 }
+                case ParsingKeys.Empty: {
+                    break;
+                }
                 default: {
                     throw new IllegalStateException("Invalid .psdf token: \"" + tokens[0] + "\".");
                 }
@@ -476,6 +479,7 @@ public class PsdfUtil {
             throw new java.lang.IllegalStateException();
         }
 
+        public static final String Empty = "";
         public static final String Amount = "amt";
         public static final String RenderStyle = "rs";
         public static final String RenderStyleFill = "fill";
