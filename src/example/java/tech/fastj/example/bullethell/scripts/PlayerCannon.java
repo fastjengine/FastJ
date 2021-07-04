@@ -51,9 +51,11 @@ public class PlayerCannon implements Behavior {
         Pointf cannonFront = Pointf.rotate(startingPoint, rotationAngle, rotationPoint);
         Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
 
-        Polygon2D bullet = (Polygon2D) new Polygon2D(bulletMesh, Color.red, true, true)
+        Polygon2D bullet = (Polygon2D) Polygon2D.fromPoints(bulletMesh)
+                .setFill(Color.red)
                 .addBehavior(bulletMovementScript, gameScene)
                 .<GameObject>addTag(Tags.Bullet, gameScene);
+
         gameScene.drawableManager.addGameObject(bullet);
         bullet.initBehaviors();
 

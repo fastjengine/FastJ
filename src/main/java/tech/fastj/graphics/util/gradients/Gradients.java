@@ -28,6 +28,9 @@ public class Gradients {
     /**
      * Gets a builder instance for creating a {@link LinearGradientPaint}.
      *
+     * @param drawable The {@code Drawable} containing the start and endpoints as its boundaries.
+     * @param start    The {@code Boundary} from which to start the gradient.
+     * @param end      The {@code Boundary} at which to end the gradient.
      * @return A {@link LinearGradientPaint} builder.
      */
     public static LinearGradientBuilder linearGradient(Drawable drawable, Boundary start, Boundary end) {
@@ -37,6 +40,8 @@ public class Gradients {
     /**
      * Gets a builder instance for creating a {@link LinearGradientPaint}.
      *
+     * @param start The {@code Pointf} from which to start the gradient.
+     * @param end   The {@code Pointf} at which to end the gradient.
      * @return A {@link LinearGradientPaint} builder.
      */
     public static LinearGradientBuilder linearGradient(Pointf start, Pointf end) {
@@ -46,6 +51,7 @@ public class Gradients {
     /**
      * Gets a builder instance for creating a {@link RadialGradientPaint}.
      *
+     * @param drawable The {@code Drawable} defining the centerpoint and radius to build the gradient with.
      * @return A {@link RadialGradientPaint} builder.
      */
     public static RadialGradientBuilder radialGradient(Drawable drawable) {
@@ -55,6 +61,8 @@ public class Gradients {
     /**
      * Gets a builder instance for creating a {@link RadialGradientPaint}.
      *
+     * @param center The {@code Drawable} defining the centerpoint for the gradient.
+     * @param radius The {@code float} defining the radius for the gradient.
      * @return A {@link RadialGradientPaint} builder.
      */
     public static RadialGradientBuilder radialGradient(Pointf center, float radius) {
