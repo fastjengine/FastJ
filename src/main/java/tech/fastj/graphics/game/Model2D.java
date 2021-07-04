@@ -1,6 +1,5 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -18,60 +17,51 @@ import java.util.Arrays;
  */
 public class Model2D extends GameObject {
 
-    private Polygon2D[] polyArr;
+    private Polygon2D[] polygons;
 
     /**
      * Model2D constructor that takes in an array of {@link Polygon2D} objects.
      * <p>
-     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and defaults whether the
-     * {@code Model2D} should be shown to {@link Drawable#DefaultShouldRender}.
+     * This constructor defaults the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
-     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
+     * @param polygons Array of {@code Polygon2D}s used to create the Model2D.
      */
-    public Model2D(Polygon2D[] polygonArray) {
-        this(polygonArray, Drawable.DefaultShouldRender);
+    Model2D(Polygon2D[] polygons) {
+        this.polygons = polygons;
+        setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(this.polygons)));
     }
 
     /**
-     * Model2D constructor that takes in an array of {@link Polygon2D} objects and a shouldRender variable.
+     * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} field.
      * <p>
-     * This takes an array of {@code Pointf} values (which make up the points of the polygon), and a boolean to
-     * determine whether the Model2D should be rendered.
      *
-     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
-     * @param shouldRender Boolean that determines whether this Model2D should be drawn to the screen.
+     * @param polygons {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
+     * @return A {@code Model2DBuilder} instance for creating a {@code Model2D}.
      */
-    public Model2D(Polygon2D[] polygonArray, boolean shouldRender) {
-        polyArr = polygonArray;
-
-        setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
-        setShouldRender(shouldRender);
+    public static Model2DBuilder create(Polygon2D[] polygons) {
+        return new Model2DBuilder(polygons, Drawable.DefaultShouldRender);
     }
 
     /**
-     * {@code Model2D} constructor that takes in an array of {@code Polygon2D}s, a shouldRender variable, and an initial
-     * translation, rotation, and scale for the model.
+     * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} and {@code
+     * shouldRender} fields.
      * <p>
-     * Alongside the normal constructor, this allows you to set a location, rotation, and scale for the object,
-     * alongside the normal values needed for a Model2D.
      *
-     * @param polygonArray Array of {@code Polygon2D}s used to create the Model2D.
-     * @param location     {@code Pointf} that defines the x and y location of the created Model2D. All Polygon2D
-     *                     objects will be translated to that location, relative to where the objects are.
-     * @param rotVal       Float value that defines the value that the Model2D will be rotated to, on creation.
-     * @param scaleVal     {@code Pointf} that defines the values that the Model2D will be scaled to, on creation.
-     * @param shouldRender Boolean that determines whether this Model2D should be drawn to the screen.
+     * @param polygons {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
+     * @return A {@code Model2DBuilder} instance for creating a {@code Model2D}.
      */
-    public Model2D(Polygon2D[] polygonArray, Pointf location, float rotVal, Pointf scaleVal, boolean shouldRender) {
-        polyArr = polygonArray;
+    public static Model2DBuilder create(Polygon2D[] polygons, boolean shouldRender) {
+        return new Model2DBuilder(polygons, shouldRender);
+    }
 
-        setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(polyArr)));
-
-        setTranslation(location);
-        setRotation(rotVal);
-        setScale(scaleVal);
-
-        setShouldRender(shouldRender);
+    /**
+     * Creates a {@code Model2D} from the specified points.
+     *
+     * @param polygons {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
+     * @return The resulting {@code Model2D}.
+     */
+    public static Model2D fromPolygons(Polygon2D[] polygons) {
+        return new Model2DBuilder(polygons, Drawable.DefaultShouldRender).build();
     }
 
     /**
@@ -80,7 +70,7 @@ public class Model2D extends GameObject {
      * @return The array of {@code Polygon2D}s.
      */
     public Polygon2D[] getPolygons() {
-        return polyArr;
+        return polygons;
     }
 
     @Override
@@ -92,7 +82,7 @@ public class Model2D extends GameObject {
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         g.transform(getTransformation());
 
-        for (Polygon2D obj : polyArr) {
+        for (Polygon2D obj : polygons) {
             obj.render(g);
         }
 
@@ -101,10 +91,10 @@ public class Model2D extends GameObject {
 
     @Override
     public void destroy(Scene originScene) {
-        for (Polygon2D obj : polyArr) {
+        for (Polygon2D obj : polygons) {
             obj.destroy(originScene);
         }
-        polyArr = null;
+        polygons = null;
 
         destroyTheRest(originScene);
     }
@@ -124,20 +114,20 @@ public class Model2D extends GameObject {
             return false;
         }
         Model2D model2D = (Model2D) other;
-        return Arrays.deepEquals(polyArr, model2D.polyArr);
+        return Arrays.deepEquals(polygons, model2D.polygons);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + Arrays.hashCode(polyArr);
+        result = 31 * result + Arrays.hashCode(polygons);
         return result;
     }
 
     @Override
     public String toString() {
         return "Model2D{" +
-                "polyArr=" + Arrays.deepToString(polyArr) +
+                "polyArr=" + Arrays.deepToString(polygons) +
                 ", rotation=" + getRotation() +
                 ", scale=" + getScale() +
                 ", translation=" + getTranslation() +

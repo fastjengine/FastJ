@@ -21,8 +21,7 @@ public class Text2DBuilder {
     private Pointf scale = Transform2D.DefaultScale.copy();
 
     /**
-     * {@code Text2DBuilder} constructor, taking in a set of points, a render style, and a {@code shouldRender}
-     * boolean.
+     * {@code Text2DBuilder} constructor, taking in a {@code String} of text and a {@code shouldRender} boolean.
      *
      * @param text         The {@code String} of text to use for the resulting {@code Text2D}.
      * @param shouldRender The "should render" {@code boolean} to use for the resulting {@code Text2D}.
