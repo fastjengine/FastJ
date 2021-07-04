@@ -57,7 +57,6 @@ public class Polygon2D extends GameObject {
         setOutlineStroke(DefaultOutlineStroke);
         setOutlineColor(DefaultOutlineColor);
         setRenderStyle(DefaultRenderStyle);
-        setShouldRender(Drawable.DefaultShouldRender);
     }
 
     /**
