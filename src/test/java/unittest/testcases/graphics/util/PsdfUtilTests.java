@@ -87,7 +87,7 @@ class PsdfUtilTests {
             expectedHouseRoof.setFill(expectedHouseRoofGradient),
             expectedHouseDoor.setFill(expectedHouseDoorGradient)
     };
-    private static final Model2D expectedHouse = new Model2D(expectedHouseArray, false);
+    private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
     @BeforeAll
     public static void createTempDirectoryAndFile_forReadWriteTests() throws IOException {
@@ -161,7 +161,7 @@ class PsdfUtilTests {
     @Order(2)
     void checkReadPsdf_shouldMatchOriginal() {
         Polygon2D[] actualHouseArray = ModelUtil.loadModel(pathToModel);
-        Model2D actualHouse = new Model2D(actualHouseArray, false);
+        Model2D actualHouse = Model2D.create(actualHouseArray, false).build();
 
         assertArrayEquals(expectedHouseArray, actualHouseArray, "The actual Polygon2D array should match the expected array.");
         assertEquals(expectedHouse, actualHouse, "The actual Model2D should match the expected Model2D.");

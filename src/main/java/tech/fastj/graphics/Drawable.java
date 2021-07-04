@@ -40,7 +40,9 @@ public abstract class Drawable extends TaggableEntity {
     protected Drawable() {
         rawID = UUID.randomUUID();
         id = "DRAWABLE$" + getClass().getSimpleName() + "_" + rawID;
+
         transform = new Transform2D();
+        shouldRender = DefaultShouldRender;
     }
 
     /**

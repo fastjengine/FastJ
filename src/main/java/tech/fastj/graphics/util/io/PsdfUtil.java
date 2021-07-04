@@ -46,7 +46,7 @@ public class PsdfUtil {
         boolean shouldRender = Drawable.DefaultShouldRender;
 
         RenderStyle renderStyle = Polygon2D.DefaultRenderStyle;
-        Paint fillPaint = Polygon2D.DefaultPaint;
+        Paint fillPaint = Polygon2D.DefaultFill;
         BasicStroke outlineStroke = Polygon2D.DefaultOutlineStroke;
         Color outlineColor = Polygon2D.DefaultOutlineColor;
 
@@ -106,7 +106,7 @@ public class PsdfUtil {
                         shouldRender = Drawable.DefaultShouldRender;
 
                         renderStyle = Polygon2D.DefaultRenderStyle;
-                        fillPaint = Polygon2D.DefaultPaint;
+                        fillPaint = Polygon2D.DefaultFill;
                         outlineStroke = Polygon2D.DefaultOutlineStroke;
                         outlineColor = Polygon2D.DefaultOutlineColor;
 

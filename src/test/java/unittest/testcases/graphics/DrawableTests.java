@@ -45,7 +45,7 @@ class DrawableTests {
                 Polygon2D.fromPoints(square1),
                 Polygon2D.fromPoints(square2)
         };
-        Model2D model2D = new Model2D(polygons);
+        Model2D model2D = Model2D.fromPolygons(polygons);
 
         assertTrue(polygon2D.collidesWith(model2D) && model2D.collidesWith(polygon2D), "The Model2D and Polygon2D should be intersecting.");
     }
@@ -56,7 +56,7 @@ class DrawableTests {
 
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Text2D text2D = new Text2D(text, Pointf.Origin.copy());
+            Text2D text2D = Text2D.fromText(text);
 
             Pointf[] square = DrawUtil.createBox(0f, 0f, 50f);
             Polygon2D polygon2D = Polygon2D.fromPoints(square);
@@ -71,7 +71,7 @@ class DrawableTests {
 
         runFastJWith(() -> {
             String text = "Hello, world!";
-            Text2D text2D = new Text2D(text, Pointf.Origin.copy());
+            Text2D text2D = Text2D.fromText(text);
 
             Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
             Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
@@ -79,7 +79,7 @@ class DrawableTests {
                     Polygon2D.fromPoints(square1),
                     Polygon2D.fromPoints(square2)
             };
-            Model2D model2D = new Model2D(polygons);
+            Model2D model2D = Model2D.fromPolygons(polygons);
 
             assertTrue(text2D.collidesWith(model2D) && model2D.collidesWith(text2D), "The Model2D and Text2D should be intersecting.");
         });
