@@ -287,4 +287,15 @@ class MathsTests {
         String expectedErrorMessage = "The normalized number must be less than 1.0f.";
         assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
     }
+
+    @Test
+    void checkInverseLerpValues() {
+        float testOne = Maths.inverseLerp(10f, 20f, 10.0f);
+        float testTwo = Maths.inverseLerp(10f, 20f, 19.6f);
+        float testThree = Maths.inverseLerp(10f, 20f, 20.0f);
+
+        assertEquals(testOne, 0.0f, "Expected value was 0.0, instead got " + testOne);
+        assertEquals(testTwo, 0.96000004f, "Expected value was 0.96000004, instead got " + testTwo);
+        assertEquals(testThree, 1.0f, "Expected value was 1.0, instead got " + testThree);
+    }
 }

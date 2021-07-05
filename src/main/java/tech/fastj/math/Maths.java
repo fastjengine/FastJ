@@ -201,4 +201,15 @@ public class Maths {
 
         return (normalizedNum * (max - min)) + min;
     }
+
+    /**
+     * Returns a {@code float} based on the value between a and b.
+     * 
+     * @param a Starting value.
+     * @param b Ending value.
+     * @param y The value between the starting and ending values. 
+     **/
+    public static float inverseLerp(float a, float b, float y) {
+        return (y - a) / (b - a);
+    }
 }
