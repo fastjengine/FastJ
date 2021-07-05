@@ -294,8 +294,8 @@ class MathsTests {
         float testTwo = Maths.inverseLerp(10f, 20f, 19.6f);
         float testThree = Maths.inverseLerp(10f, 20f, 20.0f);
 
-        assertEquals(testOne, 0.0f, "Expected value was 0.0, instead got " + testOne);
-        assertEquals(testTwo, 0.96000004f, "Expected value was 0.96000004, instead got " + testTwo);
-        assertEquals(testThree, 1.0f, "Expected value was 1.0, instead got " + testThree);
+        assertEquals(0.0f, testOne, "Expected value was 0.0, instead got " + testOne);
+        assertEquals(0.96000004f, testTwo, "Expected value was 0.96000004, instead got " + testTwo);
+        assertEquals(1.0f, testThree, "Expected value was 1.0, instead got " + testThree);
     }
 }

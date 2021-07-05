@@ -205,11 +205,11 @@ public class Maths {
     /**
      * Returns a {@code float} based on the value between a and b.
      * 
-     * @param a Starting value.
-     * @param b Ending value.
-     * @param y The value between the starting and ending values. 
+     * @param startingVal Starting value.
+     * @param endingVal Ending value.
+     * @param value The value between the starting and ending values. 
      **/
-    public static float inverseLerp(float a, float b, float y) {
+    public static float inverseLerp(float startingVal, float endingVal, float value) {
         return (y - a) / (b - a);
     }
 }
