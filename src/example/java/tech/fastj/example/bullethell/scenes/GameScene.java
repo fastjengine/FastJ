@@ -14,11 +14,10 @@ import tech.fastj.graphics.util.ModelUtil;
 
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.input.keyboard.KeyboardActionListener;
-import tech.fastj.systems.input.keyboard.Keys;
+import tech.fastj.systems.input.keyboard.KeyboardStateEvent;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.KeyEvent;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,17 +72,17 @@ public class GameScene extends Scene {
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {
             @Override
-            public void onKeyRecentlyPressed(KeyEvent keyEvent) {
-                switch (keyEvent.getKeyCode()) {
-                    case Keys.Q: {
+            public void onKeyRecentlyPressed(KeyboardStateEvent keyEvent) {
+                switch (keyEvent.getKey()) {
+                    case Q: {
                         FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
                         break;
                     }
-                    case Keys.P: {
+                    case P: {
                         FastJEngine.log("current enemy count: " + enemies.size());
                         break;
                     }
-                    case Keys.L: {
+                    case L: {
                         FastJEngine.log("printing enemy statuses...");
                         enemies.values().forEach(FastJEngine::log);
                     }
