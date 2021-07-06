@@ -1,6 +1,5 @@
 package tech.fastj.graphics;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
@@ -42,11 +41,7 @@ public class Camera {
      * @return The centerpoint, as a {@code Pointf}.
      */
     public Pointf getCenter() {
-        if (FastJEngine.getDisplay() == null) {
-            return getTranslation().copy();
-        } else {
-            return Pointf.add(FastJEngine.getDisplay().getScreenCenter(), getTranslation());
-        }
+        return getTranslation().copy();
     }
 
     /**
@@ -201,11 +196,7 @@ public class Camera {
      * @param rotationMod float parameter that the {@code Camera} will be rotated by.
      */
     public void rotate(float rotationMod) {
-        if (FastJEngine.getDisplay() == null) {
-            rotate(rotationMod, Pointf.Origin);
-        } else {
-            rotate(rotationMod, FastJEngine.getDisplay().getScreenCenter());
-        }
+        rotate(rotationMod, Pointf.Origin);
     }
 
     /**
