@@ -203,13 +203,13 @@ public class Maths {
     }
     
     /**
-     * Returns a {@code float} based on the value between {@code startingVal} and {@code endingVal}.
+     * Calculates a {@code float} based on the value between {@code startingVal} and {@code endingVal}.
      * 
      * @param startingVal Starting value.
      * @param endingVal Ending value.
      * @param value The value between the starting and ending values. 
      **/
-    public static float inverseLerp(float startingVal, float endingVal, float value) {
-        return (value - startingVal) / (endingVal - startingVal);
+    public static float inverseLerp(float start, float end, float value) {
+        return (value - start) / (end - start);
     }
 }
