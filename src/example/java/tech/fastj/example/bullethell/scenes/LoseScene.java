@@ -3,6 +3,7 @@ package tech.fastj.example.bullethell.scenes;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
+import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.Scene;
@@ -27,11 +28,15 @@ public class LoseScene extends Scene {
         GameScene gameScene = FastJEngine.<SceneManager>getLogicManager().getScene(SceneNames.GameSceneName);
         int waveNumber = gameScene.getWaveNumber();
 
-        loseText = new Text2D("You Lost...", new Pointf(300f, 375f))
-                .setFont(new Font("Consolas", Font.PLAIN, 96))
-                .setFill(Color.red);
-        deathInfo = new Text2D("You died on wave: " + waveNumber, new Pointf(500f, 400f))
-                .setFont(new Font("Consolas", Font.PLAIN, 16));
+        loseText = Text2D.create("You Lost...")
+                .withFill(Color.red)
+                .withFont(new Font("Consolas", Font.PLAIN, 96))
+                .withTransform(new Pointf(300f, 375f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
+                .build();
+        deathInfo = Text2D.create("You died on wave: " + waveNumber)
+                .withFont(new Font("Consolas", Font.PLAIN, 16))
+                .withTransform(new Pointf(500f, 400f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
+                .build();
 
         drawableManager.addGameObject(loseText);
         drawableManager.addGameObject(deathInfo);

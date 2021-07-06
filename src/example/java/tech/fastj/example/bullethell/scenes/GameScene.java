@@ -4,6 +4,7 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
+import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
@@ -136,8 +137,10 @@ public class GameScene extends Scene {
     }
 
     private Text2D createPlayerMetaData() {
-        return new Text2D("Health: 100", new Pointf(27.5f, 40f))
-                .setFont(new Font("Consolas", Font.BOLD, 16));
+        return Text2D.create("Health: 100")
+                .withFont(new Font("Consolas", Font.BOLD, 16))
+                .withTransform(new Pointf(27.5f, 40f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
+                .build();
     }
 
     private Polygon2D createPlayerHealthBar() {
@@ -151,7 +154,7 @@ public class GameScene extends Scene {
     }
 
     private Model2D createPlayer() {
-        return new Model2D(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "player.psdf")));
+        return Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "player.psdf")));
     }
 
     private void newWave() {
@@ -176,7 +179,7 @@ public class GameScene extends Scene {
                 Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
         );
 
-        Model2D enemy = new Model2D(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
+        Model2D enemy = Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
         enemy.addBehavior(new EnemyMovement(this), this);
         enemy.setTranslation(randomPosition);
         drawableManager.addGameObject(enemy);
