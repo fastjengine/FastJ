@@ -4,19 +4,24 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
+import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.graphics.util.PsdfUtil;
+import tech.fastj.graphics.util.ModelUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.input.keyboard.KeyboardActionListener;
+import tech.fastj.systems.input.keyboard.Keys;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.event.KeyEvent;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 import tech.fastj.example.bullethell.scripts.EnemyMovement;
 import tech.fastj.example.bullethell.scripts.PlayerCannon;
@@ -32,7 +37,7 @@ public class GameScene extends Scene {
     private Text2D playerMetadata;
     private Polygon2D playerHealthBar;
 
-    private List<Model2D> enemies;
+    private Map<String, Model2D> enemies;
     private int enemyCount = 0;
     private int wave = 0;
 
@@ -58,13 +63,33 @@ public class GameScene extends Scene {
 
 
         // add game objects to the screen in order!
-        player.addAsGameObject(this);
-        playerHealthBar.addAsGameObject(this);
-        playerMetadata.addAsGameObject(this);
+        drawableManager.addGameObject(player);
+        drawableManager.addGameObject(playerHealthBar);
+        drawableManager.addGameObject(playerMetadata);
 
 
-        enemies = new ArrayList<>();
+        enemies = new HashMap<>();
         newWave();
+
+        inputManager.addKeyboardActionListener(new KeyboardActionListener() {
+            @Override
+            public void onKeyRecentlyPressed(KeyEvent keyEvent) {
+                switch (keyEvent.getKeyCode()) {
+                    case Keys.Q: {
+                        FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
+                        break;
+                    }
+                    case Keys.P: {
+                        FastJEngine.log("current enemy count: " + enemies.size());
+                        break;
+                    }
+                    case Keys.L: {
+                        FastJEngine.log("printing enemy statuses...");
+                        enemies.values().forEach(FastJEngine::log);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -85,9 +110,8 @@ public class GameScene extends Scene {
         }
 
         if (enemies != null) {
-            enemies.forEach(enemy -> enemy.destroy(this));
+            enemies.forEach((id, enemy) -> enemy.destroy(this));
             enemies.clear();
-            enemies = null;
         }
 
         enemyCount = 0;
@@ -97,8 +121,8 @@ public class GameScene extends Scene {
     public void update(Display display) {
     }
 
-    public void enemyDied(GameObject enemy) {
-        if (enemies.remove((Model2D) enemy)) {
+    public void enemyDied(Model2D enemy) {
+        if (enemies.remove(enemy.getID()) == enemy) {
             enemy.destroy(this);
             enemyCount--;
 
@@ -113,8 +137,10 @@ public class GameScene extends Scene {
     }
 
     private Text2D createPlayerMetaData() {
-        return new Text2D("Health: 100", new Pointf(27.5f, 55f))
-                .setFont(new Font("Consolas", Font.BOLD, 16));
+        return Text2D.create("Health: 100")
+                .withFont(new Font("Consolas", Font.BOLD, 16))
+                .withTransform(new Pointf(27.5f, 40f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
+                .build();
     }
 
     private Polygon2D createPlayerHealthBar() {
@@ -122,11 +148,13 @@ public class GameScene extends Scene {
         Pointf playerHealthBarMeshSize = new Pointf(100f, 20f);
         Pointf[] playerHealthBarMesh = DrawUtil.createBox(playerHealthBarMeshLocation, playerHealthBarMeshSize);
 
-        return new Polygon2D(playerHealthBarMesh, Color.green, true, true);
+        return Polygon2D.create(playerHealthBarMesh)
+                .withFill(Color.green)
+                .build();
     }
 
     private Model2D createPlayer() {
-        return new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "player.psdf"));
+        return Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "player.psdf")));
     }
 
     private void newWave() {
@@ -135,7 +163,7 @@ public class GameScene extends Scene {
         for (int i = 0; i < enemyCount; i++) {
             Model2D enemy = createEnemy();
             enemy.initBehaviors();
-            enemies.add(enemy);
+            enemies.put(enemy.getID(), enemy);
         }
 
         FastJEngine.log("New wave of " + enemyCount + " enemies!");
@@ -148,12 +176,13 @@ public class GameScene extends Scene {
     private Model2D createEnemy() {
         Pointf randomPosition = new Pointf(
                 Maths.random(-500f, 1780f),
-                Maths.randomAtEdge(-500f, 1220f)
+                Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
         );
 
-        return (Model2D) new Model2D(PsdfUtil.loadPsdf(FilePaths.PathToResources + "enemy.psdf"))
-                .setTranslation(randomPosition)
-                .addBehavior(new EnemyMovement(this), this)
-                .addAsGameObject(this);
+        Model2D enemy = Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
+        enemy.addBehavior(new EnemyMovement(this), this);
+        enemy.setTranslation(randomPosition);
+        drawableManager.addGameObject(enemy);
+        return enemy;
     }
 }

@@ -1,22 +1,31 @@
 amt 3
+rs fill
 c 0 255 255 255
-f true
-s true
-p 0 0
-p 50 0
-p 50 50
-p 0 50 ;
+otls 1.0 2 0 1.0
+otlc 0 0 0 255
+tfm 0.0 0.0 0.0 1.0 1.0
+sr true
+p 0.0 0.0
+p 50.0 0.0
+p 50.0 50.0
+p 0.0 50.0 ;
 
+rs fill
 c 0 0 0 255
-f true
-s true
-p 10 5
-p 20 25
-p 10 25 ;
+otls 1.0 2 0 1.0
+otlc 0 0 0 255
+tfm 0.0 0.0 0.0 1.0 1.0
+sr true
+p 10.0 5.0
+p 20.0 25.0
+p 10.0 25.0 ;
 
+rs fill
 c 0 0 0 255
-f true
-s true
-p 40 45
-p 30 25
-p 40 25 ;
+otls 1.0 2 0 1.0
+otlc 0 0 0 255
+tfm 0.0 0.0 0.0 1.0 1.0
+sr true
+p 40.0 45.0
+p 30.0 25.0
+p 40.0 25.0 ;

@@ -54,7 +54,7 @@ public class EnemyMovement implements Behavior {
     }
 
     private void enemyDied(GameObject enemy) {
-        FastJEngine.runAfterUpdate(() -> gameScene.enemyDied(enemy));
+        FastJEngine.runAfterUpdate(() -> gameScene.enemyDied((Model2D) enemy));
     }
 
     private void moveToPlayer(GameObject obj) {

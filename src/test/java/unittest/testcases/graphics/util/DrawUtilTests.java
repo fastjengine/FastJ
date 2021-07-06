@@ -4,6 +4,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,8 +41,8 @@ class DrawUtilTests {
         };
 
         Polygon2D[] squareArray = {
-                new Polygon2D(square1Points),
-                new Polygon2D(square2Points)
+                Polygon2D.fromPoints(square1Points),
+                Polygon2D.fromPoints(square2Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -63,9 +65,9 @@ class DrawUtilTests {
         };
 
         Polygon2D[] squareArray = {
-                new Polygon2D(square1Points),
-                new Polygon2D(square2Points),
-                new Polygon2D(square3Points)
+                Polygon2D.fromPoints(square1Points),
+                Polygon2D.fromPoints(square2Points),
+                Polygon2D.fromPoints(square3Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -131,11 +133,11 @@ class DrawUtilTests {
 
     @Test
     void comparePaints_withNullPaintParameters() {
-        Paint paint1 = null;
+        Paint paint1_null = null;
         Color paint2 = Color.red;
 
-        assertFalse(DrawUtil.paintEquals(paint1, paint2), "The two paints should not be equal.");
-        assertFalse(DrawUtil.paintEquals(paint2, paint1), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint1_null, paint2), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint2, paint1_null), "The two paints should not be equal.");
     }
 
     @Test
@@ -393,9 +395,14 @@ class DrawUtilTests {
         int generatedColorCount = 255;
         Color[] generatedRGBColors = new Color[generatedColorCount];
 
-        for (int i = 0; i < generatedColorCount; i++) {
-            generatedRGBColors[i] = DrawUtil.randomColor();
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedColorCount; i++) {
+                        generatedRGBColors[i] = DrawUtil.randomColor();
+                    }
+                },
+                "Errors should not be produced while generating random RGB colors."
+        );
+
         System.out.println("Generated RGB colors: " + Arrays.toString(generatedRGBColors));
     }
 
@@ -404,9 +411,14 @@ class DrawUtilTests {
         int generatedColorCount = 255;
         Color[] generatedRGBAColors = new Color[generatedColorCount];
 
-        for (int i = 0; i < generatedColorCount; i++) {
-            generatedRGBAColors[i] = DrawUtil.randomColorWithAlpha();
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedColorCount; i++) {
+                        generatedRGBAColors[i] = DrawUtil.randomColorWithAlpha();
+                    }
+                },
+                "Errors should not be produced while generating random RGBA colors."
+        );
+
         System.out.println("Generated RGBA colors: " + Arrays.toString(generatedRGBAColors));
     }
 
@@ -415,9 +427,30 @@ class DrawUtilTests {
         int generatedFontCount = 255;
         Font[] generatedFonts = new Font[generatedFontCount];
 
-        for (int i = 0; i < generatedFontCount; i++) {
-            generatedFonts[i] = DrawUtil.randomFont();
-        }
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedFontCount; i++) {
+                        generatedFonts[i] = DrawUtil.randomFont();
+                    }
+                },
+                "Errors should not be produced while generating random fonts."
+        );
+
         System.out.println("Generated fonts: " + Arrays.toString(generatedFonts));
+    }
+
+    @Test
+    void checkGenerateOutlineStrokes_shouldNotFail() {
+        int generatedOutlineStrokeCount = 255;
+        BasicStroke[] generatedOutlineStrokes = new BasicStroke[generatedOutlineStrokeCount];
+
+        assertDoesNotThrow(() -> {
+                    for (int i = 0; i < generatedOutlineStrokeCount; i++) {
+                        generatedOutlineStrokes[i] = DrawUtil.randomOutlineStroke();
+                    }
+                },
+                "Errors should not be produced while generating random outline strokes."
+        );
+
+        System.out.println("Generated outline strokes: " + Arrays.toString(generatedOutlineStrokes));
     }
 }

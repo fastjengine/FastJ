@@ -5,15 +5,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.GraphicsEnvironment;
-import java.awt.LinearGradientPaint;
-import java.awt.MultipleGradientPaint;
-import java.awt.Paint;
-import java.awt.RadialGradientPaint;
-import java.awt.TexturePaint;
+import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Rectangle2D;
@@ -608,5 +600,34 @@ public final class DrawUtil {
         int randomFontSize = Maths.randomInteger(1, 256);
 
         return new Font(randomFontName, randomFontStyle, randomFontSize);
+    }
+
+    public static BasicStroke randomOutlineStroke() {
+        int cap = Maths.randomInteger(0, 2);
+        int randomCap;
+        if (cap == 0) {
+            randomCap = BasicStroke.CAP_BUTT;
+        } else if (cap == 1) {
+            randomCap = BasicStroke.CAP_ROUND;
+        } else {
+            randomCap = BasicStroke.CAP_SQUARE;
+        }
+
+        int join = Maths.randomInteger(0, 2);
+        int randomJoin;
+        if (join == 0) {
+            randomJoin = BasicStroke.JOIN_MITER;
+        } else if (join == 1) {
+            randomJoin = BasicStroke.JOIN_ROUND;
+        } else {
+            randomJoin = BasicStroke.JOIN_BEVEL;
+        }
+
+        return new BasicStroke(
+                Maths.random(0.0f, 32.0f),
+                randomCap,
+                randomJoin,
+                randomJoin == BasicStroke.JOIN_MITER ? Maths.random(1.0f, 64.0f) : 0.0f
+        );
     }
 }

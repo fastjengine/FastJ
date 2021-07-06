@@ -7,6 +7,7 @@ import tech.fastj.graphics.Display;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.audio.AudioManager;
+import tech.fastj.systems.audio.AudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.input.keyboard.Keyboard;
@@ -350,7 +351,7 @@ public class FastJEngine {
      * as possible, without waiting for the next game update/render to be finished.
      */
     public static void forceCloseGame() {
-        if (display != null) {
+        if (display != null && display.isReady()) {
             display.close();
         }
         exit();
@@ -486,6 +487,7 @@ public class FastJEngine {
         Mouse.stop();
         Keyboard.stop();
         AudioManager.reset();
+        AudioPlayer.reset();
         BehaviorManager.reset();
         TagManager.reset();
 

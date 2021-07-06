@@ -17,21 +17,32 @@ public class LinearGradientBuilder implements GradientBuilder {
     private final Color[] colors;
     private int count;
 
-    /** Initializes a {@code LinearGradientBuilder}'s internals. */
+    /**
+     * Initializes a {@code LinearGradientBuilder}'s internals.
+     *
+     * @param drawable The basis for what the {@code start} and {@code end} end positions evaluate to.
+     * @param start    The starting boundary to create the gradient from.
+     * @param end      The ending boundary to create the gradient from.
+     */
     LinearGradientBuilder(Drawable drawable, Boundary start, Boundary end) {
         colors = new Color[Gradients.MaximumColorCount];
         position(drawable, start, end);
     }
 
-    /** Initializes a {@code LinearGradientBuilder}'s internals. */
+    /**
+     * Initializes a {@code LinearGradientBuilder}'s internals.
+     *
+     * @param start The {@code Pointf} defining the starting point of the gradient.
+     * @param end   The {@code Pointf} defining the ending point of the gradient.
+     */
     LinearGradientBuilder(Pointf start, Pointf end) {
         colors = new Color[Gradients.MaximumColorCount];
         position(start, end);
     }
 
     /**
-     * Sets the starting and ending points for the builder, based on the provided {@link Drawable} and {@link Boundary}
-     * values.
+     * Sets the starting and ending points for the resulting gradient, based on the provided {@link Drawable} and {@link
+     * Boundary} values.
      *
      * @param drawable The basis for what the {@code start} and {@code end} end positions evaluate to.
      * @param start    The starting boundary to create the gradient from.
@@ -45,7 +56,7 @@ public class LinearGradientBuilder implements GradientBuilder {
     }
 
     /**
-     * Sets the starting and ending points for the builder, based on the provided {@link Pointf} values.
+     * Sets the starting and ending points for the resulting gradient, based on the provided {@link Pointf} values.
      *
      * @param start The {@code Pointf} defining the starting point of the gradient.
      * @param end   The {@code Pointf} defining the ending point of the gradient.
@@ -93,7 +104,7 @@ public class LinearGradientBuilder implements GradientBuilder {
     }
 
     /**
-     * Creates a new {@link LinearGradientPaint} object, using the data provided by other method calls.
+     * Creates a new {@link LinearGradientPaint} object, using the data provided by earlier method calls.
      *
      * @return The resulting {@code LinearGradientPaint}.
      */
@@ -108,6 +119,8 @@ public class LinearGradientBuilder implements GradientBuilder {
     /**
      * Gets a new instance of a {@link LinearGradientBuilder}.
      *
+     * @param start The {@code Pointf} defining the starting point of the gradient.
+     * @param end   The {@code Pointf} defining the ending point of the gradient.
      * @return The {@code LinearGradientBuilder} instance.
      */
     static LinearGradientBuilder builder(Pointf start, Pointf end) {
@@ -117,6 +130,9 @@ public class LinearGradientBuilder implements GradientBuilder {
     /**
      * Gets a new instance of a {@link LinearGradientBuilder}.
      *
+     * @param drawable The basis for what the {@code start} and {@code end} end positions evaluate to.
+     * @param start    The starting boundary to create the gradient from.
+     * @param end      The ending boundary to create the gradient from.
      * @return The {@code LinearGradientBuilder} instance.
      */
     static LinearGradientBuilder builder(Drawable drawable, Boundary start, Boundary end) {
