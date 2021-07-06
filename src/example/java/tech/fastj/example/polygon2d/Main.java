@@ -3,11 +3,13 @@ package tech.fastj.example.polygon2d;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Display;
+import tech.fastj.graphics.RenderStyle;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.SimpleManager;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 public class Main extends SimpleManager {
@@ -37,8 +39,10 @@ public class Main extends SimpleManager {
 
 
         /* Now, we can create our Polygon2D. We'll use smallSquareMeshByHand for right now, but you
-         * should try switching from it to smallSquareMeshFromDrawUtil to see what happens! */
-        Polygon2D smallSquare = new Polygon2D(smallSquareMeshByHand);
+         * should try switching from it to smallSquareMeshFromDrawUtil to see what happens!
+         *
+         * To create a simple Polygon2D with just a mesh, use Polygon2D.fromPoints(mesh). */
+        Polygon2D smallSquare = Polygon2D.fromPoints(smallSquareMeshByHand);
 
         /* Super simple! Now, this alone does not cause the square to render to the screen. In
          * order for it to be rendered, you need to add it as a game object to the drawable
@@ -50,33 +54,36 @@ public class Main extends SimpleManager {
 
 
         /* You can set the following properties of a Polygon2D:
-         * - Mesh (Pointf[])
-         * - Paint (solid color, gradient)
-         * - PaintFilled (render the outline or fill)
-         * - Rotation
-         * - Scale
-         * - Translation
+         * - Mesh (Pointf array)
+         * - Fill (solid color or a gradient)
+         * - Outline Stroke (outline style in the form of a BasicStroke)
+         * - Outline Color (same type of color as in Fill)
+         * - RenderStyle (render the outline, fill, or both)
+         * - Transformation (translation, rotation, scale)
+         * - ShouldRender (whether the Polygon2D should be rendered to the screen)
          *
          * To show this off, we'll create a larger square with the following property values:
-         * - Square mesh at (625, 25) with a size of 47.9
+         * - Square mesh at (625, 25.5) with a size of 47.9
          * - Blue color
-         * - Outline
-         * - Rotation of 30 degrees
-         * - Scaled to 50% (0.5)
-         * - Translated by (20, 10) */
+         * - black outline 5 pixels wide with rounded edges and endpoints)
+         * - render style defining that it should be filled and outlined
+         * - Translated by (20, 10)
+         * - Rotation by 30 degrees
+         * - Scaled down to 50% (0.5) */
         Pointf[] largeSquareMesh = DrawUtil.createBox(625f, 25.5f, 47.9f);
-        Polygon2D largeSquare = new Polygon2D(largeSquareMesh)
-                .setPaint(Color.blue)
-                .setFilled(false);
+        BasicStroke largeSquareOutlineStroke = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-        /* As you can see from the code above, many of the methods Polygon2D contains allow for
-         * method chaining.
-         * From the code below, you can see that other methods do not. */
+        Pointf largeSquareTranslation = new Pointf(20f, 10f);
+        float largeSquareRotation = 30f;
+        Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
 
-        largeSquare.rotate(30f);
-        largeSquare.scale(new Pointf(0.5f, 0.5f));
-        largeSquare.translate(new Pointf(20f, 10f));
+        Polygon2D largeSquare = Polygon2D.create(largeSquareMesh, RenderStyle.FillAndOutline)
+                .withFill(Color.blue)
+                .withOutline(largeSquareOutlineStroke, Color.black)
+                .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
+                .build();
 
+        // And of course, we need to add our large square to the drawable manager's game objects.
         drawableManager.addGameObject(largeSquare);
     }
 

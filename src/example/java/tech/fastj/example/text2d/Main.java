@@ -7,34 +7,21 @@ import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.SimpleManager;
 
+import java.awt.Color;
+import java.awt.Font;
+
 public class Main extends SimpleManager {
 
     @Override
     public void init(Display display) {
         /* Text2D */
 
-        /* In order to create a Text2D, you will need two things:
-         * 1. A message, or some text to display.
-         * 2. A location for the message to be rendered at. */
+        /* In order to create a Text2D, you just need to have a String containing text. */
 
-        // The message is pretty simple -- just a String containing text.
-        String messageString = "Hello, FastJ Text2D!";
-
-        /* The location is fairly simple as well -- just a Pointf containing the x and y location.
-         *
-         * For the sake of clarification, a Pointf is a 2D vector containing x and y variables.
-         * In this case, "messageLocation" represents the point (0, 25) in the 2D coordinate space.
-         *
-         * Note: Text2D render differently from polygons. They are rendered such that the y
-         * location represents the bottom of the text shown.
-         * One good way to account for this is to add the size of the font to the y position. Since
-         * we did not create a custom font for the Text2D, we can use the size of the default font,
-         * "Text2D#DefaultFont#getSize()". */
-        Pointf messageLocation = new Pointf(0f, 0f + Text2D.DefaultFont.getSize());
-
-
-        // Now, we put it all together!
-        Text2D message = new Text2D(messageString, messageLocation);
+        // The text is pretty simple -- just a String containing text.
+        String text = "Hello, FastJ Text2D!";
+        // Simple Text2D creation can be done with Text2D.fromText(text)
+        Text2D message = Text2D.fromText(text);
 
         /* Super simple! Now, this alone does not cause the text to render to the screen. In order
          * for it to be rendered, you need to add it as a game object to the drawable manager. */
@@ -43,7 +30,35 @@ public class Main extends SimpleManager {
         /* If you comment out the line above, you'll see that the text does not get rendered. */
 
 
-        /*  */
+        /* You can set the following properties of a Text2D:
+         * - Text (String)
+         * - Fill paint (solid color or a gradient)
+         * - Font
+         * - Transformation (translation, rotation, scale)
+         * - ShouldRender (whether the Polygon2D should be rendered to the screen)
+         *
+         * To show this off, we'll create a Text2D object with the following attributes:
+         * - Text containing "Interesting Text2D ya got there..."
+         * - Magenta color
+         * - Times New Roman font, size 12 italic
+         * - Translated by (20, 10)
+         * - Rotation by 30 degrees
+         * - Scaled down to 50% (0.5) */
+        String interestingText = "Interesting Text2D ya got there...";
+        Font interestingFont = new Font("Times New Roman", Font.ITALIC, 12);
+
+        Pointf largeSquareTranslation = new Pointf(20f, 10f);
+        float largeSquareRotation = 30f;
+        Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
+
+        Text2D interestingText2D = Text2D.create(interestingText)
+                .withFill(Color.magenta)
+                .withFont(interestingFont)
+                .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
+                .build();
+
+        // And of course, we need to add our interesting text to the drawable manager's game objects.
+        drawableManager.addGameObject(interestingText2D);
     }
 
     @Override
