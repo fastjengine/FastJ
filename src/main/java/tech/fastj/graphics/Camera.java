@@ -1,6 +1,5 @@
 package tech.fastj.graphics;
 
-import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
@@ -14,134 +13,236 @@ import java.util.Objects;
  */
 public class Camera {
 
-    /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
-    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
-    /** {@code float} representing a default rotation value of {@code 0f}. */
-    public static final float DefaultRotation = 0f;
-
     /** A camera with no transformations. */
     public static final Camera Default = new Camera();
 
-    private final Pointf translation;
-    private float rotation;
+    private final Transform2D transform;
 
     /** Constructs a {@code Camera} with default transformations. */
     public Camera() {
-        this(DefaultTranslation.copy(), DefaultRotation);
-    }
-
-    /**
-     * Constructs a {@code Camera} with translation set to the specified value, and rotation set to 0.
-     *
-     * @param setTranslation Sets the translation of this {@code Camera}.
-     */
-    public Camera(Pointf setTranslation) {
-        this(setTranslation, DefaultRotation);
-    }
-
-    /**
-     * Constructs a {@code Camera} with rotation set to the specified value, and translation set to 0.
-     *
-     * @param setRotation Sets the rotation of this {@code Camera}.
-     */
-    public Camera(float setRotation) {
-        this(DefaultTranslation, setRotation);
+        this(Transform2D.DefaultTranslation, Transform2D.DefaultRotation, Transform2D.DefaultScale);
     }
 
     /**
      * Constructs a {@code Camera} with translation and rotation set to the specified values.
      *
-     * @param setTranslation Sets the translation of this {@code Camera}.
-     * @param setRotation    Sets the rotation of this {@code Camera}.
+     * @param setTranslation {@code Pointf} parameter that the {@code Camera}'s translation will be set to.
+     * @param setRotation    float parameter that the {@code Camera}'s rotation will be set to.
+     * @param setScale       {@code Pointf} parameter that the {@code Camera}'s scale will be set to.
      */
-    public Camera(Pointf setTranslation, float setRotation) {
-        translation = setTranslation;
-        rotation = setRotation;
+    public Camera(Pointf setTranslation, float setRotation, Pointf setScale) {
+        transform = new Transform2D();
+        setTransform(setTranslation, setRotation, setScale);
     }
 
     /**
-     * Applies a modifier to the {@code Camera}'s rotation.
+     * Gets the centerpoint of the {@code Camera}.
      *
-     * @param rotationMod Modifier for the {@code Camera}'s rotation.
+     * @return The centerpoint, as a {@code Pointf}.
      */
-    public void rotate(float rotationMod) {
-        rotation += rotationMod;
+    public Pointf getCenter() {
+        return getTranslation().copy();
     }
 
     /**
-     * Applies a modifier to the {@code Camera}'s translation.
+     * Gets the {@code Camera}'s translation.
      *
-     * @param translationMod {@code Pointf} value which the {@code Camera}'s x and y location will be modified by.
-     */
-    public void translate(Pointf translationMod) {
-        translation.add(translationMod);
-    }
-
-    /**
-     * Gets the {@code Camera}'s current rotation.
-     *
-     * @return The {@code Camera}'s current rotation.
-     */
-    public double getRotation() {
-        return rotation;
-    }
-
-    /**
-     * Gets the {@code Camera}'s current translation.
-     *
-     * @return The {@code Camera}'s current translation.
+     * @return A {@code Pointf} that represents the current translation of the {@code Camera}.
      */
     public Pointf getTranslation() {
-        return translation;
+        return transform.getTranslation();
     }
 
     /**
-     * Gets the transformation of this {@code Camera} object as an {@code AffineTransform}.
+     * Sets the {@code Camera}'s translation to the specified value.
      *
-     * @return The overall transformation of the {@code Camera} object as an {@code AffineTransform} value.
+     * @param setTranslation {@code Pointf} parameter that the {@code Camera}'s translation will be set to.
+     * @return The {@code Camera}, for method chaining.
+     */
+    public Camera setTranslation(Pointf setTranslation) {
+        if (getTranslation().equals(setTranslation)) {
+            return this;
+        }
+
+        transform.setTranslation(setTranslation);
+        return this;
+    }
+
+    /**
+     * Gets the {@code Camera}'s rotation.
+     *
+     * @return A float that represents the current rotation of the {@code Camera}.
+     */
+    public float getRotation() {
+        return transform.getRotation();
+    }
+
+    /**
+     * Sets the {@code Camera}'s rotation to the specified value.
+     *
+     * @param setRotation float parameter that the {@code Camera}'s rotation will be set to.
+     * @return The {@code Camera}, for method chaining.
+     */
+    public Camera setRotation(float setRotation) {
+        if (getRotation() == setRotation) {
+            return this;
+        }
+
+        transform.setRotation(setRotation);
+        return this;
+    }
+
+    /**
+     * Gets the {@code Camera}'s scale.
+     *
+     * @return A {@code Pointf} that represents the current scale of the object.
+     */
+    public Pointf getScale() {
+        return transform.getScale();
+    }
+
+    /**
+     * Sets the {@code Camera}'s scale to the specified value.
+     *
+     * @param setScale {@code Pointf} parameter that the {@code Camera}'s scale will be set to.
+     * @return The {@code Camera}, for method chaining.
+     */
+    public Camera setScale(Pointf setScale) {
+        if (getScale().equals(setScale)) {
+            return this;
+        }
+
+        transform.setScale(setScale);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Camera}'s translation, rotation, and scale to the specified values.
+     *
+     * @param setTranslation {@code Pointf} parameter that the {@code Camera}'s translation will be set to.
+     * @param setRotation    float parameter that the {@code Camera}'s rotation will be set to.
+     * @param setScale       {@code Pointf} parameter that the {@code Camera}'s scale will be set to.
+     * @return The {@code Camera}, for method chaining.
+     */
+    public Camera setTransform(Pointf setTranslation, float setRotation, Pointf setScale) {
+        setTranslation(setTranslation);
+        setRotation(setRotation);
+        setScale(setScale);
+        return this;
+    }
+
+    /**
+     * Translates the {@code Camera}'s position by the specified translation.
+     *
+     * @param translationMod {@code Pointf} parameter that the {@code Camera}'s x and y location will be translated by.
+     */
+    public void translate(Pointf translationMod) {
+        if (Transform2D.DefaultTranslation.equals(translationMod)) {
+            return;
+        }
+
+        transform.translate(translationMod);
+    }
+
+    /**
+     * Rotates the {@code Camera} in the direction of the specified rotation, about the specified centerpoint.
+     *
+     * @param rotationMod float parameter that the {@code Camera} will be rotated by.
+     * @param centerpoint {@code Pointf} parameter that the {@code Camera} will be rotated about.
+     */
+    public void rotate(float rotationMod, Pointf centerpoint) {
+        if (rotationMod == Transform2D.DefaultRotation) {
+            return;
+        }
+
+        transform.rotate(rotationMod, centerpoint);
+    }
+
+    /**
+     * Scales the {@code Camera} in by the amount specified in the specified scale, from the specified centerpoint.
+     *
+     * @param scaleMod    {@code Pointf} parameter that the {@code Camera}'s width and height will be scaled by.
+     * @param centerpoint {@code Pointf} parameter that the {@code Camera} will be scaled about.
+     */
+    public void scale(Pointf scaleMod, Pointf centerpoint) {
+        if (Transform2D.DefaultScale.equals(scaleMod)) {
+            return;
+        }
+
+        transform.scale(scaleMod, centerpoint);
+    }
+
+    /**
+     * Gets the rotation, normalized to be within a range of {@code (-360, 360)}.
+     *
+     * @return The normalized rotation.
+     */
+    public float getRotationWithin360() {
+        return transform.getRotationWithin360();
+    }
+
+    /**
+     * Gets the entire transformation of the {@code Camera}.
+     *
+     * @return The transformation, as an {@link AffineTransform}.
      */
     public AffineTransform getTransformation() {
-        AffineTransform at = new AffineTransform();
+        return transform.getAffineTransform();
+    }
 
-        if (rotation != Camera.DefaultRotation) {
-            at.rotate(Math.toRadians(rotation));
-        }
-        if (translation.x != Camera.DefaultTranslation.x || translation.y != Camera.DefaultTranslation.y) {
-            at.translate(translation.x, translation.y);
-        }
+    /**
+     * Rotates the {@code Camera} in the direction of the specified rotation, about its center.
+     *
+     * @param rotationMod float parameter that the {@code Camera} will be rotated by.
+     */
+    public void rotate(float rotationMod) {
+        rotate(rotationMod, Pointf.Origin);
+    }
 
-        return at;
+    /**
+     * Scales the {@code Camera} in by the amount specified in the specified scale, about its center.
+     *
+     * @param scaleXY float parameter that the {@code Camera} will be scaled by, acting as both the x and y values.
+     */
+    public void scale(float scaleXY) {
+        scale(new Pointf(scaleXY), getCenter());
+    }
+
+    /**
+     * Scales the {@code Camera} in by the amount specified in the specified scale, about its center.
+     *
+     * @param scaleMod {@code Pointf} parameter that the {@code Camera} will be scaled by, based on its x and y values.
+     */
+    public void scale(Pointf scaleMod) {
+        scale(scaleMod, getCenter());
     }
 
     /** Resets the camera's transformation to the default. */
     public void reset() {
-        translation.reset();
-        rotation = Camera.DefaultRotation;
+        transform.reset();
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object other) {
+        if (this == other) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (other == null || getClass() != other.getClass()) {
             return false;
         }
-
-        Camera camera = (Camera) o;
-        return Maths.floatEquals(camera.rotation, rotation) && Objects.equals(translation, camera.translation);
+        Camera camera = (Camera) other;
+        return camera.transform.equals(transform);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(translation, rotation);
+        return Objects.hash(transform);
     }
 
     @Override
     public String toString() {
         return "Camera{" +
-                "translation=" + translation +
-                ", rotation=" + rotation +
+                "transform=" + transform +
                 '}';
     }
 }

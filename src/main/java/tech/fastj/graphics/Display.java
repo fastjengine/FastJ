@@ -225,6 +225,15 @@ public class Display {
     }
 
     /**
+     * Gets the centerpoint of the {@code Display}'s internal resolution.
+     *
+     * @return The centerpoint of the internal resolution as a {@code Pointf}.
+     */
+    public Pointf getScreenCenter() {
+        return Pointf.divide(internalResolution.asPointf(), 2f);
+    }
+
+    /**
      * Gets the value that determines whether the {@code Display} is in full-screen mode.
      *
      * @return The boolean that determines whether the {@code Display} is in full-screen mode.

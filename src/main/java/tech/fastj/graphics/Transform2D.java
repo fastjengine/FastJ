@@ -4,6 +4,7 @@ import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 
 import java.awt.geom.AffineTransform;
+import java.util.Objects;
 
 /** Convenience class for storing/performing 2D transformations using {@link AffineTransform}. */
 public class Transform2D {
@@ -117,5 +118,33 @@ public class Transform2D {
 
     public void resetScale() {
         scaleTransform.setToIdentity();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Transform2D transform2D = (Transform2D) other;
+        return Maths.floatEquals(rotation, transform2D.rotation)
+                && getTranslation().equals(transform2D.getTranslation())
+                && getScale().equals(transform2D.getScale());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(translationTransform, rotationTransform, scaleTransform, lastRotationPoint, lastScalePoint, rotation);
+    }
+
+    @Override
+    public String toString() {
+        return "Transform2D{" +
+                "translation=" + getTranslation() +
+                ", rotation=" + rotation +
+                ", scale=" + getScale() +
+                '}';
     }
 }
