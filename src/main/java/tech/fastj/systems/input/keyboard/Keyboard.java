@@ -99,8 +99,8 @@ public class Keyboard implements KeyListener {
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently pressed.
      */
-    public static boolean isKeyRecentlyPressed(int keyCode, KeyLocation keyLocation) {
-        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+    public static boolean isKeyRecentlyPressed(int keyCode, int keyLocation) {
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation);
         if (keyDescription == null) {
             return false;
         }
@@ -115,16 +115,12 @@ public class Keyboard implements KeyListener {
      * Checks if the specified key was recently pressed.
      * <p>
      * If the specified key was recently pressed, it will no longer be recently pressed when this method concludes.
-     * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
-     * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
-     *                class.
+     * @param key Enum value specifying a specific key.
      * @return Boolean value that determines if the specified key was recently pressed.
      */
-    public static boolean isKeyRecentlyPressed(int keyCode) {
-        return isKeyRecentlyPressed(keyCode, KeyLocation.of(keyCode));
+    public static boolean isKeyRecentlyPressed(Keys key) {
+        return isKeyRecentlyPressed(key.keyCode, key.keyLocation);
     }
 
     /**
@@ -134,13 +130,13 @@ public class Keyboard implements KeyListener {
      *
      * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
      *                    KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
+     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
      *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently released.
      */
-    public static boolean isKeyRecentlyReleased(int keyCode, KeyLocation keyLocation) {
-        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+    public static boolean isKeyRecentlyReleased(int keyCode, int keyLocation) {
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation);
         if (keyDescription == null) {
             return false;
         }
@@ -160,12 +156,11 @@ public class Keyboard implements KeyListener {
      * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
      * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
-     *                class.
+     * @param key Enum value specifying a specific key.
      * @return Boolean value that determines if the specified key was recently released.
      */
-    public static boolean isKeyRecentlyReleased(int keyCode) {
-        return isKeyRecentlyReleased(keyCode, KeyLocation.of(keyCode));
+    public static boolean isKeyRecentlyReleased(Keys key) {
+        return isKeyRecentlyReleased(key.keyCode, key.keyLocation);
     }
 
     /**
@@ -173,13 +168,13 @@ public class Keyboard implements KeyListener {
      *
      * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
      *                    KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
+     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
      *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
      *                    NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key is pressed.
      */
-    public static boolean isKeyDown(int keyCode, KeyLocation keyLocation) {
-        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation.location);
+    public static boolean isKeyDown(int keyCode, int keyLocation) {
+        KeyDescription keyDescription = KeyDescription.get(keyCode, keyLocation);
         if (keyDescription == null) {
             return false;
         }
@@ -193,12 +188,11 @@ public class Keyboard implements KeyListener {
      * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
      * for the left location.
      *
-     * @param keyCode Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent
-     *                class.
+     * @param key Enum value specifying a specific key.
      * @return Boolean value that determines if the specified key is pressed.
      */
-    public static boolean isKeyDown(int keyCode) {
-        return isKeyDown(keyCode, KeyLocation.of(keyCode));
+    public static boolean isKeyDown(Keys key) {
+        return isKeyDown(key.keyCode, key.keyLocation);
     }
 
     /**
@@ -259,67 +253,6 @@ public class Keyboard implements KeyListener {
         /* Don't call the fireKeyEvent here!
          * KeyEvent.KEY_PRESSED only gets called under certain
          * conditions, so it cannot be abstracted to work here without some serious effort. */
-    }
-
-    /** Enum that defines the location of a key. */
-    public enum KeyLocation {
-        /** Any key not in the other groups -- the most common type of key. */
-        Standard(1),
-        /** A key appearing twice on the keyboard -- this specifies the version on the left. */
-        Left(2),
-        /** A key appearing twice on the keyboard -- this specifies the version on the right. */
-        Right(3),
-        /** A key on the "numpad" -- a collection of keys often to the right of the main keyboard. */
-        Numpad(4);
-
-        /** Keys that can correspond with {@code KeyLocation.LEFT} or {@code KeyLocation.RIGHT}. */
-        private static final int[] LeftRightKeys = {
-                KeyEvent.VK_CONTROL,
-                KeyEvent.VK_SHIFT,
-                KeyEvent.VK_ALT
-        };
-        /** Keys that correspond with {@code KeyLocation.NUMPAD}. */
-        private static final int[] NumpadKeys = {
-                KeyEvent.VK_NUMPAD0,
-                KeyEvent.VK_NUMPAD1,
-                KeyEvent.VK_NUMPAD2,
-                KeyEvent.VK_NUMPAD3,
-                KeyEvent.VK_NUMPAD4,
-                KeyEvent.VK_NUMPAD5,
-                KeyEvent.VK_NUMPAD6,
-                KeyEvent.VK_NUMPAD7,
-                KeyEvent.VK_NUMPAD8,
-                KeyEvent.VK_NUMPAD9
-        };
-        private final int location;
-
-        KeyLocation(int i) {
-            location = i;
-        }
-
-        /**
-         * Gets the contextually correct keyboard location of the specified keycode.
-         * <p>
-         * For any keys that have a left and right variant, this defaults to the left variant.
-         *
-         * @param keyCode The keycode to be matched with a location.
-         * @return The {@code KeyLocation} that corresponds with the specified keycode.
-         */
-        private static KeyLocation of(int keyCode) {
-            for (int code : NumpadKeys) {
-                if (keyCode == code) {
-                    return Numpad;
-                }
-            }
-
-            for (int code : LeftRightKeys) {
-                if (keyCode == code) {
-                    return Left;
-                }
-            }
-
-            return Standard;
-        }
     }
 
     /**
