@@ -42,7 +42,7 @@ public class Keyboard implements KeyListener {
 
                 if (!key.currentlyPressed) {
                     key.setRecentPress(true);
-                    inputManager.fireKeyEvent(keyEvent);
+                    inputManager.fireKeyEvent(KeyboardStateEvent.fromKeyEvent(keyEvent));
                 }
 
                 key.setCurrentPress(true);
@@ -57,11 +57,11 @@ public class Keyboard implements KeyListener {
                     key.setRecentRelease(true);
                 }
 
-                inputManager.fireKeyEvent(keyEvent);
+                inputManager.fireKeyEvent(KeyboardStateEvent.fromKeyEvent(keyEvent));
             },
             KeyEvent.KEY_TYPED, (inputManager, keyEvent) -> {
                 lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
-                inputManager.fireKeyEvent(keyEvent);
+                inputManager.fireKeyEvent(KeyboardTypedEvent.fromKeyEvent(keyEvent));
             }
     );
 

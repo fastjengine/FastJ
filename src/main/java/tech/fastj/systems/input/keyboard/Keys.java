@@ -1,6 +1,8 @@
 package tech.fastj.systems.input.keyboard;
 
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 /**
  * Based on the {@link KeyEvent} class, the {@code Keys} class defines better-looking names for keyboard input
@@ -347,8 +349,8 @@ public enum Keys {
     /** Constant representing the "F24" key. */
     F24(KeyEvent.VK_F24, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Printscreen" key. */
-    Printscreen(KeyEvent.VK_PRINTSCREEN, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Print screen" key. */
+    PrintScreen(KeyEvent.VK_PRINTSCREEN, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "Insert" key. */
     Insert(KeyEvent.VK_INSERT, KeyEvent.KEY_LOCATION_STANDARD),
@@ -395,17 +397,17 @@ public enum Keys {
     /** Constant representing the "Dead breve" key. */
     DeadBreve(KeyEvent.VK_DEAD_BREVE, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Dead abovedot" key. */
-    DeadAbovedot(KeyEvent.VK_DEAD_ABOVEDOT, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Dead above dot" key. */
+    DeadAboveDot(KeyEvent.VK_DEAD_ABOVEDOT, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "Dead diaeresis" key. */
     DeadDiaeresis(KeyEvent.VK_DEAD_DIAERESIS, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Dead abovering" key. */
-    DeadAbovering(KeyEvent.VK_DEAD_ABOVERING, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Dead above ring" key. */
+    DeadAboveRing(KeyEvent.VK_DEAD_ABOVERING, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Dead doubleacute" key. */
-    DeadDoubleacute(KeyEvent.VK_DEAD_DOUBLEACUTE, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Dead double acute" key. */
+    DeadDoubleAcute(KeyEvent.VK_DEAD_DOUBLEACUTE, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "Dead caron" key. */
     DeadCaron(KeyEvent.VK_DEAD_CARON, KeyEvent.KEY_LOCATION_STANDARD),
@@ -422,10 +424,10 @@ public enum Keys {
     /** Constant representing the "Dead voiced sound" key. */
     DeadVoicedSound(KeyEvent.VK_DEAD_VOICED_SOUND, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Dead semivoiced sound" key. */
-    DeadSemivoicedSound(KeyEvent.VK_DEAD_SEMIVOICED_SOUND, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Dead semi-voiced sound" key. */
+    DeadSemiVoicedSound(KeyEvent.VK_DEAD_SEMIVOICED_SOUND, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "&" key. */
+    /** Constant representing the "&amp;" key. */
     Ampersand(KeyEvent.VK_AMPERSAND, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "*" key. */
@@ -494,14 +496,14 @@ public enum Keys {
     /** Constant representing the "Convert" key. */
     Convert(KeyEvent.VK_CONVERT, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Nonconvert" key. */
-    Nonconvert(KeyEvent.VK_NONCONVERT, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Non-convert" key. */
+    NonConvert(KeyEvent.VK_NONCONVERT, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "Accept" key. */
     Accept(KeyEvent.VK_ACCEPT, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Modechange" key. */
-    Modechange(KeyEvent.VK_MODECHANGE, KeyEvent.KEY_LOCATION_STANDARD),
+    /** Constant representing the "Mode change" key. */
+    ModeChange(KeyEvent.VK_MODECHANGE, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "Kana" key. */
     Kana(KeyEvent.VK_KANA, KeyEvent.KEY_LOCATION_STANDARD),
@@ -593,5 +595,67 @@ public enum Keys {
     Keys(int keyCode, int keyLocation) {
         this.keyCode = keyCode;
         this.keyLocation = keyLocation;
+    }
+
+    /**
+     * Gets the key code of the specified key.
+     *
+     * @return The key code, derived from {@link KeyEvent}.
+     */
+    public int getKeyCode() {
+        return keyCode;
+    }
+
+    /**
+     * Gets the key location of the specified key.
+     *
+     * @return The key location, derived from {@link KeyEvent}.
+     */
+    public int getKeyLocation() {
+        return keyLocation;
+    }
+
+    @Override
+    public String toString() {
+        return "Keys{" +
+                "keyCode=" + keyCode +
+                ", keyLocation=" + keyLocation +
+                '}';
+    }
+
+    /**
+     * Attempts to find a key based on the provided {@code keyCode} and {@code keyLocation}.
+     * <p>
+     * This method is meant for use in situations when trying to find a key while only knowing its key code and location
+     * (such as from a {@link KeyEvent}).
+     * <p>
+     * If possible, store the results of this computation because it searches the entire enum of keys to find the
+     * correct key -- this may take longer than expected on slower machines.
+     *
+     * @param keyName {@code String} name of the key.
+     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
+     * thrown.
+     */
+    public static Keys get(String keyName) {
+        return Arrays.stream(Keys.values())
+                .parallel()
+                .filter(keys -> keys.name().equalsIgnoreCase(keyName))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Couldn't find a key with key name \"" + keyName + "\"."));
+    }
+
+    /**
+     * Attempts to find a key based on the provided {@code keyCode} and {@code keyLocation}.
+     * <p>
+     * This method is meant for use in situations when trying to find a key while only knowing its key code and location
+     * (such as from a {@link KeyEvent}). If possible, store the results of this computation because it searches the
+     * entire enum of keys to find the correct key -- this may take longer than expected on slower machines.
+     *
+     * @param keyEvent The event to evaluate a key for.
+     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
+     * thrown.
+     */
+    public static Keys get(KeyEvent keyEvent) {
+        return get(KeyEvent.getKeyText(keyEvent.getExtendedKeyCode()));
     }
 }
