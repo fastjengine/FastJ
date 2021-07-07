@@ -561,6 +561,16 @@ public class Display {
     }
 
     /**
+     * Changes the global rendering settings based on the provided option.
+     *
+     * @param renderSetting The {@link RenderSettings} value used to change the global rendering settings.
+     */
+    public void modifyRenderSettings(RenderSettings renderSetting) {
+        renderHints.remove(renderSetting.key);
+        renderHints.put(renderSetting.key, renderSetting.value);
+    }
+
+    /**
      * Gets the value that determines whether the {@code Drawable} is visible on screen.
      *
      * @param drawable The {@code Drawable} to check.

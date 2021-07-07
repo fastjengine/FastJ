@@ -58,6 +58,10 @@ This program demonstrates how to read and write polygons from and to a file.
 
 Command to run: `./gradlew example -PtoRun=modelreadwrite`
 
+### Global Rendering Settings
+This program demonstrates how to use the `RenderSettings` class to change the way content gets rendered to the screen in FastJ.
+
+Command to run: `./gradlew example -PtoRun=rendersettings`
 
 ## Games
 _Example programs to demonstrate FastJ through games._
