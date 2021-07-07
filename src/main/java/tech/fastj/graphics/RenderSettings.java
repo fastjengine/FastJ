@@ -24,17 +24,17 @@ public class RenderSettings {
     /** Render settings to enable/disable anti-aliasing. */
     public static class Antialiasing {
         /** Render setting that enables anti-aliasing. */
-        public static final RenderSettings Enabled = new RenderSettings(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         /** Render setting that disables anti-aliasing. */
-        public static final RenderSettings Disabled = new RenderSettings(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+        public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
     }
 
     /** Render settings to enable/disable text anti-aliasing, as well as specific optimizations for LCD screens. */
     public static class TextAntialiasing {
         /** Render setting that enables text anti-aliasing. */
-        public static final RenderSettings Enabled = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         /** Render setting that disables text anti-aliasing. */
-        public static final RenderSettings Disabled = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
         /**
          * Render setting that enables anti-aliasing based on font resource specifications.
          * <p>
@@ -87,19 +87,19 @@ public class RenderSettings {
     }
 
     /** Render settings to change general rendering quality. */
-    public static class GeneralRendering {
+    public static class GeneralRenderingQuality {
         /** Render setting that opts for fast rendering algorithms. */
-        public static final RenderSettings Speed = new RenderSettings(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
         /** Render setting that opts for quality-accurate rendering algorithms. */
-        public static final RenderSettings Quality = new RenderSettings(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
     }
 
     /** Render settings to change color rendering quality. */
-    public static class ColorRendering {
+    public static class ColorRenderingQuality {
         /** Render setting that opts for fast color rendering algorithms. */
-        public static final RenderSettings Speed = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+        public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
         /** Render setting that opts for quality-accurate color rendering algorithms. */
-        public static final RenderSettings Quality = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
+        public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY);
     }
 
     /** Render settings that change the image interpolation algorithm. */
@@ -125,15 +125,15 @@ public class RenderSettings {
     }
 
     /** Render settings that change alpha interpolation quality. */
-    public static class AlphaInterpolation {
+    public static class AlphaInterpolationQuality {
         /** Render setting that opts for fast alpha-blend rendering algorithms. */
-        public static final RenderSettings Speed = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+        public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
         /** Render setting that opts for quality-accurate alpha-blend rendering algorithms. */
-        public static final RenderSettings Quality = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+        public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
     }
 
     /** Render settings that change how polygon outlines are rendered. */
-    public static class StrokeNormalization {
+    public static class OutlineRenderingStyle {
         /** Render setting that normalizes polygon outlines when rendering to improve rendering uniformity. */
         public static final RenderSettings Normalize = new RenderSettings(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_NORMALIZE);
         /** Render setting that does not normalize polygon outlines when rendering, leaving it unmodified. */
@@ -141,7 +141,7 @@ public class RenderSettings {
     }
 
     /** Render settings that change how images are picked based on resolution. */
-    public static class ImageResolution {
+    public static class ImageVariantResolution {
         /** Render setting that specifies to always use the standard resolution of an image. */
         public static final RenderSettings Standard = new RenderSettings(RenderingHints.KEY_RESOLUTION_VARIANT, RenderingHints.VALUE_RESOLUTION_VARIANT_BASE);
         /** Render setting that specifies to choose image resolutions based on the camera transformation and screen DPI. */
@@ -194,16 +194,16 @@ public class RenderSettings {
     /** Render settings that enable/disable dithering when rendering polygons. */
     public static class Dithering {
         /** Render setting that enables dithering when rendering polygons. */
-        public static final RenderSettings Enabled = new RenderSettings(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
+        public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE);
         /** Render setting that disables dithering when rendering polygons. */
-        public static final RenderSettings Disabled = new RenderSettings(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
+        public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_DISABLE);
     }
 
     /** Render settings that enable/disable subpixel text rendering. */
     public static class SubpixelTextRendering {
         /** Render setting that enables subpixel text rendering. */
-        public static final RenderSettings Enabled = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+        public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
         /** Render setting that disables subpixel text rendering. */
-        public static final RenderSettings Disabled = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+        public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
     }
 }
