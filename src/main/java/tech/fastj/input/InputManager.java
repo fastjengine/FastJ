@@ -1,12 +1,4 @@
-package tech.fastj.systems.input;
-
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.keyboard.KeyboardActionListener;
-import tech.fastj.systems.input.keyboard.KeyboardEvent;
-import tech.fastj.systems.input.keyboard.KeyboardStateEvent;
-import tech.fastj.systems.input.keyboard.KeyboardTypedEvent;
-import tech.fastj.systems.input.mouse.Mouse;
-import tech.fastj.systems.input.mouse.MouseActionListener;
+package tech.fastj.input;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -15,6 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.input.keyboard.KeyboardEvent;
+import tech.fastj.input.keyboard.KeyboardStateEvent;
+import tech.fastj.input.keyboard.KeyboardTypedEvent;
+import tech.fastj.input.mouse.Mouse;
+import tech.fastj.input.mouse.MouseActionListener;
 
 /**
  * Class to manage user input and input event processing.

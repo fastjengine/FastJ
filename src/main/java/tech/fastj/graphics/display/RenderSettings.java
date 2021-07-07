@@ -1,4 +1,4 @@
-package tech.fastj.graphics;
+package tech.fastj.graphics.display;
 
 import tech.fastj.math.Maths;
 

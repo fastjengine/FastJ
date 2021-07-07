@@ -1,6 +1,6 @@
-package tech.fastj.systems.input.mouse;
+package tech.fastj.input.mouse;
 
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 
 /** Enum defining the different types of mouse actions. */
 public enum MouseAction {

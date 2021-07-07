@@ -1,4 +1,4 @@
-package tech.fastj.systems.input.keyboard;
+package tech.fastj.input.keyboard;
 
 import java.awt.event.KeyEvent;
 import java.util.Arrays;

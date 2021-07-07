@@ -1,10 +1,9 @@
 package unittest.testcases.systems.input.keyboard;
 
-import tech.fastj.systems.input.keyboard.Keys;
-
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
+import tech.fastj.input.keyboard.Keys;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;

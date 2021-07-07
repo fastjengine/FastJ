@@ -1,7 +1,4 @@
-package tech.fastj.graphics;
-
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
+package tech.fastj.math;
 
 import java.awt.geom.AffineTransform;
 import java.util.Objects;

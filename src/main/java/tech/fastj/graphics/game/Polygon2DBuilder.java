@@ -1,8 +1,7 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.RenderStyle;
-import tech.fastj.graphics.Transform2D;
+import tech.fastj.math.Transform2D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

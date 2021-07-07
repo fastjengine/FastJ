@@ -1,16 +1,16 @@
-package tech.fastj.graphics.util.io;
+package tech.fastj.graphics.io;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.Drawable;
-import tech.fastj.graphics.RenderStyle;
-import tech.fastj.graphics.Transform2D;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.util.gradients.Gradients;
-import tech.fastj.graphics.util.gradients.LinearGradientBuilder;
-import tech.fastj.graphics.util.gradients.RadialGradientBuilder;
+import tech.fastj.graphics.game.RenderStyle;
+import tech.fastj.graphics.gradients.Gradients;
+import tech.fastj.graphics.gradients.LinearGradientBuilder;
+import tech.fastj.graphics.gradients.RadialGradientBuilder;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

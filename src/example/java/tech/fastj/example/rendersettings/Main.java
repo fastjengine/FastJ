@@ -2,9 +2,9 @@ package tech.fastj.example.rendersettings;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Display;
-import tech.fastj.graphics.RenderSettings;
-import tech.fastj.graphics.Transform2D;
+import tech.fastj.math.Transform2D;
+import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.RenderSettings;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.SimpleManager;

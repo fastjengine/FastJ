@@ -2,8 +2,8 @@ package unittest.testcases.graphics;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Camera;
-import tech.fastj.graphics.Transform2D;
+import tech.fastj.math.Transform2D;
+import tech.fastj.graphics.display.Camera;
 
 import java.awt.geom.AffineTransform;
 

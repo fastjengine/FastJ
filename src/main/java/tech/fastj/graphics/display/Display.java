@@ -1,16 +1,14 @@
-package tech.fastj.graphics;
+package tech.fastj.graphics.display;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DisplayUtil;
 import tech.fastj.graphics.util.DrawUtil;
-
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.mouse.Mouse;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;
@@ -29,6 +27,9 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.mouse.Mouse;
 
 /**
  * Class that draws to a screen using a combination of Swing's JFrame, and AWT's Canvas.

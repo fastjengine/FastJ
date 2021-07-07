@@ -1,4 +1,4 @@
-package tech.fastj.systems.input.mouse;
+package tech.fastj.input.mouse;
 
 import java.awt.event.MouseEvent;
 

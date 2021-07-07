@@ -1,16 +1,17 @@
 package tech.fastj.graphics.ui;
 
-import tech.fastj.graphics.Camera;
 import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.display.Camera;
 
 import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.input.mouse.MouseActionListener;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import tech.fastj.input.mouse.MouseActionListener;
 
 /**
  * A drawable to be used as UI.

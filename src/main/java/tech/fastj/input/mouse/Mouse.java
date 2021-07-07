@@ -1,11 +1,9 @@
-package tech.fastj.systems.input.mouse;
+package tech.fastj.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Display;
 import tech.fastj.graphics.Drawable;
-
-import tech.fastj.systems.input.InputManager;
+import tech.fastj.graphics.display.Display;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -20,6 +18,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import tech.fastj.input.InputManager;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current

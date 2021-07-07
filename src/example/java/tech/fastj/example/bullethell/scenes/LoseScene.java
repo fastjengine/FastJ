@@ -2,8 +2,8 @@ package tech.fastj.example.bullethell.scenes;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Display;
-import tech.fastj.graphics.Transform2D;
+import tech.fastj.math.Transform2D;
+import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.Scene;

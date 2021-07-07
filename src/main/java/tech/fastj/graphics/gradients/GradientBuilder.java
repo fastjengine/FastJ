@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util.gradients;
+package tech.fastj.graphics.gradients;
 
 import java.awt.MultipleGradientPaint;
 

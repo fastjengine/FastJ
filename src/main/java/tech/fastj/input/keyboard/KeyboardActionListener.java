@@ -1,4 +1,4 @@
-package tech.fastj.systems.input.keyboard;
+package tech.fastj.input.keyboard;
 
 /**
  * A keyboard action listener.

@@ -4,8 +4,9 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.behaviors.Behavior;
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.keyboard.Keys;
+
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.Keys;
 
 public class PlayerController implements Behavior {
 

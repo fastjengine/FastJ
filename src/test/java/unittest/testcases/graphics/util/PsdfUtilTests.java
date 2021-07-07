@@ -2,13 +2,13 @@ package unittest.testcases.graphics.util;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
-import tech.fastj.graphics.RenderStyle;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.game.RenderStyle;
+import tech.fastj.graphics.gradients.Gradients;
+import tech.fastj.graphics.io.SupportedFileFormats;
 import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.util.ModelUtil;
-import tech.fastj.graphics.util.gradients.Gradients;
-import tech.fastj.graphics.util.io.SupportedFileFormats;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

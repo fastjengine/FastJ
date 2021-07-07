@@ -3,8 +3,8 @@ package tech.fastj.graphics.util;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.util.io.PsdfUtil;
-import tech.fastj.graphics.util.io.SupportedFileFormats;
+import tech.fastj.graphics.io.PsdfUtil;
+import tech.fastj.graphics.io.SupportedFileFormats;
 
 import java.io.IOException;
 import java.nio.file.Files;

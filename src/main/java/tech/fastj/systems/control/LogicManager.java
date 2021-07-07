@@ -1,13 +1,13 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.Display;
-
-import tech.fastj.systems.input.InputManager;
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.mouse.Mouse;
+import tech.fastj.graphics.display.Display;
 
 import java.awt.event.InputEvent;
+
+import tech.fastj.input.InputManager;
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.mouse.Mouse;
 
 public interface LogicManager {
 

@@ -3,14 +3,12 @@ package tech.fastj.engine;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.mouse.Mouse;
 import tech.fastj.systems.tags.TagManager;
 
 import java.util.ArrayList;
@@ -19,6 +17,9 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.mouse.Mouse;
 
 /**
  * The main control hub of the game engine.

@@ -2,15 +2,12 @@ package tech.fastj.graphics.ui.elements;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Camera;
+import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.input.mouse.Mouse;
-import tech.fastj.systems.input.mouse.MouseAction;
-import tech.fastj.systems.input.mouse.MouseButtons;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,6 +16,10 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+
+import tech.fastj.input.mouse.Mouse;
+import tech.fastj.input.mouse.MouseAction;
+import tech.fastj.input.mouse.MouseButtons;
 
 /**
  * A {@link UIElement} that can be assigned an action on left click.

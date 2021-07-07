@@ -1,7 +1,7 @@
 package unittest.mock.systems.control;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SimpleManager;
 

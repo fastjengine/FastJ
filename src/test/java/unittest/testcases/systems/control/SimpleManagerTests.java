@@ -1,7 +1,7 @@
 package unittest.testcases.systems.control;
 
-import tech.fastj.graphics.Camera;
 import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.behaviors.BehaviorManager;

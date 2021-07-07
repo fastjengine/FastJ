@@ -1,14 +1,15 @@
 package tech.fastj.example.keyboard;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SimpleManager;
-import tech.fastj.systems.input.keyboard.Keyboard;
-import tech.fastj.systems.input.keyboard.KeyboardActionListener;
-import tech.fastj.systems.input.keyboard.KeyboardStateEvent;
-import tech.fastj.systems.input.keyboard.KeyboardTypedEvent;
-import tech.fastj.systems.input.keyboard.Keys;
+
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.input.keyboard.KeyboardStateEvent;
+import tech.fastj.input.keyboard.KeyboardTypedEvent;
+import tech.fastj.input.keyboard.Keys;
 
 public class Main extends SimpleManager {
 

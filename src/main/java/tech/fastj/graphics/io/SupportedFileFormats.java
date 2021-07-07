@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util.io;
+package tech.fastj.graphics.io;
 
 import java.util.Arrays;
 

@@ -1,4 +1,4 @@
-package tech.fastj.graphics;
+package tech.fastj.graphics.game;
 
 public enum RenderStyle {
     Fill,

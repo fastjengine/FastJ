@@ -2,8 +2,8 @@ package unittest.testcases.graphics.util.gradients;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.util.gradients.Gradients;
-import tech.fastj.graphics.util.gradients.RadialGradientBuilder;
+import tech.fastj.graphics.gradients.Gradients;
+import tech.fastj.graphics.gradients.RadialGradientBuilder;
 
 import java.awt.Color;
 import java.awt.RadialGradientPaint;

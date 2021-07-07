@@ -2,7 +2,7 @@ package tech.fastj.example.text2d;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.SimpleManager;

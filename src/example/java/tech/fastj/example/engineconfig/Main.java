@@ -4,7 +4,7 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.Display;
+import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 

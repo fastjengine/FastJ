@@ -1,6 +1,7 @@
-package tech.fastj.graphics;
+package tech.fastj.graphics.display;
 
 import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 
 import java.awt.geom.AffineTransform;
 import java.util.Objects;
