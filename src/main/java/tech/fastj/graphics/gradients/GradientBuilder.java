@@ -1,6 +1,6 @@
 package tech.fastj.graphics.gradients;
 
-import java.awt.MultipleGradientPaint;
+import java.awt.Paint;
 
 /** The top-level interface for all gradient builders in the package {@link tech.fastj.graphics.util}. */
 public interface GradientBuilder {
@@ -9,5 +9,5 @@ public interface GradientBuilder {
      *
      * @return The resulting {@code MultipleGradientPaint} object.
      */
-    MultipleGradientPaint build();
+    Paint build();
 }
