@@ -37,8 +37,11 @@ public class RadialGradientBuilder implements GradientBuilder {
     private void position(Drawable drawable) {
         this.center = drawable.getCenter();
 
-        Pointf drawableSize = Pointf.subtract(this.center, drawable.getBound(Boundary.TopLeft));
-        this.radius = (float) Math.hypot(drawableSize.x, drawableSize.y);
+        Pointf horizontalSide = Pointf.subtract(drawable.getBound(Boundary.TopRight), drawable.getBound(Boundary.TopLeft));
+        Pointf verticalSide = Pointf.subtract(drawable.getBound(Boundary.BottomLeft), drawable.getBound(Boundary.TopLeft));
+
+        Pointf smallestSide = horizontalSide.squareMagnitude() < verticalSide.squareMagnitude() ? horizontalSide : verticalSide;
+        this.radius = smallestSide.magnitude() / 2.0f;
     }
 
     /**
