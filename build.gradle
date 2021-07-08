@@ -43,8 +43,8 @@ plugins.withType(JavaPlugin).configureEach {
 }
 
 repositories.mavenCentral()
-dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.1'))
-dependencies.testImplementation('org.junit.jupiter:junit-jupiter')
+dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
 
 
 /* ********************* *
@@ -135,8 +135,8 @@ sonarqube.properties {
 
 jacocoTestReport {
     dependsOn(test) // tests are required to run before generating the report
-    reports.xml.enabled(true)
-    reports.csv.enabled(false)
+    reports.xml.required.set(true)
+    reports.csv.required.set(false)
     reports.xml.destination(layout.buildDirectory.dir('build/reports/jacoco/test/jacocoTestReport.xml').get().asFile)
 }
 
