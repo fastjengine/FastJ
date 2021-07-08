@@ -35,7 +35,7 @@ public interface LogicManager {
      * Allows the logic manager to take in an input event.
      * <p>
      * <b>FOR IMPLEMENTORS:</b> Input events taken in should be stored for later. When {@link #processInputEvents()} is
-     * called, it will process all the events stored here.
+     * called, it should process all the events stored.
      *
      * @param inputEvent The event taken in.
      */

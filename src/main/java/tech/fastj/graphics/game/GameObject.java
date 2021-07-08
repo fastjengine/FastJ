@@ -37,21 +37,21 @@ public abstract class GameObject extends Drawable {
         return behaviors;
     }
 
-    /** Calls the {@link Behavior#init} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#init(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void initBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.init(this);
         }
     }
 
-    /** Calls the {@link Behavior#update} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#update(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void updateBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.update(this);
         }
     }
 
-    /** Calls the {@link Behavior#destroy} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#destroy()} method for each of the {@code GameObject}'s behaviors. */
     public void destroyAllBehaviors() {
         for (Behavior behavior : behaviors) {
             behavior.destroy();

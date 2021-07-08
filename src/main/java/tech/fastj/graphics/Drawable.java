@@ -149,12 +149,12 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Determines whether or not two objects are colliding (intersection).
      *
-     * @param obj The other {@code Drawable} that is being tested against this {@code Drawable}.
+     * @param drawable The other {@code Drawable} that is being tested against this {@code Drawable}.
      * @return Boolean value that states whether the two {@code Drawable}s intersect.
      */
-    public boolean collidesWith(Drawable obj) {
+    public boolean collidesWith(Drawable drawable) {
         Area thisObject = new Area(transformedCollisionPath);
-        Area otherObject = new Area(obj.transformedCollisionPath);
+        Area otherObject = new Area(drawable.transformedCollisionPath);
 
         otherObject.intersect(thisObject);
         return !otherObject.isEmpty();

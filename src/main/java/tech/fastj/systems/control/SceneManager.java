@@ -311,7 +311,7 @@ public abstract class SceneManager implements LogicManager {
                             + System.lineSeparator()
                             + "You should set the current scene, using the setCurrentScene(Scene) method from your logic manager."
                             + System.lineSeparator()
-                            + "Scenes added: " + scenes.keySet().toString()
+                            + "Scenes added: " + scenes.keySet()
             );
         }
     }

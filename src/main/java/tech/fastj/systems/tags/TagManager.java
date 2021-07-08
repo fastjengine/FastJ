@@ -113,7 +113,7 @@ public class TagManager {
      */
     public static List<Drawable> getAllInListWithTag(TagHandler tagHandler, String tag) {
         return EntityLists.get(tagHandler).stream()
-                .filter(obj -> obj.hasTag(tag))
+                .filter(taggableEntity -> taggableEntity.hasTag(tag))
                 .collect(Collectors.toList());
     }
 
@@ -126,7 +126,7 @@ public class TagManager {
     public static List<Drawable> getAllWithTag(String tag) {
         return EntityLists.values().parallelStream()
                 .flatMap(List::parallelStream)
-                .filter(obj -> obj.hasTag(tag))
+                .filter(taggableEntity -> taggableEntity.hasTag(tag))
                 .collect(Collectors.toList());
     }
 
