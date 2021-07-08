@@ -152,9 +152,51 @@ class MathsTests {
     }
 
     @Test
-    void checkLerpValues() {
-        assertEquals(5f, Maths.lerp(5f, 2f, 0f), "The lerped value should be 5f.");
-        assertEquals(-1f, Maths.lerp(5f, 2f, 2f), "The lerped value should be -1f.");
+    void checkLerp() {
+        float minRange = 5f;
+        float maxRange = 2f;
+
+        float expectedValue1 = 8f;
+        float expectedValue2 = 5f;
+        float expectedValue3 = 3.5f;
+        float expectedValue4 = 2f;
+        float expectedValue5 = -1f;
+
+        float actualValue1 = Maths.lerp(minRange, maxRange, -1f);
+        float actualValue2 = Maths.lerp(minRange, maxRange, 0f);
+        float actualValue3 = Maths.lerp(minRange, maxRange, 0.5f);
+        float actualValue4 = Maths.lerp(minRange, maxRange, 1f);
+        float actualValue5 = Maths.lerp(minRange, maxRange, 2f);
+
+        assertEquals(expectedValue1, actualValue1, "When calculating linear interpolation from " + minRange + " to " + maxRange + ", the resulting value at a time of -1f should be " + expectedValue1 + ".");
+        assertEquals(expectedValue2, actualValue2, "When calculating linear interpolation from " + minRange + " to " + maxRange + ", the resulting value at a time of 0f should be " + expectedValue2 + ".");
+        assertEquals(expectedValue3, actualValue3, "When calculating linear interpolation from " + minRange + " to " + maxRange + ", the resulting value at a time of 0.5f should be " + expectedValue3 + ".");
+        assertEquals(expectedValue4, actualValue4, "When calculating linear interpolation from " + minRange + " to " + maxRange + ", the resulting value at a time of 1f should be " + expectedValue4 + ".");
+        assertEquals(expectedValue5, actualValue5, "When calculating linear interpolation from " + minRange + " to " + maxRange + ", the resulting value at a time of 2f should be " + expectedValue5 + ".");
+    }
+
+    @Test
+    void checkInverseLerp() {
+        float minRange = 10f;
+        float maxRange = 20f;
+
+        float expectedValue1 = 0f;
+        float expectedValue2 = -0.5f;
+        float expectedValue3 = 3f;
+        float expectedValue4 = 0.96000004f;
+        float expectedValue5 = 1f;
+
+        float actualValue1 = Maths.inverseLerp(minRange, maxRange, 10f);
+        float actualValue2 = Maths.inverseLerp(minRange, maxRange, 5f);
+        float actualValue3 = Maths.inverseLerp(minRange, maxRange, 40f);
+        float actualValue4 = Maths.inverseLerp(minRange, maxRange, 19.6f);
+        float actualValue5 = Maths.inverseLerp(minRange, maxRange, 20f);
+
+        assertEquals(expectedValue1, actualValue1, "The actual inverse lerp value should match the expected inverse lerp value of " + actualValue1 + ".");
+        assertEquals(expectedValue2, actualValue2, "The actual inverse lerp value should match the expected inverse lerp value of " + actualValue2 + ".");
+        assertEquals(expectedValue3, actualValue3, "The actual inverse lerp value should match the expected inverse lerp value of " + actualValue3 + ".");
+        assertEquals(expectedValue4, actualValue4, "The actual inverse lerp value should match the expected inverse lerp value of " + actualValue4 + ".");
+        assertEquals(expectedValue5, actualValue5, "The actual inverse lerp value should match the expected inverse lerp value of " + actualValue5 + ".");
     }
 
     @Test
@@ -286,16 +328,5 @@ class MathsTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> Maths.denormalize(normalizedValueMoreThanOne, minimum, maximum));
         String expectedErrorMessage = "The normalized number must be less than 1.0f.";
         assertEquals(expectedErrorMessage, exception.getMessage(), "The function call should throw an error, and the error message should match the expected error message.");
-    }
-
-    @Test
-    void checkInverseLerpValues() {
-        float testOne = Maths.inverseLerp(10f, 20f, 10.0f);
-        float testTwo = Maths.inverseLerp(10f, 20f, 19.6f);
-        float testThree = Maths.inverseLerp(10f, 20f, 20.0f);
-
-        assertEquals(0.0f, testOne, "Expected value was 0.0, instead got " + testOne);
-        assertEquals(0.96000004f, testTwo, "Expected value was 0.96000004, instead got " + testTwo);
-        assertEquals(1.0f, testThree, "Expected value was 1.0, instead got " + testThree);
     }
 }

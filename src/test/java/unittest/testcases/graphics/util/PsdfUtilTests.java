@@ -117,7 +117,7 @@ class PsdfUtilTests {
         List<String> expectedContent = List.of(
                 "amt 3",
                 "rs filloutline",
-                "rg 50.0 50.0 35.35534 255 0 255 255 192 192 192 255",
+                "rg 50.0 50.0 25.0 255 0 255 255 192 192 192 255",
                 "otls 5.5 1 0 15.0",
                 "otlc 150 150 150 150",
                 "tfm 0.0 0.0 0.0 1.0 1.0",

@@ -65,6 +65,7 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
+    private static boolean shouldThrowExceptions;
 
     // Late-running Runnables
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
@@ -284,6 +285,22 @@ public class FastJEngine {
     }
 
     /**
+     * Sets whether the engine should throw exceptions.
+     * <p>
+     * If this is set to {@code true}, then if an exception occurs in {@link FastJEngine#run()}, the exception will be
+     * thrown to the user.
+     * <p>
+     * By contrast, if it is set to {@code false}, the exception's stack trace will be printed.
+     * <p>
+     * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
+     *
+     * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
+     */
+    public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
+        FastJEngine.shouldThrowExceptions = shouldThrowExceptions;
+    }
+
+    /**
      * Gets the value that defines whether the engine is running.
      *
      * @return The boolean that defines whether the engine is running.
@@ -331,7 +348,17 @@ public class FastJEngine {
     /** Runs the game. */
     public static void run() {
         initEngine();
-        gameLoop();
+        try {
+            gameLoop();
+        } catch (Exception exception) {
+            FastJEngine.forceCloseGame();
+
+            if (shouldThrowExceptions) {
+                throw exception;
+            } else {
+                exception.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -471,7 +498,9 @@ public class FastJEngine {
         if (currentTime < endTime) {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException exception) {
+                FastJEngine.warning("Interrupted while syncing game frame rate: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                Thread.currentThread().interrupt();
             }
         }
     }

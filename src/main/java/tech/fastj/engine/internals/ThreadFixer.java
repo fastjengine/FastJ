@@ -1,5 +1,9 @@
 package tech.fastj.engine.internals;
 
+import tech.fastj.engine.FastJEngine;
+
+import java.util.Arrays;
+
 /**
  * Class that fixes inaccurate sleep time on Windows computers.
  *
@@ -22,7 +26,9 @@ public class ThreadFixer {
                 while (true) {
                     try {
                         Thread.sleep(Long.MAX_VALUE);
-                    } catch (InterruptedException ignored) {
+                    } catch (InterruptedException exception) {
+                        FastJEngine.warning("Interrupted while in daemon sleep: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                        Thread.currentThread().interrupt();
                     }
                 }
             });

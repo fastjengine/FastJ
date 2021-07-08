@@ -118,15 +118,34 @@ public class Maths {
     }
 
     /**
-     * Linearly interpolates between x and y, by the interpolation point t.
+     * Linearly interpolates between {@code x} and {@code y}, by the interpolation point {@code t}.
      *
      * @param x The starting value.
-     * @param y The end value.
+     * @param y The ending value.
      * @param t The interpolation value to work with (preferably within a range of 0.0 to 1.0).
-     * @return The lerped value
+     * @return The linearly interpolated value. (If the interpolation value {@code t} is within a range of {@code 0.0}
+     * to {@code 1.0}, then this value will be within the range of the provided values {@code x} and {@code y}).
+     * <p>
+     * This value can also be used to calculate {@code t} when used alongside {@code x} and {@code y} in an inverse
+     * linear interpolation calculation {@link Maths#inverseLerp(float, float, float)}.
      */
     public static float lerp(float x, float y, float t) {
         return (1f - t) * x + t * y;
+    }
+
+    /**
+     * Calculates the linear interpolation value based on the provided {@code x} and {@code y} range, and the value
+     * {@code v}.
+     *
+     * @param x The starting value.
+     * @param y The ending value.
+     * @param v The {@code float} value representing the "result" of linear interpolation between the two values {@code
+     *          x} and {@code y}.
+     * @return The value which, when used to calculate linear interpolation with the same {@code x} and {@code y} values
+     * (see: {@link Maths#lerp(float, float, float)}), will get {@code v} as a result.
+     **/
+    public static float inverseLerp(float x, float y, float v) {
+        return (v - x) / (y - x);
     }
 
     /**
@@ -200,16 +219,5 @@ public class Maths {
         }
 
         return (normalizedNum * (max - min)) + min;
-    }
-    
-    /**
-     * Calculates a {@code float} based on the value between {@code startingVal} and {@code endingVal}.
-     * 
-     * @param startingVal Starting value.
-     * @param endingVal Ending value.
-     * @param value The value between the starting and ending values. 
-     **/
-    public static float inverseLerp(float start, float end, float value) {
-        return (value - start) / (end - start);
     }
 }
