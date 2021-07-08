@@ -466,7 +466,7 @@ public enum Keys {
     /** Constant representing the "!" key. */
     ExclamationMark(KeyEvent.VK_EXCLAMATION_MARK, KeyEvent.KEY_LOCATION_STANDARD),
 
-    /** Constant representing the "Â¡" key. */
+    /** Constant representing the "¡" key. */
     InvertedExclamationMark(KeyEvent.VK_INVERTED_EXCLAMATION_MARK, KeyEvent.KEY_LOCATION_STANDARD),
 
     /** Constant representing the "(" key. */
@@ -618,44 +618,45 @@ public enum Keys {
     @Override
     public String toString() {
         return "Keys{" +
-                "keyCode=" + keyCode +
+                "name=" + name() +
+                ", keyCode=" + keyCode +
                 ", keyLocation=" + keyLocation +
                 '}';
     }
 
     /**
-     * Attempts to find a key based on the provided {@code keyCode} and {@code keyLocation}.
+     * Attempts to find a key based on the provided {@code keyName}, {@code keyCode}, and {@code keyLocation}.
      * <p>
      * This method is meant for use in situations when trying to find a key while only knowing its key code and location
-     * (such as from a {@link KeyEvent}).
+     * (such as from a {@link KeyEvent} -- see {@link #get(KeyEvent)}).
      * <p>
      * If possible, store the results of this computation because it searches the entire enum of keys to find the
      * correct key -- this may take longer than expected on slower machines.
      *
-     * @param keyName {@code String} name of the key.
+     * @param keyName     {@code String} name of the key.
+     * @param keyCode     {@code int} the key's keyCode.
+     * @param keyLocation {@code int} the key's location on the keyboard.
      * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
      * thrown.
      */
-    public static Keys get(String keyName) {
+    public static Keys get(String keyName, int keyCode, int keyLocation) {
         return Arrays.stream(Keys.values())
-                .parallel()
-                .filter(keys -> keys.name().equalsIgnoreCase(keyName))
+                .filter(keys -> keys.name().equalsIgnoreCase(keyName) || keys.name().equalsIgnoreCase(keyName) && keys.keyCode == keyCode && keys.keyLocation == keyLocation)
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Couldn't find a key with key name \"" + keyName + "\"."));
+                .orElse(Keys.Undefined);
     }
 
     /**
-     * Attempts to find a key based on the provided {@code keyCode} and {@code keyLocation}.
+     * Attempts to find a key based on the provided {@code keyEvent}.
      * <p>
-     * This method is meant for use in situations when trying to find a key while only knowing its key code and location
-     * (such as from a {@link KeyEvent}). If possible, store the results of this computation because it searches the
-     * entire enum of keys to find the correct key -- this may take longer than expected on slower machines.
+     * If possible, store the results of this computation because it searches the entire enum of keys to find the
+     * correct key -- this may take longer than expected on slower machines.
      *
      * @param keyEvent The event to evaluate a key for.
      * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
      * thrown.
      */
     public static Keys get(KeyEvent keyEvent) {
-        return get(KeyEvent.getKeyText(keyEvent.getExtendedKeyCode()));
+        return get(KeyEvent.getKeyText(keyEvent.getExtendedKeyCode()), keyEvent.getKeyCode(), keyEvent.getKeyLocation());
     }
 }
