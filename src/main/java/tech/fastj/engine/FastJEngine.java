@@ -4,7 +4,6 @@ import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.display.Display;
-import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -34,13 +33,13 @@ import tech.fastj.input.mouse.Mouse;
  */
 public class FastJEngine {
 
-    /** Default engine value for frames per second. */
-    public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 1);
-    /** Default engine value for updates per second. */
+    /** Default engine value for frames per second of {@code 60}. */
+    public static final int DefaultFPS = 60;
+    /** Default engine value for updates per second. of {@code 60}. */
     public static final int DefaultUPS = 60;
-    /** Default engine value for the window resolution of the {@link Display}. */
+    /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultWindowResolution = new Point(1280, 720);
-    /** Default engine value for the internal resolution of the {@link Display}. */
+    /** Default engine value for the internal resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     // engine speed variables
