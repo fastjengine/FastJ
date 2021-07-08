@@ -514,14 +514,14 @@ public class Display {
                     (int) background.height + 1
             );
 
-            for (GameObject obj : gameObjects.values()) {
+            for (GameObject gameObject : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(obj, camera)) {
+                    if (!isOnScreen(gameObject, camera)) {
                         continue;
                     }
-                    obj.render(drawGraphics);
-                } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + obj.getID(), e);
+                    gameObject.render(drawGraphics);
+                } catch (Exception exception) {
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + gameObject.getID(), exception);
                     return;
                 }
             }
@@ -532,17 +532,17 @@ public class Display {
                         continue;
                     }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
-                } catch (Exception e) {
-                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + guiObj.getID(), e);
+                } catch (Exception exception) {
+                    FastJEngine.error(CrashMessages.RenderError.errorMessage + " | Origin: " + guiObj.getID(), exception);
                     return;
                 }
             }
 
             drawBuffer.show();
             drawGraphics.dispose();
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException exception) {
             if (!switchingScreenState && !FastJEngine.isRunning()) {
-                FastJEngine.error(CrashMessages.illegalAction(getClass()), e);
+                FastJEngine.error(CrashMessages.illegalAction(getClass()), exception);
             }
         }
     }

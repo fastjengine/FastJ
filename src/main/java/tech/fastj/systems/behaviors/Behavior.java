@@ -24,12 +24,12 @@ public interface Behavior {
     static Behavior simpleTranslation(Pointf translationModifier) {
         return new Behavior() {
             @Override
-            public void init(GameObject obj) {
+            public void init(GameObject gameObject) {
             }
 
             @Override
-            public void update(GameObject obj) {
-                obj.translate(translationModifier);
+            public void update(GameObject gameObject) {
+                gameObject.translate(translationModifier);
             }
         };
     }
@@ -44,12 +44,12 @@ public interface Behavior {
     static Behavior simpleRotation(float rotationModifier) {
         return new Behavior() {
             @Override
-            public void init(GameObject obj) {
+            public void init(GameObject gameObject) {
             }
 
             @Override
-            public void update(GameObject obj) {
-                obj.rotate(rotationModifier);
+            public void update(GameObject gameObject) {
+                gameObject.rotate(rotationModifier);
             }
         };
     }
@@ -64,12 +64,12 @@ public interface Behavior {
     static Behavior simpleScale(Pointf scaleModifier) {
         return new Behavior() {
             @Override
-            public void init(GameObject obj) {
+            public void init(GameObject gameObject) {
             }
 
             @Override
-            public void update(GameObject obj) {
-                obj.scale(scaleModifier);
+            public void update(GameObject gameObject) {
+                gameObject.scale(scaleModifier);
             }
         };
     }
@@ -80,9 +80,9 @@ public interface Behavior {
      * This method is used for modifying anything about the GameObject(s) that this behavior is assigned to, before the
      * game is rendered. It is called after the parent {@code Scene} has completed its {@code load()} method.
      *
-     * @param obj A GameObject that has been assigned this behavior.
+     * @param gameObject A GameObject that has been assigned this behavior.
      */
-    void init(GameObject obj);
+    void init(GameObject gameObject);
 
     /**
      * Updates the assigned {@code GameObject}.
@@ -91,9 +91,9 @@ public interface Behavior {
      * GameObject}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
      * {@code update()} method.
      *
-     * @param obj A GameObject that has been assigned this behavior.
+     * @param gameObject A GameObject that has been assigned this behavior.
      */
-    void update(GameObject obj);
+    void update(GameObject gameObject);
 
     /** Destroys any leftover memory in the {@code Behavior}. */
     default void destroy() {

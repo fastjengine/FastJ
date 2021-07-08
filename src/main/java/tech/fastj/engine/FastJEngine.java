@@ -35,13 +35,13 @@ import tech.fastj.input.mouse.Mouse;
  */
 public class FastJEngine {
 
-    /** Default engine value for frames per second. */
-    public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 1);
-    /** Default engine value for updates per second. */
+    /** Default engine value for frames per second of {@code 60}. */
+    public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 60);
+    /** Default engine value for updates per second. of {@code 60}. */
     public static final int DefaultUPS = 60;
-    /** Default engine value for the window resolution of the {@link Display}. */
+    /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultWindowResolution = new Point(1280, 720);
-    /** Default engine value for the internal resolution of the {@link Display}. */
+    /** Default engine value for the internal resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     // engine speed variables
@@ -69,6 +69,7 @@ public class FastJEngine {
 
     // Late-running Runnables
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
+    private static final List<Runnable> AfterRenderList = new ArrayList<>();
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -418,16 +419,27 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next update call ends.
+     * Runs the specified action after the game engine's next {@link LogicManager#update(Display) fixedUpdate} call.
      * <p>
-     * This method generally serves the purpose of running certain necessary actions for a game that wouldn't be
-     * possible easily otherwise, such as adding a game object to a scene while in an {@link
-     * LogicManager#update(Display)} call.
+     * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
      */
     public static void runAfterUpdate(Runnable action) {
         AfterUpdateList.add(action);
+    }
+
+    /**
+     * Runs the specified action after the game engine's next {@link LogicManager#render(Display) render} call.
+     * <p>
+     * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
+     *
+     * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
+     */
+    public static void runAfterRender(Runnable action) {
+        AfterRenderList.add(action);
     }
 
     /** Initializes the game engine's components. */
@@ -459,8 +471,6 @@ public class FastJEngine {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
-            gameManager.processInputEvents();
-
             while (accumulator >= updateInterval) {
                 gameManager.update(display);
 
@@ -474,7 +484,14 @@ public class FastJEngine {
                 accumulator -= updateInterval;
             }
 
+            gameManager.processInputEvents();
             gameManager.render(display);
+            if (!AfterRenderList.isEmpty()) {
+                for (Runnable action : AfterRenderList) {
+                    action.run();
+                }
+                AfterRenderList.clear();
+            }
             drawFrames++;
 
             if (!display.isFullscreen()) {

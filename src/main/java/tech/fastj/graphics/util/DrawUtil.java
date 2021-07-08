@@ -34,30 +34,30 @@ public final class DrawUtil {
      * <b>NOTE:</b> This method likely will not provide a completely accurate outline of the array
      * of {@code Polygon2D} objects.
      *
-     * @param polyList The Array of {@code Polygon2D}s that will be used to create the outline of {@code Pointf}s.
+     * @param polygons The Array of {@code Polygon2D}s that will be used to create the outline of {@code Pointf}s.
      * @return A {@code Pointf} array that makes up the outline of the specified {@code Polygon2D} array.
      */
-    public static Pointf[] createCollisionOutline(Polygon2D[] polyList) {
-        List<Pointf> polyListPoints = new ArrayList<>();
-        for (Polygon2D obj : polyList) {
-            polyListPoints.addAll(Arrays.asList(obj.getPoints()));
+    public static Pointf[] createCollisionOutline(Polygon2D[] polygons) {
+        List<Pointf> polygonsPoints = new ArrayList<>();
+        for (Polygon2D polygon : polygons) {
+            polygonsPoints.addAll(Arrays.asList(polygon.getPoints()));
         }
 
-        for (int i = (polyListPoints.size() - 1); i > -1; i--) {
+        for (int i = (polygonsPoints.size() - 1); i > -1; i--) {
             int intersectionCount = 0;
             // if a point intersects with more than one polygon, then it is an inner point and should be removed
-            for (Polygon2D polygon : polyList) {
-                if (Path2D.Float.intersects(polygon.getCollisionPath().getPathIterator(null), polyListPoints.get(i).x - 1f, polyListPoints.get(i).y - 1f, 2f, 2f)) {
+            for (Polygon2D polygon : polygons) {
+                if (Path2D.Float.intersects(polygon.getCollisionPath().getPathIterator(null), polygonsPoints.get(i).x - 1f, polygonsPoints.get(i).y - 1f, 2f, 2f)) {
                     intersectionCount++;
                     if (intersectionCount == 2) {
-                        polyListPoints.remove(i);
+                        polygonsPoints.remove(i);
                         break;
                     }
                 }
             }
         }
 
-        Pointf[] unshiftedResult = polyListPoints.toArray(new Pointf[0]);
+        Pointf[] unshiftedResult = polygonsPoints.toArray(new Pointf[0]);
         Pointf center = centerOf(unshiftedResult);
         Arrays.sort(unshiftedResult, (a, b) -> {
             // thank goodness for stackoverflow...
@@ -96,7 +96,7 @@ public final class DrawUtil {
         // calculate amount to shift
         int shiftAmount = 0;
         for (int i = 0; i < unshiftedResult.length; i++) {
-            if (unshiftedResult[i].equals(polyListPoints.get(0))) {
+            if (unshiftedResult[i].equals(polygonsPoints.get(0))) {
                 shiftAmount = i;
                 break;
             }

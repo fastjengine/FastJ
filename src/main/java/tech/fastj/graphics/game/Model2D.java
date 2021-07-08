@@ -82,8 +82,8 @@ public class Model2D extends GameObject {
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         g.transform(getTransformation());
 
-        for (Polygon2D obj : polygons) {
-            obj.render(g);
+        for (Polygon2D polygon : polygons) {
+            polygon.render(g);
         }
 
         g.setTransform(oldTransform);
@@ -91,8 +91,8 @@ public class Model2D extends GameObject {
 
     @Override
     public void destroy(Scene originScene) {
-        for (Polygon2D obj : polygons) {
-            obj.destroy(originScene);
+        for (Polygon2D polygon : polygons) {
+            polygon.destroy(originScene);
         }
         polygons = null;
 
