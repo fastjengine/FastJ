@@ -8,6 +8,7 @@ import tech.fastj.systems.audio.state.PlaybackState;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,15 @@ public class MemoryAudioPlayer {
         try {
             AudioInputStream audioInputStream = audio.getAudioInputStream();
             clip.open(audioInputStream);
+
+            AudioManager.fireAudioEvent(
+                    audio,
+                    new LineEvent(
+                            audio.getAudioSource(),
+                            LineEvent.Type.OPEN,
+                            audio.getAudioSource().getLongFramePosition()
+                    )
+            );
 
             playOrLoopAudio(audio);
         } catch (LineUnavailableException | IOException exception) {
@@ -46,6 +56,15 @@ public class MemoryAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Paused;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.STOP,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 
     /** See {@link MemoryAudio#resume()}. */
@@ -70,11 +89,30 @@ public class MemoryAudioPlayer {
         }
 
         clip.stop();
+
         clip.flush();
         clip.close();
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.STOP,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.CLOSE,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 
     /** See {@link MemoryAudio#seek(long)}. */
@@ -136,6 +174,15 @@ public class MemoryAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Playing;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.START,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 
     private static int denormalizeLoopStart(float normalizedLoopStart, int clipFrameCount) {

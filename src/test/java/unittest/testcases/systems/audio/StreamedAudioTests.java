@@ -1,10 +1,12 @@
 package unittest.testcases.systems.audio;
 
 import tech.fastj.systems.audio.AudioManager;
-import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.audio.StreamedAudio;
+import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import unittest.EnvironmentHelper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class StreamedAudioTests {
@@ -32,6 +35,74 @@ class StreamedAudioTests {
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
+    }
+
+    @Test
+    void checkPlayStreamedAudio_shouldTriggerOpenAndStartEvents() throws InterruptedException {
+        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);
+        AtomicBoolean audioStartEventBoolean = new AtomicBoolean(false);
+        audio.getAudioEventListener().setAudioOpenAction(() -> audioOpenEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStartAction(() -> audioStartEventBoolean.set(true));
+
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(3);
+
+        assertTrue(audioOpenEventBoolean.get(), "After playing the audio, the \"audio open\" event action should have been triggered.");
+        assertTrue(audioStartEventBoolean.get(), "After playing the audio, the \"audio start\" event action should have been triggered.");
+    }
+
+    @Test
+    void checkPauseStreamedAudio_shouldTriggerPauseAndStopEvents() throws InterruptedException {
+        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        AtomicBoolean audioPauseEventBoolean = new AtomicBoolean(false);
+        AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
+        audio.getAudioEventListener().setAudioPauseAction(() -> audioPauseEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStopAction(() -> audioStopEventBoolean.set(true));
+
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(3);
+        audio.pause();
+        TimeUnit.MILLISECONDS.sleep(3);
+
+        assertTrue(audioPauseEventBoolean.get(), "After pausing the audio, the \"audio pause\" event action should have been triggered.");
+        assertTrue(audioStopEventBoolean.get(), "After pausing the audio, the \"audio stop\" event action should have been triggered.");
+    }
+
+    @Test
+    void checkResumeStreamedAudio_shouldTriggerStartAndResumeEvents() throws InterruptedException {
+        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        AtomicBoolean audioStartEventBoolean = new AtomicBoolean(true);
+        AtomicBoolean audioResumeEventBoolean = new AtomicBoolean(false);
+        audio.getAudioEventListener().setAudioStartAction(() -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
+        audio.getAudioEventListener().setAudioResumeAction(() -> audioResumeEventBoolean.set(true));
+
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(3);
+        audio.pause();
+        TimeUnit.MILLISECONDS.sleep(3);
+        audio.resume();
+        TimeUnit.MILLISECONDS.sleep(3);
+
+        assertTrue(audioResumeEventBoolean.get(), "After resuming the audio, the \"audio resume\" event action should have been triggered.");
+        assertTrue(audioStartEventBoolean.get(), "After resuming the audio, the \"audio start\" event action should have been triggered.");
+    }
+
+    @Test
+    void checkStopStreamedAudio_shouldTriggerStopAndCloseEvents() throws InterruptedException {
+        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        AtomicBoolean audioCloseEventBoolean = new AtomicBoolean(false);
+        AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
+        audio.getAudioEventListener().setAudioCloseAction(() -> audioCloseEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStopAction(() -> audioStopEventBoolean.set(true));
+
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(3);
+        audio.stop();
+        TimeUnit.MILLISECONDS.sleep(3);
+
+        assertTrue(audioCloseEventBoolean.get(), "After stopping the audio, the \"audio close\" event action should have been triggered.");
+        assertTrue(audioStopEventBoolean.get(), "After stopping the audio, the \"audio stop\" event action should have been triggered.");
     }
 
     @Test

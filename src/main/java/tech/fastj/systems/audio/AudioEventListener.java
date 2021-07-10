@@ -1,13 +1,12 @@
 package tech.fastj.systems.audio;
 
 import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
 /** An event listener for the {@link MemoryAudio} class. */
-public class AudioEventListener implements LineListener {
+public class AudioEventListener {
 
     private Runnable audioOpenAction;
     private Runnable audioCloseAction;
@@ -20,12 +19,10 @@ public class AudioEventListener implements LineListener {
 
     private static final Map<LineEvent.Type, Consumer<AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, audioEventListener -> audioEventListener.audioOpenAction.run(),
-            LineEvent.Type.CLOSE, audioEventListener -> audioEventListener.audioCloseAction.run(),
             LineEvent.Type.START, audioEventListener -> {
                 switch (audioEventListener.audio.getPreviousPlaybackState()) {
                     case Paused: {
                         audioEventListener.audioResumeAction.run();
-                        break;
                     }
                     case Stopped: {
                         audioEventListener.audioStartAction.run();
@@ -37,14 +34,14 @@ public class AudioEventListener implements LineListener {
                 switch (audioEventListener.audio.getCurrentPlaybackState()) {
                     case Paused: {
                         audioEventListener.audioPauseAction.run();
-                        break;
                     }
                     case Stopped: {
                         audioEventListener.audioStopAction.run();
                         break;
                     }
                 }
-            }
+            },
+            LineEvent.Type.CLOSE, audioEventListener -> audioEventListener.audioCloseAction.run()
     );
 
     /**
@@ -55,7 +52,6 @@ public class AudioEventListener implements LineListener {
      */
     AudioEventListener(Audio audio) {
         this.audio = Objects.requireNonNull(audio);
-        this.audio.getAudioSource().addLineListener(this);
     }
 
     /**
@@ -166,9 +162,12 @@ public class AudioEventListener implements LineListener {
         this.audioResumeAction = audioResumeAction;
     }
 
-    @Override
-    public void update(LineEvent event) {
-        LineEvent.Type audioEventType = event.getType();
-        AudioEventProcessor.get(audioEventType).accept(this);
+    /**
+     * Fires an audio event to the event listener.
+     *
+     * @param audioEvent The event fired.
+     */
+    public void fireEvent(LineEvent audioEvent) {
+        AudioEventProcessor.get(audioEvent.getType()).accept(this);
     }
 }

@@ -6,6 +6,7 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
@@ -62,10 +63,28 @@ public class StreamedAudioPlayer {
 
         try {
             sourceDataLine.open(audioInputStream.getFormat());
+            AudioManager.fireAudioEvent(
+                    audio,
+                    new LineEvent(
+                            audio.getAudioSource(),
+                            LineEvent.Type.OPEN,
+                            audio.getAudioSource().getLongFramePosition()
+                    )
+            );
+
             sourceDataLine.start();
 
             audio.previousPlaybackState = audio.currentPlaybackState;
             audio.currentPlaybackState = PlaybackState.Playing;
+
+            AudioManager.fireAudioEvent(
+                    audio,
+                    new LineEvent(
+                            audio.getAudioSource(),
+                            LineEvent.Type.START,
+                            audio.getAudioSource().getLongFramePosition()
+                    )
+            );
         } catch (LineUnavailableException exception) {
             FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
         }
@@ -84,6 +103,15 @@ public class StreamedAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Paused;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.STOP,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 
     /** See {@link StreamedAudio#resume()}. */
@@ -99,6 +127,15 @@ public class StreamedAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Playing;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.START,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 
     /** See {@link StreamedAudio#stop()}. */
@@ -116,5 +153,23 @@ public class StreamedAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.STOP,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
+
+        AudioManager.fireAudioEvent(
+                audio,
+                new LineEvent(
+                        audio.getAudioSource(),
+                        LineEvent.Type.CLOSE,
+                        audio.getAudioSource().getLongFramePosition()
+                )
+        );
     }
 }

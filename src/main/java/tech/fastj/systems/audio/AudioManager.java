@@ -11,12 +11,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /** The manager of all audio-based content. */
 public class AudioManager {
 
     private static final Map<String, MemoryAudio> MemoryAudioFiles = new HashMap<>();
     private static final Map<String, StreamedAudio> StreamedAudioFiles = new HashMap<>();
+    private static ExecutorService audioEventExecutor = Executors.newWorkStealingPool();
 
     /**
      * Checks whether the computer supports audio output.
@@ -178,6 +181,9 @@ public class AudioManager {
             }
         });
         StreamedAudioFiles.clear();
+
+        audioEventExecutor.shutdownNow();
+        audioEventExecutor = Executors.newWorkStealingPool();
     }
 
     /** Safely generates a {@link Clip} object, crashing the engine if something goes wrong. */
@@ -230,5 +236,9 @@ public class AudioManager {
             );
             return null;
         }
+    }
+
+    static void fireAudioEvent(Audio audio, LineEvent audioEventType) {
+        audioEventExecutor.submit(() -> audio.getAudioEventListener().fireEvent(audioEventType));
     }
 }
