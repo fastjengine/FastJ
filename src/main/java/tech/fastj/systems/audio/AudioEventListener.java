@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-/** An event listener for the {@link Audio} class. */
+/** An event listener for the {@link MemoryAudio} class. */
 public class AudioEventListener implements LineListener {
 
     private Runnable audioOpenAction;
@@ -15,13 +15,14 @@ public class AudioEventListener implements LineListener {
     private Runnable audioStopAction;
     private Runnable audioPauseAction;
     private Runnable audioResumeAction;
+
     private final Audio audio;
 
     private static final Map<LineEvent.Type, Consumer<AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, audioEventListener -> audioEventListener.audioOpenAction.run(),
             LineEvent.Type.CLOSE, audioEventListener -> audioEventListener.audioCloseAction.run(),
             LineEvent.Type.START, audioEventListener -> {
-                switch (audioEventListener.audio.previousPlaybackState) {
+                switch (audioEventListener.audio.getPreviousPlaybackState()) {
                     case Paused: {
                         audioEventListener.audioResumeAction.run();
                         break;
@@ -33,7 +34,7 @@ public class AudioEventListener implements LineListener {
                 }
             },
             LineEvent.Type.STOP, audioEventListener -> {
-                switch (audioEventListener.audio.currentPlaybackState) {
+                switch (audioEventListener.audio.getCurrentPlaybackState()) {
                     case Paused: {
                         audioEventListener.audioPauseAction.run();
                         break;
@@ -54,7 +55,7 @@ public class AudioEventListener implements LineListener {
      */
     AudioEventListener(Audio audio) {
         this.audio = Objects.requireNonNull(audio);
-        this.audio.getClip().addLineListener(this);
+        this.audio.getAudioSource().addLineListener(this);
     }
 
     /**
