@@ -12,7 +12,7 @@
 </div>
 
 ## What is FastJ?
-FastJ is an open-source, Java-based 2D game engine and framework. Originally named the [FastJ Engine][FastJ-Engine-Link], it aims to provide an easy-to-use, 2D game-making library.
+FastJ is an open-source, Java-based 2D game engine and framework. Originally named the FastJ Engine, it aims to provide an easy-to-use, 2D game-making library.
 
 ## Disclaimer
 **This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered by unit tests. Documentation is readily available, but may change over time. [If you would like to help out, all help is appreciated!](#contributing-to-fastj)
