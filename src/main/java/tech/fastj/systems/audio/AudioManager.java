@@ -2,26 +2,24 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Maths;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import tech.fastj.systems.audio.state.PlaybackState;
+import tech.fastj.systems.fio.FileUtil;
+
+import javax.sound.sampled.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /** The manager of all audio-based content. */
 public class AudioManager {
 
-    private static final Map<String, Audio> AudioFiles = new HashMap<>();
+    private static final Map<String, MemoryAudio> MemoryAudioFiles = new HashMap<>();
+    private static final Map<String, StreamedAudio> StreamedAudioFiles = new HashMap<>();
+    private static ExecutorService audioEventExecutor = Executors.newWorkStealingPool();
 
     /**
      * Checks whether the computer supports audio output.
@@ -41,56 +39,155 @@ public class AudioManager {
     }
 
     /**
-     * Loads all {@link Audio} objects at the specified paths into memory.
+     * Plays the sound file at the specified {@link Path}.
      *
-     * @param audioPaths The paths of the {@code Audio} objects to load.
+     * @param audioPath The file {@code Path} of the sound file to be played.
      */
-    public static void loadAudio(Path... audioPaths) {
-        for (Path audioPath : audioPaths) {
-            AudioFiles.put(audioPath.toString(), new Audio(audioPath));
+    public static void playSound(Path audioPath) {
+        StreamedAudio audio = new StreamedAudio(audioPath);
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
+        audio.play();
+    }
+
+    /**
+     * Loads a {@link MemoryAudio} object at the specified path into memory.
+     *
+     * @param audioPath The path of the {@code MemoryAudio} object to load.
+     * @return The created {@link MemoryAudio} instance.
+     */
+    public static MemoryAudio loadMemoryAudioInstance(Path audioPath) {
+        MemoryAudio audio = new MemoryAudio(audioPath);
+        MemoryAudioFiles.put(audio.getID(), audio);
+        return audio;
+    }
+
+    /**
+     * Loads all {@link MemoryAudio} objects at the specified paths into memory.
+     *
+     * @param audioPaths The paths of the {@code MemoryAudio} objects to load.
+     * @return The created {@link MemoryAudio} instances.
+     */
+    public static MemoryAudio[] loadMemoryAudioInstances(Path... audioPaths) {
+        MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
+
+        for (int i = 0; i < audioPaths.length; i++) {
+            MemoryAudio audio = new MemoryAudio(audioPaths[i]);
+            MemoryAudioFiles.put(audio.getID(), audio);
+            audioInstances[i] = audio;
+        }
+
+        return audioInstances;
+    }
+
+    /**
+     * Loads a {@link StreamedAudio} object at the specified path into memory.
+     *
+     * @param audioPath The path of the {@code StreamedAudio} object to load.
+     * @return The created {@link StreamedAudio} instance.
+     */
+    public static StreamedAudio loadStreamedAudioInstance(Path audioPath) {
+        StreamedAudio audio = new StreamedAudio(audioPath);
+        StreamedAudioFiles.put(audio.getID(), audio);
+        return audio;
+    }
+
+    /**
+     * Loads all {@link StreamedAudio} objects at the specified paths into memory.
+     *
+     * @param audioPaths The paths of the {@code StreamedAudio} objects to load.
+     * @return The created {@link StreamedAudio} instances.
+     */
+    public static StreamedAudio[] loadStreamedAudioInstances(Path... audioPaths) {
+        StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
+
+        for (int i = 0; i < audioPaths.length; i++) {
+            StreamedAudio audio = new StreamedAudio(audioPaths[i]);
+            StreamedAudioFiles.put(audio.getID(), audio);
+            audioInstances[i] = audio;
+        }
+
+        return audioInstances;
+    }
+
+    /**
+     * Unloads the {@link MemoryAudio} object with the specified id from memory.
+     *
+     * @param id The id of the {@code MemoryAudio} object to remove.
+     */
+    public static void unloadMemoryAudioInstance(String id) {
+        MemoryAudioFiles.remove(id);
+    }
+
+    /**
+     * Unloads all {@link MemoryAudio} objects with the specified ids from memory.
+     *
+     * @param ids The ids of the {@code MemoryAudio} objects to remove.
+     */
+    public static void unloadMemoryAudioInstances(String... ids) {
+        for (String id : ids) {
+            MemoryAudioFiles.remove(id);
         }
     }
 
     /**
-     * Unloads all {@link Audio} objects at the specified paths from memory.
+     * Unloads the {@link StreamedAudio} object with the specified id from memory.
      *
-     * @param audioPaths The paths of the {@code Audio} objects to remove.
+     * @param id The id of the {@code StreamedAudio} object to remove.
      */
-    public static void unloadAudio(Path... audioPaths) {
-        for (Path audioPath : audioPaths) {
-            AudioFiles.remove(audioPath.toString());
+    public static void unloadStreamedAudioInstance(String id) {
+        StreamedAudioFiles.remove(id);
+    }
+
+    /**
+     * Unloads all {@link StreamedAudio} objects with the specified ids from memory.
+     *
+     * @param ids The ids of the {@code StreamedAudio} objects to remove.
+     */
+    public static void unloadStreamedAudioInstances(String... ids) {
+        for (String id : ids) {
+            StreamedAudioFiles.remove(id);
         }
     }
 
     /**
-     * Gets the {@link Audio} object from the loaded audio sets based on the provided {@code audioPath}.
+     * Gets the {@link MemoryAudio} object from the loaded audio sets based on the provided {@code audioPath}.
      *
-     * @param audioPath The path of the audio to get, as a {@code Path}.
+     * @param id The id of the audio to get.
      * @return The {@code Audio} object.
      */
-    public static Audio getAudio(Path audioPath) {
-        return getAudio(audioPath.toString());
+    public static MemoryAudio getMemoryAudio(String id) {
+        return MemoryAudioFiles.get(id);
     }
 
     /**
-     * Gets the {@link Audio} object from the loaded audio sets based on the provided {@code audioPath}.
+     * Gets the {@link StreamedAudio} object from the loaded audio sets based on the provided {@code audioPath}.
      *
-     * @param audioPath The path of the audio to get, as a string.
+     * @param id The id of the audio to get.
      * @return The {@code Audio} object.
      */
-    public static Audio getAudio(String audioPath) {
-        return AudioFiles.get(audioPath);
+    public static StreamedAudio getStreamedAudio(String id) {
+        return StreamedAudioFiles.get(id);
     }
+
 
     /** Resets the {@code AudioManager}, removing all of its loaded audio files. */
     public static void reset() {
-        AudioFiles.forEach((s, audio) -> {
+        MemoryAudioFiles.forEach((s, audio) -> {
             if (audio.currentPlaybackState != PlaybackState.Stopped) {
                 audio.stop();
             }
         });
+        MemoryAudioFiles.clear();
 
-        AudioFiles.clear();
+        StreamedAudioFiles.forEach((s, audio) -> {
+            if (audio.currentPlaybackState != PlaybackState.Stopped) {
+                audio.stop();
+            }
+        });
+        StreamedAudioFiles.clear();
+
+        audioEventExecutor.shutdownNow();
+        audioEventExecutor = Executors.newWorkStealingPool();
     }
 
     /** Safely generates a {@link Clip} object, crashing the engine if something goes wrong. */
@@ -118,149 +215,34 @@ public class AudioManager {
         } catch (UnsupportedAudioFileException exception) {
             FastJEngine.error(
                     CrashMessages.theGameCrashed("an audio file reading error."),
-                    new UnsupportedAudioFileException(audioPath.toAbsolutePath() + " seems to be of an unsupported file format.")
+                    new UnsupportedAudioFileException(audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".")
             );
         }
 
         return null;
     }
 
-    /** See {@link Audio#play()}. */
-    static void playAudio(Audio audio) {
-        Clip clip = audio.getClip();
+    /** Safely generates a {@link SourceDataLine} object, crashing the engine if something goes wrong. */
+    static SourceDataLine newSourceDataLine(AudioFormat audioFormat) {
+        DataLine.Info lineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
 
-        if (clip.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"" + audio.getAudioPath().toString() + "\", but it was already open (and likely being used elsewhere.)");
-            return;
+        if (!AudioSystem.isLineSupported(lineInfo)) {
+            FastJEngine.warning("No audio output lines supported.");
+            return null;
         }
 
         try {
-            AudioInputStream audioInputStream = audio.getAudioInputStream();
-            clip.open(audioInputStream);
-
-            playOrLoopAudio(audio);
-        } catch (LineUnavailableException | IOException exception) {
-            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+            return (SourceDataLine) AudioSystem.getLine(lineInfo);
+        } catch (LineUnavailableException exception) {
+            FastJEngine.error(
+                    CrashMessages.theGameCrashed("an audio error while trying to open an audio line."),
+                    exception
+            );
+            return null;
         }
     }
 
-    /** See {@link Audio#pause()}. */
-    static void pauseAudio(Audio audio) {
-        Clip clip = audio.getClip();
-
-        if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
-            return;
-        }
-
-        clip.stop();
-        audio.previousPlaybackState = audio.currentPlaybackState;
-        audio.currentPlaybackState = PlaybackState.Paused;
-    }
-
-    /** See {@link Audio#resume()}. */
-    static void resumeAudio(Audio audio) {
-        Clip clip = audio.getClip();
-
-        if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
-            return;
-        }
-
-        playOrLoopAudio(audio);
-    }
-
-    /** See {@link Audio#stop()}. */
-    static void stopAudio(Audio audio) {
-        Clip clip = audio.getClip();
-
-        if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
-            return;
-        }
-
-        clip.stop();
-        clip.flush();
-        clip.drain();
-        clip.close();
-        audio.previousPlaybackState = audio.currentPlaybackState;
-        audio.currentPlaybackState = PlaybackState.Stopped;
-    }
-
-    /** See {@link Audio#seek(long)}. */
-    static void seekInAudio(Audio audio, long timeChange) {
-        Clip clip = audio.getClip();
-
-        if (clip.isActive()) {
-            FastJEngine.warning("Tried to change the playback position of audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
-            return;
-        }
-
-        long timeChangeInMilliseconds = TimeUnit.MICROSECONDS.convert(timeChange, TimeUnit.MILLISECONDS);
-        clip.setMicrosecondPosition(clip.getMicrosecondPosition() + timeChangeInMilliseconds);
-    }
-
-    /** See {@link Audio#setPlaybackPosition(long)}. */
-    static void setAudioPlaybackPosition(Audio audio, long playbackPosition) {
-        Clip clip = audio.getClip();
-
-        if (clip.isActive()) {
-            FastJEngine.warning("Tried to set the playback position of audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
-            return;
-        }
-
-        long playbackPositionInMilliseconds = TimeUnit.MICROSECONDS.convert(playbackPosition, TimeUnit.MILLISECONDS);
-        clip.setMicrosecondPosition(playbackPositionInMilliseconds);
-    }
-
-    /** See {@link Audio#rewindToBeginning()}. */
-    static void rewindAudioToBeginning(Audio audio) {
-        Clip clip = audio.getClip();
-
-        if (clip.isActive()) {
-            FastJEngine.warning("Tried to rewind audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
-            return;
-        }
-
-        clip.setMicrosecondPosition(0L);
-    }
-
-    /**
-     * Plays -- or loops -- an {@link Audio} object.
-     *
-     * @param audio The audio to play/loop.
-     */
-    private static void playOrLoopAudio(Audio audio) {
-        Clip clip = audio.getClip();
-
-        if (audio.shouldLoop()) {
-            int clipFrameCount = clip.getFrameLength();
-            int denormalizedLoopStart = denormalizeLoopStart(audio.getLoopStart(), clipFrameCount);
-            int denormalizedLoopEnd = denormalizeLoopEnd(audio.getLoopEnd(), clipFrameCount);
-
-            clip.setLoopPoints(denormalizedLoopStart, denormalizedLoopEnd);
-            clip.loop(audio.getLoopCount());
-        } else {
-            clip.start();
-        }
-
-        audio.previousPlaybackState = audio.currentPlaybackState;
-        audio.currentPlaybackState = PlaybackState.Playing;
-    }
-
-    private static int denormalizeLoopStart(float normalizedLoopStart, int clipFrameCount) {
-        if (normalizedLoopStart == Audio.LoopFromStart) {
-            return Audio.LoopFromStart;
-        }
-
-        return (int) Maths.denormalize(normalizedLoopStart, 0f, (float) clipFrameCount);
-    }
-
-    private static int denormalizeLoopEnd(float normalizedLoopEnd, int clipFrameCount) {
-        if (normalizedLoopEnd == Audio.LoopAtEnd) {
-            return Audio.LoopAtEnd;
-        }
-
-        return (int) Maths.denormalize(normalizedLoopEnd, 0f, (float) clipFrameCount);
+    static void fireAudioEvent(Audio audio, LineEvent audioEventType) {
+        audioEventExecutor.submit(() -> audio.getAudioEventListener().fireEvent(audioEventType));
     }
 }

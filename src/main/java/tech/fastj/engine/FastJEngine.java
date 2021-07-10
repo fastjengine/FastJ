@@ -7,6 +7,7 @@ import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.systems.audio.AudioManager;
+import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
@@ -533,6 +534,7 @@ public class FastJEngine {
         Mouse.stop();
         Keyboard.stop();
         AudioManager.reset();
+        StreamedAudioPlayer.reset();
         BehaviorManager.reset();
         TagManager.reset();
 
