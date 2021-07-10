@@ -6,6 +6,8 @@ import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.io.PsdfUtil;
 import tech.fastj.graphics.io.SupportedFileFormats;
 
+import tech.fastj.systems.fio.FileUtil;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
@@ -47,7 +49,7 @@ public class ModelUtil {
             throw new IllegalArgumentException("A file was not found at \"" + fileLocation.toAbsolutePath() + "\".");
         }
 
-        String fileExtension = getFileExtension(fileLocation);
+        String fileExtension = FileUtil.getFileExtension(fileLocation);
         checkFileExtension(fileExtension);
 
         List<String> lines;
@@ -71,13 +73,9 @@ public class ModelUtil {
      * @param model           The {@code Model2D} that will be written to the file.
      */
     public static void writeModel(Path destinationPath, Model2D model) {
-        String fileExtension = getFileExtension(destinationPath);
+        String fileExtension = FileUtil.getFileExtension(destinationPath);
         checkFileExtension(fileExtension);
         ModelWriter.get(fileExtension).accept(destinationPath, model);
-    }
-
-    private static String getFileExtension(Path filePath) {
-        return filePath.toString().substring(filePath.toString().lastIndexOf(".") + 1);
     }
 
     private static void checkFileExtension(String fileExtension) {
