@@ -45,7 +45,7 @@ public class AudioManager {
      */
     public static void playSound(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        audio.getAudioEventListener().setAudioStopAction(audio::stop);
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
         audio.play();
     }
 
@@ -53,6 +53,7 @@ public class AudioManager {
      * Loads a {@link MemoryAudio} object at the specified path into memory.
      *
      * @param audioPath The path of the {@code MemoryAudio} object to load.
+     * @return The created {@link MemoryAudio} instance.
      */
     public static MemoryAudio loadMemoryAudioInstance(Path audioPath) {
         MemoryAudio audio = new MemoryAudio(audioPath);
@@ -64,6 +65,7 @@ public class AudioManager {
      * Loads all {@link MemoryAudio} objects at the specified paths into memory.
      *
      * @param audioPaths The paths of the {@code MemoryAudio} objects to load.
+     * @return The created {@link MemoryAudio} instances.
      */
     public static MemoryAudio[] loadMemoryAudioInstances(Path... audioPaths) {
         MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
@@ -81,6 +83,7 @@ public class AudioManager {
      * Loads a {@link StreamedAudio} object at the specified path into memory.
      *
      * @param audioPath The path of the {@code StreamedAudio} object to load.
+     * @return The created {@link StreamedAudio} instance.
      */
     public static StreamedAudio loadStreamedAudioInstance(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
@@ -92,6 +95,7 @@ public class AudioManager {
      * Loads all {@link StreamedAudio} objects at the specified paths into memory.
      *
      * @param audioPaths The paths of the {@code StreamedAudio} objects to load.
+     * @return The created {@link StreamedAudio} instances.
      */
     public static StreamedAudio[] loadStreamedAudioInstances(Path... audioPaths) {
         StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];

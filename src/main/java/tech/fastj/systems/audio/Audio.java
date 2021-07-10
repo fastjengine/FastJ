@@ -6,6 +6,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.DataLine;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 /**
  * The base of sound objects used in FastJ for audio playback.
@@ -74,8 +75,8 @@ public interface Audio {
      * Notes:
      * <ul>
      *     <li>To stop the audio's playback, use {@link Audio#stop()}.</li>
-     *     <li>Starting the audio's playback calls an "audio start" event, which can be hooked into using {@link AudioEventListener#setAudioStartAction(Runnable)}.</li>
-     *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio start" event, which can be hooked into using {@link AudioEventListener#setAudioStartAction(Consumer)}.</li>
+     *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Consumer)}.</li>
      * </ul>
      */
     void play();
@@ -85,7 +86,7 @@ public interface Audio {
      * <p>
      * Notes:
      * <ul>
-     *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Consumer)}.</li>
      * </ul>
      */
     void pause();
@@ -95,7 +96,7 @@ public interface Audio {
      * <p>
      * Notes:
      * <ul>
-     *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Consumer)}.</li>
      * </ul>
      */
     void resume();
@@ -106,8 +107,8 @@ public interface Audio {
      * Notes:
      * <ul>
      *     <li>To start the audio's playback again, use {@link Audio#play()}.</li>
-     *     <li>Stopping the audio's playback calls an "audio stop" event, which can be hooked into using {@link AudioEventListener#setAudioStopAction(Runnable)}.</li>
-     *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Runnable)}.</li>
+     *     <li>Stopping the audio's playback calls an "audio stop" event, which can be hooked into using {@link AudioEventListener#setAudioStopAction(Consumer)}.</li>
+     *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Consumer)}.</li>
      * </ul>
      */
     void stop();

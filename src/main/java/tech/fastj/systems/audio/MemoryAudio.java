@@ -7,6 +7,7 @@ import javax.sound.sampled.Clip;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * An audio object used for sound playback.
@@ -264,8 +265,8 @@ public class MemoryAudio implements Audio {
      * <ul>
      *     <li>If the audio was set to loop (check using {@link MemoryAudio#shouldLoop()}) then calling this method will cause it to loop.</li>
      *     <li>To stop the audio's playback, use {@link MemoryAudio#stop()}.</li>
-     *     <li>Starting the audio's playback calls an "audio start" event, which can be hooked into using {@link AudioEventListener#setAudioStartAction(Runnable)}.</li>
-     *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio start" event, which can be hooked into using {@link AudioEventListener#setAudioStartAction(Consumer)}.</li>
+     *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Consumer)}.</li>
      * </ul>
      */
     @Override
@@ -278,7 +279,7 @@ public class MemoryAudio implements Audio {
      * <p>
      * Notes:
      * <ul>
-     *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Consumer)}.</li>
      * </ul>
      */
     @Override
@@ -292,7 +293,7 @@ public class MemoryAudio implements Audio {
      * Notes:
      * <ul>
      *     <li>If the audio was set to loop (check using {@link MemoryAudio#shouldLoop()}) then calling this method will cause it to continue looping.</li>
-     *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Runnable)}.</li>
+     *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Consumer)}.</li>
      * </ul>
      */
     @Override
@@ -306,8 +307,8 @@ public class MemoryAudio implements Audio {
      * Notes:
      * <ul>
      *     <li>To start the audio's playback again, use {@link MemoryAudio#play()}.</li>
-     *     <li>Stopping the audio's playback calls an "audio stop" event, which can be hooked into using {@link AudioEventListener#setAudioStopAction(Runnable)}.</li>
-     *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Runnable)}.</li>
+     *     <li>Stopping the audio's playback calls an "audio stop" event, which can be hooked into using {@link AudioEventListener#setAudioStopAction(Consumer)}.</li>
+     *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Consumer)}.</li>
      * </ul>
      */
     @Override
