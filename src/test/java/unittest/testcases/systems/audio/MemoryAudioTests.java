@@ -126,7 +126,7 @@ class MemoryAudioTests {
         audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(true));
 
         audio.play();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
 
         assertTrue(audioOpenEventBoolean.get(), "After playing the audio, the \"audio open\" event action should have been triggered.");
         assertTrue(audioStartEventBoolean.get(), "After playing the audio, the \"audio start\" event action should have been triggered.");
@@ -141,9 +141,9 @@ class MemoryAudioTests {
         audio.getAudioEventListener().setAudioStopAction(audioEvent -> audioStopEventBoolean.set(true));
 
         audio.play();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
         audio.pause();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
 
         assertTrue(audioPauseEventBoolean.get(), "After pausing the audio, the \"audio pause\" event action should have been triggered.");
         assertTrue(audioStopEventBoolean.get(), "After pausing the audio, the \"audio stop\" event action should have been triggered.");
@@ -158,11 +158,11 @@ class MemoryAudioTests {
         audio.getAudioEventListener().setAudioResumeAction(audioEvent -> audioResumeEventBoolean.set(true));
 
         audio.play();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
         audio.pause();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
         audio.resume();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
 
         assertTrue(audioResumeEventBoolean.get(), "After resuming the audio, the \"audio resume\" event action should have been triggered.");
         assertTrue(audioStartEventBoolean.get(), "After resuming the audio, the \"audio start\" event action should have been triggered.");
@@ -177,9 +177,9 @@ class MemoryAudioTests {
         audio.getAudioEventListener().setAudioStopAction(audioEvent -> audioStopEventBoolean.set(true));
 
         audio.play();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
         audio.stop();
-        TimeUnit.MILLISECONDS.sleep(3);
+        TimeUnit.MILLISECONDS.sleep(20);
 
         assertTrue(audioCloseEventBoolean.get(), "After stopping the audio, the \"audio close\" event action should have been triggered.");
         assertTrue(audioStopEventBoolean.get(), "After stopping the audio, the \"audio stop\" event action should have been triggered.");
