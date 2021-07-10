@@ -4,6 +4,8 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 
+import tech.fastj.systems.audio.state.PlaybackState;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;

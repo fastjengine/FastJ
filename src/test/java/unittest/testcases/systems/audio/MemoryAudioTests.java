@@ -4,7 +4,7 @@ import tech.fastj.math.Maths;
 
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.MemoryAudio;
-import tech.fastj.systems.audio.PlaybackState;
+import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.nio.file.Path;
 

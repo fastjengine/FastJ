@@ -3,6 +3,8 @@ package tech.fastj.systems.audio;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.systems.audio.state.PlaybackState;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.FloatControl;

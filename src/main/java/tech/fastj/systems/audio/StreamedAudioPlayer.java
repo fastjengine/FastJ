@@ -3,10 +3,9 @@ package tech.fastj.systems.audio;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
-import javax.sound.sampled.AudioFormat;
+import tech.fastj.systems.audio.state.PlaybackState;
+
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
@@ -17,15 +16,17 @@ import java.util.concurrent.TimeUnit;
 public class StreamedAudioPlayer {
 
     public static final int BufferSize = 4096;
-    private static final ExecutorService LineWriter = Executors.newWorkStealingPool();
+    private static ExecutorService lineWriter = Executors.newWorkStealingPool();
 
     /** Resets the {@code StreamedAudioPlayer}, removing all of its loaded audio files. */
     public static void reset() {
-        LineWriter.shutdownNow();
+        lineWriter.shutdownNow();
+        lineWriter = Executors.newWorkStealingPool();
     }
 
+    /** Sets up the audio streaming process for the specified {@link StreamedAudio} object. */
     static void streamAudio(StreamedAudio audio) {
-        LineWriter.submit(() -> {
+        lineWriter.submit(() -> {
             SourceDataLine sourceDataLine = audio.getAudioSource();
             AudioInputStream audioInputStream = audio.getAudioInputStream();
 
@@ -49,6 +50,7 @@ public class StreamedAudioPlayer {
         });
     }
 
+    /** See {@link StreamedAudio#play()}. */
     static void playAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
         AudioInputStream audioInputStream = audio.getAudioInputStream();
@@ -69,6 +71,7 @@ public class StreamedAudioPlayer {
         }
     }
 
+    /** See {@link StreamedAudio#pause()}. */
     static void pauseAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 

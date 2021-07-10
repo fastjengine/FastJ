@@ -57,13 +57,13 @@ class AudioManagerTests {
         Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadMemoryAudioInstance(testAudioPath));
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " seems to be of an unsupported file format.", "Upon reading an unsupported audio file format, an error should be thrown.");
+        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " is of an unsupported file format \"flac\".", "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 
     @Test
     void checkStreamedAudioLoading_withWAVFormatAudio() {
         StreamedAudio streamedAudio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
-        assertNotNull(AudioManager.getMemoryAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio player.");
+        assertNotNull(AudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio player.");
     }
 
     @Test
@@ -90,6 +90,6 @@ class AudioManagerTests {
         Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadStreamedAudioInstance(testAudioPath));
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " seems to be of an unsupported file format.", "Upon reading an unsupported audio file format, an error should be thrown.");
+        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " is of an unsupported file format \"flac\".", "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 }
