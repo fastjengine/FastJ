@@ -122,8 +122,8 @@ class MemoryAudioTests {
         MemoryAudio audio = AudioManager.loadMemoryAudioInstance(TestAudioPath);
         AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(false);
-        audio.getAudioEventListener().setAudioOpenAction(() -> audioOpenEventBoolean.set(true));
-        audio.getAudioEventListener().setAudioStartAction(() -> audioStartEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioOpenAction(audioEvent -> audioOpenEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(true));
 
         audio.play();
         TimeUnit.MILLISECONDS.sleep(3);
@@ -137,8 +137,8 @@ class MemoryAudioTests {
         MemoryAudio audio = AudioManager.loadMemoryAudioInstance(TestAudioPath);
         AtomicBoolean audioPauseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
-        audio.getAudioEventListener().setAudioPauseAction(() -> audioPauseEventBoolean.set(true));
-        audio.getAudioEventListener().setAudioStopAction(() -> audioStopEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioPauseAction(audioEvent -> audioPauseEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audioStopEventBoolean.set(true));
 
         audio.play();
         TimeUnit.MILLISECONDS.sleep(3);
@@ -154,8 +154,8 @@ class MemoryAudioTests {
         MemoryAudio audio = AudioManager.loadMemoryAudioInstance(TestAudioPath);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(true);
         AtomicBoolean audioResumeEventBoolean = new AtomicBoolean(false);
-        audio.getAudioEventListener().setAudioStartAction(() -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
-        audio.getAudioEventListener().setAudioResumeAction(() -> audioResumeEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
+        audio.getAudioEventListener().setAudioResumeAction(audioEvent -> audioResumeEventBoolean.set(true));
 
         audio.play();
         TimeUnit.MILLISECONDS.sleep(3);
@@ -173,8 +173,8 @@ class MemoryAudioTests {
         MemoryAudio audio = AudioManager.loadMemoryAudioInstance(TestAudioPath);
         AtomicBoolean audioCloseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
-        audio.getAudioEventListener().setAudioCloseAction(() -> audioCloseEventBoolean.set(true));
-        audio.getAudioEventListener().setAudioStopAction(() -> audioStopEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioCloseAction(audioEvent -> audioCloseEventBoolean.set(true));
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audioStopEventBoolean.set(true));
 
         audio.play();
         TimeUnit.MILLISECONDS.sleep(3);

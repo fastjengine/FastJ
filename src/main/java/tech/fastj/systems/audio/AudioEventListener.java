@@ -3,45 +3,46 @@ package tech.fastj.systems.audio;
 import javax.sound.sampled.LineEvent;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /** An event listener for the {@link MemoryAudio} class. */
 public class AudioEventListener {
 
-    private Runnable audioOpenAction;
-    private Runnable audioCloseAction;
-    private Runnable audioStartAction;
-    private Runnable audioStopAction;
-    private Runnable audioPauseAction;
-    private Runnable audioResumeAction;
+    private Consumer<LineEvent> audioOpenAction;
+    private Consumer<LineEvent> audioCloseAction;
+    private Consumer<LineEvent> audioStartAction;
+    private Consumer<LineEvent> audioStopAction;
+    private Consumer<LineEvent> audioPauseAction;
+    private Consumer<LineEvent> audioResumeAction;
 
     private final Audio audio;
 
-    private static final Map<LineEvent.Type, Consumer<AudioEventListener>> AudioEventProcessor = Map.of(
-            LineEvent.Type.OPEN, audioEventListener -> audioEventListener.audioOpenAction.run(),
-            LineEvent.Type.START, audioEventListener -> {
+    private static final Map<LineEvent.Type, BiConsumer<LineEvent, AudioEventListener>> AudioEventProcessor = Map.of(
+            LineEvent.Type.OPEN, (audioEvent, audioEventListener) -> audioEventListener.audioOpenAction.accept(audioEvent),
+            LineEvent.Type.START, (audioEvent, audioEventListener) -> {
                 switch (audioEventListener.audio.getPreviousPlaybackState()) {
                     case Paused: {
-                        audioEventListener.audioResumeAction.run();
+                        audioEventListener.audioResumeAction.accept(audioEvent);
                     }
                     case Stopped: {
-                        audioEventListener.audioStartAction.run();
+                        audioEventListener.audioStartAction.accept(audioEvent);
                         break;
                     }
                 }
             },
-            LineEvent.Type.STOP, audioEventListener -> {
+            LineEvent.Type.STOP, (audioEvent, audioEventListener) -> {
                 switch (audioEventListener.audio.getCurrentPlaybackState()) {
                     case Paused: {
-                        audioEventListener.audioPauseAction.run();
+                        audioEventListener.audioPauseAction.accept(audioEvent);
                     }
                     case Stopped: {
-                        audioEventListener.audioStopAction.run();
+                        audioEventListener.audioStopAction.accept(audioEvent);
                         break;
                     }
                 }
             },
-            LineEvent.Type.CLOSE, audioEventListener -> audioEventListener.audioCloseAction.run()
+            LineEvent.Type.CLOSE, (audioEvent, audioEventListener) -> audioEventListener.audioCloseAction.accept(audioEvent)
     );
 
     /**
@@ -59,7 +60,7 @@ public class AudioEventListener {
      *
      * @return The "audio open" event action.
      */
-    public Runnable getAudioOpenAction() {
+    public Consumer<LineEvent> getAudioOpenAction() {
         return audioOpenAction;
     }
 
@@ -68,7 +69,7 @@ public class AudioEventListener {
      *
      * @return The "audio close" event action.
      */
-    public Runnable getAudioCloseAction() {
+    public Consumer<LineEvent> getAudioCloseAction() {
         return audioCloseAction;
     }
 
@@ -77,7 +78,7 @@ public class AudioEventListener {
      *
      * @return The "audio start" event action.
      */
-    public Runnable getAudioStartAction() {
+    public Consumer<LineEvent> getAudioStartAction() {
         return audioStartAction;
     }
 
@@ -86,7 +87,7 @@ public class AudioEventListener {
      *
      * @return The "audio stop" event action.
      */
-    public Runnable getAudioStopAction() {
+    public Consumer<LineEvent> getAudioStopAction() {
         return audioStopAction;
     }
 
@@ -95,7 +96,7 @@ public class AudioEventListener {
      *
      * @return The "audio pause" event action.
      */
-    public Runnable getAudioPauseAction() {
+    public Consumer<LineEvent> getAudioPauseAction() {
         return audioPauseAction;
     }
 
@@ -104,7 +105,7 @@ public class AudioEventListener {
      *
      * @return The "audio resume" event action.
      */
-    public Runnable getAudioResumeAction() {
+    public Consumer<LineEvent> getAudioResumeAction() {
         return audioResumeAction;
     }
 
@@ -113,7 +114,7 @@ public class AudioEventListener {
      *
      * @param audioOpenAction The action to set.
      */
-    public void setAudioOpenAction(Runnable audioOpenAction) {
+    public void setAudioOpenAction(Consumer<LineEvent> audioOpenAction) {
         this.audioOpenAction = audioOpenAction;
     }
 
@@ -122,7 +123,7 @@ public class AudioEventListener {
      *
      * @param audioCloseAction The action to set.
      */
-    public void setAudioCloseAction(Runnable audioCloseAction) {
+    public void setAudioCloseAction(Consumer<LineEvent> audioCloseAction) {
         this.audioCloseAction = audioCloseAction;
     }
 
@@ -131,7 +132,7 @@ public class AudioEventListener {
      *
      * @param audioStartAction The action to set.
      */
-    public void setAudioStartAction(Runnable audioStartAction) {
+    public void setAudioStartAction(Consumer<LineEvent> audioStartAction) {
         this.audioStartAction = audioStartAction;
     }
 
@@ -140,7 +141,7 @@ public class AudioEventListener {
      *
      * @param audioStopAction The action to set.
      */
-    public void setAudioStopAction(Runnable audioStopAction) {
+    public void setAudioStopAction(Consumer<LineEvent> audioStopAction) {
         this.audioStopAction = audioStopAction;
     }
 
@@ -149,7 +150,7 @@ public class AudioEventListener {
      *
      * @param audioPauseAction The action to set.
      */
-    public void setAudioPauseAction(Runnable audioPauseAction) {
+    public void setAudioPauseAction(Consumer<LineEvent> audioPauseAction) {
         this.audioPauseAction = audioPauseAction;
     }
 
@@ -158,7 +159,7 @@ public class AudioEventListener {
      *
      * @param audioResumeAction The action to set.
      */
-    public void setAudioResumeAction(Runnable audioResumeAction) {
+    public void setAudioResumeAction(Consumer<LineEvent> audioResumeAction) {
         this.audioResumeAction = audioResumeAction;
     }
 
@@ -168,6 +169,6 @@ public class AudioEventListener {
      * @param audioEvent The event fired.
      */
     public void fireEvent(LineEvent audioEvent) {
-        AudioEventProcessor.get(audioEvent.getType()).accept(this);
+        AudioEventProcessor.get(audioEvent.getType()).accept(audioEvent, this);
     }
 }
