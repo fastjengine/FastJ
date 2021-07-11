@@ -642,7 +642,12 @@ public final class DrawUtil {
      * @see Maths#lerp(float, float, float)
      */
     public static Color colorLerp(Color c, Color c1, float t) {
-        return colorLerp(c, c1, t, t, t, t);
+        return new Color(
+                Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
+        );
     }
 
     /**
@@ -664,7 +669,7 @@ public final class DrawUtil {
     public static Color colorLerp(Color c, Color c1, float t1, float t2, float t3, float t4) {
         return new Color(
                 Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getRed(), t2), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
                 Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
                 Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
         );
@@ -683,7 +688,12 @@ public final class DrawUtil {
      * @see Maths#inverseLerp(float, float, float)
      */
     public static float[] inverseColorLerp(Color c, Color c1, float v) {
-        return inverseColorLerp(c, c1, v, v, v, v);
+        return new float[]{
+                Maths.inverseLerp(c.getRed(), c1.getRed(), v),
+                Maths.inverseLerp(c.getGreen(), c1.getGreen(), v),
+                Maths.inverseLerp(c.getBlue(), c1.getBlue(), v),
+                Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v),
+        };
     }
 
     /**

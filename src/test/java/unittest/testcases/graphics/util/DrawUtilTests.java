@@ -453,4 +453,108 @@ class DrawUtilTests {
 
         System.out.println("Generated outline strokes: " + Arrays.toString(generatedOutlineStrokes));
     }
+
+    @Test
+    void checkColorLerp_withOneLerpValue() {
+        Color color = new Color(0, 0, 0, 0);
+        Color color2 = new Color(50, 100, 200, 255);
+
+        float lerpValue1 = 0.5f;
+        float lerpValue2 = 0.0f;
+        float lerpValue3 = 1.0f;
+        float lerpValue4 = -2.0f;
+        float lerpValue5 = 5f;
+
+        Color expectedColorLerpResult1 = new Color(25, 50, 100, 127);
+        Color expectedColorLerpResult2 = new Color(0, 0, 0, 0);
+        Color expectedColorLerpResult3 = new Color(50, 100, 200, 255);
+        Color expectedColorLerpResult4 = new Color(0, 0, 0, 0);
+        Color expectedColorLerpResult5 = new Color(250, 255, 255, 255);
+        Color actualColorLerpResult1 = DrawUtil.colorLerp(color, color2, lerpValue1);
+        Color actualColorLerpResult2 = DrawUtil.colorLerp(color, color2, lerpValue2);
+        Color actualColorLerpResult3 = DrawUtil.colorLerp(color, color2, lerpValue3);
+        Color actualColorLerpResult4 = DrawUtil.colorLerp(color, color2, lerpValue4);
+        Color actualColorLerpResult5 = DrawUtil.colorLerp(color, color2, lerpValue5);
+
+        assertEquals(expectedColorLerpResult1, actualColorLerpResult1, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult1 + ".");
+        assertEquals(expectedColorLerpResult2, actualColorLerpResult2, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult2 + ".");
+        assertEquals(expectedColorLerpResult3, actualColorLerpResult3, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult3 + ".");
+        assertEquals(expectedColorLerpResult4, actualColorLerpResult4, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult4 + ".");
+        assertEquals(expectedColorLerpResult5, actualColorLerpResult5, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult5 + ".");
+    }
+
+    @Test
+    void checkColorLerp_withFourLerpValues() {
+        Color color = new Color(0, 0, 0, 0);
+        Color color2 = new Color(50, 100, 200, 255);
+
+        float lerpValue1 = 5.0f;
+        float lerpValue2 = 0.0f;
+        float lerpValue3 = 1.0f;
+        float lerpValue4 = -2.0f;
+
+        Color expectedColorLerpResult1 = new Color(250, 0, 200, 0);
+        Color expectedColorLerpResult2 = new Color(0, 100, 0, 255);
+        Color expectedColorLerpResult3 = new Color(50, 0, 255, 0);
+        Color expectedColorLerpResult4 = new Color(0, 255, 0, 255);
+        Color actualColorLerpResult1 = DrawUtil.colorLerp(color, color2, lerpValue1, lerpValue2, lerpValue3, lerpValue4);
+        Color actualColorLerpResult2 = DrawUtil.colorLerp(color, color2, lerpValue2, lerpValue3, lerpValue4, lerpValue1);
+        Color actualColorLerpResult3 = DrawUtil.colorLerp(color, color2, lerpValue3, lerpValue4, lerpValue1, lerpValue2);
+        Color actualColorLerpResult4 = DrawUtil.colorLerp(color, color2, lerpValue4, lerpValue1, lerpValue2, lerpValue3);
+
+        assertEquals(expectedColorLerpResult1, actualColorLerpResult1, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult1 + ".");
+        assertEquals(expectedColorLerpResult2, actualColorLerpResult2, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult2 + ".");
+        assertEquals(expectedColorLerpResult3, actualColorLerpResult3, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult3 + ".");
+        assertEquals(expectedColorLerpResult4, actualColorLerpResult4, "The resulting lerped Color should equal the expected lerp result " + expectedColorLerpResult4 + ".");
+    }
+
+    @Test
+    void checkColorInverseLerp_withOneValue() {
+        Color color = new Color(0, 50, 100, 205);
+        Color color2 = new Color(25, 200, 200, 255);
+
+        float inverseLerpValue1 = 0f;
+        float inverseLerpValue2 = 50f;
+        float inverseLerpValue3 = 150f;
+        float inverseLerpValue4 = 255f;
+
+        float[] expectedInverseColorLerpResult1 = {0.0f, -1 / 3f, -1.0f, -4.1f};
+        float[] expectedInverseColorLerpResult2 = {2.0f, 0.0f, -0.5f, -3.1f};
+        float[] expectedInverseColorLerpResult3 = {6.0f, 2 / 3f, 0.5f, -1.1f};
+        float[] expectedInverseColorLerpResult4 = {10.2f, 1 + (11 / 30f), 1.55f, 1.0f};
+        float[] actualInverseColorLerpResult1 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue1);
+        float[] actualInverseColorLerpResult2 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue2);
+        float[] actualInverseColorLerpResult3 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue3);
+        float[] actualInverseColorLerpResult4 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue4);
+
+        assertArrayEquals(expectedInverseColorLerpResult1, actualInverseColorLerpResult1, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult1) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult2, actualInverseColorLerpResult2, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult2) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult3, actualInverseColorLerpResult3, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult3) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult4, actualInverseColorLerpResult4, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult4) + ".");
+    }
+
+    @Test
+    void checkColorInverseLerp_withFourValues() {
+        Color color = new Color(0, 50, 100, 205);
+        Color color2 = new Color(25, 200, 200, 255);
+
+        float inverseLerpValue1 = 0f;
+        float inverseLerpValue2 = 50f;
+        float inverseLerpValue3 = 150f;
+        float inverseLerpValue4 = 255f;
+
+        float[] expectedInverseColorLerpResult1 = {0.0f, 0.0f, 0.5f, 1.0f};
+        float[] expectedInverseColorLerpResult2 = {2.0f, 2 / 3f, 1.55f, -4.1f};
+        float[] expectedInverseColorLerpResult3 = {6.0f, 1 + (11 / 30f), -1.0f, -3.1f};
+        float[] expectedInverseColorLerpResult4 = {10.2f, -1 / 3f, -0.5f, -1.1f};
+        float[] actualInverseColorLerpResult1 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue1, inverseLerpValue2, inverseLerpValue3, inverseLerpValue4);
+        float[] actualInverseColorLerpResult2 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue2, inverseLerpValue3, inverseLerpValue4, inverseLerpValue1);
+        float[] actualInverseColorLerpResult3 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue3, inverseLerpValue4, inverseLerpValue1, inverseLerpValue2);
+        float[] actualInverseColorLerpResult4 = DrawUtil.inverseColorLerp(color, color2, inverseLerpValue4, inverseLerpValue1, inverseLerpValue2, inverseLerpValue3);
+
+        assertArrayEquals(expectedInverseColorLerpResult1, actualInverseColorLerpResult1, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult1) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult2, actualInverseColorLerpResult2, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult2) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult3, actualInverseColorLerpResult3, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult3) + ".");
+        assertArrayEquals(expectedInverseColorLerpResult4, actualInverseColorLerpResult4, "The resulting inverse lerped Color should equal the expected inverse lerp result " + Arrays.toString(expectedInverseColorLerpResult4) + ".");
+    }
 }

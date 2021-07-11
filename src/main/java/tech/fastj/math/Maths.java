@@ -118,34 +118,34 @@ public class Maths {
     }
 
     /**
-     * Linearly interpolates between {@code x} and {@code x1}, by the interpolation point {@code t}.
+     * Linearly interpolates between {@code f} and {@code f1}, by the interpolation point {@code t}.
      *
-     * @param x  The starting value.
-     * @param x1 The ending value.
+     * @param f  The starting value.
+     * @param f1 The ending value.
      * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0).
      * @return The linearly interpolated value. (If the interpolation value {@code t} is within a range of {@code 0.0}
-     * to {@code 1.0}, then this value will be within the range of the provided values {@code x} and {@code x1}).
+     * to {@code 1.0}, then this value will be within the range of the provided values {@code f} and {@code f1}).
      * <p>
-     * This value can also be used to calculate {@code t} when used alongside {@code x} and {@code x1} in an inverse
+     * This value can also be used to calculate {@code t} when used alongside {@code f} and {@code f1} in an inverse
      * linear interpolation calculation {@link Maths#inverseLerp(float, float, float)}.
      */
-    public static float lerp(float x, float x1, float t) {
-        return (1f - t) * x + t * x1;
+    public static float lerp(float f, float f1, float t) {
+        return (1f - t) * f + t * f1;
     }
 
     /**
-     * Calculates the linear interpolation value based on the provided {@code x} and {@code x1} range, and the value
+     * Calculates the linear interpolation value based on the provided {@code f} and {@code f1} range, and the value
      * {@code v}.
      *
-     * @param x  The starting value.
-     * @param x1 The ending value.
+     * @param f  The starting value.
+     * @param f1 The ending value.
      * @param v  The {@code float} value representing the "result" of linear interpolation between the two values {@code
-     *           x} and {@code x1}.
-     * @return The value which, when used to calculate linear interpolation with the same {@code x} and {@code x1}
+     *           f} and {@code f1}.
+     * @return The value which, when used to calculate linear interpolation with the same {@code f} and {@code f1}
      * values (see: {@link Maths#lerp(float, float, float)}), will get {@code v} as a result.
      */
-    public static float inverseLerp(float x, float x1, float v) {
-        return (v - x) / (x1 - x);
+    public static float inverseLerp(float f, float f1, float v) {
+        return (v - f) / (f1 - f);
     }
 
     /**

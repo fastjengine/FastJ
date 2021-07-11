@@ -271,7 +271,8 @@ public class Pointf {
      *
      * @param p  The starting value.
      * @param p1 The ending value.
-     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0).
+     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used
+     *           for linear interpolation of the {@code Pointf}'s {@code x} and {@code y} values.
      * @return A new {@code Pointf}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
      */
@@ -279,6 +280,25 @@ public class Pointf {
         return new Pointf(
                 Maths.lerp(p.x, p1.x, t),
                 Maths.lerp(p.y, p1.y, t)
+        );
+    }
+
+    /**
+     * Creates a new {@link Pointf}, applying to it the linear interpolation of the two {@link Pointf}s specified.
+     *
+     * @param p  The starting value.
+     * @param p1 The ending value.
+     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used for linear interpolation of the {@code Pointf}'s {@code x} value.
+     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used for linear interpolation of the {@code Pointf}'s {@code y} value.
+     * @return A new {@code Pointf}, linearly interpolated as specified.
+     * @see Maths#lerp(float, float, float)
+     */
+    public static Pointf lerp(Pointf p, Pointf p1, float t1, float t2) {
+        return new Pointf(
+                Maths.lerp(p.x, p1.x, t1),
+                Maths.lerp(p.y, p1.y, t2)
         );
     }
 
@@ -296,7 +316,10 @@ public class Pointf {
      * @see Maths#inverseLerp(float, float, float)
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v) {
-        return inverseLerp(p, p1, v, v);
+        return new float[]{
+                Maths.inverseLerp(p.x, p1.x, v),
+                Maths.inverseLerp(p.y, p1.y, v)
+        };
     }
 
     /**
@@ -306,8 +329,7 @@ public class Pointf {
      * @param p  The starting value.
      * @param p1 The ending value.
      * @param v1 The first value representing the "result" of linear interpolation between the two {@code Pointf}s. This
-     *           value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x}
-     *           value.
+     *           value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x} value.
      * @param v2 The second value representing the "result" of linear interpolation between the two {@code Pointf}s.
      *           This value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code y}
      *           value.
