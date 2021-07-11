@@ -267,6 +267,62 @@ public class Pointf {
     }
 
     /**
+     * Creates a new {@link Pointf}, applying to it the linear interpolation of the two {@link Pointf}s specified.
+     *
+     * @param p  The starting value.
+     * @param p1 The ending value.
+     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0).
+     * @return A new {@code Pointf}, linearly interpolated as specified.
+     * @see Maths#lerp(float, float, float)
+     */
+    public static Pointf lerp(Pointf p, Pointf p1, float t) {
+        return new Pointf(
+                Maths.lerp(p.x, p1.x, t),
+                Maths.lerp(p.y, p1.y, t)
+        );
+    }
+
+    /**
+     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range,
+     * and the value {@code v}.
+     *
+     * @param p  The starting value.
+     * @param p1 The ending value.
+     * @param v  The value representing the "result" of linear interpolation between the two {@code Pointf}s. This value
+     *           will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x} and {@code y}
+     *           values.
+     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
+     * x} and {@code y} values.
+     * @see Maths#inverseLerp(float, float, float)
+     */
+    public static float[] inverseLerp(Pointf p, Pointf p1, float v) {
+        return inverseLerp(p, p1, v, v);
+    }
+
+    /**
+     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range,
+     * and the values {@code v1} and {@code v2}.
+     *
+     * @param p  The starting value.
+     * @param p1 The ending value.
+     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Pointf}s. This
+     *           value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x}
+     *           value.
+     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Pointf}s.
+     *           This value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code y}
+     *           value.
+     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
+     * x} and {@code y} values.
+     * @see Maths#inverseLerp(float, float, float)
+     */
+    public static float[] inverseLerp(Pointf p, Pointf p1, float v1, float v2) {
+        return new float[]{
+                Maths.inverseLerp(p.x, p1.x, v1),
+                Maths.inverseLerp(p.y, p1.y, v2)
+        };
+    }
+
+    /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
      * @param newX Float value used to set the new x value for this {@code Pointf} object.
