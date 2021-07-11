@@ -47,7 +47,8 @@ public class Model2D extends GameObject {
      * shouldRender} fields.
      * <p>
      *
-     * @param polygons {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
+     * @param polygons     {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
+     * @param shouldRender The "should render" {@code boolean} to use for the {@code Model2D}.
      * @return A {@code Model2DBuilder} instance for creating a {@code Model2D}.
      */
     public static Model2DBuilder create(Polygon2D[] polygons, boolean shouldRender) {
