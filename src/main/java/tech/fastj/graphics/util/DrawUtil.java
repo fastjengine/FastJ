@@ -630,4 +630,95 @@ public final class DrawUtil {
                 randomJoin == BasicStroke.JOIN_MITER ? Maths.random(1.0f, 64.0f) : 0.0f
         );
     }
+
+    /**
+     * Creates a new {@link Color}, applying to it the linear interpolation of the two {@link Color}s specified.
+     *
+     * @param c  The starting value.
+     * @param c1 The ending value.
+     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used
+     *           to linear interpolate all 4 of the {@code Color}'s values (red, blue, green, alpha).
+     * @return A new {@code Color}, linearly interpolated as specified.
+     * @see Maths#lerp(float, float, float)
+     */
+    public static Color colorLerp(Color c, Color c1, float t) {
+        return new Color(
+                Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
+        );
+    }
+
+    /**
+     * Creates a new {@link Color}, applying to it the linear interpolation of the two {@link Color}s specified.
+     *
+     * @param c  The starting value.
+     * @param c1 The ending value.
+     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used to linear interpolate the {@code Color}'s red value.
+     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used to linear interpolate the {@code Color}'s green value.
+     * @param t3 The third interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used to linear interpolate the {@code Color}'s blue value.
+     * @param t4 The fourth interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
+     *           be used to linear interpolate the {@code Color}'s alpha value.
+     * @return A new {@code Color}, linearly interpolated as specified.
+     * @see Maths#lerp(float, float, float)
+     */
+    public static Color colorLerp(Color c, Color c1, float t1, float t2, float t3, float t4) {
+        return new Color(
+                Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
+                Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
+        );
+    }
+
+    /**
+     * Creates a new {@link Color}, applying to it the linear interpolation of the two {@link Color}s specified.
+     *
+     * @param c  The starting value.
+     * @param c1 The ending value.
+     * @param v  The value representing the "result" of linear interpolation between the two {@code Color}s. This value
+     *           is used to calculate inverse linear interpolation of the colors' {@code red}, {@code green}, {@code
+     *           blue}, and {@code alpha} values.
+     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red},
+     * {@code green}, {@code blue}, and {@code alpha} values.
+     * @see Maths#inverseLerp(float, float, float)
+     */
+    public static float[] inverseColorLerp(Color c, Color c1, float v) {
+        return new float[]{
+                Maths.inverseLerp(c.getRed(), c1.getRed(), v),
+                Maths.inverseLerp(c.getGreen(), c1.getGreen(), v),
+                Maths.inverseLerp(c.getBlue(), c1.getBlue(), v),
+                Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v),
+        };
+    }
+
+    /**
+     * Creates a new {@link Color}, applying to it the linear interpolation of the two {@link Color}s specified.
+     *
+     * @param c  The starting value.
+     * @param c1 The ending value.
+     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Color}s. This
+     *           value is used to calculate inverse linear interpolation of the colors' {@code red} value.
+     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Color}s. This
+     *           value is used to calculate inverse linear interpolation of the colors' {@code green} value.
+     * @param v3 The third value representing the "result" of linear interpolation between the two {@code Color}s. This
+     *           value is used to calculate inverse linear interpolation of the colors' {@code blue} value.
+     * @param v4 The fourth value representing the "result" of linear interpolation between the two {@code Color}s. This
+     *           value is used to calculate inverse linear interpolation of the colors' {@code alpha} value.
+     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red},
+     * {@code green}, {@code blue}, and {@code alpha} values.
+     * @see Maths#lerp(float, float, float)
+     */
+    public static float[] inverseColorLerp(Color c, Color c1, float v1, float v2, float v3, float v4) {
+        return new float[]{
+                Maths.inverseLerp(c.getRed(), c1.getRed(), v1),
+                Maths.inverseLerp(c.getGreen(), c1.getGreen(), v2),
+                Maths.inverseLerp(c.getBlue(), c1.getBlue(), v3),
+                Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v4),
+        };
+    }
 }

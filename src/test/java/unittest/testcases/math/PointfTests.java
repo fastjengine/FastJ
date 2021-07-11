@@ -8,9 +8,11 @@ import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -459,5 +461,121 @@ class PointfTests {
         float expectedCrossProduct = 876.6225f;
         float actualCrossProduct = Pointf.cross(pt, pt2);
         assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 876.6225f.");
+    }
+
+    @Test
+    void static_checkLerp_withOneLerpValue() {
+        Pointf ptf = new Pointf(5f, 13f);
+        Pointf ptf2 = new Pointf(25f, 37f);
+
+        float lerpValue1 = 0.5f;
+        float lerpValue2 = 0.0f;
+        float lerpValue3 = 1.0f;
+        float lerpValue4 = -2.0f;
+        float lerpValue5 = 5f;
+
+        Pointf expectedLerpResult1 = new Pointf(15f, 25f);
+        Pointf expectedLerpResult2 = new Pointf(5f, 13f);
+        Pointf expectedLerpResult3 = new Pointf(25f, 37f);
+        Pointf expectedLerpResult4 = new Pointf(-35f, -35f);
+        Pointf expectedLerpResult5 = new Pointf(105f, 133f);
+        Pointf actualLerpResult1 = Pointf.lerp(ptf, ptf2, lerpValue1);
+        Pointf actualLerpResult2 = Pointf.lerp(ptf, ptf2, lerpValue2);
+        Pointf actualLerpResult3 = Pointf.lerp(ptf, ptf2, lerpValue3);
+        Pointf actualLerpResult4 = Pointf.lerp(ptf, ptf2, lerpValue4);
+        Pointf actualLerpResult5 = Pointf.lerp(ptf, ptf2, lerpValue5);
+
+        assertEquals(expectedLerpResult1, actualLerpResult1, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult1 + ".");
+        assertEquals(expectedLerpResult2, actualLerpResult2, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult2 + ".");
+        assertEquals(expectedLerpResult3, actualLerpResult3, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult3 + ".");
+        assertEquals(expectedLerpResult4, actualLerpResult4, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult4 + ".");
+        assertEquals(expectedLerpResult5, actualLerpResult5, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult5 + ".");
+    }
+
+    @Test
+    void static_checkLerp_withTwoLerpValues() {
+        Pointf ptf = new Pointf(5f, 13f);
+        Pointf ptf2 = new Pointf(25f, 37f);
+
+        float[] lerpValue1 = {0.5f, 0.0f};
+        float[] lerpValue2 = {0.0f, 1.0f};
+        float[] lerpValue3 = {1.0f, -2.0f};
+        float[] lerpValue4 = {-2.0f, 5f};
+        float[] lerpValue5 = {5f, 0.5f};
+
+        Pointf expectedLerpResult1 = new Pointf(15f, 13f);
+        Pointf expectedLerpResult2 = new Pointf(5f, 37f);
+        Pointf expectedLerpResult3 = new Pointf(25f, -35f);
+        Pointf expectedLerpResult4 = new Pointf(-35f, 133f);
+        Pointf expectedLerpResult5 = new Pointf(105f, 25f);
+        Pointf actualLerpResult1 = Pointf.lerp(ptf, ptf2, lerpValue1[0], lerpValue1[1]);
+        Pointf actualLerpResult2 = Pointf.lerp(ptf, ptf2, lerpValue2[0], lerpValue2[1]);
+        Pointf actualLerpResult3 = Pointf.lerp(ptf, ptf2, lerpValue3[0], lerpValue3[1]);
+        Pointf actualLerpResult4 = Pointf.lerp(ptf, ptf2, lerpValue4[0], lerpValue4[1]);
+        Pointf actualLerpResult5 = Pointf.lerp(ptf, ptf2, lerpValue5[0], lerpValue5[1]);
+
+        assertEquals(expectedLerpResult1, actualLerpResult1, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult1 + ".");
+        assertEquals(expectedLerpResult2, actualLerpResult2, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult2 + ".");
+        assertEquals(expectedLerpResult3, actualLerpResult3, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult3 + ".");
+        assertEquals(expectedLerpResult4, actualLerpResult4, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult4 + ".");
+        assertEquals(expectedLerpResult5, actualLerpResult5, "The resulting lerped Pointf should equal the expected lerp result " + expectedLerpResult5 + ".");
+    }
+
+    @Test
+    void static_checkInverseLerp_withOneValue() {
+        Pointf ptf = new Pointf(0f, 5f);
+        Pointf ptf2 = new Pointf(20f, 15f);
+
+        float inverseLerpValue1 = 5f;
+        float inverseLerpValue2 = 15f;
+        float inverseLerpValue3 = 10f;
+        float inverseLerpValue4 = 0f;
+        float inverseLerpValue5 = 20f;
+
+        float[] expectedInverseLerpResult1 = {0.25f, 0.0f};
+        float[] expectedInverseLerpResult2 = {0.75f, 1.0f};
+        float[] expectedInverseLerpResult3 = {0.5f, 0.5f};
+        float[] expectedInverseLerpResult4 = {0.0f, -0.5f};
+        float[] expectedInverseLerpResult5 = {1f, 1.5f};
+        float[] actualInverseLerpResult1 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue1);
+        float[] actualInverseLerpResult2 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue2);
+        float[] actualInverseLerpResult3 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue3);
+        float[] actualInverseLerpResult4 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue4);
+        float[] actualInverseLerpResult5 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue5);
+
+        assertArrayEquals(expectedInverseLerpResult1, actualInverseLerpResult1, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult1) + ".");
+        assertArrayEquals(expectedInverseLerpResult2, actualInverseLerpResult2, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult2) + ".");
+        assertArrayEquals(expectedInverseLerpResult3, actualInverseLerpResult3, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult3) + ".");
+        assertArrayEquals(expectedInverseLerpResult4, actualInverseLerpResult4, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult4) + ".");
+        assertArrayEquals(expectedInverseLerpResult5, actualInverseLerpResult5, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult5) + ".");
+    }
+
+    @Test
+    void static_checkInverseLerp_withTwoLerpValues() {
+        Pointf ptf = new Pointf(5f, 13f);
+        Pointf ptf2 = new Pointf(25f, 37f);
+
+        float[] inverseLerpValue1 = {15f, 13f};
+        float[] inverseLerpValue2 = {5f, 37f};
+        float[] inverseLerpValue3 = {25f, -35f};
+        float[] inverseLerpValue4 = {-35f, 133f};
+        float[] inverseLerpValue5 = {105f, 25f};
+
+        float[] expectedInverseLerpResult1 = {0.5f, 0.0f};
+        float[] expectedInverseLerpResult2 = {0.0f, 1.0f};
+        float[] expectedInverseLerpResult3 = {1.0f, -2.0f};
+        float[] expectedInverseLerpResult4 = {-2.0f, 5f};
+        float[] expectedInverseLerpResult5 = {5f, 0.5f};
+        float[] actualInverseLerpResult1 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue1[0], inverseLerpValue1[1]);
+        float[] actualInverseLerpResult2 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue2[0], inverseLerpValue2[1]);
+        float[] actualInverseLerpResult3 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue3[0], inverseLerpValue3[1]);
+        float[] actualInverseLerpResult4 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue4[0], inverseLerpValue4[1]);
+        float[] actualInverseLerpResult5 = Pointf.inverseLerp(ptf, ptf2, inverseLerpValue5[0], inverseLerpValue5[1]);
+
+        assertArrayEquals(expectedInverseLerpResult1, actualInverseLerpResult1, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult1) + ".");
+        assertArrayEquals(expectedInverseLerpResult2, actualInverseLerpResult2, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult2) + ".");
+        assertArrayEquals(expectedInverseLerpResult3, actualInverseLerpResult3, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult3) + ".");
+        assertArrayEquals(expectedInverseLerpResult4, actualInverseLerpResult4, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult4) + ".");
+        assertArrayEquals(expectedInverseLerpResult5, actualInverseLerpResult5, "The resulting inverse lerped Pointf should equal the expected inverse lerp result " + Arrays.toString(expectedInverseLerpResult5) + ".");
     }
 }
