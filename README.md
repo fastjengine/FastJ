@@ -91,7 +91,7 @@ You'll need a few things in order to work on the repository:
 - [Java 11][AdoptOpenJDK-Java11-Link]
 - (optional, but highly recommended!) A decent understanding of how to use [Gradle][Gradle-Link].
   **Installation of Gradle is not required -- the project supplies the Gradle tools already.**
-    - For reference, this project currently makes use of Gradle 6.7.1.
+    - For reference, this project currently makes use of Gradle 7.1.1.
 
 Once you have what you need, follow these simple steps:
 - Clone the FastJ repository.
