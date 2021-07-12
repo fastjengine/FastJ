@@ -12,7 +12,7 @@ plugins {
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.4.0')
+version('1.5.0-SNAPSHOT-1')
 description('An open source, Java-based 2D game engine.')
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
@@ -164,7 +164,7 @@ if (shouldPublish) {
                 scm {
                     connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
                     developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    url = 'https://github.com/fastjengine/FastJ.git'
+                    url = 'https://tech.fastj'
                 }
 
                 licenses {
@@ -188,7 +188,7 @@ if (shouldPublish) {
     }
 
     publishing.repositories.maven {
-        url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+        url = version.endsWith('-SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
         credentials.username = System.getenv('ossrhUsername')
         credentials.password = System.getenv('ossrhPassword')
     }
