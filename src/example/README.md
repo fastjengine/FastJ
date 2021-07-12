@@ -18,47 +18,52 @@ _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 ## Informational
 _These are examples to help you understand how FastJ works._
 
-### Hello, FastJ!
+### [Hello, FastJ!](http://example.fastj.me/hellofastj/Main.java)
 This program is a remarkably simple introduction to starting work with FastJ. It initializes the engine and runs the engine, which results in an empty window. This also can serve as a project template for working with FastJ.
 
 Command to run: `./gradlew example -PtoRun=hellofastj`
 
-### Logging
+### [Logging](http://example.fastj.me/logging/Main.java)
 This is designed to show you how logging works in FastJ.
 
 Command to run: `./gradlew example -PtoRun=logging`
 
-### Engine Configuration
+### [Engine Configuration](http://example.fastj.me/engineconfig/Main.java)
 This program demonstrates the different available configurations for FastJ: Window/Game Resolution, FPS/UPS configuration, and hardware acceleration.
 
 Command to run: `./gradlew example -PtoRun=engineconfig`
 
-### Keyboard
+### [Keyboard](http://example.fastj.me/keyboard/Main.java)
 This program demonstrates how to access keyboard input in FastJ.
 
 Command to run: `./gradlew example -PtoRun=keyboard`
 
-### Polygons
+### [[Mouse](http://example.fastj.me/mouse/Main.java)
+This program demonstrates how to access mouse input in FastJ.
+
+Command to run: `./gradlew example -PtoRun=mouse`
+
+### [Polygons](http://example.fastj.me/polygon2d/Main.java)
 This program demonstrates how to create and draw polygons using the `Polygon2D` class.
 
 Command to run: `./gradlew example -PtoRun=polygon2d`
 
-### Text
+### [Text](http://example.fastj.me/text2d/Main.java)
 This program demonstrates how to create and draw text using the `Text2D` class.
 
 Command to run: `./gradlew example -PtoRun=text2d`
 
-### Models
+### [Models](http://example.fastj.me/model2d/Main.java)
 This program demonstrates how to create and draw 2D models using the `Model2D` class.
 
 Command to run: `./gradlew example -PtoRun=model2d`
 
-### Reading and Writing Models to Files
+### [Reading and Writing Models to Files](http://example.fastj.me/modelreadwrite/Main.java)
 This program demonstrates how to read and write polygons from and to a file.
 
 Command to run: `./gradlew example -PtoRun=modelreadwrite`
 
-### Global Rendering Settings
+### [Global Rendering Settings](http://example.fastj.me/rendersettings/Main.java)
 This program demonstrates how to use the `RenderSettings` class to change the way content gets rendered to the screen in FastJ.
 
 Command to run: `./gradlew example -PtoRun=rendersettings`
@@ -66,7 +71,7 @@ Command to run: `./gradlew example -PtoRun=rendersettings`
 ## Games
 _Example programs to demonstrate FastJ through games._
 
-### Bullet Hell
+### [Bullet Hell](http://example.fastj.me/bullethell)
 This project takes the concepts we've learned so far and meshes them together into a game!
 
 **WARNING: UNFINISHED PROJECT**
