@@ -38,7 +38,7 @@ This program demonstrates how to access keyboard input in FastJ.
 
 Command to run: `./gradlew example -PtoRun=keyboard`
 
-### [[Mouse](http://example.fastj.me/mouse/Main.java)
+### [Mouse](http://example.fastj.me/mouse/Main.java)
 This program demonstrates how to access mouse input in FastJ.
 
 Command to run: `./gradlew example -PtoRun=mouse`
