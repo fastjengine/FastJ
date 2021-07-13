@@ -164,7 +164,7 @@ if (shouldPublish) {
                 scm {
                     connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
                     developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    url = 'https://tech.fastj'
+                    url = 'https://fastj.tech'
                 }
 
                 licenses {
