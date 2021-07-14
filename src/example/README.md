@@ -1,6 +1,6 @@
 # Examples
 
-##How to use the examples
+## How to use the examples
 To see the examples in action, you'll need to clone the repository.
 ```bash
 git clone https://github.com/fastjengine/FastJ.git
