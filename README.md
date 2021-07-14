@@ -48,9 +48,14 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 ### Template Projects
 Check out these template projects for FastJ! They're the fastest way to jump right into using FastJ.
 
+#### using Gradle
 - Java: https://github.com/lucasstarsz/fastj-java-template
 - Kotlin: https://github.com/lucasstarsz/fastj-kotlin-template
 - Groovy: https://github.com/lucasstarsz/fastj-groovy-template
+
+#### using Maven
+- Java: https://github.com/AurumByte/fastj-java-template-maven
+- Kotlin: https://github.com/AurumByte/fastj-kotlin-template-maven
 
 ### Examples
 There will likely be a small wiki added for this game engine at a later time. For now, you'll want to check out [the example projects][FastJ-Example] for getting started with FastJ.
