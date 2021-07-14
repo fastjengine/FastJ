@@ -55,7 +55,7 @@ Check out these template projects for FastJ! They're the fastest way to jump rig
 ### Examples
 [The example projects][FastJ-Example] are a great way to start learning how to use FastJ.
 
-###Wiki
+### Wiki
 We are currently working on a [wiki][FastJ-Wiki] for the engine. It'll guide through the basics on how to start a project.  
 
 ### Documentation
