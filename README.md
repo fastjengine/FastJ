@@ -119,7 +119,7 @@ Once you have what you need, follow these simple steps:
 This repository is licensed under the [MIT License][MIT-License].
 
 
-[FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
+[FastJ-Logo]: media/branding/fastj_logo.png "FastJ Logo"
 
 [SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/fastjengine_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
 [SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=fastjengine_FastJ "SonarCloud Code Coverage"
