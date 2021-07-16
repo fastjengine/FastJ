@@ -5,6 +5,7 @@ import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 import tech.fastj.systems.tags.TaggableEntity;
 
 import java.awt.geom.AffineTransform;
@@ -51,9 +52,18 @@ public abstract class Drawable extends TaggableEntity {
      * <p>
      * This also removes any internal references that the {@code Drawable} may have.
      *
-     * @param originScene The origin of this {@code Drawable}.
+     * @param origin The origin of this {@code Drawable}.
      */
-    public abstract void destroy(Scene originScene);
+    public abstract void destroy(Scene origin);
+
+    /**
+     * Destroys all memory the {@code Drawable} uses.
+     * <p>
+     * This also removes any internal references that the {@code Drawable} may have.
+     *
+     * @param origin The origin of this {@code Drawable}.
+     */
+    public abstract void destroy(SimpleManager origin);
 
     /**
      * Gets the collision path of the {@code Drawable}.
@@ -348,6 +358,19 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
      */
     protected void destroyTheRest(Scene origin) {
+        origin.removeTaggableEntity(this);
+        clearTags();
+
+        collisionPath = null;
+    }
+
+    /**
+     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
+     * within the {@code SimpleManager} parameter.
+     *
+     * @param origin {@code SimpleManager} parameter that will have all references to this {@code Drawable} removed.
+     */
+    protected void destroyTheRest(SimpleManager origin) {
         origin.removeTaggableEntity(this);
         clearTags();
 

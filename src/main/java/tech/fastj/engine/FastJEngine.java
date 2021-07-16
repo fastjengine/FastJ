@@ -70,10 +70,6 @@ public class FastJEngine {
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
 
-    static {
-        System.out.println("init");
-    }
-
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
     }

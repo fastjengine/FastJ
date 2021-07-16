@@ -5,6 +5,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -171,13 +172,23 @@ public class Text2D extends GameObject {
     }
 
     @Override
-    public void destroy(Scene originScene) {
+    public void destroy(Scene origin) {
         text = null;
         fillPaint = null;
         font = null;
         hasMetrics = false;
 
-        super.destroyTheRest(originScene);
+        super.destroyTheRest(origin);
+    }
+
+    @Override
+    public void destroy(SimpleManager origin) {
+        text = null;
+        fillPaint = null;
+        font = null;
+        hasMetrics = false;
+
+        super.destroyTheRest(origin);
     }
 
     /**

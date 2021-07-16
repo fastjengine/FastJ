@@ -5,6 +5,7 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -302,7 +303,7 @@ public class Polygon2D extends GameObject {
     }
 
     @Override
-    public void destroy(Scene originScene) {
+    public void destroy(Scene origin) {
         originalPoints = null;
 
         renderStyle = null;
@@ -310,7 +311,19 @@ public class Polygon2D extends GameObject {
         outlineColor = null;
         outlineStroke = null;
 
-        destroyTheRest(originScene);
+        super.destroyTheRest(origin);
+    }
+
+    @Override
+    public void destroy(SimpleManager origin) {
+        originalPoints = null;
+
+        renderStyle = null;
+        fillPaint = null;
+        outlineColor = null;
+        outlineStroke = null;
+
+        super.destroyTheRest(origin);
     }
 
     /**

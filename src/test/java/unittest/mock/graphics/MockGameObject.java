@@ -5,13 +5,17 @@ import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
 
 public class MockGameObject extends GameObject {
     @Override
-    public void destroy(Scene originScene) {
+    public void destroy(Scene origin) {
+    }
 
+    @Override
+    public void destroy(SimpleManager origin) {
     }
 
     @Override

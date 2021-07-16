@@ -5,6 +5,7 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 public class MockBoundariesDrawable extends Drawable {
 
@@ -21,6 +22,10 @@ public class MockBoundariesDrawable extends Drawable {
     }
 
     @Override
-    public void destroy(Scene originScene) {
+    public void destroy(Scene origin) {
+    }
+
+    @Override
+    public void destroy(SimpleManager origin) {
     }
 }

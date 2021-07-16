@@ -3,15 +3,15 @@ package tech.fastj.graphics.ui;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 
+import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import tech.fastj.input.mouse.MouseActionListener;
 
 /**
  * A drawable to be used as UI.
@@ -85,6 +85,20 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      */
     @Override
     protected void destroyTheRest(Scene origin) {
+        super.destroyTheRest(origin);
+
+        origin.drawableManager.removeUIElement(this);
+        origin.inputManager.removeMouseActionListener(this);
+    }
+
+    /**
+     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object and as a mouse
+     * listener.
+     *
+     * @param origin {@code SimpleManager} parameter that will have all references to this {@code UIElement} removed.
+     */
+    @Override
+    protected void destroyTheRest(SimpleManager origin) {
         super.destroyTheRest(origin);
 
         origin.drawableManager.removeUIElement(this);

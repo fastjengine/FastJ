@@ -8,6 +8,7 @@ import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -157,9 +158,17 @@ public class Button extends UIElement {
     }
 
     @Override
-    public void destroy(Scene originScene) {
+    public void destroy(Scene origin) {
         paint = null;
         renderPath = null;
+        super.destroyTheRest(origin);
+    }
+
+    @Override
+    public void destroy(SimpleManager origin) {
+        paint = null;
+        renderPath = null;
+        super.destroyTheRest(origin);
     }
 
     /**
