@@ -3,6 +3,7 @@ package tech.fastj.graphics.game;
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.behaviors.Behavior;
+import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -69,13 +70,13 @@ public abstract class GameObject extends Drawable {
      * <p>
      * {@code Behavior}s can be added as many times as needed.
      *
-     * @param behavior {@code Behavior} parameter to be added.
-     * @param origin   Scene that the {@code GameObject} will be added to, as a behavior listener.
+     * @param behavior        {@code Behavior} parameter to be added.
+     * @param behaviorHandler Handler that the {@code GameObject} will be added to, as a behavior listener.
      * @return the {@code GameObject} is returned for method chaining.
      */
-    public GameObject addBehavior(Behavior behavior, Scene origin) {
+    public GameObject addBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
         behaviors.add(behavior);
-        origin.addBehaviorListener(this);
+        behaviorHandler.addBehaviorListener(this);
 
         return this;
     }
@@ -83,15 +84,15 @@ public abstract class GameObject extends Drawable {
     /**
      * Removes the specified {@link Behavior} from the {@code GameObject}'s list of {@code Behavior}s.
      *
-     * @param behavior    {@code Behavior} parameter to be removed from.
-     * @param originScene Scene that, if the {@code GameObject} no longer has any Behaviors, the {@code GameObject} will
-     *                    be removed from as a behavior listener.
+     * @param behavior        {@code Behavior} parameter to be removed from.
+     * @param behaviorHandler Handler that, if the {@code GameObject} no longer has any Behaviors, the {@code
+     *                        GameObject} will be removed from as a behavior listener.
      * @return the {@code GameObject} is returned for method chaining.
      */
-    public GameObject removeBehavior(Behavior behavior, Scene originScene) {
+    public GameObject removeBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
         behaviors.remove(behavior);
         if (behaviors.isEmpty()) {
-            originScene.removeBehaviorListener(this);
+            behaviorHandler.removeBehaviorListener(this);
         }
 
         return this;
