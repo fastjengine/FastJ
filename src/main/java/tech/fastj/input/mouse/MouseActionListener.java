@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
  * to that {@code InputManager}.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public interface MouseActionListener {
 

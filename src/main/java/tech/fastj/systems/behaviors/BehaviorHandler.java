@@ -9,6 +9,9 @@ import java.util.List;
  * <p>
  * <b>FOR IMPLEMENTORS:</b> In order for these methods to work you need to call {@link
  * BehaviorManager#addListenerList(BehaviorHandler)} upon construction.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
  */
 public interface BehaviorHandler {
 

@@ -17,7 +17,7 @@ import tech.fastj.input.InputManager;
  * Class that stores key input information from the {@code Display}.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Keyboard implements KeyListener {
 

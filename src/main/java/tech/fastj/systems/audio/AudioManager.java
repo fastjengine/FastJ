@@ -14,7 +14,12 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/** The manager of all audio-based content. */
+/**
+ * The manager of all audio-based content.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class AudioManager {
 
     private static final Map<String, MemoryAudio> MemoryAudioFiles = new HashMap<>();

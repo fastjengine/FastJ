@@ -23,7 +23,7 @@ import java.util.List;
  * </ul>
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class TaggableEntity {
     private final List<String> tags = new ArrayList<>();

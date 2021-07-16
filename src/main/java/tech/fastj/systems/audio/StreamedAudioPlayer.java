@@ -14,6 +14,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class for playing {@link StreamedAudio streamed audio}.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class StreamedAudioPlayer {
 
     public static final int BufferSize = 4096;

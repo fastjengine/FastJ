@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Class that fixes inaccurate sleep time on Windows computers.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class ThreadFixer {
     private static boolean isDaemonRunning;

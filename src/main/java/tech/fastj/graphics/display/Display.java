@@ -35,7 +35,7 @@ import tech.fastj.input.mouse.Mouse;
  * Class that draws to a screen using a combination of Swing's JFrame, and AWT's Canvas.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Display {
 
@@ -56,7 +56,7 @@ public class Display {
     private boolean shouldDisplayFPSInTitle = false;
 
     // resolution
-    private Point viewerResolution;
+    private Point windowResolution;
     private Point internalResolution;
     private Point lastResolution;
 
@@ -74,16 +74,16 @@ public class Display {
     private boolean isReady = false;
 
     /**
-     * Creates a display with the specified title, viewer resolution, and internal resolution.
+     * Creates a display with the specified title, window resolution, and internal resolution.
      *
      * @param title       The title for the {@code Display}.
-     * @param viewerRes   The resolution that the user will see.
+     * @param windowRes   The resolution that the user will see.
      * @param internalRes The internal game resolution.
      */
-    public Display(String title, Point viewerRes, Point internalRes) {
+    public Display(String title, Point windowRes, Point internalRes) {
         displayTitle = title;
         vanityDisplayTitle = title;
-        viewerResolution = viewerRes;
+        windowResolution = windowRes;
         internalResolution = internalRes.copy();
 
         lastResolution = Point.Origin.copy();
@@ -171,24 +171,24 @@ public class Display {
     }
 
     /**
-     * Gets the viewer resolution of the {@code Display}.
+     * Gets the window resolution of the {@code Display}.
      *
-     * @return The viewer resolution, as a {@code Point}.
+     * @return The window resolution, as a {@code Point}.
      */
-    public Point getViewerResolution() {
-        return viewerResolution;
+    public Point getWindowResolution() {
+        return windowResolution;
     }
 
     /**
      * Sets the {@code Display}'s viewed resolution.
      * <p>
-     * This is the resolution that the viewer sees, and is a scaled version of the game resolution.
+     * This is the resolution that the window sees, and is a scaled version of the game resolution.
      *
      * @param res The new resolution to be set to.
      */
-    public void setViewerResolution(Point res) {
+    public void setWindowResolution(Point res) {
         FastJEngine.runningCheck();
-        viewerResolution = res.copy();
+        windowResolution = res.copy();
     }
 
     /**
@@ -215,14 +215,14 @@ public class Display {
     /**
      * Gets the scaling of the {@code Display} resolution.
      * <p>
-     * The scale is represented as an expression of {@code viewerResolution / internalResolution}.
+     * The scale is represented as an expression of {@code windowResolution / internalResolution}.
      * <p>
      * The values for the x and y of the returned {@code Pointf} are {@code 0 < x <= 1}.
      *
      * @return The scale of the {@code Display} resolution.
      */
     public Pointf getResolutionScale() {
-        return Pointf.divide(viewerResolution.asPointf(), internalResolution.asPointf());
+        return Pointf.divide(windowResolution.asPointf(), internalResolution.asPointf());
     }
 
     /**
@@ -260,8 +260,8 @@ public class Display {
 
         if (isFullscreen) {
             // update res & background
-            lastResolution = viewerResolution.copy();
-            viewerResolution = DisplayUtil.getDefaultMonitorDimensions();
+            lastResolution = windowResolution.copy();
+            windowResolution = DisplayUtil.getDefaultMonitorDimensions();
 
             // prepare for full screen
             disposeWindow();
@@ -276,8 +276,8 @@ public class Display {
             disposeWindow();
 
             // update res & background
-            Point displayResSave = viewerResolution.copy();
-            viewerResolution = lastResolution.copy();
+            Point displayResSave = windowResolution.copy();
+            windowResolution = lastResolution.copy();
             lastResolution = displayResSave;
 
             outputDisplay.pack();
@@ -428,8 +428,8 @@ public class Display {
         outputDisplay.getContentPane().setPreferredSize(new Dimension(newResolution.x, newResolution.y));
         drawingCanvas.setPreferredSize(new Dimension(newResolution.x, newResolution.y));
 
-        lastResolution = viewerResolution.copy();
-        viewerResolution = newResolution.copy();
+        lastResolution = windowResolution.copy();
+        windowResolution = newResolution.copy();
 
         background.width = internalResolution.x;
         background.height = internalResolution.y;
@@ -455,9 +455,9 @@ public class Display {
         disposeWindow();
 
         // update res & background
-        Point tempViewerResolution = viewerResolution.copy();
-        viewerResolution = lastResolution.copy();
-        lastResolution = tempViewerResolution;
+        Point tempWindowResolution = windowResolution.copy();
+        windowResolution = lastResolution.copy();
+        lastResolution = tempWindowResolution;
 
         // prepare window
         outputDisplay.pack();
@@ -595,7 +595,7 @@ public class Display {
     public void init() {
         if (!isReady) {
             initDisplay();
-            resizeDisplay(viewerResolution);
+            resizeDisplay(windowResolution);
             setRenderHints();
             isReady = true;
         }
@@ -632,7 +632,7 @@ public class Display {
 
         // JFrame display
         outputDisplay = new JFrame(vanityDisplayTitle);
-        outputDisplay.getContentPane().setPreferredSize(new Dimension(viewerResolution.x, viewerResolution.y));
+        outputDisplay.getContentPane().setPreferredSize(new Dimension(windowResolution.x, windowResolution.y));
 
         outputDisplay.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         outputDisplay.addWindowListener(new WindowAdapter() {
@@ -656,7 +656,7 @@ public class Display {
 
         // Canvas
         drawingCanvas = new Canvas();
-        drawingCanvas.setPreferredSize(new Dimension(viewerResolution.x, viewerResolution.y));
+        drawingCanvas.setPreferredSize(new Dimension(windowResolution.x, windowResolution.y));
         drawingCanvas.setFocusable(true);
 
         drawingCanvas.addMouseListener(mouse);

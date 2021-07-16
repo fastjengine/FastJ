@@ -17,7 +17,7 @@ import java.util.Objects;
  * transform objects that can be rendered to the screen -- polygons, models, and (still a work in progress) text.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class GameObject extends Drawable {
 

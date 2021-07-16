@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Class to manage tags and taggable entities for all {@link TagHandler}s.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class TagManager {
 

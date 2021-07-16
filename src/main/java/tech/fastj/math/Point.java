@@ -9,7 +9,7 @@ import java.util.Objects;
  * Class that defines a point in 2D space, using integers.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Point {
 

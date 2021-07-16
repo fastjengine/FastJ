@@ -12,11 +12,9 @@ import java.util.Map;
 
 /**
  * The manager which allows for control over the scenes in a game.
- * <p>
- * A {@code LogicManager} acts as a bridge between the internals of the engine, and the developer's code.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class SceneManager implements LogicManager {
 

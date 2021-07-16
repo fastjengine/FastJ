@@ -10,7 +10,7 @@ import tech.fastj.graphics.game.GameObject;
  * {@code Behavior} as you may want.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public interface Behavior {
 

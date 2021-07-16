@@ -20,7 +20,7 @@ import java.util.UUID;
  * A {@code Drawable} is any object that can be drawn to a {@code Display}, and destroyed (freed from memory).
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class Drawable extends TaggableEntity {
 

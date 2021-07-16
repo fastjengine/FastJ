@@ -19,7 +19,7 @@ import java.util.Objects;
  * {@code Drawable} subclass for drawing a polygon.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Polygon2D extends GameObject {
 

@@ -3,6 +3,7 @@ package tech.fastj.systems.control;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.Display;
 
+import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.tags.TagHandler;
@@ -10,17 +11,19 @@ import tech.fastj.systems.tags.TagManager;
 
 import java.awt.event.InputEvent;
 
-import tech.fastj.input.InputManager;
-
+/**
+ * The manager which allows for control over a game with a single scene.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public abstract class SimpleManager implements LogicManager, BehaviorHandler, TagHandler {
 
     private final Camera camera;
     public final InputManager inputManager;
     public final DrawableManager drawableManager;
 
-    /**
-     * Initializes the contents of the {@code SimpleManager}.
-     */
+    /** Initializes the contents of the {@code SimpleManager}. */
     protected SimpleManager() {
         camera = new Camera();
 

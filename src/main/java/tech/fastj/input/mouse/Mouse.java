@@ -26,7 +26,7 @@ import tech.fastj.input.InputManager;
  * state.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 

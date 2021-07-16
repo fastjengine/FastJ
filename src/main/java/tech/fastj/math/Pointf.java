@@ -8,7 +8,7 @@ import java.util.Objects;
  * Class that defines a point in 2D space, using floats.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Pointf {
 
@@ -275,6 +275,7 @@ public class Pointf {
      *           for linear interpolation of the {@code Pointf}'s {@code x} and {@code y} values.
      * @return A new {@code Pointf}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
+     * @since 1.5.0
      */
     public static Pointf lerp(Pointf p, Pointf p1, float t) {
         return new Pointf(
@@ -294,6 +295,7 @@ public class Pointf {
      *           be used for linear interpolation of the {@code Pointf}'s {@code y} value.
      * @return A new {@code Pointf}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
+     * @since 1.5.0
      */
     public static Pointf lerp(Pointf p, Pointf p1, float t1, float t2) {
         return new Pointf(
@@ -314,6 +316,7 @@ public class Pointf {
      * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
      * x} and {@code y} values.
      * @see Maths#inverseLerp(float, float, float)
+     * @since 1.5.0
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v) {
         return new float[]{
@@ -336,6 +339,8 @@ public class Pointf {
      * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
      * x} and {@code y} values.
      * @see Maths#inverseLerp(float, float, float)
+     *
+     * @since 1.5.0
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v1, float v2) {
         return new float[]{

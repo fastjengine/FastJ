@@ -13,6 +13,12 @@ import javax.sound.sampled.LineUnavailableException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Class for playing {@link MemoryAudio memory audio}.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class MemoryAudioPlayer {
 
     /** See {@link MemoryAudio#play()}. */

@@ -17,6 +17,9 @@ import java.util.function.Consumer;
  *     <li>Audio Event Hooks (Audio Stream open, Audio Stream Close, Play, Pause, Resume, Stop)</li>
  *     <li>Playback State-keeping</li>
  * </ul>
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
  */
 public interface Audio {
 

@@ -1,6 +1,11 @@
 package tech.fastj.engine;
 
-/** A simple and effective enum for creating crash messages in FastJ. */
+/**
+ * A simple and effective enum for creating crash messages in FastJ.
+ *
+ * @author Andrew Dey
+ * @since 1.0.0
+ */
 public enum CrashMessages {
 
     /** "The game crashed, due to a scene error." */
@@ -9,9 +14,9 @@ public enum CrashMessages {
     RenderError(theGameCrashed("a rendering error.")),
     /** "The game crashed, due to a configuration error." */
     ConfigurationError(theGameCrashed("a configuration error.")),
-    /** "The game crashed, due to a method being called that can only be called before the program starts. */
+    /** "The game crashed, due to a method being called that can only be called before the program starts." */
     CalledAfterRunError(theGameCrashed("a method being called that can only be called before the program starts.")),
-    /** "The game crashed, due to the call of a method not yet implemented. */
+    /** "The game crashed, due to the call of a method not yet implemented." */
     UnimplementedMethodError(theGameCrashed("the call of a method not yet implemented."));
 
     /** The error message of the enum constant. */
@@ -22,7 +27,7 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string depicting an error caused by an illegal action in the method of the specified class.
+     * Creates a string depicting an error caused by an illegal action in the method of the specified class.
      * <p>
      * Example:
      * <pre>{@code
@@ -42,11 +47,11 @@ public enum CrashMessages {
     }
 
     /**
-     * Gets a string starting with {@code "The game crashed, due to "}, and adds the specified error message to the
+     * Creates a string starting with {@code "The game crashed, due to "}, adding the specified error message to the
      * end.
      *
      * @param errorMessage The error message to add to the end of the returned string.
-     * @return The generated error message.
+     * @return {@code "The game crashed, due to " + errorMessage}
      */
     public static String theGameCrashed(String errorMessage) {
         return "The game crashed, due to " + errorMessage;

@@ -9,6 +9,21 @@ import tech.fastj.input.InputManager;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
 
+/**
+ * The basis of game management in any game made with FastJ.
+ *
+ * This class defines the basic events and actions that all logic managers need to address:
+ * <ul>
+ *     <li>Game Initialization</li>
+ *     <li>Input Processing</li>
+ *     <li>Game Updating</li>
+ *     <li>Game Rendering</li>
+ *     <li>Game Resetting</li>
+ * </ul>
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public interface LogicManager {
 
     /**

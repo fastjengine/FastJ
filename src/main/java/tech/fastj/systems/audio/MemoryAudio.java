@@ -20,6 +20,9 @@ import java.util.function.Consumer;
  *     <li>Explicit Looping Controls ({@link #setLoopCount(int) Loop count}, {@link #setLoopPoints(float, float) Loop points}, {@link #stopLoopingNow() immediate loop stopping})</li>
  *     <li>Explicit Playback Position Controls ({@link #seek(long) Seeking}, {@link #rewindToBeginning() Rewinding})</li>
  * </ul>
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
  */
 public class MemoryAudio implements Audio {
 

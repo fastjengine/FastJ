@@ -2,7 +2,12 @@ package tech.fastj.systems.fio;
 
 import java.nio.file.Path;
 
-/** Class that provides supplementary methods for working with files and {@link Path}s. */
+/**
+ * Class that provides supplementary methods for working with files and {@link Path}s.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class FileUtil {
 
     /**

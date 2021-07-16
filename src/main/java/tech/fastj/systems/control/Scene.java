@@ -17,7 +17,7 @@ import tech.fastj.input.InputManager;
  * game into different sections.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class Scene implements BehaviorHandler, TagHandler {
 

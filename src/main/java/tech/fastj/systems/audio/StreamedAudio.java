@@ -27,6 +27,9 @@ import java.util.UUID;
  *     <li>Balance Controls</li>
  *     <li>Mute Controls</li>
  * </ul>
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
  */
 public class StreamedAudio implements Audio {
 

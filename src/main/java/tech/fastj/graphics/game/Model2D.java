@@ -13,7 +13,7 @@ import java.util.Arrays;
  * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Model2D extends GameObject {
 

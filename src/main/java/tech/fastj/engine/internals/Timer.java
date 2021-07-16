@@ -8,7 +8,7 @@ package tech.fastj.engine.internals;
  * Didn't make too many changes.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Timer {
 

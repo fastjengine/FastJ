@@ -20,7 +20,7 @@ import java.util.List;
  * This class is also used to load 2-dimensional model files, of the {@code ".psdf"} file extension.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public final class DrawUtil {
 

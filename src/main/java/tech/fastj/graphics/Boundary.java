@@ -12,7 +12,7 @@ package tech.fastj.graphics;
  * </ul>
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public enum Boundary {
     /** Top left boundary -- array index 0. */

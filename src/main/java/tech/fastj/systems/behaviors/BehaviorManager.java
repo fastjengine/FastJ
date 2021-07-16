@@ -12,7 +12,7 @@ import java.util.Map;
  * Class to manage behavior listeners for all {@link BehaviorHandler}s.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class BehaviorManager {
 

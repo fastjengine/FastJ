@@ -52,7 +52,7 @@ public class Main extends SimpleManager {
          * any set of values you would like, as long as both values are at least 1.
          *
          * For this example, I've set it to 640*480. Feel free to mess around with the numbers! */
-        FastJEngine.configureViewerResolution(new Point(640, 480));
+        FastJEngine.configureWindowResolution(new Point(640, 480));
 
         /* "FastJEngine#configureInternalResolution" configures the internal resolution -- the size
          * of the actual game canvas (where the game gets rendered).

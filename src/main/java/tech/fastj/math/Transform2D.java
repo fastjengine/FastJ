@@ -3,7 +3,12 @@ package tech.fastj.math;
 import java.awt.geom.AffineTransform;
 import java.util.Objects;
 
-/** Convenience class for storing/performing 2D transformations using {@link AffineTransform}. */
+/**
+ * Convenience class for storing/performing 2D transformations using {@link AffineTransform}.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class Transform2D {
 
     /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */

@@ -6,7 +6,12 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-/** An event listener for the {@link MemoryAudio} class. */
+/**
+ * An event listener for the {@link Audio} interface.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class AudioEventListener {
 
     private Consumer<LineEvent> audioOpenAction;

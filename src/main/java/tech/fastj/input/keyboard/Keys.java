@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
  * keycodes.
  *
  * @author Andrew Dey
- * @version 1.5.0
+ * @since 1.5.0
  */
 public enum Keys {
 

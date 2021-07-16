@@ -10,7 +10,7 @@ import java.util.Objects;
  * Class that allows for transformation of the {@code Display} which the camera is passed to.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Camera {
 

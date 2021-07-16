@@ -6,6 +6,8 @@ import tech.fastj.math.Point;
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.util.DisplayUtil;
 
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.mouse.Mouse;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -19,9 +21,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.mouse.Mouse;
-
 /**
  * The main control hub of the game engine.
  * <p>
@@ -31,13 +30,13 @@ import tech.fastj.input.mouse.Mouse;
  * <a href="https://github.com/fastjengine/FastJ">The FastJ Game Engine</a>
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class FastJEngine {
 
-    /** Default engine value for frames per second of {@code 60}. */
+    /** Default engine value for "frames per second" of at least {@code 60}, depending on the monitor's refresh rate. */
     public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 60);
-    /** Default engine value for updates per second. of {@code 60}. */
+    /** Default engine value for "updates per second" of {@code 60}. */
     public static final int DefaultUPS = 60;
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultWindowResolution = new Point(1280, 720);
@@ -67,9 +66,13 @@ public class FastJEngine {
     private static boolean isRunning;
     private static boolean shouldThrowExceptions;
 
-    // Late-running Runnables
+    // Late-running actions
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
+
+    static {
+        System.out.println("init");
+    }
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -80,15 +83,15 @@ public class FastJEngine {
      * <p>
      * Other values are set to their respective default values. These are as follows:
      * <ul>
-     * 		<li>Default target FPS: The refresh rate of the default monitor (with a value of at least 1).</li>
-     * 		<li>Default target UPS: 60 Updates Per Second.</li>
-     * 		<li>Default window resolution: {@code 1280 * 720 (720p)} </li>
-     * 		<li>Default internal game resolution: {@code 1280 * 720 (720p)}</li>
-     * 		<li>Default hardware acceleration: {@code HWAccel.DEFAULT}</li>
+     * 		<li>Default target FPS: {@link #DefaultFPS}</li>
+     * 		<li>Default target UPS: {@link #DefaultUPS}</li>
+     * 		<li>Default window resolution: {@link #DefaultWindowResolution}</li>
+     * 		<li>Default internal game resolution: {@link #DefaultInternalResolution}</li>
+     * 		<li>Default hardware acceleration: {@link HWAccel#Default}</li>
      * </ul>
      *
      * @param gameTitle   The title to be used for the {@link Display} window.
-     * @param gameManager Game Manager to be controlled by the engine.
+     * @param gameManager The {@link LogicManager} instance to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
         init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
@@ -98,7 +101,7 @@ public class FastJEngine {
      * Initializes the game engine with the specified title, logic manager, and other options.
      *
      * @param gameTitle            The title to be used for the {@link Display} window.
-     * @param gameManager          Game Manager to be controlled by the engine.
+     * @param gameManager          The {@link LogicManager} instance to be controlled by the engine.
      * @param fps                  The FPS (frames per second) target for the engine to reach.
      * @param ups                  The UPS (updates per second) target for the engine to reach.
      * @param windowResolution     The game's window resolution.
@@ -121,7 +124,7 @@ public class FastJEngine {
     }
 
     /**
-     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), viewer resolution, internal resolution,
+     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), window resolution, internal resolution,
      * and hardware acceleration.
      *
      * @param fps                  The FPS (frames per second) target for the engine to reach.
@@ -134,7 +137,7 @@ public class FastJEngine {
     public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
         runningCheck();
 
-        configureViewerResolution(windowResolution);
+        configureWindowResolution(windowResolution);
         configureInternalResolution(internalResolution);
         configureHardwareAcceleration(hardwareAcceleration);
         setTargetFPS(fps);
@@ -146,14 +149,14 @@ public class FastJEngine {
      *
      * @param windowResolution The game's window resolution.
      */
-    public static void configureViewerResolution(Point windowResolution) {
+    public static void configureWindowResolution(Point windowResolution) {
         runningCheck();
 
         if ((windowResolution.x | windowResolution.y) < 1) {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
         }
 
-        display.setViewerResolution(windowResolution);
+        display.setWindowResolution(windowResolution);
     }
 
     /**
@@ -179,7 +182,10 @@ public class FastJEngine {
      * Attempts to set the hardware acceleration type of this game engine to the specified parameter.
      * <p>
      * If the parameter specified is not supported by the user's computer, then the hardware acceleration will be set to
-     * none, by default.
+     * use the computer's defaults.
+     * <p>
+     * <b>Setting hardware acceleration after starting the game engine, <i>regardless</i> of if the game engine is
+     * restarted, will NOT have an effect on the game.</b> It must be changed <i>before</i> the engine is started.
      *
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
@@ -296,6 +302,8 @@ public class FastJEngine {
      * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
+     *
+     * @since 1.5.0
      */
     public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
         FastJEngine.shouldThrowExceptions = shouldThrowExceptions;
@@ -378,6 +386,8 @@ public class FastJEngine {
      * This method is useful for closing the game engine in special cases, such as if rendering has not yet started, or
      * when a fatal error occurs that prevents the game from functioning properly. It attempts to close the game as soon
      * as possible, without waiting for the next game update/render to be finished.
+     *
+     * @since 1.5.0
      */
     public static void forceCloseGame() {
         if (display != null && display.isReady()) {
@@ -425,6 +435,8 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
+     *
+     * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
         AfterUpdateList.add(action);
@@ -437,6 +449,8 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
+     *
+     * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
         AfterRenderList.add(action);

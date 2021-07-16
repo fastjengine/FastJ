@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * Secondary mathematics class to provide useful utility methods dealing primarily with {@code float}s.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Maths {
 
@@ -128,6 +128,8 @@ public class Maths {
      * <p>
      * This value can also be used to calculate {@code t} when used alongside {@code f} and {@code f1} in an inverse
      * linear interpolation calculation {@link Maths#inverseLerp(float, float, float)}.
+     * @author <a href="https://github.com/YeffyCodeGit" target="_blank">YeffyCodeGit</a>
+     * @since 1.4.0
      */
     public static float lerp(float f, float f1, float t) {
         return (1f - t) * f + t * f1;
@@ -143,6 +145,8 @@ public class Maths {
      *           f} and {@code f1}.
      * @return The value which, when used to calculate linear interpolation with the same {@code f} and {@code f1}
      * values (see: {@link Maths#lerp(float, float, float)}), will get {@code v} as a result.
+     * @author <a href="https://github.com/YeffyCodeGit" target="_blank">YeffyCodeGit</a>
+     * @since 1.5.0
      */
     public static float inverseLerp(float f, float f1, float v) {
         return (v - f) / (f1 - f);
@@ -155,6 +159,7 @@ public class Maths {
      * @param min The minimum number allowed.
      * @param max The maximum number allowed.
      * @return The number, within the range of the minimum and maximum numbers.
+     * @since 1.5.0
      */
     public static float withinRange(float num, float min, float max) {
         if (min >= max) {
@@ -170,6 +175,7 @@ public class Maths {
      * @param min The minimum number allowed.
      * @param max The maximum number allowed.
      * @return The number, within the range of the minimum and maximum numbers.
+     * @since 1.5.0
      */
     public static int withinIntegerRange(int num, int min, int max) {
         if (min >= max) {
@@ -186,6 +192,7 @@ public class Maths {
      * @param min The minimum value in a range of possible values for {@code num}.
      * @param max The maximum value in a range of possible values for {@code num}.
      * @return The normalized version of {@code num}, on a scale of {@code 0.0} to {@code 1.0}.
+     * @since 1.5.0
      */
     public static float normalize(float num, float min, float max) {
         if (num > max) {
@@ -206,6 +213,7 @@ public class Maths {
      * @param min           The minimum value in a range of possible values for the result of the method.
      * @param max           The maximum value in a range of possible values for the result of the method.
      * @return The denormalized version of {@code normalizedNum}, on a scale of {@code min} to {@code max}.
+     * @since 1.5.0
      */
     public static float denormalize(float normalizedNum, float min, float max) {
         if (normalizedNum > 1.0f) {

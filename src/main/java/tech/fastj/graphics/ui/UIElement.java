@@ -17,7 +17,7 @@ import tech.fastj.input.mouse.MouseActionListener;
  * A drawable to be used as UI.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public abstract class UIElement extends Drawable implements MouseActionListener {
 

@@ -20,7 +20,7 @@ import java.util.Objects;
  * {@code Drawable} subclass for drawing text.
  *
  * @author Andrew Dey
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class Text2D extends GameObject {
 
