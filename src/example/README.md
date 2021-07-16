@@ -1,6 +1,6 @@
 # Examples
 
-
+## How to use the examples
 To see the examples in action, you'll need to clone the repository.
 ```bash
 git clone https://github.com/fastjengine/FastJ.git
@@ -8,14 +8,13 @@ git clone https://github.com/fastjengine/FastJ.git
 
 Then, run the gradle task `example`. When you do this, you'll need to specify which example you want to run. This can be done by adding `-PtoRun=<example name, without the brackets>`
 ```bash
-./gradlew example -PtoRun=helloworld
+./gradlew example -PtoRun=hellofastj
 ```
 _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
+_FastJ requires [Java 11][AdoptOpenJDK-Java11-Link] as a minimum_
 
-# Example Programs
-
-## Informational
+## Informational Programs
 _These are examples to help you understand how FastJ works._
 
 ### [Hello, FastJ!](http://example.fastj.me/hellofastj/Main.java)
@@ -38,7 +37,7 @@ This program demonstrates how to access keyboard input in FastJ.
 
 Command to run: `./gradlew example -PtoRun=keyboard`
 
-### [[Mouse](http://example.fastj.me/mouse/Main.java)
+### [Mouse](http://example.fastj.me/mouse/Main.java)
 This program demonstrates how to access mouse input in FastJ.
 
 Command to run: `./gradlew example -PtoRun=mouse`
@@ -80,3 +79,4 @@ Command to run: `./gradlew example -PtoRun=bullethell`
 
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
+[AdoptOpenJDK-Java11-Link]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot

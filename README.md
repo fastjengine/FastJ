@@ -53,7 +53,10 @@ Check out these template projects for FastJ! They're the fastest way to jump rig
 - Groovy: https://github.com/lucasstarsz/fastj-groovy-template
 
 ### Examples
-There will likely be a small wiki added for this game engine at a later time. For now, you'll want to check out [the example projects][FastJ-Example] for getting started with FastJ.
+[The example projects][FastJ-Example] are a great way to start learning how to use FastJ.
+
+### Wiki
+We are currently working on a [wiki][FastJ-Wiki] for the engine. It'll guide through the basics on how to start a project.  
 
 ### Documentation
 From there, explore the example code, play around with it, and read the [API documentation][Javadoc] to get a better understanding of FastJ.
@@ -119,7 +122,7 @@ Once you have what you need, follow these simple steps:
 This repository is licensed under the [MIT License][MIT-License].
 
 
-[FastJ-Logo]: .github/media/fastj_logo.png "FastJ Logo"
+[FastJ-Logo]: media/branding/fastj_logo.png "FastJ Logo"
 
 [SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/fastjengine_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
 [SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=fastjengine_FastJ "SonarCloud Code Coverage"
@@ -141,11 +144,10 @@ This repository is licensed under the [MIT License][MIT-License].
 
 [Releases]: https://github.com/fastjengine/FastJ/releases/ "FastJ Releases"
 
-[FastJ-Engine-Link]: https://github.com/fastjengine/FastJ-Engine "The original: FastJ Game Engine"
-
 [MIT-License]: LICENSE.txt "MIT Licensing"
 
 [FastJ-Example]: src/example "FastJ: Example Game"
+[FastJ-Wiki]: https://fastj.tech/wiki/fastj-basics/setting-up-for-fastj "Wiki: Setting up for FastJ"
 
 [Contributing-Guidelines]: /.github/CONTRIBUTING.md "Contributing to FastJ"
 
