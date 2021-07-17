@@ -29,7 +29,7 @@ class StreamedAudioTests {
 
     @Test
     void checkLoadStreamedAudioInstance_shouldMatchExpectedValues() {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
 
         assertEquals(TestAudioPath, audio.getAudioPath(), "After loading the audio into memory, the gotten audio should have the same path object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
@@ -39,7 +39,7 @@ class StreamedAudioTests {
 
     @Test
     void checkPlayStreamedAudio_shouldTriggerOpenAndStartEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
         AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioOpenAction(audioEvent -> audioOpenEventBoolean.set(true));
@@ -54,7 +54,7 @@ class StreamedAudioTests {
 
     @Test
     void checkPauseStreamedAudio_shouldTriggerPauseAndStopEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
         AtomicBoolean audioPauseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioPauseAction(audioEvent -> audioPauseEventBoolean.set(true));
@@ -71,7 +71,7 @@ class StreamedAudioTests {
 
     @Test
     void checkResumeStreamedAudio_shouldTriggerStartAndResumeEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(true);
         AtomicBoolean audioResumeEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
@@ -90,7 +90,7 @@ class StreamedAudioTests {
 
     @Test
     void checkStopStreamedAudio_shouldTriggerStopAndCloseEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
         AtomicBoolean audioCloseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioCloseAction(audioEvent -> audioCloseEventBoolean.set(true));
@@ -107,10 +107,10 @@ class StreamedAudioTests {
 
     @Test
     void checkGetAudioAfterUnloading() {
-        StreamedAudio audio = AudioManager.loadStreamedAudioInstance(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
         assertNotNull(AudioManager.getStreamedAudio(audio.getID()), "The audio should have been loaded into the audio manager successfully.");
 
-        AudioManager.unloadStreamedAudioInstance(audio.getID());
+        AudioManager.unloadStreamedAudio(audio.getID());
         assertNull(AudioManager.getStreamedAudio(audio.getID()), "After unloading the audio, it should not be present in the audio manager.");
     }
 }

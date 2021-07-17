@@ -60,7 +60,7 @@ public class AudioManager {
      * @param audioPath The path of the {@code MemoryAudio} object to load.
      * @return The created {@link MemoryAudio} instance.
      */
-    public static MemoryAudio loadMemoryAudioInstance(Path audioPath) {
+    public static MemoryAudio loadMemoryAudio(Path audioPath) {
         MemoryAudio audio = new MemoryAudio(audioPath);
         MemoryAudioFiles.put(audio.getID(), audio);
         return audio;
@@ -72,7 +72,7 @@ public class AudioManager {
      * @param audioPaths The paths of the {@code MemoryAudio} objects to load.
      * @return The created {@link MemoryAudio} instances.
      */
-    public static MemoryAudio[] loadMemoryAudioInstances(Path... audioPaths) {
+    public static MemoryAudio[] loadMemoryAudio(Path... audioPaths) {
         MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
@@ -90,7 +90,7 @@ public class AudioManager {
      * @param audioPath The path of the {@code StreamedAudio} object to load.
      * @return The created {@link StreamedAudio} instance.
      */
-    public static StreamedAudio loadStreamedAudioInstance(Path audioPath) {
+    public static StreamedAudio loadStreamedAudio(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
         StreamedAudioFiles.put(audio.getID(), audio);
         return audio;
@@ -102,7 +102,7 @@ public class AudioManager {
      * @param audioPaths The paths of the {@code StreamedAudio} objects to load.
      * @return The created {@link StreamedAudio} instances.
      */
-    public static StreamedAudio[] loadStreamedAudioInstances(Path... audioPaths) {
+    public static StreamedAudio[] loadStreamedAudio(Path... audioPaths) {
         StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
@@ -119,7 +119,7 @@ public class AudioManager {
      *
      * @param id The id of the {@code MemoryAudio} object to remove.
      */
-    public static void unloadMemoryAudioInstance(String id) {
+    public static void unloadMemoryAudio(String id) {
         MemoryAudioFiles.remove(id);
     }
 
@@ -128,7 +128,7 @@ public class AudioManager {
      *
      * @param ids The ids of the {@code MemoryAudio} objects to remove.
      */
-    public static void unloadMemoryAudioInstances(String... ids) {
+    public static void unloadMemoryAudio(String... ids) {
         for (String id : ids) {
             MemoryAudioFiles.remove(id);
         }
@@ -139,7 +139,7 @@ public class AudioManager {
      *
      * @param id The id of the {@code StreamedAudio} object to remove.
      */
-    public static void unloadStreamedAudioInstance(String id) {
+    public static void unloadStreamedAudio(String id) {
         StreamedAudioFiles.remove(id);
     }
 
@@ -148,7 +148,7 @@ public class AudioManager {
      *
      * @param ids The ids of the {@code StreamedAudio} objects to remove.
      */
-    public static void unloadStreamedAudioInstances(String... ids) {
+    public static void unloadStreamedAudio(String... ids) {
         for (String id : ids) {
             StreamedAudioFiles.remove(id);
         }
