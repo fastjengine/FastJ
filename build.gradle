@@ -30,12 +30,15 @@ sourceCompatibility = 11
 targetCompatibility = 11
 java.withSourcesJar()
 java.withJavadocJar()
-artifacts.archives(sourcesJar)
-artifacts.archives(javadocJar)
 
 javadoc.source(sourceSets.main.allJava)
 javadoc.failOnError(false)
 javadoc.options.links = ['https://docs.oracle.com/en/java/javase/11/docs/api/']
+
+sourcesJar.from(sourceSets.main.allSource)
+javadocJar.from(javadoc.destinationDir)
+artifacts.archives(sourcesJar)
+artifacts.archives(javadocJar)
 
 // Java modules need this in order for the module path to be inferred based on module-info.java files.
 plugins.withType(JavaPlugin).configureEach {
