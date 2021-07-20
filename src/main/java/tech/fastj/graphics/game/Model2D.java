@@ -27,7 +27,7 @@ public class Model2D extends GameObject {
      *
      * @param polygons Array of {@code Polygon2D}s used to create the Model2D.
      */
-    Model2D(Polygon2D[] polygons) {
+    protected Model2D(Polygon2D[] polygons) {
         this.polygons = polygons;
         setCollisionPath(DrawUtil.createPath(DrawUtil.createCollisionOutline(this.polygons)));
     }

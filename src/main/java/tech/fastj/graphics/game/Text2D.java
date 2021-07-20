@@ -44,7 +44,7 @@ public class Text2D extends GameObject {
      *
      * @param text {@code String} that defines the text for the {@code Text2D}.
      */
-    Text2D(String text) {
+    protected Text2D(String text) {
         this.text = text;
         setFont(DefaultFont);
         setFill(DefaultFill);

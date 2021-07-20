@@ -49,7 +49,7 @@ public class Polygon2D extends GameObject {
      *
      * @param points {@code Pointf} array that defines the points for the polygon.
      */
-    Polygon2D(Pointf[] points) {
+    protected Polygon2D(Pointf[] points) {
         originalPoints = points;
         setCollisionPath(DrawUtil.createPath(originalPoints));
 
