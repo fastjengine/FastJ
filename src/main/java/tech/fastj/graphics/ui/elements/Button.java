@@ -54,6 +54,15 @@ public class Button extends UIElement {
     }
 
     /**
+     * Constructs a button with a default location and size.
+     *
+     * @param origin The simple manager to add the button as a gui object to.
+     */
+    public Button(SimpleManager origin) {
+        this(origin, DefaultLocation, DefaultSize);
+    }
+
+    /**
      * Constructs a button with the specified location and initial size.
      *
      * @param origin      The scene to add the button as a gui object to.
@@ -61,6 +70,29 @@ public class Button extends UIElement {
      * @param initialSize The initial size of the button, though the button will get larger if the text outgrows it.
      */
     public Button(Scene origin, Pointf location, Pointf initialSize) {
+        super(origin);
+        super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
+
+        this.location = location;
+        Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
+
+        renderPath = DrawUtil.createPath(buttonCoords);
+        super.setCollisionPath(renderPath);
+
+        this.setPaint(Color.cyan);
+        this.setFont(Text2D.DefaultFont);
+
+        setMetrics(FastJEngine.getDisplay().getGraphics());
+    }
+
+    /**
+     * Constructs a button with the specified location and initial size.
+     *
+     * @param origin      The simple manager to add the button as a gui object to.
+     * @param location    The location to create the button at.
+     * @param initialSize The initial size of the button, though the button will get larger if the text outgrows it.
+     */
+    public Button(SimpleManager origin, Pointf location, Pointf initialSize) {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 

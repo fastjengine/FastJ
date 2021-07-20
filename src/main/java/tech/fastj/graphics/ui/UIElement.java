@@ -37,6 +37,18 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     }
 
     /**
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
+     *
+     * @param origin The scene which this UIElement is tied to.
+     */
+    protected UIElement(SimpleManager origin) {
+        onActionEvents = new ArrayList<>();
+
+        origin.drawableManager.addUIElement(this);
+        origin.inputManager.addMouseActionListener(this);
+    }
+
+    /**
      * Sets the "onAction" condition, the determinant of whether the ui elements' {@code onAction} events will be
      * fired.
      *
