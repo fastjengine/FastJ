@@ -26,12 +26,10 @@ import java.nio.file.Path
  * ********************* */
 
 
-def javaVersion = JavaVersion.VERSION_11
-
+sourceCompatibility = 11
+targetCompatibility = 11
 java.withSourcesJar()
 java.withJavadocJar()
-java.sourceCompatibility(javaVersion)
-java.targetCompatibility(javaVersion)
 
 javadoc.source(sourceSets.main.allJava)
 javadoc.failOnError(false)
