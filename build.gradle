@@ -30,6 +30,8 @@ sourceCompatibility = 11
 targetCompatibility = 11
 java.withSourcesJar()
 java.withJavadocJar()
+artifacts.archives(sourcesJar)
+artifacts.archives(javadocJar)
 
 javadoc.source(sourceSets.main.allJava)
 javadoc.failOnError(false)
