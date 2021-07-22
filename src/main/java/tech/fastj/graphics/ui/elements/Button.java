@@ -34,10 +34,8 @@ public class Button extends UIElement {
     public static final Pointf DefaultLocation = Pointf.Origin.copy();
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
-    /** The default fill of a {@link Button}: cyan. */
-    public static final Paint DefaultFill = Color.cyan;
 
-    private Paint fill;
+    private Paint paint;
     private Path2D.Float renderPath;
     private final Pointf location;
 
@@ -81,7 +79,7 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setFill(DefaultFill);
+        this.setPaint(Color.cyan);
         this.setFont(Text2D.DefaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
@@ -104,29 +102,29 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setFill(DefaultFill);
+        this.setPaint(Color.cyan);
         this.setFont(Text2D.DefaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
 
     /**
-     * Gets the {@link Fill} object for the button.
+     * Gets the {@link Paint} object for the button.
      *
-     * @return The Button's {@code Fill}.
+     * @return The Button's {@code Paint}.
      */
-    public Paint getFill() {
-        return fill;
+    public Paint getPaint() {
+        return paint;
     }
 
     /**
-     * Sets the {@link Fill} object for the button.
+     * Sets the {@link Paint} object for the button.
      *
      * @param paint The new paint for the button.
      * @return The {@link Button}, for method chaining.
      */
-    public Button setFill(Paint fill) {
-        this.paint = fill;
+    public Button setPaint(Paint paint) {
+        this.paint = paint;
         return this;
     }
 
@@ -174,11 +172,28 @@ public class Button extends UIElement {
 
     @Override
     public void renderAsGUIObject(Graphics2D g2, Camera camera) {
-        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
-        renderCopy.x -= camera.getTranslation().x;
-        renderCopy.y -= camera.getTranslation().y;
+        if (!shouldRender()) {
+            return;
+        }
 
-        g2.setPaint(fill);
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        Paint oldPaint = g.getPaint();
+        Font oldFont = g.getFont();
+
+        g.transform(getTransformation());
+
+        try {
+            g.transform(camera.getTransformation().createInverse());
+        } catch (NoninvertibleTransformException exception) {
+            throw new IllegalStateException(
+                    "Couldn't create an inverse transform of " + camera.getTransformation(),
+                    exception
+            );
+        }
+
+        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
+
+        g2.setPaint(paint);
         g2.fill(renderCopy);
         g2.setPaint(Color.black);
         g2.draw(renderCopy);
@@ -189,6 +204,10 @@ public class Button extends UIElement {
 
         g2.setFont(font);
         g2.drawString(text, textBounds.x, textBounds.y);
+
+        g.setPaint(oldPaint);
+        g.setFont(oldFont);
+        g.setTransform(oldTransform);
     }
 
     @Override
