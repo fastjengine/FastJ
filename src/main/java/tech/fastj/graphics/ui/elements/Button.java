@@ -34,8 +34,10 @@ public class Button extends UIElement {
     public static final Pointf DefaultLocation = Pointf.Origin.copy();
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
+    /** The default fill of a {@link Button}: cyan. */
+    public static final Paint DefaultFill = Color.cyan;
 
-    private Paint paint;
+    private Paint fill;
     private Path2D.Float renderPath;
     private final Pointf location;
 
@@ -79,7 +81,7 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(Color.cyan);
+        this.setFill(DefaultFill);
         this.setFont(Text2D.DefaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
@@ -102,29 +104,29 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(Color.cyan);
+        this.setFill(DefaultFill);
         this.setFont(Text2D.DefaultFont);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
 
     /**
-     * Gets the {@link Paint} object for the button.
+     * Gets the {@link Fill} object for the button.
      *
-     * @return The Button's {@code Paint}.
+     * @return The Button's {@code Fill}.
      */
-    public Paint getPaint() {
-        return paint;
+    public Paint getFill() {
+        return fill;
     }
 
     /**
-     * Sets the {@link Paint} object for the button.
+     * Sets the {@link Fill} object for the button.
      *
      * @param paint The new paint for the button.
      * @return The {@link Button}, for method chaining.
      */
-    public Button setPaint(Paint paint) {
-        this.paint = paint;
+    public Button setFill(Paint fill) {
+        this.paint = fill;
         return this;
     }
 
@@ -176,7 +178,7 @@ public class Button extends UIElement {
         renderCopy.x -= camera.getTranslation().x;
         renderCopy.y -= camera.getTranslation().y;
 
-        g2.setPaint(paint);
+        g2.setPaint(fill);
         g2.fill(renderCopy);
         g2.setPaint(Color.black);
         g2.draw(renderCopy);
