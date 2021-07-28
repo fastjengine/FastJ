@@ -10,7 +10,7 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
-import java.awt.AffineTransform;
+import java.awt.geom.AffineTransform;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
