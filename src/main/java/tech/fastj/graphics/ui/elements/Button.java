@@ -10,6 +10,7 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
+import java.awt.AffineTransform;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -171,7 +172,7 @@ public class Button extends UIElement {
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g2, Camera camera) {
+    public void renderAsGUIObject(Graphics2D g, Camera camera) {
         if (!shouldRender()) {
             return;
         }
@@ -193,17 +194,17 @@ public class Button extends UIElement {
 
         Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
 
-        g2.setPaint(paint);
-        g2.fill(renderCopy);
-        g2.setPaint(Color.black);
-        g2.draw(renderCopy);
+        g.setPaint(paint);
+        g.fill(renderCopy);
+        g.setPaint(Color.black);
+        g.draw(renderCopy);
 
         if (!hasMetrics) {
-            setMetrics(g2);
+            setMetrics(g);
         }
 
-        g2.setFont(font);
-        g2.drawString(text, textBounds.x, textBounds.y);
+        g.setFont(font);
+        g.drawString(text, textBounds.x, textBounds.y);
 
         g.setPaint(oldPaint);
         g.setFont(oldFont);
