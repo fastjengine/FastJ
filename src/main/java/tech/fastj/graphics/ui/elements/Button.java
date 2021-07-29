@@ -15,6 +15,8 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
@@ -171,22 +173,43 @@ public class Button extends UIElement {
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g2, Camera camera) {
-        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
-        renderCopy.x -= camera.getTranslation().x;
-        renderCopy.y -= camera.getTranslation().y;
-
-        g2.setPaint(paint);
-        g2.fill(renderCopy);
-        g2.setPaint(Color.black);
-        g2.draw(renderCopy);
-
-        if (!hasMetrics) {
-            setMetrics(g2);
+    public void renderAsGUIObject(Graphics2D g, Camera camera) {
+        if (!shouldRender()) {
+            return;
         }
 
-        g2.setFont(font);
-        g2.drawString(text, textBounds.x, textBounds.y);
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        Paint oldPaint = g.getPaint();
+        Font oldFont = g.getFont();
+
+        g.transform(getTransformation());
+
+        try {
+            g.transform(camera.getTransformation().createInverse());
+        } catch (NoninvertibleTransformException exception) {
+            throw new IllegalStateException(
+                    "Couldn't create an inverse transform of " + camera.getTransformation(),
+                    exception
+            );
+        }
+
+        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
+
+        g.setPaint(paint);
+        g.fill(renderCopy);
+        g.setPaint(Color.black);
+        g.draw(renderCopy);
+
+        if (!hasMetrics) {
+            setMetrics(g);
+        }
+
+        g.setFont(font);
+        g.drawString(text, textBounds.x, textBounds.y);
+
+        g.setPaint(oldPaint);
+        g.setFont(oldFont);
+        g.setTransform(oldTransform);
     }
 
     @Override
