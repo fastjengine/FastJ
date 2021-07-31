@@ -2,11 +2,15 @@ package tech.fastj.graphics.ui.elements;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.input.mouse.Mouse;
+import tech.fastj.input.mouse.MouseAction;
+import tech.fastj.input.mouse.MouseButtons;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -20,10 +24,6 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
-import tech.fastj.input.mouse.Mouse;
-import tech.fastj.input.mouse.MouseAction;
-import tech.fastj.input.mouse.MouseButtons;
-
 /**
  * A {@link UIElement} that can be assigned an action on left click.
  *
@@ -32,14 +32,11 @@ import tech.fastj.input.mouse.MouseButtons;
  */
 public class Button extends UIElement {
 
-    /** The default location of a {@link Button}: (0, 0). */
-    public static final Pointf DefaultLocation = Pointf.Origin.copy();
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
 
     private Paint paint;
     private Path2D.Float renderPath;
-    private final Pointf location;
 
     private Font font;
     private String text = "";
@@ -52,7 +49,7 @@ public class Button extends UIElement {
      * @param origin The scene to add the button as a gui object to.
      */
     public Button(Scene origin) {
-        this(origin, DefaultLocation, DefaultSize);
+        this(origin, Transform2D.DefaultTranslation, DefaultSize);
     }
 
     /**
@@ -61,7 +58,7 @@ public class Button extends UIElement {
      * @param origin The simple manager to add the button as a gui object to.
      */
     public Button(SimpleManager origin) {
-        this(origin, DefaultLocation, DefaultSize);
+        this(origin, Transform2D.DefaultTranslation, DefaultSize);
     }
 
     /**
@@ -75,8 +72,7 @@ public class Button extends UIElement {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
-        this.location = location;
-        Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
+        Pointf[] buttonCoords = DrawUtil.createBox(location, initialSize);
 
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
@@ -98,8 +94,7 @@ public class Button extends UIElement {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
-        this.location = location;
-        Pointf[] buttonCoords = DrawUtil.createBox(this.location, initialSize);
+        Pointf[] buttonCoords = DrawUtil.createBox(location, initialSize);
 
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
@@ -243,8 +238,8 @@ public class Button extends UIElement {
         Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) renderPath.getBounds2D();
 
         textBounds = new Rectangle2D.Float(
-                location.x + (renderPathBounds.width - textWidth) / 2f,
-                location.y + textHeight,
+                getTranslation().x + (renderPathBounds.width - textWidth) / 2f,
+                getTranslation().y + textHeight,
                 textWidth,
                 textHeight
         );
