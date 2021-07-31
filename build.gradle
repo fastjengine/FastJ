@@ -195,5 +195,3 @@ publishing.repositories.maven {
     credentials.username = System.getenv('ossrhUsername')
     credentials.password = System.getenv('ossrhPassword')
 }
-
-signing.sign publishing.publications.fastjPublish
