@@ -4,7 +4,6 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.display.Camera;
-import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -36,6 +35,10 @@ public class Button extends UIElement {
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
     /** The default text value of a {@link Button}: an empty string. */
     public static final String DefaultText = "";
+    /** {@link Paint} representing the default color value of {@code (0, 255, 255)}. */
+    public static final Paint DefaultFill = Color.cyan;
+    /** {@link Font} representing the default font of {@code Tahoma 16px}. */
+    public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
 
     private Paint paint;
     private Path2D.Float renderPath;
@@ -79,8 +82,8 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(Color.cyan);
-        this.setFont(Text2D.DefaultFont);
+        this.setPaint(DefaultFill);
+        this.setFont(DefaultFont);
         this.setText(DefaultText);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
@@ -102,8 +105,8 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(Color.cyan);
-        this.setFont(Text2D.DefaultFont);
+        this.setPaint(DefaultFill);
+        this.setFont(DefaultFont);
         this.setText(DefaultText);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
