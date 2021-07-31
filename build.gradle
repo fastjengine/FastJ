@@ -152,52 +152,48 @@ jacocoTestReport {
  * ********************* */
 
 
-def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
-publish.onlyIf { shouldPublish }
+publishing.publications {
+    fastjPublish(MavenPublication) {
 
-if (shouldPublish) {
-    publishing.publications {
-        fastjPublish(MavenPublication) {
+        groupId = project.group
+        version = project.version
+        artifactId = 'fastj-library'
 
-            groupId = project.group
-            version = project.version
+        pom {
+            name = 'FastJ Game Library'
+            description = project.description
+            url = 'https://github.com/fastjengine/FastJ'
 
-            pom {
-                name = 'FastJ Game Library'
-                description = project.description
-                url = 'https://github.com/fastjengine/FastJ'
+            scm {
+                connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+                developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+                url = 'https://fastj.tech'
+            }
 
-                scm {
-                    connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    url = 'https://fastj.tech'
-                }
-
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'andrewd'
-                        name = 'Andrew Dey'
-                        email = 'andrewrcdey@gmail.com'
-                    }
+            licenses {
+                license {
+                    name = 'MIT License'
+                    url = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
                 }
             }
 
-            from(components.java)
+            developers {
+                developer {
+                    id = 'andrewd'
+                    name = 'Andrew Dey'
+                    email = 'andrewrcdey@gmail.com'
+                }
+            }
         }
-    }
 
-    publishing.repositories.maven {
-        url = version.toString().endsWith('-SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-        credentials.username = System.getenv('ossrhUsername')
-        credentials.password = System.getenv('ossrhPassword')
+        from(components.java)
     }
-
-    signing.sign publishing.publications.fastjPublish
 }
+
+publishing.repositories.maven {
+    url = version.toString().endsWith('-SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+    credentials.username = System.getenv('ossrhUsername')
+    credentials.password = System.getenv('ossrhPassword')
+}
+
+signing.sign publishing.publications.fastjPublish
