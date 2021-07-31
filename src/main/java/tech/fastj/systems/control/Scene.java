@@ -3,12 +3,11 @@ package tech.fastj.systems.control;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.Display;
 
+import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.tags.TagHandler;
 import tech.fastj.systems.tags.TagManager;
-
-import tech.fastj.input.InputManager;
 
 /**
  * Class containing the logic for a specific section, or scene, of a game.
