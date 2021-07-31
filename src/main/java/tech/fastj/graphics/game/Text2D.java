@@ -27,8 +27,8 @@ public class Text2D extends GameObject {
 
     /** {@link Paint} representing the default color value of {@code (0, 0, 0)}. */
     public static final Paint DefaultFill = Color.black;
-    /** {@link Font} representing the default font of {@code Segoe UI Plain, 12px}. */
-    public static final Font DefaultFont = new Font("Segoe UI", Font.PLAIN, 12);
+    /** {@link Font} representing the default font of {@code Tahoma 16px}. */
+    public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
 
     private String text;
     private Paint fillPaint;
