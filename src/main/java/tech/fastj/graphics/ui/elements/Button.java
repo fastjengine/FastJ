@@ -34,12 +34,14 @@ public class Button extends UIElement {
 
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
+    /** The default text value of a {@link Button}: an empty string. */
+    public static final String DefaultText = "";
 
     private Paint paint;
     private Path2D.Float renderPath;
 
     private Font font;
-    private String text = "";
+    private String text;
     private Rectangle2D.Float textBounds;
     private boolean hasMetrics;
 
@@ -79,6 +81,7 @@ public class Button extends UIElement {
 
         this.setPaint(Color.cyan);
         this.setFont(Text2D.DefaultFont);
+        this.setText(DefaultText);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
@@ -101,6 +104,7 @@ public class Button extends UIElement {
 
         this.setPaint(Color.cyan);
         this.setFont(Text2D.DefaultFont);
+        this.setText(DefaultText);
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
