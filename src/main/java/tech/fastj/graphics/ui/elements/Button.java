@@ -82,9 +82,9 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(DefaultFill);
-        this.setFont(DefaultFont);
-        this.setText(DefaultText);
+        this.paint = DefaultFill;
+        this.font = DefaultFont;
+        this.text = DefaultText;
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
@@ -105,9 +105,9 @@ public class Button extends UIElement {
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
-        this.setPaint(DefaultFill);
-        this.setFont(DefaultFont);
-        this.setText(DefaultText);
+        this.paint = DefaultFill;
+        this.font = DefaultFont;
+        this.text = DefaultText;
 
         setMetrics(FastJEngine.getDisplay().getGraphics());
     }
@@ -117,7 +117,7 @@ public class Button extends UIElement {
      *
      * @return The Button's {@code Paint}.
      */
-    public Paint getPaint() {
+    public Paint getFill() {
         return paint;
     }
 
@@ -127,7 +127,7 @@ public class Button extends UIElement {
      * @param paint The new paint for the button.
      * @return The {@link Button}, for method chaining.
      */
-    public Button setPaint(Paint paint) {
+    public Button setFill(Paint paint) {
         this.paint = paint;
         return this;
     }
