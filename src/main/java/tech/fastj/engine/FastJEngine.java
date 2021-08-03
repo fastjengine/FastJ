@@ -34,13 +34,21 @@ import java.util.concurrent.TimeUnit;
  */
 public class FastJEngine {
 
-    /** Default engine value for "frames per second" of at least {@code 60}, depending on the monitor's refresh rate. */
+    /**
+     * Default engine value for "frames per second" of at least {@code 60}, depending on the monitor's refresh rate.
+     */
     public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 60);
-    /** Default engine value for "updates per second" of {@code 60}. */
+    /**
+     * Default engine value for "updates per second" of {@code 60}.
+     */
     public static final int DefaultUPS = 60;
-    /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
+    /**
+     * Default engine value for the window resolution of the {@link Display} of {@code 1280*720}.
+     */
     public static final Point DefaultWindowResolution = new Point(1280, 720);
-    /** Default engine value for the internal resolution of the {@link Display} of {@code 1280*720}. */
+    /**
+     * Default engine value for the internal resolution of the {@link Display} of {@code 1280*720}.
+     */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     // engine speed variables
@@ -188,18 +196,20 @@ public class FastJEngine {
     public static void configureHardwareAcceleration(HWAccel hardwareAcceleration) {
         runningCheck();
 
-        if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
-            if (System.getProperty("os.name").startsWith("Win")) {
-                HWAccel.setHardwareAcceleration(HWAccel.Direct3D);
-                hwAccel = hardwareAcceleration;
-            } else {
-                warning("This OS doesn't support Direct3D hardware acceleration. Configuration will be left at default.");
-                configureHardwareAcceleration(HWAccel.Default);
-            }
-        } else {
+        if (isSystemSupportingHA(hardwareAcceleration)) {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
+        } else {
+            warning(String.format("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name()));
+            HWAccel.setHardwareAcceleration(HWAccel.Default);
+            hwAccel = HWAccel.Default;
         }
+    }
+
+    private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
+        if (hardwareAcceleration.equals(HWAccel.Direct3D)) return System.getProperty("os.name").startsWith("Win");
+        else if (hardwareAcceleration.equals(HWAccel.X11)) return System.getProperty("os.name").startsWith("Linux");
+        else return true;
     }
 
     /**
@@ -298,7 +308,6 @@ public class FastJEngine {
      * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
-     *
      * @since 1.5.0
      */
     public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
@@ -350,7 +359,9 @@ public class FastJEngine {
         }
     }
 
-    /** Runs the game. */
+    /**
+     * Runs the game.
+     */
     public static void run() {
         initEngine();
         try {
@@ -431,7 +442,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
-     *
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -445,14 +455,15 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
-     *
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
         AfterRenderList.add(action);
     }
 
-    /** Initializes the game engine's components. */
+    /**
+     * Initializes the game engine's components.
+     */
     private static void initEngine() {
         runningCheck();
         isRunning = true;
@@ -471,7 +482,9 @@ public class FastJEngine {
         display.open();
     }
 
-    /** Runs the game loop -- the heart of the engine. */
+    /**
+     * Runs the game loop -- the heart of the engine.
+     */
     private static void gameLoop() {
         float elapsedTime;
         float accumulator = 0f;
@@ -532,7 +545,9 @@ public class FastJEngine {
         }
     }
 
-    /** Removes all resources created by the game engine. */
+    /**
+     * Removes all resources created by the game engine.
+     */
     private static void exit() {
         if (fpsLogger != null) {
             fpsLogger.shutdownNow();
