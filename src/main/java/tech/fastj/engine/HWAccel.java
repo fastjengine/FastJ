@@ -10,6 +10,8 @@ public enum HWAccel {
     Direct3D("d3d", "transaccel", "ddforcevram"),
     /** Enables OpenGL hardware acceleration. */
     OpenGL("opengl"),
+    /** Enables X11 hardware acceleration. */
+    X11("xrender"),
     /** Leaves the configuration of hardware acceleration as the OS-decided default. */
     Default(),
     /** Disables all hardware acceleration. Instead, software rendering will be used. */
