@@ -36,11 +36,14 @@ public class FastJEngine {
 
     /** Default engine value for "frames per second" of at least {@code 60}, depending on the monitor's refresh rate. */
     public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 60);
+
     /** Default engine value for "updates per second" of {@code 60}. */
     public static final int DefaultUPS = 60;
+
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultWindowResolution = new Point(1280, 720);
-    /** Default engine value for the internal resolution of the {@link Display} of {@code 1280*720}. */
+
+    /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     // engine speed variables
@@ -188,18 +191,24 @@ public class FastJEngine {
     public static void configureHardwareAcceleration(HWAccel hardwareAcceleration) {
         runningCheck();
 
-        if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
-            if (System.getProperty("os.name").startsWith("Win")) {
-                HWAccel.setHardwareAcceleration(HWAccel.Direct3D);
-                hwAccel = hardwareAcceleration;
-            } else {
-                warning("This OS doesn't support Direct3D hardware acceleration. Configuration will be left at default.");
-                configureHardwareAcceleration(HWAccel.Default);
-            }
-        } else {
+        if (isSystemSupportingHA(hardwareAcceleration)) {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
+        } else {
+            warning(String.format("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name()));
+            HWAccel.setHardwareAcceleration(HWAccel.Default);
+            hwAccel = HWAccel.Default;
         }
+    }
+
+    private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
+        if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
+            return System.getProperty("os.name").startsWith("Win");
+        }
+        else if (hardwareAcceleration.equals(HWAccel.X11)) {
+            return System.getProperty("os.name").startsWith("Linux");
+        }
+        return true;
     }
 
     /**
