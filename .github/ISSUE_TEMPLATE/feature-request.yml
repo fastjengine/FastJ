@@ -16,7 +16,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: feature-origins
+    id: feature-ideas
     attributes:
       label: The New Feature Idea(s)
       description: What should the new feature be like?
@@ -24,7 +24,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: feature-origins
+    id: feature-alternatives
     attributes:
       label: Alternatives
       description: Any alternatives to your idea(s)?
