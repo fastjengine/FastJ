@@ -1,0 +1,35 @@
+name: Documentation Fix
+description: "Something wrong in FastJ's documentation (examples, tutorials, website, etc)? Let us know!"
+title: "[Documentation]: "
+labels: [documentation]
+assignees:
+  lucasstarsz
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making the effort to bring issues in FastJ's documentation to our attention! We really appreciate it.
+  - type: textarea
+    id: outdated-info
+    attributes:
+      label: The Outdated/Incorrect Information
+      description: What part of the documentation is outdated/incorrect?
+      placeholder: "Describe what and where in the documentation is incorrect, as clearly and concisely as you can."
+    validations:
+      required: true
+  - type: textarea
+    id: changes-to-be-made
+    attributes:
+      label: Suggested Documentation Changes
+      description: If you have any thoughts on what the content can be changed to, please let us know. Links to outside sources of information are incredibly helpful.
+      placeholder: "A clear and concise description of what you would like to see change."
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md)
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true
