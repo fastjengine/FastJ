@@ -16,7 +16,7 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: version
+    id: fastj-version
     attributes:
       label: FastJ Version
       description: What version of FastJ are you having issues with?
@@ -26,7 +26,7 @@ body:
     validations:
       required: true
   - type: dropdown
-    id: Java Version
+    id: java-version
     attributes:
       label: What versions of Java are you seeing this on?
       multiple: true
@@ -35,7 +35,7 @@ body:
         - Java 12-15
         - Java 16
   - type: textarea
-    id: logs
+    id: exceptions-and-logs
     attributes:
       label: Relevant Exceptions/Log Output
       description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
