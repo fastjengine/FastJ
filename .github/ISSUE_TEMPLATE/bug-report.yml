@@ -15,6 +15,19 @@ body:
       placeholder: Tell us what you were trying to do, and what went wrong!
     validations:
       required: true
+  - type: textarea
+    id: reproduce-error
+    attributes:
+      label: How to Reproduce the Error
+      description: "Walk us through the error, step by step."
+      value: |
+        1. 
+        2. 
+        3.
+        ...
+      render: bash
+    validations:
+      required: true
   - type: dropdown
     id: fastj-version
     attributes:
