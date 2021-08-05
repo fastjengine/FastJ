@@ -6,6 +6,8 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+import static tech.fastj.systems.audio.state.PlaybackState.Stopped;
+
 /**
  * An event listener for the {@link Audio} interface.
  *
@@ -34,6 +36,9 @@ public class AudioEventListener {
                         audioEventListener.audioStartAction.accept(audioEvent);
                         break;
                     }
+                    default: {
+                        throw new IllegalStateException("audio state was unexpected and invalid");
+                    }
                 }
             },
             LineEvent.Type.STOP, (audioEvent, audioEventListener) -> {
@@ -44,6 +49,9 @@ public class AudioEventListener {
                     case Stopped: {
                         audioEventListener.audioStopAction.accept(audioEvent);
                         break;
+                    }
+                    default: {
+                        throw new IllegalStateException("audio state was unexpected and invalid");
                     }
                 }
             },
