@@ -93,6 +93,14 @@ A few common dependencies are provided below:
 There are many different ways to learn FastJ -- namely the API documentation, the examples, and the tutorials on the main website.
 
 
+### Template Projects
+Check out these template projects for FastJ! They're the fastest way to jump right into using FastJ.
+
+- Java: https://github.com/lucasstarsz/fastj-java-template
+- Kotlin: https://github.com/lucasstarsz/fastj-kotlin-template
+- Groovy: https://github.com/lucasstarsz/fastj-groovy-template
+
+
 ### Tutorials
 [FastJ provides article tutorials][FastJ-Tutorials] on its website to accommodate as many types of developers as possible. From beginners to experts, the website tutorials are written to give enough information to satisfy anyone willing to learn!
 
