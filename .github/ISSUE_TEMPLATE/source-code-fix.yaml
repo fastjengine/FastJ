@@ -1,0 +1,50 @@
+name: Bug Report
+description: "Something not working? Let us know!"
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making the effort to point out issues in FastJ! We really appreciate it.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Also tell us, what did you expect to happen?
+      placeholder: Tell us what you were trying to do, and what went wrong!
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: FastJ Version
+      description: What version of FastJ are you having issues with?
+      options:
+        - 1.5.0 (Latest Version)
+        - 1.4.0
+    validations:
+      required: true
+  - type: dropdown
+    id: Java Version
+    attributes:
+      label: What versions of Java are you seeing this on?
+      multiple: true
+      options:
+        - Java 11
+        - Java 12-15
+        - Java 16
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Exceptions/Log Output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md)
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true
