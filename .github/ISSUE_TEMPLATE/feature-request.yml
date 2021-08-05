@@ -1,0 +1,39 @@
+name: Feature Request
+description: "Something not working? Let us know!"
+title: "[Feature Request]: "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making the effort to bring new ideas and concepts to FastJ! We really appreciate it.
+  - type: textarea
+    id: feature-origins
+    attributes:
+      label: Origins of the Feature
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: "A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]"
+    validations:
+      required: true
+  - type: textarea
+    id: feature-origins
+    attributes:
+      label: The New Feature Idea(s)
+      description: What should the new feature be like?
+      placeholder: "A clear and concise description of what you would like to be considered."
+    validations:
+      required: true
+  - type: textarea
+    id: feature-origins
+    attributes:
+      label: Alternatives
+      description: Any alternatives to your idea(s)?
+      placeholder: "A clear and concise description of any alternative solutions or features you've considered. if you want to go into detail about why something else does it better, now's your chance."
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md)
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true
