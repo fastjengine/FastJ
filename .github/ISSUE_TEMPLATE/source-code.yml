@@ -1,0 +1,25 @@
+name: Source Code
+description: "Something wrong with the source code, or just have a question? Let us know!"
+title: "[Source Code]: "
+labels: [source code]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making the effort ask about FastJ's source code! We really appreciate it.
+  - type: textarea
+    id: thoughts-and-issues
+    attributes:
+      label: "What's Up?"
+      description: "What about FastJ's source code is concerning you?"
+      placeholder: "Tell us your thoughts -- we're all ears."
+    validations:
+      required: true
+  - type: checkboxes
+    id: code-of-conduct
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md)
+      options:
+        - label: "I agree to follow FastJ's Code of Conduct"
+          required: true
