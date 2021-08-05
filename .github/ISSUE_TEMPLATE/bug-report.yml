@@ -29,7 +29,8 @@ body:
   - type: dropdown
     id: java-version
     attributes:
-      label: What version(s) of Java are you seeing this on?
+      label: Java Version
+      description: What version(s) of Java are you seeing this on?
       multiple: true
       options:
         - Java 11
