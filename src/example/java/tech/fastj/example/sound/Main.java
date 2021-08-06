@@ -19,11 +19,31 @@ public class Main {
          * As you can see, there's a lot to cover! I'll do my best to keep the length of this
          * example information reasonable. */
 
+
         /* Simple Audio Playing */
 
-        /* Don't need much more than to play sound? Just use AudioManager.playSound(Path).
-         * It takes in a Path object, which is just the path to your sound file. */
+        /* Don't need much other than to play sound? Just use AudioManager.playSound(Path).
+         * It takes in a Path object, which is just the filepath to your sound file. */
 
-        AudioManager.playSound(Path.of("src/example/resources/sound/test_audio.wav").toAbsolutePath());
+        AudioManager.playSound(Path.of("src/example/resources/sound/test_audio.wav"));
+
+
+        /* Memory-Loaded Audio */
+
+        /* I'll begin by explaining memory-loaded audio. This type of audio in FastJ is called
+         * MemoryAudio.
+         *
+         * MemoryAudio is created using the audio manager using AudioManager#loadMemoryAudio(Path).
+         * (The path object is the filepath to the sound file.)
+         *
+         * As seen from the list above, memory-loaded audio has the following perks over streamed
+         * audio:
+         * - looping controls (enable/disable looping, how many times to loop, what points to loop
+         *   at)
+         * - playback position controls (set explicit playback position, seek in audio, rewind to
+         *   beginning)
+         *
+         * Let's start with looping controls. Using MemoryAudio#setShouldLoop, you can enable or
+         * disable looping on that specific audio file. */
     }
 }
