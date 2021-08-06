@@ -4,7 +4,7 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.io.PsdfUtil;
-import tech.fastj.graphics.io.SupportedFileFormats;
+import tech.fastj.graphics.io.SupportedModelFormats;
 
 import tech.fastj.systems.fio.FileUtil;
 
@@ -25,11 +25,11 @@ public class ModelUtil {
     }
 
     private static final Map<String, Function<List<String>, Polygon2D[]>> ModelParser = Map.of(
-            SupportedFileFormats.Psdf, PsdfUtil::parse
+            SupportedModelFormats.Psdf, PsdfUtil::parse
     );
 
     private static final Map<String, BiConsumer<Path, Model2D>> ModelWriter = Map.of(
-            SupportedFileFormats.Psdf, PsdfUtil::write
+            SupportedModelFormats.Psdf, PsdfUtil::write
     );
 
     /**
@@ -79,11 +79,11 @@ public class ModelUtil {
     }
 
     private static void checkFileExtension(String fileExtension) {
-        if (Arrays.stream(SupportedFileFormats.values()).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
+        if (Arrays.stream(SupportedModelFormats.values()).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
             throw new IllegalArgumentException(
                     "Unsupported file extension \"" + fileExtension + "\"."
                             + System.lineSeparator()
-                            + "This engine only supports files of the following extensions: " + SupportedFileFormats.valuesString
+                            + "This engine only supports files of the following extensions: " + SupportedModelFormats.valuesString
             );
         }
     }
