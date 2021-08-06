@@ -6,7 +6,7 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
-import tech.fastj.graphics.io.SupportedFileFormats;
+import tech.fastj.graphics.io.SupportedModelFormats;
 import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.graphics.util.ModelUtil;
 
@@ -173,7 +173,7 @@ class PsdfUtilTests {
 
         String expectedExceptionMessage = "Unsupported file extension \"txt\"."
                 + System.lineSeparator()
-                + "This engine only supports files of the following extensions: " + SupportedFileFormats.valuesString;
+                + "This engine only supports files of the following extensions: " + SupportedModelFormats.valuesString;
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 
