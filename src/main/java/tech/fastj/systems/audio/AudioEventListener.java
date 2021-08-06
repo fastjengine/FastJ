@@ -1,12 +1,13 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.systems.audio.state.PlaybackState;
+
 import javax.sound.sampled.LineEvent;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static tech.fastj.systems.audio.state.PlaybackState.Stopped;
 
 /**
  * An event listener for the {@link Audio} interface.
@@ -25,10 +26,12 @@ public class AudioEventListener {
 
     private final Audio audio;
 
+
     private static final Map<LineEvent.Type, BiConsumer<LineEvent, AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, (audioEvent, audioEventListener) -> audioEventListener.audioOpenAction.accept(audioEvent),
             LineEvent.Type.START, (audioEvent, audioEventListener) -> {
-                switch (audioEventListener.audio.getPreviousPlaybackState()) {
+                PlaybackState previousPlaybackState = audioEventListener.audio.getPreviousPlaybackState();
+                switch (previousPlaybackState) {
                     case Paused: {
                         audioEventListener.audioResumeAction.accept(audioEvent);
                     }
@@ -37,12 +40,13 @@ public class AudioEventListener {
                         break;
                     }
                     default: {
-                        throw new IllegalStateException("audio state was unexpected and invalid");
+                        exceptionOnPlaybackState(previousPlaybackState);
                     }
                 }
             },
             LineEvent.Type.STOP, (audioEvent, audioEventListener) -> {
-                switch (audioEventListener.audio.getCurrentPlaybackState()) {
+                PlaybackState currentPlaybackState = audioEventListener.audio.getCurrentPlaybackState();
+                switch (currentPlaybackState) {
                     case Paused: {
                         audioEventListener.audioPauseAction.accept(audioEvent);
                     }
@@ -51,12 +55,21 @@ public class AudioEventListener {
                         break;
                     }
                     default: {
-                        throw new IllegalStateException("audio state was unexpected and invalid");
+                        exceptionOnPlaybackState(currentPlaybackState);
                     }
                 }
             },
             LineEvent.Type.CLOSE, (audioEvent, audioEventListener) -> audioEventListener.audioCloseAction.accept(audioEvent)
     );
+
+    /**
+     * Throws IllegalStateException when PlaybackState passes through default cases in switch statements in
+     * AudioEventProcessor
+     * @param p the playback state
+     */
+    private static void exceptionOnPlaybackState(PlaybackState p) {
+        throw new IllegalStateException("audio state was unexpected and invalid:\n" + p);
+    }
 
     /**
      * Initializes an {@code AudioEventListener} with the specified {@code Audio} object, immediately attaching to it
