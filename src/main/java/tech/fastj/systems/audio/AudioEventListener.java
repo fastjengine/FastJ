@@ -1,5 +1,7 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.systems.audio.state.PlaybackState;
+
 import javax.sound.sampled.LineEvent;
 import java.util.Map;
 import java.util.Objects;
@@ -26,7 +28,8 @@ public class AudioEventListener {
     private static final Map<LineEvent.Type, BiConsumer<LineEvent, AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, (audioEvent, audioEventListener) -> audioEventListener.audioOpenAction.accept(audioEvent),
             LineEvent.Type.START, (audioEvent, audioEventListener) -> {
-                switch (audioEventListener.audio.getPreviousPlaybackState()) {
+                PlaybackState previousPlaybackState = audioEventListener.audio.getPreviousPlaybackState();
+                switch (previousPlaybackState) {
                     case Paused: {
                         audioEventListener.audioResumeAction.accept(audioEvent);
                     }
@@ -34,16 +37,23 @@ public class AudioEventListener {
                         audioEventListener.audioStartAction.accept(audioEvent);
                         break;
                     }
+                    default: {
+                        throw new IllegalStateException("audio state was unexpected and invalid:\n" + previousPlaybackState);
+                    }
                 }
             },
             LineEvent.Type.STOP, (audioEvent, audioEventListener) -> {
-                switch (audioEventListener.audio.getCurrentPlaybackState()) {
+                PlaybackState currentPlaybackState = audioEventListener.audio.getCurrentPlaybackState();
+                switch (currentPlaybackState) {
                     case Paused: {
                         audioEventListener.audioPauseAction.accept(audioEvent);
                     }
                     case Stopped: {
                         audioEventListener.audioStopAction.accept(audioEvent);
                         break;
+                    }
+                    default: {
+                        throw new IllegalStateException("audio state was unexpected and invalid:\n" + currentPlaybackState);
                     }
                 }
             },
