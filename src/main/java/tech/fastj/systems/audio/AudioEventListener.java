@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-
 /**
  * An event listener for the {@link Audio} interface.
  *
@@ -26,7 +25,6 @@ public class AudioEventListener {
 
     private final Audio audio;
 
-
     private static final Map<LineEvent.Type, BiConsumer<LineEvent, AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, (audioEvent, audioEventListener) -> audioEventListener.audioOpenAction.accept(audioEvent),
             LineEvent.Type.START, (audioEvent, audioEventListener) -> {
@@ -40,7 +38,7 @@ public class AudioEventListener {
                         break;
                     }
                     default: {
-                        exceptionOnPlaybackState(previousPlaybackState);
+                        throw new IllegalStateException("audio state was unexpected and invalid:\n" + previousPlaybackState);
                     }
                 }
             },
@@ -55,21 +53,12 @@ public class AudioEventListener {
                         break;
                     }
                     default: {
-                        exceptionOnPlaybackState(currentPlaybackState);
+                        throw new IllegalStateException("audio state was unexpected and invalid:\n" + currentPlaybackState);
                     }
                 }
             },
             LineEvent.Type.CLOSE, (audioEvent, audioEventListener) -> audioEventListener.audioCloseAction.accept(audioEvent)
     );
-
-    /**
-     * Throws IllegalStateException when PlaybackState passes through default cases in switch statements in
-     * AudioEventProcessor
-     * @param p the playback state
-     */
-    private static void exceptionOnPlaybackState(PlaybackState p) {
-        throw new IllegalStateException("audio state was unexpected and invalid:\n" + p);
-    }
 
     /**
      * Initializes an {@code AudioEventListener} with the specified {@code Audio} object, immediately attaching to it
