@@ -18,6 +18,7 @@
  */
 module fastj.library {
     requires transitive java.desktop;
+    requires transitive org.slf4j;
 
     exports tech.fastj.engine;
     exports tech.fastj.math;
