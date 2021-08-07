@@ -130,6 +130,8 @@ class MemoryAudioTests {
 
         assertTrue(audioOpenEventBoolean.get(), "After playing the audio, the \"audio open\" event action should have been triggered.");
         assertTrue(audioStartEventBoolean.get(), "After playing the audio, the \"audio start\" event action should have been triggered.");
+        assertEquals(PlaybackState.Playing, audio.getCurrentPlaybackState(), "After playing the audio, the gotten audio should be in the \"playing\" playback state.");
+        assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After playing the audio, the gotten audio's previous playback state should be \"stopped\".");
     }
 
     @Test
@@ -147,6 +149,9 @@ class MemoryAudioTests {
 
         assertTrue(audioPauseEventBoolean.get(), "After pausing the audio, the \"audio pause\" event action should have been triggered.");
         assertTrue(audioStopEventBoolean.get(), "After pausing the audio, the \"audio stop\" event action should have been triggered.");
+        assertTrue(audioStopEventBoolean.get(), "After pausing the audio, the \"audio stop\" event action should have been triggered.");
+        assertEquals(PlaybackState.Paused, audio.getCurrentPlaybackState(), "After pausing the audio, the gotten audio should be in the \"paused\" playback state.");
+        assertEquals(PlaybackState.Playing, audio.getPreviousPlaybackState(), "After pausing the audio, the gotten audio's previous playback state should be \"playing\".");
     }
 
     @Test
@@ -166,6 +171,8 @@ class MemoryAudioTests {
 
         assertTrue(audioResumeEventBoolean.get(), "After resuming the audio, the \"audio resume\" event action should have been triggered.");
         assertTrue(audioStartEventBoolean.get(), "After resuming the audio, the \"audio start\" event action should have been triggered.");
+        assertEquals(PlaybackState.Playing, audio.getCurrentPlaybackState(), "After resuming the audio, the gotten audio should be in the \"playing\" playback state.");
+        assertEquals(PlaybackState.Paused, audio.getPreviousPlaybackState(), "After resuming the audio, the gotten audio's previous playback state should be \"paused\".");
     }
 
     @Test
@@ -183,6 +190,8 @@ class MemoryAudioTests {
 
         assertTrue(audioCloseEventBoolean.get(), "After stopping the audio, the \"audio close\" event action should have been triggered.");
         assertTrue(audioStopEventBoolean.get(), "After stopping the audio, the \"audio stop\" event action should have been triggered.");
+        assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After stopping the audio, the gotten audio should be in the \"stopped\" playback state.");
+        assertEquals(PlaybackState.Playing, audio.getPreviousPlaybackState(), "After stopping the audio, the gotten audio's previous playback state should be \"playing\" because its last state was not paused.");
     }
 
     @Test
