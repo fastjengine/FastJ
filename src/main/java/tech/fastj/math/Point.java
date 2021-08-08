@@ -486,7 +486,7 @@ public class Point {
         float sineOfAngle = (float) Math.sin(angleInRadians);
         float cosineOfAngle = (float) Math.cos(angleInRadians);
 
-        float rotatedX = (x * cosineOfAngle) +  (y * sineOfAngle);
+        float rotatedX = (x * cosineOfAngle) + (y * sineOfAngle);
         float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
         x = (int) rotatedX;
         y = (int) rotatedY;
