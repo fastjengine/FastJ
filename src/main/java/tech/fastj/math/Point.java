@@ -197,8 +197,8 @@ public class Point {
         float sineOfAngle = (float) Math.sin(angleInRadians);
         float cosineOfAngle = (float) Math.cos(angleInRadians);
 
-        int rotatedX = (int) (((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle));
-        int rotatedY = (int) (((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle));
+        int rotatedX = (int) ((p.x * cosineOfAngle) + (p.y * sineOfAngle));
+        int rotatedY = (int) ((-p.x * sineOfAngle) + (p.y * cosineOfAngle));
         return new Point(rotatedX, rotatedY);
     }
 
@@ -221,8 +221,8 @@ public class Point {
         int translatedX = p.x - center.x;
         int translatedY = p.y - center.y;
 
-        int rotatedX = (int) (((float) translatedX * cosineOfAngle) + ((float) translatedY * sineOfAngle));
-        int rotatedY = (int) (((float) -translatedX * sineOfAngle) + ((float) translatedY * cosineOfAngle));
+        int rotatedX = (int) ((translatedX * cosineOfAngle) + (translatedY * sineOfAngle));
+        int rotatedY = (int) ((-translatedX * sineOfAngle) + (translatedY * cosineOfAngle));
 
         return new Point(rotatedX + center.x, rotatedY + center.y);
     }
@@ -243,8 +243,8 @@ public class Point {
         float sineOfAngle = (float) Math.sin(angleInRadians);
         float cosineOfAngle = (float) Math.cos(angleInRadians);
 
-        float rotatedX = ((float) p.x * cosineOfAngle) + ((float) p.y * sineOfAngle);
-        float rotatedY = ((float) -p.x * sineOfAngle) + ((float) p.y * cosineOfAngle);
+        float rotatedX = (p.x * cosineOfAngle) + (p.y * sineOfAngle);
+        float rotatedY = (-p.x * sineOfAngle) + (p.y * cosineOfAngle);
         return new Pointf(rotatedX, rotatedY);
     }
 
@@ -264,8 +264,8 @@ public class Point {
         float sineOfAngle = (float) Math.sin(angleInRadians);
         float cosineOfAngle = (float) Math.cos(angleInRadians);
 
-        float translatedX = (float) p.x - center.x;
-        float translatedY = (float) p.y - center.y;
+        float translatedX = p.x - center.x;
+        float translatedY = p.y - center.y;
 
         float rotatedX = (translatedX * cosineOfAngle) + (translatedY * sineOfAngle);
         float rotatedY = (-translatedX * sineOfAngle) + (translatedY * cosineOfAngle);
@@ -486,8 +486,8 @@ public class Point {
         float sineOfAngle = (float) Math.sin(angleInRadians);
         float cosineOfAngle = (float) Math.cos(angleInRadians);
 
-        float rotatedX = ((float) x * cosineOfAngle) + ((float) y * sineOfAngle);
-        float rotatedY = ((float) -x * sineOfAngle) + ((float) y * cosineOfAngle);
+        float rotatedX = (x * cosineOfAngle) +  (y * sineOfAngle);
+        float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
         x = (int) rotatedX;
         y = (int) rotatedY;
 

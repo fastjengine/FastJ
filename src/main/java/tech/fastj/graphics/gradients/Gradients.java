@@ -289,7 +289,7 @@ public class Gradients {
         float[] intervals = new float[size];
 
         for (int i = 0; i < intervals.length; i++) {
-            intervals[i] = (1f / (intervals.length - 1)) * (float) (i);
+            intervals[i] = (1f / (intervals.length - 1)) * (i);
         }
         return intervals;
     }
