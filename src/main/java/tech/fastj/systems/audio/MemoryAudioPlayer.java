@@ -196,7 +196,7 @@ public class MemoryAudioPlayer {
             return MemoryAudio.LoopFromStart;
         }
 
-        return (int) Maths.denormalize(normalizedLoopStart, 0f, (float) clipFrameCount);
+        return (int) Maths.denormalize(normalizedLoopStart, 0f, clipFrameCount);
     }
 
     private static int denormalizeLoopEnd(float normalizedLoopEnd, int clipFrameCount) {
@@ -204,6 +204,6 @@ public class MemoryAudioPlayer {
             return MemoryAudio.LoopAtEnd;
         }
 
-        return (int) Maths.denormalize(normalizedLoopEnd, 0f, (float) clipFrameCount);
+        return (int) Maths.denormalize(normalizedLoopEnd, 0f, clipFrameCount);
     }
 }

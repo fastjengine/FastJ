@@ -512,8 +512,8 @@ public class Point {
         x -= center.x;
         y -= center.y;
 
-        float rotatedX = ((float) x * cosineOfAngle) + ((float) y * sineOfAngle);
-        float rotatedY = ((float) -x * sineOfAngle) + ((float) y * cosineOfAngle);
+        float rotatedX = (x * cosineOfAngle) + (y * sineOfAngle);
+        float rotatedY = (-x * sineOfAngle) + (y * cosineOfAngle);
 
         x = (int) (rotatedX + center.x);
         y = (int) (rotatedY + center.y);
@@ -593,8 +593,8 @@ public class Point {
             return Pointf.Origin.copy();
         }
 
-        float normalizedX = (float) x / magnitude;
-        float normalizedY = (float) y / magnitude;
+        float normalizedX = x / magnitude;
+        float normalizedY = y / magnitude;
         return new Pointf(normalizedX, normalizedY);
     }
 
@@ -624,7 +624,7 @@ public class Point {
      * @return Whether the two's {@code x} and {@code y} values are equal.
      */
     public boolean equalsPointf(Pointf other) {
-        return Maths.floatEquals(other.x, (float) x) && Maths.floatEquals(other.y, (float) y);
+        return Maths.floatEquals(other.x, x) && Maths.floatEquals(other.y, y);
     }
 
     /**
