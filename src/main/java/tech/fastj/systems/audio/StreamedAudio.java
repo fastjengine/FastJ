@@ -10,6 +10,7 @@ import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
@@ -54,6 +55,37 @@ public class StreamedAudio implements Audio {
      */
     StreamedAudio(Path audioPath) {
         this.audioPath = audioPath;
+        this.id = UUID.randomUUID().toString();
+
+        audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+        sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
+
+        try {
+            sourceDataLine.open(audioInputStream.getFormat());
+        } catch (LineUnavailableException exception) {
+            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to open sound."), exception);
+        }
+
+        gainControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
+        panControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.PAN);
+        balanceControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.BALANCE);
+        muteControl = (BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE);
+
+        sourceDataLine.close();
+        StreamedAudioPlayer.streamAudio(this);
+
+        audioEventListener = new AudioEventListener(this);
+        currentPlaybackState = PlaybackState.Stopped;
+        previousPlaybackState = PlaybackState.Stopped;
+    }
+
+    /**
+     * Constructs the {@code StreamedAudio} object with the given URL.
+     *
+     * @param audioPath The path of the audio to use.
+     */
+    StreamedAudio(URL audioPath) {
+        this.audioPath = Path.of(audioPath.getPath().substring(8));
         this.id = UUID.randomUUID().toString();
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));

@@ -4,6 +4,7 @@ import tech.fastj.systems.audio.state.PlaybackState;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
@@ -73,6 +74,26 @@ public class MemoryAudio implements Audio {
      */
     MemoryAudio(Path audioPath) {
         this.audioPath = audioPath;
+        this.id = UUID.randomUUID().toString();
+
+        loopStart = LoopFromStart;
+        loopEnd = LoopAtEnd;
+
+        clip = Objects.requireNonNull(AudioManager.newClip());
+        audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+
+        audioEventListener = new AudioEventListener(this);
+        currentPlaybackState = PlaybackState.Stopped;
+        previousPlaybackState = PlaybackState.Stopped;
+    }
+
+    /**
+     * Constructs the {@code MemoryAudio} object with the given URL.
+     *
+     * @param audioPath The path of the audio to use.
+     */
+    MemoryAudio(URL audioPath) {
+        this.audioPath = Path.of(audioPath.getPath().substring(8));
         this.id = UUID.randomUUID().toString();
 
         loopStart = LoopFromStart;

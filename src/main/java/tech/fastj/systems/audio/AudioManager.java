@@ -8,7 +8,10 @@ import tech.fastj.systems.fio.FileUtil;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -67,6 +70,18 @@ public class AudioManager {
     }
 
     /**
+     * Loads a {@link MemoryAudio} object at the specified path into memory.
+     *
+     * @param audioPath The path of the {@code MemoryAudio} object to load.
+     * @return The created {@link MemoryAudio} instance.
+     */
+    public static MemoryAudio loadMemoryAudio(URL audioPath) {
+        MemoryAudio audio = new MemoryAudio(audioPath);
+        MemoryAudioFiles.put(audio.getID(), audio);
+        return audio;
+    }
+
+    /**
      * Loads all {@link MemoryAudio} objects at the specified paths into memory.
      *
      * @param audioPaths The paths of the {@code MemoryAudio} objects to load.
@@ -91,6 +106,18 @@ public class AudioManager {
      * @return The created {@link StreamedAudio} instance.
      */
     public static StreamedAudio loadStreamedAudio(Path audioPath) {
+        StreamedAudio audio = new StreamedAudio(audioPath);
+        StreamedAudioFiles.put(audio.getID(), audio);
+        return audio;
+    }
+
+    /**
+     * Loads a {@link StreamedAudio} object at the specified path into memory.
+     *
+     * @param audioPath The path of the {@code StreamedAudio} object to load.
+     * @return The created {@link StreamedAudio} instance.
+     */
+    public static StreamedAudio loadStreamedAudio(URL audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
         StreamedAudioFiles.put(audio.getID(), audio);
         return audio;
@@ -221,6 +248,25 @@ public class AudioManager {
             FastJEngine.error(
                     CrashMessages.theGameCrashed("an audio file reading error."),
                     new UnsupportedAudioFileException(audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".")
+            );
+        }
+
+        return null;
+    }
+
+    /** Safely generates an {@link AudioInputStream} object, crashing the engine if something goes wrong. */
+    static AudioInputStream newAudioStream(URL audioPath) {
+        try {
+            return AudioSystem.getAudioInputStream(audioPath);
+        } catch (IOException exception) {
+            FastJEngine.error(
+                    CrashMessages.theGameCrashed("an I/O error while loading sound."),
+                    exception
+            );
+        } catch (UnsupportedAudioFileException exception) {
+            FastJEngine.error(
+                    CrashMessages.theGameCrashed("an audio file reading error."),
+                    new UnsupportedAudioFileException(audioPath.getPath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(Path.of(audioPath.getPath())) + "\".")
             );
         }
 
