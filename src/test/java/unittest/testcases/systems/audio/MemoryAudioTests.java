@@ -220,4 +220,23 @@ class MemoryAudioTests {
         AudioManager.unloadMemoryAudio(audio.getID());
         assertNull(AudioManager.getMemoryAudio(audio.getID()), "After unloading the audio, it should not be present in the audio manager.");
     }
+
+    @Test
+    void checkGetAudioAfterUnloading_withMultipleAudioFiles() {
+        MemoryAudio[] memoryAudios = new MemoryAudio[4];
+        memoryAudios[0] = AudioManager.loadMemoryAudio(TestAudioPath);
+        memoryAudios[1] = AudioManager.loadMemoryAudio(TestAudioURL);
+        memoryAudios[2] = AudioManager.loadMemoryAudio(TestAudioPath);
+        memoryAudios[3] = AudioManager.loadMemoryAudio(TestAudioURL);
+
+        for (MemoryAudio memoryAudio : memoryAudios) {
+            assertNotNull(AudioManager.getMemoryAudio(memoryAudio.getID()), "The audio should have been loaded into the audio manager successfully.");
+        }
+
+        AudioManager.unloadMemoryAudio(memoryAudios[0].getID(), memoryAudios[1].getID(), memoryAudios[2].getID(), memoryAudios[3].getID());
+
+        for (MemoryAudio memoryAudio : memoryAudios) {
+            assertNull(AudioManager.getMemoryAudio(memoryAudio.getID()), "After unloading the audio, it should not be present in the audio manager.");
+        }
+    }
 }
