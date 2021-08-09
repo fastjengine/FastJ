@@ -125,6 +125,17 @@ class MemoryAudioTests {
     }
 
     @Test
+    void checkSetLoopCount_toContinuousLoop() {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+
+        int expectedLoopCount = MemoryAudio.ContinuousLoop;
+        audio.setLoopCount(expectedLoopCount);
+
+        assertEquals(expectedLoopCount, audio.getLoopCount(), "The audio loop count should be set.");
+        assertTrue(audio.shouldLoop(), "Setting the loop to \"Audio.ContinuousLoop\" should cause the audio to need to loop.");
+    }
+
+    @Test
     void trySetLoopCount_toInvalidValue() {
         MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
 
@@ -133,6 +144,20 @@ class MemoryAudioTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> audio.setLoopCount(invalidLoopCount));
         String expectedExceptionMessage = "The loop count should not be less than -1.";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The expected error message should match the actual error message.");
+    }
+
+    @Test
+    void checkSetShouldLoopToFalse_whenLoopCountSaysToLoopContinuously() {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+
+        int expectedLoopCount = MemoryAudio.ContinuousLoop;
+        boolean expectedShouldLoop = false;
+
+        audio.setLoopCount(expectedLoopCount);
+        audio.setShouldLoop(expectedShouldLoop);
+
+        assertEquals(expectedLoopCount, audio.getLoopCount(), "The audio loop count should be set.");
+        assertEquals(expectedShouldLoop, audio.shouldLoop(), "Setting the loop to \"Audio.ContinuousLoop\" then changing the \"shouldLoop\" variable to false should cause the audio to not need to loop.");
     }
 
     @Test
@@ -213,11 +238,40 @@ class MemoryAudioTests {
     }
 
     @Test
+    void checkStopLoopingNow_whilePlayingAudio() throws InterruptedException {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioURL);
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(20);
+        audio.stopLoopingNow();
+
+        assertEquals(MemoryAudio.StopLooping, audio.getLoopCount(), "After being told to stop looping, the audio file's loop count should match the \"stop looping value\".");
+    }
+
+    @Test
     void checkGetAudioAfterUnloading() {
         MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
         assertNotNull(AudioManager.getMemoryAudio(audio.getID()), "The audio should have been loaded into the audio manager successfully.");
 
         AudioManager.unloadMemoryAudio(audio.getID());
         assertNull(AudioManager.getMemoryAudio(audio.getID()), "After unloading the audio, it should not be present in the audio manager.");
+    }
+
+    @Test
+    void checkGetAudioAfterUnloading_withMultipleAudioFiles() {
+        MemoryAudio[] memoryAudios = new MemoryAudio[4];
+        memoryAudios[0] = AudioManager.loadMemoryAudio(TestAudioPath);
+        memoryAudios[1] = AudioManager.loadMemoryAudio(TestAudioURL);
+        memoryAudios[2] = AudioManager.loadMemoryAudio(TestAudioPath);
+        memoryAudios[3] = AudioManager.loadMemoryAudio(TestAudioURL);
+
+        for (MemoryAudio memoryAudio : memoryAudios) {
+            assertNotNull(AudioManager.getMemoryAudio(memoryAudio.getID()), "The audio should have been loaded into the audio manager successfully.");
+        }
+
+        AudioManager.unloadMemoryAudio(memoryAudios[0].getID(), memoryAudios[1].getID(), memoryAudios[2].getID(), memoryAudios[3].getID());
+
+        for (MemoryAudio memoryAudio : memoryAudios) {
+            assertNull(AudioManager.getMemoryAudio(memoryAudio.getID()), "After unloading the audio, it should not be present in the audio manager.");
+        }
     }
 }

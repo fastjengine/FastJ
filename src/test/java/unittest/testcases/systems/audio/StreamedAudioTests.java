@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 class StreamedAudioTests {
 
     private static final Path TestAudioPath = Path.of("src/test/resources/test_audio.wav");
-    private static final URL TestAudioURL = Objects.requireNonNull(MemoryAudioTests.class.getClassLoader().getResource("test_audio.wav"));
+    private static final URL TestAudioURL = Objects.requireNonNull(StreamedAudioTests.class.getClassLoader().getResource("test_audio.wav"));
 
     @BeforeAll
     public static void onlyRunIfAudioOutputIsSupported() {
@@ -145,5 +145,24 @@ class StreamedAudioTests {
 
         AudioManager.unloadStreamedAudio(audio.getID());
         assertNull(AudioManager.getStreamedAudio(audio.getID()), "After unloading the audio, it should not be present in the audio manager.");
+    }
+
+    @Test
+    void checkGetAudioAfterUnloading_withMultipleAudioFiles() {
+        StreamedAudio[] streamedAudios = new StreamedAudio[4];
+        streamedAudios[0] = AudioManager.loadStreamedAudio(TestAudioPath);
+        streamedAudios[1] = AudioManager.loadStreamedAudio(TestAudioURL);
+        streamedAudios[2] = AudioManager.loadStreamedAudio(TestAudioPath);
+        streamedAudios[3] = AudioManager.loadStreamedAudio(TestAudioURL);
+
+        for (StreamedAudio streamedAudio : streamedAudios) {
+            assertNotNull(AudioManager.getStreamedAudio(streamedAudio.getID()), "The audio should have been loaded into the audio manager successfully.");
+        }
+
+        AudioManager.unloadStreamedAudio(streamedAudios[0].getID(), streamedAudios[1].getID(), streamedAudios[2].getID(), streamedAudios[3].getID());
+
+        for (StreamedAudio streamedAudio : streamedAudios) {
+            assertNull(AudioManager.getStreamedAudio(streamedAudio.getID()), "After unloading the audio, it should not be present in the audio manager.");
+        }
     }
 }
