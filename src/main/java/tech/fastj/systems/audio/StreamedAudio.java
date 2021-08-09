@@ -85,21 +85,23 @@ public class StreamedAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     StreamedAudio(URL audioPath) {
+        this.id = UUID.randomUUID().toString();
+
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
 
         if (urlPath.startsWith(urlProtocol)) {
             this.audioPath = Path.of(urlPath.substring(urlProtocol.length()));
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         } else if (urlPath.startsWith("file:///")) {
             this.audioPath = Path.of(urlPath.substring(8));
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         } else {
             // In this case, the file starts with "/".
             this.audioPath = Path.of(urlPath.replaceFirst("/*+", ""));
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 
-        this.id = UUID.randomUUID().toString();
-
-        audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {
