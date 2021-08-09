@@ -93,7 +93,18 @@ public class MemoryAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     MemoryAudio(URL audioPath) {
-        this.audioPath = Path.of(audioPath.getPath().substring(8));
+        String urlPath = audioPath.getPath();
+        String urlProtocol = audioPath.getProtocol();
+
+        if (urlPath.startsWith(urlProtocol)) {
+            this.audioPath = Path.of(urlPath.substring(urlProtocol.length()));
+        } else if (urlPath.startsWith("file:///")) {
+            this.audioPath = Path.of(urlPath.substring(8));
+        } else {
+            // In this case, the file starts with "/".
+            this.audioPath = Path.of(urlPath.replaceFirst("(/?)*", ""));
+        }
+
         this.id = UUID.randomUUID().toString();
 
         loopStart = LoopFromStart;
