@@ -125,6 +125,17 @@ class MemoryAudioTests {
     }
 
     @Test
+    void checkSetLoopCount_toContinuousLoop() {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+
+        int expectedLoopCount = MemoryAudio.ContinuousLoop;
+        audio.setLoopCount(expectedLoopCount);
+
+        assertEquals(expectedLoopCount, audio.getLoopCount(), "The audio loop count should be set.");
+        assertTrue(audio.shouldLoop(), "Setting the loop to \"Audio.ContinuousLoop\" should cause the audio to need to loop.");
+    }
+
+    @Test
     void trySetLoopCount_toInvalidValue() {
         MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
 
@@ -133,6 +144,20 @@ class MemoryAudioTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> audio.setLoopCount(invalidLoopCount));
         String expectedExceptionMessage = "The loop count should not be less than -1.";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The expected error message should match the actual error message.");
+    }
+
+    @Test
+    void checkSetShouldLoopToFalse_whenLoopCountSaysToLoopContinuously() {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+
+        int expectedLoopCount = MemoryAudio.ContinuousLoop;
+        boolean expectedShouldLoop = false;
+
+        audio.setLoopCount(expectedLoopCount);
+        audio.setShouldLoop(expectedShouldLoop);
+
+        assertEquals(expectedLoopCount, audio.getLoopCount(), "The audio loop count should be set.");
+        assertEquals(expectedShouldLoop, audio.shouldLoop(), "Setting the loop to \"Audio.ContinuousLoop\" then changing the \"shouldLoop\" variable to false should cause the audio to not need to loop.");
     }
 
     @Test
@@ -210,6 +235,16 @@ class MemoryAudioTests {
         assertTrue(audioStopEventBoolean.get(), "After stopping the audio, the \"audio stop\" event action should have been triggered.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After stopping the audio, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Playing, audio.getPreviousPlaybackState(), "After stopping the audio, the gotten audio's previous playback state should be \"playing\" because its last state was not paused.");
+    }
+
+    @Test
+    void checkStopLoopingNow_whilePlayingAudio() throws InterruptedException {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioURL);
+        audio.play();
+        TimeUnit.MILLISECONDS.sleep(20);
+        audio.stopLoopingNow();
+
+        assertEquals(MemoryAudio.StopLooping, audio.getLoopCount(), "After being told to stop looping, the audio file's loop count should match the \"stop looping value\".");
     }
 
     @Test
