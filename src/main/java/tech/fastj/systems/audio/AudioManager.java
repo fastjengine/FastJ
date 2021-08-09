@@ -56,6 +56,17 @@ public class AudioManager {
     }
 
     /**
+     * Plays the sound file at the specified {@link URL}.
+     *
+     * @param audioPath The {@code URL} path of the sound file to be played.
+     */
+    public static void playSound(URL audioPath) {
+        StreamedAudio audio = new StreamedAudio(audioPath);
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
+        audio.play();
+    }
+
+    /**
      * Loads a {@link MemoryAudio} object at the specified path into memory.
      *
      * @param audioPath The path of the {@code MemoryAudio} object to load.
