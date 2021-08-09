@@ -103,6 +103,8 @@ public class StreamedAudio implements Audio {
                     ? urlPath.replaceFirst("/*+", "")
                     : urlPath
             );
+            System.err.println(audioPath);
+            System.err.println(this.audioPath);
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 
