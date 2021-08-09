@@ -103,15 +103,11 @@ public class MemoryAudio implements Audio {
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
 
-        if (urlPath.startsWith(urlProtocol)) {
-            this.audioPath = Path.of(urlPath.substring(urlProtocol.length()));
-            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
-        } else if (urlPath.startsWith("file:///")) {
-            this.audioPath = Path.of(urlPath.substring(8));
+        this.audioPath = AudioManager.pathFromURL(audioPath);
+
+        if (urlPath.startsWith(urlProtocol) || urlPath.startsWith("file:///")) {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         } else {
-            // In this case, the file starts with "/".
-            this.audioPath = Path.of(urlPath.replaceFirst("/*+", ""));
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 

@@ -12,6 +12,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -254,6 +255,25 @@ public class AudioManager {
 
         audioEventExecutor.shutdownNow();
         audioEventExecutor = Executors.newWorkStealingPool();
+    }
+
+    static Path pathFromURL(URL audioPath) {
+        String urlPath = audioPath.getPath();
+        String urlProtocol = audioPath.getProtocol();
+
+        if (urlPath.startsWith(urlProtocol)) {
+            return Path.of(urlPath.substring(urlProtocol.length()));
+        } else if (urlPath.startsWith("file:///")) {
+            return Path.of(urlPath.substring(8));
+        } else {
+            // In this case, the file path starts with "/" which may need to be removed depending
+            // on the operating system.
+            return Path.of(
+                    urlPath.startsWith("/") && !System.getProperty("os.name").startsWith("Mac")
+                    ? urlPath.replaceFirst("/*+", "")
+                    : urlPath
+            );
+        }
     }
 
     /** Safely generates a {@link Clip} object, crashing the engine if something goes wrong. */
