@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import unittest.EnvironmentHelper;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -161,5 +162,15 @@ class AudioManagerTests {
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
         assertTrue(underlyingException.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
+    }
+
+    @Test
+    void checkPlaySound_withPath() {
+        assertDoesNotThrow(() -> AudioManager.playSound(TestAudioPath));
+    }
+
+    @Test
+    void checkPlaySound_withURL() {
+        assertDoesNotThrow(() -> AudioManager.playSound(TestAudioURL));
     }
 }
