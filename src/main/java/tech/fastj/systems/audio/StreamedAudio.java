@@ -94,7 +94,7 @@ public class StreamedAudio implements Audio {
             this.audioPath = Path.of(urlPath.substring(8));
         } else {
             // In this case, the file starts with "/".
-            this.audioPath = Path.of(urlPath.replaceFirst("(/?)*", ""));
+            this.audioPath = Path.of(urlPath.replaceFirst("/*+", ""));
         }
 
         this.id = UUID.randomUUID().toString();
