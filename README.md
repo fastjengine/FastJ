@@ -27,15 +27,15 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | :------------------- | :---------------------------------------------------------- | :-------: |
 | 2D Rendering         | Rendering of 2D Polygons, Models, Lighting                  |    ✔     |
 | Scene System         | Scene-based Rendering, Scene Switching                      |    ✔     |
-| Scriptable Behaviors | Control game object states through behaviors.               |    ✅    |
-| Desktop Support      | Full Compatibility on Windows, Linux, and macOS.            |    ✅    |
-| Audio Engine         | Play sounds of several different formats at any given time. |    ✔     |
-| Image Support        | Image rendering, transformations, and sprite animation.     |    ❌    |
-| Animation Support    | Interpolation and tweening framework.                       |    ❌    |
-| UI System            | Flexible UI system to replace the need for Swing UI.        |    ⭕    |
-| FastJ Model Creator  | Create & Export 2D Models quickly and easily.               |    ❌    |
-| FastJ Editor         | View, Run, Build, and Export FastJ games from an editor.    |    ❌    |
-| Web Support          | Compile FastJ games to run in a browser.                    |    ❌    |
+| Scriptable Behaviors | Control GameObject state                                    |    ✅    |
+| Desktop Support      | Full Compatibility on Windows, Linux, and macOS             |    ✅    |
+| Audio Engine         | Loading, Playing, and Controlling .wav, .au, .aiff files    |    ✔     |
+| Image Support        | Image rendering, Sprite Animation                           |    ❌    |
+| Animation Support    | Interpolation, Tweening Framework                           |    ❌    |
+| UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
+| FastJ Model Creator  | Create & Export 2D Models                                   |    ❌    |
+| FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor  |    ❌    |
+| Web Support          | Run FastJ Programs in a Browser                             |    ❌    |
 
 ✅ is complete and satisfactory.
 
