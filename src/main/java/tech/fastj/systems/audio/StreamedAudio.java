@@ -37,14 +37,15 @@ public class StreamedAudio implements Audio {
     private final Path audioPath;
     private final String id;
     private final AudioInputStream audioInputStream;
-    private final SourceDataLine sourceDataLine;
 
-    private final FloatControl gainControl;
-    private final FloatControl panControl;
-    private final FloatControl balanceControl;
-    private final BooleanControl muteControl;
+    private SourceDataLine sourceDataLine;
 
-    private final AudioEventListener audioEventListener;
+    private FloatControl gainControl;
+    private FloatControl panControl;
+    private FloatControl balanceControl;
+    private BooleanControl muteControl;
+
+    private AudioEventListener audioEventListener;
     PlaybackState currentPlaybackState;
     PlaybackState previousPlaybackState;
 
@@ -58,25 +59,8 @@ public class StreamedAudio implements Audio {
         this.id = UUID.randomUUID().toString();
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
-        sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
-        try {
-            sourceDataLine.open(audioInputStream.getFormat());
-        } catch (LineUnavailableException exception) {
-            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to open sound."), exception);
-        }
-
-        gainControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);
-        panControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.PAN);
-        balanceControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.BALANCE);
-        muteControl = (BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE);
-
-        sourceDataLine.close();
-        StreamedAudioPlayer.streamAudio(this);
-
-        audioEventListener = new AudioEventListener(this);
-        currentPlaybackState = PlaybackState.Stopped;
-        previousPlaybackState = PlaybackState.Stopped;
+        initializeStreamData();
     }
 
     /**
@@ -86,11 +70,10 @@ public class StreamedAudio implements Audio {
      */
     StreamedAudio(URL audioPath) {
         this.id = UUID.randomUUID().toString();
+        this.audioPath = AudioManager.pathFromURL(audioPath);
 
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
-
-        this.audioPath = AudioManager.pathFromURL(audioPath);
 
         if (urlPath.startsWith(urlProtocol) || urlPath.startsWith("file:///")) {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
@@ -98,6 +81,11 @@ public class StreamedAudio implements Audio {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 
+        initializeStreamData();
+    }
+
+    /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
+    private void initializeStreamData() {
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {
