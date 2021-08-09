@@ -30,6 +30,17 @@ public class AudioEventListener {
             LineEvent.Type.START, (audioEvent, audioEventListener) -> {
                 PlaybackState previousPlaybackState = audioEventListener.audio.getPreviousPlaybackState();
                 switch (previousPlaybackState) {
+                    /* The audio event system includes audio events for when audio is paused, and
+                     * when the audio's playing stream is stopped (either temporarily or
+                     * permanently).
+                     *
+                     * As of right now, I've intentionally had both trigger because it made sense
+                     * at the time -- when an audio stream stops, it could be either paused or
+                     * completely stopped. If it is paused, then an extra event should be created
+                     * for that.
+                     *
+                     * Feel free to dispute this though -- I've been considering adding
+                     * those break statements for a while now. */
                     case Paused: {
                         audioEventListener.audioResumeAction.accept(audioEvent);
                     }
@@ -45,6 +56,7 @@ public class AudioEventListener {
             LineEvent.Type.STOP, (audioEvent, audioEventListener) -> {
                 PlaybackState currentPlaybackState = audioEventListener.audio.getCurrentPlaybackState();
                 switch (currentPlaybackState) {
+                    /* See the above comment. */
                     case Paused: {
                         audioEventListener.audioPauseAction.accept(audioEvent);
                     }
