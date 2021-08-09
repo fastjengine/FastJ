@@ -10,6 +10,7 @@ import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
@@ -36,14 +37,15 @@ public class StreamedAudio implements Audio {
     private final Path audioPath;
     private final String id;
     private final AudioInputStream audioInputStream;
-    private final SourceDataLine sourceDataLine;
 
-    private final FloatControl gainControl;
-    private final FloatControl panControl;
-    private final FloatControl balanceControl;
-    private final BooleanControl muteControl;
+    private SourceDataLine sourceDataLine;
 
-    private final AudioEventListener audioEventListener;
+    private FloatControl gainControl;
+    private FloatControl panControl;
+    private FloatControl balanceControl;
+    private BooleanControl muteControl;
+
+    private AudioEventListener audioEventListener;
     PlaybackState currentPlaybackState;
     PlaybackState previousPlaybackState;
 
@@ -57,6 +59,33 @@ public class StreamedAudio implements Audio {
         this.id = UUID.randomUUID().toString();
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+
+        initializeStreamData();
+    }
+
+    /**
+     * Constructs the {@code StreamedAudio} object with the given URL.
+     *
+     * @param audioPath The path of the audio to use.
+     */
+    StreamedAudio(URL audioPath) {
+        this.id = UUID.randomUUID().toString();
+        this.audioPath = AudioManager.pathFromURL(audioPath);
+
+        String urlPath = audioPath.getPath();
+        String urlProtocol = audioPath.getProtocol();
+
+        if (urlPath.startsWith(urlProtocol) || urlPath.startsWith("file:///")) {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+        } else {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
+        }
+
+        initializeStreamData();
+    }
+
+    /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
+    private void initializeStreamData() {
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {

@@ -4,6 +4,7 @@ import tech.fastj.systems.audio.state.PlaybackState;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
+import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
@@ -80,6 +81,35 @@ public class MemoryAudio implements Audio {
 
         clip = Objects.requireNonNull(AudioManager.newClip());
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+
+        audioEventListener = new AudioEventListener(this);
+        currentPlaybackState = PlaybackState.Stopped;
+        previousPlaybackState = PlaybackState.Stopped;
+    }
+
+    /**
+     * Constructs the {@code MemoryAudio} object with the given URL.
+     *
+     * @param audioPath The path of the audio to use.
+     */
+    MemoryAudio(URL audioPath) {
+        this.id = UUID.randomUUID().toString();
+
+        loopStart = LoopFromStart;
+        loopEnd = LoopAtEnd;
+
+        clip = Objects.requireNonNull(AudioManager.newClip());
+
+        String urlPath = audioPath.getPath();
+        String urlProtocol = audioPath.getProtocol();
+
+        this.audioPath = AudioManager.pathFromURL(audioPath);
+
+        if (urlPath.startsWith(urlProtocol) || urlPath.startsWith("file:///")) {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+        } else {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
+        }
 
         audioEventListener = new AudioEventListener(this);
         currentPlaybackState = PlaybackState.Stopped;
