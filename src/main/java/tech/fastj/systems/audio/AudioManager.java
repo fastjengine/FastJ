@@ -98,6 +98,24 @@ public class AudioManager {
     }
 
     /**
+     * Loads all {@link MemoryAudio} objects at the specified URLs into memory.
+     *
+     * @param audioPaths The URLs of the {@code MemoryAudio} objects to load.
+     * @return The created {@link MemoryAudio} instances.
+     */
+    public static MemoryAudio[] loadMemoryAudio(URL... audioPaths) {
+        MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
+
+        for (int i = 0; i < audioPaths.length; i++) {
+            MemoryAudio audio = new MemoryAudio(audioPaths[i]);
+            MemoryAudioFiles.put(audio.getID(), audio);
+            audioInstances[i] = audio;
+        }
+
+        return audioInstances;
+    }
+
+    /**
      * Loads a {@link StreamedAudio} object at the specified path into memory.
      *
      * @param audioPath The path of the {@code StreamedAudio} object to load.
@@ -128,6 +146,24 @@ public class AudioManager {
      * @return The created {@link StreamedAudio} instances.
      */
     public static StreamedAudio[] loadStreamedAudio(Path... audioPaths) {
+        StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
+
+        for (int i = 0; i < audioPaths.length; i++) {
+            StreamedAudio audio = new StreamedAudio(audioPaths[i]);
+            StreamedAudioFiles.put(audio.getID(), audio);
+            audioInstances[i] = audio;
+        }
+
+        return audioInstances;
+    }
+
+    /**
+     * Loads all {@link StreamedAudio} objects at the specified URLs into memory.
+     *
+     * @param audioPaths The URLs of the {@code StreamedAudio} objects to load.
+     * @return The created {@link StreamedAudio} instances.
+     */
+    public static StreamedAudio[] loadStreamedAudio(URL... audioPaths) {
         StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
