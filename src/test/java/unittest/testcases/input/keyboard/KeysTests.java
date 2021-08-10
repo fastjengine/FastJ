@@ -1,4 +1,4 @@
-package unittest.testcases.systems.input.keyboard;
+package unittest.testcases.input.keyboard;
 
 import org.junit.jupiter.api.Test;
 import tech.fastj.input.keyboard.Keys;

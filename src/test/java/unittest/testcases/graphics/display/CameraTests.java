@@ -1,4 +1,4 @@
-package unittest.testcases.graphics;
+package unittest.testcases.graphics.display;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
