@@ -1,4 +1,4 @@
-package unittest.testcases.graphics.util.gradients;
+package unittest.testcases.graphics.gradients;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;

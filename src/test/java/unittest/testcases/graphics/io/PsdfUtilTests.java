@@ -1,4 +1,4 @@
-package unittest.testcases.graphics.util;
+package unittest.testcases.graphics.io;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
