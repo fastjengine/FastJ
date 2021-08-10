@@ -35,7 +35,7 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
 | FastJ Model Creator  | Create & Export 2D Models                                   |    ❌    |
 | FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor  |    ❌    |
-| Web Support          | Run FastJ Programs in a Browser                             |    ❌    |
+| Web Support          | Run FastJ Programs in a Web Browser                         |    ❌    |
 
 ✅ is complete and satisfactory.
 
