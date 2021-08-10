@@ -67,6 +67,16 @@ This program demonstrates how to use the `RenderSettings` class to change the wa
 
 Command to run: `./gradlew example -PtoRun=rendersettings`
 
+### [Audio](http://example.fastj.me/audio/Main.java)
+This program demonstrates simple use of FastJ's audio engine, as well as file paths.
+
+Command to run: `./gradlew example -PtoRun=audio`
+
+### [GameObject Behaviors](http://example.fastj.me/behaviors/Main.java)
+This program demonstrates how to use the `Behavior` class to control the state of `GameObject`s in FastJ.
+
+Command to run: `./gradlew example -PtoRun=behaviors`
+
 ## Games
 _Example programs to demonstrate FastJ through games._
 
