@@ -35,7 +35,8 @@ body:
       description: What version(s) of FastJ are you having issues with?
       multiple: true
       options:
-        - 1.5.0 (Latest Version)
+        - 1.5.1 (Latest Version)
+        - 1.5.0 (Latest General Version)
         - 1.4.0
     validations:
       required: true

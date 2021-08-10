@@ -54,7 +54,7 @@ This library can be found in the following places:
 
 
 ### Adding the Dependency
-When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.5.0**.
+When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.5.1**.
 
 A few common dependencies are provided below:
 
