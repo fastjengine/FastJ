@@ -559,6 +559,8 @@ public class FastJEngine {
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
         TagManager.reset();
+        AfterUpdateList.clear();
+        AfterRenderList.clear();
 
         // engine speed variables
         targetFPS = 0;
