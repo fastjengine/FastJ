@@ -469,6 +469,7 @@ public class FastJEngine {
         ThreadFixer.start();
         display.init();
         gameManager.init(display);
+        gameManager.initBehaviors();
 
         timer.init();
         fpsLogger.scheduleWithFixedDelay(() -> {
@@ -492,6 +493,7 @@ public class FastJEngine {
 
             while (accumulator >= updateInterval) {
                 gameManager.update(display);
+                gameManager.updateBehaviors();
 
                 if (!AfterUpdateList.isEmpty()) {
                     for (Runnable action : AfterUpdateList) {
@@ -504,6 +506,7 @@ public class FastJEngine {
             }
 
             gameManager.processInputEvents();
+            gameManager.processKeysDown();
             gameManager.render(display);
             if (!AfterRenderList.isEmpty()) {
                 for (Runnable action : AfterRenderList) {
