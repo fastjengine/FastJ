@@ -5,8 +5,10 @@ module fastj.library.test {
     opens unittest.testcases.engine to org.junit.platform.commons;
 
     opens unittest.testcases.graphics to org.junit.platform.commons;
+    opens unittest.testcases.graphics.display to org.junit.platform.commons;
     opens unittest.testcases.graphics.game to org.junit.platform.commons;
     opens unittest.testcases.graphics.gradients to org.junit.platform.commons;
+    opens unittest.testcases.graphics.io to org.junit.platform.commons;
     opens unittest.testcases.graphics.util to org.junit.platform.commons;
 
     opens unittest.testcases.input.keyboard to org.junit.platform.commons;
