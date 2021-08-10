@@ -22,6 +22,11 @@ public abstract class SceneManager implements LogicManager {
     private Scene currentScene;
     private boolean switchingScenes;
 
+    @Override
+    public void initBehaviors() {
+        safeInit(FastJEngine.getDisplay(), currentScene::initBehaviorListeners);
+    }
+
     /**
      * Updates the current scene, its behaviors, and listeners.
      *
@@ -29,7 +34,12 @@ public abstract class SceneManager implements LogicManager {
      */
     @Override
     public void update(Display display) {
-        updateCurrentScene(display);
+        safeUpdate(display, () -> currentScene.update(display));
+    }
+
+    @Override
+    public void updateBehaviors() {
+        safeUpdate(FastJEngine.getDisplay(), currentScene::updateBehaviorListeners);
     }
 
     /**
@@ -39,18 +49,23 @@ public abstract class SceneManager implements LogicManager {
      */
     @Override
     public void render(Display display) {
-        renderCurrentScene(display);
+        safeRender(display);
     }
 
     /** Processes all pending input events. */
     @Override
     public void processInputEvents() {
-        currentScene.inputManager.processEvents();
+        safeUpdate(FastJEngine.getDisplay(), currentScene.inputManager::processEvents);
+    }
+
+    @Override
+    public void processKeysDown() {
+        safeUpdate(FastJEngine.getDisplay(), currentScene.inputManager::fireKeysDown);
     }
 
     @Override
     public void receivedInputEvent(InputEvent inputEvent) {
-        currentScene.inputManager.receivedInputEvent(inputEvent);
+        safeUpdate(FastJEngine.getDisplay(), () -> currentScene.inputManager.receivedInputEvent(inputEvent));
     }
 
     /** Resets the logic manager. */
@@ -199,57 +214,11 @@ public abstract class SceneManager implements LogicManager {
 
         if (!currentScene.isInitialized()) {
             currentScene.load(FastJEngine.getDisplay());
-            currentScene.initBehaviorListeners();
-
             FastJEngine.getDisplay().setBackgroundToCameraPos(currentScene.getCamera());
         }
 
         currentScene.setInitialized(true);
         switchingScenes = false;
-    }
-
-    /**
-     * Safely updates the current scene.
-     *
-     * @param display The {@code Display} that the game renders to.
-     */
-    private void updateCurrentScene(Display display) {
-        boolean[] snapshot = createSnapshot(display);
-
-        try {
-            nullSceneCheck();
-            initSceneCheck();
-
-            currentScene.update(display);
-            currentScene.updateBehaviorListeners();
-            currentScene.inputManager.fireKeysDown();
-
-        } catch (NullPointerException e) {
-            snapshotCheck(snapshot, e);
-        }
-    }
-
-    /**
-     * Safely renders the current scene to the {@code Display}.
-     *
-     * @param display The {@code Display} that the game renders to.
-     */
-    private void renderCurrentScene(Display display) {
-        boolean[] snapshot = createSnapshot(display);
-
-        try {
-            nullSceneCheck();
-            initSceneCheck();
-
-            display.render(
-                    currentScene.drawableManager.getGameObjects(),
-                    currentScene.drawableManager.getUIElements(),
-                    currentScene.getCamera()
-            );
-
-        } catch (NullPointerException e) {
-            snapshotCheck(snapshot, e);
-        }
     }
 
     /**
@@ -289,6 +258,67 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
+     * Safely initializes the current scene with the specified action, by first checking for null pointers.
+     *
+     * @param display The {@code Display} that the game renders to.
+     * @param action  The action to safely run.
+     */
+    private void safeInit(Display display, Runnable action) {
+        boolean[] snapshot = createSnapshot(display);
+
+        try {
+            nullSceneCheck();
+            action.run();
+
+        } catch (NullPointerException e) {
+            snapshotCheck(snapshot, e);
+        }
+    }
+
+    /**
+     * Safely updates the current scene with the specified action, by first checking for null pointers and scene
+     * initialization.
+     *
+     * @param display The {@code Display} that the game renders to.
+     * @param action  The action to safely run.
+     */
+    private void safeUpdate(Display display, Runnable action) {
+        boolean[] snapshot = createSnapshot(display);
+
+        try {
+            nullSceneCheck();
+            initSceneCheck();
+            action.run();
+
+        } catch (NullPointerException e) {
+            snapshotCheck(snapshot, e);
+        }
+    }
+
+    /**
+     * Safely renders the current scene to the {@code Display}.
+     *
+     * @param display The {@code Display} that the game renders to.
+     */
+    private void safeRender(Display display) {
+        boolean[] snapshot = createSnapshot(display);
+
+        try {
+            nullSceneCheck();
+            initSceneCheck();
+
+            display.render(
+                    currentScene.drawableManager.getGameObjects(),
+                    currentScene.drawableManager.getUIElements(),
+                    currentScene.getCamera()
+            );
+
+        } catch (NullPointerException e) {
+            snapshotCheck(snapshot, e);
+        }
+    }
+
+    /**
      * Checks if the current scene is null.
      * <p>
      * If the current scene is null, this throws a NullPointerException that has a customized message, based on the
@@ -296,16 +326,15 @@ public abstract class SceneManager implements LogicManager {
      */
     private void nullSceneCheck() {
         if (currentScene == null) {
-            throw new NullPointerException((scenes.size() < 1)
-                    ?
-                    "You haven't created a Scene yet, or you haven't added it to the list of scenes for the logic manager."
+            throw new NullPointerException(
+                    (scenes.size() < 1)
+                    ? "You haven't created a Scene yet, or you haven't added it to the list of scenes for the logic manager."
                             + System.lineSeparator()
                             + "To add a scene, use the addScene(Scene) method in your logic manager."
                             + System.lineSeparator()
                             + "Then, set the current scene to the scene you just added, using the setCurrentScene(Scene) method."
 
-                    :
-                    "A current scene hasn't been set."
+                    : "A current scene hasn't been set."
                             + System.lineSeparator()
                             + "You should set the current scene, using the setCurrentScene(Scene) method from your logic manager."
                             + System.lineSeparator()

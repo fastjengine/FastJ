@@ -3,15 +3,15 @@ package tech.fastj.systems.control;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.display.Display;
 
-import java.awt.event.InputEvent;
-
 import tech.fastj.input.InputManager;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
 
+import java.awt.event.InputEvent;
+
 /**
  * The basis of game management in any game made with FastJ.
- *
+ * <p>
  * This class defines the basic events and actions that all logic managers need to address:
  * <ul>
  *     <li>Game Initialization</li>
@@ -37,6 +37,9 @@ public interface LogicManager {
      */
     void init(Display display);
 
+    /** Initializes the logic manager's behaviors (called after {@link #init(Display)}). */
+    void initBehaviors();
+
     /**
      * Allows the logic manager to process all pending input events.
      *
@@ -45,6 +48,9 @@ public interface LogicManager {
      * @see InputManager
      */
     void processInputEvents();
+
+    /** Allows the logic manager to process keys that are currently pressed. */
+    void processKeysDown();
 
     /**
      * Allows the logic manager to take in an input event.
@@ -66,6 +72,9 @@ public interface LogicManager {
      *                display while updating the game state.
      */
     void update(Display display);
+
+    /** Updates the logic manager's behaviors (called after {@link #update(Display)}). */
+    void updateBehaviors();
 
     /**
      * Allows the logic manager to render irs game's current state to the screen.

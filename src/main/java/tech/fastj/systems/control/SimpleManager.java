@@ -34,6 +34,33 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         BehaviorManager.addListenerList(this);
     }
 
+    @Override
+    public void initBehaviors() {
+        this.initBehaviorListeners();
+    }
+
+    /** Processes all stored input events. */
+    @Override
+    public void processInputEvents() {
+        inputManager.processEvents();
+    }
+
+    @Override
+    public void processKeysDown() {
+        inputManager.fireKeysDown();
+    }
+
+    /** Stores the specified input event to be processed later ({@link #processInputEvents()}). */
+    @Override
+    public void receivedInputEvent(InputEvent inputEvent) {
+        inputManager.receivedInputEvent(inputEvent);
+    }
+
+    @Override
+    public void updateBehaviors() {
+        this.updateBehaviorListeners();
+    }
+
     /**
      * Renders the contents of the manager's {@code DrawableManager} to the {@code Display}.
      *
@@ -46,18 +73,6 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
                 drawableManager.getUIElements(),
                 camera
         );
-    }
-
-    /** Processes all stored input events. */
-    @Override
-    public void processInputEvents() {
-        inputManager.processEvents();
-    }
-
-    /** Stores the specified input event to be processed later ({@link #processInputEvents()}). */
-    @Override
-    public void receivedInputEvent(InputEvent inputEvent) {
-        inputManager.receivedInputEvent(inputEvent);
     }
 
     /**

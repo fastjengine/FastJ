@@ -27,12 +27,14 @@ class FastJEngineTests {
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
             public void init(Display display) {
-                FastJEngine.runAfterUpdate(() -> ranAfterUpdate.set(true));
+                FastJEngine.runAfterUpdate(() -> {
+                    ranAfterUpdate.set(true);
+                    FastJEngine.forceCloseGame();
+                });
             }
 
             @Override
             public void update(Display display) {
-                FastJEngine.forceCloseGame();
             }
 
             @Override
@@ -50,7 +52,10 @@ class FastJEngineTests {
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
             public void init(Display display) {
-                FastJEngine.runAfterRender(() -> ranAfterRender.set(true));
+                FastJEngine.runAfterRender(() -> {
+                    ranAfterRender.set(true);
+                    FastJEngine.forceCloseGame();
+                });
             }
 
             @Override
@@ -59,7 +64,6 @@ class FastJEngineTests {
 
             @Override
             public void render(Display display) {
-                FastJEngine.forceCloseGame();
             }
         });
         FastJEngine.run();
