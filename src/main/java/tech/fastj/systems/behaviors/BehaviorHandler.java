@@ -52,6 +52,11 @@ public interface BehaviorHandler {
         BehaviorManager.updateBehaviorListeners(this);
     }
 
+    /** Destroys all behaviors in the behavior handler, without removing them. */
+    default void destroyBehaviorListeners() {
+        BehaviorManager.destroyListenerList(this);
+    }
+
     /** Removes all behavior listeners in the behavior handler. */
     default void clearBehaviorListeners() {
         BehaviorManager.clearListenerList(this);

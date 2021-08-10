@@ -76,6 +76,17 @@ public class BehaviorManager {
     }
 
     /**
+     * Destroys all behaviors from the list aliased to the specified {@link BehaviorHandler}, without removing them.
+     *
+     * @param behaviorHandler The {@code BehaviorHandler} used as the alias to destroy all behavior listeners.
+     */
+    public static void destroyListenerList(BehaviorHandler behaviorHandler) {
+        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler).values()) {
+            listener.destroyAllBehaviors();
+        }
+    }
+
+    /**
      * Removes all elements from the list aliased to the specified {@link BehaviorHandler}.
      *
      * @param behaviorHandler The {@code BehaviorHandler} used as the alias to remove all behavior listeners.

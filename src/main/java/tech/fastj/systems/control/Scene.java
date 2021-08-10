@@ -122,6 +122,7 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
     /** Resets the scene's state entirely. */
     public void reset() {
         this.setInitialized(false);
+        this.destroyBehaviorListeners();
         this.clearAllLists();
         camera.reset();
     }
