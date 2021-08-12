@@ -2,6 +2,7 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.control.Scene;
@@ -205,8 +206,12 @@ public class Text2D extends GameObject {
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
 
-        Pointf translation = getTranslation();
-        final Rectangle2D.Float bounds = new Rectangle2D.Float(translation.x, translation.y, textWidth, textHeight);
+        final Rectangle2D.Float bounds = new Rectangle2D.Float(
+                Transform2D.DefaultTranslation.x,
+                Transform2D.DefaultTranslation.y,
+                textWidth,
+                textHeight
+        );
 
         setCollisionPath(createMetricsPath(bounds));
 
