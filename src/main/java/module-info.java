@@ -21,6 +21,7 @@ module fastj.library {
     requires transitive org.slf4j;
 
     exports tech.fastj.engine;
+    exports tech.fastj.logging;
     exports tech.fastj.math;
 
     exports tech.fastj.graphics;
