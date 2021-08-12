@@ -73,6 +73,7 @@ public class FastJEngine {
     // Check values
     private static boolean isRunning;
     private static boolean shouldThrowExceptions;
+    private static boolean isDebug;
 
     // Late-running actions
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
@@ -180,6 +181,16 @@ public class FastJEngine {
         }
 
         display.setInternalResolution(internalResolution);
+    }
+
+    public static void configureDebugging(boolean shouldDebug) {
+        runningCheck();
+
+        isDebug = shouldDebug;
+    }
+
+    public static boolean isDebugging() {
+        return isDebug;
     }
 
     /**
@@ -405,23 +416,21 @@ public class FastJEngine {
     }
 
     /**
-     * Logs the specified message, using {@code System.out.println}.
+     * Logs the specified message.
      *
-     * @param <T>     This allows for any type of message.
      * @param message The message to log.
      */
-    public static <T> void log(T message) {
-        Log.info(message.toString());
+    public static void log(String message, Object... args) {
+        Log.info(message, args);
     }
 
     /**
-     * Logs the specified warning message, using {@code System.err.println}.
+     * Logs the specified warning message.
      *
-     * @param <T>            This allows for any type of warning message.
      * @param warningMessage The warning to log.
      */
-    public static <T> void warning(T warningMessage) {
-        Log.warn(warningMessage.toString());
+    public static void warning(String warningMessage, Object... args) {
+        Log.warn(warningMessage, args);
     }
 
     /**
@@ -431,9 +440,9 @@ public class FastJEngine {
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
      */
-    public static <T> void error(T errorMessage, Exception exception) {
+    public static <T> void error(String errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
-        Log.error(errorMessage.toString(), exception);
+        Log.error(errorMessage, exception);
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
@@ -465,6 +474,10 @@ public class FastJEngine {
 
     /** Initializes the game engine's components. */
     private static void initEngine() {
+        if (isDebug) {
+            log("Initializing FastJ...");
+        }
+
         runningCheck();
         isRunning = true;
 
@@ -481,6 +494,10 @@ public class FastJEngine {
 
         System.gc(); // yes, I really gc before starting.
         display.open();
+
+        if (isDebug) {
+            log("FastJ initialization complete. Enjoy your stay with FastJ!");
+        }
     }
 
     /** Runs the game loop -- the heart of the engine. */
@@ -549,6 +566,23 @@ public class FastJEngine {
     /** Removes all resources created by the game engine. */
     private static void exit() {
         if (fpsLogger != null) {
+            if (isDebug) {
+                FastJEngine.log(
+                        "{}{}|---- FPS Results ----|{}{}Average FPS: {}{}Highest Frame Count: {}{}Lowest Frame Count: {}{}One Percent Low: {}",
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Average),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Highest),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Lowest),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.OnePercentLow)
+                );
+            }
+
             fpsLogger.shutdownNow();
         }
         if (gameManager != null) {
@@ -596,6 +630,10 @@ public class FastJEngine {
     private static void logFPS(int frames) {
         if (display.isShowingFPSInTitle()) {
             display.setDisplayedTitle(String.format("%s | FPS: %d", display.getTitle(), frames));
+        }
+
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Frames rendered: {}", frames);
         }
 
         storeFPS(frames);
