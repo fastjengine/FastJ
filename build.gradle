@@ -63,7 +63,9 @@ dependencies.implementation('org.slf4j:slf4j-jdk14:2.0.0-alpha3')
 sourceSets {
     example {
         compileClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.main.compileClasspath
         runtimeClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.runtimeClasspath
         output.setResourcesDir(java.destinationDirectory)
 
         task example(type: Exec) {
