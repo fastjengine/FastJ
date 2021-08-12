@@ -5,6 +5,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -261,41 +262,73 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 

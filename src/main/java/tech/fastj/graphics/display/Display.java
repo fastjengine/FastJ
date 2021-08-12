@@ -594,10 +594,16 @@ public class Display {
      */
     public void init() {
         if (!isReady) {
+            if (FastJEngine.isDebugging()) {
+                FastJEngine.log("Initializing Display...");
+            }
             initDisplay();
             resizeDisplay(windowResolution);
             setRenderHints();
             isReady = true;
+            if (FastJEngine.isDebugging()) {
+                FastJEngine.log("Display initialization complete.");
+            }
         }
     }
 
@@ -616,12 +622,18 @@ public class Display {
         isClosed = false;
         outputDisplay.setVisible(true);
         drawingCanvas.requestFocusInWindow();
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Opened Display.");
+        }
     }
 
     /** Closes and disposes of the {@code Display}. */
     public void close() {
         isClosed = true;
         outputDisplay.dispose();
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Closed Display.");
+        }
     }
 
     /** Initializes the display, and all of its components. */

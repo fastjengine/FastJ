@@ -67,8 +67,16 @@ public class Keyboard implements KeyListener {
 
     /** Initializes the keyboard. */
     public static void init() {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Initializing {}", Keyboard.class.getName());
+        }
+
         keyChecker = Executors.newSingleThreadScheduledExecutor();
         keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
+
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Keyboard initialization complete.");
+        }
     }
 
     /** Updates each key if it was recently pressed. */
@@ -229,16 +237,28 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Key {} was pressed in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Key {} was released in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (FastJEngine.isDebugging()) {
+            FastJEngine.log("Key {} was typed in event {}", String.valueOf(e.getKeyChar()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 

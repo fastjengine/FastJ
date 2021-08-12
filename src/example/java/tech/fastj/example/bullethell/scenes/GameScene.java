@@ -27,6 +27,7 @@ import tech.fastj.example.bullethell.scripts.PlayerHealthBar;
 import tech.fastj.example.bullethell.util.FilePaths;
 import tech.fastj.example.bullethell.util.SceneNames;
 import tech.fastj.example.bullethell.util.Tags;
+
 import tech.fastj.input.keyboard.KeyboardActionListener;
 import tech.fastj.input.keyboard.KeyboardStateEvent;
 
@@ -84,7 +85,7 @@ public class GameScene extends Scene {
                     }
                     case L: {
                         FastJEngine.log("printing enemy statuses...");
-                        enemies.values().forEach(FastJEngine::log);
+                        enemies.values().forEach(enemy -> FastJEngine.log("enemy {}: {}", enemy.getID(), enemy.toString()));
                     }
                 }
             }
