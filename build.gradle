@@ -51,7 +51,8 @@ wrapper.distributionType = Wrapper.DistributionType.ALL
 repositories.mavenCentral()
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
 dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
-dependencies.implementation('org.slf4j:slf4j-api:2.0.0-alpha2')
+dependencies.implementation('org.slf4j:slf4j-api:2.0.0-alpha3')
+dependencies.implementation('org.slf4j:slf4j-jdk14:2.0.0-alpha3')
 
 
 /* ********************* *
