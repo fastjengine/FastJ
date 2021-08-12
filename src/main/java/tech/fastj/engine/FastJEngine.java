@@ -21,6 +21,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * The main control hub of the game engine.
  * <p>
@@ -45,6 +48,8 @@ public class FastJEngine {
 
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
+
+    private static final Logger Log = LoggerFactory.getLogger(FastJEngine.class);
 
     // engine speed variables
     private static int targetFPS;
@@ -204,8 +209,7 @@ public class FastJEngine {
     private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
         if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
             return System.getProperty("os.name").startsWith("Win");
-        }
-        else if (hardwareAcceleration.equals(HWAccel.X11)) {
+        } else if (hardwareAcceleration.equals(HWAccel.X11)) {
             return System.getProperty("os.name").startsWith("Linux");
         }
         return true;
@@ -307,7 +311,6 @@ public class FastJEngine {
      * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
-     *
      * @since 1.5.0
      */
     public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
@@ -370,7 +373,7 @@ public class FastJEngine {
             if (shouldThrowExceptions) {
                 throw exception;
             } else {
-                exception.printStackTrace();
+                Log.error(exception.getMessage(), exception);
             }
         }
     }
@@ -408,7 +411,7 @@ public class FastJEngine {
      * @param message The message to log.
      */
     public static <T> void log(T message) {
-        System.out.println("INFO: " + message);
+        Log.info(message.toString());
     }
 
     /**
@@ -418,7 +421,7 @@ public class FastJEngine {
      * @param warningMessage The warning to log.
      */
     public static <T> void warning(T warningMessage) {
-        System.err.println("WARNING: " + warningMessage);
+        Log.warn(warningMessage.toString());
     }
 
     /**
@@ -430,6 +433,7 @@ public class FastJEngine {
      */
     public static <T> void error(T errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
+        Log.error(errorMessage.toString(), exception);
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
@@ -440,7 +444,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
-     *
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -454,7 +457,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
-     *
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
