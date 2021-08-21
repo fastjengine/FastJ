@@ -53,7 +53,7 @@ public class ImageUtil {
         graphics2D.dispose();
     }
 
-    public static BufferedImage[][] createSpriteSheet(BufferedImage bufferedImage, int horizontalImageCount, int verticalImageCount) {
+    public static BufferedImage[] createSpriteSheet(BufferedImage bufferedImage, int horizontalImageCount, int verticalImageCount) {
         int bufferedImageWidth = bufferedImage.getWidth();
         int expectedHorizontalImagePixels = bufferedImageWidth / horizontalImageCount;
         float actualHorizontalImagePixels = bufferedImageWidth / (float) horizontalImageCount;
@@ -86,15 +86,17 @@ public class ImageUtil {
             );
         }
 
-        BufferedImage[][] spriteSheet = new BufferedImage[verticalImageCount][horizontalImageCount];
-        for (int i = 0; i < spriteSheet.length; i++) {
-            for (int j = 0; j < spriteSheet[0].length; j++) {
-                spriteSheet[i][j] = bufferedImage.getSubimage(
+        BufferedImage[] spriteSheet = new BufferedImage[verticalImageCount * horizontalImageCount];
+        int spriteSheetIndex = 0;
+        for (int i = 0; i < verticalImageCount; i++) {
+            for (int j = 0; j < horizontalImageCount; j++) {
+                spriteSheet[spriteSheetIndex] = bufferedImage.getSubimage(
                         j * expectedHorizontalImagePixels,
                         i * expectedVerticalImagePixels,
                         expectedHorizontalImagePixels,
                         expectedVerticalImagePixels
                 );
+                spriteSheetIndex++;
             }
         }
 
