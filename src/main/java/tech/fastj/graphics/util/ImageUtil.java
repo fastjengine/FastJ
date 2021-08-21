@@ -45,7 +45,7 @@ public class ImageUtil {
         try {
             imageFromPath = ImageIO.read(pathToSecondImage.toAbsolutePath().toFile());
         } catch (IOException e) {
-            throw new IllegalStateException("e", e);
+            throw new IllegalStateException("Couldn't get the image at \"" + pathToSecondImage.toAbsolutePath() + "\"", e);
         }
         graphics2D.setBackground(new Color(0, 0, 0, 0));
         graphics2D.clearRect(0, 0, reusedImage.getWidth(null), reusedImage.getHeight(null));
