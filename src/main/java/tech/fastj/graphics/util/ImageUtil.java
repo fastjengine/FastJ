@@ -38,22 +38,23 @@ public class ImageUtil {
         );
     }
 
-    public static BufferedImage loadBufferedImage(Path pathToImage) {
+    public static BufferedImage loadBufferedImage(Path imagePath) {
+        Path absoluteResourcePath = imagePath.toAbsolutePath();
         try {
-            return ImageIO.read(pathToImage.toAbsolutePath().toFile());
-        } catch (IOException e) {
-            throw new IllegalStateException("Couldn't get the image at \"" + pathToImage.toAbsolutePath() + "\"", e);
+            return ImageIO.read(absoluteResourcePath.toFile());
+        } catch (IOException exception) {
+            throw new IllegalStateException("An image file was not found at \"" + absoluteResourcePath + "\".", exception);
         }
     }
 
-    public static void drawToImage(Image reusedImage, Path pathToSecondImage) {
+    public static void drawToImage(Image reusedImage, Path secondImagePath) {
         Graphics2D graphics2D = (Graphics2D) reusedImage.getGraphics();
-        FastJEngine.log(pathToSecondImage.toAbsolutePath().toString());
+        FastJEngine.log(secondImagePath.toAbsolutePath().toString());
         Image imageFromPath;
         try {
-            imageFromPath = ImageIO.read(pathToSecondImage.toAbsolutePath().toFile());
+            imageFromPath = ImageIO.read(secondImagePath.toAbsolutePath().toFile());
         } catch (IOException e) {
-            throw new IllegalStateException("Couldn't get the image at \"" + pathToSecondImage.toAbsolutePath() + "\"", e);
+            throw new IllegalStateException("Couldn't get the image at \"" + secondImagePath.toAbsolutePath() + "\"", e);
         }
         graphics2D.setBackground(new Color(0, 0, 0, 0));
         graphics2D.clearRect(0, 0, reusedImage.getWidth(null), reusedImage.getHeight(null));
