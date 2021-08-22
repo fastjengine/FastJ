@@ -38,6 +38,14 @@ public class ImageUtil {
         );
     }
 
+    public static BufferedImage loadBufferedImage(Path pathToImage) {
+        try {
+            return ImageIO.read(pathToImage.toAbsolutePath().toFile());
+        } catch (IOException e) {
+            throw new IllegalStateException("Couldn't get the image at \"" + pathToImage.toAbsolutePath() + "\"", e);
+        }
+    }
+
     public static void drawToImage(Image reusedImage, Path pathToSecondImage) {
         Graphics2D graphics2D = (Graphics2D) reusedImage.getGraphics();
         FastJEngine.log(pathToSecondImage.toAbsolutePath().toString());
