@@ -4,7 +4,7 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 
-import tech.fastj.systems.fio.FileUtil;
+import tech.fastj.resources.files.FileUtil;
 
 import java.io.IOException;
 import java.nio.file.Files;

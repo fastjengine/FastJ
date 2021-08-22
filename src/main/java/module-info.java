@@ -35,6 +35,7 @@ module fastj.library {
     exports tech.fastj.input.mouse;
 
     exports tech.fastj.resources;
+    exports tech.fastj.resources.files;
     exports tech.fastj.resources.images;
     exports tech.fastj.resources.models;
 
@@ -42,6 +43,5 @@ module fastj.library {
     exports tech.fastj.systems.audio.state;
     exports tech.fastj.systems.behaviors;
     exports tech.fastj.systems.control;
-    exports tech.fastj.systems.fio;
     exports tech.fastj.systems.tags;
 }

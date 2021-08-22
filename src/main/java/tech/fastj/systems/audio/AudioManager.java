@@ -4,7 +4,7 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.systems.audio.state.PlaybackState;
-import tech.fastj.systems.fio.FileUtil;
+import tech.fastj.resources.files.FileUtil;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
