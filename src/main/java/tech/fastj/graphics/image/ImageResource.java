@@ -38,7 +38,7 @@ public class ImageResource implements Resource<BufferedImage> {
             resourceState = ResourceState.Loaded;
             return this;
         } catch (IOException exception) {
-            throw new IllegalStateException("Couldn't load the image at path \"" + absoluteResourcePath + "\".", exception);
+            throw new IllegalStateException("A file was not found at \"" + absoluteResourcePath + "\".", exception);
         }
     }
 
