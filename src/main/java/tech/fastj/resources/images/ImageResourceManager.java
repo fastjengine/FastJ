@@ -1,4 +1,4 @@
-package tech.fastj.graphics.image;
+package tech.fastj.resources.images;
 
 import tech.fastj.resources.ResourceManager;
 

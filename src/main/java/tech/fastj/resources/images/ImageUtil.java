@@ -1,4 +1,4 @@
-package tech.fastj.graphics.util;
+package tech.fastj.resources.images;
 
 import tech.fastj.engine.FastJEngine;
 

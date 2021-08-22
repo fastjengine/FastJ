@@ -21,14 +21,11 @@ module fastj.library {
 
     exports tech.fastj.engine;
     exports tech.fastj.math;
-    exports tech.fastj.resources;
 
     exports tech.fastj.graphics;
     exports tech.fastj.graphics.display;
     exports tech.fastj.graphics.game;
     exports tech.fastj.graphics.gradients;
-    exports tech.fastj.graphics.image;
-    exports tech.fastj.graphics.io;
     exports tech.fastj.graphics.ui;
     exports tech.fastj.graphics.ui.elements;
     exports tech.fastj.graphics.util;
@@ -36,6 +33,10 @@ module fastj.library {
     exports tech.fastj.input;
     exports tech.fastj.input.keyboard;
     exports tech.fastj.input.mouse;
+
+    exports tech.fastj.resources;
+    exports tech.fastj.resources.images;
+    exports tech.fastj.resources.models;
 
     exports tech.fastj.systems.audio;
     exports tech.fastj.systems.audio.state;

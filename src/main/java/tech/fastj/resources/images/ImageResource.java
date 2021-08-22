@@ -1,6 +1,4 @@
-package tech.fastj.graphics.image;
-
-import tech.fastj.graphics.util.ImageUtil;
+package tech.fastj.resources.images;
 
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceState;

@@ -1,10 +1,8 @@
-package tech.fastj.graphics.util;
+package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.io.PsdfUtil;
-import tech.fastj.graphics.io.SupportedModelFormats;
 
 import tech.fastj.systems.fio.FileUtil;
 

@@ -6,9 +6,9 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
-import tech.fastj.graphics.io.SupportedModelFormats;
+import tech.fastj.resources.models.SupportedModelFormats;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.graphics.util.ModelUtil;
+import tech.fastj.resources.models.ModelUtil;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

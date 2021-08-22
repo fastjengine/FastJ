@@ -1,4 +1,4 @@
-package tech.fastj.graphics.io;
+package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;

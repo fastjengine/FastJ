@@ -1,4 +1,4 @@
-package tech.fastj.graphics.io;
+package tech.fastj.resources.models;
 
 import java.util.Arrays;
 
