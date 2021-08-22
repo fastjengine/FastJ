@@ -21,6 +21,7 @@ module fastj.library {
 
     exports tech.fastj.engine;
     exports tech.fastj.math;
+    exports tech.fastj.resources;
 
     exports tech.fastj.graphics;
     exports tech.fastj.graphics.display;
