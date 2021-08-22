@@ -27,6 +27,7 @@ module fastj.library {
     exports tech.fastj.graphics.display;
     exports tech.fastj.graphics.game;
     exports tech.fastj.graphics.gradients;
+    exports tech.fastj.graphics.image;
     exports tech.fastj.graphics.io;
     exports tech.fastj.graphics.ui;
     exports tech.fastj.graphics.ui.elements;
