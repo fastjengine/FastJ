@@ -1,18 +1,18 @@
 package tech.fastj.graphics.image;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.file.Path;
+import tech.fastj.graphics.util.ImageUtil;
 
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceState;
+
+import java.awt.image.BufferedImage;
+import java.nio.file.Path;
 
 public class ImageResource implements Resource<BufferedImage> {
 
     private final Path imagePath;
     private ResourceState resourceState;
-    private BufferedImage imageResource;
+    private BufferedImage imageFile;
 
     public ImageResource(Path imagePath) {
         this.imagePath = imagePath;
@@ -31,26 +31,20 @@ public class ImageResource implements Resource<BufferedImage> {
 
     @Override
     public ImageResource load() {
-        Path absoluteResourcePath = imagePath.toAbsolutePath();
-
-        try {
-            imageResource = ImageIO.read(imagePath.toAbsolutePath().toFile());
-            resourceState = ResourceState.Loaded;
-            return this;
-        } catch (IOException exception) {
-            throw new IllegalStateException("A file was not found at \"" + absoluteResourcePath + "\".", exception);
-        }
+        imageFile = ImageUtil.loadBufferedImage(imagePath);
+        resourceState = ResourceState.Loaded;
+        return this;
     }
 
     @Override
     public BufferedImage get() {
-        return imageResource;
+        return imageFile;
     }
 
     @Override
     public void unload() {
-        imageResource.flush();
-        imageResource = null;
+        imageFile.flush();
+        imageFile = null;
         resourceState = ResourceState.Unloaded;
     }
 }

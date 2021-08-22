@@ -1,9 +1,9 @@
 package tech.fastj.graphics.image;
 
+import tech.fastj.resources.ResourceManager;
+
 import java.awt.image.BufferedImage;
 import java.nio.file.Path;
-
-import tech.fastj.resources.ResourceManager;
 
 public class ImageResourceManager extends ResourceManager<ImageResource, BufferedImage> {
     @Override
