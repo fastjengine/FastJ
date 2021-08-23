@@ -81,6 +81,7 @@ public class Sprite2D extends GameObject {
 
     @Override
     public void destroy(Scene origin) {
+        spriteAnimator.shutdownNow();
         sprites = null;
         currentFrame = -1;
         animationFPS = -1;
@@ -91,6 +92,7 @@ public class Sprite2D extends GameObject {
 
     @Override
     public void destroy(SimpleManager origin) {
+        spriteAnimator.shutdownNow();
         sprites = null;
         currentFrame = -1;
         animationFPS = -1;
