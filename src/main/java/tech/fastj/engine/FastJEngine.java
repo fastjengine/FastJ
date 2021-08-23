@@ -204,8 +204,7 @@ public class FastJEngine {
     private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
         if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
             return System.getProperty("os.name").startsWith("Win");
-        }
-        else if (hardwareAcceleration.equals(HWAccel.X11)) {
+        } else if (hardwareAcceleration.equals(HWAccel.X11)) {
             return System.getProperty("os.name").startsWith("Linux");
         }
         return true;
@@ -307,7 +306,6 @@ public class FastJEngine {
      * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
-     *
      * @since 1.5.0
      */
     public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
@@ -370,7 +368,7 @@ public class FastJEngine {
             if (shouldThrowExceptions) {
                 throw exception;
             } else {
-                exception.printStackTrace();
+                exception.fillInStackTrace().printStackTrace();
             }
         }
     }
@@ -440,7 +438,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
-     *
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -454,7 +451,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
-     *
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
