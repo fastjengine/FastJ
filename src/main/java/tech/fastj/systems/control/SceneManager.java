@@ -71,10 +71,11 @@ public abstract class SceneManager implements LogicManager {
     /** Resets the logic manager. */
     @Override
     public void reset() {
-        for (Scene s : scenes.values()) {
-            if (s.isInitialized()) {
-                s.unload(FastJEngine.getDisplay());
+        for (Scene scene : scenes.values()) {
+            if (scene.isInitialized()) {
+                scene.unload(FastJEngine.getDisplay());
             }
+            scene.reset();
         }
         scenes.clear();
     }
