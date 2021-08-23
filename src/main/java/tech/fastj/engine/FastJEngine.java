@@ -8,6 +8,8 @@ import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+import tech.fastj.resources.Resource;
+import tech.fastj.resources.ResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -16,7 +18,9 @@ import tech.fastj.systems.tags.TagManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -72,6 +76,9 @@ public class FastJEngine {
     // Late-running actions
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
+
+    // Resources
+    private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new HashMap<>();
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -357,6 +364,18 @@ public class FastJEngine {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> void addResourceManager(T resourceManager, Class<V> resourceClass) {
+        ResourceManagers.put((Class<Resource<?>>) resourceClass, (ResourceManager<Resource<?>, ?>) resourceManager);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> T getResourceManager(Class<V> resourceClass) {
+        return (T) ResourceManagers.computeIfAbsent((Class<Resource<?>>) resourceClass, rClass -> {
+            throw new IllegalStateException("No resource manager was added for the resource type \"" + resourceClass.getTypeName() + "\".");
+        });
+    }
+
     /** Runs the game. */
     public static void run() {
         initEngine();
@@ -557,6 +576,8 @@ public class FastJEngine {
         TagManager.reset();
         AfterUpdateList.clear();
         AfterRenderList.clear();
+        ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
+        ResourceManagers.clear();
 
         // engine speed variables
         targetFPS = 0;
