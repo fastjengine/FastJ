@@ -10,6 +10,8 @@ import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceManager;
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -127,6 +129,11 @@ public class FastJEngine {
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
+        addDefaultResourceManagers();
+    }
+
+    private static void addDefaultResourceManagers() {
+        addResourceManager(new ImageResourceManager(), ImageResource.class);
     }
 
     /**
