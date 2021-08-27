@@ -3,9 +3,10 @@ package tech.fastj.input.keyboard;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyboardStateEvent implements KeyboardEvent {
-    private static final Map<int[], Keys> KeyboardMap = new HashMap<>();
+    private static final Map<int[], Keys> KeyboardMap = new ConcurrentHashMap<>();
     private final KeyEvent keyEvent;
     private final Keys key;
 

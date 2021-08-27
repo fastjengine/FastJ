@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +22,7 @@ import tech.fastj.input.InputManager;
  */
 public class Keyboard implements KeyListener {
 
-    private static final Map<KeyDescription, Key> Keys = new HashMap<>();
+    private static final Map<KeyDescription, Key> Keys = new ConcurrentHashMap<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 

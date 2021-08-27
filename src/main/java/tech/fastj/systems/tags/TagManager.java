@@ -3,9 +3,9 @@ package tech.fastj.systems.tags;
 import tech.fastj.graphics.Drawable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class TagManager {
 
     private static final List<String> MasterTagList = new ArrayList<>();
-    private static final Map<TagHandler, List<Drawable>> EntityLists = new HashMap<>();
+    private static final Map<TagHandler, List<Drawable>> EntityLists = new ConcurrentHashMap<>();
 
     private TagManager() {
         throw new java.lang.IllegalStateException();

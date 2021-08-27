@@ -6,9 +6,9 @@ import tech.fastj.graphics.display.Display;
 
 import java.awt.event.InputEvent;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The manager which allows for control over the scenes in a game.
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public abstract class SceneManager implements LogicManager {
 
-    private final Map<String, Scene> scenes = new LinkedHashMap<>();
+    private final Map<String, Scene> scenes = new ConcurrentHashMap<>();
     private Scene currentScene;
     private boolean switchingScenes;
 

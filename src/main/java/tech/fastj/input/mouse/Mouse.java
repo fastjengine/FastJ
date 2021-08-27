@@ -14,6 +14,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +32,7 @@ import tech.fastj.input.InputManager;
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
-    private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
+    private static final Map<Integer, MouseButton> MouseButtons = new ConcurrentHashMap<>();
 
     private static final int InitialMouseButton = -1;
     private static final int InitialScrollDirection = 0;

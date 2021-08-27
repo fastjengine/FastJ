@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Class to manage behavior listeners for all {@link BehaviorHandler}s.
@@ -16,7 +18,7 @@ import java.util.Map;
  */
 public class BehaviorManager {
 
-    private static final Map<BehaviorHandler, Map<String, GameObject>> BehaviorListenerLists = new HashMap<>();
+    private static final Map<BehaviorHandler, Map<String, GameObject>> BehaviorListenerLists = new ConcurrentHashMap<>();
 
     private BehaviorManager() {
         throw new java.lang.IllegalStateException();
@@ -62,7 +64,7 @@ public class BehaviorManager {
      */
     public static void addListenerList(BehaviorHandler behaviorHandler) {
         if (!BehaviorListenerLists.containsKey(behaviorHandler)) {
-            BehaviorListenerLists.put(behaviorHandler, new LinkedHashMap<>());
+            BehaviorListenerLists.put(behaviorHandler, new ConcurrentHashMap<>());
         }
     }
 
