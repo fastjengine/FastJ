@@ -32,7 +32,7 @@ import tech.fastj.input.InputManager;
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
     private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
-    private static final Map<Integer, MouseButton> MouseButtons = new ConcurrentHashMap<>();
+    private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
 
     private static final int InitialMouseButton = -1;
     private static final int InitialScrollDirection = 0;

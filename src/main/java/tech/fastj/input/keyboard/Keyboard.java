@@ -22,7 +22,7 @@ import tech.fastj.input.InputManager;
  */
 public class Keyboard implements KeyListener {
 
-    private static final Map<KeyDescription, Key> Keys = new ConcurrentHashMap<>();
+    private static final Map<KeyDescription, Key> Keys = new HashMap<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
