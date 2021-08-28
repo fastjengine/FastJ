@@ -2,6 +2,8 @@ package tech.fastj.resources.images;
 
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.resources.files.FileUtil;
+
 import javax.imageio.ImageIO;
 import java.awt.AWTException;
 import java.awt.Color;
@@ -44,6 +46,15 @@ public class ImageUtil {
             return ImageIO.read(absoluteResourcePath.toFile());
         } catch (IOException exception) {
             throw new IllegalStateException("An image file was not found at \"" + absoluteResourcePath + "\".", exception);
+        }
+    }
+
+    public static void writeBufferedImage(BufferedImage image, Path imagePath) {
+        Path absoluteResourcePath = imagePath.toAbsolutePath();
+        try {
+            ImageIO.write(image, FileUtil.getFileExtension(imagePath), absoluteResourcePath.toFile());
+        } catch (IOException exception) {
+            throw new IllegalStateException("An error occurred while trying to write an image to \"" + absoluteResourcePath + "\".", exception);
         }
     }
 
