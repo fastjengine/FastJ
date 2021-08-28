@@ -75,7 +75,6 @@ public class PsdfUtil {
                     break;
                 }
                 case ParsingKeys.FillPaintTexture: {
-                    System.out.println("texture!");
                     texturePath = parseTexture(tokens);
                     break;
                 }
