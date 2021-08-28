@@ -60,7 +60,6 @@ public class ImageUtil {
 
     public static void drawToImage(Image reusedImage, Path secondImagePath) {
         Graphics2D graphics2D = (Graphics2D) reusedImage.getGraphics();
-        FastJEngine.log(secondImagePath.toAbsolutePath().toString());
         Image imageFromPath;
         try {
             imageFromPath = ImageIO.read(secondImagePath.toAbsolutePath().toFile());
