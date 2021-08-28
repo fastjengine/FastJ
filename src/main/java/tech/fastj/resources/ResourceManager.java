@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class ResourceManager<T extends Resource<V>, V> {
 
@@ -29,6 +30,21 @@ public abstract class ResourceManager<T extends Resource<V>, V> {
         return resources;
     }
 
+    public Path tryFindPathOfResource(V rawResource) {
+        AtomicReference<Path> resultingPath = new AtomicReference<>();
+        resourceStorage.forEach((id, resource) -> {
+            if (resource.get().equals(rawResource)) {
+                resultingPath.set(idToPath(id));
+            }
+        });
+
+        if (resultingPath.get() == null) {
+            throw new IllegalArgumentException("Couldn't find a matching path for resource " + rawResource);
+        }
+
+        return resultingPath.get();
+    }
+
     public T loadResource(Path resourcePath) {
         return loadResource(pathToId(resourcePath.toAbsolutePath()));
     }
@@ -47,13 +63,12 @@ public abstract class ResourceManager<T extends Resource<V>, V> {
 
     @SuppressWarnings("unchecked")
     private T loadResource(String resourceId) {
-        return resourceStorage.compute(resourceId, (id, imageResource) -> {
-            if (imageResource == null) {
-                imageResource = createResource(idToPath(resourceId));
-            }
+        T imageResource = resourceStorage.get(resourceId);
+        if (imageResource == null) {
+            imageResource = createResource(idToPath(resourceId));
+        }
 
-            return (T) imageResource.load();
-        });
+        return (T) imageResource.load();
     }
 
     private T getResource(String resourceId) {
