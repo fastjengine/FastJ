@@ -2,6 +2,8 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageUtil;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -19,7 +21,10 @@ public class Sprite2D extends GameObject {
     public static final int DefaultStartingFrame = 0;
     public static final int DefaultAnimationFPS = 12;
     public static final AnimationStyle DefaultAnimationStyle = AnimationStyle.ContinuousLoop;
+    public static final int DefaultHorizontalImageCount = 1;
+    public static final int DefaultVerticalImageCount = 1;
 
+    private ImageResource spritesResource;
     private BufferedImage[] sprites;
     private int currentFrame;
     private int animationFPS = DefaultAnimationFPS;
@@ -27,14 +32,24 @@ public class Sprite2D extends GameObject {
 
     private ScheduledExecutorService spriteAnimator;
 
-    Sprite2D(BufferedImage[] sprites) {
-        this.sprites = sprites;
+    Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount) {
+        this.spritesResource = spritesResource;
         setCollisionPath(DrawUtil.createPath(DrawUtil.createBoxFromImage(sprites[0])));
+        resetSpriteSheet(horizontalImageCount, verticalImageCount);
         resetSpriteAnimator();
     }
 
-    public static Sprite2DBuilder create(BufferedImage[] sprites) {
-        return new Sprite2DBuilder(sprites);
+    public static Sprite2DBuilder create(ImageResource spritesResource) {
+        return new Sprite2DBuilder(spritesResource);
+    }
+
+    public static Sprite2D fromImageResource(ImageResource spritesResource) {
+        return new Sprite2DBuilder(spritesResource).build();
+    }
+
+    public void changeSpriteResource(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount) {
+        this.spritesResource = spritesResource;
+        resetSpriteSheet(horizontalImageCount, verticalImageCount);
     }
 
     public int getCurrentFrame() {
@@ -100,6 +115,10 @@ public class Sprite2D extends GameObject {
         animationStyle = null;
 
         super.destroyTheRest(origin);
+    }
+
+    private void resetSpriteSheet(int horizontalImageCount, int verticalImageCount) {
+        sprites = ImageUtil.createSpriteSheet(this.spritesResource.get(), horizontalImageCount, verticalImageCount);
     }
 
     private void resetSpriteAnimator() {
