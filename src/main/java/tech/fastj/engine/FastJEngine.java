@@ -394,7 +394,7 @@ public class FastJEngine {
             if (shouldThrowExceptions) {
                 throw exception;
             } else {
-                exception.fillInStackTrace().printStackTrace();
+                exception.printStackTrace();
             }
         }
     }
