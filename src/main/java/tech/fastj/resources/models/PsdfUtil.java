@@ -11,17 +11,23 @@ import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.gradients.LinearGradientBuilder;
 import tech.fastj.graphics.gradients.RadialGradientBuilder;
+import tech.fastj.graphics.textures.Textures;
+import tech.fastj.graphics.util.DrawUtil;
+
+import tech.fastj.resources.images.ImageResource;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
 import java.awt.Paint;
 import java.awt.RadialGradientPaint;
+import java.awt.TexturePaint;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PsdfUtil {
@@ -47,6 +53,7 @@ public class PsdfUtil {
 
         RenderStyle renderStyle = Polygon2D.DefaultRenderStyle;
         Paint fillPaint = Polygon2D.DefaultFill;
+        String texturePath = "";
         BasicStroke outlineStroke = Polygon2D.DefaultOutlineStroke;
         Color outlineColor = Polygon2D.DefaultOutlineColor;
 
@@ -65,6 +72,11 @@ public class PsdfUtil {
                 case ParsingKeys.FillPaintLinearGradient:
                 case ParsingKeys.FillPaintRadialGradient: {
                     fillPaint = parsePaint(tokens);
+                    break;
+                }
+                case ParsingKeys.FillPaintTexture: {
+                    System.out.println("texture!");
+                    texturePath = parseTexture(tokens);
                     break;
                 }
                 case ParsingKeys.OutlineStroke: {
@@ -95,11 +107,17 @@ public class PsdfUtil {
                     // if end of polygon, add polygon to array
                     if (tokens.length == 4 && tokens[3].equals(";")) {
                         assert polygons != null;
+
                         polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), renderStyle, shouldRender)
-                                .withFill(fillPaint)
                                 .withOutline(outlineStroke, outlineColor)
                                 .withTransform(translation, rotation, scale)
                                 .build();
+
+                        if (!texturePath.isBlank()) {
+                            fillPaint = Textures.create(Path.of(texturePath), DrawUtil.createRect(polygons[polygonsIndex].getBounds()));
+                        }
+
+                        polygons[polygonsIndex].setFill(fillPaint);
 
                         // reset values
                         polygonPoints.clear();
@@ -107,6 +125,7 @@ public class PsdfUtil {
 
                         renderStyle = Polygon2D.DefaultRenderStyle;
                         fillPaint = Polygon2D.DefaultFill;
+                        texturePath = "";
                         outlineStroke = Polygon2D.DefaultOutlineStroke;
                         outlineColor = Polygon2D.DefaultOutlineColor;
 
@@ -193,6 +212,31 @@ public class PsdfUtil {
                 throw new IllegalStateException("Invalid fill paint type: " + tokens[0]);
             }
         }
+    }
+
+    private static String parseTexture(String[] tokens) {
+        StringBuilder pathBuilder = new StringBuilder();
+
+        if (!tokens[1].startsWith("\"") || !tokens[tokens.length - 1].endsWith("\"")) {
+            throw new IllegalArgumentException(
+                    "The given path " + Arrays.toString(tokens) + " does not start and end with quotation marks."
+            );
+        }
+
+        if (tokens.length == 2) {
+            pathBuilder.append(tokens[1], 1, tokens[1].length() - 1);
+        } else if (tokens.length == 3) {
+            pathBuilder.append(tokens[1], 1, tokens.length);
+            pathBuilder.append(tokens[2], 2, tokens.length - 1);
+        } else {
+            pathBuilder.append(tokens[1], 1, tokens.length);
+            for (int i = 2; i < tokens.length - 1; i++) {
+                pathBuilder.append(tokens[i]);
+            }
+            pathBuilder.append(tokens[tokens.length - 1], 0, tokens.length - 1);
+        }
+
+        return pathBuilder.toString();
     }
 
     private static BasicStroke parseOutlineStroke(String[] tokens) {
@@ -338,6 +382,8 @@ public class PsdfUtil {
             writeFillRadialGradient(fileContents, (RadialGradientPaint) paint);
         } else if (paint instanceof Color) {
             writeFillColor(fileContents, (Color) paint);
+        } else if (paint instanceof TexturePaint) {
+            writeTexture(fileContents, (TexturePaint) paint);
         } else {
             FastJEngine.error(
                     CrashMessages.UnimplementedMethodError.errorMessage,
@@ -414,6 +460,14 @@ public class PsdfUtil {
                 .append(color.getAlpha());
     }
 
+    private static void writeTexture(StringBuilder fileContents, TexturePaint texturePaint) {
+        fileContents.append(ParsingKeys.FillPaintTexture)
+                .append(' ')
+                .append('\"')
+                .append(FastJEngine.getResourceManager(ImageResource.class).tryFindPathOfResource(texturePaint.getImage()).toString())
+                .append('\"');
+    }
+
     private static void writeOutline(StringBuilder fileContents, BasicStroke outlineStroke, Color outlineColor) {
         fileContents.append(LineSeparator)
                 .append(PsdfUtil.ParsingKeys.OutlineStroke)
@@ -488,6 +542,7 @@ public class PsdfUtil {
         public static final String FillPaintColor = "c";
         public static final String FillPaintLinearGradient = "lg";
         public static final String FillPaintRadialGradient = "rg";
+        public static final String FillPaintTexture = "tx";
         public static final String OutlineStroke = "otls";
         public static final String OutlineColor = "otlc";
         public static final String Transform = "tfm";
