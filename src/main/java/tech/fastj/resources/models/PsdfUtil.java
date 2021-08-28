@@ -225,14 +225,14 @@ public class PsdfUtil {
         if (tokens.length == 2) {
             pathBuilder.append(tokens[1], 1, tokens[1].length() - 1);
         } else if (tokens.length == 3) {
-            pathBuilder.append(tokens[1], 1, tokens.length);
-            pathBuilder.append(tokens[2], 2, tokens.length - 1);
+            pathBuilder.append(tokens[1], 1, tokens[1].length());
+            pathBuilder.append(tokens[2], 0, tokens[2].length() - 1);
         } else {
             pathBuilder.append(tokens[1], 1, tokens.length);
             for (int i = 2; i < tokens.length - 1; i++) {
                 pathBuilder.append(tokens[i]);
             }
-            pathBuilder.append(tokens[tokens.length - 1], 0, tokens.length - 1);
+            pathBuilder.append(tokens[tokens.length - 1], 0, tokens[tokens.length - 1].length() - 1);
         }
 
         return pathBuilder.toString();
