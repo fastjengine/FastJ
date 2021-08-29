@@ -53,8 +53,7 @@ public class ObjUtil {
         for (int i = 0; i < model.getPolygons().length; i++) {
             Polygon2D polygon = model.getPolygons()[i];
             writeObject(fileContents, i + 1);
-            writeMaterialUsage(fileContents, i + 1);
-            writeFaces(fileContents, polygon, vertexCount);
+            writeMaterial(fileContents, polygon, i + 1, vertexCount);
 
             vertexCount += polygon.getPoints().length;
         }
@@ -127,10 +126,41 @@ public class ObjUtil {
                 .append(LineSeparator);
     }
 
-    private static void writeMaterialUsage(StringBuilder fileContents, int polygonIndex) {
+    private static void writeMaterial(StringBuilder fileContents, Polygon2D polygon, int polygonIndex, int vertexCount) {
+        switch (polygon.getRenderStyle()) {
+            case Fill: {
+                writeFillMaterialUsage(fileContents, polygonIndex);
+                writeFaces(fileContents, polygon, vertexCount);
+                break;
+            }
+            case Outline: {
+                writeOutlineMaterialUsage(fileContents, polygonIndex);
+                writeLines(fileContents, polygon, vertexCount);
+                break;
+            }
+            case FillAndOutline: {
+                writeFillMaterialUsage(fileContents, polygonIndex);
+                writeFaces(fileContents, polygon, vertexCount);
+                writeOutlineMaterialUsage(fileContents, polygonIndex);
+                writeLines(fileContents, polygon, vertexCount);
+                break;
+            }
+        }
+        fileContents.append(LineSeparator);
+    }
+
+    private static void writeFillMaterialUsage(StringBuilder fileContents, int polygonIndex) {
         fileContents.append(ParsingKeys.UseMaterial)
                 .append(' ')
-                .append("Polygon2D_material_")
+                .append("Polygon2D_material_fill_")
+                .append(polygonIndex)
+                .append(LineSeparator);
+    }
+
+    private static void writeOutlineMaterialUsage(StringBuilder fileContents, int polygonIndex) {
+        fileContents.append(ParsingKeys.UseMaterial)
+                .append(' ')
+                .append("Polygon2D_material_outline_")
                 .append(polygonIndex)
                 .append(LineSeparator);
     }
@@ -143,7 +173,15 @@ public class ObjUtil {
                     .append('/')
                     .append(vertexCount + i);
         }
-        fileContents.append(LineSeparator).append(LineSeparator);
+        fileContents.append(LineSeparator);
+    }
+
+    private static void writeLines(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
+        fileContents.append(ParsingKeys.ObjectLine);
+        for (int i = 1; i <= polygon.getPoints().length; i++) {
+            fileContents.append(' ').append(vertexCount + i);
+        }
+        fileContents.append(LineSeparator);
     }
 
     public static class ParsingKeys {
@@ -158,5 +196,6 @@ public class ObjUtil {
         public static final String ObjectName = "g";
         public static final String UseMaterial = "usemtl";
         public static final String ObjectFace = "f";
+        public static final String ObjectLine = "l";
     }
 }

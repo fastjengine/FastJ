@@ -52,9 +52,27 @@ public class MtlUtil {
     }
 
     private static void writeMaterial(StringBuilder fileContents, Polygon2D polygon, Path destinationPath, int materialIndex) {
+        switch (polygon.getRenderStyle()) {
+            case Fill: {
+                writeFillMaterial(fileContents, polygon, destinationPath, materialIndex);
+                break;
+            }
+            case Outline: {
+                writeOutlineMaterial(fileContents, polygon, materialIndex);
+                break;
+            }
+            case FillAndOutline: {
+                writeFillMaterial(fileContents, polygon, destinationPath, materialIndex);
+                writeOutlineMaterial(fileContents, polygon, materialIndex);
+                break;
+            }
+        }
+    }
+
+    private static void writeFillMaterial(StringBuilder fileContents, Polygon2D polygon, Path destinationPath, int materialIndex) {
         fileContents.append(ParsingKeys.NewMaterial)
                 .append(' ')
-                .append("Polygon2D_material_")
+                .append("Polygon2D_material_fill_")
                 .append(materialIndex)
                 .append(LineSeparator);
 
@@ -75,6 +93,15 @@ public class MtlUtil {
                     )
             );
         }
+    }
+
+    private static void writeOutlineMaterial(StringBuilder fileContents, Polygon2D polygon, int materialIndex) {
+        fileContents.append(ParsingKeys.NewMaterial)
+                .append(' ')
+                .append("Polygon2D_material_outline_")
+                .append(materialIndex)
+                .append(LineSeparator);
+        writeColorMaterial(fileContents, polygon.getOutlineColor());
     }
 
     private static void writeGradientMaterial(StringBuilder fileContents, Polygon2D polygon, Path destinationPath, int materialIndex) {
