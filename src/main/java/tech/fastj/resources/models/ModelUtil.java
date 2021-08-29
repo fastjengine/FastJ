@@ -23,11 +23,13 @@ public class ModelUtil {
     }
 
     private static final Map<String, Function<List<String>, Polygon2D[]>> ModelParser = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::parse
+            SupportedModelFormats.Psdf, PsdfUtil::parse,
+            SupportedModelFormats.Obj, ObjUtil::parse
     );
 
     private static final Map<String, BiConsumer<Path, Model2D>> ModelWriter = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::write
+            SupportedModelFormats.Psdf, PsdfUtil::write,
+            SupportedModelFormats.Obj, ObjUtil::write
     );
 
     /**

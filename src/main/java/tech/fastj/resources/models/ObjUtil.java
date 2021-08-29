@@ -1,9 +1,13 @@
 package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
+import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+
+import tech.fastj.resources.files.FileUtil;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,17 +33,27 @@ public class ObjUtil {
         StringBuilder fileContents = new StringBuilder();
         writeTimestamp(fileContents);
 
+        Path destinationPathWithoutSpaces = Path.of(destinationPath.toString().replace(' ', '_'));
+        int extensionIndex = destinationPathWithoutSpaces.toString().indexOf(FileUtil.getFileExtension(destinationPathWithoutSpaces));
+        Path materialPath = Path.of(destinationPathWithoutSpaces.toString().substring(0, extensionIndex) + "mtl");
+
+        writeMaterialLib(fileContents, materialPath);
+
         int vertexCount = 0;
+        for (int i = 0; i < model.getPolygons().length; i++) {
+            writeVertexes(fileContents, model.getPolygons()[i], i);
+        }
+        fileContents.append(LineSeparator);
 
         for (int i = 0; i < model.getPolygons().length; i++) {
-            writeVertexes(fileContents, model.getPolygons()[i]);
+            writeVertexTextures(fileContents, model.getPolygons()[i]);
         }
-
-        writeVertexTextures(fileContents);
+        fileContents.append(LineSeparator);
 
         for (int i = 0; i < model.getPolygons().length; i++) {
             Polygon2D polygon = model.getPolygons()[i];
-            writeObject(fileContents, polygon, i + 1);
+            writeObject(fileContents, i + 1);
+            writeMaterialUsage(fileContents, i + 1);
             writeFaces(fileContents, polygon, vertexCount);
 
             vertexCount += polygon.getPoints().length;
@@ -48,8 +62,13 @@ public class ObjUtil {
         try {
             Files.writeString(destinationPath, fileContents, StandardCharsets.US_ASCII);
         } catch (IOException exception) {
-            throw new IllegalStateException(CrashMessages.theGameCrashed("a ." + SupportedModelFormats.Obj + " file writing error."), exception);
+            throw new IllegalStateException(
+                    CrashMessages.theGameCrashed("a ." + SupportedModelFormats.Obj + " file writing error."),
+                    exception
+            );
         }
+
+        MtlUtil.write(materialPath, model);
     }
 
     private static void writeTimestamp(StringBuilder fileContents) {
@@ -61,7 +80,16 @@ public class ObjUtil {
                 .append(LineSeparator);
     }
 
-    private static void writeVertexes(StringBuilder fileContents, Polygon2D polygon) {
+    private static void writeMaterialLib(StringBuilder fileContents, Path materialPath) {
+        fileContents.append(ParsingKeys.MaterialLib)
+                .append(' ')
+                .append(materialPath.toString())
+                .append(LineSeparator)
+                .append(LineSeparator);
+    }
+
+    private static void writeVertexes(StringBuilder fileContents, Polygon2D polygon, int polygonIndex) {
+        float vertexSpace = polygonIndex / 1000f;
         for (int j = 0; j < polygon.getPoints().length; j++) {
             Pointf vertex = polygon.getPoints()[j];
             fileContents.append(ParsingKeys.Vertex)
@@ -70,41 +98,28 @@ public class ObjUtil {
                     .append(' ')
                     .append(String.format("%4f", vertex.y))
                     .append(' ')
-                    .append(String.format("%4f", 0f))
+                    .append(String.format("%4f", vertexSpace))
                     .append(LineSeparator);
         }
     }
 
-    private static void writeVertexTextures(StringBuilder fileContents) {
-        fileContents.append(LineSeparator);
-        fileContents.append(ParsingKeys.VertexTexture)
-                .append(' ')
-                .append(0)
-                .append(' ')
-                .append(0)
-                .append(LineSeparator);
-        fileContents.append(ParsingKeys.VertexTexture)
-                .append(' ')
-                .append(1)
-                .append(' ')
-                .append(0)
-                .append(LineSeparator);
-        fileContents.append(ParsingKeys.VertexTexture)
-                .append(' ')
-                .append(1)
-                .append(' ')
-                .append(1)
-                .append(LineSeparator);
-        fileContents.append(ParsingKeys.VertexTexture)
-                .append(' ')
-                .append(0)
-                .append(' ')
-                .append(1)
-                .append(LineSeparator)
-                .append(LineSeparator);
+    private static void writeVertexTextures(StringBuilder fileContents, Polygon2D polygon) {
+        Pointf space = Pointf.subtract(polygon.getBound(Boundary.BottomRight), polygon.getBound(Boundary.TopLeft));
+        Pointf topLeft = polygon.getBound(Boundary.TopLeft);
+
+        for (int j = 0; j < polygon.getPoints().length; j++) {
+            float circleX = Maths.normalize(polygon.getPoints()[j].x - topLeft.x, 0f, space.x);
+            float circleY = Maths.normalize(polygon.getPoints()[j].y - topLeft.y, 0f, space.y);
+            fileContents.append(ParsingKeys.VertexTexture)
+                    .append(' ')
+                    .append(String.format("%4f", circleX))
+                    .append(' ')
+                    .append(String.format("%4f", circleY))
+                    .append(LineSeparator);
+        }
     }
 
-    private static void writeObject(StringBuilder fileContents, Polygon2D polygon, int polygonIndex) {
+    private static void writeObject(StringBuilder fileContents, int polygonIndex) {
         fileContents.append(ParsingKeys.ObjectName)
                 .append(' ')
                 .append("Polygon2D_")
@@ -112,10 +127,21 @@ public class ObjUtil {
                 .append(LineSeparator);
     }
 
+    private static void writeMaterialUsage(StringBuilder fileContents, int polygonIndex) {
+        fileContents.append(ParsingKeys.UseMaterial)
+                .append(' ')
+                .append("Polygon2D_material_")
+                .append(polygonIndex)
+                .append(LineSeparator);
+    }
+
     private static void writeFaces(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
         fileContents.append(ParsingKeys.ObjectFace);
         for (int i = 1; i <= polygon.getPoints().length; i++) {
-            fileContents.append(' ').append(vertexCount + i);
+            fileContents.append(' ')
+                    .append(vertexCount + i)
+                    .append('/')
+                    .append(vertexCount + i);
         }
         fileContents.append(LineSeparator).append(LineSeparator);
     }
@@ -126,9 +152,11 @@ public class ObjUtil {
         }
 
         public static final String Empty = "";
+        public static final String MaterialLib = "mtllib";
         public static final String Vertex = "v";
         public static final String VertexTexture = "vt";
         public static final String ObjectName = "g";
+        public static final String UseMaterial = "usemtl";
         public static final String ObjectFace = "f";
     }
 }
