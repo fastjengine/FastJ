@@ -3,26 +3,26 @@ package tech.fastj.engine;
 import java.util.Arrays;
 
 public enum FastJVersion {
-    LegacyVersion(true, 1, 5, 1, 1),
-    CurrentVersion(false, 1, 6, 0, 0),
-    NewerVersion(false, 1, 6, 1, 0);
+    Legacy(true, 1, 5, 1, 1),
+    Current(false, 1, 6, 0, 0),
+    Newer(true, 1, 6, 1, 1);
 
-    private final boolean isStable;
+    private final boolean isExperimental;
     private final int majorVersion;
     private final int minorVersion;
     private final int currentPatchVersion;
     private final int[] patchVersions;
 
-    FastJVersion(boolean stable, int min, int maj, int currentPatch, int... patches) {
-        isStable = stable;
+    FastJVersion(boolean experimental, int min, int maj, int currentPatch, int... patches) {
+        isExperimental = experimental;
         majorVersion = maj;
         minorVersion = min;
         currentPatchVersion = currentPatch;
         patchVersions = patches;
     }
 
-    public boolean isStable() {
-        return isStable;
+    public boolean isExperimental() {
+        return isExperimental;
     }
 
     public int getMajorVersion() {
@@ -95,5 +95,14 @@ public enum FastJVersion {
                 throw new IllegalArgumentException("Invalid patch version(s:) " + version.currentPatchVersion + ", " + otherVersion.currentPatchVersion + ".");
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return majorVersion + "." + minorVersion + "." + currentPatchVersion;
+    }
+
+    public String extendedToString() {
+        return "FastJ Game Engine " + majorVersion + "." + minorVersion + "." + currentPatchVersion + (isExperimental ? " (Experimental)" : "");
     }
 }
