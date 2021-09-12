@@ -1,6 +1,11 @@
 package tech.fastj.resources.files;
 
+import tech.fastj.engine.CrashMessages;
+
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Class that provides supplementary methods for working with files and {@link Path}s.
@@ -26,5 +31,23 @@ public class FileUtil {
             return filePath.toString().substring(filePath.toString().lastIndexOf(".") + 1);
         }
         return "";
+    }
+
+    /**
+     * Reads all lines of a file, as an abstraction of {@link Files#readAllLines(Path)} which handles the possible
+     * {@link IOException}.
+     *
+     * @param filePath The {@code Path} of the file to read.
+     * @return The lines of the file.
+     */
+    public static List<String> readFileLines(Path filePath) {
+        try {
+            return Files.readAllLines(filePath);
+        } catch (IOException exception) {
+            throw new IllegalStateException(
+                    CrashMessages.theGameCrashed("an issue while trying to read file \"" + filePath.toAbsolutePath() + "\"."),
+                    exception
+            );
+        }
     }
 }
