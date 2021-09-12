@@ -7,6 +7,8 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.textures.Textures;
+import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.resources.files.FileUtil;
 import tech.fastj.resources.images.ImageResource;
@@ -25,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class MtlUtil {
 
@@ -32,6 +35,93 @@ public class MtlUtil {
 
     private MtlUtil() {
         throw new java.lang.IllegalStateException();
+    }
+
+    public static void parse(Polygon2D polygon, Path materialPath, String materialName, boolean isFill) {
+        if (materialName.isBlank()) {
+            return;
+        }
+
+        List<String> lines = FileUtil.readFileLines(materialPath);
+        int materialIndex = lines.indexOf(
+                lines.stream()
+                        .filter(line -> line.startsWith(ParsingKeys.NewMaterial + " " + materialName))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Couldn't find material \"" + materialName + "\" in file \"" + materialPath.toAbsolutePath() + "\"."))
+        );
+
+        for (int i = materialIndex + 1; i < lines.size(); i++) {
+            String[] tokens = lines.get(i).split("\\s+");
+            switch (tokens[0]) {
+                case ParsingKeys.AmbientColor: {
+                    parseColor(
+                            polygon,
+                            Float.parseFloat(tokens[1]),
+                            Float.parseFloat(tokens[2]),
+                            Float.parseFloat(tokens[3]),
+                            isFill
+                    );
+                    break;
+                }
+                case ParsingKeys.DiffuseColor:
+                case ParsingKeys.SpecularColor:
+                case ParsingKeys.SpecularExponent: {
+                    break;
+                }
+                case ParsingKeys.Transparency: {
+                    parseColorAlpha(polygon, Float.parseFloat(tokens[1]), isFill);
+                    break;
+                }
+                case ParsingKeys.TextureImage: {
+                    String materialPathString = materialPath.toString();
+                    String materialFileName = materialPath.getFileName().toString();
+                    Path imagePath = Path.of(materialPathString.substring(0, materialPathString.indexOf(materialFileName)) + tokens[1]);
+                    parseImageTexture(polygon, imagePath);
+                    break;
+                }
+                case ParsingKeys.NewMaterial: {
+                    return;
+                }
+            }
+        }
+    }
+
+    public static void parseColor(Polygon2D polygon, float red, float green, float blue, boolean isFill) {
+        Color color = new Color((int) (red * 255), (int) (green * 255), (int) (blue * 255));
+        if (isFill) {
+            polygon.setFill(color);
+        } else {
+            polygon.setOutlineColor(color);
+        }
+    }
+
+    public static void parseColorAlpha(Polygon2D polygon, float alpha, boolean isFill) {
+        if (isFill) {
+            Color color = (Color) polygon.getFill();
+            polygon.setFill(
+                    new Color(
+                            color.getRed(),
+                            color.getGreen(),
+                            color.getBlue(),
+                            (int) (alpha * 255)
+                    )
+            );
+        } else {
+            Color color = polygon.getOutlineColor();
+            polygon.setOutlineColor(
+                    new Color(
+                            color.getRed(),
+                            color.getGreen(),
+                            color.getBlue(),
+                            (int) (alpha * 255)
+                    )
+            );
+        }
+    }
+
+    public static void parseImageTexture(Polygon2D polygon, Path imagePath) {
+        FastJEngine.getResourceManager(ImageResource.class).loadResource(imagePath);
+        polygon.setFill(Textures.create(imagePath, DrawUtil.createRect(polygon.getBounds())));
     }
 
     public static void write(Path destinationPath, Model2D model) {
@@ -245,7 +335,6 @@ public class MtlUtil {
         public static final String SpecularExponent = "Ns";
         public static final String Transparency = "d";
         public static final String IlluminationMode = "illum";
-        public static final String TextureMap = "map_Ka";
         public static final String TextureImage = "map_Kd";
     }
 }

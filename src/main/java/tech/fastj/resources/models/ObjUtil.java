@@ -6,6 +6,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.graphics.game.RenderStyle;
 
 import tech.fastj.resources.files.FileUtil;
 
@@ -14,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +27,94 @@ public class ObjUtil {
         throw new java.lang.IllegalStateException();
     }
 
-    public static Polygon2D[] parse(List<String> lines) {
-        return null;
+    public static Polygon2D[] parse(Path modelPath, List<String> lines) {
+        List<Polygon2D> polygons = new ArrayList<>();
+        List<float[]> vertexes = new ArrayList<>();
+
+
+        Path materialLibraryPath = null;
+        String currentMaterial = "";
+
+        for (String line : lines) {
+            String[] tokens = line.split("\\s+");
+            switch (tokens[0]) {
+                case ParsingKeys.Vertex: {
+                    vertexes.add(parseVertex(tokens));
+                    break;
+                }
+                case ParsingKeys.ObjectFace: {
+                    Pointf[] vertexesFromFaces = parseVertexesFromFaces(vertexes, tokens);
+
+                    Polygon2D polygonFromVertexes = Polygon2D.fromPoints(vertexesFromFaces);
+                    MtlUtil.parse(polygonFromVertexes, materialLibraryPath, currentMaterial, true);
+                    polygons.add(polygonFromVertexes);
+                    break;
+                }
+                case ParsingKeys.ObjectLine: {
+                    Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
+                    boolean isLastPolygonOutline = false;
+                    int lastPolygonIndex = polygons.size() - 1;
+
+                    for (int j = 0; j < tokens.length - 1; j++) {
+                        int vertexesIndex = Integer.parseInt(tokens[j + 1].split("/")[0]);
+                        vertexesFromFaces[j] = new Pointf(
+                                vertexes.get(vertexesIndex - 1)[0],
+                                vertexes.get(vertexesIndex - 1)[1]
+                        );
+                        isLastPolygonOutline = polygons.get(lastPolygonIndex).getPoints()[j].equals(vertexesFromFaces[j]);
+                    }
+
+                    if (isLastPolygonOutline) {
+                        polygons.get(lastPolygonIndex).setRenderStyle(RenderStyle.FillAndOutline);
+                        MtlUtil.parse(polygons.get(lastPolygonIndex), materialLibraryPath, currentMaterial, false);
+                    } else {
+                        Polygon2D polygonFromVertexes = Polygon2D.create(vertexesFromFaces, RenderStyle.Outline).build();
+                        MtlUtil.parse(polygonFromVertexes, materialLibraryPath, currentMaterial, false);
+                        polygons.add(polygonFromVertexes);
+                    }
+                    break;
+                }
+                case ParsingKeys.MaterialLib: {
+                    materialLibraryPath = Path.of(
+                            modelPath.toString().substring(
+                                    0,
+                                    modelPath.toString().indexOf(modelPath.getFileName().toString())
+                            ) + tokens[1]
+                            // filenames and paths in .obj files cannot contain spaces, allowing us to use a non-robust
+                            // solution for tokens.
+                    );
+                    break;
+                }
+                case ParsingKeys.UseMaterial: {
+                    // material names in .obj files cannot contain spaces, allowing us to use a non-robust solution for
+                    // tokens.
+                    currentMaterial = tokens[1];
+                    break;
+                }
+            }
+        }
+        return polygons.toArray(new Polygon2D[0]);
+    }
+
+    private static Pointf[] parseVertexesFromFaces(List<float[]> vertexes, String[] tokens) {
+        Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
+        for (int j = 1; j < tokens.length; j++) {
+            int vertexesIndex = Integer.parseInt(tokens[Math.min(j, tokens.length - 1)].split("/")[0]);
+            vertexesFromFaces[j - 1] = new Pointf(
+                    vertexes.get(vertexesIndex - 1)[0],
+                    vertexes.get(vertexesIndex - 1)[1]
+            );
+        }
+
+        return vertexesFromFaces;
+    }
+
+    private static float[] parseVertex(String[] tokens) {
+        return new float[]{
+                Float.parseFloat(tokens[1]),
+                Float.parseFloat(tokens[2]),
+                Float.parseFloat(tokens[3])
+        };
     }
 
     public static void write(Path destinationPath, Model2D model) {

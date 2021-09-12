@@ -44,7 +44,7 @@ public class PsdfUtil {
      * @param lines The .psdf file, split line by line.
      * @return An array of {@code Polygon2D}s.
      */
-    public static Polygon2D[] parse(List<String> lines) {
+    public static Polygon2D[] parse(Path modelPath, List<String> lines) {
         Polygon2D[] polygons = null;
         int polygonsIndex = 0;
 
