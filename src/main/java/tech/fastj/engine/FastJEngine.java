@@ -86,6 +86,14 @@ public class FastJEngine {
         throw new java.lang.IllegalStateException();
     }
 
+    static {
+        /* I never thought I would find a use for one of these, but I would rather the default resource managers be
+           added as soon as the FastJEngine class is loaded.
+           Rather than assume the engine will be initialized, it makes more sense for it to activate upon
+           initialization. */
+        addDefaultResourceManagers();
+    }
+
     /**
      * Initializes the game engine with the specified title and logic manager.
      * <p>
@@ -129,7 +137,6 @@ public class FastJEngine {
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
-        addDefaultResourceManagers();
     }
 
     private static void addDefaultResourceManagers() {
