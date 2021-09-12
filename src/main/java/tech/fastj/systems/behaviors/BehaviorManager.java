@@ -3,12 +3,9 @@ package tech.fastj.systems.behaviors;
 import tech.fastj.graphics.game.GameObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Class to manage behavior listeners for all {@link BehaviorHandler}s.

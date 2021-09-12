@@ -39,7 +39,9 @@ public class TagManager {
      * @param tag The tag to add.
      */
     public static void addTagToMasterList(String tag) {
-        if (!MasterTagList.contains(tag)) MasterTagList.add(tag);
+        if (!MasterTagList.contains(tag)) {
+            MasterTagList.add(tag);
+        }
     }
 
     /** Removes all the tags from the master list. */

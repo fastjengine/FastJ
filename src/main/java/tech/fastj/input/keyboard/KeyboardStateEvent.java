@@ -1,7 +1,6 @@
 package tech.fastj.input.keyboard;
 
 import java.awt.event.KeyEvent;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
