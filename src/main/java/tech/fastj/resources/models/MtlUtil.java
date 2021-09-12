@@ -63,11 +63,6 @@ public class MtlUtil {
                     );
                     break;
                 }
-                case ParsingKeys.DiffuseColor:
-                case ParsingKeys.SpecularColor:
-                case ParsingKeys.SpecularExponent: {
-                    break;
-                }
                 case ParsingKeys.Transparency: {
                     parseColorAlpha(polygon, Float.parseFloat(tokens[1]), isFill);
                     break;
@@ -81,6 +76,13 @@ public class MtlUtil {
                 }
                 case ParsingKeys.NewMaterial: {
                     return;
+                }
+                case ParsingKeys.DiffuseColor:
+                case ParsingKeys.SpecularColor:
+                case ParsingKeys.SpecularExponent:
+                case ParsingKeys.Empty:
+                default: {
+                    break;
                 }
             }
         }

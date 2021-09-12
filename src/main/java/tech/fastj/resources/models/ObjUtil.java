@@ -91,6 +91,10 @@ public class ObjUtil {
                     currentMaterial = tokens[1];
                     break;
                 }
+                case ParsingKeys.Empty:
+                default: {
+                    break;
+                }
             }
         }
         return polygons.toArray(new Polygon2D[0]);
