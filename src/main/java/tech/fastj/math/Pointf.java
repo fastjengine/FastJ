@@ -339,7 +339,6 @@ public class Pointf {
      * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
      * x} and {@code y} values.
      * @see Maths#inverseLerp(float, float, float)
-     *
      * @since 1.5.0
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v1, float v2) {

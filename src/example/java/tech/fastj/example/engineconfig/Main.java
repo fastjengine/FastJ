@@ -65,8 +65,10 @@ public class Main extends SimpleManager {
 
         /* Now, we'll move onto configureHardwareAcceleration.
          * By making use of java2d, FastJ supports a few hardware-accelerated graphics APIs:
-         * - OpenGL
-         * - Direct3D
+         * - OpenGL, for devices of all OSes
+         * - Direct3D, for Windows devices
+         * - X11, for Linux devices
+         * As well as CPURender, for software rendering.
          *
          * With that in mind, "FastJEngine#configureHardwareAcceleration" allows you to configure
          * the type of hardware acceleration your game uses. This is set using the "HWAccel" enum.

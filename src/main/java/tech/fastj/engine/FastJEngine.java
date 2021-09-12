@@ -8,6 +8,10 @@ import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+import tech.fastj.resources.Resource;
+import tech.fastj.resources.ResourceManager;
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -17,6 +21,8 @@ import tech.fastj.systems.tags.TagManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -73,8 +79,19 @@ public class FastJEngine {
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
 
+    // Resources
+    private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
+
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
+    }
+
+    static {
+        /* I never thought I would find a use for one of these, but I would rather the default resource managers be
+           added as soon as the FastJEngine class is loaded.
+           Rather than assume the engine will be initialized, it makes more sense for it to activate upon
+           initialization. */
+        addDefaultResourceManagers();
     }
 
     /**
@@ -120,6 +137,10 @@ public class FastJEngine {
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
+    }
+
+    private static void addDefaultResourceManagers() {
+        addResourceManager(new ImageResourceManager(), ImageResource.class);
     }
 
     /**
@@ -204,8 +225,7 @@ public class FastJEngine {
     private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
         if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
             return System.getProperty("os.name").startsWith("Win");
-        }
-        else if (hardwareAcceleration.equals(HWAccel.X11)) {
+        } else if (hardwareAcceleration.equals(HWAccel.X11)) {
             return System.getProperty("os.name").startsWith("Linux");
         }
         return true;
@@ -307,7 +327,6 @@ public class FastJEngine {
      * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
-     *
      * @since 1.5.0
      */
     public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
@@ -357,6 +376,18 @@ public class FastJEngine {
             default:
                 throw new IllegalStateException("Unexpected value: " + dataType);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> void addResourceManager(T resourceManager, Class<V> resourceClass) {
+        ResourceManagers.put((Class<Resource<?>>) resourceClass, (ResourceManager<Resource<?>, ?>) resourceManager);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> T getResourceManager(Class<V> resourceClass) {
+        return (T) ResourceManagers.computeIfAbsent((Class<Resource<?>>) resourceClass, rClass -> {
+            throw new IllegalStateException("No resource manager was added for the resource type \"" + resourceClass.getTypeName() + "\".");
+        });
     }
 
     /** Runs the game. */
@@ -440,7 +471,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
-     *
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -454,7 +484,6 @@ public class FastJEngine {
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
-     *
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
@@ -561,6 +590,8 @@ public class FastJEngine {
         TagManager.reset();
         AfterUpdateList.clear();
         AfterRenderList.clear();
+        ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
+        ResourceManagers.clear();
 
         // engine speed variables
         targetFPS = 0;
