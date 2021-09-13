@@ -41,6 +41,32 @@ public enum FastJVersion {
         return Arrays.copyOf(patchVersions, patchVersions.length);
     }
 
+    public FastJVersion of(int majorVersion, int minorVersion, int patchVersion) {
+        for (FastJVersion version : values()) {
+            if (version.majorVersion != majorVersion) {
+                continue;
+            }
+            if (version.minorVersion != minorVersion) {
+                continue;
+            }
+            if (version.currentPatchVersion != patchVersion) {
+                continue;
+            }
+            return version;
+        }
+
+        if (Newer.majorVersion > majorVersion) {
+            return Legacy;
+        }
+        if (Newer.minorVersion > minorVersion) {
+            return Legacy;
+        }
+        if (Newer.currentPatchVersion > patchVersion) {
+            return Legacy;
+        }
+        return Newer;
+    }
+
     public FastJVersion compare(FastJVersion version, FastJVersion otherVersion) {
         return compareMajor(version, otherVersion);
     }
