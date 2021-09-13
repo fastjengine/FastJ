@@ -13,7 +13,7 @@ public enum FastJVersion {
     private final int currentPatchVersion;
     private final int[] patchVersions;
 
-    FastJVersion(boolean experimental, int min, int maj, int currentPatch, int... patches) {
+    FastJVersion(boolean experimental, int maj, int min, int currentPatch, int... patches) {
         isExperimental = experimental;
         majorVersion = maj;
         minorVersion = min;
