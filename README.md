@@ -31,7 +31,7 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | Desktop Support      | Full Compatibility on Windows, Linux, and macOS             |    ✅    |
 | Audio Engine         | Loading, Playing, and Controlling .wav, .au, .aiff files    |    ✔     |
 | Image Support        | Image rendering, Sprite Animation                           |    ❌    |
-| Animation Support    | Interpolation, Tweening Framework                           |    ❌    |
+| Animation Support    | Interpolation, Tweening Framework                           |    ⭕    |
 | UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
 | FastJ Model Creator  | Create & Export 2D Models                                   |    ❌    |
 | FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor  |    ❌    |
