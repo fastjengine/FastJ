@@ -1,6 +1,7 @@
 package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
+import tech.fastj.engine.FastJVersion;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Boundary;
@@ -124,6 +125,7 @@ public class ObjUtil {
     public static void write(Path destinationPath, Model2D model) {
         StringBuilder fileContents = new StringBuilder();
         writeTimestamp(fileContents);
+        writeFastJVersion(fileContents);
 
         Path destinationPathWithoutSpaces = Path.of(destinationPath.toString().replace(' ', '_'));
         int extensionIndex = destinationPathWithoutSpaces.toString().indexOf(FileUtil.getFileExtension(destinationPathWithoutSpaces));
@@ -167,6 +169,12 @@ public class ObjUtil {
                 .append(LineSeparator)
                 .append("# Timestamp: ")
                 .append(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
+                .append(LineSeparator);
+    }
+
+    private static void writeFastJVersion(StringBuilder fileContents) {
+        fileContents.append("# version ")
+                .append(FastJVersion.Current)
                 .append(LineSeparator)
                 .append(LineSeparator);
     }
