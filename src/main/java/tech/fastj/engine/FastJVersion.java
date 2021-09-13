@@ -103,6 +103,6 @@ public enum FastJVersion {
     }
 
     public String extendedToString() {
-        return "FastJ Game Engine " + majorVersion + "." + minorVersion + "." + currentPatchVersion + (isExperimental ? " (Experimental)" : "");
+        return "FastJ Version " + majorVersion + "." + minorVersion + "." + currentPatchVersion + (isExperimental ? " (Experimental)" : "");
     }
 }
