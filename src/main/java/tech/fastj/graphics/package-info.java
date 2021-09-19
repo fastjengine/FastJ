@@ -1,5 +1,5 @@
 package tech.fastj.graphics;
 
 /**
-  Everything related to graphics and rendering in FastJ.
+ * FastJ's Graphics and Rendering system.
  */

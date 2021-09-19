@@ -1,5 +1,5 @@
 package tech.fastj.graphics.game;
 
 /**
- * Different elements meant to be used in a FastJ game.
+ * {@code GameObject}, {@code Model2D}, and other specific instances.
  */

@@ -1,5 +1,5 @@
 package tech.fastj.engine;
 
 /**
- * Classes used internally inside FastJ.
+ * FastJ's internal engine classes.
  */
