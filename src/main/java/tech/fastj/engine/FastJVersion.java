@@ -42,6 +42,12 @@ public enum FastJVersion {
     }
 
     public FastJVersion of(int majorVersion, int minorVersion, int patchVersion) {
+        if (majorVersion < 0 || minorVersion < 0 || patchVersion < 0) {
+            throw new IllegalArgumentException(
+                    "Invalid version \"" + majorVersion + "." + minorVersion + "." + patchVersion + "\": FastJ versions do not contain negative values."
+            );
+        }
+
         for (FastJVersion version : values()) {
             if (version.majorVersion != majorVersion) {
                 continue;
