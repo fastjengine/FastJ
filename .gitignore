@@ -47,3 +47,6 @@ gradle.properties
 hs_err_pid*
 
 
+.project
+.classpath
+*.prefs
