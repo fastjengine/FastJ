@@ -193,6 +193,11 @@ class PointfTests {
 
         assertEquals(13f, ptf.x, "The x value of the Pointf should equal 13f.");
         assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
+
+        ptf.set(5f);
+        
+        assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f ");
+        assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f");
     }
 
     @Test
