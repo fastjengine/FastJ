@@ -352,8 +352,8 @@ public class Pointf {
     /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
      *
-     * @param newX Float value used to set the new x value for this {@code Pointf} object.
-     * @param newY Float value used to set the new y value for this {@code Pointf} object.
+     * @param newX {@code float} value used to set the new x value for this {@code Pointf} object.
+     * @param newY {@code float} value used to set the new y value for this {@code Pointf} object.
      */
     public void set(float newX, float newY) {
         x = newX;
@@ -361,9 +361,9 @@ public class Pointf {
     }
 
     /**
-     * Sets the x and y value of this {@code Pointf} object to the values specified.
+     * Sets the x and y values of this {@code Pointf} object to the values specified.
      * 
-     * @param xy Float value used to set the new x and y value for this {@code Pointf} object.
+     * @param xy {@code float} value used to set the new x and y value for this {@code Pointf} object.
      */
     public void set(float xy) {
         x = xy;
