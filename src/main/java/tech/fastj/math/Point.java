@@ -323,6 +323,16 @@ public class Point {
     }
 
     /**
+     * Sets the x and y position of this {@code Point} object to the value specified.
+     * 
+     * @param xy int value used to set the new x and y value for this {@code Point} object. 
+     */
+    public void set(int xy) {
+        x = xy;
+        y = xy;
+    }
+
+    /**
      * Determines whether a specified Rectangle2D object intersects with this {@code Point} object.
      *
      * @param metrics Rectangle2D object used to check for intersection between this {@code Point} object and it.

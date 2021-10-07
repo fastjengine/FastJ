@@ -361,6 +361,16 @@ public class Pointf {
     }
 
     /**
+     * Sets the x and y value of this {@code Pointf} object to the values specified.
+     * 
+     * @param xy Float value used to set the new x and y value for this {@code Pointf} object.
+     */
+    public void set(float xy) {
+        x = xy;
+        y = xy;
+    }
+
+    /**
      * Determines whether a specified Rectangle2D object intersects with this {@code Pointf} object.
      *
      * @param metrics Rectangle2D object used to check for intersection between this {@code Pointf} object and it.
