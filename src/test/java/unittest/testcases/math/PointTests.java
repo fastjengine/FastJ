@@ -184,6 +184,11 @@ class PointTests {
 
         assertEquals(13, pt.x, "The x value of the Point should equal 13.");
         assertEquals(37, pt.y, "The y value of the Point should equal 37.");
+
+        pt.set(5);
+
+        assertEquals(5, pt.x, "The x value of the Point should be equal 5");
+        assertEquals(5, pt.y, "The y value of the Point should be equal 5");
     }
 
     @Test
