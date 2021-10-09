@@ -2,7 +2,7 @@ package tech.fastj.systems.control;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import java.awt.event.InputEvent;
 import java.util.Collections;
@@ -24,22 +24,22 @@ public abstract class SceneManager implements LogicManager {
 
     @Override
     public void initBehaviors() {
-        safeInit(FastJEngine.getDisplay(), currentScene::initBehaviorListeners);
+        safeInit();
     }
 
     /**
      * Updates the current scene, its behaviors, and listeners.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
     @Override
-    public void update(Display display) {
-        safeUpdate(display, () -> currentScene.update(display));
+    public void update(FastJCanvas canvas) {
+        safeUpdate(() -> currentScene.update(canvas));
     }
 
     @Override
     public void updateBehaviors() {
-        safeUpdate(FastJEngine.getDisplay(), currentScene::updateBehaviorListeners);
+        safeUpdate(currentScene::updateBehaviorListeners);
     }
 
     /**
@@ -48,24 +48,24 @@ public abstract class SceneManager implements LogicManager {
      * @param display The {@code Display} that the game renders to.
      */
     @Override
-    public void render(Display display) {
+    public void render(FastJCanvas display) {
         safeRender(display);
     }
 
     /** Processes all pending input events. */
     @Override
     public void processInputEvents() {
-        safeUpdate(FastJEngine.getDisplay(), currentScene.inputManager::processEvents);
+        safeUpdate(currentScene.inputManager::processEvents);
     }
 
     @Override
     public void processKeysDown() {
-        safeUpdate(FastJEngine.getDisplay(), currentScene.inputManager::fireKeysDown);
+        safeUpdate(currentScene.inputManager::fireKeysDown);
     }
 
     @Override
     public void receivedInputEvent(InputEvent inputEvent) {
-        safeUpdate(FastJEngine.getDisplay(), () -> currentScene.inputManager.receivedInputEvent(inputEvent));
+        safeUpdate(() -> currentScene.inputManager.receivedInputEvent(inputEvent));
     }
 
     /** Resets the logic manager. */
@@ -73,7 +73,7 @@ public abstract class SceneManager implements LogicManager {
     public void reset() {
         for (Scene scene : scenes.values()) {
             if (scene.isInitialized()) {
-                scene.unload(FastJEngine.getDisplay());
+                scene.unload(FastJEngine.getCanvas());
             }
             scene.reset();
         }
@@ -190,22 +190,26 @@ public abstract class SceneManager implements LogicManager {
      */
     public void switchScenes(String nextSceneName) {
         if (!scenes.containsKey(nextSceneName)) {
-            FastJEngine.error(CrashMessages.SceneError.errorMessage,
-                    new IllegalArgumentException("A scene with the name: \"" + nextSceneName + "\" hasn't been added!"));
+            FastJEngine.error(
+                    CrashMessages.SceneError.errorMessage,
+                    new IllegalArgumentException("A scene with the name: \"" + nextSceneName + "\" hasn't been added!")
+            );
         }
 
         switchingScenes = true;
-        Display display = FastJEngine.getDisplay();
 
+        FastJCanvas canvas = FastJEngine.getCanvas();
         Scene nextScene = scenes.get(nextSceneName);
+
         if (!nextScene.isInitialized()) {
-            nextScene.load(display);
+            nextScene.load(canvas);
             nextScene.initBehaviorListeners();
             nextScene.setInitialized(true);
         }
-        display.setBackgroundToCameraPos(nextScene.getCamera());
 
+        canvas.setBackgroundToCameraPos(nextScene.getCamera());
         setCurrentScene(nextSceneName);
+
         switchingScenes = false;
     }
 
@@ -214,8 +218,9 @@ public abstract class SceneManager implements LogicManager {
         nullSceneCheck();
 
         if (!currentScene.isInitialized()) {
-            currentScene.load(FastJEngine.getDisplay());
-            FastJEngine.getDisplay().setBackgroundToCameraPos(currentScene.getCamera());
+            FastJCanvas canvas = FastJEngine.getCanvas();
+            currentScene.load(canvas);
+            canvas.setBackgroundToCameraPos(currentScene.getCamera());
         }
 
         currentScene.setInitialized(true);
@@ -223,17 +228,13 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
-     * Creates a snapshot of the {@code switchingScenes} and {@code isSwitchingFullscreenState} booleans, to make sure
-     * the game doesn't crash out due to an attempt to call methods and other fields illegally.
+     * Creates a snapshot of the {@code switchingScenes} boolean, to make sure the game doesn't crash out due to an
+     * attempt to call methods and other fields illegally.
      *
-     * @param display The {@code Display} to get the fullscreen state from.
      * @return An array of booleans to check through.
      */
-    private boolean[] createSnapshot(Display display) {
-        return new boolean[]{
-                switchingScenes,
-                display.isSwitchingScreenState()
-        };
+    private boolean[] createSnapshot() {
+        return new boolean[]{switchingScenes};
     }
 
     /**
@@ -258,18 +259,13 @@ public abstract class SceneManager implements LogicManager {
         FastJEngine.error(CrashMessages.SceneError.errorMessage, e);
     }
 
-    /**
-     * Safely initializes the current scene with the specified action, by first checking for null pointers.
-     *
-     * @param display The {@code Display} that the game renders to.
-     * @param action  The action to safely run.
-     */
-    private void safeInit(Display display, Runnable action) {
-        boolean[] snapshot = createSnapshot(display);
+    /** Safely initializes the current scene by first checking for null pointers. */
+    private void safeInit() {
+        boolean[] snapshot = createSnapshot();
 
         try {
             nullSceneCheck();
-            action.run();
+            currentScene.initBehaviorListeners();
 
         } catch (NullPointerException e) {
             snapshotCheck(snapshot, e);
@@ -280,11 +276,10 @@ public abstract class SceneManager implements LogicManager {
      * Safely updates the current scene with the specified action, by first checking for null pointers and scene
      * initialization.
      *
-     * @param display The {@code Display} that the game renders to.
-     * @param action  The action to safely run.
+     * @param action The action to safely run.
      */
-    private void safeUpdate(Display display, Runnable action) {
-        boolean[] snapshot = createSnapshot(display);
+    private void safeUpdate(Runnable action) {
+        boolean[] snapshot = createSnapshot();
 
         try {
             nullSceneCheck();
@@ -299,16 +294,16 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Safely renders the current scene to the {@code Display}.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    private void safeRender(Display display) {
-        boolean[] snapshot = createSnapshot(display);
+    private void safeRender(FastJCanvas canvas) {
+        boolean[] snapshot = createSnapshot();
 
         try {
             nullSceneCheck();
             initSceneCheck();
 
-            display.render(
+            canvas.render(
                     currentScene.drawableManager.getGameObjects(),
                     currentScene.drawableManager.getUIElements(),
                     currentScene.getCamera()
@@ -387,8 +382,10 @@ public abstract class SceneManager implements LogicManager {
      */
     private void sceneExistenceCheck(String sceneName) {
         if (!scenes.containsKey(sceneName)) {
-            FastJEngine.error(CrashMessages.SceneError.errorMessage,
-                    new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!"));
+            FastJEngine.error(
+                    CrashMessages.SceneError.errorMessage,
+                    new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!")
+            );
         }
     }
 }

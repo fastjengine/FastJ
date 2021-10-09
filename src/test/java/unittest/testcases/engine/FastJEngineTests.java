@@ -1,7 +1,7 @@
 package unittest.testcases.engine;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.systems.control.SimpleManager;
 
@@ -26,7 +26,7 @@ class FastJEngineTests {
         AtomicBoolean ranAfterUpdate = new AtomicBoolean();
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
-            public void init(Display display) {
+            public void init(FastJCanvas canvas) {
                 FastJEngine.runAfterUpdate(() -> {
                     ranAfterUpdate.set(true);
                     FastJEngine.forceCloseGame();
@@ -34,11 +34,11 @@ class FastJEngineTests {
             }
 
             @Override
-            public void update(Display display) {
+            public void update(FastJCanvas canvas) {
             }
 
             @Override
-            public void render(Display display) {
+            public void render(FastJCanvas canvas) {
             }
         });
         FastJEngine.run();
@@ -51,7 +51,7 @@ class FastJEngineTests {
         AtomicBoolean ranAfterRender = new AtomicBoolean();
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
-            public void init(Display display) {
+            public void init(FastJCanvas canvas) {
                 FastJEngine.runAfterRender(() -> {
                     ranAfterRender.set(true);
                     FastJEngine.forceCloseGame();
@@ -59,11 +59,11 @@ class FastJEngineTests {
             }
 
             @Override
-            public void update(Display display) {
+            public void update(FastJCanvas canvas) {
             }
 
             @Override
-            public void render(Display display) {
+            public void render(FastJCanvas canvas) {
             }
         });
         FastJEngine.run();

@@ -4,6 +4,9 @@ import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.DisplayState;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.graphics.display.SimpleDisplay;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
@@ -18,6 +21,7 @@ import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -68,7 +72,9 @@ public class FastJEngine {
     private static HWAccel hwAccel;
 
     // Display/Logic
+    private static String title;
     private static Display display;
+    private static FastJCanvas canvas;
     private static LogicManager gameManager;
 
     // Check values
@@ -78,6 +84,9 @@ public class FastJEngine {
     // Late-running actions
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
+
+    private static Point windowResolution;
+    private static Point internalResolution;
 
     // Resources
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
@@ -129,9 +138,9 @@ public class FastJEngine {
         runningCheck();
 
         FastJEngine.gameManager = gameManager;
-        display = new Display(gameTitle, windowResolution, internalResolution);
-        timer = new Timer();
+        title = gameTitle;
 
+        timer = new Timer();
         fpsLog = new int[100];
         Arrays.fill(fpsLog, -1);
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
@@ -176,7 +185,7 @@ public class FastJEngine {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
         }
 
-        display.setWindowResolution(windowResolution);
+        FastJEngine.windowResolution = windowResolution;
     }
 
     /**
@@ -195,7 +204,7 @@ public class FastJEngine {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("internal resolution values must be at least 1."));
         }
 
-        display.setInternalResolution(internalResolution);
+        FastJEngine.internalResolution = internalResolution;
     }
 
     /**
@@ -244,12 +253,22 @@ public class FastJEngine {
     }
 
     /**
+     * Gets the {@link FastJCanvas} associated with the game engine.
+     *
+     * @return The game engine's canvas instance.
+     */
+    public static FastJCanvas getCanvas() {
+        return canvas;
+    }
+
+    /**
      * Gets the {@link Display} object associated with the game engine.
      *
      * @return The game engine's display instance.
      */
-    public static Display getDisplay() {
-        return display;
+    @SuppressWarnings("unchecked")
+    public static <T extends Display> T getDisplay() {
+        return (T) display;
     }
 
     /**
@@ -390,6 +409,10 @@ public class FastJEngine {
         });
     }
 
+    public static <T extends Display> void setCustomDisplay(T display) {
+        FastJEngine.display = display;
+    }
+
     /** Runs the game. */
     public static void run() {
         initEngine();
@@ -426,7 +449,7 @@ public class FastJEngine {
      * @since 1.5.0
      */
     public static void forceCloseGame() {
-        if (display != null && display.isReady()) {
+        if (display != null) {
             display.close();
         }
         exit();
@@ -465,12 +488,13 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#update(Display) fixedUpdate} call.
+     * Runs the specified action after the game engine's next {@link LogicManager#update(FastJCanvas) fixedUpdate}
+     * call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
+     * @param action Disposable action to be run after the next {@link LogicManager#update(FastJCanvas)} call.
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -478,12 +502,12 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#render(Display) render} call.
+     * Runs the specified action after the game engine's next {@link LogicManager#render(FastJCanvas) render} call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
+     * @param action Disposable action to be run after the next {@link LogicManager#render(FastJCanvas)} call.
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
@@ -495,9 +519,17 @@ public class FastJEngine {
         runningCheck();
         isRunning = true;
 
+        System.setProperty("sun.awt.noerasebackground", "true");
+        Toolkit.getDefaultToolkit().setDynamicLayout(false);
         ThreadFixer.start();
-        display.init();
-        gameManager.init(display);
+
+        if (display != null) {
+            display = new SimpleDisplay(title, windowResolution);
+        }
+        canvas = new FastJCanvas(display, internalResolution);
+        canvas.init();
+
+        gameManager.init(canvas);
         gameManager.initBehaviors();
 
         timer.init();
@@ -516,12 +548,12 @@ public class FastJEngine {
         float accumulator = 0f;
         float updateInterval = 1f / targetUPS;
 
-        while (!display.isClosed()) {
+        while (display.getWindow().isVisible()) {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
             while (accumulator >= updateInterval) {
-                gameManager.update(display);
+                gameManager.update(canvas);
                 gameManager.updateBehaviors();
 
                 if (!AfterUpdateList.isEmpty()) {
@@ -536,7 +568,8 @@ public class FastJEngine {
 
             gameManager.processInputEvents();
             gameManager.processKeysDown();
-            gameManager.render(display);
+            gameManager.render(canvas);
+
             if (!AfterRenderList.isEmpty()) {
                 for (Runnable action : AfterRenderList) {
                     action.run();
@@ -545,7 +578,7 @@ public class FastJEngine {
             }
             drawFrames++;
 
-            if (!display.isFullscreen()) {
+            if (display.getDisplayState() != DisplayState.FullScreen) {
                 sync();
             }
         }
@@ -625,10 +658,6 @@ public class FastJEngine {
      * @param frames The count of frames rendered.
      */
     private static void logFPS(int frames) {
-        if (display.isShowingFPSInTitle()) {
-            display.setDisplayedTitle(String.format("%s | FPS: %d", display.getTitle(), frames));
-        }
-
         storeFPS(frames);
     }
 

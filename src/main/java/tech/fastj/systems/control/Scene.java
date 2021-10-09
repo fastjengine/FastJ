@@ -1,7 +1,7 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.graphics.display.Camera;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
@@ -51,27 +51,27 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
      * <p>
      * This method is best used for initializing any variables necessary at the beginning of displaying a scene.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void load(Display display);
+    public abstract void load(FastJCanvas canvas);
 
     /**
      * Unloads the scene into an uninitialized state.
      * <p>
      * This method is best used for destroying or and nullifying any variables used in the game.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void unload(Display display);
+    public abstract void unload(FastJCanvas canvas);
 
     /**
      * Updates the scene's state.
      * <p>
      * This method is called on the current scene every time the engine updates its state.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void update(Display display);
+    public abstract void update(FastJCanvas canvas);
 
     /**
      * Gets the name of the scene.

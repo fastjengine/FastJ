@@ -2,7 +2,7 @@ package tech.fastj.example.polygon2d;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.util.DrawUtil;
@@ -15,7 +15,7 @@ import java.awt.Color;
 public class Main extends SimpleManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* Polygon2D */
 
         /* In order to create a Polygon2D, you first need to create a mesh.
@@ -88,7 +88,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         // Empty -- this example does not make use of this method.
     }
 

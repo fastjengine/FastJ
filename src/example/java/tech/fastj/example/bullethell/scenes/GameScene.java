@@ -4,7 +4,7 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
@@ -45,7 +45,7 @@ public class GameScene extends Scene {
     }
 
     @Override
-    public void load(Display display) {
+    public void load(FastJCanvas canvas) {
         playerMetadata = createPlayerMetaData();
         playerHealthBar = createPlayerHealthBar();
         PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata, this);
@@ -92,7 +92,7 @@ public class GameScene extends Scene {
     }
 
     @Override
-    public void unload(Display display) {
+    public void unload(FastJCanvas canvas) {
         if (player != null) {
             player.destroy(this);
             player = null;
@@ -117,7 +117,7 @@ public class GameScene extends Scene {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
     }
 
     public void enemyDied(Model2D enemy) {

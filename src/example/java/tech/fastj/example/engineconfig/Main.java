@@ -4,15 +4,16 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.SimpleManager;
 
 public class Main extends SimpleManager {
+
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* As a small aside, this is a small inclusion in order to show how configuring FastJ
          * affects rendering.
          * The code is not the primary focus of the example -- this is just to give a visual. */
@@ -22,7 +23,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         // Empty -- this example does not make use of this method.
     }
 

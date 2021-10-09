@@ -83,7 +83,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
                 mouseLocation = Pointf.divide(
                         new Pointf(mouseEvent.getX(), mouseEvent.getY()),
-                        FastJEngine.getDisplay().getResolutionScale()
+                        FastJEngine.getCanvas().getResolutionScale()
                 );
             },
             MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
@@ -93,7 +93,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
                 mouseLocation = Pointf.divide(
                         new Pointf(mouseEvent.getX(), mouseEvent.getY()),
-                        FastJEngine.getDisplay().getResolutionScale()
+                        FastJEngine.getCanvas().getResolutionScale()
                 );
             },
             MouseEvent.MOUSE_ENTERED, mouseEvent -> {
