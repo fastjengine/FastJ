@@ -1,6 +1,7 @@
 package tech.fastj.engine;
 
 import tech.fastj.engine.config.EngineConfig;
+import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
@@ -49,6 +50,8 @@ public class FastJEngine {
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
+    public static final ExceptionAction DefaultExceptionAction = ExceptionAction.Throw;
+
     // engine speed variables
     private static int targetFPS;
     private static int targetUPS;
@@ -70,8 +73,8 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
-    private static boolean shouldThrowExceptions;
     private static boolean isDebug;
+    private static ExceptionAction exceptionAction;
 
     // Late-running actions
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
@@ -91,13 +94,23 @@ public class FastJEngine {
      * 		<li>Default window resolution: {@link #DefaultWindowResolution}</li>
      * 		<li>Default internal game resolution: {@link #DefaultInternalResolution}</li>
      * 		<li>Default hardware acceleration: {@link HWAccel#Default}</li>
+     * 	    <li>Default exception action: {@link #DefaultExceptionAction}</li>
      * </ul>
      *
      * @param gameTitle   The title to be used for the {@link Display} window.
      * @param gameManager The {@link LogicManager} instance to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
+        init(
+                gameTitle,
+                gameManager,
+                DefaultFPS,
+                DefaultUPS,
+                DefaultWindowResolution,
+                DefaultInternalResolution,
+                HWAccel.Default,
+                DefaultExceptionAction
+        );
     }
 
     /**
@@ -106,7 +119,7 @@ public class FastJEngine {
      * @param gameTitle    The title to be used for the {@link Display} window.
      * @param gameManager  The {@link LogicManager} instance to be controlled by the engine.
      * @param engineConfig A {@link EngineConfig} containing configuration for the target FPS, UPS, window resolution,
-     *                     internal resolution, and hardware acceleration.
+     *                     internal resolution, hardware acceleration, and action upon exceptions.
      */
     public static void init(String gameTitle, LogicManager gameManager, EngineConfig engineConfig) {
         init(
@@ -116,7 +129,8 @@ public class FastJEngine {
                 engineConfig.targetUPS(),
                 engineConfig.windowResolution(),
                 engineConfig.internalResolution(),
-                engineConfig.hardwareAcceleration()
+                engineConfig.hardwareAcceleration(),
+                engineConfig.exceptionAction()
         );
     }
 
@@ -131,8 +145,9 @@ public class FastJEngine {
      * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
+     * @param exceptionAction      Defines what the engine should do upon receiving an exception.
      */
-    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
+    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction) {
         runningCheck();
 
         FastJEngine.gameManager = gameManager;
@@ -144,6 +159,7 @@ public class FastJEngine {
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
+        setExceptionAction(exceptionAction);
     }
 
     /**
@@ -330,20 +346,15 @@ public class FastJEngine {
     }
 
     /**
-     * Sets whether the engine should throw exceptions.
+     * Sets what the engine should do with exceptions, should they occur.
      * <p>
-     * If this is set to {@code true}, then if an exception occurs in {@link FastJEngine#run()}, the exception will be
-     * thrown to the user.
-     * <p>
-     * By contrast, if it is set to {@code false}, the exception's stack trace will be printed.
-     * <p>
-     * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
+     * Note that in all situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
-     * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
+     * @param exceptionAction The {@link ExceptionAction} to set how exceptions should be handled.
      * @since 1.5.0
      */
-    public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
-        FastJEngine.shouldThrowExceptions = shouldThrowExceptions;
+    public static void setExceptionAction(ExceptionAction exceptionAction) {
+        FastJEngine.exceptionAction = exceptionAction;
     }
 
     /**
@@ -394,15 +405,23 @@ public class FastJEngine {
     /** Runs the game. */
     public static void run() {
         initEngine();
+
         try {
             gameLoop();
         } catch (Exception exception) {
             FastJEngine.forceCloseGame();
 
-            if (shouldThrowExceptions) {
-                throw exception;
-            } else {
-                Log.error(exception.getMessage(), exception);
+            switch (exceptionAction) {
+                case Throw: {
+                    throw exception;
+                }
+                case LogError: {
+                    Log.error(exception.getMessage(), exception);
+                    break;
+                }
+                case Nothing: {
+                    break;
+                }
             }
         }
     }
@@ -454,11 +473,10 @@ public class FastJEngine {
     /**
      * Forcefully closes the game, then throws the error specified with the error message.
      *
-     * @param <T>          This allows for any type of error message.
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
      */
-    public static <T> void error(String errorMessage, Exception exception) {
+    public static void error(String errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
         Log.error(errorMessage, exception);
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
