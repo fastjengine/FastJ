@@ -523,7 +523,7 @@ public class FastJEngine {
         Toolkit.getDefaultToolkit().setDynamicLayout(false);
         ThreadFixer.start();
 
-        if (display != null) {
+        if (display == null) {
             display = new SimpleDisplay(title, windowResolution);
         }
         canvas = new FastJCanvas(display, internalResolution);
