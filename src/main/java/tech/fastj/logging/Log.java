@@ -5,8 +5,15 @@ import tech.fastj.engine.FastJEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Static class abstraction overtop {@link Logger SLF4J's logger}, providing formatted logging methods.
+ *
+ * @author Andrew Dey
+ * @since 1.6.0
+ * @see Logger
+ */
 public class Log {
-    
+
     private static final Logger FastJEngineLog = LoggerFactory.getLogger(FastJEngine.class);
 
     public static void trace(String format, Object... args) {
