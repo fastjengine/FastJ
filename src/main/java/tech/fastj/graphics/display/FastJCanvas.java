@@ -300,7 +300,6 @@ public class FastJCanvas {
         display.getWindow().setLocationRelativeTo(null);
 
         canvas.createBufferStrategy(FastJCanvas.DefaultBackBufferAmount);
-        setBackgroundColor(Color.gray);
 
         // set background rectangle
         background = new Rectangle2D.Float(0f, 0f, resolution.x, resolution.y);
