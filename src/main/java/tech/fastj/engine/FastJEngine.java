@@ -21,8 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import tech.fastj.logging.Log;
 
 /**
  * The main control hub of the game engine.
@@ -48,8 +47,6 @@ public class FastJEngine {
 
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
-
-    private static final Logger Log = LoggerFactory.getLogger(FastJEngine.class);
 
     // engine speed variables
     private static int targetFPS;
@@ -211,7 +208,7 @@ public class FastJEngine {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
         } else {
-            warning(String.format("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name()));
+            warning("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name());
             HWAccel.setHardwareAcceleration(HWAccel.Default);
             hwAccel = HWAccel.Default;
         }
