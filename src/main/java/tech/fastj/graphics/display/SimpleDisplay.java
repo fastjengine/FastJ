@@ -3,7 +3,7 @@ package tech.fastj.graphics.display;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Point;
 
-import java.awt.Frame;
+import javax.swing.JFrame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -32,7 +32,7 @@ public class SimpleDisplay implements Display {
     /** The default size of a {@code SimpleDisplay}. */
     public static final Point DefaultDisplaySize = new Point(1280, 720);
 
-    private final Frame window;
+    private final JFrame window;
 
     private String displayTitle;
 
@@ -69,7 +69,7 @@ public class SimpleDisplay implements Display {
     }
 
     public SimpleDisplay(String initialWindowName, Point initialDisplaySize) {
-        window = new Frame();
+        window = new JFrame();
         setTitle(initialWindowName);
 
         window.setSize(initialDisplaySize.asDimension());
@@ -169,7 +169,7 @@ public class SimpleDisplay implements Display {
     }
 
     @Override
-    public Frame getWindow() {
+    public JFrame getWindow() {
         return window;
     }
 
@@ -189,7 +189,7 @@ public class SimpleDisplay implements Display {
     public void toggleFullScreen() {
         if (displayState == DisplayState.Iconified) {
             updateDisplayState(suspendedState);
-            window.setExtendedState(Frame.NORMAL);
+            window.setExtendedState(JFrame.NORMAL);
         }
 
         if (displayState == DisplayState.FullScreen) {
