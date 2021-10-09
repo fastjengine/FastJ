@@ -1,5 +1,6 @@
 package tech.fastj.engine;
 
+import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
 import tech.fastj.math.Point;
@@ -97,6 +98,26 @@ public class FastJEngine {
      */
     public static void init(String gameTitle, LogicManager gameManager) {
         init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
+    }
+
+    /**
+     * Initializes the game engine with the specified title, logic manager, and an engine configuration.
+     *
+     * @param gameTitle    The title to be used for the {@link Display} window.
+     * @param gameManager  The {@link LogicManager} instance to be controlled by the engine.
+     * @param engineConfig A {@link EngineConfig} containing configuration for the target FPS, UPS, window resolution,
+     *                     internal resolution, and hardware acceleration.
+     */
+    public static void init(String gameTitle, LogicManager gameManager, EngineConfig engineConfig) {
+        init(
+                gameTitle,
+                gameManager,
+                engineConfig.targetFPS(),
+                engineConfig.targetUPS(),
+                engineConfig.windowResolution(),
+                engineConfig.internalResolution(),
+                engineConfig.hardwareAcceleration()
+        );
     }
 
     /**
