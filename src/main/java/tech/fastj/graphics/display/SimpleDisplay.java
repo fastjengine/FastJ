@@ -5,6 +5,7 @@ import tech.fastj.math.Point;
 
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
@@ -137,16 +138,16 @@ public class SimpleDisplay implements Display {
     }
 
     /**
-     * Gets the value that determines whether the {@code Display} is showing the title bar.
+     * Gets the value that determines whether the {@code SimpleDisplay} is showing the title bar.
      *
-     * @return The status of whether the {@code Display} is showing the title bar.
+     * @return The status of whether the {@code SimpleDisplay} is showing the title bar.
      */
     public boolean isShowingTitleBar() {
         return !window.isUndecorated();
     }
 
     /**
-     * Gets the title of the {@code Display}.
+     * Gets the title of the {@code SimpleDisplay}.
      *
      * @return The title.
      */
@@ -173,7 +174,7 @@ public class SimpleDisplay implements Display {
     }
 
     /**
-     * Resizes the {@code Display} to the specified size.
+     * Resizes the {@code SimpleDisplay} to the specified size.
      *
      * @param newResolution The size for the screen to be set to, as a {@code Point}.
      */
@@ -206,9 +207,9 @@ public class SimpleDisplay implements Display {
     }
 
     /**
-     * Sets whether the title bar of the {@code Display} should be shown.
+     * Sets whether the title bar of the {@code SimpleDisplay} should be shown.
      *
-     * @param enable Boolean to determine whether the title bar of the {@code Display} should be shown.
+     * @param enable Boolean to determine whether the title bar of the {@code SimpleDisplay} should be shown.
      */
     public void showTitleBar(boolean enable) {
         if (isShowingTitleBar() == enable) {
@@ -227,7 +228,7 @@ public class SimpleDisplay implements Display {
     }
 
     /**
-     * Sets the title of the {@code Display}.
+     * Sets the title of the {@code SimpleDisplay}.
      * <p>
      * Setting this resets the displayed title.
      *
@@ -236,6 +237,15 @@ public class SimpleDisplay implements Display {
     public void setTitle(String newTitle) {
         displayTitle = newTitle;
         window.setTitle(displayTitle);
+    }
+
+    /**
+     * Sets the icon used for the {@code SimpleDisplay}.
+     *
+     * @param icon The new icon image to use.
+     */
+    public void setIcon(Image icon) {
+        window.setIconImage(icon);
     }
 
     private void updateDisplayState(DisplayState nextState) {
