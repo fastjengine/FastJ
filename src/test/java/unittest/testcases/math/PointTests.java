@@ -49,6 +49,24 @@ class PointTests {
     }
 
     @Test
+    void checkPointCreation_withDimensionObjectParam() {
+        Dimension dimension = new Dimension(3, 4);
+        Point pt = new Point(dimension);
+
+        assertEquals(3, pt.x, "The x value of the Point should equal 3.");
+        assertEquals(4, pt.y, "The y value of the Point should equal 4.");
+    }
+
+    @Test
+    void checkPointCreation_withAWTPointObjectParam() {
+        java.awt.Point awtPt = new java.awt.Point(3, 4);
+        Point pt = new Point(awtPt);
+
+        assertEquals(3, pt.x, "The x value of the Point should equal 3.");
+        assertEquals(4, pt.y, "The y value of the Point should equal 4.");
+    }
+
+    @Test
     void checkPointAddition_withIntegerValues() {
         Point pt = new Point();
         pt.add(5);
@@ -285,6 +303,15 @@ class PointTests {
     }
 
     @Test
+    void checkConversionToAWTPoint() {
+        Point pt = new Point(13, 37);
+        java.awt.Point awtPt = pt.asAWTPoint();
+
+        assertEquals(13, awtPt.x, "The width value of the AWTPoint should equal 13.");
+        assertEquals(37, awtPt.y, "The height value of the AWTPoint should equal 37.");
+    }
+
+    @Test
     void checkEqualsAgainstPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = new Pointf(13f, 37f);
@@ -311,6 +338,27 @@ class PointTests {
         Dimension dimension2 = new Dimension(13, 5);
 
         assertFalse(pt2.equalsDimension(dimension2), "The Point and Dimension should not be equal in their x/width and y/height values.");
+    }
+
+    @Test
+    void checkEqualsAgainstAWTPoint() {
+        Point pt = new Point(13, 37);
+        java.awt.Point awtPt = new java.awt.Point(13, 37);
+
+        assertTrue(pt.equalsAWTPoint(awtPt), "The Point and AWTPoint should be equal in their x/width and y/height values.");
+    }
+
+    @Test
+    void checkEqualsAgainstAWTPoint_whenPointAndAWTPointAreNotEqual() {
+        Point pt = new Point(13, 37);
+        java.awt.Point awtPt = new java.awt.Point(25, 5);
+
+        assertFalse(pt.equalsAWTPoint(awtPt), "The Point and AWTPoint should not be equal in their x/width and y/height values.");
+
+        Point pt2 = new Point(13, 37);
+        java.awt.Point awtPt2 = new java.awt.Point(13, 5);
+
+        assertFalse(pt2.equalsAWTPoint(awtPt2), "The Point and AWTPoint should not be equal in their x/width and y/height values.");
     }
 
     @Test

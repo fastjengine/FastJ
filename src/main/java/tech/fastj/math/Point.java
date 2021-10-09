@@ -37,13 +37,35 @@ public class Point {
     }
 
     /**
-     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the parameter {@code
-     * Point}'s values.
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@code Point}'s values.
      *
      * @param p {@code Point} to set the x and y of this {@code Point} to.
      */
     public Point(Point p) {
         this(p.x, p.y);
+    }
+
+    /**
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@link Dimension}'s values.
+     *
+     * @param dimension {@code Dimension} to set the x and y of this {@code Point} to, using its {@code width} and
+     *                  {@code height} values.
+     */
+    public Point(Dimension dimension) {
+        this(dimension.width, dimension.height);
+    }
+
+    /**
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@link java.awt.Point}'s values.
+     *
+     * @param awtPoint {@code java.awt.Point} to set the x and y of this {@code Point} to, using its {@code x} and
+     *                 {@code y} values.
+     */
+    public Point(java.awt.Point awtPoint) {
+        this(awtPoint.x, awtPoint.y);
     }
 
     /**
@@ -617,6 +639,15 @@ public class Point {
     }
 
     /**
+     * Creates a {@link java.awt.Point} version of the {@code Point}.
+     *
+     * @return The {@code java.awt.Point} created.
+     */
+    public java.awt.Point asAWTPoint() {
+        return new java.awt.Point(x, y);
+    }
+
+    /**
      * Compares the {@code Point} with a {@link Pointf}, and returns whether their {@code x} and {@code y} values are
      * equal.
      *
@@ -636,6 +667,17 @@ public class Point {
      */
     public boolean equalsDimension(Dimension other) {
         return x == other.width && y == other.height;
+    }
+
+    /**
+     * Compares the {@code Point} with a {@link java.awt.Point}, and returns whether their {@code x} and {@code y}
+     * values are equal.
+     *
+     * @param other The {@code java.awt.Point} to compare against.
+     * @return Whether the two's {@code x} and {@code y} values are equal.
+     */
+    public boolean equalsAWTPoint(java.awt.Point other) {
+        return x == other.x && y == other.y;
     }
 
     /**
