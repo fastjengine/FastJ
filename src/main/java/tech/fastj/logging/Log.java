@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
  * Static class abstraction overtop {@link Logger SLF4J's logger}, providing formatted logging methods.
  *
  * @author Andrew Dey
- * @since 1.6.0
  * @see Logger
+ * @since 1.6.0
  */
 public class Log {
 

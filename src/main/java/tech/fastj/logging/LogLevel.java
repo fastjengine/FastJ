@@ -6,8 +6,8 @@ import org.slf4j.event.Level;
  * Abstraction overtop {@link Level SLF4J's logging level enum}.
  *
  * @author Andrew Dey
- * @since 1.6.0
  * @see Level
+ * @since 1.6.0
  */
 public enum LogLevel {
     Trace(Level.TRACE),
