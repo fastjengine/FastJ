@@ -38,6 +38,11 @@ public class Log {
         LoggerFactory.getLogger(loggingClass).warn(format, args);
     }
 
+    /**
+     * Logs an error
+     * @param message The Message to be logged
+     * @param exception The Exception caused, for eg. Runtime Exception, etc.
+     */
     public static void error(String message, Exception exception) {
         LoggerFactory.getLogger(FastJEngine.class).error(message, exception);
     }
