@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import tech.fastj.example.bullethell.scenes.GameScene;
 import tech.fastj.example.bullethell.scenes.LoseScene;
+import tech.fastj.logging.LogLevel;
 
 public class Main extends SceneManager {
 
@@ -29,7 +30,7 @@ public class Main extends SceneManager {
 
     public static void main(String[] args) {
         FastJEngine.init("Simple Bullet Hell", new Main());
-        FastJEngine.configureDebugging(true);
+        FastJEngine.configureDebugging(LogLevel.Debug);
         FastJEngine.run();
     }
 }
