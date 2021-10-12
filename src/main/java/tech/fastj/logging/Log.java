@@ -50,6 +50,10 @@ public class Log {
 
     /**
      * Logs an error
+     * <p> 
+     * Example usage : 
+     * log.error("This is a Runtime Exception : ", new RuntimeException)
+     * 
      * @param message The Message to be logged
      * @param exception The Exception caused, for eg. Runtime Exception, etc.
      */
