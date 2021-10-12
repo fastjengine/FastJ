@@ -484,18 +484,18 @@ public class FastJEngine {
      * @param message The formatted message to log.
      * @param args    The arguments, if any, of the formatted message.
      */
-    public static void log(String message, Object... args) {
-        Log.info(message, args);
+    public static void log(String message, Object... formatting) {
+        Log.info(message, formatting);
     }
 
     /**
      * Logs the specified message at the {@link LogLevel#Warn warning} level.
      *
-     * @param warningMessage The warning to log.
+     * @param warningMessage The formatted warning to log.
      * @param args           The arguments, if any, of the formatted warning.
      */
-    public static void warning(String warningMessage, Object... args) {
-        Log.warn(warningMessage, args);
+    public static void warning(String warningMessage, Object... formatting) {
+        Log.warn(warningMessage, formatting);
     }
 
     /**
