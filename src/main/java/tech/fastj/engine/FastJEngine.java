@@ -225,8 +225,8 @@ public class FastJEngine {
         FastJEngine.logLevel = Objects.requireNonNull(logLevel, "The given log level must not be null.");
     }
 
-    public static boolean isDebugging() {
-        return logLevel.ordinal() >= LogLevel.Debug.ordinal();
+    public static boolean isLogging(LogLevel comparisonLevel) {
+        return logLevel.ordinal() >= comparisonLevel.ordinal();
     }
 
     public static LogLevel getLogLevel() {
@@ -459,6 +459,26 @@ public class FastJEngine {
     }
 
     /**
+     * Logs the specified message at the {@link LogLevel#Trace trace} level.
+     *
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
+     */
+    public static void trace(String message, Object... args) {
+        Log.trace(message, args);
+    }
+
+    /**
+     * Logs the specified message at the {@link LogLevel#Debug debug} level.
+     *
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
+     */
+    public static void debug(String message, Object... args) {
+        Log.debug(message, args);
+    }
+
+    /**
      * Logs the specified message at the {@link LogLevel#Info info} level.
      *
      * @param message The formatted message to log.
@@ -520,7 +540,7 @@ public class FastJEngine {
 
     /** Initializes the game engine's components. */
     private static void initEngine() {
-        if (isDebugging()) {
+        if (isLogging(LogLevel.Info)) {
             log("Initializing FastJ...");
         }
 
@@ -541,7 +561,7 @@ public class FastJEngine {
         System.gc(); // yes, I really gc before starting.
         display.open();
 
-        if (isDebugging()) {
+        if (isLogging(LogLevel.Info)) {
             log("FastJ initialization complete. Enjoy your stay with FastJ!");
         }
     }
@@ -612,8 +632,8 @@ public class FastJEngine {
     /** Removes all resources created by the game engine. */
     private static void exit() {
         if (fpsLogger != null) {
-            if (isDebugging()) {
-                FastJEngine.log(
+            if (isLogging(LogLevel.Debug)) {
+                FastJEngine.debug(
                         "{}{}|---- FPS Results ----|{}{}Average FPS: {}{}Highest Frame Count: {}{}Lowest Frame Count: {}{}One Percent Low: {}",
                         System.lineSeparator(),
                         System.lineSeparator(),
@@ -680,8 +700,8 @@ public class FastJEngine {
             display.setDisplayedTitle(String.format("%s | FPS: %d", display.getTitle(), frames));
         }
 
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Frames rendered: {}", frames);
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            FastJEngine.debug("Frames rendered: {}", frames);
         }
 
         storeFPS(frames);

@@ -5,7 +5,8 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
-import java.awt.event.KeyEvent;
+import tech.fastj.input.InputManager;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -20,7 +21,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import tech.fastj.input.InputManager;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
@@ -262,8 +264,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -271,8 +273,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -280,8 +282,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -289,8 +291,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -298,8 +300,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -307,8 +309,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -316,8 +318,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -325,8 +327,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     @Override
     public void mouseExited(MouseEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace("Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
