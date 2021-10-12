@@ -456,18 +456,20 @@ public class FastJEngine {
      * Logs the specified message.
      *
      * @param message The message to log.
+     * @param formatting The Message Formatting
      */
-    public static void log(String message, Object... args) {
-        Log.info(message, args);
+    public static void log(String message, Object... formatting) {
+        Log.info(message, formatting);
     }
 
     /**
      * Logs the specified warning message.
      *
      * @param warningMessage The warning to log.
+     * @param formatting The Message Formatting.
      */
-    public static void warning(String warningMessage, Object... args) {
-        Log.warn(warningMessage, args);
+    public static void warning(String warningMessage, Object... formatting) {
+        Log.warn(warningMessage, formatting);
     }
 
     /**
