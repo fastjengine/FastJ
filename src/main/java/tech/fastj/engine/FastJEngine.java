@@ -19,11 +19,13 @@ import tech.fastj.systems.tags.TagManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 /**
  * The main control hub of the game engine.
@@ -73,7 +75,7 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
-    private static boolean isDebug;
+    private static LogLevel logLevel = LogLevel.Info;
     private static ExceptionAction exceptionAction;
 
     // Late-running actions
@@ -217,14 +219,18 @@ public class FastJEngine {
         display.setInternalResolution(internalResolution);
     }
 
-    public static void configureDebugging(boolean shouldDebug) {
+    public static void configureDebugging(LogLevel logLevel) {
         runningCheck();
 
-        isDebug = shouldDebug;
+        FastJEngine.logLevel = Objects.requireNonNull(logLevel, "The given log level must not be null.");
     }
 
     public static boolean isDebugging() {
-        return isDebug;
+        return logLevel.ordinal() >= LogLevel.Debug.ordinal();
+    }
+
+    public static LogLevel getLogLevel() {
+        return logLevel;
     }
 
     /**
@@ -453,18 +459,20 @@ public class FastJEngine {
     }
 
     /**
-     * Logs the specified message.
+     * Logs the specified message at the {@link LogLevel#Info info} level.
      *
-     * @param message The message to log.
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
      */
     public static void log(String message, Object... args) {
         Log.info(message, args);
     }
 
     /**
-     * Logs the specified warning message.
+     * Logs the specified message at the {@link LogLevel#Warn warning} level.
      *
      * @param warningMessage The warning to log.
+     * @param args           The arguments, if any, of the formatted warning.
      */
     public static void warning(String warningMessage, Object... args) {
         Log.warn(warningMessage, args);
@@ -472,6 +480,8 @@ public class FastJEngine {
 
     /**
      * Forcefully closes the game, then throws the error specified with the error message.
+     * <p>
+     * This logs the specified error message at the {@link LogLevel#Error error} level.
      *
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
@@ -510,7 +520,7 @@ public class FastJEngine {
 
     /** Initializes the game engine's components. */
     private static void initEngine() {
-        if (isDebug) {
+        if (isDebugging()) {
             log("Initializing FastJ...");
         }
 
@@ -531,7 +541,7 @@ public class FastJEngine {
         System.gc(); // yes, I really gc before starting.
         display.open();
 
-        if (isDebug) {
+        if (isDebugging()) {
             log("FastJ initialization complete. Enjoy your stay with FastJ!");
         }
     }
@@ -602,7 +612,7 @@ public class FastJEngine {
     /** Removes all resources created by the game engine. */
     private static void exit() {
         if (fpsLogger != null) {
-            if (isDebug) {
+            if (isDebugging()) {
                 FastJEngine.log(
                         "{}{}|---- FPS Results ----|{}{}Average FPS: {}{}Highest Frame Count: {}{}Lowest Frame Count: {}{}One Percent Low: {}",
                         System.lineSeparator(),
