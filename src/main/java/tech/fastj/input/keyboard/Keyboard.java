@@ -13,6 +13,9 @@ import java.util.function.BiConsumer;
 
 import tech.fastj.input.InputManager;
 
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 /**
  * Class that stores key input information from the {@code Display}.
  *
@@ -67,15 +70,15 @@ public class Keyboard implements KeyListener {
 
     /** Initializes the keyboard. */
     public static void init() {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Initializing {}", Keyboard.class.getName());
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            FastJEngine.debug("Initializing {}", Keyboard.class.getName());
         }
 
         keyChecker = Executors.newSingleThreadScheduledExecutor();
         keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
 
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Keyboard initialization complete.");
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            FastJEngine.debug("Keyboard initialization complete.");
         }
     }
 
@@ -237,8 +240,8 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Key {} was pressed in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.trace("Key {} was pressed in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -246,8 +249,8 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Key {} was released in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.trace("Key {} was released in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -255,8 +258,8 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Key {} was typed in event {}", String.valueOf(e.getKeyChar()), e);
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.trace("Key {} was typed in event {}", String.valueOf(e.getKeyChar()), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);

@@ -10,6 +10,9 @@ import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DisplayUtil;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.mouse.Mouse;
+
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -28,8 +31,8 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.mouse.Mouse;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 /**
  * Class that draws to a screen using a combination of Swing's JFrame, and AWT's Canvas.
@@ -594,15 +597,15 @@ public class Display {
      */
     public void init() {
         if (!isReady) {
-            if (FastJEngine.isDebugging()) {
-                FastJEngine.log("Initializing Display...");
+            if (FastJEngine.isLogging(LogLevel.Debug)) {
+                Log.debug("Initializing Display...");
             }
             initDisplay();
             resizeDisplay(windowResolution);
             setRenderHints();
             isReady = true;
-            if (FastJEngine.isDebugging()) {
-                FastJEngine.log("Display initialization complete.");
+            if (FastJEngine.isLogging(LogLevel.Debug)) {
+                Log.debug("Display initialization complete.");
             }
         }
     }
@@ -622,8 +625,8 @@ public class Display {
         isClosed = false;
         outputDisplay.setVisible(true);
         drawingCanvas.requestFocusInWindow();
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Opened Display.");
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Display.class, "Opened Display.");
         }
     }
 
@@ -631,8 +634,8 @@ public class Display {
     public void close() {
         isClosed = true;
         outputDisplay.dispose();
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Closed Display.");
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug("Closed Display.");
         }
     }
 

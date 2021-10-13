@@ -19,11 +19,13 @@ import tech.fastj.systems.tags.TagManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 /**
  * The main control hub of the game engine.
@@ -73,7 +75,7 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
-    private static boolean isDebug;
+    private static LogLevel logLevel = LogLevel.Info;
     private static ExceptionAction exceptionAction;
 
     // Late-running actions
@@ -217,14 +219,18 @@ public class FastJEngine {
         display.setInternalResolution(internalResolution);
     }
 
-    public static void configureDebugging(boolean shouldDebug) {
+    public static void configureDebugging(LogLevel logLevel) {
         runningCheck();
 
-        isDebug = shouldDebug;
+        FastJEngine.logLevel = Objects.requireNonNull(logLevel, "The given log level must not be null.");
     }
 
-    public static boolean isDebugging() {
-        return isDebug;
+    public static boolean isLogging(LogLevel comparisonLevel) {
+        return logLevel.ordinal() >= comparisonLevel.ordinal();
+    }
+
+    public static LogLevel getLogLevel() {
+        return logLevel;
     }
 
     /**
@@ -453,20 +459,40 @@ public class FastJEngine {
     }
 
     /**
-     * Logs the specified message.
+     * Logs the specified message at the {@link LogLevel#Trace trace} level.
      *
-     * @param message The message to log.
-     * @param formatting The Message Formatting
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
+     */
+    public static void trace(String message, Object... args) {
+        Log.trace(message, args);
+    }
+
+    /**
+     * Logs the specified message at the {@link LogLevel#Debug debug} level.
+     *
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
+     */
+    public static void debug(String message, Object... args) {
+        Log.debug(message, args);
+    }
+
+    /**
+     * Logs the specified message at the {@link LogLevel#Info info} level.
+     *
+     * @param message The formatted message to log.
+     * @param args    The arguments, if any, of the formatted message.
      */
     public static void log(String message, Object... formatting) {
         Log.info(message, formatting);
     }
 
     /**
-     * Logs the specified warning message.
+     * Logs the specified message at the {@link LogLevel#Warn warning} level.
      *
-     * @param warningMessage The warning to log.
-     * @param formatting The Message Formatting.
+     * @param warningMessage The formatted warning to log.
+     * @param args           The arguments, if any, of the formatted warning.
      */
     public static void warning(String warningMessage, Object... formatting) {
         Log.warn(warningMessage, formatting);
@@ -474,6 +500,8 @@ public class FastJEngine {
 
     /**
      * Forcefully closes the game, then throws the error specified with the error message.
+     * <p>
+     * This logs the specified error message at the {@link LogLevel#Error error} level.
      *
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
@@ -512,7 +540,7 @@ public class FastJEngine {
 
     /** Initializes the game engine's components. */
     private static void initEngine() {
-        if (isDebug) {
+        if (isLogging(LogLevel.Info)) {
             log("Initializing FastJ...");
         }
 
@@ -533,7 +561,7 @@ public class FastJEngine {
         System.gc(); // yes, I really gc before starting.
         display.open();
 
-        if (isDebug) {
+        if (isLogging(LogLevel.Info)) {
             log("FastJ initialization complete. Enjoy your stay with FastJ!");
         }
     }
@@ -604,8 +632,8 @@ public class FastJEngine {
     /** Removes all resources created by the game engine. */
     private static void exit() {
         if (fpsLogger != null) {
-            if (isDebug) {
-                FastJEngine.log(
+            if (isLogging(LogLevel.Debug)) {
+                FastJEngine.debug(
                         "{}{}|---- FPS Results ----|{}{}Average FPS: {}{}Highest Frame Count: {}{}Lowest Frame Count: {}{}One Percent Low: {}",
                         System.lineSeparator(),
                         System.lineSeparator(),
@@ -672,8 +700,8 @@ public class FastJEngine {
             display.setDisplayedTitle(String.format("%s | FPS: %d", display.getTitle(), frames));
         }
 
-        if (FastJEngine.isDebugging()) {
-            FastJEngine.log("Frames rendered: {}", frames);
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            FastJEngine.debug("Frames rendered: {}", frames);
         }
 
         storeFPS(frames);

@@ -10,11 +10,11 @@ import org.slf4j.event.Level;
  * @since 1.6.0
  */
 public enum LogLevel {
-    Trace(Level.TRACE),
-    Debug(Level.DEBUG),
-    Info(Level.INFO),
+    Error(Level.ERROR),
     Warn(Level.WARN),
-    Error(Level.ERROR);
+    Info(Level.INFO),
+    Debug(Level.DEBUG),
+    Trace(Level.TRACE);
 
     public final Level slf4jLevel;
 
