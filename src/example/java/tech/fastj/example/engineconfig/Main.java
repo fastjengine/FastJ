@@ -38,8 +38,8 @@ public class Main extends SimpleManager {
          * configuration.
          *
          * With that said, let's get started with the first two types of configuration:
-         * 1. configureViewerResolution
-         * 2. configureInternalResolution
+         * 1. configureWindowResolution
+         * 2. configureCanvasResolution
          *
          * Note 1: Both of these configurations require use of a Point. A Point is similar to that
          * of a Pointf, but it only allows integer values.
@@ -47,7 +47,7 @@ public class Main extends SimpleManager {
          */
 
 
-        /* "FastJEngine#configureViewerResolution" configures the viewer resolution -- the size of
+        /* "FastJEngine#configureWindowResolution" configures the viewer resolution -- the size of
          * the window that the player plays in.
          * By default, this is configured to 720p -- 1280*720. Of course, you can change this to
          * any set of values you would like, as long as both values are at least 1.
@@ -55,13 +55,13 @@ public class Main extends SimpleManager {
          * For this example, I've set it to 640*480. Feel free to mess around with the numbers! */
         FastJEngine.configureWindowResolution(new Point(640, 480));
 
-        /* "FastJEngine#configureInternalResolution" configures the internal resolution -- the size
+        /* "FastJEngine#configureCanvasResolution" configures the canvas resolution -- the size
          * of the actual game canvas (where the game gets rendered).
          * By default, this is also configured to 720p -- 1280*720. Like the viewer resolution,
          * this can be set to any values that are at least 1.
          *
          * For this example, I've set this to 640*480. Feel free to mess around with the numbers! */
-        FastJEngine.configureInternalResolution(new Point(640, 480));
+        FastJEngine.configureCanvasResolution(new Point(640, 480));
 
 
         /* Now, we'll move onto configureHardwareAcceleration.

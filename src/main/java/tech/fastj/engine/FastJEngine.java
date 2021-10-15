@@ -54,7 +54,7 @@ public class FastJEngine {
     public static final Point DefaultWindowResolution = new Point(1280, 720);
 
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
-    public static final Point DefaultInternalResolution = new Point(1280, 720);
+    public static final Point DefaultCanvasResolution = new Point(1280, 720);
 
     // engine speed variables
     private static int targetFPS;
@@ -86,7 +86,7 @@ public class FastJEngine {
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
 
     private static Point windowResolution;
-    private static Point internalResolution;
+    private static Point canvasResolution;
 
     // Resources
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
@@ -111,7 +111,7 @@ public class FastJEngine {
      * 		<li>Default target FPS: {@link #DefaultFPS}</li>
      * 		<li>Default target UPS: {@link #DefaultUPS}</li>
      * 		<li>Default window resolution: {@link #DefaultWindowResolution}</li>
-     * 		<li>Default internal game resolution: {@link #DefaultInternalResolution}</li>
+     * 		<li>Default canvas resolution: {@link #DefaultCanvasResolution}</li>
      * 		<li>Default hardware acceleration: {@link HWAccel#Default}</li>
      * </ul>
      *
@@ -119,7 +119,7 @@ public class FastJEngine {
      * @param gameManager The {@link LogicManager} instance to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
+        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultCanvasResolution, HWAccel.Default);
     }
 
     /**
@@ -130,11 +130,11 @@ public class FastJEngine {
      * @param fps                  The FPS (frames per second) target for the engine to reach.
      * @param ups                  The UPS (updates per second) target for the engine to reach.
      * @param windowResolution     The game's window resolution.
-     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     * @param canvasResolution     The game's canvas resolution. (This is the defined size of the game's canvas. As a
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
-    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
+    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration) {
         runningCheck();
 
         FastJEngine.gameManager = gameManager;
@@ -145,7 +145,7 @@ public class FastJEngine {
         Arrays.fill(fpsLog, -1);
         fpsLogger = Executors.newSingleThreadScheduledExecutor();
 
-        configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
+        configure(fps, ups, windowResolution, canvasResolution, hardwareAcceleration);
     }
 
     private static void addDefaultResourceManagers() {
@@ -153,21 +153,21 @@ public class FastJEngine {
     }
 
     /**
-     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), window resolution, internal resolution,
+     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), window resolution, canvas resolution,
      * and hardware acceleration.
      *
      * @param fps                  The FPS (frames per second) target for the engine to reach.
      * @param ups                  The UPS (updates per second) target for the engine to reach.
      * @param windowResolution     The game's window resolution.
-     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     * @param canvasResolution     The game's canvas resolution. (This is the defined size of the game's canvas. As a
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
-    public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
+    public static void configure(int fps, int ups, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration) {
         runningCheck();
 
         configureWindowResolution(windowResolution);
-        configureInternalResolution(internalResolution);
+        configureCanvasResolution(canvasResolution);
         configureHardwareAcceleration(hardwareAcceleration);
         setTargetFPS(fps);
         setTargetUPS(ups);
@@ -189,22 +189,22 @@ public class FastJEngine {
     }
 
     /**
-     * Configures the game's internal resolution.
+     * Configures the game's canvas resolution.
      * <p>
      * This sets the size of the game's drawing canvas. As a result, the content displayed on the canvas will be scaled
      * to fit the size of the {@code windowResolution}.
      *
-     * @param internalResolution The game's internal resolution. (This is the defined size of the game's canvas. As a
-     *                           result, the content is scaled to fit the size of the {@code windowResolution}).
+     * @param canvasResolution The game's canvas resolution. (This is the defined size of the game's canvas. As a
+     *                         result, the content is scaled to fit the size of the {@code windowResolution}).
      */
-    public static void configureInternalResolution(Point internalResolution) {
+    public static void configureCanvasResolution(Point canvasResolution) {
         runningCheck();
 
-        if ((internalResolution.x | internalResolution.y) < 1) {
-            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("internal resolution values must be at least 1."));
+        if ((canvasResolution.x | canvasResolution.y) < 1) {
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("canvas resolution values must be at least 1."));
         }
 
-        FastJEngine.internalResolution = internalResolution;
+        FastJEngine.canvasResolution = canvasResolution;
     }
 
     /**
@@ -526,7 +526,7 @@ public class FastJEngine {
         if (display == null) {
             display = new SimpleDisplay(title, windowResolution);
         }
-        canvas = new FastJCanvas(display, internalResolution);
+        canvas = new FastJCanvas(display, canvasResolution);
         canvas.init();
 
         gameManager.init(canvas);
