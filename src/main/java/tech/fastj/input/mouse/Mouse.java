@@ -132,11 +132,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     public static boolean interactsWith(Drawable button, MouseAction recentMouseAction) {
         PathIterator buttonPathIterator = button.getCollisionPath().getPathIterator(null);
-        boolean result = Path2D.Float.intersects(buttonPathIterator, mouseLocation.x, mouseLocation.y, 1, 1) && recentMouseAction.recentAction;
-
-        recentMouseAction.recentAction = false;
-
-        return result;
+        return Path2D.Float.intersects(buttonPathIterator, mouseLocation.x, mouseLocation.y, 1, 1) && recentMouseAction.recentAction;
     }
 
     /**
