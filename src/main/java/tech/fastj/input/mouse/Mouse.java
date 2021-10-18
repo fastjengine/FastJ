@@ -7,6 +7,9 @@ import tech.fastj.graphics.display.Display;
 
 import tech.fastj.input.InputManager;
 
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -20,9 +23,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current

@@ -123,6 +123,7 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
     public void reset() {
         this.setInitialized(false);
         this.destroyBehaviorListeners();
+        drawableManager.destroyAllLists(this);
         this.clearAllLists();
         camera.reset();
     }

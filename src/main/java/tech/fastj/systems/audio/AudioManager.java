@@ -3,15 +3,15 @@ package tech.fastj.systems.audio;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.resources.files.FileUtil;
 import tech.fastj.systems.audio.state.PlaybackState;
-import tech.fastj.systems.fio.FileUtil;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,8 +23,8 @@ import java.util.concurrent.Executors;
  */
 public class AudioManager {
 
-    private static final Map<String, MemoryAudio> MemoryAudioFiles = new HashMap<>();
-    private static final Map<String, StreamedAudio> StreamedAudioFiles = new HashMap<>();
+    private static final Map<String, MemoryAudio> MemoryAudioFiles = new ConcurrentHashMap<>();
+    private static final Map<String, StreamedAudio> StreamedAudioFiles = new ConcurrentHashMap<>();
     private static ExecutorService audioEventExecutor = Executors.newWorkStealingPool();
 
     /**

@@ -2,6 +2,11 @@ package tech.fastj.input.keyboard;
 
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.input.InputManager;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -10,11 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
-
-import tech.fastj.input.InputManager;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 /**
  * Class that stores key input information from the {@code Display}.

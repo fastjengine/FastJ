@@ -10,22 +10,28 @@ import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+import tech.fastj.resources.Resource;
+import tech.fastj.resources.ResourceManager;
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
 
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 /**
  * The main control hub of the game engine.
@@ -82,8 +88,19 @@ public class FastJEngine {
     private static final List<Runnable> AfterUpdateList = new ArrayList<>();
     private static final List<Runnable> AfterRenderList = new ArrayList<>();
 
+    // Resources
+    private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
+
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
+    }
+
+    static {
+        /* I never thought I would find a use for one of these, but I would rather the default resource managers be
+           added as soon as the FastJEngine class is loaded.
+           Rather than assume the engine will be initialized, it makes more sense for it to activate upon
+           initialization. */
+        addDefaultResourceManagers();
     }
 
     /**
@@ -162,6 +179,10 @@ public class FastJEngine {
 
         configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
         setExceptionAction(exceptionAction);
+    }
+
+    private static void addDefaultResourceManagers() {
+        addResourceManager(new ImageResourceManager(), ImageResource.class);
     }
 
     /**
@@ -406,6 +427,18 @@ public class FastJEngine {
             default:
                 throw new IllegalStateException("Unexpected value: " + dataType);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> void addResourceManager(T resourceManager, Class<V> resourceClass) {
+        ResourceManagers.put((Class<Resource<?>>) resourceClass, (ResourceManager<Resource<?>, ?>) resourceManager);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> T getResourceManager(Class<V> resourceClass) {
+        return (T) ResourceManagers.computeIfAbsent((Class<Resource<?>>) resourceClass, rClass -> {
+            throw new IllegalStateException("No resource manager was added for the resource type \"" + resourceClass.getTypeName() + "\".");
+        });
     }
 
     /** Runs the game. */
@@ -663,6 +696,8 @@ public class FastJEngine {
         TagManager.reset();
         AfterUpdateList.clear();
         AfterRenderList.clear();
+        ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
+        ResourceManagers.clear();
 
         // engine speed variables
         targetFPS = 0;

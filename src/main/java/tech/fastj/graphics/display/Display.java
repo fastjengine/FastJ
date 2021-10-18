@@ -13,6 +13,9 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
 
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -30,9 +33,6 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 /**
  * Class that draws to a screen using a combination of Swing's JFrame, and AWT's Canvas.

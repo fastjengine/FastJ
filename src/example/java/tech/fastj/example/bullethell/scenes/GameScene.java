@@ -10,7 +10,7 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.graphics.util.ModelUtil;
+import tech.fastj.resources.models.ModelUtil;
 
 import tech.fastj.systems.control.Scene;
 

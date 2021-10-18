@@ -4,9 +4,9 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Class to manage {@link Drawable} objects.
@@ -21,8 +21,8 @@ public class DrawableManager {
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
-        gameObjects = new LinkedHashMap<>();
-        uiElements = new LinkedHashMap<>();
+        gameObjects = new ConcurrentHashMap<>();
+        uiElements = new ConcurrentHashMap<>();
     }
 
     /**
@@ -72,6 +72,18 @@ public class DrawableManager {
         removeGameObject(gameObject.getID());
     }
 
+    public void destroyGameObjects(SimpleManager manager) {
+        for (GameObject gameObject : gameObjects.values()) {
+            gameObject.destroy(manager);
+        }
+    }
+
+    public void destroyGameObjects(Scene scene) {
+        for (GameObject gameObject : gameObjects.values()) {
+            gameObject.destroy(scene);
+        }
+    }
+
     /** Removes any null values from the list of game objects for the manager. */
     public void refreshGameObjectList() {
         gameObjects.entrySet().removeIf(Objects::isNull);
@@ -111,6 +123,18 @@ public class DrawableManager {
         removeUIElement(guiObject.getID());
     }
 
+    public void destroyUIElements(SimpleManager manager) {
+        for (UIElement uiElement : uiElements.values()) {
+            uiElement.destroy(manager);
+        }
+    }
+
+    public void destroyUIElements(Scene scene) {
+        for (UIElement uiElement : uiElements.values()) {
+            uiElement.destroy(scene);
+        }
+    }
+
     /** Removes any null values from the list of ui elements for the manager. */
     public void refreshUIElementList() {
         uiElements.entrySet().removeIf(Objects::isNull);
@@ -122,6 +146,16 @@ public class DrawableManager {
     }
 
     /* reset */
+
+    public void destroyAllLists(Scene scene) {
+        destroyGameObjects(scene);
+        destroyUIElements(scene);
+    }
+
+    public void destroyAllLists(SimpleManager manager) {
+        destroyGameObjects(manager);
+        destroyUIElements(manager);
+    }
 
     /** Removes all game objects and ui elements from the manager. */
     public void clearAllLists() {

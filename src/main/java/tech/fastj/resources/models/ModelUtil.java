@@ -1,14 +1,10 @@
-package tech.fastj.graphics.util;
+package tech.fastj.resources.models;
 
-import tech.fastj.engine.CrashMessages;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-import tech.fastj.graphics.io.PsdfUtil;
-import tech.fastj.graphics.io.SupportedModelFormats;
 
-import tech.fastj.systems.fio.FileUtil;
+import tech.fastj.resources.files.FileUtil;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -16,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class ModelUtil {
 
@@ -24,12 +20,14 @@ public class ModelUtil {
         throw new java.lang.IllegalStateException();
     }
 
-    private static final Map<String, Function<List<String>, Polygon2D[]>> ModelParser = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::parse
+    private static final Map<String, BiFunction<Path, List<String>, Polygon2D[]>> ModelParser = Map.of(
+            SupportedModelFormats.Psdf, PsdfUtil::parse,
+            SupportedModelFormats.Obj, ObjUtil::parse
     );
 
     private static final Map<String, BiConsumer<Path, Model2D>> ModelWriter = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::write
+            SupportedModelFormats.Psdf, PsdfUtil::write,
+            SupportedModelFormats.Obj, ObjUtil::write
     );
 
     /**
@@ -41,28 +39,19 @@ public class ModelUtil {
      * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly use the resulting
      * array from this method to create a {@code Model2D} object.
      *
-     * @param fileLocation Location of the file.
+     * @param modelPath File location of the model.
      * @return An array of {@code Polygon2D}s.
      */
-    public static Polygon2D[] loadModel(Path fileLocation) {
-        if (!Files.exists(fileLocation, LinkOption.NOFOLLOW_LINKS)) {
-            throw new IllegalArgumentException("A file was not found at \"" + fileLocation.toAbsolutePath() + "\".");
+    public static Polygon2D[] loadModel(Path modelPath) {
+        if (!Files.exists(modelPath, LinkOption.NOFOLLOW_LINKS)) {
+            throw new IllegalArgumentException("A file was not found at \"" + modelPath.toAbsolutePath() + "\".");
         }
 
-        String fileExtension = FileUtil.getFileExtension(fileLocation);
+        String fileExtension = FileUtil.getFileExtension(modelPath);
         checkFileExtension(fileExtension);
 
-        List<String> lines;
-        try {
-            lines = Files.readAllLines(fileLocation);
-        } catch (IOException exception) {
-            throw new IllegalStateException(
-                    CrashMessages.theGameCrashed("an issue while trying to parse file \"" + fileLocation.toAbsolutePath() + "\"."),
-                    exception
-            );
-        }
-
-        return ModelParser.get(fileExtension).apply(lines);
+        List<String> lines = FileUtil.readFileLines(modelPath);
+        return ModelParser.get(fileExtension).apply(modelPath, lines);
     }
 
     /**
