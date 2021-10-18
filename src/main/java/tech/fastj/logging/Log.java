@@ -48,6 +48,15 @@ public class Log {
         LoggerFactory.getLogger(loggingClass).warn(format, args);
     }
 
+    /**
+     * Logs an error.
+     * <p> 
+     * Example usage : 
+     * log.error("This is a Runtime Exception : ", new RuntimeException())
+     * 
+     * @param message The Message to be logged
+     * @param exception The {@code Exception} causing a need to log the error.
+     */
     public static void error(String message, Exception exception) {
         FastJEngineLog.error(message, exception);
     }
