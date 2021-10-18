@@ -462,27 +462,27 @@ public class FastJEngine {
      * Logs the specified message at the {@link LogLevel#Trace trace} level.
      *
      * @param message The formatted message to log.
-     * @param args    The arguments, if any, of the formatted message.
+     * @param formatting    The arguments, if any, of the formatted message.
      */
-    public static void trace(String message, Object... args) {
-        Log.trace(message, args);
+    public static void trace(String message, Object... formatting) {
+        Log.trace(message, formatting);
     }
 
     /**
      * Logs the specified message at the {@link LogLevel#Debug debug} level.
      *
      * @param message The formatted message to log.
-     * @param args    The arguments, if any, of the formatted message.
+     * @param formatting    The arguments, if any, of the formatted message.
      */
-    public static void debug(String message, Object... args) {
-        Log.debug(message, args);
+    public static void debug(String message, Object... formatting) {
+        Log.debug(message, formatting);
     }
 
     /**
      * Logs the specified message at the {@link LogLevel#Info info} level.
      *
      * @param message The formatted message to log.
-     * @param args    The arguments, if any, of the formatted message.
+     * @param formatting    The arguments, if any, of the formatted message.
      */
     public static void log(String message, Object... formatting) {
         Log.info(message, formatting);
@@ -492,7 +492,7 @@ public class FastJEngine {
      * Logs the specified message at the {@link LogLevel#Warn warning} level.
      *
      * @param warningMessage The formatted warning to log.
-     * @param args           The arguments, if any, of the formatted warning.
+     * @param formatting     The arguments, if any, of the formatted warning.
      */
     public static void warning(String warningMessage, Object... formatting) {
         Log.warn(warningMessage, formatting);
