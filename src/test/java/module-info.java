@@ -17,4 +17,6 @@ module fastj.library.test {
 
     opens unittest.testcases.systems.audio to org.junit.platform.commons;
     opens unittest.testcases.systems.control to org.junit.platform.commons;
+
+    opens unittest.testcases.logging to org.junit.platform.commons;
 }
