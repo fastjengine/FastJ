@@ -27,11 +27,11 @@ class LogLevelTests {
     void checkSetFastJEngineLogLevel() {
         FastJEngine.init("Logging Test", new MockEmptySimpleManager());
 
-        assertSame(FastJEngine.getLogLevel(), FastJEngine.DefaultLogLevel, "FastJEngine's initial log level should match its default log level.");
+        assertSame(FastJEngine.DefaultLogLevel, FastJEngine.getLogLevel(), "FastJEngine's initial log level should match its default log level.");
 
         for (int i = 0; i < LogLevel.values().length; i++) {
             FastJEngine.configureLogging(LogLevel.values()[i]);
-            assertSame(FastJEngine.getLogLevel(), LogLevel.values()[i], "FastJEngine's log level \"" + FastJEngine.getLogLevel() + "\" should match the set log level \"" + LogLevel.values()[i] + "\".");
+            assertSame(LogLevel.values()[i], FastJEngine.getLogLevel(), "FastJEngine's log level \"" + FastJEngine.getLogLevel() + "\" should match the set log level \"" + LogLevel.values()[i] + "\".");
         }
 
         FastJEngine.forceCloseGame();
