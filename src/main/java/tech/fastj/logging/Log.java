@@ -14,6 +14,10 @@ import org.slf4j.LoggerFactory;
  */
 public class Log {
 
+    private Log() {
+        throw new IllegalStateException();
+    }
+
     private static final Logger FastJEngineLog = LoggerFactory.getLogger(FastJEngine.class);
 
     /**
