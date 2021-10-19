@@ -152,7 +152,7 @@ public class FastJEngine {
                 engineConfig.hardwareAcceleration(),
                 engineConfig.exceptionAction()
         );
-        configureDebugging(engineConfig.logLevel());
+        configureLogging(engineConfig.logLevel());
     }
 
     /**
@@ -242,7 +242,7 @@ public class FastJEngine {
         display.setInternalResolution(internalResolution);
     }
 
-    public static void configureDebugging(LogLevel logLevel) {
+    public static void configureLogging(LogLevel logLevel) {
         runningCheck();
 
         FastJEngine.logLevel = Objects.requireNonNull(logLevel, "The given log level must not be null.");
