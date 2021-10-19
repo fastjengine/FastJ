@@ -100,6 +100,7 @@ sonarqube.properties {
     property 'sonar.projectKey', 'fastjengine_FastJ'
     property 'sonar.organization', 'fastjengine'
     property 'sonar.host.url', 'https://sonarcloud.io'
+    property 'sonar.exclusions', ['examples/**']
 }
 
 jacocoTestReport {
