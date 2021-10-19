@@ -33,11 +33,12 @@ import java.util.function.Consumer;
  */
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
 
     private static final int InitialMouseButton = -1;
     private static final int InitialScrollDirection = 0;
+
+    private static ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static int buttonLastPressed = Mouse.InitialMouseButton;
     private static int buttonLastReleased = Mouse.InitialMouseButton;
@@ -242,7 +243,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     private static void createSleeperThread(MouseAction e) {
         e.recentAction = true;
-        MouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
+        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
     }
 
     /** Resets the {@code Mouse}. */
@@ -259,7 +260,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     public static void stop() {
         reset();
-        MouseExecutor.shutdownNow();
+        mouseExecutor.shutdownNow();
+        mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
     @Override
