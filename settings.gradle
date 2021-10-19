@@ -1,4 +1,3 @@
 rootProject.name = 'fastj-library'
-include(':')
-include 'examples'
+include(':', 'examples')
 
