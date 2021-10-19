@@ -19,8 +19,8 @@ public class EnvironmentHelper {
 
         System.out.println(
                 "This testing environment is... " + (isHeadless
-                        ? "headless. Well that's unfortunate... this device is running in headless mode, so some tests cannot be conducted."
-                        : "not headless. Good."
+                                                     ? "headless. Well that's unfortunate... this device is running in headless mode, so some tests cannot be conducted."
+                                                     : "not headless. Good."
                 )
         );
 
@@ -32,8 +32,8 @@ public class EnvironmentHelper {
 
         System.out.println(
                 "This testing environment... " + (hasAudioOutput
-                        ? "supports audio. Good."
-                        : "does not support audio output. Well that's unfortunate... this device does not contain any audio output devices, so audio-related tests cannot be conducted."
+                                                  ? "supports audio. Good."
+                                                  : "does not support audio output. Well that's unfortunate... this device does not contain any audio output devices, so audio-related tests cannot be conducted."
                 )
         );
 

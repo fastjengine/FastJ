@@ -4,6 +4,8 @@ import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.util.DisplayUtil;
@@ -19,9 +21,6 @@ import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -495,8 +494,8 @@ public class FastJEngine {
     /**
      * Logs the specified message at the {@link LogLevel#Trace trace} level.
      *
-     * @param message The formatted message to log.
-     * @param formatting    The arguments, if any, of the formatted message.
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
      */
     public static void trace(String message, Object... formatting) {
         Log.trace(message, formatting);
@@ -505,8 +504,8 @@ public class FastJEngine {
     /**
      * Logs the specified message at the {@link LogLevel#Debug debug} level.
      *
-     * @param message The formatted message to log.
-     * @param formatting    The arguments, if any, of the formatted message.
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
      */
     public static void debug(String message, Object... formatting) {
         Log.debug(message, formatting);
@@ -515,8 +514,8 @@ public class FastJEngine {
     /**
      * Logs the specified message at the {@link LogLevel#Info info} level.
      *
-     * @param message The formatted message to log.
-     * @param formatting    The arguments, if any, of the formatted message.
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
      */
     public static void log(String message, Object... formatting) {
         Log.info(message, formatting);

@@ -1,10 +1,10 @@
 package unittest.testcases.logging;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.LogLevel;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import tech.fastj.logging.LogLevel;
 import unittest.mock.systems.control.MockEmptySimpleManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

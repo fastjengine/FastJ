@@ -7,6 +7,8 @@ import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.Keys;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.tags.TagManager;
 
@@ -15,8 +17,6 @@ import java.util.Objects;
 
 import tech.fastj.example.bullethell.scenes.GameScene;
 import tech.fastj.example.bullethell.util.Tags;
-import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.keyboard.Keys;
 
 public class PlayerCannon implements Behavior {
 

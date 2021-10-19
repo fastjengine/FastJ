@@ -10,8 +10,10 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-import tech.fastj.resources.models.ModelUtil;
 
+import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.input.keyboard.KeyboardStateEvent;
+import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
@@ -27,9 +29,6 @@ import tech.fastj.example.bullethell.scripts.PlayerHealthBar;
 import tech.fastj.example.bullethell.util.FilePaths;
 import tech.fastj.example.bullethell.util.SceneNames;
 import tech.fastj.example.bullethell.util.Tags;
-
-import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
 
 public class GameScene extends Scene {
 

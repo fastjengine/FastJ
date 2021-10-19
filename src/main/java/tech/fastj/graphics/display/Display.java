@@ -2,6 +2,8 @@ package tech.fastj.graphics.display;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
@@ -12,9 +14,6 @@ import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 import javax.swing.JFrame;
 import java.awt.Canvas;

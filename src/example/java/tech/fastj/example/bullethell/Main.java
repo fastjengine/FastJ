@@ -1,6 +1,7 @@
 package tech.fastj.example.bullethell;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SceneManager;
@@ -9,7 +10,6 @@ import java.awt.Color;
 
 import tech.fastj.example.bullethell.scenes.GameScene;
 import tech.fastj.example.bullethell.scenes.LoseScene;
-import tech.fastj.logging.LogLevel;
 
 public class Main extends SceneManager {
 
