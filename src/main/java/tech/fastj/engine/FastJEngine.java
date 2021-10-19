@@ -59,6 +59,7 @@ public class FastJEngine {
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
     public static final ExceptionAction DefaultExceptionAction = ExceptionAction.Throw;
+    public static final LogLevel DefaultLogLevel = LogLevel.Info;
 
     // engine speed variables
     private static int targetFPS;
@@ -81,7 +82,7 @@ public class FastJEngine {
 
     // Check values
     private static boolean isRunning;
-    private static LogLevel logLevel = LogLevel.Info;
+    private static LogLevel logLevel = DefaultLogLevel;
     private static ExceptionAction exceptionAction;
 
     // Late-running actions
@@ -151,6 +152,7 @@ public class FastJEngine {
                 engineConfig.hardwareAcceleration(),
                 engineConfig.exceptionAction()
         );
+        configureDebugging(engineConfig.logLevel());
     }
 
     /**
