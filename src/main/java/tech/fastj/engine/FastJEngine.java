@@ -445,9 +445,8 @@ public class FastJEngine {
 
     /** Runs the game. */
     public static void run() {
-        initEngine();
-
         try {
+            initEngine();
             gameLoop();
         } catch (Exception exception) {
             FastJEngine.forceCloseGame();
