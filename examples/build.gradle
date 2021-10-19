@@ -29,7 +29,6 @@ task run(type: Exec) {
         }
 
         if (!Files.exists(java.nio.file.Path.of(projectDir.toString(), 'java', 'tech', 'fastj', 'examples', project.getProperty('toRun') as String))) {
-            print(java.nio.file.Path.of(projectDir.toString(), 'java', 'tech', 'fastj', 'examples'))
             throw new IllegalArgumentException(
                     "The example ${project.getProperty('toRun')} does not exist."
             )
