@@ -131,6 +131,8 @@ public class Log {
      * <p>
      * Example usage: {@code Log.error(MyClass.class, "This is a Runtime Exception : ", new RuntimeException()); }
      *
+     * @param <T>          The type of the class to get the logging instance of.
+     * @param loggingClass The class to get the logging instance of.
      * @param message   The Message to be logged
      * @param exception The {@code Exception} causing a need to log the error.
      */
