@@ -736,7 +736,7 @@ public class FastJEngine {
         }
 
         if (FastJEngine.isLogging(LogLevel.Debug)) {
-            FastJEngine.debug("Frames rendered: {}", frames);
+            Log.debug("Frames rendered: {}", frames);
         }
 
         storeFPS(frames);

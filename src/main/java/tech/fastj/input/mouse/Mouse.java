@@ -132,7 +132,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
         if (FastJEngine.isLogging(LogLevel.Debug)) {
-            FastJEngine.debug("Mouse initialization complete.");
+            Log.debug(Mouse.class, "Mouse initialization complete.");
         }
     }
 
@@ -278,7 +278,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mousePressed(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -287,7 +287,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseReleased(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -296,7 +296,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseClicked(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -305,7 +305,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseMoved(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -314,7 +314,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseDragged(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -323,7 +323,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -332,7 +332,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseEntered(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
@@ -341,7 +341,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     @Override
     public void mouseExited(MouseEvent e) {
         if (FastJEngine.isLogging(LogLevel.Trace)) {
-            Log.trace("Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
+            Log.trace(Mouse.class, "Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
         FastJEngine.getLogicManager().receivedInputEvent(e);
