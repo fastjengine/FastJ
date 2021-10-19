@@ -496,6 +496,7 @@ public class FastJEngine {
      *
      * @param message    The formatted message to log.
      * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#trace(String, Object...)
      */
     public static void trace(String message, Object... formatting) {
         Log.trace(message, formatting);
@@ -506,6 +507,7 @@ public class FastJEngine {
      *
      * @param message    The formatted message to log.
      * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#debug(String, Object...)
      */
     public static void debug(String message, Object... formatting) {
         Log.debug(message, formatting);
@@ -516,6 +518,7 @@ public class FastJEngine {
      *
      * @param message    The formatted message to log.
      * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#info(String, Object...)
      */
     public static void log(String message, Object... formatting) {
         Log.info(message, formatting);
@@ -526,6 +529,7 @@ public class FastJEngine {
      *
      * @param warningMessage The formatted warning to log.
      * @param formatting     The arguments, if any, of the formatted warning.
+     * @see Log#warn(String, Object...)
      */
     public static void warning(String warningMessage, Object... formatting) {
         Log.warn(warningMessage, formatting);
@@ -538,6 +542,7 @@ public class FastJEngine {
      *
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
+     * @see Log#error(String, Exception)
      */
     public static void error(String errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
