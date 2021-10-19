@@ -52,49 +52,7 @@ repositories.mavenCentral()
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
 dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
 dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha3')
-dependencies.implementation('org.slf4j:slf4j-simple:2.0.0-alpha3')
-
-
-/* ********************* *
- *   Example Programs    *
- * ********************* */
-
-
-sourceSets {
-    example {
-        compileClasspath += sourceSets.main.output
-        compileClasspath += sourceSets.main.compileClasspath
-        runtimeClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.runtimeClasspath
-        output.setResourcesDir(java.destinationDirectory)
-
-        task example(type: Exec) {
-            doFirst {
-                if (!project.hasProperty('toRun')) {
-                    throw new IllegalArgumentException(
-                            'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew example -PtoRun=hellofastj\"'
-                    )
-                }
-
-                if (!Files.exists(Path.of(projectDir.toString(), 'src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
-                    throw new IllegalArgumentException(
-                            "The example ${project.getProperty('toRun')} does not exist."
-                    )
-                }
-            }
-
-            dependsOn(tasks.compileExampleJava)
-            description = 'Runs a FastJ example program.'
-            group = 'Execution'
-
-            commandLine(
-                    'java',
-                    '-classpath', sourceSets.example.runtimeClasspath.getAsPath(),
-                    "tech.fastj.example.${project.hasProperty('toRun') ? project.getProperty('toRun') : ''}.Main"
-            )
-        }
-    }
-}
+dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha3')
 
 
 /* ********************* *
