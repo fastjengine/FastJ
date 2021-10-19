@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.lucasstarsz.fastj'
+version '1.6.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    project(':')
+}
+
+sourceSets {
+    main.java.srcDirs = ['java']
+    main.resources.srcDirs = ['resources']
+}
