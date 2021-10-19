@@ -1,6 +1,7 @@
 package unittest.testcases.engine;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SimpleManager;
@@ -34,7 +35,10 @@ class FastJEngineTests {
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
             public void init(Display display) {
-                FastJEngine.runAfterUpdate(() -> ranAfterUpdate.set(true));
+                FastJEngine.runAfterUpdate(() -> {
+                    ranAfterUpdate.set(true);
+                    FastJEngine.forceCloseGame();
+                });
             }
 
             @Override
@@ -46,7 +50,7 @@ class FastJEngineTests {
             }
         });
 
-        Executors.newSingleThreadScheduledExecutor().schedule(FastJEngine::forceCloseGame, 1, TimeUnit.SECONDS);
+        FastJEngine.setExceptionAction(ExceptionAction.LogError);
         FastJEngine.run();
 
         assertTrue(ranAfterUpdate.get(), "After one update completes, the ranAfterUpdate boolean should have been set to true.");
@@ -59,7 +63,10 @@ class FastJEngineTests {
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
             public void init(Display display) {
-                FastJEngine.runAfterRender(() -> ranAfterRender.set(true));
+                FastJEngine.runAfterRender(() -> {
+                    ranAfterRender.set(true);
+                    FastJEngine.forceCloseGame();
+                });
             }
 
             @Override
@@ -71,7 +78,7 @@ class FastJEngineTests {
             }
         });
 
-        Executors.newSingleThreadScheduledExecutor().schedule(FastJEngine::forceCloseGame, 1, TimeUnit.SECONDS);
+        FastJEngine.setExceptionAction(ExceptionAction.LogError);
         FastJEngine.run();
 
         assertTrue(ranAfterRender.get(), "After one render completes, the ranAfterRender boolean should have been set to true.");
