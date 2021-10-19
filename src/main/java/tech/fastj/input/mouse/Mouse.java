@@ -123,6 +123,19 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             }
     );
 
+    /** Initializes the mouse. */
+    public static void init() {
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Mouse.class, "Initializing {}", Mouse.class.getName());
+        }
+
+        mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            FastJEngine.debug("Mouse initialization complete.");
+        }
+    }
+
     /**
      * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the
      * specified {@code MouseAction}.
@@ -260,7 +273,6 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     public static void stop() {
         reset();
         mouseExecutor.shutdownNow();
-        mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     }
 
     @Override

@@ -643,6 +643,7 @@ public class Display {
         System.setProperty("sun.awt.noerasebackground", "true");
         Toolkit.getDefaultToolkit().setDynamicLayout(false);
         Keyboard.init();
+        Mouse.init();
 
         // JFrame display
         outputDisplay = new JFrame(vanityDisplayTitle);
