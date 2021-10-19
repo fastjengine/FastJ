@@ -24,7 +24,7 @@ task run(type: Exec) {
     doFirst {
         if (!project.hasProperty('toRun')) {
             throw new IllegalArgumentException(
-                    'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew example -PtoRun=hellofastj\"'
+                    'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew examples:run -PtoRun=hellofastj\"'
             )
         }
 
