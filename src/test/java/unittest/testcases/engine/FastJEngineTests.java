@@ -6,8 +6,6 @@ import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SimpleManager;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.BeforeAll;
