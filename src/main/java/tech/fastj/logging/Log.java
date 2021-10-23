@@ -1,7 +1,5 @@
 package tech.fastj.logging;
 
-import tech.fastj.engine.FastJEngine;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +16,7 @@ public class Log {
         throw new IllegalStateException();
     }
 
-    private static final Logger FastJEngineLog = LoggerFactory.getLogger(FastJEngine.class);
+    private static final Logger BaseLog = LoggerFactory.getLogger(Log.class);
 
     /**
      * Logs the specified message at the {@link LogLevel#Trace trace} level.
@@ -27,7 +25,7 @@ public class Log {
      * @param formatting The arguments, if any, of the formatted message.
      */
     public static void trace(String message, Object... formatting) {
-        FastJEngineLog.trace(message, formatting);
+        BaseLog.trace(message, formatting);
     }
 
     /**
@@ -50,7 +48,7 @@ public class Log {
      * @param formatting The arguments, if any, of the formatted message.
      */
     public static void debug(String message, Object... formatting) {
-        FastJEngineLog.debug(message, formatting);
+        BaseLog.debug(message, formatting);
     }
 
     /**
@@ -72,7 +70,7 @@ public class Log {
      * @param formatting The arguments, if any, of the formatted message.
      */
     public static void info(String message, Object... formatting) {
-        FastJEngineLog.info(message, formatting);
+        BaseLog.info(message, formatting);
     }
 
     /**
@@ -94,7 +92,7 @@ public class Log {
      * @param formatting The arguments, if any, of the formatted warning.
      */
     public static void warn(String message, Object... formatting) {
-        FastJEngineLog.warn(message, formatting);
+        BaseLog.warn(message, formatting);
     }
 
     /**
@@ -120,7 +118,7 @@ public class Log {
      * @param exception The {@code Exception} causing a need to log the error.
      */
     public static void error(String message, Exception exception) {
-        FastJEngineLog.error(message, exception);
+        BaseLog.error(message, exception);
     }
 
 
