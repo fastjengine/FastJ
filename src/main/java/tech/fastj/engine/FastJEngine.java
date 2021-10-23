@@ -147,7 +147,7 @@ public class FastJEngine {
         configureWindowResolution(engineConfig.windowResolution());
         configureInternalResolution(engineConfig.internalResolution());
         configureHardwareAcceleration(engineConfig.hardwareAcceleration());
-        setExceptionAction(exceptionAction);
+        setExceptionAction(engineConfig.exceptionAction());
         configureLogging(engineConfig.logLevel());
     }
 
