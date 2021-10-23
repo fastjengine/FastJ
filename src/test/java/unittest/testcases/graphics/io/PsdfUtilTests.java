@@ -161,7 +161,7 @@ class PsdfUtilTests {
 
         for (int i = 0; i < actualContent.size(); i++) {
             boolean equalsLine = actualContent.get(i).equals(expectedContent.get(i));
-            boolean timeStampLineStart = actualContent.get(i).startsWith(" Timestamp: ") && actualContent.get(i).startsWith(expectedContent.get(i));
+            boolean timeStampLineStart = actualContent.get(i).startsWith("# Timestamp: ") && actualContent.get(i).startsWith(expectedContent.get(i));
             assertTrue(equalsLine || timeStampLineStart, "Each line of the actual content should match the expected content (with the exception of the timestamp line, since that contains a non-constant).");
         }
     }
