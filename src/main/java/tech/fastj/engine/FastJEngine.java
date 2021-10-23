@@ -166,6 +166,7 @@ public class FastJEngine {
      * @deprecated As of 1.6.0, replaced by {@link #init(String, LogicManager, EngineConfig)} which makes use of {@link
      * EngineConfig an engine configuration}.
      */
+    @Deprecated
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction) {
         EngineConfig engineConfig = EngineConfig.create()
                 .withTargetFPS(fps)
