@@ -108,13 +108,11 @@ public class Log {
     }
 
     /**
-     * Forcefully closes the game, then throws the error specified with the error message.
+     * Logs the specified error message at the {@link LogLevel#Error error} level.
      * <p>
-     * This logs the specified error message at the {@link LogLevel#Error error} level.
-     * <p>
-     * Example usage: {@code Log.error("This is a Runtime Exception : ", new RuntimeException()); }
+     * Example usage: {@code Log.error("This is a Runtime Exception", new RuntimeException()); }
      *
-     * @param message   The Message to be logged
+     * @param message   The message to be logged.
      * @param exception The {@code Exception} causing a need to log the error.
      */
     public static void error(String message, Exception exception) {
@@ -123,16 +121,14 @@ public class Log {
 
 
     /**
-     * Forcefully closes the game, then throws the error specified with the error message.
+     * Logs the specified error message at the {@link LogLevel#Error error} level.
      * <p>
-     * This logs the specified error message at the {@link LogLevel#Error error} level.
-     * <p>
-     * Example usage: {@code Log.error(MyClass.class, "This is a Runtime Exception : ", new RuntimeException()); }
+     * Example usage: {@code Log.error(MyClass.class, "This is a Runtime Exception", new RuntimeException()); }
      *
      * @param <T>          The type of the class to get the logging instance of.
      * @param loggingClass The class to get the logging instance of.
-     * @param message   The Message to be logged
-     * @param exception The {@code Exception} causing a need to log the error.
+     * @param message      The message to be logged.
+     * @param exception    The {@code Exception} causing a need to log the error.
      */
     public static <T> void error(Class<T> loggingClass, String message, Exception exception) {
         LoggerFactory.getLogger(loggingClass).error(message, exception);
