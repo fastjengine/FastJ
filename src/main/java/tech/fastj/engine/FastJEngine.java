@@ -499,7 +499,7 @@ public class FastJEngine {
      * @see Log#trace(String, Object...)
      */
     public static void trace(String message, Object... formatting) {
-        Log.trace(message, formatting);
+        Log.trace(FastJEngine.class, message, formatting);
     }
 
     /**
@@ -510,7 +510,7 @@ public class FastJEngine {
      * @see Log#debug(String, Object...)
      */
     public static void debug(String message, Object... formatting) {
-        Log.debug(message, formatting);
+        Log.debug(FastJEngine.class, message, formatting);
     }
 
     /**
@@ -521,7 +521,7 @@ public class FastJEngine {
      * @see Log#info(String, Object...)
      */
     public static void log(String message, Object... formatting) {
-        Log.info(message, formatting);
+        Log.info(FastJEngine.class, message, formatting);
     }
 
     /**
@@ -532,7 +532,7 @@ public class FastJEngine {
      * @see Log#warn(String, Object...)
      */
     public static void warning(String warningMessage, Object... formatting) {
-        Log.warn(warningMessage, formatting);
+        Log.warn(FastJEngine.class, warningMessage, formatting);
     }
 
     /**
@@ -546,7 +546,7 @@ public class FastJEngine {
      */
     public static void error(String errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
-        Log.error(errorMessage, exception);
+        Log.error(FastJEngine.class, errorMessage, exception);
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
