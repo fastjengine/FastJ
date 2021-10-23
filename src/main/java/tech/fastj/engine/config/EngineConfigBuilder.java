@@ -15,12 +15,10 @@ public class EngineConfigBuilder {
 
     private HWAccel hardwareAcceleration = HWAccel.Default;
 
-    private ExceptionAction exceptionAction;
-    private LogLevel logLevel;
+    private ExceptionAction exceptionAction = FastJEngine.DefaultExceptionAction;
+    private LogLevel logLevel = FastJEngine.DefaultLogLevel;
 
-    EngineConfigBuilder(ExceptionAction exceptionAction, LogLevel logLevel) {
-        this.exceptionAction = exceptionAction;
-        this.logLevel = logLevel;
+    EngineConfigBuilder() {
     }
 
     public EngineConfigBuilder withTargetFPS(int targetFPS) {

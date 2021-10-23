@@ -29,6 +29,10 @@ public class EngineConfig {
         this.logLevel = logLevel;
     }
 
+    public static EngineConfigBuilder create() {
+        return new EngineConfigBuilder();
+    }
+
     public int targetFPS() {
         return targetFPS;
     }
