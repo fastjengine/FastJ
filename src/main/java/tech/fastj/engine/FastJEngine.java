@@ -57,6 +57,7 @@ public class FastJEngine {
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
     public static final Point DefaultInternalResolution = new Point(1280, 720);
 
+    public static final HWAccel DefaultHardwareAcceleration = HWAccel.Default;
     public static final ExceptionAction DefaultExceptionAction = ExceptionAction.Throw;
     public static final LogLevel DefaultLogLevel = LogLevel.Info;
 

@@ -13,8 +13,7 @@ public class EngineConfigBuilder {
     private Point windowResolution = FastJEngine.DefaultWindowResolution.copy();
     private Point internalResolution = FastJEngine.DefaultInternalResolution.copy();
 
-    private HWAccel hardwareAcceleration = HWAccel.Default;
-
+    private HWAccel hardwareAcceleration = FastJEngine.DefaultHardwareAcceleration;
     private ExceptionAction exceptionAction = FastJEngine.DefaultExceptionAction;
     private LogLevel logLevel = FastJEngine.DefaultLogLevel;
 
