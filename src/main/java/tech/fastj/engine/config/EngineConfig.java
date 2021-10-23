@@ -8,6 +8,8 @@ import java.util.Objects;
 
 public class EngineConfig {
 
+    public static final EngineConfig Default = EngineConfig.create().build();
+
     private final int targetFPS;
     private final int targetUPS;
 

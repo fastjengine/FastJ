@@ -120,16 +120,7 @@ public class FastJEngine {
      * @param gameManager The {@link LogicManager} instance to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(
-                gameTitle,
-                gameManager,
-                DefaultFPS,
-                DefaultUPS,
-                DefaultWindowResolution,
-                DefaultInternalResolution,
-                HWAccel.Default,
-                DefaultExceptionAction
-        );
+        init(gameTitle, gameManager, EngineConfig.Default);
     }
 
     /**
