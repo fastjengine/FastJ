@@ -147,7 +147,7 @@ public class FastJEngine {
         configureWindowResolution(engineConfig.windowResolution());
         configureInternalResolution(engineConfig.internalResolution());
         configureHardwareAcceleration(engineConfig.hardwareAcceleration());
-        setExceptionAction(engineConfig.exceptionAction());
+        configureExceptionAction(engineConfig.exceptionAction());
         configureLogging(engineConfig.logLevel());
     }
 
@@ -372,14 +372,14 @@ public class FastJEngine {
     }
 
     /**
-     * Sets what the engine should do with exceptions, should they occur.
+     * Configures what the engine should do with exceptions, should they occur.
      * <p>
      * Note that in all situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
      * @param exceptionAction The {@link ExceptionAction} to set how exceptions should be handled.
      * @since 1.5.0
      */
-    public static void setExceptionAction(ExceptionAction exceptionAction) {
+    public static void configureExceptionAction(ExceptionAction exceptionAction) {
         FastJEngine.exceptionAction = exceptionAction;
     }
 

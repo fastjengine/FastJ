@@ -48,7 +48,7 @@ class FastJEngineTests {
             }
         });
 
-        FastJEngine.setExceptionAction(ExceptionAction.LogError);
+        FastJEngine.configureExceptionAction(ExceptionAction.LogError);
         FastJEngine.run();
 
         assertTrue(ranAfterUpdate.get(), "After one update completes, the ranAfterUpdate boolean should have been set to true.");
@@ -76,7 +76,7 @@ class FastJEngineTests {
             }
         });
 
-        FastJEngine.setExceptionAction(ExceptionAction.LogError);
+        FastJEngine.configureExceptionAction(ExceptionAction.LogError);
         FastJEngine.run();
 
         assertTrue(ranAfterRender.get(), "After one render completes, the ranAfterRender boolean should have been set to true.");
