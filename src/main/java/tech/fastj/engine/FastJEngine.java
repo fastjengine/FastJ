@@ -141,16 +141,22 @@ public class FastJEngine {
      *                     internal resolution, hardware acceleration, and action upon exceptions.
      */
     public static void init(String gameTitle, LogicManager gameManager, EngineConfig engineConfig) {
-        init(
-                gameTitle,
-                gameManager,
-                engineConfig.targetFPS(),
-                engineConfig.targetUPS(),
-                engineConfig.windowResolution(),
-                engineConfig.internalResolution(),
-                engineConfig.hardwareAcceleration(),
-                engineConfig.exceptionAction()
-        );
+        runningCheck();
+
+        FastJEngine.gameManager = gameManager;
+        display = new Display(gameTitle, engineConfig.windowResolution(), engineConfig.internalResolution());
+        timer = new Timer();
+
+        fpsLog = new int[100];
+        Arrays.fill(fpsLog, -1);
+        fpsLogger = Executors.newSingleThreadScheduledExecutor();
+
+        setTargetFPS(engineConfig.targetFPS());
+        setTargetUPS(engineConfig.targetUPS());
+        configureWindowResolution(engineConfig.windowResolution());
+        configureInternalResolution(engineConfig.internalResolution());
+        configureHardwareAcceleration(engineConfig.hardwareAcceleration());
+        setExceptionAction(exceptionAction);
         configureLogging(engineConfig.logLevel());
     }
 
@@ -166,20 +172,20 @@ public class FastJEngine {
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      * @param exceptionAction      Defines what the engine should do upon receiving an exception.
+     * @deprecated As of 1.6.0, replaced by {@link #init(String, LogicManager, EngineConfig)} which makes use of {@link
+     * EngineConfig an engine configuration}.
      */
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction) {
-        runningCheck();
+        EngineConfig engineConfig = EngineConfig.create()
+                .withTargetFPS(fps)
+                .withTargetUPS(ups)
+                .withWindowResolution(windowResolution)
+                .withInternalResolution(internalResolution)
+                .withHardwareAcceleration(hardwareAcceleration)
+                .withExceptionAction(exceptionAction)
+                .build();
 
-        FastJEngine.gameManager = gameManager;
-        display = new Display(gameTitle, windowResolution, internalResolution);
-        timer = new Timer();
-
-        fpsLog = new int[100];
-        Arrays.fill(fpsLog, -1);
-        fpsLogger = Executors.newSingleThreadScheduledExecutor();
-
-        configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
-        setExceptionAction(exceptionAction);
+        init(gameTitle, gameManager, engineConfig);
     }
 
     private static void addDefaultResourceManagers() {
