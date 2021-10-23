@@ -384,6 +384,15 @@ public class FastJEngine {
     }
 
     /**
+     * Gets the engine's currently defined {@link ExceptionAction exception action}.
+     *
+     * @return The exception action instance.
+     */
+    public static ExceptionAction getExceptionAction() {
+        return exceptionAction;
+    }
+
+    /**
      * Gets the value that defines whether the engine is running.
      *
      * @return The boolean that defines whether the engine is running.
