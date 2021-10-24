@@ -4,6 +4,10 @@ import javax.swing.JOptionPane;
 
 public class DialogUtil {
 
+    private DialogUtil() {
+        throw new IllegalStateException();
+    }
+
     public static void showMessageDialog(DialogConfig dialogConfig) {
         JOptionPane.showMessageDialog(
                 dialogConfig.dialogParent(),
