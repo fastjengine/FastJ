@@ -6,36 +6,48 @@ import tech.fastj.systems.audio.AudioManager;
 
 import java.awt.GraphicsEnvironment;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unittest.mock.systems.control.MockRunnableSimpleManager;
 
 public class EnvironmentHelper {
+
+    private static final Logger Log = LoggerFactory.getLogger(EnvironmentHelper.class);
 
     public static final boolean IsEnvironmentHeadless = headlessTest();
     public static final boolean DoesEnvironmentSupportAudioOutput = audioOutputTest();
 
     private static boolean headlessTest() {
-        // because idk how to run github actions in non-headless mode
-        boolean isHeadless = GraphicsEnvironment.isHeadless();
+        /* Currently, we don't have all-OS access to non-headless computers with GitHub Actions.
+         *
+         * If a test uses functions that are only available in non-headless mode, this
+         * (EnvironmentHelper#IsEnvironmentHeadless) can be used to ensure the test is not run -- a
+         * HeadlessException would occur otherwise. */
 
-        System.out.println(
-                "This testing environment is... " + (isHeadless
-                        ? "headless. Well that's unfortunate... this device is running in headless mode, so some tests cannot be conducted."
-                        : "not headless. Good."
-                )
-        );
+        boolean isHeadless = GraphicsEnvironment.isHeadless();
+        String headlessResult = isHeadless
+                                ? "headless. Well that's unfortunate... this device is running in headless mode, so some display-related tests cannot be run."
+                                : "not headless. All display-related tests will be run.";
+
+        Log.info("This testing environment is... {}", headlessResult);
 
         return isHeadless;
     }
 
     private static boolean audioOutputTest() {
-        boolean hasAudioOutput = AudioManager.isOutputSupported();
+        /* Currently, we don't have all-OS access to computers with audio support.
+         * (See: javax.sound.sampled.AudioSystem#getClip)
+         *
+         * If a test uses functions that require audio output support, this
+         * (EnvironmentHelper#DoesEnvironmentSupportAudioOutput) can be used to ensure the test is
+         * not run -- a HeadlessException would occur otherwise. */
 
-        System.out.println(
-                "This testing environment... " + (hasAudioOutput
-                        ? "supports audio. Good."
-                        : "does not support audio output. Well that's unfortunate... this device does not contain any audio output devices, so audio-related tests cannot be conducted."
-                )
-        );
+        boolean hasAudioOutput = AudioManager.isOutputSupported();
+        String audioOutputResult = hasAudioOutput
+                                   ? "supports audio. All audio-related tests will be run."
+                                   : "does not support audio output. Well that's unfortunate... this device does not contain any audio output devices, so audio-related tests cannot be run.";
+
+        Log.info("This testing environment... {}", audioOutputResult);
 
         return hasAudioOutput;
     }

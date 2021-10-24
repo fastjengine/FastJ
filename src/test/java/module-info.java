@@ -3,6 +3,7 @@ module fastj.library.test {
     requires org.junit.jupiter.api;
 
     opens unittest.testcases.engine to org.junit.platform.commons;
+    opens unittest.testcases.engine.config to org.junit.platform.commons;
 
     opens unittest.testcases.graphics to org.junit.platform.commons;
     opens unittest.testcases.graphics.display to org.junit.platform.commons;
@@ -17,4 +18,6 @@ module fastj.library.test {
 
     opens unittest.testcases.systems.audio to org.junit.platform.commons;
     opens unittest.testcases.systems.control to org.junit.platform.commons;
+
+    opens unittest.testcases.logging to org.junit.platform.commons;
 }

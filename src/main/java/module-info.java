@@ -18,8 +18,11 @@
  */
 module fastj.library {
     requires transitive java.desktop;
+    requires transitive org.slf4j;
 
     exports tech.fastj.engine;
+    exports tech.fastj.engine.config;
+    exports tech.fastj.logging;
     exports tech.fastj.math;
 
     exports tech.fastj.graphics;
