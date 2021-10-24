@@ -6,9 +6,10 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
-import tech.fastj.resources.models.SupportedModelFormats;
 import tech.fastj.graphics.util.DrawUtil;
+
 import tech.fastj.resources.models.ModelUtil;
+import tech.fastj.resources.models.SupportedModelFormats;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -29,6 +30,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,6 +39,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class PsdfUtilTests {
+
+    private static final Logger Log = LoggerFactory.getLogger(PsdfUtilTests.class);
 
     private static final Path tempModelDirectoryPath = Path.of("temp");
     private static final Path pathToModel = Path.of(tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_house_model.psdf");
@@ -92,9 +97,9 @@ class PsdfUtilTests {
     @BeforeAll
     public static void createTempDirectoryAndFile_forReadWriteTests() throws IOException {
         Files.createDirectory(tempModelDirectoryPath);
-        System.out.println("Temporary directory created at: " + tempModelDirectoryPath.toAbsolutePath());
+        Log.debug("Temporary directory created at: {}", tempModelDirectoryPath.toAbsolutePath());
         Files.createFile(pathToTempFile);
-        System.out.println("Temporary .txt file created at: " + pathToTempFile.toAbsolutePath());
+        Log.debug("Temporary .txt file created at: {}", pathToTempFile.toAbsolutePath());
     }
 
     @AfterAll
@@ -108,7 +113,7 @@ class PsdfUtilTests {
                 }
             });
         }
-        System.out.println("Deleted directory and files at \"" + tempModelDirectoryPath.toAbsolutePath() + "\".");
+        Log.debug("Deleted directory and files at:  \"{}\".", tempModelDirectoryPath.toAbsolutePath());
     }
 
     @Test

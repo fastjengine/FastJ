@@ -11,11 +11,15 @@ import java.awt.RadialGradientPaint;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import unittest.mock.graphics.MockBoundariesDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GradientsTests {
+
+    private static final Logger Log = LoggerFactory.getLogger(GradientsTests.class);
 
     private static float randomFloat() {
         return Maths.random(1.0f, 100.0f);
@@ -54,7 +58,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random linear gradients (using a drawable with random boundaries)."
         );
 
-        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+        Log.trace("Generated linear gradients: {}", Arrays.toString(generatedLinearGradients));
     }
 
     @Test
@@ -75,7 +79,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random linear gradients with random alpha (using a drawable with random boundaries)."
         );
 
-        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+        Log.trace("Generated linear gradients: {}", Arrays.toString(generatedLinearGradients));
     }
 
     @Test
@@ -96,7 +100,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random linear gradients (using random starting and ending points)."
         );
 
-        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+        Log.trace("Generated linear gradients: {}", Arrays.toString(generatedLinearGradients));
     }
 
     @Test
@@ -117,7 +121,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random linear gradients with random alpha (using random starting and ending points)."
         );
 
-        System.out.println("Generated linear gradients: " + Arrays.toString(generatedLinearGradients));
+        Log.trace("Generated linear gradients: {}", Arrays.toString(generatedLinearGradients));
     }
 
     @Test
@@ -134,7 +138,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random radial gradients (using a drawable)."
         );
 
-        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
+        Log.trace("Generated radial gradients: {}", Arrays.toString(generatedRadialGradients));
     }
 
     @Test
@@ -151,7 +155,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random radial gradients with random alpha (using a drawable)."
         );
 
-        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
+        Log.trace("Generated radial gradients: {}", Arrays.toString(generatedRadialGradients));
     }
 
     @Test
@@ -172,7 +176,7 @@ class GradientsTests {
                 "Errors should not be produced while generating random radial gradients (using a random center and radius)."
         );
 
-        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
+        Log.trace("Generated radial gradients: {}", Arrays.toString(generatedRadialGradients));
     }
 
     @Test
@@ -193,6 +197,6 @@ class GradientsTests {
                 "Errors should not be produced while generating random radial gradients with alpha (using a random center and radius)."
         );
 
-        System.out.println("Generated radial gradients: " + Arrays.toString(generatedRadialGradients));
+        Log.trace("Generated radial gradients: {}", Arrays.toString(generatedRadialGradients));
     }
 }

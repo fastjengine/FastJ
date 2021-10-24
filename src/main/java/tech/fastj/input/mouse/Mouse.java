@@ -1,6 +1,8 @@
 package tech.fastj.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
@@ -30,11 +32,12 @@ import java.util.function.Consumer;
  */
 public class Mouse implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    private static final ScheduledExecutorService MouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
     private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
 
     private static final int InitialMouseButton = -1;
     private static final int InitialScrollDirection = 0;
+
+    private static ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static int buttonLastPressed = Mouse.InitialMouseButton;
     private static int buttonLastReleased = Mouse.InitialMouseButton;
@@ -119,6 +122,19 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 lastScrollDirection = mouseWheelEvent.getWheelRotation();
             }
     );
+
+    /** Initializes the mouse. */
+    public static void init() {
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Mouse.class, "Initializing {}", Mouse.class.getName());
+        }
+
+        mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Mouse.class, "Mouse initialization complete.");
+        }
+    }
 
     /**
      * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the
@@ -239,7 +255,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     private static void createSleeperThread(MouseAction e) {
         e.recentAction = true;
-        MouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
+        mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
     }
 
     /** Resets the {@code Mouse}. */
@@ -256,46 +272,78 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     public static void stop() {
         reset();
-        MouseExecutor.shutdownNow();
+        mouseExecutor.shutdownNow();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Mouse.class, "Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 

@@ -1,0 +1,47 @@
+import java.nio.file.Files
+
+plugins {
+    id 'java'
+}
+
+group('io.github.lucasstarsz.fastj')
+version('1.6.0-SNAPSHOT')
+description('Example programs for the FastJ Game Engine.')
+
+repositories {
+    mavenCentral()
+}
+
+dependencies.implementation(project(':'))
+dependencies.implementation('org.slf4j:slf4j-simple:2.0.0-alpha3')
+
+sourceSets {
+    main.java.srcDirs = ['java']
+    main.resources.srcDirs = ['resources']
+}
+
+task run(type: Exec) {
+    doFirst {
+        if (!project.hasProperty('toRun')) {
+            throw new IllegalArgumentException(
+                    'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew examples:run -PtoRun=hellofastj\"'
+            )
+        }
+
+        if (!Files.exists(java.nio.file.Path.of(projectDir.toString(), 'java', 'tech', 'fastj', 'examples', project.getProperty('toRun') as String))) {
+            throw new IllegalArgumentException(
+                    "The example ${project.getProperty('toRun')} does not exist."
+            )
+        }
+    }
+
+    dependsOn(tasks.compileJava)
+    description = 'Runs a FastJ example program.'
+    group = 'Execution'
+
+    commandLine(
+            'java',
+            '-classpath', sourceSets.main.runtimeClasspath.getAsPath(),
+            "tech.fastj.examples.${project.hasProperty('toRun') ? project.getProperty('toRun') : ''}.Main"
+    )
+}

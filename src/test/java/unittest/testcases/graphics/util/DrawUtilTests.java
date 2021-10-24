@@ -16,6 +16,8 @@ import java.util.Arrays;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -26,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DrawUtilTests {
+
+    private static final Logger Log = LoggerFactory.getLogger(DrawUtilTests.class);
 
     @Test
     void checkCreateCollisionOutline_withTwoSquares_shouldMatchExpected() {
@@ -403,7 +407,7 @@ class DrawUtilTests {
                 "Errors should not be produced while generating random RGB colors."
         );
 
-        System.out.println("Generated RGB colors: " + Arrays.toString(generatedRGBColors));
+        Log.trace("Generated RGB colors: {}", Arrays.toString(generatedRGBColors));
     }
 
     @Test
@@ -419,7 +423,7 @@ class DrawUtilTests {
                 "Errors should not be produced while generating random RGBA colors."
         );
 
-        System.out.println("Generated RGBA colors: " + Arrays.toString(generatedRGBAColors));
+        Log.trace("Generated RGBA colors: {}", Arrays.toString(generatedRGBAColors));
     }
 
     @Test
@@ -435,7 +439,7 @@ class DrawUtilTests {
                 "Errors should not be produced while generating random fonts."
         );
 
-        System.out.println("Generated fonts: " + Arrays.toString(generatedFonts));
+        Log.trace("Generated fonts: {}", Arrays.toString(generatedFonts));
     }
 
     @Test
@@ -451,7 +455,7 @@ class DrawUtilTests {
                 "Errors should not be produced while generating random outline strokes."
         );
 
-        System.out.println("Generated outline strokes: " + Arrays.toString(generatedOutlineStrokes));
+        Log.trace("Generated outline strokes: {}", Arrays.toString(generatedOutlineStrokes));
     }
 
     @Test

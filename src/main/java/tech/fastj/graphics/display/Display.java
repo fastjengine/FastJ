@@ -2,6 +2,8 @@ package tech.fastj.graphics.display;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
@@ -594,10 +596,16 @@ public class Display {
      */
     public void init() {
         if (!isReady) {
+            if (FastJEngine.isLogging(LogLevel.Debug)) {
+                Log.debug("Initializing Display...");
+            }
             initDisplay();
             resizeDisplay(windowResolution);
             setRenderHints();
             isReady = true;
+            if (FastJEngine.isLogging(LogLevel.Debug)) {
+                Log.debug("Display initialization complete.");
+            }
         }
     }
 
@@ -616,12 +624,18 @@ public class Display {
         isClosed = false;
         outputDisplay.setVisible(true);
         drawingCanvas.requestFocusInWindow();
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Display.class, "Opened Display.");
+        }
     }
 
     /** Closes and disposes of the {@code Display}. */
     public void close() {
         isClosed = true;
         outputDisplay.dispose();
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug("Closed Display.");
+        }
     }
 
     /** Initializes the display, and all of its components. */
@@ -629,6 +643,7 @@ public class Display {
         System.setProperty("sun.awt.noerasebackground", "true");
         Toolkit.getDefaultToolkit().setDynamicLayout(false);
         Keyboard.init();
+        Mouse.init();
 
         // JFrame display
         outputDisplay = new JFrame(vanityDisplayTitle);
