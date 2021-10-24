@@ -19,7 +19,7 @@ class EngineConfigTests {
         assertEquals(FastJEngine.DefaultFPS, EngineConfig.Default.targetFPS(), "The default engine config FPS should match the default FPS.");
         assertEquals(FastJEngine.DefaultUPS, EngineConfig.Default.targetUPS(), "The default engine config UPS should match the default UPS.");
         assertEquals(FastJEngine.DefaultWindowResolution, EngineConfig.Default.windowResolution(), "The default engine config window resolution should match the default window resolution.");
-        assertEquals(FastJEngine.DefaultInternalResolution, EngineConfig.Default.internalResolution(), "The default engine config internal resolution should match the default internal resolution.");
+        assertEquals(FastJEngine.DefaultCanvasResolution, EngineConfig.Default.internalResolution(), "The default engine config internal resolution should match the default canvas resolution.");
         assertEquals(FastJEngine.DefaultHardwareAcceleration, EngineConfig.Default.hardwareAcceleration(), "The default engine config hardware acceleration should match the default hardware acceleration.");
         assertEquals(FastJEngine.DefaultExceptionAction, EngineConfig.Default.exceptionAction(), "The default engine config exception action should match the default exception action.");
         assertEquals(FastJEngine.DefaultLogLevel, EngineConfig.Default.logLevel(), "The default engine config log level should match the default log level.");

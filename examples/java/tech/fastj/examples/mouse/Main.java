@@ -1,7 +1,7 @@
 package tech.fastj.examples.mouse;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -19,7 +19,7 @@ public class Main extends SimpleManager {
     Polygon2D button;
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* Mouse */
 
         /* Mouse controls in FastJ can be achieved through a few different methods.
@@ -88,7 +88,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         /* Polling the Mouse for mouse state */
 
         /* The Mouse class has a plethora of methods for checking the mouse's state.

@@ -2,7 +2,7 @@ package tech.fastj.examples.text2d;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.SimpleManager;
@@ -13,7 +13,7 @@ import java.awt.Font;
 public class Main extends SimpleManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* Text2D */
 
         /* In order to create a Text2D, you just need to have a String containing text. */
@@ -62,7 +62,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         // Empty -- this example does not make use of this method.
     }
 

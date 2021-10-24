@@ -6,7 +6,7 @@ import java.awt.RenderingHints;
 
 /**
  * Based on the {@link RenderingHints} class, the {@code RenderSettings} class provides a simple way to set rendering
- * options using {@link Display#modifyRenderSettings(RenderSettings)}.
+ * options using {@link FastJCanvas#modifyRenderSettings(RenderSettings)}.
  *
  * @author Andrew Dey
  * @since 1.5.0

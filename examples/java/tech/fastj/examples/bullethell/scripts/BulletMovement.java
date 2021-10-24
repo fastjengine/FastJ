@@ -33,7 +33,7 @@ public class BulletMovement implements Behavior {
     public void update(GameObject obj) {
         Pointf originalTranslation = obj.getTranslation();
         obj.translate(travelVector);
-        if (!FastJEngine.getDisplay().isOnScreen(obj, gameScene.getCamera())) {
+        if (!FastJEngine.getCanvas().isOnScreen(obj, gameScene.getCamera())) {
             bulletDied(obj);
         }
 

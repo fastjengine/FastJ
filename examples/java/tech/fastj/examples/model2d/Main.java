@@ -2,7 +2,7 @@ package tech.fastj.examples.model2d;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
@@ -12,7 +12,7 @@ import tech.fastj.systems.control.SimpleManager;
 public class Main extends SimpleManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* Model2D */
 
         /* WARNING: If you're not familiar with FastJ, you'll need to read through the
@@ -73,7 +73,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         // Empty -- this example does not make use of this method.
     }
 

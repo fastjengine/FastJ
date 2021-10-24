@@ -71,7 +71,7 @@ public class PlayerHealthBar implements Behavior {
                 FastJEngine.runAfterUpdate(() -> {
                     SceneManager sceneManager = FastJEngine.getLogicManager();
                     sceneManager.switchScenes(SceneNames.LoseSceneName);
-                    sceneManager.getScene(SceneNames.GameSceneName).unload(FastJEngine.getDisplay());
+                    sceneManager.getScene(SceneNames.GameSceneName).unload(FastJEngine.getCanvas());
                 });
             }
         }

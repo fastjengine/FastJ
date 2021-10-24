@@ -1,7 +1,7 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.graphics.display.Camera;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
@@ -62,13 +62,13 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
     }
 
     /**
-     * Renders the contents of the manager's {@code DrawableManager} to the {@code Display}.
+     * Renders the contents of the {@code DrawableManager} to the {@code FastJCanvas}.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
     @Override
-    public void render(Display display) {
-        display.render(
+    public void render(FastJCanvas canvas) {
+        canvas.render(
                 drawableManager.getGameObjects(),
                 drawableManager.getUIElements(),
                 camera

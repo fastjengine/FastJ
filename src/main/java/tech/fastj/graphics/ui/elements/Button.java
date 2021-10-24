@@ -86,7 +86,7 @@ public class Button extends UIElement {
         this.font = DefaultFont;
         this.text = DefaultText;
 
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
     }
 
     /**
@@ -109,7 +109,7 @@ public class Button extends UIElement {
         this.font = DefaultFont;
         this.text = DefaultText;
 
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
     }
 
     /**
@@ -149,7 +149,7 @@ public class Button extends UIElement {
      */
     public Button setText(String text) {
         this.text = text;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
         return this;
     }
 
@@ -170,7 +170,7 @@ public class Button extends UIElement {
      */
     public Button setFont(Font font) {
         this.font = font;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
         return this;
     }
 

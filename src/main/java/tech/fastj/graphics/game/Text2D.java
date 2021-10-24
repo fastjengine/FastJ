@@ -118,7 +118,7 @@ public class Text2D extends GameObject {
      */
     public Text2D setText(String newText) {
         text = newText;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
 
         return this;
     }
@@ -142,7 +142,7 @@ public class Text2D extends GameObject {
      */
     public Text2D setFont(Font newFont) {
         font = newFont;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        setMetrics(FastJEngine.getCanvas().getGraphics());
 
         return this;
     }

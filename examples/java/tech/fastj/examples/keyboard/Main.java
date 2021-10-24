@@ -1,7 +1,7 @@
 package tech.fastj.examples.keyboard;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
@@ -13,7 +13,7 @@ import tech.fastj.systems.control.SimpleManager;
 public class Main extends SimpleManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* Keyboard */
 
         /* Keyboard controls in FastJ can be achieved through a few different methods.
@@ -64,7 +64,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         /* Polling Keyboard for key state */
 
         /* The Keyboard class has a plethora of methods for checking a key's state.

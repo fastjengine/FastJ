@@ -3,7 +3,8 @@ package tech.fastj.examples.rendersettings;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.RenderSettings;
 import tech.fastj.graphics.game.Text2D;
 
@@ -12,7 +13,7 @@ import tech.fastj.systems.control.SimpleManager;
 public class Main extends SimpleManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         /* RenderSettings */
 
         /* FastJ provides a way to modify global rendering options through the Display class. Using
@@ -39,8 +40,8 @@ public class Main extends SimpleManager {
          * Feel free to mess around with other render settings to help you determine what they do -- don't forget to
          * look at their documentation as well. */
 
-        display.modifyRenderSettings(RenderSettings.TextAntialiasing.Enable);
-        display.modifyRenderSettings(RenderSettings.GeneralRenderingQuality.High);
+        canvas.modifyRenderSettings(RenderSettings.TextAntialiasing.Enable);
+        canvas.modifyRenderSettings(RenderSettings.GeneralRenderingQuality.High);
 
 
         /* As a small aside, I've added a Text2D object to help the visualization of how settings affect a program's
@@ -53,7 +54,7 @@ public class Main extends SimpleManager {
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
         // Empty -- this example does not make use of this method.
     }
 

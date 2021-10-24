@@ -218,7 +218,7 @@ public class InputManager {
      * This method also empties the event backlog into the main event set after all the current events have been
      * processed and removed.
      */
-    public void processEvents() {
+    public synchronized void processEvents() {
         isProcessingEvents = true;
 
         for (InputEvent inputEvent : receivedInputEvents) {

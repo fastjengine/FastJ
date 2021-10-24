@@ -3,7 +3,7 @@ package tech.fastj.examples.bullethell.scenes;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Text2D;
 
 import tech.fastj.systems.control.Scene;
@@ -24,7 +24,7 @@ public class LoseScene extends Scene {
     }
 
     @Override
-    public void load(Display display) {
+    public void load(FastJCanvas canvas) {
         GameScene gameScene = FastJEngine.<SceneManager>getLogicManager().getScene(SceneNames.GameSceneName);
         int waveNumber = gameScene.getWaveNumber();
 
@@ -43,13 +43,13 @@ public class LoseScene extends Scene {
     }
 
     @Override
-    public void unload(Display display) {
+    public void unload(FastJCanvas canvas) {
         loseText.destroy(this);
         deathInfo.destroy(this);
     }
 
     @Override
-    public void update(Display display) {
+    public void update(FastJCanvas canvas) {
 
     }
 }

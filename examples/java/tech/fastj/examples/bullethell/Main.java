@@ -1,8 +1,9 @@
 package tech.fastj.examples.bullethell;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.graphics.display.SimpleDisplay;
 import tech.fastj.logging.LogLevel;
-import tech.fastj.graphics.display.Display;
 
 import tech.fastj.systems.control.SceneManager;
 
@@ -14,7 +15,7 @@ import tech.fastj.examples.bullethell.scenes.LoseScene;
 public class Main extends SceneManager {
 
     @Override
-    public void init(Display display) {
+    public void init(FastJCanvas canvas) {
         GameScene gameScene = new GameScene();
         this.addScene(gameScene);
         this.setCurrentScene(gameScene);
@@ -23,9 +24,10 @@ public class Main extends SceneManager {
         LoseScene loseScene = new LoseScene();
         this.addScene(loseScene);
 
-        display.setBackgroundColor(Color.lightGray);
-        display.showFPSInTitle(true);
-        display.getJFrame().setResizable(false);
+        SimpleDisplay display = FastJEngine.getDisplay();
+        canvas.setBackgroundColor(Color.lightGray);
+//        display.showFPSInTitle(true);
+        display.getWindow().setResizable(false);
     }
 
     public static void main(String[] args) {

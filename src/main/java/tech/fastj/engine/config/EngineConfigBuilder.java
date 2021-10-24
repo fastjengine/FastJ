@@ -11,7 +11,7 @@ public class EngineConfigBuilder {
     private int targetUPS = FastJEngine.DefaultUPS;
 
     private Point windowResolution = FastJEngine.DefaultWindowResolution.copy();
-    private Point internalResolution = FastJEngine.DefaultInternalResolution.copy();
+    private Point internalResolution = FastJEngine.DefaultCanvasResolution.copy();
 
     private HWAccel hardwareAcceleration = FastJEngine.DefaultHardwareAcceleration;
     private ExceptionAction exceptionAction = FastJEngine.DefaultExceptionAction;
