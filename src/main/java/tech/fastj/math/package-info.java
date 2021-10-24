@@ -1,5 +1,2 @@
+/** FastJ's math library. */
 package tech.fastj.math;
-
-/**
- * FastJ's math library.
- */

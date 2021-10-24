@@ -1,20 +1,29 @@
+import tech.fastj.resources.ResourceManager;
+
 /**
  * The FastJ Library in its entirety.
  * <p>
- * FastJ does not use any external dependencies -- it relies entirely on Java 11's {@code java.desktop} module, using
- * java2d to display output.
+ * FastJ relies on Java 11's <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.desktop/module-summary.html"
+ * target="_blank">java.desktop</a> module, using java2d to display output. Logging capabilities are provided by
+ * <a href="https://www.slf4j.org/" target="_blank">SLF4J</a>.
  * <p>
- * This game library is split into 5 parts:
+ * This game library is split into several parts:
  * <ol>
  *     <li>{@link tech.fastj.engine} -- The package containing the base of the game engine.</li>
  *     <li>{@link tech.fastj.graphics} -- Game objects and other graphical content.</li>
- *     <li>{@link tech.fastj.input} -- User input via keyboard/mouse.</li>
+ *     <li>{@link tech.fastj.input} -- User input and events via keyboard &amp; mouse.</li>
+ *     <li>{@link tech.fastj.logging} -- FastJ's logging system, abstracted over
+ *          <a href="https://www.slf4j.org/" target="_blank">SLF4J</a>.</li>
  *     <li>{@link tech.fastj.math} -- FastJ's supplementary mathematics and vector library.</li>
+ *     <li>{@link tech.fastj.resources} -- FastJ's {@link ResourceManager resource manager}, model loading system, image
+ *          system, and other file-related content.</li>
  *     <li>{@link tech.fastj.systems} -- Audio, behaviors, and other miscellaneous features of FastJ.</li>
  * </ol>
  * <p>
- * For more information, check out
- * <a href="https://github.com/fastjengine/FastJ" target="_blank">the github repository.</a>
+ * For more information on the source code, check out
+ * <a href="https://github.com/fastjengine/FastJ" target="_blank">the github repository</a>.
+ * <p>
+ * For more information on FastJ itself, check out <a href="https://fastj.tech" target="_blank">FastJ's website</a>.
  */
 module fastj.library {
     requires transitive java.desktop;
