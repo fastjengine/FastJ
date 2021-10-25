@@ -41,27 +41,27 @@ public class SimpleDisplay implements Display {
     private DisplayState suspendedState;
 
     private static final Map<DisplayEvent, BiConsumer<SimpleDisplay, WindowEvent>> windowEvents = Map.of(
-            DisplayEvent.Opened, (display, windowEvent) -> FastJEngine.log("window \"" + display.displayTitle + "\" opened"),
+            DisplayEvent.Opened, (display, windowEvent) -> FastJEngine.debug("window \"{}\" opened", display.displayTitle),
             DisplayEvent.Closing, (display, windowEvent) -> {
-                FastJEngine.log("window \"" + display.displayTitle + " closing");
+                FastJEngine.debug("window \"{}\" closing", display.displayTitle);
                 FastJEngine.forceCloseGame();
                 display.close();
             },
-            DisplayEvent.Closed, (display, windowEvent) -> FastJEngine.log("window \"" + display.displayTitle + "\" closed"),
+            DisplayEvent.Closed, (display, windowEvent) -> FastJEngine.debug("window \"{}\" closed", display.displayTitle),
             DisplayEvent.Iconified, (display, windowEvent) -> {
-                FastJEngine.log("window \"" + display.displayTitle + "\" iconified");
+                FastJEngine.debug("window \"{}\" iconified", display.displayTitle);
                 display.suspendedState = display.displayState;
                 display.updateDisplayState(DisplayState.Iconified);
-                FastJEngine.log("suspended " + display.suspendedState);
+                FastJEngine.debug("window \"{}\" suspended {} state", display.displayTitle, display.suspendedState);
             },
             DisplayEvent.DeIconified, (display, windowEvent) -> {
-                FastJEngine.log("window \"" + display.displayTitle + "\" de-iconified");
+                FastJEngine.debug("window \"{}\" de-iconified", display.displayTitle);
                 display.suspendedState = null;
                 display.updateDisplayState(display.oldDisplayState);
-                FastJEngine.log("removed suspended " + display.suspendedState);
+                FastJEngine.debug("window \"{}\" removed suspended {} state", display.displayTitle, display.suspendedState);
             },
-            DisplayEvent.Activated, (display, windowEvent) -> FastJEngine.log("window \"" + display.displayTitle + "\" activated"),
-            DisplayEvent.Deactivated, (display, windowEvent) -> FastJEngine.log("window \"" + display.displayTitle + "\" de-activated")
+            DisplayEvent.Activated, (display, windowEvent) -> FastJEngine.debug("window \"{}\" activated", display.displayTitle),
+            DisplayEvent.Deactivated, (display, windowEvent) -> FastJEngine.debug("window \"{}\" de-activated", display.displayTitle)
     );
 
     public SimpleDisplay() {
@@ -123,14 +123,14 @@ public class SimpleDisplay implements Display {
                 }
 
                 Point newSize = new Point(window.getSize());
-                FastJEngine.log("window \"" + displayTitle + "\" resize event to " + newSize);
+                FastJEngine.debug("window \"{}\" resize event to {}", displayTitle, newSize);
                 resizeDisplay(newSize);
             }
 
             @Override
             public void componentMoved(ComponentEvent e) {
                 Point newLocation = new Point(e.getComponent().getLocation());
-                FastJEngine.log("window \"" + displayTitle + "\" moved to " + newLocation);
+                FastJEngine.trace("window \"{}\" moved to {}", displayTitle, newLocation);
             }
         });
 
@@ -160,10 +160,20 @@ public class SimpleDisplay implements Display {
         return displayState;
     }
 
+    /**
+     * Gets the display's second most recent state.
+     *
+     * @return The display's old {@link DisplayState}.
+     */
     public DisplayState getOldDisplayState() {
         return oldDisplayState;
     }
 
+    /**
+     * Gets the display's state from when it was {@link DisplayState#Iconified suspended (iconified)}.
+     *
+     * @return The display's suspended {@link DisplayState}.
+     */
     public DisplayState getSuspendedState() {
         return suspendedState;
     }
@@ -180,7 +190,7 @@ public class SimpleDisplay implements Display {
      */
     public void resizeDisplay(Point newResolution) {
         window.setPreferredSize(newResolution.asDimension());
-        FastJEngine.log("resized \"" + displayTitle + "\" to " + newResolution);
+        FastJEngine.debug("resized \"{}\" to {}", displayTitle, newResolution);
         FastJEngine.getCanvas().resize(newResolution);
         revalidateWindow();
     }
@@ -249,7 +259,7 @@ public class SimpleDisplay implements Display {
     }
 
     private void updateDisplayState(DisplayState nextState) {
-        FastJEngine.log(String.format("Current window state: %s, next window state: %s", displayState, nextState));
+        FastJEngine.debug("Updating window \"{}\"'s state -- current: {}, next: {}", displayTitle, displayState, nextState);
         oldDisplayState = displayState;
         displayState = nextState;
     }

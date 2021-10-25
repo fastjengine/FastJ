@@ -268,7 +268,7 @@ public class FastJCanvas {
     public void resize(Point newResolution) {
         canvas.setPreferredSize(newResolution.asDimension());
         canvas.revalidate();
-        FastJEngine.log("resized canvas to " + newResolution);
+        FastJEngine.debug("resized canvas to {}", newResolution);
     }
 
     /**
