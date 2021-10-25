@@ -30,7 +30,7 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | Scriptable Behaviors | Control GameObject state                                    |    ✅    |
 | Desktop Support      | Full Compatibility on Windows, Linux, and macOS             |    ✅    |
 | Audio Engine         | Loading, Playing, and Controlling .wav, .au, .aiff files    |    ✔     |
-| Image Support        | Image rendering, Sprite Animation                           |    ❌    |
+| Image Support        | Image rendering, Sprite Animation                           |    ✔    |
 | Animation Support    | Interpolation, Tweening Framework                           |    ⭕    |
 | UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
 | FastJ Model Creator  | Create & Export 2D Models                                   |    ❌    |
@@ -54,7 +54,7 @@ This library can be found in the following places:
 
 
 ### Adding the Dependency
-When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.5.1**.
+When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.6.0-SNAPSHOT.1**.
 
 A few common dependencies are provided below:
 
@@ -178,7 +178,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [MIT-License]: https://github.com/fastjengine/FastJ/tree/main/LICENSE.txt "MIT Licensing"
 
 [FastJ-Tutorials]: https://fastj.tech/wiki/fastj-basics/fastj-quick-start "FastJ Tutorials"
-[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/main/src/example "FastJ: Example Game"
+[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/main/src/example "FastJ Examples"
 
 [Contributing-Guidelines]: https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md "Contributing to FastJ"
 
