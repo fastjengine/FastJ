@@ -179,7 +179,7 @@ public class SimpleDisplay implements Display {
      * @param newResolution The size for the screen to be set to, as a {@code Point}.
      */
     public void resizeDisplay(Point newResolution) {
-        window.setPreferredSize(newResolution.asDimension());
+        window.setSize(newResolution.asDimension());
         FastJEngine.log("resized \"" + displayTitle + "\" to " + newResolution);
         FastJEngine.getCanvas().resize(newResolution);
         revalidateWindow();
