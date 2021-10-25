@@ -34,8 +34,8 @@ public class Sprite2D extends GameObject {
 
     Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount) {
         this.spritesResource = spritesResource;
-        setCollisionPath(DrawUtil.createPath(DrawUtil.createBoxFromImage(sprites[0])));
         resetSpriteSheet(horizontalImageCount, verticalImageCount);
+        setCollisionPath(DrawUtil.createPath(DrawUtil.createBoxFromImage(sprites[0])));
         resetSpriteAnimator();
     }
 
