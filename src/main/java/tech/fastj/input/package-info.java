@@ -1,5 +1,2 @@
+/** Handles all input events. */
 package tech.fastj.input;
-
-/**
- * Handles all input events.
- */
