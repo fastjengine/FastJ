@@ -50,7 +50,7 @@ wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
-dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.1')
 
 
 /* ********************* *
