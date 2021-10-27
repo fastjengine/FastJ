@@ -140,7 +140,18 @@ spotless {
         googleJavaFormat()
 
         trimTrailingWhitespace()
-        importOrder('tech.fastj.engine', 'tech.fastj.math', 'tech.fastj.graphics', 'tech.fastj.input', 'tech.fastj.resources', 'tech.fastj.systems', 'java', 'javax')
+
+        importOrder(
+                'tech.fastj.engine',
+                'tech.fastj.math',
+                'tech.fastj.graphics',
+                'tech.fastj.input',
+                'tech.fastj.resources',
+                'tech.fastj.systems',
+                'java',
+                'javax'
+        )
+        
         removeUnusedImports()
     }
 }
