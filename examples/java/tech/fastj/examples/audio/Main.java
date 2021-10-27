@@ -26,7 +26,7 @@ public class Main {
          * distributed format. Path resolves its paths based on where the program is called,
          * which most of the time does not work for programs that have shortcuts (like most
          * executables on Windows!) */
-        AudioManager.playSound(Path.of("src/example/resources/sound/test_audio.wav"));
+        AudioManager.playSound(Path.of("resources/sound/test_audio.wav"));
 
 
         /* For the sake of this example, I've put a second of sleep time after each audio sound.
