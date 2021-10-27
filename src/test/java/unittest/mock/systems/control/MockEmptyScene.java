@@ -8,19 +8,16 @@ import java.util.UUID;
 
 public class MockEmptyScene extends Scene {
 
-    public MockEmptyScene() {
-        super(UUID.randomUUID().toString());
-    }
+  public MockEmptyScene() {
+    super(UUID.randomUUID().toString());
+  }
 
-    @Override
-    public void load(Display display) {
-    }
+  @Override
+  public void load(Display display) {}
 
-    @Override
-    public void unload(Display display) {
-    }
+  @Override
+  public void unload(Display display) {}
 
-    @Override
-    public void update(Display display) {
-    }
+  @Override
+  public void update(Display display) {}
 }

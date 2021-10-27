@@ -1,5 +1,3 @@
 package tech.fastj.input.keyboard;
 
-/**
- * Handles all keyboard inputs.
- */
+/** Handles all keyboard inputs. */

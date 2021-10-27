@@ -1,5 +1,3 @@
 package tech.fastj.graphics.io;
 
-/**
- * FastJ model file IO.
- */
+/** FastJ model file IO. */

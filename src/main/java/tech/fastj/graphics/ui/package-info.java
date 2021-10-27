@@ -1,5 +1,3 @@
 package tech.fastj.graphics.ui;
 
-/**
- * FastJ's UI system.
- */
+/** FastJ's UI system. */

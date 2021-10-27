@@ -1,5 +1,3 @@
 package tech.fastj.systems.audio;
 
-/**
- * FastJ's audio system.
- */
+/** FastJ's audio system. */

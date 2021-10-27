@@ -9,6 +9,9 @@ plugins {
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
     id 'signing'
+
+    // To be able to use Spotless in the project, this will be needed.
+    id "com.diffplug.spotless" version "5.16.0"
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -125,6 +128,20 @@ tasks.withType(Test) {
                 }
             }
         }
+    }
+}
+
+/* ************************* *
+ *   Spotless Integration   *
+ * ************************* */
+
+spotless {
+    java {
+        googleJavaFormat()
+
+        trimTrailingWhitespace()
+        importOrder('tech.fastj.engine', 'tech.fastj.math', 'tech.fastj.graphics', 'tech.fastj.input', 'tech.fastj.resources', 'tech.fastj.systems', 'java', 'javax')
+        removeUnusedImports()
     }
 }
 

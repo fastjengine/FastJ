@@ -11,29 +11,34 @@ import java.util.Arrays;
  * @since 1.0.0
  */
 public class ThreadFixer {
-    private static boolean isDaemonRunning;
+  private static boolean isDaemonRunning;
 
-    private ThreadFixer() {
-        throw new java.lang.IllegalStateException();
-    }
+  private ThreadFixer() {
+    throw new java.lang.IllegalStateException();
+  }
 
-    /** Starts a daemon thread, if one has not already been started. */
-    public static void start() {
-        if (!isDaemonRunning && System.getProperty("os.name").startsWith("Win")) {
-            isDaemonRunning = true;
+  /** Starts a daemon thread, if one has not already been started. */
+  public static void start() {
+    if (!isDaemonRunning && System.getProperty("os.name").startsWith("Win")) {
+      isDaemonRunning = true;
 
-            Thread dThread = new Thread(() -> {
+      Thread dThread =
+          new Thread(
+              () -> {
                 while (true) {
-                    try {
-                        Thread.sleep(Long.MAX_VALUE);
-                    } catch (InterruptedException exception) {
-                        FastJEngine.warning("Interrupted while in daemon sleep: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
-                        Thread.currentThread().interrupt();
-                    }
+                  try {
+                    Thread.sleep(Long.MAX_VALUE);
+                  } catch (InterruptedException exception) {
+                    FastJEngine.warning(
+                        "Interrupted while in daemon sleep: "
+                            + exception.getMessage()
+                            + Arrays.deepToString(exception.getStackTrace()));
+                    Thread.currentThread().interrupt();
+                  }
                 }
-            });
-            dThread.setDaemon(true);
-            dThread.start();
-        }
+              });
+      dThread.setDaemon(true);
+      dThread.start();
     }
+  }
 }

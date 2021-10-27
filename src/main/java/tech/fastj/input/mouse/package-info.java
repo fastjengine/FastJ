@@ -1,5 +1,3 @@
 package tech.fastj.input.mouse;
 
-/**
- * Handles all mouse input.
- */
+/** Handles all mouse input. */
