@@ -44,6 +44,7 @@ public class Main {
          * "FastJEngine#trace" and "Log#trace" both relate to "LogLevel.Trace". */
         FastJEngine.debug("Quite the debug message, don't you think so?.");
         Log.debug(Main.class, "I do say, this is an interesting debug message.");
+
         FastJEngine.trace("I wonder if I'll be able to see this trace among all the other logs...");
         Log.trace(Main.class, "Perhaps if you saw the first trace message, maybe you'll see this one too...");
 
