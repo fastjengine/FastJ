@@ -1,5 +1,7 @@
 package tech.fastj.examples.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.systems.audio.AudioManager;
 
 import java.nio.file.Path;
@@ -26,7 +28,8 @@ public class Main {
          * distributed format. Path resolves its paths based on where the program is called,
          * which most of the time does not work for programs that have shortcuts (like most
          * executables on Windows!) */
-        AudioManager.playSound(Path.of("src/example/resources/sound/test_audio.wav"));
+        FastJEngine.log("Now playing: test_audio.wav from file Path");
+        AudioManager.playSound(Path.of("resources/sound/test_audio.wav"));
 
 
         /* For the sake of this example, I've put a second of sleep time after each audio sound.
@@ -38,13 +41,15 @@ public class Main {
          * - A URL (java.net.URL) is also a path to a file, but with slightly different rules and
          *   configuration.
          *
-         * A URL takes a bit more to set up -- it requires a class loader, which you can get using:
+         * A URL takes a bit more to set up in our case -- it requires a class loader, which you
+         * can get using:
          *
          *   YourClass.class.getClassLoader();
          *
          * The cool thing about class loaders, however, is that they manage resources much easier
          * than Path does when it comes to portable files. The usage below will work inside a
          * jarfile as well as outside one. */
+        FastJEngine.log("Now playing: test_audio.wav from URL");
         AudioManager.playSound(Main.class.getClassLoader().getResource("sound/test_audio.wav"));
 
 

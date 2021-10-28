@@ -35,7 +35,7 @@ task run(type: Exec) {
         }
     }
 
-    dependsOn(tasks.compileJava)
+    dependsOn(tasks.compileJava, tasks.processResources)
     description = 'Runs a FastJ example program.'
     group = 'Execution'
 
