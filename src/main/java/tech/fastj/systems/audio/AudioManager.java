@@ -4,9 +4,9 @@ import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.resources.files.FileUtil;
+
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.sound.sampled.*;
 
 /**
  * The manager of all audio-based content.

@@ -1,5 +1,8 @@
 package unittest.testcases.systems.control;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.game.GameObject;
@@ -8,13 +11,10 @@ import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.SimpleManager;
 import tech.fastj.systems.tags.TagManager;
 
-import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockDrawable;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.control.MockEmptySimpleManager;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 class SimpleManagerTests {
 

@@ -4,6 +4,7 @@ import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
+
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.tags.TagHandler;

@@ -1,7 +1,13 @@
 package unittest.testcases.graphics.gradients;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.gradients.RadialGradientBuilder;
 
@@ -9,11 +15,6 @@ import java.awt.Color;
 import java.awt.RadialGradientPaint;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RadialGradientTests {
 

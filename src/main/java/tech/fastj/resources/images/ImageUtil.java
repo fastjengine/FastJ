@@ -4,7 +4,6 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.resources.files.FileUtil;
 
-import javax.imageio.ImageIO;
 import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,6 +15,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.VolatileImage;
 import java.io.IOException;
 import java.nio.file.Path;
+
+import javax.imageio.ImageIO;
 
 public class ImageUtil {
 

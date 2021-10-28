@@ -1,19 +1,20 @@
 package unittest.testcases.engine.config;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
-import tech.fastj.logging.LogLevel;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 
+import tech.fastj.logging.LogLevel;
+import unittest.EnvironmentHelper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class EngineConfigTests {
 

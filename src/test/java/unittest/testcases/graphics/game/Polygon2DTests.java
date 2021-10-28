@@ -1,8 +1,13 @@
 package unittest.testcases.graphics.game;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
@@ -13,10 +18,6 @@ import java.awt.Color;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class Polygon2DTests {
 

@@ -1,11 +1,19 @@
 package unittest.testcases.engine;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 
+import tech.fastj.graphics.display.FastJCanvas;
+
 import tech.fastj.systems.control.SimpleManager;
+
+import unittest.EnvironmentHelper;
+import unittest.mock.systems.control.MockEmptySimpleManager;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -15,12 +23,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import unittest.EnvironmentHelper;
-import unittest.mock.systems.control.MockEmptySimpleManager;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FastJEngineTests {

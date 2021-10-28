@@ -2,6 +2,7 @@ package tech.fastj.systems.control;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.graphics.display.FastJCanvas;
 
 import java.awt.event.InputEvent;

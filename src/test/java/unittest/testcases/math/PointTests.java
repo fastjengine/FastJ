@@ -1,5 +1,9 @@
 package unittest.testcases.math;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
@@ -11,10 +15,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PointTests {
 

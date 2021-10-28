@@ -1,22 +1,24 @@
 package unittest.testcases.graphics.gradients;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.gradients.LinearGradientBuilder;
 
+import unittest.mock.graphics.MockDrawable;
+
 import java.awt.Color;
 import java.awt.LinearGradientPaint;
 
 import org.junit.jupiter.api.Test;
-import unittest.mock.graphics.MockDrawable;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LinearGradientTests {
 

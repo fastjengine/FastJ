@@ -1,8 +1,10 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.control.Scene;

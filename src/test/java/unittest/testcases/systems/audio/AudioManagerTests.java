@@ -1,26 +1,28 @@
 package unittest.testcases.systems.audio;
 
-import tech.fastj.systems.audio.AudioManager;
-import tech.fastj.systems.audio.MemoryAudio;
-import tech.fastj.systems.audio.StreamedAudio;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.UUID;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import tech.fastj.systems.audio.AudioManager;
+import tech.fastj.systems.audio.MemoryAudio;
+import tech.fastj.systems.audio.StreamedAudio;
+
+import unittest.EnvironmentHelper;
+
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.util.UUID;
+
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class AudioManagerTests {
 

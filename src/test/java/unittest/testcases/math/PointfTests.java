@@ -1,5 +1,9 @@
 package unittest.testcases.math;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
@@ -11,10 +15,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PointfTests {
 
@@ -195,7 +195,7 @@ class PointfTests {
         assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
 
         ptf.set(5f);
-        
+
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f");
         assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f");
     }

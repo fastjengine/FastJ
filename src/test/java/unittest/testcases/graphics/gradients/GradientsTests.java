@@ -1,10 +1,15 @@
 package unittest.testcases.graphics.gradients;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.gradients.Gradients;
+
+import unittest.mock.graphics.MockBoundariesDrawable;
 
 import java.awt.LinearGradientPaint;
 import java.awt.RadialGradientPaint;
@@ -13,9 +18,6 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unittest.mock.graphics.MockBoundariesDrawable;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GradientsTests {
 

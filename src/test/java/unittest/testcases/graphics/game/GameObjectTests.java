@@ -1,22 +1,23 @@
 package unittest.testcases.graphics.game;
 
-import tech.fastj.math.Maths;
-import tech.fastj.graphics.game.GameObject;
-
-import tech.fastj.systems.behaviors.Behavior;
-import tech.fastj.systems.control.Scene;
-
-import org.junit.jupiter.api.Test;
-import unittest.mock.graphics.MockGameObject;
-import unittest.mock.systems.behaviors.MockBehavior;
-import unittest.mock.systems.control.MockEmptyScene;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import tech.fastj.math.Maths;
+
+import tech.fastj.graphics.game.GameObject;
+
+import tech.fastj.systems.behaviors.Behavior;
+import tech.fastj.systems.control.Scene;
+
+import unittest.mock.graphics.MockGameObject;
+import unittest.mock.systems.behaviors.MockBehavior;
+import unittest.mock.systems.control.MockEmptyScene;
+import org.junit.jupiter.api.Test;
 
 class GameObjectTests {
 

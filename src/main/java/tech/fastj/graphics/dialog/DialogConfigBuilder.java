@@ -1,8 +1,9 @@
 package tech.fastj.graphics.dialog;
 
-import javax.swing.Icon;
 import java.awt.Component;
 import java.util.Objects;
+
+import javax.swing.Icon;
 
 public class DialogConfigBuilder {
 

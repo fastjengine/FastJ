@@ -1,6 +1,7 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
