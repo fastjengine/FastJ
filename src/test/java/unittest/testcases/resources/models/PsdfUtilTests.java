@@ -1,4 +1,4 @@
-package unittest.testcases.graphics.io;
+package unittest.testcases.resources.models;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
