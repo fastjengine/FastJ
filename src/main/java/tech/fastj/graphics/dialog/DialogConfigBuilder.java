@@ -8,7 +8,7 @@ public class DialogConfigBuilder {
 
     private Component parentComponent = DialogConfig.DefaultParentComponent;
     private String title = DialogConfig.DefaultTitle;
-    private String promptText = DialogConfig.DefaultPromptText;
+    private Object prompt = DialogConfig.DefaultPromptText;
     private Icon icon = DialogConfig.DefaultIcon;
 
     DialogConfigBuilder() {
@@ -24,8 +24,8 @@ public class DialogConfigBuilder {
         return this;
     }
 
-    public DialogConfigBuilder withPromptText(String promptText) {
-        this.promptText = Objects.requireNonNull(promptText, "The prompt text should not be null.");
+    public DialogConfigBuilder withPrompt(Object prompt) {
+        this.prompt = Objects.requireNonNull(prompt, "The prompt should not be null.");
         return this;
     }
 
@@ -35,6 +35,6 @@ public class DialogConfigBuilder {
     }
 
     public DialogConfig build() {
-        return new DialogConfig(parentComponent, title, promptText, icon);
+        return new DialogConfig(parentComponent, title, prompt, icon);
     }
 }

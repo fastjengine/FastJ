@@ -12,13 +12,13 @@ public class DialogConfig {
 
     private final Component parentComponent;
     private final String title;
-    private final String promptText;
+    private final Object prompt;
     private final Icon icon;
 
-    DialogConfig(Component parentComponent, String title, String promptText, Icon icon) {
+    DialogConfig(Component parentComponent, String title, Object prompt, Icon icon) {
         this.parentComponent = parentComponent;
         this.title = title;
-        this.promptText = promptText;
+        this.prompt = prompt;
         this.icon = icon;
     }
 
@@ -34,8 +34,8 @@ public class DialogConfig {
         return title;
     }
 
-    public String promptText() {
-        return promptText;
+    public Object prompt() {
+        return prompt;
     }
 
     public Icon icon() {
