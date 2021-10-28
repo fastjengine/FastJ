@@ -97,9 +97,9 @@ There are many different ways to learn FastJ -- namely the API documentation, th
 ### Template Projects
 Check out these template projects for FastJ! They're the fastest way to jump right into using FastJ.
 
-- Java: https://github.com/lucasstarsz/fastj-java-template
-- Kotlin: https://github.com/lucasstarsz/fastj-kotlin-template
-- Groovy: https://github.com/lucasstarsz/fastj-groovy-template
+- Java: https://github.com/fastjengine/fastj-java-template
+- Kotlin: https://github.com/fastjengine/fastj-kotlin-template
+- Groovy: https://github.com/fastjengine/fastj-groovy-template
 
 
 ### Tutorials
