@@ -2,6 +2,7 @@ package tech.fastj.graphics.util;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 

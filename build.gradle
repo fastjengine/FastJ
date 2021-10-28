@@ -9,6 +9,9 @@ plugins {
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
     id 'signing'
+
+    // To be able to use Spotless in the project, this will be needed.
+    id "com.diffplug.spotless" version "5.16.0"
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -49,11 +52,10 @@ wrapper.gradleVersion = '7.1.1'
 wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
-dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha3')
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
 dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
+dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha3')
 dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha3')
-
 
 /* ********************* *
  *     Unit Testing      *
@@ -87,6 +89,27 @@ tasks.withType(Test) {
                 }
             }
         }
+    }
+}
+
+/* ************************* *
+ *   Spotless Integration   *
+ * ************************* */
+
+spotless {
+    java {
+        trimTrailingWhitespace()
+        importOrder(
+                'tech.fastj.engine',
+                'tech.fastj.math',
+                'tech.fastj.graphics',
+                'tech.fastj.input',
+                'tech.fastj.resources',
+                'tech.fastj.systems',
+                'java',
+                'javax'
+        )
+        removeUnusedImports()
     }
 }
 

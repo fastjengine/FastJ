@@ -1,10 +1,11 @@
 package tech.fastj.input.keyboard;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 import tech.fastj.input.InputManager;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

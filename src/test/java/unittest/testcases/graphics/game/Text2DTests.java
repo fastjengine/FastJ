@@ -1,11 +1,19 @@
 package unittest.testcases.graphics.game;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static unittest.EnvironmentHelper.runFastJWith;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
+
+import unittest.EnvironmentHelper;
 
 import java.awt.Font;
 import java.awt.Paint;
@@ -13,12 +21,6 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static unittest.EnvironmentHelper.runFastJWith;
 
 class Text2DTests {
 

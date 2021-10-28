@@ -2,16 +2,18 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Maths;
 
 import tech.fastj.systems.audio.state.PlaybackState;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class for playing {@link MemoryAudio memory audio}.

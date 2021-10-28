@@ -1,9 +1,15 @@
 package unittest.testcases.graphics.ui.elements;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.ui.elements.Button;
 import tech.fastj.graphics.util.DrawUtil;
@@ -11,15 +17,11 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.systems.control.SceneManager;
 import tech.fastj.systems.control.SimpleManager;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 import unittest.EnvironmentHelper;
 import unittest.mock.systems.control.MockNameSettingScene;
 import unittest.mock.systems.control.MockSceneManager;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 class ButtonTests {
 

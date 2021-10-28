@@ -1,6 +1,7 @@
 package tech.fastj.systems.behaviors;
 
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.game.GameObject;
 
 /**

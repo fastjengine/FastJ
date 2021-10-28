@@ -5,14 +5,15 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 
 /**
  * Class for playing {@link StreamedAudio streamed audio}.

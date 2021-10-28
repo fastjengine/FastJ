@@ -346,8 +346,8 @@ public class Point {
 
     /**
      * Sets the x and y position of this {@code Point} object to the value specified.
-     * 
-     * @param xy {@code int} value used to set the new x and y values for this {@code Point} object. 
+     *
+     * @param xy {@code int} value used to set the new x and y values for this {@code Point} object.
      */
     public void set(int xy) {
         x = xy;

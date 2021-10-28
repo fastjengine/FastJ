@@ -1,9 +1,9 @@
 package tech.fastj.graphics.display;
 
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Point;
 
-import javax.swing.JFrame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -12,6 +12,8 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import javax.swing.JFrame;
 
 /**
  * A simple implementation of {@link Display} which includes the following features:

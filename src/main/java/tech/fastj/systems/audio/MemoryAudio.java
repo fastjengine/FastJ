@@ -2,13 +2,14 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.Clip;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
 
 /**
  * An audio object used for sound playback.

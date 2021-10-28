@@ -1,19 +1,19 @@
 package unittest.testcases.systems.control;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SceneManager;
-
-import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
-import unittest.mock.systems.control.MockEmptyScene;
-import unittest.mock.systems.control.MockNameSettingScene;
-import unittest.mock.systems.control.MockSceneManager;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
+
+import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SceneManager;
+
+import unittest.EnvironmentHelper;
+import unittest.mock.systems.control.MockEmptyScene;
+import unittest.mock.systems.control.MockNameSettingScene;
+import unittest.mock.systems.control.MockSceneManager;
+import org.junit.jupiter.api.Test;
 
 class SceneManagerTests {
 

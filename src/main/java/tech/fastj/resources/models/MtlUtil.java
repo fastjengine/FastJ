@@ -2,8 +2,10 @@ package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;

@@ -361,7 +361,7 @@ public class Pointf {
 
     /**
      * Sets the x and y values of this {@code Pointf} object to the values specified.
-     * 
+     *
      * @param xy {@code float} value used to set the new x and y values for this {@code Pointf} object.
      */
     public void set(float xy) {

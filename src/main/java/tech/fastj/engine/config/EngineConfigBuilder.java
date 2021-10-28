@@ -2,8 +2,10 @@ package tech.fastj.engine.config;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
-import tech.fastj.logging.LogLevel;
+
 import tech.fastj.math.Point;
+
+import tech.fastj.logging.LogLevel;
 
 public class EngineConfigBuilder {
 

@@ -4,11 +4,12 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.systems.audio.AudioManager;
 
+import unittest.mock.systems.control.MockRunnableSimpleManager;
+
 import java.awt.GraphicsEnvironment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import unittest.mock.systems.control.MockRunnableSimpleManager;
 
 public class EnvironmentHelper {
 

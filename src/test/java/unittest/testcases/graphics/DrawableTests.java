@@ -1,24 +1,26 @@
 package unittest.testcases.graphics;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static unittest.EnvironmentHelper.runFastJWith;
+
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 
+import unittest.EnvironmentHelper;
+import unittest.mock.graphics.MockDrawable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
-import unittest.mock.graphics.MockDrawable;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static unittest.EnvironmentHelper.runFastJWith;
 
 class DrawableTests {
 

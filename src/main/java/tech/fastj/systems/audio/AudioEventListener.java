@@ -2,11 +2,12 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.LineEvent;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
+import javax.sound.sampled.LineEvent;
 
 /**
  * An event listener for the {@link Audio} interface.
