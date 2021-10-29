@@ -1,4 +1,4 @@
-package unittest.testcases.graphics.io;
+package unittest.testcases.resources.models;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +43,7 @@ class PsdfUtilTests {
 
     private static final Logger Log = LoggerFactory.getLogger(PsdfUtilTests.class);
 
-    private static final Path tempModelDirectoryPath = Path.of("temp");
+    private static final Path tempModelDirectoryPath = Path.of("temp_" + PsdfUtilTests.class.getCanonicalName());
     private static final Path pathToModel = Path.of(tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_house_model.psdf");
     private static final Path pathToTempFile = Path.of(tempModelDirectoryPath.toAbsolutePath() + File.separator + "temp_file.txt");
 

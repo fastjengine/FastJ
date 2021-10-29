@@ -255,6 +255,29 @@ public final class DrawUtil {
     }
 
     /**
+     * Checks for equality between two {@link BasicStroke outline stroke} objects.
+     *
+     * @param basicStroke1 The first {@code BasicStroke} specified.
+     * @param basicStroke2 The second {@code BasicStroke} specified.
+     * @return Whether the two {@code BasicStroke}s are equal.
+     */
+    public static boolean outlineStrokeEquals(BasicStroke basicStroke1, BasicStroke basicStroke2) {
+        if (basicStroke1.getDashArray() == null && basicStroke2.getDashArray() != null) {
+            return false;
+        }
+        if (basicStroke1.getDashArray() == null && basicStroke2.getDashArray() != null) {
+            return false;
+        }
+
+        return basicStroke1.getEndCap() == basicStroke2.getEndCap()
+                && basicStroke1.getLineJoin() == basicStroke2.getLineJoin()
+                && Maths.floatEquals(basicStroke1.getLineWidth(), basicStroke2.getLineWidth())
+                && Maths.floatEquals(basicStroke1.getDashPhase(), basicStroke2.getDashPhase())
+                && Maths.floatEquals(basicStroke1.getMiterLimit(), basicStroke2.getMiterLimit())
+                && Arrays.equals(basicStroke1.getDashArray(), basicStroke2.getDashArray());
+    }
+
+    /**
      * Creates a {@code Pointf} array of 4 points, based on the specified x, y, width, and height floats.
      * <p>
      * This creates an array with the following values:
