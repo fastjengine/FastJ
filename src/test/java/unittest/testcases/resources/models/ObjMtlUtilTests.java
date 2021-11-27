@@ -91,7 +91,6 @@ class ObjMtlUtilTests {
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
     @BeforeAll
-    @AfterAll
     public static void onlyRunIfNotHeadless() {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
     }
@@ -106,6 +105,7 @@ class ObjMtlUtilTests {
 
     @AfterAll
     public static void deleteTempModelFolder() throws IOException {
+        onlyRunIfNotHeadless();
         try (Stream<Path> pathWalker = Files.walk(tempModelDirectoryPath)) {
             pathWalker.sorted(Comparator.reverseOrder()).forEach(file -> {
                 try {
