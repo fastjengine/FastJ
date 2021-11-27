@@ -8,8 +8,8 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.MouseButtons;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
@@ -117,9 +117,9 @@ public class Main extends SimpleManager {
          * - Mouse#getScrollDirection: gets the direction of the mouse wheel's last scroll (up or down).
          *
          * To demonstrate these, I've added the following:
-         * - If statements to check if the right mouse button is pressed or released
-         * - If statement to check if the mouse wheel was scrolled upward (value of -1)
-         * - If statement to check if the mouse was released while on a Polygon2D object
+         * - If statement to check if the right mouse button is pressed
+         * - If statement to check if the mouse wheel was scrolled upward (less than 0), and by how much
+         * - If statement to check if the mouse was released while on a "button" (the Polygon2D object)
          *
          * Notes:
          * - The MouseAction class defines several types of mouse actions (pressed, released, moved, etc).
@@ -128,16 +128,14 @@ public class Main extends SimpleManager {
 
         if (Mouse.isMouseButtonPressed(MouseButtons.Right)) {
             FastJEngine.log("Right Mouse Button is pressed");
-        } else {
-            FastJEngine.log("Right Mouse button is released");
         }
 
-        if (Mouse.getScrollDirection() == -1) {
-            FastJEngine.log("Mouse Wheel was scrolled upwards");
+        if (Mouse.getLastWheelRotation() < 0) {
+            FastJEngine.log("Mouse Wheel was scrolled upwards by {}", Mouse.getLastScrollAmount());
         }
 
         if (Mouse.interactsWith(button, MouseAction.Release)) {
-            FastJEngine.log("Mouse Button " + Mouse.getButtonLastReleased() + " was released on the button.");
+            FastJEngine.log("Mouse Button {} was released on the button.", Mouse.getButtonLastReleased());
         }
     }
 
