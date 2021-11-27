@@ -656,8 +656,8 @@ public class Point {
     }
 
     /**
-     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with the
-     * modified values.
+     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
      *
      * @param i1 {@code x} value to divide this {@code Point} by.
      * @param i2 {@code y} value to divide this {@code Point} by.
@@ -768,7 +768,7 @@ public class Point {
         int magnitude = (int) Math.sqrt((double) (x * x) + (double) (y * y));
 
         if (magnitude == 0) {
-            return Point.Origin.copy();
+            return Point.origin();
         }
 
         int normalizedX = x / magnitude;
@@ -788,7 +788,7 @@ public class Point {
         float magnitude = (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
 
         if (magnitude == 0f) {
-            return Pointf.Origin.copy();
+            return Pointf.origin();
         }
 
         float normalizedX = x / magnitude;

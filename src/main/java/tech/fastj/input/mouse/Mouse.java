@@ -48,7 +48,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static int lastScrollDirection = Mouse.InitialScrollDirection;
 
     private static boolean currentlyOnScreen;
-    private static Pointf mouseLocation = new Pointf();
+    private static Pointf mouseLocation = Pointf.origin();
 
     private static final Map<Integer, Consumer<MouseEvent>> MouseEventProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, mouseEvent -> {

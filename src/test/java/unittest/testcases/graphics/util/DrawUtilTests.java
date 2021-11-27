@@ -82,7 +82,7 @@ class DrawUtilTests {
     @Test
     void checkGeneratePath2D_withPointfArray() {
         Pointf[] polygon = {
-                new Pointf(),
+                Pointf.origin(),
                 new Pointf(50f, 30f),
                 new Pointf(-5f, 47f),
                 new Pointf(45f, 20f),

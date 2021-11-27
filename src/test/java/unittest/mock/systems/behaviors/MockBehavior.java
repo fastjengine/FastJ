@@ -12,7 +12,7 @@ public class MockBehavior implements Behavior {
 
     @Override
     public void init(GameObject gameObject) {
-        pointf = new Pointf();
+        pointf = Pointf.origin();
     }
 
     @Override

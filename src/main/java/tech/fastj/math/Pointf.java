@@ -671,8 +671,8 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with the
-     * modified values.
+     * Divides the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
+     * the modified values.
      *
      * @param f1 {@code x} value to divide this {@code Pointf} by.
      * @param f2 {@code y} value to divide this {@code Pointf} by.
@@ -764,7 +764,7 @@ public class Pointf {
         float magnitude = (float) Math.sqrt((x * x) + (y * y));
 
         if (magnitude == 0f) {
-            return Pointf.Origin.copy();
+            return Pointf.origin();
         }
 
         float normalizedX = x / magnitude;

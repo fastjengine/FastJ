@@ -42,7 +42,7 @@ class DrawableTests {
         Polygon2D polygon2D = Polygon2D.fromPoints(square);
 
         Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
-        Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
+        Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Polygon2D[] polygons = {
                 Polygon2D.fromPoints(square1),
                 Polygon2D.fromPoints(square2)
@@ -76,7 +76,7 @@ class DrawableTests {
             Text2D text2D = Text2D.fromText(text);
 
             Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
-            Pointf[] square2 = DrawUtil.createBox(Pointf.add(Pointf.Origin, 25f), 50f);
+            Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
             Polygon2D[] polygons = {
                     Polygon2D.fromPoints(square1),
                     Polygon2D.fromPoints(square2)
