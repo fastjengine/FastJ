@@ -20,7 +20,7 @@ class PointTests {
 
     @Test
     void checkPointCreation_withNoConstructorParams() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         assertEquals(0, pt.x, "The x value of the Point should default to 0.");
         assertEquals(0, pt.y, "The y value of the Point should default to 0.");
     }
@@ -68,7 +68,7 @@ class PointTests {
 
     @Test
     void checkPointAddition_withIntegerValue() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         pt.add(5);
 
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
@@ -77,7 +77,7 @@ class PointTests {
 
     @Test
     void checkPointAddition_withIntegerValues() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         pt.add(5, 10);
 
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
@@ -86,7 +86,7 @@ class PointTests {
 
     @Test
     void checkPointAddition_withPointObjects() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         Point pt2 = new Point(5);
         pt.add(pt2);
 
@@ -96,7 +96,7 @@ class PointTests {
 
     @Test
     void checkPointSubtraction_withIntegerValue() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         pt.subtract(5);
 
         assertEquals(-5, pt.x, "The x value of the Point should equal -5.");
@@ -105,7 +105,7 @@ class PointTests {
 
     @Test
     void checkPointSubtraction_withIntegerValues() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         pt.subtract(5, 10);
 
         assertEquals(-5, pt.x, "The x value of the Point should equal -5.");
@@ -114,7 +114,7 @@ class PointTests {
 
     @Test
     void checkPointSubtraction_withPointObjects() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         Point pt2 = new Point(5);
         pt.subtract(pt2);
 
@@ -124,7 +124,7 @@ class PointTests {
 
     @Test
     void checkPointMultiplication_withIntegerValue() {
-        Point pt = new Point(1);
+        Point pt = Point.unit();
         pt.multiply(5);
 
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
@@ -133,7 +133,7 @@ class PointTests {
 
     @Test
     void checkPointMultiplication_withIntegerValues() {
-        Point pt = new Point(1);
+        Point pt = Point.unit();
         pt.multiply(5, 10);
 
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
@@ -142,7 +142,7 @@ class PointTests {
 
     @Test
     void checkPointMultiplication_withPointObjects() {
-        Point pt = new Point(1);
+        Point pt = Point.unit();
         Point pt2 = new Point(5);
         pt.multiply(pt2);
 
@@ -180,7 +180,7 @@ class PointTests {
 
     @Test
     void checkArithmeticChaining_withPointObjectsAndIntegerValues() {
-        Point pt = new Point()
+        Point pt = Point.origin()
                 .add(2)                                // (2, 2)
                 .add(new Point(3))                 // (5, 5)
                 .multiply(new Point(3, 4))  // (15, 20)
@@ -228,12 +228,12 @@ class PointTests {
         Point pt = new Point(13, 37);
         pt.reset();
 
-        assertEquals(new Point(), pt, "The point's x and y values should have been reset to (0, 0).");
+        assertEquals(Point.origin(), pt, "The point's x and y values should have been reset to (0, 0).");
     }
 
     @Test
     void checkPointSetting() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         pt.set(13, 37);
 
         assertEquals(13, pt.x, "The x value of the Point should equal 13.");
@@ -293,7 +293,7 @@ class PointTests {
 
     @Test
     void checkPointNormalization_whenMagnitudeIsZero_usingFloatingPointDivision() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         float expectedNormalizedX = 0f;
         float expectedNormalizedY = 0f;
 
@@ -316,7 +316,7 @@ class PointTests {
 
     @Test
     void checkPointNormalization_whenMagnitudeIsZero_usingIntegerDivision() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         int expectedNormalizedX = 0;
         int expectedNormalizedY = 0;
 
@@ -470,8 +470,8 @@ class PointTests {
 
 
     @Test
-    void static_checkPointAddition_withIntegerValues() {
-        Point pt = new Point();
+    void static_checkPointAddition_withIntegerValue() {
+        Point pt = Point.origin();
         Point added = Point.add(pt, 5);
 
         assertEquals(5, added.x, "The x value of the Point should equal 5.");
@@ -479,8 +479,17 @@ class PointTests {
     }
 
     @Test
+    void static_checkPointAddition_withIntegerValues() {
+        Point pt = Point.origin();
+        Point added = Point.add(pt, 5, 10);
+
+        assertEquals(5, added.x, "The x value of the Point should equal 5.");
+        assertEquals(10, added.y, "The y value of the Point should equal 10.");
+    }
+
+    @Test
     void static_checkPointAddition_withPointObjects() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         Point pt2 = new Point(5);
         Point added = Point.add(pt, pt2);
 
@@ -489,8 +498,8 @@ class PointTests {
     }
 
     @Test
-    void static_checkPointSubtraction_withIntegerValues() {
-        Point pt = new Point();
+    void static_checkPointSubtraction_withIntegerValue() {
+        Point pt = Point.origin();
         Point subtracted = Point.subtract(pt, 5);
 
         assertEquals(-5, subtracted.x, "The x value of the Point should equal -5.");
@@ -498,8 +507,17 @@ class PointTests {
     }
 
     @Test
+    void static_checkPointSubtraction_withIntegerValues() {
+        Point pt = Point.origin();
+        Point subtracted = Point.subtract(pt, 5, 10);
+
+        assertEquals(-5, subtracted.x, "The x value of the Point should equal -5.");
+        assertEquals(-10, subtracted.y, "The y value of the Point should equal -10.");
+    }
+
+    @Test
     void static_checkPointSubtraction_withPointObjects() {
-        Point pt = new Point();
+        Point pt = Point.origin();
         Point pt2 = new Point(5);
         Point subtracted = Point.subtract(pt, pt2);
 
@@ -508,8 +526,8 @@ class PointTests {
     }
 
     @Test
-    void static_checkPointMultiplication_withIntegerValues() {
-        Point pt = new Point(1);
+    void static_checkPointMultiplication_withIntegerValue() {
+        Point pt = Point.unit();
         Point multiplied = Point.multiply(pt, 5);
 
         assertEquals(5, multiplied.x, "The x value of the Point should equal 5.");
@@ -517,8 +535,17 @@ class PointTests {
     }
 
     @Test
+    void static_checkPointMultiplication_withIntegerValues() {
+        Point pt = Point.unit();
+        Point multiplied = Point.multiply(pt, 5, 10);
+
+        assertEquals(5, multiplied.x, "The x value of the Point should equal 5.");
+        assertEquals(10, multiplied.y, "The y value of the Point should equal 10.");
+    }
+
+    @Test
     void static_checkPointMultiplication_withPointObjects() {
-        Point pt = new Point(1);
+        Point pt = Point.unit();
         Point pt2 = new Point(5);
         Point multiplied = Point.multiply(pt, pt2);
 
@@ -527,12 +554,21 @@ class PointTests {
     }
 
     @Test
-    void static_checkPointDivision_withIntegerValues() {
+    void static_checkPointDivision_withIntegerValue() {
         Point pt = new Point(25);
         Point divided = Point.divide(pt, 5);
 
         assertEquals(5, divided.x, "The x value of the Point should equal 5.");
         assertEquals(5, divided.y, "The y value of the Point should equal 5.");
+    }
+
+    @Test
+    void static_checkPointDivision_withIntegerValues() {
+        Point pt = new Point(25);
+        Point divided = Point.divide(pt, 5, 25);
+
+        assertEquals(5, divided.x, "The x value of the Point should equal 5.");
+        assertEquals(1, divided.y, "The y value of the Point should equal 1.");
     }
 
     @Test
