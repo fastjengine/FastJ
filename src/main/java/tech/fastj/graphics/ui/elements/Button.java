@@ -105,7 +105,7 @@ public class Button extends UIElement {
 
         Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
         renderPath = DrawUtil.createPath(buttonCoords);
-        super.setCollisionPath(renderPath);
+        super.setCollisionPath((Path2D.Float) renderPath.clone());
 
         this.paint = DefaultFill;
         this.font = DefaultFont;
@@ -210,7 +210,7 @@ public class Button extends UIElement {
         }
 
         g.setFont(font);
-        g.drawString(text, textBounds.x, textBounds.y);
+        g.drawString(text, textBounds.x, textBounds.y * 1.5f);
 
         g.setPaint(oldPaint);
         g.setFont(oldFont);
@@ -248,8 +248,8 @@ public class Button extends UIElement {
         Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) renderPath.getBounds2D();
 
         textBounds = new Rectangle2D.Float(
-                getTranslation().x + (renderPathBounds.width - textWidth) / 2f,
-                getTranslation().y + textHeight,
+                (renderPathBounds.width - textWidth) / 2f,
+                textHeight,
                 textWidth,
                 textHeight
         );
