@@ -83,15 +83,7 @@ class ButtonTests {
             }
         };
 
-        SceneManager mockSceneManager = new MockSceneManager() {
-            @Override
-            public void init(FastJCanvas canvas) {
-                addScene(scene);
-                setCurrentScene(scene);
-                loadCurrentScene();
-            }
-        };
-
+        SceneManager mockSceneManager = new MockSceneManager(scene);
         FastJEngine.init("test button constructor with scene parameter", mockSceneManager);
         try {
             FastJEngine.run();
@@ -161,15 +153,7 @@ class ButtonTests {
             }
         };
 
-        SceneManager mockSceneManager = new MockSceneManager() {
-            @Override
-            public void init(FastJCanvas canvas) {
-                addScene(scene);
-                setCurrentScene(scene);
-                loadCurrentScene();
-            }
-        };
-
+        SceneManager mockSceneManager = new MockSceneManager(scene);
         FastJEngine.init("test button constructor with scene parameter", mockSceneManager);
         try {
             FastJEngine.run();
