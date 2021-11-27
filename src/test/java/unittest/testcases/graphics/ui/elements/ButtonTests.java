@@ -73,6 +73,7 @@ class ButtonTests {
                 assertEquals(Button.DefaultText, button.getText(), "The actual text should match the expected default text.");
                 assertEquals(Button.DefaultFill, button.getFill(), "The actual fill paint should match the expected default fill paint.");
                 assertEquals(Button.DefaultFont, button.getFont(), "The actual font should match the default font.");
+                assertEquals(Transform2D.DefaultTranslation, DrawUtil.pointsOfPath(button.getCollisionPath())[0], "The created button's location should match an origin translation.");
                 assertEquals(Transform2D.DefaultTranslation, button.getTranslation(), "The created button translation should match an origin translation.");
                 assertEquals(Transform2D.DefaultRotation, button.getRotation(), "The created button's rotation should match an origin rotation.");
                 assertEquals(Transform2D.DefaultScale, button.getScale(), "The created button's scaling should match an origin scale.");
@@ -114,7 +115,7 @@ class ButtonTests {
                 assertEquals(Button.DefaultFill, button.getFill(), "The actual fill paint should match the expected default fill paint.");
                 assertEquals(Button.DefaultFont, button.getFont(), "The actual font should match the default font.");
                 assertEquals(randomLocation, DrawUtil.pointsOfPath(button.getCollisionPath())[0], "The created button's location should match the generated location.");
-                assertEquals(Transform2D.DefaultTranslation, button.getTranslation(), "The created button translation should match an origin translation.");
+                assertEquals(randomLocation, button.getTranslation(), "The created button translation should match the location translation.");
                 assertEquals(Transform2D.DefaultRotation, button.getRotation(), "The created button's rotation should match an origin rotation.");
                 assertEquals(Transform2D.DefaultScale, button.getScale(), "The created button's scaling should match an origin scale.");
                 assertArrayEquals(generatedInitialSize, DrawUtil.pointsOfPath(button.getCollisionPath()), "The created button's actual initial size should match the generated initial size.");
@@ -151,7 +152,7 @@ class ButtonTests {
                 assertEquals(Button.DefaultFill, button.getFill(), "The actual fill paint should match the expected default fill paint.");
                 assertEquals(Button.DefaultFont, button.getFont(), "The actual font should match the default font.");
                 assertEquals(randomLocation, DrawUtil.pointsOfPath(button.getCollisionPath())[0], "The created button's location should match the generated location.");
-                assertEquals(Transform2D.DefaultTranslation, button.getTranslation(), "The created button translation should match an origin translation.");
+                assertEquals(randomLocation, button.getTranslation(), "The created button translation should match the location translation.");
                 assertEquals(Transform2D.DefaultRotation, button.getRotation(), "The created button's rotation should match an origin rotation.");
                 assertEquals(Transform2D.DefaultScale, button.getScale(), "The created button's scaling should match an origin scale.");
                 assertArrayEquals(generatedInitialSize, DrawUtil.pointsOfPath(button.getCollisionPath()), "The created button's actual initial size should match the generated initial size.");
