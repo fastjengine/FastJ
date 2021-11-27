@@ -289,10 +289,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     /** Resets the {@code Mouse}. */
     public static void reset() {
-        buttonLastPressed = -1;
-        buttonLastReleased = -1;
-        buttonLastClicked = -1;
-        lastScrollDirection = 0;
+        buttonLastPressed = InitialMouseButton;
+        buttonLastReleased = InitialMouseButton;
+        buttonLastClicked = InitialMouseButton;
+        lastClickCount = InitialClickCount;
+        lastScrollDirection = InitialScrollDirection;
         currentlyOnScreen = false;
 
         MouseButtons.clear();
