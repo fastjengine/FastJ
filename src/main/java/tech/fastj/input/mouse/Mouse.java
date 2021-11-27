@@ -1,9 +1,9 @@
 package tech.fastj.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
+
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
@@ -13,6 +13,9 @@ import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

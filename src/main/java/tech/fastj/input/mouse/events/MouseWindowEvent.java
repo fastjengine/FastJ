@@ -3,7 +3,6 @@ package tech.fastj.input.mouse.events;
 import tech.fastj.math.Pointf;
 
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 
 public class MouseWindowEvent implements MouseActionEvent {
 
