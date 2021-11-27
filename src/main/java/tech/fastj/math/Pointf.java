@@ -300,7 +300,7 @@ public class Pointf {
     }
 
     /**
-     * Calculates the distance between the two given {@code Pointf}s using the distance formula.
+     * Calculates the distance between the two given {@code Pointf}s, using the distance formula.
      *
      * @param p  The first of the two {@code Pointf}s to calculate the distance between.
      * @param p1 The second of the two {@code Pointf}s to calculate the distance between.
