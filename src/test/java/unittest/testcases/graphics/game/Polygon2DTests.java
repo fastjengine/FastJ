@@ -138,7 +138,7 @@ class Polygon2DTests {
                 .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
                 .build();
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, true, true, true);
 
         assertArrayEquals(newSquarePoints, square.getPoints(), "The expected points should match the square's points -- no transformations have been performed.");
@@ -159,7 +159,7 @@ class Polygon2DTests {
                 .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
                 .build();
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, false, false, false);
 
         assertFalse(Arrays.deepEquals(newSquarePoints, square.getPoints()), "The expected points should not match the square's transformed points -- no transformations have been reset.");

@@ -81,6 +81,60 @@ public class Point {
     }
 
     /**
+     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}.
+     *
+     * @return The {@code origin} instance.
+     */
+    public static Point origin() {
+        return new Point();
+    }
+
+    /**
+     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}.
+     *
+     * @return The {@code unit} vector instance.
+     */
+    public static Point unit() {
+        return new Point(1);
+    }
+
+    /**
+     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}.
+     *
+     * @return The {@code up} vector instance.
+     */
+    public static Point up() {
+        return new Point(0, -1);
+    }
+
+    /**
+     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}.
+     *
+     * @return The {@code down} vector instance.
+     */
+    public static Point down() {
+        return new Point(0, 1);
+    }
+
+    /**
+     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}.
+     *
+     * @return The {@code left} vector instance.
+     */
+    public static Point left() {
+        return new Point(-1, 0);
+    }
+
+    /**
+     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}.
+     *
+     * @return The {@code right} vector instance.
+     */
+    public static Point right() {
+        return new Point(1, 0);
+    }
+
+    /**
      * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point}
      * object.
      *
@@ -102,6 +156,19 @@ public class Point {
      */
     public static Point add(Point p, int i) {
         return new Point(p.x + i, p.y + i);
+    }
+
+    /**
+     * Static method to add a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for addition.
+     * @param i1 The {@code integer} used for addition on the {@code x} value.
+     * @param i2 The {@code integer} used for addition on the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
+     * integer values.
+     */
+    public static Point add(Point p, int i1, int i2) {
+        return new Point(p.x + i1, p.y + i2);
     }
 
     /**
@@ -131,6 +198,19 @@ public class Point {
     }
 
     /**
+     * Static method to subtract a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
+     * @param i1 Integer value used for subtraction; the second value used in subtraction for the {@code x} value.
+     * @param i2 Integer value used for subtraction; the second value used in subtraction for the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
+     * the integer values.
+     */
+    public static Point subtract(Point p, int i1, int i2) {
+        return new Point(p.x - i1, p.y - i2);
+    }
+
+    /**
      * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new
      * {@code Point}.
      *
@@ -155,6 +235,19 @@ public class Point {
     }
 
     /**
+     * Static method to multiply a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for multiplication.
+     * @param i1 Integer value used for multiplication on the {@code x} value.
+     * @param i2 Integer value used for multiplication on the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
+     * the integer values.
+     */
+    public static Point multiply(Point p, int i1, int i2) {
+        return new Point(p.x * i1, p.y * i2);
+    }
+
+    /**
      * Static method to divide two {@code Point} objects (from the parameters specified) together, and return a new
      * {@code Point}.
      *
@@ -176,6 +269,19 @@ public class Point {
      */
     public static Point divide(Point p, int i) {
         return new Point(p.x / i, p.y / i);
+    }
+
+    /**
+     * Static method to divide a {@code Point} object by a integer value, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for division; the {@code Point} acting as the first value in division.
+     * @param i1 Integer value used for division; the second value used in division for the {@code x} value.
+     * @param i2 Integer value used for division; the second value used in division for the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
+     * integer value.
+     */
+    public static Point divide(Point p, int i1, int i2) {
+        return new Point(p.x / i1, p.y / i2);
     }
 
     /**
@@ -421,6 +527,21 @@ public class Point {
     }
 
     /**
+     * Adds the values of this {@code Point} to the specified integer values, and returns a new {@code Point} with the
+     * modified values.
+     *
+     * @param i1 {@code x} value to add this {@code Point} to.
+     * @param i2 {@code y} value to add this {@code Point} to.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point add(int i1, int i2) {
+        x += i1;
+        y += i2;
+
+        return this;
+    }
+
+    /**
      * Subtracts the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with
      * the modified values.
      *
@@ -444,6 +565,21 @@ public class Point {
     public Point subtract(int f) {
         x -= f;
         y -= f;
+
+        return this;
+    }
+
+    /**
+     * Subtracts the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to subtract this {@code Point} by.
+     * @param i2 {@code y} value to subtract this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point subtract(int i1, int i2) {
+        x -= i1;
+        y -= i2;
 
         return this;
     }
@@ -477,6 +613,21 @@ public class Point {
     }
 
     /**
+     * Multiplies the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to multiply this {@code Point} by.
+     * @param i2 {@code y} value to multiply this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point multiply(int i1, int i2) {
+        x *= i1;
+        y *= i2;
+
+        return this;
+    }
+
+    /**
      * Divides the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the
      * modified values.
      *
@@ -500,6 +651,21 @@ public class Point {
     public Point divide(int f) {
         x /= f;
         y /= f;
+
+        return this;
+    }
+
+    /**
+     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to divide this {@code Point} by.
+     * @param i2 {@code y} value to divide this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point divide(int i1, int i2) {
+        x /= i1;
+        y /= i2;
 
         return this;
     }
@@ -602,7 +768,7 @@ public class Point {
         int magnitude = (int) Math.sqrt((double) (x * x) + (double) (y * y));
 
         if (magnitude == 0) {
-            return Point.Origin.copy();
+            return Point.origin();
         }
 
         int normalizedX = x / magnitude;
@@ -622,7 +788,7 @@ public class Point {
         float magnitude = (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
 
         if (magnitude == 0f) {
-            return Pointf.Origin.copy();
+            return Pointf.origin();
         }
 
         float normalizedX = x / magnitude;

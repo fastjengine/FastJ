@@ -456,7 +456,7 @@ public final class DrawUtil {
      * @return A 4 {@code Pointf} array based on the location and size specified.
      */
     public static Pointf[] createBoxFromImage(BufferedImage source) {
-        return createBoxFromImage(source, new Pointf());
+        return createBoxFromImage(source, Pointf.origin());
     }
 
     /**
@@ -494,7 +494,7 @@ public final class DrawUtil {
      * @return The center of the array.
      */
     public static Pointf centerOf(Pointf[] points) {
-        Pointf result = new Pointf();
+        Pointf result = Pointf.origin();
         for (Pointf p : points) {
             result.add(p);
         }
