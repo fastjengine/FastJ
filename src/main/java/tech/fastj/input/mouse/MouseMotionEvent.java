@@ -17,7 +17,7 @@ public class MouseMotionEvent implements MouseActionEvent {
     }
 
     @Override
-    public MouseEvent getMouseEvent() {
+    public MouseEvent getRawEvent() {
         return mouseEvent;
     }
 

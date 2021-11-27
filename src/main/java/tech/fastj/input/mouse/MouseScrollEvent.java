@@ -30,7 +30,7 @@ public class MouseScrollEvent implements MouseActionEvent {
     }
 
     @Override
-    public MouseEvent getMouseEvent() {
+    public MouseEvent getRawEvent() {
         return mouseWheelEvent;
     }
 

@@ -2,7 +2,7 @@ package tech.fastj.input.keyboard;
 
 import java.awt.event.KeyEvent;
 
-public class KeyboardTypedEvent implements KeyboardEvent {
+public class KeyboardTypedEvent implements KeyboardActionEvent {
     private final KeyEvent keyEvent;
 
     private KeyboardTypedEvent(KeyEvent keyEvent) {
@@ -13,7 +13,7 @@ public class KeyboardTypedEvent implements KeyboardEvent {
         return KeyEvent.getKeyText(keyEvent.getExtendedKeyCode());
     }
 
-    public KeyEvent getKeyEvent() {
+    public KeyEvent getRawEvent() {
         return keyEvent;
     }
 

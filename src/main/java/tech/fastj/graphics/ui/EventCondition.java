@@ -1,6 +1,6 @@
 package tech.fastj.graphics.ui;
 
-import java.awt.AWTEvent;
+import tech.fastj.input.InputActionEvent;
 
 /**
  * Class to ensure that an event only applies to a {@link UIElement} if the condition specified is met.
@@ -16,5 +16,5 @@ public interface EventCondition {
      * @param event The event which caused the check to be run.
      * @return Whether or not the condition is met.
      */
-    boolean condition(AWTEvent event);
+    boolean condition(InputActionEvent event);
 }

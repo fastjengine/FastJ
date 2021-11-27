@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KeyboardStateEvent implements KeyboardEvent {
+public class KeyboardStateEvent implements KeyboardActionEvent {
     private static final Map<int[], Keys> KeyboardMap = new ConcurrentHashMap<>();
     private final KeyEvent keyEvent;
     private final Keys key;
@@ -24,7 +24,7 @@ public class KeyboardStateEvent implements KeyboardEvent {
     }
 
     @Override
-    public KeyEvent getKeyEvent() {
+    public KeyEvent getRawEvent() {
         return keyEvent;
     }
 

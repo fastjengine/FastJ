@@ -366,7 +366,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     public static void processEvent(InputManager inputManager, MouseEvent event) {
         MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(event.getID()).apply(event);
-        MouseEventProcessor.get(mouseActionEvent.getMouseEvent().getID()).accept(mouseActionEvent.getMouseEvent());
+        MouseEventProcessor.get(mouseActionEvent.getRawEvent().getID()).accept(mouseActionEvent.getRawEvent());
         inputManager.fireMouseEvent(mouseActionEvent);
     }
 

@@ -1,8 +1,8 @@
 package tech.fastj.input;
 
 import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.KeyboardActionEvent;
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardEvent;
 import tech.fastj.input.keyboard.KeyboardStateEvent;
 import tech.fastj.input.keyboard.KeyboardTypedEvent;
 import tech.fastj.input.mouse.Mouse;
@@ -78,20 +78,20 @@ public class InputManager {
             }
     );
 
-    private static final Map<Integer, BiConsumer<KeyboardEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (keyboardEvent, keyActionListenerList) -> {
+    private static final Map<Integer, BiConsumer<KeyboardActionEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyRecentlyPressed((KeyboardStateEvent) keyboardEvent);
+                    keyboardActionListener.onKeyRecentlyPressed((KeyboardStateEvent) keyboardActionEvent);
                 }
             },
-            KeyEvent.KEY_RELEASED, (keyboardEvent, keyActionListenerList) -> {
+            KeyEvent.KEY_RELEASED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyReleased((KeyboardStateEvent) keyboardEvent);
+                    keyboardActionListener.onKeyReleased((KeyboardStateEvent) keyboardActionEvent);
                 }
             },
-            KeyEvent.KEY_TYPED, (keyboardEvent, keyActionListenerList) -> {
+            KeyEvent.KEY_TYPED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyTyped((KeyboardTypedEvent) keyboardEvent);
+                    keyboardActionListener.onKeyTyped((KeyboardTypedEvent) keyboardActionEvent);
                 }
             }
     );
@@ -150,10 +150,10 @@ public class InputManager {
     /**
      * Fires a keyboard event to all listening {@code KeyboardActionListeners}.
      *
-     * @param keyboardEvent The event to be fired to the action listeners.
+     * @param keyboardActionEvent The event to be fired to the action listeners.
      */
-    public void fireKeyEvent(KeyboardEvent keyboardEvent) {
-        KeyboardActionProcessor.get(keyboardEvent.getKeyEvent().getID()).accept(keyboardEvent, keyActionListeners);
+    public void fireKeyEvent(KeyboardActionEvent keyboardActionEvent) {
+        KeyboardActionProcessor.get(keyboardActionEvent.getRawEvent().getID()).accept(keyboardActionEvent, keyActionListeners);
     }
 
     /** Fires a {@code keys down} event to all listening {@code KeyboardActionListeners}. */
@@ -195,7 +195,7 @@ public class InputManager {
      * @param mouseEvent The event to be fired to the action listeners.
      */
     public void fireMouseEvent(MouseActionEvent mouseEvent) {
-        MouseActionProcessor.get(mouseEvent.getMouseEvent().getID()).accept(mouseEvent, mouseActionListeners);
+        MouseActionProcessor.get(mouseEvent.getRawEvent().getID()).accept(mouseEvent, mouseActionListeners);
     }
 
     /* Received input */
