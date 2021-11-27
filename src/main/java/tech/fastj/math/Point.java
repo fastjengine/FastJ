@@ -310,6 +310,19 @@ public class Point {
     }
 
     /**
+     * Calculates the distance between the two given {@code Point}s using the distance formula.
+     *
+     * @param p  The first of the two {@code Point}s to calculate the distance between.
+     * @param p1 The second of the two {@code Point}s to calculate the distance between.
+     * @return The calculated distance.
+     */
+    public static float distance(Point p, Point p1) {
+        float differenceX = p1.x - p.x;
+        float differenceY = p1.y - p.y;
+        return (float) Math.sqrt(differenceX * differenceX + differenceY * differenceY);
+    }
+
+    /**
      * Creates a rotated version of the {@code Point} based on the provided angle.
      * <p>
      * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns

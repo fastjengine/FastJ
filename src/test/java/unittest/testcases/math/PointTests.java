@@ -677,6 +677,16 @@ class PointTests {
     }
 
     @Test
+    void static_checkDistanceFormula() {
+        Point pt = Point.unit();
+        Point pt2 = Point.unit().add(5, 12);
+
+        float expectedDistance = 13f;
+        float actualDistance = Point.distance(pt, pt2);
+        assertEquals(expectedDistance, actualDistance, "The resulting distance calculation from the two Points should equal the expected distance calculation of 13f.");
+    }
+
+    @Test
     void static_checkConversionToPointf() {
         Point pt = new Point(13, 37);
         Pointf ptf = Point.toPointf(pt);
