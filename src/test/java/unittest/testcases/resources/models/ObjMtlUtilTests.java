@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Pointf;
 
 import tech.fastj.graphics.game.Model2D;
@@ -14,6 +16,8 @@ import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.resources.models.SupportedModelFormats;
 
@@ -215,6 +219,13 @@ class ObjMtlUtilTests {
     @Test
     @Order(2)
     void checkReadObj_shouldMatchOriginal() {
+        // TODO: either re-add resource managers on init() or don't remove them on exit()
+        // so that this monstrosity doesn't need to occur
+        try {
+            FastJEngine.getResourceManager(ImageResource.class);
+        } catch (IllegalStateException exception) {
+            FastJEngine.addResourceManager(new ImageResourceManager(), ImageResource.class);
+        }
         Polygon2D[] actualHouseArray = ModelUtil.loadModel(pathToModel);
         Model2D actualHouse = Model2D.create(actualHouseArray, false).build();
 
@@ -231,7 +242,7 @@ class ObjMtlUtilTests {
             }
 
             if (renderStyle == RenderStyle.Outline || renderStyle == RenderStyle.FillAndOutline) {
-                assertTrue(DrawUtil.outlineStrokeEquals(Polygon2D.DefaultOutlineStroke, actualHouseArray[i].getOutlineStroke()), "As a result of the loss of data exporting outline strokes to .obj, the polygon's outline stroke should now be the default.");
+                assertEquals(Polygon2D.DefaultOutlineStroke, actualHouseArray[i].getOutlineStroke(), "As a result of the loss of data exporting outline strokes to .obj, the polygon's outline stroke should now be the default.");
                 assertEquals(expectedHouseArray[i].getOutlineColor(), actualHouseArray[i].getOutlineColor(), "The created polygon's outline color should match the expected outline color.");
             }
 
