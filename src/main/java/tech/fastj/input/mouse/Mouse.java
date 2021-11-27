@@ -25,6 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
@@ -124,6 +125,17 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
                 lastScrollDirection = mouseWheelEvent.getWheelRotation();
             }
+    );
+
+    private static final Map<Integer, Function<MouseEvent, MouseActionEvent>> MouseActionEventCreator = Map.of(
+            MouseEvent.MOUSE_PRESSED, MouseButtonEvent::new,
+            MouseEvent.MOUSE_RELEASED, MouseButtonEvent::new,
+            MouseEvent.MOUSE_CLICKED, MouseButtonEvent::new,
+            MouseEvent.MOUSE_MOVED, mouseEvent -> new MouseMotionEvent(mouseEvent, false),
+            MouseEvent.MOUSE_DRAGGED, mouseEvent -> new MouseMotionEvent(mouseEvent, true),
+            MouseEvent.MOUSE_ENTERED, MouseWindowEvent::new,
+            MouseEvent.MOUSE_EXITED, MouseWindowEvent::new,
+            MouseEvent.MOUSE_WHEEL, mouseEvent -> new MouseScrollEvent((MouseWheelEvent) mouseEvent)
     );
 
     /** Initializes the mouse. */
@@ -353,8 +365,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * @param event        The mouse event to process.
      */
     public static void processEvent(InputManager inputManager, MouseEvent event) {
-        MouseEventProcessor.get(event.getID()).accept(event);
-        inputManager.fireMouseEvent(event);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(event.getID()).apply(event);
+        MouseEventProcessor.get(mouseActionEvent.getMouseEvent().getID()).accept(mouseActionEvent.getMouseEvent());
+        inputManager.fireMouseEvent(mouseActionEvent);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

@@ -6,7 +6,12 @@ import tech.fastj.input.keyboard.KeyboardEvent;
 import tech.fastj.input.keyboard.KeyboardStateEvent;
 import tech.fastj.input.keyboard.KeyboardTypedEvent;
 import tech.fastj.input.mouse.Mouse;
+import tech.fastj.input.mouse.MouseActionEvent;
 import tech.fastj.input.mouse.MouseActionListener;
+import tech.fastj.input.mouse.MouseButtonEvent;
+import tech.fastj.input.mouse.MouseMotionEvent;
+import tech.fastj.input.mouse.MouseScrollEvent;
+import tech.fastj.input.mouse.MouseWindowEvent;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -30,45 +35,45 @@ public class InputManager {
     private final List<InputEvent> eventBacklog;
     private volatile boolean isProcessingEvents;
 
-    private static final Map<Integer, BiConsumer<MouseEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
+    private static final Map<Integer, BiConsumer<MouseActionEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMousePressed(mouseEvent);
+                    mouseActionListener.onMousePressed((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_RELEASED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseReleased(mouseEvent);
+                    mouseActionListener.onMouseReleased((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_CLICKED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseClicked(mouseEvent);
+                    mouseActionListener.onMouseClicked((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_MOVED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseMoved(mouseEvent);
+                    mouseActionListener.onMouseMoved((MouseMotionEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_DRAGGED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseDragged(mouseEvent);
+                    mouseActionListener.onMouseDragged((MouseMotionEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_ENTERED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseEntersScreen(mouseEvent);
+                    mouseActionListener.onMouseEntersScreen((MouseWindowEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_EXITED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseExitsScreen(mouseEvent);
+                    mouseActionListener.onMouseExitsScreen((MouseWindowEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_WHEEL, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseWheelScrolled(mouseEvent);
+                    mouseActionListener.onMouseWheelScrolled((MouseScrollEvent) mouseEvent);
                 }
             }
     );
@@ -189,8 +194,8 @@ public class InputManager {
      *
      * @param mouseEvent The event to be fired to the action listeners.
      */
-    public void fireMouseEvent(MouseEvent mouseEvent) {
-        MouseActionProcessor.get(mouseEvent.getID()).accept(mouseEvent, mouseActionListeners);
+    public void fireMouseEvent(MouseActionEvent mouseEvent) {
+        MouseActionProcessor.get(mouseEvent.getMouseEvent().getID()).accept(mouseEvent, mouseActionListeners);
     }
 
     /* Received input */
