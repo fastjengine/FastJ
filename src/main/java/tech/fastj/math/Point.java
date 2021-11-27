@@ -81,6 +81,60 @@ public class Point {
     }
 
     /**
+     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}.
+     *
+     * @return The {@code origin} instance.
+     */
+    public static Point origin() {
+        return new Point();
+    }
+
+    /**
+     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}.
+     *
+     * @return The {@code unit} vector instance.
+     */
+    public static Point unit() {
+        return new Point(1);
+    }
+
+    /**
+     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}.
+     *
+     * @return The {@code up} vector instance.
+     */
+    public static Point up() {
+        return new Point(0, -1);
+    }
+
+    /**
+     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}.
+     *
+     * @return The {@code down} vector instance.
+     */
+    public static Point down() {
+        return new Point(0, 1);
+    }
+
+    /**
+     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}.
+     *
+     * @return The {@code left} vector instance.
+     */
+    public static Point left() {
+        return new Point(-1, 0);
+    }
+
+    /**
+     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}.
+     *
+     * @return The {@code right} vector instance.
+     */
+    public static Point right() {
+        return new Point(1, 0);
+    }
+
+    /**
      * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point}
      * object.
      *

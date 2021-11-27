@@ -68,6 +68,60 @@ public class Pointf {
     }
 
     /**
+     * {@code Pointf} representing a 2D graph's origin as a pair of {@code float}s: {@code (0f, 0f)}.
+     *
+     * @return The {@code origin} instance.
+     */
+    public static Pointf origin() {
+        return new Pointf();
+    }
+
+    /**
+     * {@code Pointf} representing a unit vector in a 2D graph as a pair of {@code float}s: {@code (0f, 0f)}.
+     *
+     * @return The {@code unit} vector instance.
+     */
+    public static Pointf unit() {
+        return new Pointf(1f);
+    }
+
+    /**
+     * {@code Pointf} representing an up vector in a 2D graph as a pair of {@code float}s: {@code (0f, -1f)}.
+     *
+     * @return The {@code up} vector instance.
+     */
+    public static Pointf up() {
+        return new Pointf(0f, -1f);
+    }
+
+    /**
+     * {@code Pointf} representing a down vector in a 2D graph as a pair of {@code float}s: {@code (0f, 1f)}.
+     *
+     * @return The {@code down} vector instance.
+     */
+    public static Pointf down() {
+        return new Pointf(0f, 1f);
+    }
+
+    /**
+     * {@code Pointf} representing a left vector in a 2D graph as a pair of {@code float}s: {@code (-1f, 0f)}.
+     *
+     * @return The {@code left} vector instance.
+     */
+    public static Pointf left() {
+        return new Pointf(-1f, 0f);
+    }
+
+    /**
+     * {@code Pointf} representing a right vector in a 2D graph as a pair of {@code float}s: {@code (1f, 0f)}.
+     *
+     * @return The {@code right} vector instance.
+     */
+    public static Pointf right() {
+        return new Pointf(1f, 0f);
+    }
+
+    /**
      * Static method to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
      * Pointf} object.
      *
