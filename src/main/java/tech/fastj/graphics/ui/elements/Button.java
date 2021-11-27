@@ -38,8 +38,8 @@ public class Button extends UIElement {
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
     /** The default text value of a {@link Button}: an empty string. */
     public static final String DefaultText = "";
-    /** {@link Paint} representing the default color value of {@code (0, 255, 255)}. */
-    public static final Paint DefaultFill = Color.cyan;
+    /** {@link Paint} representing the default color value of {@code (192, 192, 192)}. */
+    public static final Paint DefaultFill = Color.lightGray;
     /** {@link Font} representing the default font of {@code Tahoma 16px}. */
     public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
 
