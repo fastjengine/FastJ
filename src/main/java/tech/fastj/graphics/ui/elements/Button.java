@@ -80,8 +80,7 @@ public class Button extends UIElement {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
-        Pointf[] buttonCoords = DrawUtil.createBox(location, initialSize);
-
+        Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
@@ -89,6 +88,7 @@ public class Button extends UIElement {
         this.font = DefaultFont;
         this.text = DefaultText;
 
+        translate(location);
         setMetrics(FastJEngine.getCanvas().getGraphics());
     }
 
@@ -103,8 +103,7 @@ public class Button extends UIElement {
         super(origin);
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
-        Pointf[] buttonCoords = DrawUtil.createBox(location, initialSize);
-
+        Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
         renderPath = DrawUtil.createPath(buttonCoords);
         super.setCollisionPath(renderPath);
 
@@ -112,6 +111,7 @@ public class Button extends UIElement {
         this.font = DefaultFont;
         this.text = DefaultText;
 
+        translate(location);
         setMetrics(FastJEngine.getCanvas().getGraphics());
     }
 
