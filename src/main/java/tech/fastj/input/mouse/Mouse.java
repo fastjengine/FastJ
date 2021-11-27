@@ -1,9 +1,9 @@
 package tech.fastj.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
-
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
@@ -13,9 +13,6 @@ import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -45,12 +42,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     private static final int InitialMouseButton = -1;
     private static final int InitialScrollDirection = 0;
+    private static final int InitialClickCount = 0;
 
     private static ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static int buttonLastPressed = Mouse.InitialMouseButton;
     private static int buttonLastReleased = Mouse.InitialMouseButton;
     private static int buttonLastClicked = Mouse.InitialMouseButton;
+    private static int lastClickCount = Mouse.InitialClickCount;
     private static int lastScrollDirection = Mouse.InitialScrollDirection;
 
     private static boolean currentlyOnScreen;
@@ -80,6 +79,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 buttonLastReleased = mouseEvent.getButton();
+                lastClickCount = mouseEvent.getClickCount();
             },
             MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 if (!MouseAction.Click.recentAction) {
@@ -244,6 +244,16 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      */
     public static int getButtonLastClicked() {
         return buttonLastClicked;
+    }
+
+    /**
+     * Gets the amount of times the last button (which can be gotten using {@link #getButtonLastClicked()}) was clicked
+     * consecutively.
+     *
+     * @return Returns the number of times the last button was clicked consecutively.
+     */
+    public static int getLastClickCount() {
+        return lastClickCount;
     }
 
     /**
