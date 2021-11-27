@@ -2,7 +2,6 @@ package tech.fastj.graphics.util;
 
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 
@@ -252,29 +251,6 @@ public final class DrawUtil {
                 && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
                 && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
                 && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
-    }
-
-    /**
-     * Checks for equality between two {@link BasicStroke outline stroke} objects.
-     *
-     * @param basicStroke1 The first {@code BasicStroke} specified.
-     * @param basicStroke2 The second {@code BasicStroke} specified.
-     * @return Whether the two {@code BasicStroke}s are equal.
-     */
-    public static boolean outlineStrokeEquals(BasicStroke basicStroke1, BasicStroke basicStroke2) {
-        if (basicStroke1.getDashArray() == null && basicStroke2.getDashArray() != null) {
-            return false;
-        }
-        if (basicStroke1.getDashArray() == null && basicStroke2.getDashArray() != null) {
-            return false;
-        }
-
-        return basicStroke1.getEndCap() == basicStroke2.getEndCap()
-                && basicStroke1.getLineJoin() == basicStroke2.getLineJoin()
-                && Maths.floatEquals(basicStroke1.getLineWidth(), basicStroke2.getLineWidth())
-                && Maths.floatEquals(basicStroke1.getDashPhase(), basicStroke2.getDashPhase())
-                && Maths.floatEquals(basicStroke1.getMiterLimit(), basicStroke2.getMiterLimit())
-                && Arrays.equals(basicStroke1.getDashArray(), basicStroke2.getDashArray());
     }
 
     /**
