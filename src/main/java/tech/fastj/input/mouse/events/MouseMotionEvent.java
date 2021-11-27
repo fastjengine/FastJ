@@ -1,4 +1,4 @@
-package tech.fastj.input.mouse;
+package tech.fastj.input.mouse.events;
 
 import tech.fastj.math.Pointf;
 
@@ -10,7 +10,7 @@ public class MouseMotionEvent implements MouseActionEvent {
     private final Pointf mouseLocation;
     private final boolean isDrag;
 
-    public MouseMotionEvent(MouseEvent mouseEvent, boolean isDrag) {
+    private MouseMotionEvent(MouseEvent mouseEvent, boolean isDrag) {
         this.mouseEvent = mouseEvent;
         this.mouseLocation = new Pointf(mouseEvent.getX(), mouseEvent.getY());
         this.isDrag = isDrag;
@@ -27,5 +27,9 @@ public class MouseMotionEvent implements MouseActionEvent {
 
     public boolean isDrag() {
         return isDrag;
+    }
+
+    public static MouseMotionEvent fromMouseEvent(MouseEvent mouseEvent, boolean isDrag) {
+        return new MouseMotionEvent(mouseEvent, isDrag);
     }
 }

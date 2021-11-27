@@ -1,4 +1,4 @@
-package tech.fastj.input.mouse;
+package tech.fastj.input.mouse.events;
 
 import java.awt.event.MouseEvent;
 
@@ -8,7 +8,7 @@ public class MouseButtonEvent implements MouseActionEvent {
     private final int button;
     private final int clickCount;
 
-    public MouseButtonEvent(MouseEvent mouseEvent) {
+    private MouseButtonEvent(MouseEvent mouseEvent) {
         this.mouseEvent = mouseEvent;
         this.button = mouseEvent.getButton();
         this.clickCount = mouseEvent.getClickCount();
@@ -25,5 +25,9 @@ public class MouseButtonEvent implements MouseActionEvent {
 
     public int getClickCount() {
         return clickCount;
+    }
+
+    public static MouseButtonEvent fromMouseEvent(MouseEvent mouseEvent) {
+        return new MouseButtonEvent(mouseEvent);
     }
 }

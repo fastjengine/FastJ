@@ -3,6 +3,8 @@ package tech.fastj.input.keyboard;
 import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.input.InputManager;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;

@@ -1,17 +1,17 @@
 package tech.fastj.input;
 
 import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.keyboard.KeyboardActionEvent;
+import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
-import tech.fastj.input.keyboard.KeyboardTypedEvent;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 import tech.fastj.input.mouse.Mouse;
-import tech.fastj.input.mouse.MouseActionEvent;
+import tech.fastj.input.mouse.events.MouseActionEvent;
 import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.MouseButtonEvent;
-import tech.fastj.input.mouse.MouseMotionEvent;
-import tech.fastj.input.mouse.MouseScrollEvent;
-import tech.fastj.input.mouse.MouseWindowEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;

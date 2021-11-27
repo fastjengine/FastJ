@@ -8,6 +8,11 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
 import tech.fastj.input.InputManager;
+import tech.fastj.input.mouse.events.MouseActionEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;
@@ -128,14 +133,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     );
 
     private static final Map<Integer, Function<MouseEvent, MouseActionEvent>> MouseActionEventCreator = Map.of(
-            MouseEvent.MOUSE_PRESSED, MouseButtonEvent::new,
-            MouseEvent.MOUSE_RELEASED, MouseButtonEvent::new,
-            MouseEvent.MOUSE_CLICKED, MouseButtonEvent::new,
-            MouseEvent.MOUSE_MOVED, mouseEvent -> new MouseMotionEvent(mouseEvent, false),
-            MouseEvent.MOUSE_DRAGGED, mouseEvent -> new MouseMotionEvent(mouseEvent, true),
-            MouseEvent.MOUSE_ENTERED, MouseWindowEvent::new,
-            MouseEvent.MOUSE_EXITED, MouseWindowEvent::new,
-            MouseEvent.MOUSE_WHEEL, mouseEvent -> new MouseScrollEvent((MouseWheelEvent) mouseEvent)
+            MouseEvent.MOUSE_PRESSED, MouseButtonEvent::fromMouseEvent,
+            MouseEvent.MOUSE_RELEASED, MouseButtonEvent::fromMouseEvent,
+            MouseEvent.MOUSE_CLICKED, MouseButtonEvent::fromMouseEvent,
+            MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, false),
+            MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, true),
+            MouseEvent.MOUSE_ENTERED, MouseWindowEvent::fromMouseEvent,
+            MouseEvent.MOUSE_EXITED, MouseWindowEvent::fromMouseEvent,
+            MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent)
     );
 
     /** Initializes the mouse. */

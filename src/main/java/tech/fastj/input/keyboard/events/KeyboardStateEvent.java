@@ -1,10 +1,13 @@
-package tech.fastj.input.keyboard;
+package tech.fastj.input.keyboard.events;
+
+import tech.fastj.input.keyboard.Keys;
 
 import java.awt.event.KeyEvent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyboardStateEvent implements KeyboardActionEvent {
+
     private static final Map<int[], Keys> KeyboardMap = new ConcurrentHashMap<>();
     private final KeyEvent keyEvent;
     private final Keys key;
@@ -33,7 +36,7 @@ public class KeyboardStateEvent implements KeyboardActionEvent {
         return KeyEvent.getKeyText(keyEvent.getExtendedKeyCode());
     }
 
-    static KeyboardStateEvent fromKeyEvent(KeyEvent keyEvent) {
+    public static KeyboardStateEvent fromKeyEvent(KeyEvent keyEvent) {
         return new KeyboardStateEvent(keyEvent);
     }
 }

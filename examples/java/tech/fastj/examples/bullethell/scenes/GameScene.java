@@ -12,7 +12,7 @@ import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.systems.control.Scene;
 

@@ -4,7 +4,7 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 
 import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 

@@ -1,4 +1,4 @@
-package tech.fastj.input.mouse;
+package tech.fastj.input.mouse.events;
 
 import tech.fastj.input.InputActionEvent;
 

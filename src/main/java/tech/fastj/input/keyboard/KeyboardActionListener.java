@@ -1,5 +1,8 @@
 package tech.fastj.input.keyboard;
 
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
+
 /**
  * A keyboard action listener.
  *

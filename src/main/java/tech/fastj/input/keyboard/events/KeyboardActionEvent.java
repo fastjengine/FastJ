@@ -1,4 +1,4 @@
-package tech.fastj.input.keyboard;
+package tech.fastj.input.keyboard.events;
 
 import tech.fastj.input.InputActionEvent;
 

@@ -8,11 +8,11 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.MouseButtons;
-import tech.fastj.input.mouse.MouseMotionEvent;
-import tech.fastj.input.mouse.MouseScrollEvent;
-import tech.fastj.input.mouse.MouseWindowEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Color;

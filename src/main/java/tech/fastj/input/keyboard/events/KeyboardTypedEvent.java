@@ -1,8 +1,9 @@
-package tech.fastj.input.keyboard;
+package tech.fastj.input.keyboard.events;
 
 import java.awt.event.KeyEvent;
 
 public class KeyboardTypedEvent implements KeyboardActionEvent {
+
     private final KeyEvent keyEvent;
 
     private KeyboardTypedEvent(KeyEvent keyEvent) {
@@ -17,7 +18,7 @@ public class KeyboardTypedEvent implements KeyboardActionEvent {
         return keyEvent;
     }
 
-    static KeyboardTypedEvent fromKeyEvent(KeyEvent keyEvent) {
+    public static KeyboardTypedEvent fromKeyEvent(KeyEvent keyEvent) {
         return new KeyboardTypedEvent(keyEvent);
     }
 }
