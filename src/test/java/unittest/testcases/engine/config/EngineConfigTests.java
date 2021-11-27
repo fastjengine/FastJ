@@ -1,8 +1,5 @@
 package unittest.testcases.engine.config;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
-
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.engine.config.EngineConfig;
@@ -15,6 +12,9 @@ import tech.fastj.logging.LogLevel;
 import unittest.EnvironmentHelper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class EngineConfigTests {
 

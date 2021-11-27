@@ -1,9 +1,5 @@
 package unittest.testcases.engine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
-
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
@@ -23,6 +19,10 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FastJEngineTests {

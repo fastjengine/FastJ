@@ -1,7 +1,5 @@
 package unittest.testcases.graphics.gradients;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 
@@ -18,6 +16,8 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class GradientsTests {
 

@@ -107,7 +107,8 @@ spotless {
                 'tech.fastj.resources',
                 'tech.fastj.systems',
                 'java',
-                'javax'
+                'javax',
+                '\\#'
         )
         removeUnusedImports()
     }
