@@ -541,6 +541,16 @@ class PointfTests {
     }
 
     @Test
+    void static_checkDistanceFormula() {
+        Pointf pt = Pointf.unit();
+        Pointf pt2 = Pointf.unit().add(5f, 12f);
+
+        float expectedDistance = 13f;
+        float actualDistance = Pointf.distance(pt, pt2);
+        assertEquals(expectedDistance, actualDistance, "The resulting distance calculation from the two Pointfs should equal the expected distance calculation of 13f.");
+    }
+
+    @Test
     void static_checkLerp_withOneLerpValue() {
         Pointf ptf = new Pointf(5f, 13f);
         Pointf ptf2 = new Pointf(25f, 37f);
