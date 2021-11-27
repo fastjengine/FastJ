@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 import tech.fastj.engine.FastJEngine;
 
@@ -20,6 +21,8 @@ import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.resources.models.SupportedModelFormats;
+
+import unittest.EnvironmentHelper;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -86,6 +89,11 @@ class ObjMtlUtilTests {
             expectedHouseDoor.setFill(expectedHouseDoorGradient)
     };
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
+
+    @BeforeAll
+    public static void onlyRunIfNotHeadless() {
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
+    }
 
     @BeforeAll
     public static void createTempDirectoryAndFile_forReadWriteTests() throws IOException {
