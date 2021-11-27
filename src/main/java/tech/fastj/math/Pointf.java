@@ -146,6 +146,19 @@ public class Pointf {
     }
 
     /**
+     * Static method to add a {@code Pointf} object by two float values, and return a new {@code Pointf}.
+     *
+     * @param p  The {@code Pointf} used for addition.
+     * @param f1 The {@code float} used for addition on the {@code x} value.
+     * @param f2 The {@code float} used for addition on the {@code y} value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
+     * float values.
+     */
+    public static Pointf add(Pointf p, float f1, float f2) {
+        return new Pointf(p.x + f1, p.y + f2);
+    }
+
+    /**
      * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Pointf}
      * object.
      *
@@ -170,6 +183,19 @@ public class Pointf {
      */
     public static Pointf subtract(Pointf p, float f) {
         return new Pointf(p.x - f, p.y - f);
+    }
+
+    /**
+     * Static method to subtract a {@code Pointf} object by two float values, and return a new {@code Pointf}.
+     *
+     * @param p  The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
+     * @param f1 float value used for subtraction; the second value used in subtraction for the {@code x} value.
+     * @param f2 float value used for subtraction; the second value used in subtraction for the {@code y} value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
+     * the float values.
+     */
+    public static Pointf subtract(Pointf p, float f1, float f2) {
+        return new Pointf(p.x - f1, p.y - f2);
     }
 
     /**
@@ -198,6 +224,19 @@ public class Pointf {
     }
 
     /**
+     * Static method to multiply a {@code Pointf} object by two float values, and return a new {@code Pointf}.
+     *
+     * @param p  The {@code Pointf} used for multiplication.
+     * @param f1 float value used for multiplication on the {@code x} value.
+     * @param f2 float value used for multiplication on the {@code y} value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
+     * the float values.
+     */
+    public static Pointf multiply(Pointf p, float f1, float f2) {
+        return new Pointf(p.x * f1, p.y * f2);
+    }
+
+    /**
      * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a new
      * {@code Pointf}.
      *
@@ -220,6 +259,19 @@ public class Pointf {
      */
     public static Pointf divide(Pointf p, float f) {
         return new Pointf(p.x / f, p.y / f);
+    }
+
+    /**
+     * Static method to divide a {@code Pointf} object by a float value, and return a new {@code Pointf}.
+     *
+     * @param p  The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
+     * @param f1 float value used for division; the second value used in division for the {@code x} value.
+     * @param f2 float value used for division; the second value used in division for the {@code y} value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
+     * float value.
+     */
+    public static Pointf divide(Pointf p, float f1, float f2) {
+        return new Pointf(p.x / f1, p.y / f2);
     }
 
     /**
@@ -490,6 +542,21 @@ public class Pointf {
     }
 
     /**
+     * Adds the values of this {@code Pointf} to the specified float values, and returns a new {@code Pointf} with the
+     * modified values.
+     *
+     * @param f1 {@code x} value to add this {@code Pointf} to.
+     * @param f2 {@code y} value to add this {@code Pointf} to.
+     * @return Returns this {@code Pointf}, with the modified values.
+     */
+    public Pointf add(float f1, float f2) {
+        x += f1;
+        y += f2;
+
+        return this;
+    }
+
+    /**
      * Subtracts the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf}
      * with the modified values.
      *
@@ -513,6 +580,21 @@ public class Pointf {
     public Pointf subtract(float f) {
         x -= f;
         y -= f;
+
+        return this;
+    }
+
+    /**
+     * Subtracts the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
+     * the modified values.
+     *
+     * @param f1 {@code x} value to subtract this {@code Pointf} by.
+     * @param f2 {@code y} value to subtract this {@code Pointf} by.
+     * @return Returns this {@code Pointf}, with the modified values.
+     */
+    public Pointf subtract(float f1, float f2) {
+        x -= f1;
+        y -= f2;
 
         return this;
     }
@@ -546,6 +628,21 @@ public class Pointf {
     }
 
     /**
+     * Multiplies the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
+     * the modified values.
+     *
+     * @param f1 {@code x} value to multiply this {@code Pointf} by.
+     * @param f2 {@code y} value to multiply this {@code Pointf} by.
+     * @return Returns this {@code Pointf}, with the modified values.
+     */
+    public Pointf multiply(float f1, float f2) {
+        x *= f1;
+        y *= f2;
+
+        return this;
+    }
+
+    /**
      * Divides the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with
      * the modified values.
      *
@@ -569,6 +666,21 @@ public class Pointf {
     public Pointf divide(float f) {
         x /= f;
         y /= f;
+
+        return this;
+    }
+
+    /**
+     * Divides the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with the
+     * modified values.
+     *
+     * @param f1 {@code x} value to divide this {@code Pointf} by.
+     * @param f2 {@code y} value to divide this {@code Pointf} by.
+     * @return Returns this {@code Pointf}, with the modified values.
+     */
+    public Pointf divide(float f1, float f2) {
+        x /= f1;
+        y /= f2;
 
         return this;
     }
