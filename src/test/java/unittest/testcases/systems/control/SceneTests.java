@@ -1,10 +1,5 @@
 package unittest.testcases.systems.control;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.game.GameObject;
@@ -17,6 +12,11 @@ import unittest.mock.graphics.MockDrawable;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.control.MockEmptyScene;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SceneTests {
 
