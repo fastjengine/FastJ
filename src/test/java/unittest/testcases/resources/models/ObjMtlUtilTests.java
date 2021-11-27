@@ -91,6 +91,7 @@ class ObjMtlUtilTests {
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
     @BeforeAll
+    @AfterAll
     public static void onlyRunIfNotHeadless() {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
     }
