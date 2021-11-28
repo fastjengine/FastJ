@@ -286,6 +286,7 @@ public class FastJCanvas {
     /** Initializes the display, and all of its components. */
     private void initCanvas() {
         Keyboard.init();
+        Mouse.init();
 
         // Canvas
         canvas = new Canvas();
