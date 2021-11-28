@@ -1,6 +1,7 @@
 package unittest.testcases.input.keyboard;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Point;
 import tech.fastj.graphics.display.FastJCanvas;
 
@@ -65,28 +66,26 @@ class KeyboardActionEventTests {
                     }
                     Point canvasLocationOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen());
                     robot.mouseMove(canvasLocationOnScreen.x, canvasLocationOnScreen.y);
-                    System.out.println(MouseInfo.getPointerInfo().getLocation());
+                    Log.info(KeyboardActionEventTests.class, "Mouse pointer located at {}", MouseInfo.getPointerInfo().getLocation());
 
                     scene.inputManager.addKeyboardActionListener(new KeyboardActionListener() {
                         @Override
                         public void onKeyRecentlyPressed(KeyboardStateEvent keyboardStateEvent) {
-                            FastJEngine.log("press {}", keyboardStateEvent);
+                            Log.info(KeyboardActionEventTests.class, "press {}", keyboardStateEvent);
                             didKeyPress.set(true);
                             wasKeySPressed.set(keyboardStateEvent.getKey() == expectedKey);
                         }
 
                         @Override
                         public void onKeyReleased(KeyboardStateEvent keyboardStateEvent) {
-                            FastJEngine.log("release {}", keyboardStateEvent);
+                            Log.info(KeyboardActionEventTests.class, "release {}", keyboardStateEvent);
                             didKeyRelease.set(true);
                             wasKeySReleased.set(keyboardStateEvent.getKey() == expectedKey);
                         }
                     });
                 },
                 (canvas, scene) -> {
-                    FastJEngine.log("update");
                     if (hasUpdated.get()) {
-                        FastJEngine.log("update successful");
                         return;
                     }
                     hasUpdated.set(true);
@@ -106,8 +105,7 @@ class KeyboardActionEventTests {
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                FastJEngine.log("render {} {} {}", hasUpdated.get(), didKeyPress.get(), didKeyRelease.get());
-                if (!hasUpdated.get() || !didKeyRelease.get()) {
+                if (!hasUpdated.get() || !didKeyPress.get() || !didKeyRelease.get()) {
                     return;
                 }
 
@@ -146,21 +144,19 @@ class KeyboardActionEventTests {
                     }
                     Point canvasLocationOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen());
                     robot.mouseMove(canvasLocationOnScreen.x, canvasLocationOnScreen.y);
-                    System.out.println(MouseInfo.getPointerInfo().getLocation());
+                    Log.info(KeyboardActionEventTests.class, "Mouse pointer located at {}", MouseInfo.getPointerInfo().getLocation());
 
                     scene.inputManager.addKeyboardActionListener(new KeyboardActionListener() {
                         @Override
                         public void onKeyTyped(KeyboardTypedEvent keyboardTypedEvent) {
-                            FastJEngine.log("typed {}", keyboardTypedEvent);
+                            Log.info(KeyboardActionEventTests.class, "typed {}", keyboardTypedEvent);
                             didKeyType.set(true);
                             keyTyped.set(keyboardTypedEvent.getKeyName());
                         }
                     });
                 },
                 (canvas, scene) -> {
-                    FastJEngine.log("update");
                     if (hasUpdated.get()) {
-                        FastJEngine.log("update successful");
                         return;
                     }
                     hasUpdated.set(true);
@@ -180,7 +176,6 @@ class KeyboardActionEventTests {
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                FastJEngine.log("render {} {}", hasUpdated.get(), didKeyType.get());
                 if (!hasUpdated.get() || !didKeyType.get()) {
                     return;
                 }

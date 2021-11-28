@@ -1,6 +1,7 @@
 package unittest.testcases.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.display.FastJCanvas;
@@ -70,19 +71,17 @@ class MouseActionEventTests {
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
                     }
-                    Point mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
-                    robot.mouseMove(-mouseLocation.x, -mouseLocation.y);
                     Point canvasLocationOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen()).add(
                             (int) canvas.getCanvasCenter().x,
                             (int) canvas.getCanvasCenter().y
                     );
                     robot.mouseMove(canvasLocationOnScreen.x, canvasLocationOnScreen.y);
-                    System.out.println(MouseInfo.getPointerInfo().getLocation());
+                    Log.info(MouseActionEventTests.class, "Mouse pointer located at {}", MouseInfo.getPointerInfo().getLocation());
 
                     scene.inputManager.addMouseActionListener(new MouseActionListener() {
                         @Override
                         public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
-                            FastJEngine.log("press {}", mouseButtonEvent);
+                            Log.info(MouseActionEventTests.class, "press {}", mouseButtonEvent);
                             didMousePress.set(true);
                             if (mouseButtonEvent.getMouseButton() == MouseEvent.BUTTON1) {
                                 wasMouseButton1Pressed.set(true);
@@ -91,7 +90,7 @@ class MouseActionEventTests {
 
                         @Override
                         public void onMouseReleased(MouseButtonEvent mouseButtonEvent) {
-                            FastJEngine.log("release {}", mouseButtonEvent);
+                            Log.info(MouseActionEventTests.class, "release {}", mouseButtonEvent);
                             didMouseRelease.set(true);
                             if (mouseButtonEvent.getMouseButton() == MouseEvent.BUTTON1) {
                                 wasMouseButton1Released.set(true);
@@ -100,7 +99,7 @@ class MouseActionEventTests {
 
                         @Override
                         public void onMouseClicked(MouseButtonEvent mouseButtonEvent) {
-                            FastJEngine.log("click {}", mouseButtonEvent);
+                            Log.info(MouseActionEventTests.class, "click {}", mouseButtonEvent);
                             didMouseClick.set(true);
                             mouseButtonClickCount.set(mouseButtonEvent.getClickCount());
                             if (mouseButtonEvent.getMouseButton() == MouseEvent.BUTTON1) {
@@ -110,9 +109,7 @@ class MouseActionEventTests {
                     });
                 },
                 (canvas, scene) -> {
-                    FastJEngine.log("update");
                     if (hasUpdated.get()) {
-                        FastJEngine.log("update successful");
                         return;
                     }
                     hasUpdated.set(true);
@@ -126,8 +123,7 @@ class MouseActionEventTests {
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                FastJEngine.log("render {} {} {} {}", hasUpdated.get(), didMousePress.get(), didMouseRelease.get(), didMouseClick.get());
-                if (!hasUpdated.get() || !didMouseClick.get()) {
+                if (!hasUpdated.get() || !didMousePress.get() || !didMouseRelease.get() || !didMouseClick.get()) {
                     return;
                 }
 
@@ -137,11 +133,8 @@ class MouseActionEventTests {
         FastJEngine.init("Robot mouse button", mockSceneManager);
         FastJEngine.run();
 
-        assertTrue(didMousePress.get(), "The mouse should have been pressed.");
         assertTrue(wasMouseButton1Pressed.get(), "Mouse button 1 should have been pressed.");
-        assertTrue(didMouseRelease.get(), "The mouse should have been released.");
         assertTrue(wasMouseButton1Released.get(), "Mouse button 1 should have been released.");
-        assertTrue(didMouseClick.get(), "The mouse should have been clicked.");
         assertTrue(wasMouseButton1Clicked.get(), "Mouse button 1 should have been clicked.");
         assertEquals(expectedClickCount, mouseButtonClickCount.get(), "The mouse should have been clicked once.");
     }
@@ -173,17 +166,15 @@ class MouseActionEventTests {
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
                     }
-                    Point mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
-                    robot.mouseMove(-mouseLocation.x, -mouseLocation.y);
                     Point canvasLocationOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen());
                     screenLocation.add(canvasLocationOnScreen);
                     robot.mouseMove(canvasLocationOnScreen.x, canvasLocationOnScreen.y);
-                    System.out.println(MouseInfo.getPointerInfo().getLocation());
+                    Log.info(MouseActionEventTests.class, "Mouse pointer located at {}", MouseInfo.getPointerInfo().getLocation());
 
                     scene.inputManager.addMouseActionListener(new MouseActionListener() {
                         @Override
                         public void onMouseMoved(MouseMotionEvent mouseMotionEvent) {
-                            FastJEngine.log("move {}", mouseMotionEvent);
+                            Log.info(MouseActionEventTests.class, "move {}", mouseMotionEvent);
                             didMouseMove.set(true);
                             Pointf mouseLocation = mouseMotionEvent.getMouseLocation();
                             Point mouseLocationTruncated = new Point((int) mouseLocation.x, (int) mouseLocation.y);
@@ -192,7 +183,7 @@ class MouseActionEventTests {
 
                         @Override
                         public void onMouseDragged(MouseMotionEvent mouseMotionEvent) {
-                            FastJEngine.log("drag {}", mouseMotionEvent);
+                            Log.info(MouseActionEventTests.class, "drag {}", mouseMotionEvent);
                             didMouseDrag.set(true);
                             Pointf mouseLocation = mouseMotionEvent.getMouseLocation();
                             Point mouseLocationTruncated = new Point((int) mouseLocation.x, (int) mouseLocation.y);
@@ -201,9 +192,7 @@ class MouseActionEventTests {
                     });
                 },
                 (canvas, scene) -> {
-                    FastJEngine.log("update");
                     if (hasUpdated.get()) {
-                        FastJEngine.log("update successful");
                         return;
                     }
                     hasUpdated.set(true);
@@ -211,7 +200,7 @@ class MouseActionEventTests {
                     robot.mouseMove(expectedMouseMove.x + screenLocation.x, expectedMouseMove.y + screenLocation.y);
                     robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
                     try {
-                        TimeUnit.MILLISECONDS.sleep(200);
+                        TimeUnit.MILLISECONDS.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -223,8 +212,7 @@ class MouseActionEventTests {
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                FastJEngine.log("render {} {} {}", hasUpdated.get(), didMouseMove.get(), didMouseDrag.get());
-                if (!hasUpdated.get() || !didMouseDrag.get()) {
+                if (!hasUpdated.get() || !didMouseMove.get() || !didMouseDrag.get()) {
                     return;
                 }
 
@@ -235,9 +223,7 @@ class MouseActionEventTests {
         FastJEngine.init("Robot mouse button", mockSceneManager);
         FastJEngine.run();
 
-        assertTrue(didMouseMove.get(), "The mouse should have been moved.");
         assertEquals(expectedMouseMove, mouseMoveLocation.get(), "The mouse should have moved to " + expectedMouseMove + ".");
-        assertTrue(didMouseDrag.get(), "The mouse should have been dragged.");
         assertEquals(expectedMouseDrag, mouseDragLocation.get(), "The mouse should have been dragged to " + expectedMouseDrag + ".");
     }
 
@@ -266,19 +252,17 @@ class MouseActionEventTests {
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
                     }
-                    Point mouseLocation = new Point(MouseInfo.getPointerInfo().getLocation());
-                    robot.mouseMove(-mouseLocation.x, -mouseLocation.y);
-                    Point canvasLocationOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen()).add(
+                    Point canvasCenterOnScreen = new Point(canvas.getRawCanvas().getLocationOnScreen()).add(
                             (int) canvas.getCanvasCenter().x,
                             (int) canvas.getCanvasCenter().y
                     );
-                    robot.mouseMove(canvasLocationOnScreen.x, canvasLocationOnScreen.y);
-                    System.out.println(MouseInfo.getPointerInfo().getLocation());
+                    robot.mouseMove(canvasCenterOnScreen.x, canvasCenterOnScreen.y);
+                    Log.info(MouseActionEventTests.class, "Mouse pointer located at {}", MouseInfo.getPointerInfo().getLocation());
 
                     scene.inputManager.addMouseActionListener(new MouseActionListener() {
                         @Override
                         public void onMouseWheelScrolled(MouseScrollEvent mouseScrollEvent) {
-                            FastJEngine.log("scroll {} {} {} {} {}", mouseScrollEvent, mouseScrollEvent.getMouseScrollType(), mouseScrollEvent.getRawEvent().getPreciseWheelRotation(), mouseScrollEvent.getRawEvent().getScrollAmount(), mouseScrollEvent.getRawEvent().getUnitsToScroll());
+                            Log.info(MouseActionEventTests.class, "scroll {} {} {} {} {}", mouseScrollEvent, mouseScrollEvent.getMouseScrollType(), mouseScrollEvent.getRawEvent().getPreciseWheelRotation(), mouseScrollEvent.getRawEvent().getScrollAmount(), mouseScrollEvent.getRawEvent().getUnitsToScroll());
                             didMouseScroll.set(true);
                             mouseWheelRotationAmount.set(mouseScrollEvent.getWheelRotation());
                             mouseScrollType.set(mouseScrollEvent.getMouseScrollType());
@@ -286,9 +270,7 @@ class MouseActionEventTests {
                     });
                 },
                 (canvas, scene) -> {
-                    FastJEngine.log("update");
                     if (hasUpdated.get()) {
-                        FastJEngine.log("update successful");
                         return;
                     }
                     hasUpdated.set(true);
@@ -300,7 +282,6 @@ class MouseActionEventTests {
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                FastJEngine.log("render {} {}", hasUpdated.get(), didMouseScroll.get());
                 if (!hasUpdated.get() || !didMouseScroll.get()) {
                     return;
                 }
@@ -311,7 +292,6 @@ class MouseActionEventTests {
         FastJEngine.init("Robot mouse button", mockSceneManager);
         FastJEngine.run();
 
-        assertTrue(didMouseScroll.get(), "The mouse should have been scrolled.");
         assertEquals(expectedScrollType, mouseScrollType.get(), "The mouse scroll type should have been " + expectedScrollType + ".");
         assertEquals(expectedWheelRotation, mouseWheelRotationAmount.get(), "The mouse wheel should have been rotated " + expectedWheelRotation + ".");
     }
