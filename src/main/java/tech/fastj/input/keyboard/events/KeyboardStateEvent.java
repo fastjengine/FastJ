@@ -33,7 +33,7 @@ public class KeyboardStateEvent implements KeyboardActionEvent {
 
     @Override
     public String getKeyName() {
-        return KeyEvent.getKeyText(keyEvent.getExtendedKeyCode());
+        return String.valueOf(keyEvent.getKeyChar());
     }
 
     public static KeyboardStateEvent fromKeyEvent(KeyEvent keyEvent) {

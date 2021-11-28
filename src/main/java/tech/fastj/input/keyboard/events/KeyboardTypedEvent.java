@@ -10,10 +10,12 @@ public class KeyboardTypedEvent implements KeyboardActionEvent {
         this.keyEvent = keyEvent;
     }
 
+    @Override
     public String getKeyName() {
-        return KeyEvent.getKeyText(keyEvent.getExtendedKeyCode());
+        return String.valueOf(keyEvent.getKeyChar());
     }
 
+    @Override
     public KeyEvent getRawEvent() {
         return keyEvent;
     }
