@@ -72,8 +72,8 @@ public class GameScene extends Scene {
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {
             @Override
-            public void onKeyRecentlyPressed(KeyboardStateEvent keyEvent) {
-                switch (keyEvent.getKey()) {
+            public void onKeyRecentlyPressed(KeyboardStateEvent keyboardStateEvent) {
+                switch (keyboardStateEvent.getKey()) {
                     case Q: {
                         FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
                         break;
