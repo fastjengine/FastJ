@@ -12,6 +12,7 @@ import tech.fastj.input.mouse.MouseScrollType;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 
 import tech.fastj.logging.Log;
 import unittest.EnvironmentHelper;

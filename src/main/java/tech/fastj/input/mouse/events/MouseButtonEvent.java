@@ -1,5 +1,7 @@
 package tech.fastj.input.mouse.events;
 
+import tech.fastj.input.mouse.MouseAction;
+
 import java.awt.event.MouseEvent;
 
 public class MouseButtonEvent implements MouseActionEvent {
@@ -7,9 +9,11 @@ public class MouseButtonEvent implements MouseActionEvent {
     private final MouseEvent mouseEvent;
     private final int button;
     private final int clickCount;
+    private final MouseAction eventType;
 
-    private MouseButtonEvent(MouseEvent mouseEvent) {
+    private MouseButtonEvent(MouseEvent mouseEvent, MouseAction eventType) {
         this.mouseEvent = mouseEvent;
+        this.eventType = eventType;
         this.button = mouseEvent.getButton();
         this.clickCount = mouseEvent.getClickCount();
     }
@@ -17,6 +21,11 @@ public class MouseButtonEvent implements MouseActionEvent {
     @Override
     public MouseEvent getRawEvent() {
         return mouseEvent;
+    }
+
+    @Override
+    public MouseAction getEventType() {
+        return eventType;
     }
 
     public int getMouseButton() {
@@ -27,7 +36,7 @@ public class MouseButtonEvent implements MouseActionEvent {
         return clickCount;
     }
 
-    public static MouseButtonEvent fromMouseEvent(MouseEvent mouseEvent) {
-        return new MouseButtonEvent(mouseEvent);
+    public static MouseButtonEvent fromMouseEvent(MouseEvent mouseEvent, MouseAction eventType) {
+        return new MouseButtonEvent(mouseEvent, eventType);
     }
 }

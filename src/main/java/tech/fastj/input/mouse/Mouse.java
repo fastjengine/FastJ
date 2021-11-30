@@ -150,14 +150,14 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     );
 
     private static final Map<Integer, Function<MouseEvent, MouseActionEvent>> MouseActionEventCreator = Map.of(
-            MouseEvent.MOUSE_PRESSED, MouseButtonEvent::fromMouseEvent,
-            MouseEvent.MOUSE_RELEASED, MouseButtonEvent::fromMouseEvent,
-            MouseEvent.MOUSE_CLICKED, MouseButtonEvent::fromMouseEvent,
-            MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, false),
-            MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, true),
-            MouseEvent.MOUSE_ENTERED, MouseWindowEvent::fromMouseEvent,
-            MouseEvent.MOUSE_EXITED, MouseWindowEvent::fromMouseEvent,
-            MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent)
+            MouseEvent.MOUSE_PRESSED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Press),
+            MouseEvent.MOUSE_RELEASED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Release),
+            MouseEvent.MOUSE_CLICKED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Click),
+            MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Move),
+            MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Drag),
+            MouseEvent.MOUSE_ENTERED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Enter),
+            MouseEvent.MOUSE_EXITED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Exit),
+            MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent, MouseAction.WheelScroll)
     );
 
     /** Initializes the mouse. */

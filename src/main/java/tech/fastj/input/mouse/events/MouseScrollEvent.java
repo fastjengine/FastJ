@@ -1,5 +1,6 @@
 package tech.fastj.input.mouse.events;
 
+import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseScrollType;
 
 import java.awt.event.MouseWheelEvent;
@@ -11,9 +12,11 @@ public class MouseScrollEvent implements MouseActionEvent {
     private final double wheelRotation;
     private final double scrollAmount;
     private final int scrollAmountPerWheelRotation;
+    private final MouseAction eventType;
 
-    private MouseScrollEvent(MouseWheelEvent mouseWheelEvent) {
+    private MouseScrollEvent(MouseWheelEvent mouseWheelEvent, MouseAction eventType) {
         this.mouseWheelEvent = mouseWheelEvent;
+        this.eventType = eventType;
         this.mouseScrollType = MouseScrollType.get(mouseWheelEvent.getScrollType());
         this.wheelRotation = mouseWheelEvent.getPreciseWheelRotation();
         switch (mouseScrollType) {
@@ -38,6 +41,11 @@ public class MouseScrollEvent implements MouseActionEvent {
         return mouseWheelEvent;
     }
 
+    @Override
+    public MouseAction getEventType() {
+        return eventType;
+    }
+
     public MouseScrollType getMouseScrollType() {
         return mouseScrollType;
     }
@@ -54,7 +62,7 @@ public class MouseScrollEvent implements MouseActionEvent {
         return scrollAmountPerWheelRotation;
     }
 
-    public static MouseScrollEvent fromMouseWheelEvent(MouseWheelEvent mouseWheelEvent) {
-        return new MouseScrollEvent(mouseWheelEvent);
+    public static MouseScrollEvent fromMouseWheelEvent(MouseWheelEvent mouseWheelEvent, MouseAction eventType) {
+        return new MouseScrollEvent(mouseWheelEvent, eventType);
     }
 }

@@ -2,18 +2,20 @@ package tech.fastj.input.mouse.events;
 
 import tech.fastj.math.Pointf;
 
+import tech.fastj.input.mouse.MouseAction;
+
 import java.awt.event.MouseEvent;
 
 public class MouseMotionEvent implements MouseActionEvent {
 
     private final MouseEvent mouseEvent;
     private final Pointf mouseLocation;
-    private final boolean isDrag;
+    private final MouseAction eventType;
 
-    private MouseMotionEvent(MouseEvent mouseEvent, boolean isDrag) {
+    private MouseMotionEvent(MouseEvent mouseEvent, MouseAction eventType) {
         this.mouseEvent = mouseEvent;
         this.mouseLocation = new Pointf(mouseEvent.getX(), mouseEvent.getY());
-        this.isDrag = isDrag;
+        this.eventType = eventType;
     }
 
     @Override
@@ -21,15 +23,16 @@ public class MouseMotionEvent implements MouseActionEvent {
         return mouseEvent;
     }
 
+    @Override
+    public MouseAction getEventType() {
+        return eventType;
+    }
+
     public Pointf getMouseLocation() {
         return mouseLocation;
     }
 
-    public boolean isDrag() {
-        return isDrag;
-    }
-
-    public static MouseMotionEvent fromMouseEvent(MouseEvent mouseEvent, boolean isDrag) {
-        return new MouseMotionEvent(mouseEvent, isDrag);
+    public static MouseMotionEvent fromMouseEvent(MouseEvent mouseEvent, MouseAction eventType) {
+        return new MouseMotionEvent(mouseEvent, eventType);
     }
 }
