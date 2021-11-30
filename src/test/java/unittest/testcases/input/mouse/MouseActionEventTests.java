@@ -1,9 +1,10 @@
 package unittest.testcases.input.mouse;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.logging.Log;
+
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.mouse.MouseActionListener;
@@ -12,7 +13,13 @@ import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 
+import tech.fastj.logging.Log;
+import unittest.EnvironmentHelper;
+import unittest.mock.systems.control.MockConfigurableScene;
+import unittest.mock.systems.control.MockSceneManager;
+
 import java.awt.AWTException;
+import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
@@ -23,17 +30,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import unittest.EnvironmentHelper;
-import unittest.mock.systems.control.MockConfigurableScene;
-import unittest.mock.systems.control.MockSceneManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MouseActionEventTests {
@@ -41,6 +47,15 @@ class MouseActionEventTests {
     @BeforeAll
     public static void onlyRunIfNotHeadless() {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
+        assumeTrue(
+                GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length > 0,
+                "There muse be at least one device connected for display output for these tests to run."
+        );
+    }
+
+    @BeforeEach
+    void resetGame() {
+        FastJEngine.forceCloseGame();
     }
 
     @Test
@@ -60,13 +75,18 @@ class MouseActionEventTests {
         MockConfigurableScene mockConfigurableScene = new MockConfigurableScene(
                 (canvas, scene) -> {
                     // wait for canvas to show up on screen
-                    while (!canvas.getRawCanvas().isShowing()) {
+                    for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
                             TimeUnit.MILLISECONDS.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    assertTrue(canvas.getRawCanvas().isShowing(), () -> {
+                        FastJEngine.forceCloseGame();
+                        return "Canvas did not become visible, unit test timed out.";
+                    });
+
                     // initial focus + robot mouse positioning
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
@@ -126,6 +146,11 @@ class MouseActionEventTests {
                 if (!hasUpdated.get() || !didMousePress.get() || !didMouseRelease.get() || !didMouseClick.get()) {
                     return;
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 FastJEngine.closeGame();
             }
@@ -143,11 +168,8 @@ class MouseActionEventTests {
     @Order(1)
     void checkMouseActionListener_MouseMotionEvents() throws AWTException {
         AtomicBoolean didMouseMove = new AtomicBoolean();
-        AtomicBoolean didMouseDrag = new AtomicBoolean();
         AtomicReference<Point> mouseMoveLocation = new AtomicReference<>();
-        AtomicReference<Point> mouseDragLocation = new AtomicReference<>();
         Point expectedMouseMove = Point.unit();
-        Point expectedMouseDrag = Point.unit().add(Point.right());
         Point screenLocation = Point.origin();
         AtomicBoolean hasUpdated = new AtomicBoolean();
         Robot robot = new Robot();
@@ -155,13 +177,18 @@ class MouseActionEventTests {
         MockConfigurableScene mockConfigurableScene = new MockConfigurableScene(
                 (canvas, scene) -> {
                     // wait for canvas to show up on screen
-                    while (!canvas.getRawCanvas().isShowing()) {
+                    for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
                             TimeUnit.MILLISECONDS.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    assertTrue(canvas.getRawCanvas().isShowing(), () -> {
+                        FastJEngine.forceCloseGame();
+                        return "Canvas did not become visible, unit test timed out.";
+                    });
+
                     // initial focus + robot mouse positioning
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
@@ -180,15 +207,6 @@ class MouseActionEventTests {
                             Point mouseLocationTruncated = new Point((int) mouseLocation.x, (int) mouseLocation.y);
                             mouseMoveLocation.set(mouseLocationTruncated);
                         }
-
-                        @Override
-                        public void onMouseDragged(MouseMotionEvent mouseMotionEvent) {
-                            Log.info(MouseActionEventTests.class, "drag {}", mouseMotionEvent);
-                            didMouseDrag.set(true);
-                            Pointf mouseLocation = mouseMotionEvent.getMouseLocation();
-                            Point mouseLocationTruncated = new Point((int) mouseLocation.x, (int) mouseLocation.y);
-                            mouseDragLocation.set(mouseLocationTruncated);
-                        }
                     });
                 },
                 (canvas, scene) -> {
@@ -198,33 +216,28 @@ class MouseActionEventTests {
                     hasUpdated.set(true);
 
                     robot.mouseMove(expectedMouseMove.x + screenLocation.x, expectedMouseMove.y + screenLocation.y);
-                    robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    robot.mouseMove(expectedMouseDrag.x + screenLocation.x, expectedMouseDrag.y + screenLocation.y);
-                    robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
                 }
         );
 
         MockSceneManager mockSceneManager = new MockSceneManager(mockConfigurableScene) {
             @Override
             public void render(FastJCanvas display) {
-                if (!hasUpdated.get() || !didMouseMove.get() || !didMouseDrag.get()) {
+                if (!hasUpdated.get() || !didMouseMove.get()) {
                     return;
+                }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
                 FastJEngine.closeGame();
             }
         };
-
         FastJEngine.init("Robot mouse button", mockSceneManager);
         FastJEngine.run();
 
         assertEquals(expectedMouseMove, mouseMoveLocation.get(), "The mouse should have moved to " + expectedMouseMove + ".");
-        assertEquals(expectedMouseDrag, mouseDragLocation.get(), "The mouse should have been dragged to " + expectedMouseDrag + ".");
     }
 
     @Test
@@ -241,13 +254,18 @@ class MouseActionEventTests {
         MockConfigurableScene mockConfigurableScene = new MockConfigurableScene(
                 (canvas, scene) -> {
                     // wait for canvas to show up on screen
-                    while (!canvas.getRawCanvas().isShowing()) {
+                    for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
                             TimeUnit.MILLISECONDS.sleep(100);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
+                    assertTrue(canvas.getRawCanvas().isShowing(), () -> {
+                        FastJEngine.forceCloseGame();
+                        return "Canvas did not become visible, unit test timed out.";
+                    });
+
                     // initial focus + robot mouse positioning
                     if (!canvas.getRawCanvas().hasFocus()) {
                         canvas.getRawCanvas().requestFocus();
@@ -285,6 +303,11 @@ class MouseActionEventTests {
                 if (!hasUpdated.get() || !didMouseScroll.get()) {
                     return;
                 }
+                try {
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 FastJEngine.closeGame();
             }
@@ -293,6 +316,6 @@ class MouseActionEventTests {
         FastJEngine.run();
 
         assertEquals(expectedScrollType, mouseScrollType.get(), "The mouse scroll type should have been " + expectedScrollType + ".");
-        assertEquals(expectedWheelRotation, mouseWheelRotationAmount.get(), "The mouse wheel should have been rotated " + expectedWheelRotation + ".");
+        assertEquals(expectedWheelRotation, Math.abs(mouseWheelRotationAmount.get()), "The mouse wheel should have been rotated " + expectedWheelRotation + " (or by its absolute value).");
     }
 }
