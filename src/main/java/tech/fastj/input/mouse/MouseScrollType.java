@@ -29,6 +29,14 @@ public enum MouseScrollType {
         this.scrollType = scrollType;
     }
 
+    /**
+     * Gets the {@code MouseScrollType} instance with the specified scroll type.
+     *
+     * @param scrollType The scroll type to check against.
+     * @return The corresponding {@link MouseScrollType} instance.
+     * @see MouseWheelEvent#WHEEL_UNIT_SCROLL
+     * @see MouseWheelEvent#WHEEL_BLOCK_SCROLL
+     */
     public static MouseScrollType get(int scrollType) {
         if (scrollType == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
             return Unit;

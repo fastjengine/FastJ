@@ -5,6 +5,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.input.mouse.MouseAction;
 
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class MouseWindowEvent implements MouseActionEvent {
 
@@ -34,5 +35,32 @@ public class MouseWindowEvent implements MouseActionEvent {
 
     public static MouseWindowEvent fromMouseEvent(MouseEvent mouseEvent, MouseAction eventType) {
         return new MouseWindowEvent(mouseEvent, eventType);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        MouseWindowEvent mouseWindowEvent = (MouseWindowEvent) other;
+        return windowInteractionPosition.equals(mouseWindowEvent.windowInteractionPosition)
+                && eventType == mouseWindowEvent.eventType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(windowInteractionPosition, eventType);
+    }
+
+    @Override
+    public String toString() {
+        return "MouseWindowEvent{" +
+                "mouseEvent=" + mouseEvent +
+                ", windowInteractionPosition=" + windowInteractionPosition +
+                ", eventType=" + eventType +
+                '}';
     }
 }

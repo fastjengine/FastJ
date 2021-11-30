@@ -4,6 +4,7 @@ import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseScrollType;
 
 import java.awt.event.MouseWheelEvent;
+import java.util.Objects;
 
 public class MouseScrollEvent implements MouseActionEvent {
 
@@ -64,5 +65,38 @@ public class MouseScrollEvent implements MouseActionEvent {
 
     public static MouseScrollEvent fromMouseWheelEvent(MouseWheelEvent mouseWheelEvent, MouseAction eventType) {
         return new MouseScrollEvent(mouseWheelEvent, eventType);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        MouseScrollEvent mouseScrollEvent = (MouseScrollEvent) other;
+        return Double.compare(mouseScrollEvent.wheelRotation, wheelRotation) == 0
+                && Double.compare(mouseScrollEvent.scrollAmount, scrollAmount) == 0
+                && scrollAmountPerWheelRotation == mouseScrollEvent.scrollAmountPerWheelRotation
+                && mouseScrollType == mouseScrollEvent.mouseScrollType
+                && eventType == mouseScrollEvent.eventType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mouseScrollType, wheelRotation, scrollAmount, scrollAmountPerWheelRotation, eventType);
+    }
+
+    @Override
+    public String toString() {
+        return "MouseScrollEvent{" +
+                "mouseWheelEvent=" + mouseWheelEvent +
+                ", mouseScrollType=" + mouseScrollType +
+                ", wheelRotation=" + wheelRotation +
+                ", scrollAmount=" + scrollAmount +
+                ", scrollAmountPerWheelRotation=" + scrollAmountPerWheelRotation +
+                ", eventType=" + eventType +
+                '}';
     }
 }

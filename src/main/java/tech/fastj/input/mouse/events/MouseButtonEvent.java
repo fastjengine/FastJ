@@ -3,6 +3,7 @@ package tech.fastj.input.mouse.events;
 import tech.fastj.input.mouse.MouseAction;
 
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 
 public class MouseButtonEvent implements MouseActionEvent {
 
@@ -38,5 +39,34 @@ public class MouseButtonEvent implements MouseActionEvent {
 
     public static MouseButtonEvent fromMouseEvent(MouseEvent mouseEvent, MouseAction eventType) {
         return new MouseButtonEvent(mouseEvent, eventType);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        MouseButtonEvent mouseButtonEvent = (MouseButtonEvent) other;
+        return button == mouseButtonEvent.button
+                && clickCount == mouseButtonEvent.clickCount
+                && eventType == mouseButtonEvent.eventType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(button, clickCount, eventType);
+    }
+
+    @Override
+    public String toString() {
+        return "MouseButtonEvent{" +
+                "mouseEvent=" + mouseEvent +
+                ", button=" + button +
+                ", clickCount=" + clickCount +
+                ", eventType=" + eventType +
+                '}';
     }
 }
