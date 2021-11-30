@@ -168,7 +168,7 @@ class MouseActionEventTests {
     @Order(1)
     void checkMouseActionListener_MouseMotionEvents() throws AWTException {
         AtomicBoolean didMouseMove = new AtomicBoolean();
-        AtomicReference<Point> mouseMoveLocation = new AtomicReference<>();
+        AtomicReference<Pointf> mouseMoveLocation = new AtomicReference<>();
         Point expectedMouseMove = Point.unit();
         Point screenLocation = Point.origin();
         AtomicBoolean hasUpdated = new AtomicBoolean();
@@ -204,8 +204,7 @@ class MouseActionEventTests {
                             Log.info(MouseActionEventTests.class, "move {}", mouseMotionEvent);
                             didMouseMove.set(true);
                             Pointf mouseLocation = mouseMotionEvent.getMouseLocation();
-                            Point mouseLocationTruncated = new Point((int) mouseLocation.x, (int) mouseLocation.y);
-                            mouseMoveLocation.set(mouseLocationTruncated);
+                            mouseMoveLocation.set(mouseLocation);
                         }
                     });
                 },
@@ -237,7 +236,7 @@ class MouseActionEventTests {
         FastJEngine.init("Robot mouse button", mockSceneManager);
         FastJEngine.run();
 
-        assertEquals(expectedMouseMove, mouseMoveLocation.get(), "The mouse should have moved to " + expectedMouseMove + ".");
+        assertEquals(expectedMouseMove.asPointf(), mouseMoveLocation.get(), "The mouse should have moved to " + expectedMouseMove + ".");
     }
 
     @Test
