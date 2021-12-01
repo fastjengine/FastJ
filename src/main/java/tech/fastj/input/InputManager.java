@@ -13,6 +13,8 @@ import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
 
+import tech.fastj.logging.Log;
+
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -211,8 +213,10 @@ public class InputManager {
      */
     public void receivedInputEvent(InputEvent event) {
         if (isProcessingEvents) {
+            Log.trace(InputEvent.class, "received event {}, adding to backlog", event);
             eventBacklog.add(event);
         } else {
+            Log.trace(InputEvent.class, "received event {}, adding to main", event);
             receivedInputEvents.add(event);
         }
     }
@@ -225,6 +229,7 @@ public class InputManager {
      */
     public synchronized void processEvents() {
         isProcessingEvents = true;
+        Log.trace(InputEvent.class, "processing {} events", receivedInputEvents.size());
 
         for (InputEvent inputEvent : receivedInputEvents) {
             if (inputEvent instanceof MouseEvent) {

@@ -77,7 +77,7 @@ class MouseActionEventTests {
                     // wait for canvas to show up on screen
                     for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -146,11 +146,6 @@ class MouseActionEventTests {
                 if (!hasUpdated.get() || !didMousePress.get() || !didMouseRelease.get() || !didMouseClick.get()) {
                     return;
                 }
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
                 FastJEngine.closeGame();
             }
@@ -179,7 +174,7 @@ class MouseActionEventTests {
                     // wait for canvas to show up on screen
                     for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -201,6 +196,12 @@ class MouseActionEventTests {
                     scene.inputManager.addMouseActionListener(new MouseActionListener() {
                         @Override
                         public void onMouseMoved(MouseMotionEvent mouseMotionEvent) {
+                            /* Occasionally, the initial mouse movement can cause a different event
+                             * to be sent before the one we're looking for.
+                             * This is to make sure that event doesn't go through. */
+                            if (mouseMotionEvent.getMouseLocation().equals(Pointf.origin())) {
+                                return;
+                            }
                             Log.info(MouseActionEventTests.class, "move {}", mouseMotionEvent);
                             didMouseMove.set(true);
                             Pointf mouseLocation = mouseMotionEvent.getMouseLocation();
@@ -255,7 +256,7 @@ class MouseActionEventTests {
                     // wait for canvas to show up on screen
                     for (int i = 0; !canvas.getRawCanvas().isShowing() || i < 10; i++) {
                         try {
-                            TimeUnit.MILLISECONDS.sleep(100);
+                            TimeUnit.MILLISECONDS.sleep(50);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
