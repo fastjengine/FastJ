@@ -4,12 +4,12 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 
 import tech.fastj.input.mouse.MouseActionListener;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
 
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  */
 public abstract class UIElement extends Drawable implements MouseActionListener {
 
-    private final List<Consumer<MouseEvent>> onActionEvents;
+    private final List<Consumer<MouseButtonEvent>> onActionEvents;
     private EventCondition onActionCondition;
 
     /**
@@ -65,7 +65,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to set.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement setOnAction(Consumer<MouseEvent> action) {
+    public UIElement setOnAction(Consumer<MouseButtonEvent> action) {
         onActionEvents.clear();
         onActionEvents.add(action);
         return this;
@@ -77,7 +77,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to add.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement addOnAction(Consumer<MouseEvent> action) {
+    public UIElement addOnAction(Consumer<MouseButtonEvent> action) {
         onActionEvents.add(action);
         return this;
     }
@@ -121,12 +121,12 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     /**
      * Fires the ui element's {@code onAction} event(s), if its condition is met.
      *
-     * @param mouseEvent The mouse event causing the {@code onAction} event(s) to be fired.
+     * @param mouseButtonEvent The mouse event causing the {@code onAction} event(s) to be fired.
      */
     @Override
-    public void onMousePressed(MouseEvent mouseEvent) {
-        if (onActionCondition.condition(mouseEvent)) {
-            onActionEvents.forEach(action -> action.accept(mouseEvent));
+    public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
+        if (onActionCondition.condition(mouseButtonEvent)) {
+            onActionEvents.forEach(action -> action.accept(mouseButtonEvent));
         }
     }
 }

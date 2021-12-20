@@ -33,8 +33,8 @@ public interface LogicManager {
      * This method is called after the engine has been set up, and the canvas has been created. As it is only called
      * once, it is the best place to set some initial settings that apply to the entire game.
      *
-     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for applying canvas-related settings before
-     *                the game starts.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for applying canvas-related settings
+     *               before the game starts.
      */
     void init(FastJCanvas canvas);
 
@@ -70,7 +70,7 @@ public interface LogicManager {
      * value can be changed using {@link FastJEngine#setTargetUPS(int)}.
      *
      * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the
-     *                canvas while updating the game state.
+     *               canvas while updating the game state.
      */
     void update(FastJCanvas canvas);
 

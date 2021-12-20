@@ -12,15 +12,15 @@ import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.systems.control.Scene;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import tech.fastj.examples.bullethell.scripts.EnemyMovement;
 import tech.fastj.examples.bullethell.scripts.PlayerCannon;
@@ -67,13 +67,13 @@ public class GameScene extends Scene {
         drawableManager.addGameObject(playerMetadata);
 
 
-        enemies = new HashMap<>();
+        enemies = new ConcurrentHashMap<>();
         newWave();
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {
             @Override
-            public void onKeyRecentlyPressed(KeyboardStateEvent keyEvent) {
-                switch (keyEvent.getKey()) {
+            public void onKeyRecentlyPressed(KeyboardStateEvent keyboardStateEvent) {
+                switch (keyboardStateEvent.getKey()) {
                     case Q: {
                         FastJEngine.log("current bullet count: " + playerCannonScript.getBulletCount());
                         break;

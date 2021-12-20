@@ -46,7 +46,9 @@ module fastj.library {
 
     exports tech.fastj.input;
     exports tech.fastj.input.keyboard;
+    exports tech.fastj.input.keyboard.events;
     exports tech.fastj.input.mouse;
+    exports tech.fastj.input.mouse.events;
 
     exports tech.fastj.resources;
     exports tech.fastj.resources.files;

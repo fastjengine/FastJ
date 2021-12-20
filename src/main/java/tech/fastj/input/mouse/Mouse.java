@@ -8,6 +8,11 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
 import tech.fastj.input.InputManager;
+import tech.fastj.input.mouse.events.MouseActionEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;
@@ -25,6 +30,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
@@ -38,14 +44,17 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static final Map<Integer, MouseButton> MouseButtons = new HashMap<>();
 
     private static final int InitialMouseButton = -1;
-    private static final int InitialScrollDirection = 0;
+    private static final int InitialWheelRotation = 0;
+    private static final int InitialClickCount = 0;
 
     private static ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static int buttonLastPressed = Mouse.InitialMouseButton;
     private static int buttonLastReleased = Mouse.InitialMouseButton;
     private static int buttonLastClicked = Mouse.InitialMouseButton;
-    private static int lastScrollDirection = Mouse.InitialScrollDirection;
+    private static int lastClickCount = Mouse.InitialClickCount;
+    private static double lastWheelRotation = Mouse.InitialWheelRotation;
+    private static double lastScrollAmount = Mouse.InitialWheelRotation;
 
     private static boolean currentlyOnScreen;
     private static Pointf mouseLocation = Pointf.origin();
@@ -74,6 +83,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 buttonLastReleased = mouseEvent.getButton();
+                lastClickCount = mouseEvent.getClickCount();
             },
             MouseEvent.MOUSE_CLICKED, mouseEvent -> {
                 if (!MouseAction.Click.recentAction) {
@@ -122,8 +132,32 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
                 }
 
                 MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
-                lastScrollDirection = mouseWheelEvent.getWheelRotation();
+                lastWheelRotation = mouseWheelEvent.getPreciseWheelRotation();
+                switch (mouseWheelEvent.getScrollType()) {
+                    case MouseWheelEvent.WHEEL_BLOCK_SCROLL: {
+                        lastScrollAmount = mouseWheelEvent.getPreciseWheelRotation();
+                        break;
+                    }
+                    case MouseWheelEvent.WHEEL_UNIT_SCROLL: {
+                        lastScrollAmount = mouseWheelEvent.getUnitsToScroll();
+                        break;
+                    }
+                    default: {
+                        throw new IllegalStateException("Invalid mouse scroll type: " + mouseWheelEvent.getScrollType());
+                    }
+                }
             }
+    );
+
+    private static final Map<Integer, Function<MouseEvent, MouseActionEvent>> MouseActionEventCreator = Map.of(
+            MouseEvent.MOUSE_PRESSED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Press),
+            MouseEvent.MOUSE_RELEASED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Release),
+            MouseEvent.MOUSE_CLICKED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Click),
+            MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Move),
+            MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Drag),
+            MouseEvent.MOUSE_ENTERED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Enter),
+            MouseEvent.MOUSE_EXITED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Exit),
+            MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent, MouseAction.WheelScroll)
     );
 
     /** Initializes the mouse. */
@@ -230,12 +264,33 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Gets the last mouse wheel scroll direction.
+     * Gets the amount of times the last button (which can be gotten using {@link #getButtonLastClicked()}) was clicked
+     * consecutively.
      *
-     * @return Returns the integer value of the direction of the last mouse scroll.
+     * @return Returns the number of times the last button was clicked consecutively.
      */
-    public static int getScrollDirection() {
-        return lastScrollDirection;
+    public static int getLastClickCount() {
+        return lastClickCount;
+    }
+
+    /**
+     * Gets the last mouse wheel rotation.
+     *
+     * @return Returns the precise double value of the direction of the last mouse scroll.
+     */
+    public static double getLastWheelRotation() {
+        return lastWheelRotation;
+    }
+
+    /**
+     * Gets the last scroll amount, which may be affected by the {@link MouseScrollType type of scrolling performed}.
+     *
+     * @return The precise double value of the last scroll amount.
+     * @see MouseWheelEvent#WHEEL_BLOCK_SCROLL
+     * @see MouseWheelEvent#WHEEL_UNIT_SCROLL
+     */
+    public static double getLastScrollAmount() {
+        return lastScrollAmount;
     }
 
     /**
@@ -259,10 +314,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
     /** Resets the {@code Mouse}. */
     public static void reset() {
-        buttonLastPressed = -1;
-        buttonLastReleased = -1;
-        buttonLastClicked = -1;
-        lastScrollDirection = 0;
+        buttonLastPressed = InitialMouseButton;
+        buttonLastReleased = InitialMouseButton;
+        buttonLastClicked = InitialMouseButton;
+        lastClickCount = InitialClickCount;
+        lastWheelRotation = InitialWheelRotation;
         currentlyOnScreen = false;
 
         MouseButtons.clear();
@@ -353,8 +409,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
      * @param event        The mouse event to process.
      */
     public static void processEvent(InputManager inputManager, MouseEvent event) {
-        MouseEventProcessor.get(event.getID()).accept(event);
-        inputManager.fireMouseEvent(event);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(event.getID()).apply(event);
+        MouseEventProcessor.get(mouseActionEvent.getRawEvent().getID()).accept(mouseActionEvent.getRawEvent());
+        inputManager.fireMouseEvent(mouseActionEvent);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

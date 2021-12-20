@@ -4,11 +4,11 @@ import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.behaviors.BehaviorHandler;
+import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,11 +23,11 @@ import java.util.Objects;
  */
 public abstract class GameObject extends Drawable {
 
-    private final List<Behavior> behaviors;
+    private final ManagedList<Behavior> behaviors;
 
     /** Initializes {@link GameObject} internals. */
     protected GameObject() {
-        behaviors = new ArrayList<>();
+        behaviors = new ManagedList<>();
     }
 
     /**
@@ -41,20 +41,25 @@ public abstract class GameObject extends Drawable {
 
     /** Calls the {@link Behavior#init(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void initBehaviors() {
-        for (Behavior behavior : behaviors) {
-            behavior.init(this);
-        }
+        behaviors.run(list -> {
+            for (Behavior behavior : list) {
+                behavior.init(this);
+            }
+        });
     }
 
     /** Calls the {@link Behavior#update(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void updateBehaviors() {
-        for (Behavior behavior : behaviors) {
-            behavior.update(this);
-        }
+        behaviors.run(list -> {
+            for (Behavior behavior : list) {
+                behavior.update(this);
+            }
+        });
     }
 
     /** Calls the {@link Behavior#destroy()} method for each of the {@code GameObject}'s behaviors. */
-    public void destroyAllBehaviors() {
+    public synchronized void destroyAllBehaviors() {
+        behaviors.shutdownNow();
         for (Behavior behavior : behaviors) {
             behavior.destroy();
         }
@@ -116,7 +121,6 @@ public abstract class GameObject extends Drawable {
 
         origin.drawableManager.removeGameObject(this);
         origin.removeBehaviorListener(this);
-        transform.reset();
 
         destroyAllBehaviors();
         clearAllBehaviors();
@@ -134,7 +138,6 @@ public abstract class GameObject extends Drawable {
 
         origin.drawableManager.removeGameObject(this);
         origin.removeBehaviorListener(this);
-        transform.reset();
 
         destroyAllBehaviors();
         clearAllBehaviors();

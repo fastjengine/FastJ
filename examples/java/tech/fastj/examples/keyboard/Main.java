@@ -5,8 +5,8 @@ import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
-import tech.fastj.input.keyboard.KeyboardTypedEvent;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 import tech.fastj.input.keyboard.Keys;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -47,18 +47,18 @@ public class Main extends SimpleManager {
             }
 
             @Override
-            public void onKeyRecentlyPressed(KeyboardStateEvent keyEvent) {
-                FastJEngine.log("Key " + keyEvent.getKeyName() + " pressed.");
+            public void onKeyRecentlyPressed(KeyboardStateEvent keyboardStateEvent) {
+                FastJEngine.log("Key " + keyboardStateEvent.getKeyName() + " pressed.");
             }
 
             @Override
-            public void onKeyReleased(KeyboardStateEvent keyEvent) {
-                FastJEngine.log("Key " + keyEvent.getKeyName() + " released.");
+            public void onKeyReleased(KeyboardStateEvent keyboardStateEvent) {
+                FastJEngine.log("Key " + keyboardStateEvent.getKeyName() + " released.");
             }
 
             @Override
-            public void onKeyTyped(KeyboardTypedEvent keyEvent) {
-                FastJEngine.log("Key " + keyEvent.getKeyName() + " typed.");
+            public void onKeyTyped(KeyboardTypedEvent keyboardTypedEvent) {
+                FastJEngine.log("Key " + keyboardTypedEvent.getKeyName() + " typed.");
             }
         });
     }

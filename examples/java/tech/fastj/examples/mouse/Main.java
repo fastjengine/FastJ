@@ -9,10 +9,13 @@ import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.MouseButtons;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
 
 public class Main extends SimpleManager {
 
@@ -41,43 +44,56 @@ public class Main extends SimpleManager {
 
         inputManager.addMouseActionListener(new MouseActionListener() {
             @Override
-            public void onMousePressed(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse button " + mouseEvent.getButton() + " pressed");
+            public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
+                FastJEngine.log("Mouse button {} pressed", mouseButtonEvent.getMouseButton());
             }
 
             @Override
-            public void onMouseReleased(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse button " + mouseEvent.getButton() + " released");
+            public void onMouseReleased(MouseButtonEvent mouseButtonEvent) {
+                FastJEngine.log("Mouse button {} released", mouseButtonEvent.getMouseButton());
             }
 
             @Override
-            public void onMouseClicked(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse button " + mouseEvent.getButton() + " clicked");
+            public void onMouseClicked(MouseButtonEvent mouseButtonEvent) {
+                FastJEngine.log("Mouse button {} clicked in succession {} times",
+                        mouseButtonEvent.getMouseButton(),
+                        mouseButtonEvent.getClickCount()
+                );
             }
 
             @Override
-            public void onMouseMoved(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse moved to " + Mouse.getMouseLocation());
+            public void onMouseMoved(MouseMotionEvent mouseMotionEvent) {
+                FastJEngine.log("Mouse moved to {}", mouseMotionEvent.getMouseLocation());
             }
 
             @Override
-            public void onMouseDragged(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse dragged to " + Mouse.getMouseLocation());
+            public void onMouseDragged(MouseMotionEvent mouseMotionEvent) {
+                FastJEngine.log("Mouse dragged {}", mouseMotionEvent.getMouseLocation());
             }
 
             @Override
-            public void onMouseWheelScrolled(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse wheel scroll: " + Mouse.getScrollDirection() + " at " + Mouse.getMouseLocation());
+            public void onMouseWheelScrolled(MouseScrollEvent mouseScrollEvent) {
+                FastJEngine.log(
+                        "Mouse wheel scrolled in {}s by {}",
+                        mouseScrollEvent.getMouseScrollType().name().toLowerCase(),
+                        mouseScrollEvent.getScrollAmount()
+                );
             }
 
             @Override
-            public void onMouseEntersScreen(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse entered game window at " + Mouse.getMouseLocation());
+            public void onMouseEntersScreen(MouseWindowEvent mouseWindowEvent) {
+                FastJEngine.log(
+                        "Mouse entered game window at {}",
+                        mouseWindowEvent.getWindowInteractionPosition()
+                );
             }
 
             @Override
-            public void onMouseExitsScreen(MouseEvent mouseEvent) {
-                FastJEngine.log("Mouse left game window at " + Mouse.getMouseLocation());
+            public void onMouseExitsScreen(MouseWindowEvent mouseWindowEvent) {
+                FastJEngine.log(
+                        "Mouse left game window at {}",
+                        mouseWindowEvent.getWindowInteractionPosition()
+                );
             }
         });
 
@@ -101,9 +117,9 @@ public class Main extends SimpleManager {
          * - Mouse#getScrollDirection: gets the direction of the mouse wheel's last scroll (up or down).
          *
          * To demonstrate these, I've added the following:
-         * - If statements to check if the right mouse button is pressed or released
-         * - If statement to check if the mouse wheel was scrolled upward (value of -1)
-         * - If statement to check if the mouse was released while on a Polygon2D object
+         * - If statement to check if the right mouse button is pressed
+         * - If statement to check if the mouse wheel was scrolled upward (less than 0), and by how much
+         * - If statement to check if the mouse was released while on a "button" (the Polygon2D object)
          *
          * Notes:
          * - The MouseAction class defines several types of mouse actions (pressed, released, moved, etc).
@@ -112,16 +128,14 @@ public class Main extends SimpleManager {
 
         if (Mouse.isMouseButtonPressed(MouseButtons.Right)) {
             FastJEngine.log("Right Mouse Button is pressed");
-        } else {
-            FastJEngine.log("Right Mouse button is released");
         }
 
-        if (Mouse.getScrollDirection() == -1) {
-            FastJEngine.log("Mouse Wheel was scrolled upwards");
+        if (Mouse.getLastWheelRotation() < 0) {
+            FastJEngine.log("Mouse Wheel was scrolled upwards by {}", Mouse.getLastScrollAmount());
         }
 
         if (Mouse.interactsWith(button, MouseAction.Release)) {
-            FastJEngine.log("Mouse Button " + Mouse.getButtonLastReleased() + " was released on the button.");
+            FastJEngine.log("Mouse Button {} was released on the button.", Mouse.getButtonLastReleased());
         }
     }
 

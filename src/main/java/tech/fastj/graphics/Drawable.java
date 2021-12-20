@@ -38,6 +38,7 @@ public abstract class Drawable extends TaggableEntity {
     private boolean shouldRender;
     protected final Transform2D transform;
     private Pointf initialCenter;
+    private boolean isDestroyed;
 
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
@@ -143,7 +144,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that defines whether the {@code Drawable} should be rendered.
      */
     public boolean shouldRender() {
-        return shouldRender;
+        return shouldRender && !isDestroyed;
     }
 
     /**
@@ -155,6 +156,15 @@ public abstract class Drawable extends TaggableEntity {
     public Drawable setShouldRender(boolean shouldBeRendered) {
         shouldRender = shouldBeRendered;
         return this;
+    }
+
+    /**
+     * Gets whether the drawable is destroyed.
+     *
+     * @return Whether the drawable is destroyed.
+     */
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     /**
@@ -360,9 +370,11 @@ public abstract class Drawable extends TaggableEntity {
      */
     protected void destroyTheRest(Scene origin) {
         origin.removeTaggableEntity(this);
+        transform.reset();
         clearTags();
 
         collisionPath = null;
+        isDestroyed = true;
     }
 
     /**
@@ -373,9 +385,11 @@ public abstract class Drawable extends TaggableEntity {
      */
     protected void destroyTheRest(SimpleManager origin) {
         origin.removeTaggableEntity(this);
+        transform.reset();
         clearTags();
 
         collisionPath = null;
+        isDestroyed = true;
     }
 
     private void updateTransformedCollisionPath() {
