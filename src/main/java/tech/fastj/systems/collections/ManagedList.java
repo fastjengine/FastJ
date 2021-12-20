@@ -131,6 +131,7 @@ public class ManagedList<E> implements List<E> {
         try {
             listManager.submit(() -> action.accept(list)).get();
         } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
             throw new IllegalStateException(exception);
         } catch (ExecutionException exception) {
             throw new IllegalStateException(exception.getCause());
@@ -156,6 +157,7 @@ public class ManagedList<E> implements List<E> {
                     }
             ).get();
         } catch (InterruptedException exception) {
+            Thread.currentThread().interrupt();
             throw new IllegalStateException(exception);
         } catch (ExecutionException exception) {
             throw new IllegalStateException(exception.getCause());

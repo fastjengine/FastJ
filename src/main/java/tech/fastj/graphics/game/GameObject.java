@@ -41,8 +41,8 @@ public abstract class GameObject extends Drawable {
 
     /** Calls the {@link Behavior#init(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void initBehaviors() {
-        behaviors.run(behaviors -> {
-            for (Behavior behavior : behaviors) {
+        behaviors.run(list -> {
+            for (Behavior behavior : list) {
                 behavior.init(this);
             }
         });
@@ -50,8 +50,8 @@ public abstract class GameObject extends Drawable {
 
     /** Calls the {@link Behavior#update(GameObject)} method for each of the {@code GameObject}'s behaviors. */
     public void updateBehaviors() {
-        behaviors.run(behaviors -> {
-            for (Behavior behavior : behaviors) {
+        behaviors.run(list -> {
+            for (Behavior behavior : list) {
                 behavior.update(this);
             }
         });
@@ -60,13 +60,6 @@ public abstract class GameObject extends Drawable {
     /** Calls the {@link Behavior#destroy()} method for each of the {@code GameObject}'s behaviors. */
     public synchronized void destroyAllBehaviors() {
         behaviors.shutdownNow();
-        while (!behaviors.isShutdown()) {
-            try {
-                wait(1);
-            } catch (InterruptedException exception) {
-                throw new IllegalStateException(exception);
-            }
-        }
         for (Behavior behavior : behaviors) {
             behavior.destroy();
         }

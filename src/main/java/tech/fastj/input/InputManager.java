@@ -207,10 +207,11 @@ public class InputManager {
      * @see #processEvents()
      */
     public synchronized void receivedInputEvent(InputEvent event) {
-        if (isProcessingEvents) {
+        while (isProcessingEvents) {
             try {
                 wait();
             } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
                 throw new IllegalStateException(exception);
             }
         }
