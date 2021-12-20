@@ -119,6 +119,7 @@ public class BehaviorManager {
     /** Resets the behavior manager entirely. */
     public static void reset() {
         for (Map<String, GameObject> map : BehaviorListenerLists.values()) {
+            map.forEach((key, value) -> map.get(key).destroyAllBehaviors());
             map.clear();
         }
         BehaviorListenerLists.clear();

@@ -32,6 +32,8 @@ public class Text2D extends GameObject {
     public static final Paint DefaultFill = Color.black;
     /** {@link Font} representing the default font of {@code Tahoma 16px}. */
     public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
+    /** {@code String} representing default text -- an empty string. */
+    public static final String DefaultText = "";
 
     private String text;
     private Paint fillPaint;
@@ -48,7 +50,7 @@ public class Text2D extends GameObject {
      * @param text {@code String} that defines the text for the {@code Text2D}.
      */
     protected Text2D(String text) {
-        this.text = text;
+        this.text = Objects.requireNonNullElse(text, DefaultText);
         setFont(DefaultFont);
         setFill(DefaultFill);
     }
@@ -119,7 +121,7 @@ public class Text2D extends GameObject {
      * @return The {@code Text2D} instance, for method chaining.
      */
     public Text2D setText(String newText) {
-        text = newText;
+        text = Objects.requireNonNullElse(newText, DefaultText);
         setMetrics(FastJEngine.getCanvas().getGraphics());
 
         return this;
@@ -176,9 +178,9 @@ public class Text2D extends GameObject {
 
     @Override
     public void destroy(Scene origin) {
-        text = null;
-        fillPaint = null;
-        font = null;
+        text = DefaultText;
+        fillPaint = DefaultFill;
+        font = DefaultFont;
         hasMetrics = false;
 
         super.destroyTheRest(origin);
@@ -186,9 +188,9 @@ public class Text2D extends GameObject {
 
     @Override
     public void destroy(SimpleManager origin) {
-        text = null;
-        fillPaint = null;
-        font = null;
+        text = DefaultText;
+        fillPaint = DefaultFill;
+        font = DefaultFont;
         hasMetrics = false;
 
         super.destroyTheRest(origin);

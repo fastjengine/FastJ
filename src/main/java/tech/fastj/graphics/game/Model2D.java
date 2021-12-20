@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 public class Model2D extends GameObject {
 
-    private Polygon2D[] polygons;
+    private final Polygon2D[] polygons;
 
     /**
      * Model2D constructor that takes in an array of {@link Polygon2D} objects.
@@ -96,7 +96,6 @@ public class Model2D extends GameObject {
         for (Polygon2D polygon : polygons) {
             polygon.destroy(origin);
         }
-        polygons = null;
 
         super.destroyTheRest(origin);
     }
@@ -106,7 +105,6 @@ public class Model2D extends GameObject {
         for (Polygon2D polygon : polygons) {
             polygon.destroy(origin);
         }
-        polygons = null;
 
         super.destroyTheRest(origin);
     }

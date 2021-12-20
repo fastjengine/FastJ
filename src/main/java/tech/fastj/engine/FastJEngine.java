@@ -27,13 +27,12 @@ import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
+import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
 
 import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -97,8 +96,8 @@ public class FastJEngine {
     private static ExceptionAction exceptionAction;
 
     // Late-running actions
-    private static final List<Runnable> AfterUpdateList = new ArrayList<>();
-    private static final List<Runnable> AfterRenderList = new ArrayList<>();
+    private static final ManagedList<Runnable> AfterUpdateList = new ManagedList<>();
+    private static final ManagedList<Runnable> AfterRenderList = new ManagedList<>();
 
     private static Point windowResolution;
     private static Point canvasResolution;
@@ -656,9 +655,11 @@ public class FastJEngine {
                 gameManager.updateBehaviors();
 
                 if (!AfterUpdateList.isEmpty()) {
-                    for (Runnable action : AfterUpdateList) {
-                        action.run();
-                    }
+                    AfterUpdateList.run(list -> {
+                        for (Runnable action : list) {
+                            action.run();
+                        }
+                    });
                     AfterUpdateList.clear();
                 }
 
@@ -670,9 +671,11 @@ public class FastJEngine {
             gameManager.render(canvas);
 
             if (!AfterRenderList.isEmpty()) {
-                for (Runnable action : AfterRenderList) {
-                    action.run();
-                }
+                AfterRenderList.run(list -> {
+                    for (Runnable action : list) {
+                        action.run();
+                    }
+                });
                 AfterRenderList.clear();
             }
             drawFrames++;
@@ -737,8 +740,13 @@ public class FastJEngine {
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
         TagManager.reset();
+
+        AfterUpdateList.shutdownNow();
         AfterUpdateList.clear();
+        AfterUpdateList.resetManager();
+        AfterRenderList.shutdownNow();
         AfterRenderList.clear();
+        AfterRenderList.resetManager();
         ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
         ResourceManagers.clear();
 

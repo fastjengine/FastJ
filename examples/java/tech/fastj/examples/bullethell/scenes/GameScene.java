@@ -19,8 +19,8 @@ import tech.fastj.systems.control.Scene;
 import java.awt.Color;
 import java.awt.Font;
 import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import tech.fastj.examples.bullethell.scripts.EnemyMovement;
 import tech.fastj.examples.bullethell.scripts.PlayerCannon;
@@ -67,7 +67,7 @@ public class GameScene extends Scene {
         drawableManager.addGameObject(playerMetadata);
 
 
-        enemies = new HashMap<>();
+        enemies = new ConcurrentHashMap<>();
         newWave();
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {

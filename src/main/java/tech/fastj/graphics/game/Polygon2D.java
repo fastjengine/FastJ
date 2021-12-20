@@ -305,24 +305,24 @@ public class Polygon2D extends GameObject {
 
     @Override
     public void destroy(Scene origin) {
-        originalPoints = null;
+        originalPoints = new Pointf[]{};
 
-        renderStyle = null;
-        fillPaint = null;
-        outlineColor = null;
-        outlineStroke = null;
+        renderStyle = DefaultRenderStyle;
+        fillPaint = DefaultFill;
+        outlineColor = DefaultOutlineColor;
+        outlineStroke = DefaultOutlineStroke;
 
         super.destroyTheRest(origin);
     }
 
     @Override
     public void destroy(SimpleManager origin) {
-        originalPoints = null;
+        originalPoints = new Pointf[]{};
 
-        renderStyle = null;
-        fillPaint = null;
-        outlineColor = null;
-        outlineStroke = null;
+        renderStyle = DefaultRenderStyle;
+        fillPaint = DefaultFill;
+        outlineColor = DefaultOutlineColor;
+        outlineStroke = DefaultOutlineStroke;
 
         super.destroyTheRest(origin);
     }

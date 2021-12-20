@@ -13,8 +13,6 @@ import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
 
-import tech.fastj.logging.Log;
-
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -34,7 +32,6 @@ public class InputManager {
     private final List<MouseActionListener> mouseActionListeners;
 
     private final List<InputEvent> receivedInputEvents;
-    private final List<InputEvent> eventBacklog;
     private volatile boolean isProcessingEvents;
 
     private static final Map<Integer, BiConsumer<MouseActionEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
@@ -102,9 +99,7 @@ public class InputManager {
     public InputManager() {
         keyActionListeners = new ArrayList<>();
         mouseActionListeners = new ArrayList<>();
-
         receivedInputEvents = new ArrayList<>();
-        eventBacklog = new ArrayList<>();
     }
 
     /**
@@ -211,14 +206,15 @@ public class InputManager {
      * @param event The event to be stored for processing later.
      * @see #processEvents()
      */
-    public void receivedInputEvent(InputEvent event) {
+    public synchronized void receivedInputEvent(InputEvent event) {
         if (isProcessingEvents) {
-            Log.trace(InputEvent.class, "received event {}, adding to backlog", event);
-            eventBacklog.add(event);
-        } else {
-            Log.trace(InputEvent.class, "received event {}, adding to main", event);
-            receivedInputEvents.add(event);
+            try {
+                wait();
+            } catch (InterruptedException exception) {
+                throw new IllegalStateException(exception);
+            }
         }
+        receivedInputEvents.add(event);
     }
 
     /**
@@ -229,7 +225,6 @@ public class InputManager {
      */
     public synchronized void processEvents() {
         isProcessingEvents = true;
-        Log.trace(InputEvent.class, "processing {} events", receivedInputEvents.size());
 
         for (InputEvent inputEvent : receivedInputEvents) {
             if (inputEvent instanceof MouseEvent) {
@@ -240,11 +235,8 @@ public class InputManager {
         }
         receivedInputEvents.clear();
 
+        notifyAll();
         isProcessingEvents = false;
-
-        // empty event backlog into received input events
-        receivedInputEvents.addAll(eventBacklog);
-        eventBacklog.clear();
     }
 
     /* Reset */

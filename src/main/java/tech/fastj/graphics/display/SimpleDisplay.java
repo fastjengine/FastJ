@@ -46,7 +46,7 @@ public class SimpleDisplay implements Display {
             DisplayEvent.Opened, (display, windowEvent) -> FastJEngine.debug("window \"{}\" opened", display.displayTitle),
             DisplayEvent.Closing, (display, windowEvent) -> {
                 FastJEngine.debug("window \"{}\" closing", display.displayTitle);
-                FastJEngine.forceCloseGame();
+                FastJEngine.closeGame();
                 display.close();
             },
             DisplayEvent.Closed, (display, windowEvent) -> FastJEngine.debug("window \"{}\" closed", display.displayTitle),

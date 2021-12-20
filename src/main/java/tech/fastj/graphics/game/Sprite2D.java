@@ -99,10 +99,11 @@ public class Sprite2D extends GameObject {
     public void destroy(Scene origin) {
         spriteAnimator.shutdownNow();
         spriteAnimator = null;
-        sprites = null;
-        currentFrame = -1;
-        animationFPS = -1;
-        animationStyle = null;
+
+        sprites = new BufferedImage[]{};
+        currentFrame = DefaultStartingFrame;
+        animationFPS = DefaultAnimationFPS;
+        animationStyle = DefaultAnimationStyle;
 
         super.destroyTheRest(origin);
     }
@@ -110,10 +111,12 @@ public class Sprite2D extends GameObject {
     @Override
     public void destroy(SimpleManager origin) {
         spriteAnimator.shutdownNow();
-        sprites = null;
-        currentFrame = -1;
-        animationFPS = -1;
-        animationStyle = null;
+        spriteAnimator = null;
+
+        sprites = new BufferedImage[]{};
+        currentFrame = DefaultStartingFrame;
+        animationFPS = DefaultAnimationFPS;
+        animationStyle = DefaultAnimationStyle;
 
         super.destroyTheRest(origin);
     }
