@@ -35,6 +35,8 @@ public class Text2D extends GameObject {
     /** {@code String} representing default text -- an empty string. */
     public static final String DefaultText = "";
 
+    private static final Pointf OriginInstance = Pointf.origin();
+
     private String text;
     private Paint fillPaint;
     private Font font;
@@ -169,7 +171,7 @@ public class Text2D extends GameObject {
         g.setFont(font);
         g.setPaint(fillPaint);
 
-        g.drawString(text, Pointf.Origin.x, font.getSize2D());
+        g.drawString(text, OriginInstance.x, font.getSize2D());
 
         g.setTransform(oldTransform);
         g.setFont(oldFont);

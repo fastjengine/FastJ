@@ -18,7 +18,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DCreation_withPolygon2DArrayParam() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
@@ -37,7 +37,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
@@ -58,7 +58,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam_andRandomlyGeneratedTransformParams() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
@@ -86,7 +86,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DCreation_withPolygon2DArrayParam_andRandomlyGeneratedShowParam_andRandomlyGeneratedTransformParams_usingMethodChaining() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
@@ -116,7 +116,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DBoundsCreation_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
@@ -138,7 +138,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DTranslation_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
@@ -165,7 +165,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DRotation_aroundOrigin_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         float randomRotation = Maths.random(-5000f, 5000f);
 
@@ -174,7 +174,7 @@ class Model2DTests {
                 Polygon2D.fromPoints(square2)
         };
         for (Polygon2D polygon2D : expectedPolygons) {
-            polygon2D.rotate(randomRotation, Pointf.Origin);
+            polygon2D.rotate(randomRotation, Pointf.origin());
         }
 
         Polygon2D[] actualPolygons = {
@@ -182,7 +182,7 @@ class Model2DTests {
                 Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
-        model2D.rotate(randomRotation, Pointf.Origin);
+        model2D.rotate(randomRotation, Pointf.origin());
 
         for (Polygon2D polygon2D : expectedPolygons) {
             assertEquals(polygon2D.getRotation(), model2D.getRotation(), "The rotation of the Model2D should equal to the rotation of the Polygon2Ds.");
@@ -192,7 +192,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DRotation_aroundModelCenter_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);
         float randomRotation = Maths.random(-5000f, 5000f);
@@ -220,7 +220,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DRotation_aroundRandomCenter_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float randomRotation = Maths.random(-5000f, 5000f);
@@ -248,7 +248,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DScaling_aroundOrigin_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
@@ -257,7 +257,7 @@ class Model2DTests {
                 Polygon2D.fromPoints(square2)
         };
         for (Polygon2D polygon2D : expectedPolygons) {
-            polygon2D.scale(randomScaling, Pointf.Origin);
+            polygon2D.scale(randomScaling, Pointf.origin());
         }
 
         Polygon2D[] actualPolygons = {
@@ -265,7 +265,7 @@ class Model2DTests {
                 Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
-        model2D.scale(randomScaling, Pointf.Origin);
+        model2D.scale(randomScaling, Pointf.origin());
 
         for (Polygon2D polygon2D : expectedPolygons) {
             assertEquals(polygon2D.getScale(), model2D.getScale(), "The scale of the Model2D should equal to the scale of the Polygon2Ds.");
@@ -275,7 +275,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DScaling_aroundModelCenter_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);
@@ -303,7 +303,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DScaling_aroundRandomCenter_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -331,7 +331,7 @@ class Model2DTests {
 
     @Test
     void checkModel2DScaling_usingScaleAsFloat_shouldMatchExpected() {
-        Pointf[] square1 = DrawUtil.createBox(Pointf.Origin, 50f);
+        Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         float randomScaling = Maths.random(-50f, 50f);
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);

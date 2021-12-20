@@ -17,6 +17,8 @@ public class Camera {
     /** A camera with no transformations. */
     public static final Camera Default = new Camera();
 
+    private static final Pointf OriginInstance = Pointf.origin();
+
     private final Transform2D transform;
 
     /** Constructs a {@code Camera} with default transformations. */
@@ -197,7 +199,7 @@ public class Camera {
      * @param rotationMod float parameter that the {@code Camera} will be rotated by.
      */
     public void rotate(float rotationMod) {
-        rotate(rotationMod, Pointf.Origin);
+        rotate(rotationMod, OriginInstance);
     }
 
     /**

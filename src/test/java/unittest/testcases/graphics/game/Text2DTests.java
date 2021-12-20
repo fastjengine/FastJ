@@ -170,7 +170,7 @@ class Text2DTests {
 
             Text2D text2D = Text2D.fromText(text);
 
-            assertDoesNotThrow(() -> text2D.rotate(randomRotation, Pointf.Origin), "Rotating Text2D objects is implemented, and should not throw an exception.");
+            assertDoesNotThrow(() -> text2D.rotate(randomRotation, Pointf.origin()), "Rotating Text2D objects is implemented, and should not throw an exception.");
             assertEquals(randomRotation, text2D.getRotation(), "The actual rotation should match the expected rotation.");
         });
     }
