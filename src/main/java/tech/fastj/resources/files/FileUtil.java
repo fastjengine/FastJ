@@ -15,6 +15,10 @@ import java.util.List;
  */
 public class FileUtil {
 
+    private FileUtil() {
+        throw new IllegalStateException();
+    }
+
     /**
      * Gets the file extension of the specified path.
      * <p>

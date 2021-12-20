@@ -12,7 +12,14 @@ import java.util.Objects;
  */
 public class Pointf {
 
-    /** {@code Pointf} representing the origin as a {@code float}: {@code (0f, 0f)}. */
+    /**
+     * {@code Pointf} representing the origin as a {@code float}: {@code (0f, 0f)}.
+     *
+     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not
+     * receive <a href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this
+     * value will be removed very soon. Use {@link Pointf#origin()} instead.
+     */
+    @Deprecated
     public static final Pointf Origin = new Pointf();
 
     /** The x value of the {@link Pointf}. */
@@ -68,54 +75,61 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing a 2D graph's origin as a pair of {@code float}s: {@code (0f, 0f)}.
+     * A new {@code Pointf} representing a 2D graph's origin as a pair of {@code float}s: {@code (0f, 0f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code origin} instance.
+     * @return An {@code origin} instance.
+     * @since 1.6.0
      */
     public static Pointf origin() {
         return new Pointf();
     }
 
     /**
-     * {@code Pointf} representing a unit vector in a 2D graph as a pair of {@code float}s: {@code (0f, 0f)}.
+     * {@code Pointf} representing a unit vector in a 2D graph as a pair of {@code float}s: {@code (0f, 0f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code unit} vector instance.
+     * @return A {@code unit} vector instance.
      */
     public static Pointf unit() {
         return new Pointf(1f);
     }
 
     /**
-     * {@code Pointf} representing an up vector in a 2D graph as a pair of {@code float}s: {@code (0f, -1f)}.
+     * {@code Pointf} representing an up vector in a 2D graph as a pair of {@code float}s: {@code (0f, -1f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code up} vector instance.
+     * @return An {@code up} vector instance.
      */
     public static Pointf up() {
         return new Pointf(0f, -1f);
     }
 
     /**
-     * {@code Pointf} representing a down vector in a 2D graph as a pair of {@code float}s: {@code (0f, 1f)}.
+     * {@code Pointf} representing a down vector in a 2D graph as a pair of {@code float}s: {@code (0f, 1f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code down} vector instance.
+     * @return A {@code down} vector instance.
      */
     public static Pointf down() {
         return new Pointf(0f, 1f);
     }
 
     /**
-     * {@code Pointf} representing a left vector in a 2D graph as a pair of {@code float}s: {@code (-1f, 0f)}.
+     * {@code Pointf} representing a left vector in a 2D graph as a pair of {@code float}s: {@code (-1f, 0f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code left} vector instance.
+     * @return A {@code left} vector instance.
      */
     public static Pointf left() {
         return new Pointf(-1f, 0f);
     }
 
     /**
-     * {@code Pointf} representing a right vector in a 2D graph as a pair of {@code float}s: {@code (1f, 0f)}.
+     * {@code Pointf} representing a right vector in a 2D graph as a pair of {@code float}s: {@code (1f, 0f)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code right} vector instance.
+     * @return A {@code right} vector instance.
      */
     public static Pointf right() {
         return new Pointf(1f, 0f);

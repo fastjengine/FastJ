@@ -6,6 +6,11 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 
 public class Textures {
+
+    private Textures() {
+        throw new IllegalStateException();
+    }
+
     public static TexturePaint create(Path texturePath, Rectangle2D textureLocation) {
         return TextureBuilder.builder(texturePath, textureLocation).build();
     }

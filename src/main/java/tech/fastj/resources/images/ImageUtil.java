@@ -20,6 +20,10 @@ import javax.imageio.ImageIO;
 
 public class ImageUtil {
 
+    private ImageUtil() {
+        throw new IllegalStateException();
+    }
+
     public static VolatileImage createVolatileImage(int width, int height) {
         try {
             return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleVolatileImage(

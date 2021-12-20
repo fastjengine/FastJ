@@ -15,7 +15,7 @@ public abstract class ResourceManager<T extends Resource<V>, V> {
     protected final Map<Path, UUID> pathToUUIDMap;
     protected final Map<String, Path> idToPathMap;
 
-    public ResourceManager() {
+    protected ResourceManager() {
         resourceStorage = new ConcurrentHashMap<>();
         pathToUUIDMap = new ConcurrentHashMap<>();
         idToPathMap = new ConcurrentHashMap<>();

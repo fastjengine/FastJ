@@ -13,7 +13,14 @@ import java.util.Objects;
  */
 public class Point {
 
-    /** {@code Point} representing the origin as an {@code int}: {@code (0, 0)}. */
+    /**
+     * {@code Point} representing the origin as an {@code int}: {@code (0, 0)}.
+     *
+     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not
+     * receive <a href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this
+     * value will be removed very soon. Use {@link Point#origin()} instead.
+     */
+    @Deprecated
     public static final Point Origin = new Point();
 
     /** The x value of the {@link Point}. */
@@ -81,54 +88,61 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}.
+     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}. Each returned
+     * instance is a newly created object.
      *
-     * @return The {@code origin} instance.
+     * @return An {@code origin} instance.
+     * @since 1.6.0
      */
     public static Point origin() {
         return new Point();
     }
 
     /**
-     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}.
+     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code unit} vector instance.
+     * @return A {@code unit} vector instance.
      */
     public static Point unit() {
         return new Point(1);
     }
 
     /**
-     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}.
+     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code up} vector instance.
+     * @return An {@code up} vector instance.
      */
     public static Point up() {
         return new Point(0, -1);
     }
 
     /**
-     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}.
+     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code down} vector instance.
+     * @return A {@code down} vector instance.
      */
     public static Point down() {
         return new Point(0, 1);
     }
 
     /**
-     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}.
+     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code left} vector instance.
+     * @return A {@code left} vector instance.
      */
     public static Point left() {
         return new Point(-1, 0);
     }
 
     /**
-     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}.
+     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}. Each
+     * returned instance is a newly created object.
      *
-     * @return The {@code right} vector instance.
+     * @return A {@code right} vector instance.
      */
     public static Point right() {
         return new Point(1, 0);
@@ -317,8 +331,8 @@ public class Point {
      * @return The calculated distance.
      */
     public static float distance(Point p, Point p1) {
-        float differenceX = p1.x - p.x;
-        float differenceY = p1.y - p.y;
+        float differenceX = (float) p1.x - p.x;
+        float differenceY = (float) p1.y - p.y;
         return (float) Math.sqrt(differenceX * differenceX + differenceY * differenceY);
     }
 
