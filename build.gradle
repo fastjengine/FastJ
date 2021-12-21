@@ -20,9 +20,6 @@ description('An open source, Java-based 2D game engine.')
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
-import java.nio.file.Files
-import java.nio.file.Path
-
 
 /* ********************* *
  * General Configuration *
@@ -52,10 +49,11 @@ wrapper.gradleVersion = '7.1.1'
 wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
-dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
-dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
-dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha3')
-dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha3')
+dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.8.2'))
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+dependencies.testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha5')
+dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha5')
 
 /* ********************* *
  *     Unit Testing      *
