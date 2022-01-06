@@ -83,7 +83,7 @@ public class ImageUtil {
         float actualHorizontalImagePixels = bufferedImageWidth / (float) horizontalImageCount;
 
         if (expectedHorizontalImagePixels != actualHorizontalImagePixels) {
-            FastJEngine.warnning(
+            FastJEngine.warning(
                  "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
                     horizontalImageCount,
                     actualHorizontalImagePixels,
