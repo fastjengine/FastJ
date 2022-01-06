@@ -64,7 +64,7 @@ public class StreamedAudioPlayer {
         AudioInputStream audioInputStream = audio.getAudioInputStream();
 
         if (sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)". audio.getAudioPath().toString());
+            FastJEngine.warning("Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
             return;
         }
 
