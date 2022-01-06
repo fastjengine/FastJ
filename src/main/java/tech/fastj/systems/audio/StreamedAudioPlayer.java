@@ -64,7 +64,7 @@ public class StreamedAudioPlayer {
         AudioInputStream audioInputStream = audio.getAudioInputStream();
 
         if (sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"" + audio.getAudioPath().toString() + "\", but it was already open (and likely being used elsewhere.)");
+            FastJEngine.warning("Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)". audio.getAudioPath().toString());
             return;
         }
 
@@ -102,7 +102,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            FastJEngine.warning("Tried to pause audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -126,7 +126,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            FastJEngine.warning("Tried to resume audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -150,7 +150,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            FastJEngine.warning("Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 

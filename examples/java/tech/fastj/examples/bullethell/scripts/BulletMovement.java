@@ -39,7 +39,7 @@ public class BulletMovement implements Behavior {
 
         Pointf newTranslation = obj.getTranslation();
         if (newTranslation.equals(originalTranslation)) {
-            FastJEngine.warning("not moving! bullet at " + originalTranslation + " with " + travelAngle + "f " + travelVector);
+            FastJEngine.warning("not moving! bullet at {} with {} f {}", originalTranslation, travelAngle, travelVector);
         }
     }
 
@@ -50,7 +50,7 @@ public class BulletMovement implements Behavior {
 
     public void bulletDied(GameObject obj) {
         FastJEngine.runAfterUpdate(() -> {
-            FastJEngine.log("death! of bullet " + travelAngle + "f " + travelVector);
+            FastJEngine.log("death! of bullet {} f {}", travelAngle, travelVector);
             obj.destroy(gameScene);
             playerCannonScript.bulletDied();
         });

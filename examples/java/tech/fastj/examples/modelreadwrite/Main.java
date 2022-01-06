@@ -83,9 +83,9 @@ public class Main {
             boolean wasDeleted = Files.deleteIfExists(smallSquaresFilePath);
             if (!wasDeleted) {
                 FastJEngine.warning(
-                        "The file at \"" + smallSquaresFilePath.toAbsolutePath() + "\" was not deleted. Whoever is reading this, should go delete that file."
-                                + System.lineSeparator()
-                                + "Then, report this error as an issue in the engine repository."
+                    "The file at \"{}\" was not deleted. Whoever is reading this, should go delete that file.{} Then, report this error as an issue in the engine repository.",
+                    smallSquaresFilePath.toAbsolutePath(),
+                    System.lineSeparator()
                 );
             }
         } catch (IOException exception) {
