@@ -2,7 +2,6 @@ package tech.fastj.graphics;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
@@ -127,6 +126,28 @@ public abstract class Drawable extends TaggableEntity {
      */
     public Pointf getBound(Boundary boundary) {
         return getBounds()[boundary.location];
+    }
+
+    /**
+     * Calculates the width of the {@code Drawable}, based on its boundary positions.
+     *
+     * @return The width of the {@code Drawable}.
+     * @since 1.6.0
+     */
+    public float width() {
+        Pointf[] bounds = getBounds();
+        return Pointf.subtract(bounds[Boundary.TopRight.location], bounds[Boundary.TopLeft.location]).x;
+    }
+
+    /**
+     * Calculates the height of the {@code Drawable}, based on its boundary positions.
+     *
+     * @return The height of the {@code Drawable}.
+     * @since 1.6.0
+     */
+    public float height() {
+        Pointf[] bounds = getBounds();
+        return Pointf.subtract(bounds[Boundary.BottomRight.location], bounds[Boundary.TopRight.location]).y;
     }
 
     /**
