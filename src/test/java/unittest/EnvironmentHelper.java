@@ -1,10 +1,6 @@
 package unittest;
 
-import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.audio.AudioManager;
-
-import unittest.mock.systems.control.MockRunnableSimpleManager;
 
 import java.awt.GraphicsEnvironment;
 
@@ -51,15 +47,5 @@ public class EnvironmentHelper {
         Log.info("This testing environment... {}", audioOutputResult);
 
         return hasAudioOutput;
-    }
-
-    public static void runFastJWith(Runnable runnable) {
-        FastJEngine.forceCloseGame();
-        FastJEngine.init("For those sweet, sweet testing purposes", new MockRunnableSimpleManager(runnable));
-        try {
-            FastJEngine.run();
-        } catch (NullPointerException ignored) {
-            // Exception caught to prevent game window opening
-        }
     }
 }

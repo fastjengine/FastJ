@@ -1,6 +1,5 @@
 package tech.fastj.graphics.ui.elements;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.display.Camera;
@@ -24,6 +23,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
 
 /**
@@ -42,6 +42,8 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     public static final Paint DefaultFill = Color.lightGray;
     /** {@link Font} representing the default font of {@code Tahoma 16px}. */
     public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
+
+    private static final BufferedImage GraphicsHelper = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 
     private Paint paint;
     private Path2D.Float renderPath;
@@ -89,7 +91,11 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         this.text = DefaultText;
 
         translate(location);
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
+
+        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
@@ -112,7 +118,11 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         this.text = DefaultText;
 
         translate(location);
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
+
+        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
@@ -152,7 +162,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
      */
     public Button setText(String text) {
         this.text = text;
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
+
         return this;
     }
 
@@ -173,7 +186,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
      */
     public Button setFont(Font font) {
         this.font = font;
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
+
         return this;
     }
 

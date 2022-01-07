@@ -20,7 +20,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assumptions.assumeFalse;
-import static unittest.EnvironmentHelper.runFastJWith;
 
 class Text2DTests {
 
@@ -31,7 +30,6 @@ class Text2DTests {
 
     @Test
     void checkText2DConstructor_withStringTextParam() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
 
             Text2D text2D = Text2D.fromText(text);
@@ -40,12 +38,10 @@ class Text2DTests {
             assertEquals(Text2D.DefaultFill, text2D.getFill(), "The actual fill paint should match the expected fill paint.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
             assertEquals(Drawable.DefaultShouldRender, text2D.shouldRender(), "The actual shouldRender variable should match the default shouldRender variable.");
-        });
     }
 
     @Test
     void checkText2DConstructor_withStringTextParam_andBooleanShouldRenderParam() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
             boolean randomShouldRender = Maths.randomBoolean();
 
@@ -55,12 +51,10 @@ class Text2DTests {
             assertEquals(Text2D.DefaultFill, text2D.getFill(), "The actual fill paint should match the expected fill paint.");
             assertEquals(Text2D.DefaultFont, text2D.getFont(), "The actual font should match the default font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual shouldRender variable should match the default shouldRender variable.");
-        });
     }
 
     @Test
     void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedFillFontShouldRenderParams() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
 
             Paint randomFill = DrawUtil.randomColorWithAlpha();
@@ -76,12 +70,10 @@ class Text2DTests {
             assertEquals(randomFill, text2D.getFill(), "The actual fill paint should match the expected random fill paint.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual shouldRender variable should match the expected random shouldRender variable.");
-        });
     }
 
     @Test
     void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedTransformationParams_andRandomlyGeneratedFillFontShouldRenderParams() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
 
             Paint randomFill = DrawUtil.randomColorWithAlpha();
@@ -107,12 +99,10 @@ class Text2DTests {
             assertEquals(randomFill, text2D.getFill(), "The actual fill paint should match the expected random fill paint.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual shouldRender variable should match the expected random shouldRender variable.");
-        });
     }
 
     @Test
     void checkText2DConstructor_withStringTextParam_andRandomlyGeneratedTransformationParams_andRandomlyGeneratedFillFontShouldRenderParams_usingMethodChaining() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
 
             Paint randomFill = DrawUtil.randomColorWithAlpha();
@@ -140,12 +130,10 @@ class Text2DTests {
             assertEquals(randomFill, text2D.getFill(), "The actual fill paint should match the expected random fill paint.");
             assertEquals(randomFont, text2D.getFont(), "The actual font should match the expected random font.");
             assertEquals(randomShouldRender, text2D.shouldRender(), "The actual shouldRender variable should match the expected random shouldRender variable.");
-        });
     }
 
     @Test
     void checkTranslateText2D_shouldMatchExpected() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
             Pointf originalTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
             Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
@@ -159,12 +147,10 @@ class Text2DTests {
             Pointf actualTranslation = text2D.getTranslation();
 
             assertEquals(expectedTranslation, actualTranslation, "The actual translation should match the expected translation.");
-        });
     }
 
     @Test
     void checkRotateText2D_shouldMatchExpected() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
             float randomRotation = Maths.random(-50f, 50f);
 
@@ -172,12 +158,10 @@ class Text2DTests {
 
             assertDoesNotThrow(() -> text2D.rotate(randomRotation, Pointf.origin()), "Rotating Text2D objects is implemented, and should not throw an exception.");
             assertEquals(randomRotation, text2D.getRotation(), "The actual rotation should match the expected rotation.");
-        });
     }
 
     @Test
     void checkScaleText2D_shouldMatchExpected() {
-        runFastJWith(() -> {
             String text = UUID.randomUUID().toString();
             Pointf randomScale = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
@@ -185,6 +169,5 @@ class Text2DTests {
 
             assertDoesNotThrow(() -> text2D.scale(randomScale), "Scaling Text2D objects is implemented, and should not throw an exception.");
             assertEquals(Pointf.add(randomScale, 1f), text2D.getScale(), "The actual scale should match the expected scale.");
-        });
     }
 }

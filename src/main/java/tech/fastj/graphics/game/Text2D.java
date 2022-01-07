@@ -1,7 +1,5 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 
@@ -18,6 +16,7 @@ import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 /**
@@ -36,6 +35,7 @@ public class Text2D extends GameObject {
     public static final String DefaultText = "";
 
     private static final Pointf OriginInstance = Pointf.origin();
+    private static final BufferedImage GraphicsHelper = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 
     private String text;
     private Paint fillPaint;
@@ -124,7 +124,9 @@ public class Text2D extends GameObject {
      */
     public Text2D setText(String newText) {
         text = Objects.requireNonNullElse(newText, DefaultText);
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
 
         return this;
     }
@@ -148,7 +150,9 @@ public class Text2D extends GameObject {
      */
     public Text2D setFont(Font newFont) {
         font = newFont;
-        setMetrics(FastJEngine.getCanvas().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
 
         return this;
     }
