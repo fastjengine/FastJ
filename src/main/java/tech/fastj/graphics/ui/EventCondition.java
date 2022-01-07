@@ -14,7 +14,7 @@ public interface EventCondition {
      * The condition to check for before firing off event actions in a {@link UIElement}.
      *
      * @param event The event which caused the check to be run.
-     * @return Whether or not the condition is met.
+     * @return Whether the condition is met.
      */
     boolean condition(InputActionEvent event);
 }

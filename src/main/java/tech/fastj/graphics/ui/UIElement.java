@@ -3,9 +3,7 @@ package tech.fastj.graphics.ui;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 
-import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.events.MouseButtonEvent;
-
+import tech.fastj.input.InputActionEvent;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -20,33 +18,29 @@ import java.util.function.Consumer;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public abstract class UIElement extends Drawable implements MouseActionListener {
+public abstract class UIElement<T extends InputActionEvent> extends Drawable {
 
-    private final List<Consumer<MouseButtonEvent>> onActionEvents;
-    private EventCondition onActionCondition;
+    protected final List<Consumer<T>> onActionEvents;
+    protected EventCondition onActionCondition;
 
     /**
-     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
      *
      * @param origin The scene which this UIElement is tied to.
      */
     protected UIElement(Scene origin) {
         onActionEvents = new ArrayList<>();
-
         origin.drawableManager.addUIElement(this);
-        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
-     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
      *
      * @param origin The scene which this UIElement is tied to.
      */
     protected UIElement(SimpleManager origin) {
         onActionEvents = new ArrayList<>();
-
         origin.drawableManager.addUIElement(this);
-        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
@@ -65,7 +59,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to set.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement setOnAction(Consumer<MouseButtonEvent> action) {
+    public UIElement<T> setOnAction(Consumer<T> action) {
         onActionEvents.clear();
         onActionEvents.add(action);
         return this;
@@ -77,7 +71,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to add.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement addOnAction(Consumer<MouseButtonEvent> action) {
+    public UIElement<T> addOnAction(Consumer<T> action) {
         onActionEvents.add(action);
         return this;
     }
@@ -92,41 +86,24 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
     public abstract void renderAsGUIObject(Graphics2D g, Camera camera);
 
     /**
-     * Removes the {@code UIElement}'s references in the specified scene as a GUI object and as a mouse listener.
+     * Removes the {@code UIElement}'s references in the specified scene as a GUI object.
      *
      * @param origin {@code Scene} parameter that will have all references to this {@code UIElement} removed.
      */
     @Override
     protected void destroyTheRest(Scene origin) {
         super.destroyTheRest(origin);
-
         origin.drawableManager.removeUIElement(this);
-        origin.inputManager.removeMouseActionListener(this);
     }
 
     /**
-     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object and as a mouse
-     * listener.
+     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object.
      *
      * @param origin {@code SimpleManager} parameter that will have all references to this {@code UIElement} removed.
      */
     @Override
     protected void destroyTheRest(SimpleManager origin) {
         super.destroyTheRest(origin);
-
         origin.drawableManager.removeUIElement(this);
-        origin.inputManager.removeMouseActionListener(this);
-    }
-
-    /**
-     * Fires the ui element's {@code onAction} event(s), if its condition is met.
-     *
-     * @param mouseButtonEvent The mouse event causing the {@code onAction} event(s) to be fired.
-     */
-    @Override
-    public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
-        if (onActionCondition.condition(mouseButtonEvent)) {
-            onActionEvents.forEach(action -> action.accept(mouseButtonEvent));
-        }
     }
 }

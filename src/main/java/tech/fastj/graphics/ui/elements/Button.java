@@ -1,18 +1,17 @@
 package tech.fastj.graphics.ui.elements;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
+import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.MouseButtons;
-
+import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -25,6 +24,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.util.function.Consumer;
 
 /**
  * A {@link UIElement} that can be assigned an action on left click.
@@ -32,7 +32,7 @@ import java.awt.geom.Rectangle2D;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public class Button extends UIElement {
+public class Button extends UIElement<MouseButtonEvent> implements MouseActionListener {
 
     /** The default size of a {@link Button}: (100f, 25f). */
     public static final Pointf DefaultSize = new Pointf(100f, 25f);
@@ -177,6 +177,31 @@ public class Button extends UIElement {
         return this;
     }
 
+    /**
+     * Sets the Button's {@code onAction} event to the specified action.
+     *
+     * @param action The action to set.
+     * @return The {@code Button}, for method chaining.
+     */
+    @Override
+    public Button setOnAction(Consumer<MouseButtonEvent> action) {
+        onActionEvents.clear();
+        onActionEvents.add(action);
+        return this;
+    }
+
+    /**
+     * Adds the specified action to the Button's {@code onAction} events.
+     *
+     * @param action The action to add.
+     * @return The {@code Button}, for method chaining.
+     */
+    @Override
+    public Button addOnAction(Consumer<MouseButtonEvent> action) {
+        onActionEvents.add(action);
+        return this;
+    }
+
     @Override
     public void renderAsGUIObject(Graphics2D g, Camera camera) {
         if (!shouldRender()) {
@@ -219,16 +244,30 @@ public class Button extends UIElement {
 
     @Override
     public void destroy(Scene origin) {
+        super.destroyTheRest(origin);
         paint = null;
         renderPath = null;
-        super.destroyTheRest(origin);
+        origin.inputManager.removeMouseActionListener(this);
     }
 
     @Override
     public void destroy(SimpleManager origin) {
+        super.destroyTheRest(origin);
         paint = null;
         renderPath = null;
-        super.destroyTheRest(origin);
+        origin.inputManager.removeMouseActionListener(this);
+    }
+
+    /**
+     * Fires the button's {@code onAction} event(s), if its condition is met.
+     *
+     * @param mouseButtonEvent The mouse event causing the {@code onAction} event(s) to be fired.
+     */
+    @Override
+    public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
+        if (onActionCondition.condition(mouseButtonEvent)) {
+            onActionEvents.forEach(action -> action.accept(mouseButtonEvent));
+        }
     }
 
     /**
