@@ -4,7 +4,6 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.display.FastJCanvas;
-import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.RenderSettings;
 import tech.fastj.graphics.game.Text2D;
 
@@ -41,7 +40,7 @@ public class Main extends SimpleManager {
          * look at their documentation as well. */
 
         canvas.modifyRenderSettings(RenderSettings.TextAntialiasing.Enable);
-        canvas.modifyRenderSettings(RenderSettings.GeneralRenderingQuality.High);
+        canvas.modifyRenderSettings(RenderSettings.RenderingQuality.High);
 
 
         /* As a small aside, I've added a Text2D object to help the visualization of how settings affect a program's
