@@ -39,7 +39,7 @@ public class BulletMovement implements Behavior {
 
         Pointf newTranslation = obj.getTranslation();
         if (newTranslation.equals(originalTranslation)) {
-            FastJEngine.warning("not moving! bullet at {} with {} f {}", originalTranslation, travelAngle, travelVector);
+            FastJEngine.warning("not moving! bullet at {} with {}f{}", originalTranslation, travelAngle, travelVector);
         }
     }
 

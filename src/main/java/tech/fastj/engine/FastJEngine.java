@@ -702,7 +702,7 @@ public class FastJEngine {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
             } catch (InterruptedException exception) {
-                FastJEngine.warning("Interrupted while syncing game frame rate: {}" + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                FastJEngine.warning("Interrupted while syncing game frame rate: {}", exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
                 Thread.currentThread().interrupt();
             }
         }
