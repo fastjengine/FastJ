@@ -50,7 +50,7 @@ public class BulletMovement implements Behavior {
 
     public void bulletDied(GameObject obj) {
         FastJEngine.runAfterUpdate(() -> {
-            FastJEngine.log("death! of bullet {} f {}", travelAngle, travelVector);
+            FastJEngine.log("death! of bullet {}f{}", travelAngle, travelVector);
             obj.destroy(gameScene);
             playerCannonScript.bulletDied();
         });

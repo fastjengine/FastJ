@@ -28,7 +28,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (clip.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"{}\",  but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
+            FastJEngine.warning("Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
             return;
         }
 
