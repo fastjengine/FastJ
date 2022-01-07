@@ -2,7 +2,6 @@ package tech.fastj.graphics;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
@@ -382,6 +381,55 @@ public abstract class Drawable extends TaggableEntity {
      */
     public void scale(Pointf scaleMod) {
         scale(scaleMod, getCenter());
+    }
+
+    /**
+     * Rotates the {@code Drawable} so that it is facing towards the given destination {@link Drawable}.
+     *
+     * @param destination The other {@code Drawable} the {@code Drawable} will turn towards and "look" at.
+     */
+    public void lookAt(Drawable destination) {
+        lookAt(destination.getCenter());
+    }
+
+    /**
+     * Rotates the {@code Drawable} so that it is facing towards the given destination {@link Pointf}.
+     *
+     * @param destination The place the {@code Drawable} will turn towards and "look" at.
+     */
+    public void lookAt(Pointf destination) {
+        rotate(findRotationTowards(destination));
+    }
+
+    /**
+     * Calculates the rotation needed for the {@code Drawable} to "face towards" the given destination {@link Pointf}.
+     *
+     * @param destination The place to calculate a rotation towards.
+     * @return The amount of rotation needed to have the {@code Drawable} turn towards the destination.
+     */
+    public float findRotationTowards(Pointf destination) {
+        Pointf center = getCenter();
+        Pointf currentDirection = Pointf.up()
+                .rotate(-getRotationWithin360())
+                .add(center);
+
+        double distanceA = Pointf.distance(currentDirection, destination);
+        double distanceB = Pointf.distance(destination, center);
+        double distanceC = Pointf.distance(center, currentDirection);
+        double distanceASquared = distanceA * distanceA;
+        double distanceBSquared = distanceB * distanceB;
+        double distanceCSquared = distanceC * distanceC;
+        float angle = (float) Math.toDegrees(Math.acos(
+                (distanceBSquared + distanceCSquared - distanceASquared) / (2 * distanceB * distanceC)
+        ));
+
+        if (angle > 180) {
+            angle -= 360;
+        } else if (angle < 180) {
+            angle += 360;
+        }
+
+        return angle;
     }
 
     /**
