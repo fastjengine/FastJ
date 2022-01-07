@@ -9,6 +9,8 @@ import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -84,7 +86,28 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
      * @param g      {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
      * @param camera {@code Camera} to help render at the correct position on the screen.
      */
-    public abstract void renderAsGUIObject(Graphics2D g, Camera camera);
+    public final void renderAsGUIObject(Graphics2D g, Camera camera) {
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        try {
+            g.transform(camera.getTransformation().createInverse());
+        } catch (NoninvertibleTransformException exception) {
+            throw new IllegalStateException(
+                    "Couldn't create an inverse transform of " + camera.getTransformation(),
+                    exception
+            );
+        }
+
+        render(g);
+        g.setTransform(oldTransform);
+    }
+
+    /**
+     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, pre-aligned with the window after
+     * transforming the graphics transform to the current game {@code Camera}.
+     *
+     * @param g {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
+     */
+    public abstract void render(Graphics2D g);
 
     /**
      * Removes the {@code UIElement}'s references in the specified scene as a GUI object.

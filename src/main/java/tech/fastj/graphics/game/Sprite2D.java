@@ -83,10 +83,6 @@ public class Sprite2D extends GameObject {
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) {
-            return;
-        }
-
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         g.transform(getTransformation());
 

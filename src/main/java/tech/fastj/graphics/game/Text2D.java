@@ -159,10 +159,6 @@ public class Text2D extends GameObject {
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) {
-            return;
-        }
-
         if (!hasMetrics) {
             setMetrics(g);
         }

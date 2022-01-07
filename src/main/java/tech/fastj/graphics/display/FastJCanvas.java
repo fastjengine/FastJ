@@ -11,6 +11,7 @@ import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.input.InputActionEvent;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
 
@@ -159,7 +160,7 @@ public class FastJCanvas {
      * @param gui         The GUI objects to be rendered.
      * @param camera      The camera that the user will view the game from.
      */
-    public void render(Map<String, GameObject> gameObjects, Map<String, UIElement> gui, Camera camera) {
+    public void render(Map<String, GameObject> gameObjects, Map<String, UIElement<? extends InputActionEvent>> gui, Camera camera) {
         if (!display.getWindow().isVisible()) {
             return;
         }
@@ -181,7 +182,7 @@ public class FastJCanvas {
 
             for (GameObject gameObject : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(gameObject, camera)) {
+                    if (!isOnScreen(gameObject, camera) || !gameObject.shouldRender()) {
                         continue;
                     }
                     gameObject.render(drawGraphics);
@@ -191,9 +192,9 @@ public class FastJCanvas {
                 }
             }
 
-            for (UIElement guiObj : gui.values()) {
+            for (UIElement<? extends InputActionEvent> guiObj : gui.values()) {
                 try {
-                    if (!isOnScreen(guiObj, camera)) {
+                    if (!isOnScreen(guiObj, camera) || !guiObj.shouldRender()) {
                         continue;
                     }
                     guiObj.renderAsGUIObject(drawGraphics, camera);

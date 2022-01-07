@@ -3,7 +3,6 @@ package tech.fastj.graphics.ui.elements;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 
-import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -22,7 +21,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -221,27 +219,13 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     }
 
     @Override
-    public void renderAsGUIObject(Graphics2D g, Camera camera) {
-        if (!shouldRender()) {
-            return;
-        }
-
+    public void render(Graphics2D g) {
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Paint oldPaint = g.getPaint();
         Font oldFont = g.getFont();
+        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
 
         g.transform(getTransformation());
-
-        try {
-            g.transform(camera.getTransformation().createInverse());
-        } catch (NoninvertibleTransformException exception) {
-            throw new IllegalStateException(
-                    "Couldn't create an inverse transform of " + camera.getTransformation(),
-                    exception
-            );
-        }
-
-        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
 
         g.setPaint(paint);
         g.fill(renderCopy);
@@ -253,7 +237,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         }
 
         g.setFont(font);
-        g.drawString(text, textBounds.x, textBounds.y * 1.5f);
+        g.drawString(text, textBounds.x, textBounds.y);
 
         g.setPaint(oldPaint);
         g.setFont(oldFont);
@@ -311,15 +295,20 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
                 textHeight
         );
 
+        Rectangle2D.Float newPathBounds = (Rectangle2D.Float) super.collisionPath.getBounds2D();
         if (renderPathBounds.width < textBounds.width) {
             float diff = (textBounds.width - renderPathBounds.width) / 2f;
-            renderPathBounds.width = textBounds.width;
-            textBounds.x += diff;
+            newPathBounds.width = textBounds.width + diff;
+            textBounds.x += diff * 1.5f;
         }
 
         if (renderPathBounds.height < textBounds.height) {
-            renderPathBounds.height = textBounds.height;
+            float diff = (textBounds.height - renderPathBounds.height) / 2f;
+            newPathBounds.height = textBounds.height + diff;
         }
+
+        renderPath = DrawUtil.createPath(DrawUtil.createBox(newPathBounds));
+        super.setCollisionPath(renderPath);
 
         g.dispose();
         hasMetrics = true;

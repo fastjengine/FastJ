@@ -4,6 +4,8 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 
+import tech.fastj.input.InputActionEvent;
+
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DrawableManager {
 
     private final Map<String, GameObject> gameObjects;
-    private final Map<String, UIElement> uiElements;
+    private final Map<String, UIElement<? extends InputActionEvent>> uiElements;
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
@@ -39,7 +41,7 @@ public class DrawableManager {
      *
      * @return The ui elements of the scene.
      */
-    public Map<String, UIElement> getUIElements() {
+    public Map<String, UIElement<? extends InputActionEvent>> getUIElements() {
         return uiElements;
     }
 
@@ -101,7 +103,7 @@ public class DrawableManager {
      *
      * @param guiObject The ui element to add.
      */
-    public void addUIElement(UIElement guiObject) {
+    public void addUIElement(UIElement<? extends InputActionEvent> guiObject) {
         uiElements.put(guiObject.getID(), guiObject);
     }
 
@@ -119,18 +121,18 @@ public class DrawableManager {
      *
      * @param guiObject The ui element to remove.
      */
-    public void removeUIElement(UIElement guiObject) {
+    public void removeUIElement(UIElement<? extends InputActionEvent> guiObject) {
         removeUIElement(guiObject.getID());
     }
 
     public void destroyUIElements(SimpleManager manager) {
-        for (UIElement uiElement : uiElements.values()) {
+        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
             uiElement.destroy(manager);
         }
     }
 
     public void destroyUIElements(Scene scene) {
-        for (UIElement uiElement : uiElements.values()) {
+        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
             uiElement.destroy(scene);
         }
     }
