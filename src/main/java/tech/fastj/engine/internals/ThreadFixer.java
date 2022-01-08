@@ -27,7 +27,7 @@ public class ThreadFixer {
                     try {
                         Thread.sleep(Long.MAX_VALUE);
                     } catch (InterruptedException exception) {
-                        FastJEngine.warning("Interrupted while in daemon sleep: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                        FastJEngine.warning("Interrupted while in daemon sleep: {}", exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
                         Thread.currentThread().interrupt();
                     }
                 }

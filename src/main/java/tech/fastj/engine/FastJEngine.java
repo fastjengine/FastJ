@@ -277,7 +277,7 @@ public class FastJEngine {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
         } else {
-            warning("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name());
+            warning("This OS doesn't support {} hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name());
             HWAccel.setHardwareAcceleration(HWAccel.Default);
             hwAccel = HWAccel.Default;
         }
@@ -702,7 +702,7 @@ public class FastJEngine {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
             } catch (InterruptedException exception) {
-                FastJEngine.warning("Interrupted while syncing game frame rate: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                FastJEngine.warning("Interrupted while syncing game frame rate: {}", exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
                 Thread.currentThread().interrupt();
             }
         }
