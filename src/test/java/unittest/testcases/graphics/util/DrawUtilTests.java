@@ -5,7 +5,6 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Paint;

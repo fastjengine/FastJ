@@ -84,7 +84,7 @@ public class ImageUtil {
 
         if (expectedHorizontalImagePixels != actualHorizontalImagePixels) {
             FastJEngine.warning(
-                 "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
+                    "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
                     horizontalImageCount,
                     actualHorizontalImagePixels,
                     bufferedImageWidth,

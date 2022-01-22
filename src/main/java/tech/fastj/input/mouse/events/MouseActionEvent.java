@@ -8,5 +8,6 @@ import java.awt.event.MouseEvent;
 public interface MouseActionEvent extends InputActionEvent {
     @Override
     MouseEvent getRawEvent();
+
     MouseAction getEventType();
 }
