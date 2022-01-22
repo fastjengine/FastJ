@@ -446,17 +446,14 @@ class DrawUtilTests {
     @Test
     void checkGenerateOutlineStrokes_shouldNotFail() {
         int generatedOutlineStrokeCount = 255;
-        BasicStroke[] generatedOutlineStrokes = new BasicStroke[generatedOutlineStrokeCount];
 
         assertDoesNotThrow(() -> {
                     for (int i = 0; i < generatedOutlineStrokeCount; i++) {
-                        generatedOutlineStrokes[i] = DrawUtil.randomOutlineStroke();
+                        DrawUtil.randomOutlineStroke();
                     }
                 },
                 "Errors should not be produced while generating random outline strokes."
         );
-
-        Log.trace("Generated outline strokes: {}", Arrays.toString(generatedOutlineStrokes));
     }
 
     @Test
