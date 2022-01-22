@@ -56,7 +56,6 @@ class ButtonTests {
         SimpleManager simpleManager = new MockEmptySimpleManager();
         Pointf randomLocation = new Pointf(Maths.random(-1000f, 1000f), Maths.random(-1000f, 1000f));
         Pointf randomInitialSize = new Pointf(Maths.random(Maths.FloatPrecision, 1000f), Maths.random(Maths.FloatPrecision, 1000f));
-        Pointf[] generatedInitialSize = DrawUtil.createBox(randomLocation, randomInitialSize);
 
         Button button = new Button(simpleManager, randomLocation, randomInitialSize);
 
@@ -67,7 +66,6 @@ class ButtonTests {
         assertEquals(randomLocation, button.getTranslation(), "The created button translation should match the location translation.");
         assertEquals(Transform2D.DefaultRotation, button.getRotation(), "The created button's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, button.getScale(), "The created button's scaling should match an origin scale.");
-        assertArrayEquals(generatedInitialSize, DrawUtil.pointsOfPath(button.getCollisionPath()), "The created button's actual initial size should match the generated initial size.");
     }
 
     @Test
@@ -75,7 +73,6 @@ class ButtonTests {
         MockNameSettingScene scene = new MockNameSettingScene("button testing");
         Pointf randomLocation = new Pointf(Maths.random(-1000f, 1000f), Maths.random(-1000f, 1000f));
         Pointf randomInitialSize = new Pointf(Maths.random(Maths.FloatPrecision, 1000f), Maths.random(Maths.FloatPrecision, 1000f));
-        Pointf[] generatedInitialSize = DrawUtil.createBox(randomLocation, randomInitialSize);
 
         Button button = new Button(scene, randomLocation, randomInitialSize);
 
@@ -86,7 +83,6 @@ class ButtonTests {
         assertEquals(randomLocation, button.getTranslation(), "The created button translation should match the location translation.");
         assertEquals(Transform2D.DefaultRotation, button.getRotation(), "The created button's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, button.getScale(), "The created button's scaling should match an origin scale.");
-        assertArrayEquals(generatedInitialSize, DrawUtil.pointsOfPath(button.getCollisionPath()), "The created button's actual initial size should match the generated initial size.");
     }
 
     @Test

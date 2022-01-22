@@ -96,10 +96,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         this.font = DefaultFont;
         this.text = DefaultText;
 
+        translate(location);
         Graphics2D graphics = GraphicsHelper.createGraphics();
         setMetrics(graphics);
         graphics.dispose();
-        translate(location);
 
         origin.inputManager.addMouseActionListener(this);
     }
@@ -130,10 +130,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         this.font = DefaultFont;
         this.text = DefaultText;
 
+        translate(location);
         Graphics2D graphics = GraphicsHelper.createGraphics();
         setMetrics(graphics);
         graphics.dispose();
-        translate(location);
 
         origin.inputManager.addMouseActionListener(this);
     }
@@ -310,7 +310,6 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         if (renderPathBounds.width < textBounds.width) {
             float diff = (textBounds.width - renderPathBounds.width) / 2f;
             newPathBounds.width = textBounds.width + diff;
-            textBounds.x += diff * 1.5f;
         }
 
         if (renderPathBounds.height < textBounds.height) {
