@@ -84,13 +84,11 @@ public class ImageUtil {
 
         if (expectedHorizontalImagePixels != actualHorizontalImagePixels) {
             FastJEngine.warning(
-                    String.format(
-                            "The horizontal image count given (%d) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count %f is derived from \"%d / %d\".",
-                            horizontalImageCount,
-                            actualHorizontalImagePixels,
-                            bufferedImageWidth,
-                            horizontalImageCount
-                    )
+                 "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
+                    horizontalImageCount,
+                    actualHorizontalImagePixels,
+                    bufferedImageWidth,
+                    horizontalImageCount
             );
         }
 
@@ -100,13 +98,11 @@ public class ImageUtil {
 
         if (expectedVerticalImagePixels != actualVerticalImagePixels) {
             FastJEngine.warning(
-                    String.format(
-                            "The vertical image count given (%d) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count %f is derived from \"%d / %d\".",
-                            verticalImageCount,
-                            actualVerticalImagePixels,
-                            bufferedImageHeight,
-                            verticalImageCount
-                    )
+                    "The vertical image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
+                    verticalImageCount,
+                    actualVerticalImagePixels,
+                    bufferedImageHeight,
+                    verticalImageCount
             );
         }
 
