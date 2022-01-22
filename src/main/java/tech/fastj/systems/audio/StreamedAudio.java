@@ -1,8 +1,5 @@
 package tech.fastj.systems.audio;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.net.URL;
@@ -92,7 +89,10 @@ public class StreamedAudio implements Audio {
         try {
             sourceDataLine.open(audioInputStream.getFormat());
         } catch (LineUnavailableException exception) {
-            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to open sound."), exception);
+            throw new IllegalStateException(
+                    "No audio lines were available to load the file \"" + audioPath.toAbsolutePath() + "\" as a StreamedAudio.",
+                    exception
+            );
         }
 
         gainControl = (FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN);

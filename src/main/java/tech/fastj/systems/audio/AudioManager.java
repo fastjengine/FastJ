@@ -1,8 +1,5 @@
 package tech.fastj.systems.audio;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.resources.files.FileUtil;
 
 import tech.fastj.systems.audio.state.PlaybackState;
@@ -293,11 +290,7 @@ public class AudioManager {
         try {
             return AudioSystem.getClip();
         } catch (LineUnavailableException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an error while loading sound."),
-                    exception
-            );
-            return null;
+            throw new IllegalStateException("No audio lines were available to load the clip.", exception);
         }
     }
 
@@ -306,18 +299,13 @@ public class AudioManager {
         try {
             return AudioSystem.getAudioInputStream(audioPath.toFile());
         } catch (IOException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an I/O error while loading sound."),
+            throw new IllegalStateException(exception.getMessage(), exception);
+        } catch (UnsupportedAudioFileException exception) {
+            throw new IllegalArgumentException(
+                    audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".",
                     exception
             );
-        } catch (UnsupportedAudioFileException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an audio file reading error."),
-                    new UnsupportedAudioFileException(audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".")
-            );
         }
-
-        return null;
     }
 
     /** Safely generates an {@link AudioInputStream} object, crashing the engine if something goes wrong. */
@@ -325,18 +313,13 @@ public class AudioManager {
         try {
             return AudioSystem.getAudioInputStream(audioPath);
         } catch (IOException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an I/O error while loading sound."),
+            throw new IllegalStateException(exception.getMessage(), exception);
+        } catch (UnsupportedAudioFileException exception) {
+            throw new IllegalArgumentException(
+                    audioPath.getPath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(Path.of(audioPath.getPath())) + "\".",
                     exception
             );
-        } catch (UnsupportedAudioFileException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an audio file reading error."),
-                    new UnsupportedAudioFileException(audioPath.getPath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(Path.of(audioPath.getPath())) + "\".")
-            );
         }
-
-        return null;
     }
 
     /** Safely generates a {@link SourceDataLine} object, crashing the engine if something goes wrong. */
@@ -344,18 +327,13 @@ public class AudioManager {
         DataLine.Info lineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
 
         if (!AudioSystem.isLineSupported(lineInfo)) {
-            FastJEngine.warning("No audio output lines supported.");
-            return null;
+            throw new IllegalArgumentException("No audio output lines supported for " + audioFormat);
         }
 
         try {
             return (SourceDataLine) AudioSystem.getLine(lineInfo);
         } catch (LineUnavailableException exception) {
-            FastJEngine.error(
-                    CrashMessages.theGameCrashed("an audio error while trying to open an audio line."),
-                    exception
-            );
-            return null;
+            throw new IllegalStateException("No audio lines were available to load the data line with format " + audioFormat + ".", exception);
         }
     }
 

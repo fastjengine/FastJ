@@ -84,20 +84,20 @@ class AudioManagerTests {
     void tryMemoryAudioLoading_withPath_withUnsupportedAudioFormat() {
         Path testAudioPath = Path.of("src/test/resources/test_audio.flac");
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadMemoryAudio(testAudioPath));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> AudioManager.loadMemoryAudio(testAudioPath));
+        assertTrue(exception.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " is of an unsupported file format \"flac\".", "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 
     @Test
     void tryMemoryAudioLoading_withURL_withUnsupportedAudioFormat() {
         URL testAudioURL = AudioManagerTests.class.getClassLoader().getResource("test_audio.flac");
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadMemoryAudio(testAudioURL));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> AudioManager.loadMemoryAudio(testAudioURL));
+        assertTrue(exception.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertTrue(underlyingException.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 
     @Test
@@ -150,20 +150,20 @@ class AudioManagerTests {
     void tryStreamedAudioLoading_withPath_withUnsupportedAudioFormat() {
         Path testAudioPath = Path.of("src/test/resources/test_audio.flac");
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadStreamedAudio(testAudioPath));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> AudioManager.loadStreamedAudio(testAudioPath));
+        assertTrue(exception.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertEquals(underlyingException.getMessage(), testAudioPath.toAbsolutePath() + " is of an unsupported file format \"flac\".", "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 
     @Test
     void tryStreamedAudioLoading_withURL_withUnsupportedAudioFormat() {
         URL testAudioURL = AudioManagerTests.class.getClassLoader().getResource("test_audio.flac");
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> AudioManager.loadStreamedAudio(testAudioURL));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> AudioManager.loadStreamedAudio(testAudioURL));
+        assertTrue(exception.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
-        assertTrue(underlyingException.getMessage().endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
     }
 
     @Test
