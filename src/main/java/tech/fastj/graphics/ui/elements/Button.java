@@ -1,5 +1,6 @@
 package tech.fastj.graphics.ui.elements;
 
+import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 
@@ -21,7 +22,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.function.Consumer;
@@ -46,7 +46,6 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     private static final BufferedImage GraphicsHelper = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 
     private Paint paint;
-    private Path2D.Float renderPath;
 
     private Font font;
     private String text;
@@ -80,20 +79,27 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
      */
     public Button(Scene origin, Pointf location, Pointf initialSize) {
         super(origin);
+        if (initialSize.x < Maths.FloatPrecision || initialSize.y < Maths.FloatPrecision) {
+            throw new IllegalArgumentException(
+                    "The size " + initialSize + " is too small." +
+                            System.lineSeparator() +
+                            "The minimum size in both x and y directions is " + Maths.FloatPrecision + "."
+            );
+        }
+
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
         Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
-        renderPath = DrawUtil.createPath(buttonCoords);
-        super.setCollisionPath(renderPath);
+        super.setCollisionPath(DrawUtil.createPath(buttonCoords));
 
         this.paint = DefaultFill;
         this.font = DefaultFont;
         this.text = DefaultText;
 
-        translate(location);
         Graphics2D graphics = GraphicsHelper.createGraphics();
         setMetrics(graphics);
         graphics.dispose();
+        translate(location);
 
         origin.inputManager.addMouseActionListener(this);
     }
@@ -107,20 +113,27 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
      */
     public Button(SimpleManager origin, Pointf location, Pointf initialSize) {
         super(origin);
+        if (initialSize.x < Maths.FloatPrecision || initialSize.y < Maths.FloatPrecision) {
+            throw new IllegalArgumentException(
+                    "The size " + initialSize + " is too small." +
+                            System.lineSeparator() +
+                            "The minimum size in both x and y directions is " + Maths.FloatPrecision + "."
+            );
+        }
+
         super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
 
         Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
-        renderPath = DrawUtil.createPath(buttonCoords);
-        super.setCollisionPath((Path2D.Float) renderPath.clone());
+        super.setCollisionPath(DrawUtil.createPath(buttonCoords));
 
         this.paint = DefaultFill;
         this.font = DefaultFont;
         this.text = DefaultText;
 
-        translate(location);
         Graphics2D graphics = GraphicsHelper.createGraphics();
         setMetrics(graphics);
         graphics.dispose();
+        translate(location);
 
         origin.inputManager.addMouseActionListener(this);
     }
@@ -223,7 +236,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Paint oldPaint = g.getPaint();
         Font oldFont = g.getFont();
-        Rectangle2D.Float renderCopy = (Rectangle2D.Float) renderPath.getBounds2D();
+        Rectangle2D.Float renderCopy = (Rectangle2D.Float) collisionPath.getBounds2D();
 
         g.transform(getTransformation());
 
@@ -248,7 +261,6 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     public void destroy(Scene origin) {
         super.destroyTheRest(origin);
         paint = null;
-        renderPath = null;
         origin.inputManager.removeMouseActionListener(this);
     }
 
@@ -256,7 +268,6 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     public void destroy(SimpleManager origin) {
         super.destroyTheRest(origin);
         paint = null;
-        renderPath = null;
         origin.inputManager.removeMouseActionListener(this);
     }
 
@@ -286,7 +297,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
 
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
-        Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) renderPath.getBounds2D();
+        Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) collisionPath.getBounds2D();
 
         textBounds = new Rectangle2D.Float(
                 (renderPathBounds.width - textWidth) / 2f,
@@ -307,8 +318,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
             newPathBounds.height = textBounds.height + diff;
         }
 
-        renderPath = DrawUtil.createPath(DrawUtil.createBox(newPathBounds));
-        super.setCollisionPath(renderPath);
+        super.setCollisionPath(DrawUtil.createPath(DrawUtil.createBox(newPathBounds)));
 
         g.dispose();
         hasMetrics = true;

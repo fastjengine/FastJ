@@ -8,7 +8,6 @@ import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 
-import unittest.EnvironmentHelper;
 import unittest.mock.graphics.MockDrawable;
 
 import java.util.HashMap;
@@ -19,7 +18,6 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class DrawableTests {
 
@@ -53,8 +51,6 @@ class DrawableTests {
 
     @Test
     void checkCollision_betweenPolygon2D_andText2D() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-
         String text = "Hello, world!";
         Text2D text2D = Text2D.fromText(text);
 
@@ -66,8 +62,6 @@ class DrawableTests {
 
     @Test
     void checkCollision_betweenText2D_andModel2D() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-
         String text = "Hello, world!";
         Text2D text2D = Text2D.fromText(text);
 
