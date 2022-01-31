@@ -12,6 +12,9 @@ This project has been growing well on its own, but with the addition of new feat
 ### Contributing Code
 For contributing code, please follow along with the guidelines outlined [here][Contributing-Code].
 
+### Contributing Examples
+For contributing code examples, please follow along with the guidelines outlined [here][Contributing-Examples].
+
 ### Contributing Documentation
 For contributing api/website documentation, please follow along with the guidelines outlined [here][Contributing-Documentation].
 
@@ -20,5 +23,6 @@ For guidelines on opening an issue, please follow along with the guidelines outl
 
 
 [Contributing-Code]: /.github/contributing/contributing-code.md "Contributing Code"
+[Contributing-Examples]: /.github/contributing/contributing-examples.md "Contributing Code Examples"
 [Contributing-Documentation]: /.github/contributing/contributing-documentation.md "Contributing Documentation"
 [Opening-An-Issue]: /.github/contributing/opening-issues.md "Opening Issues"
