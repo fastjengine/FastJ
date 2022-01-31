@@ -38,8 +38,16 @@ body:
         - 1.5.1 (Latest Version)
         - 1.5.0 (Latest General Version)
         - 1.4.0
+        - snapshot (please specify below)
+        - other (please specify below)
     validations:
       required: true
+  - type: input
+    id: fastj-version-specific
+    attributes:
+      label: Specific FastJ Version
+      description: Using a specific version of FastJ? Specify it here!
+      placeholder: e.g. FastJ 1.6.0-SNAPSHOT-1
   - type: dropdown
     id: java-version
     attributes:
