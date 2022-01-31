@@ -17,8 +17,8 @@
 FastJ is an open-source, Java-based 2D game engine and framework. Originally named the FastJ Engine, it aims to provide an easy-to-use, 2D game-making library.
 
 
-## Disclaimer
-**This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered by unit tests. Documentation is readily available, but may change over time. [If you would like to help out, all help is appreciated!](#contributing-to-fastj)
+### Disclaimer
+**This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered by unit tests. Documentation is readily available, but may change over time. [Feel free to help us out by contributing to the project!](#contributing-to-fastj)
 
 
 ## Projected Feature List
@@ -30,10 +30,13 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 | Scriptable Behaviors | Control GameObject state                                    |    ✅    |
 | Desktop Support      | Full Compatibility on Windows, Linux, and macOS             |    ✅    |
 | Audio Engine         | Loading, Playing, and Controlling .wav, .au, .aiff files    |    ✔     |
-| Image Support        | Image rendering, Sprite Animation                           |    ❌    |
-| Animation Support    | Interpolation, Tweening Framework                           |    ❌    |
+| Image Support        | Image rendering, Sprite Animation                           |    ✔    |
+| Animation Support    | Interpolation, Tweening Framework                           |    ⭕    |
 | UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
-| FastJ Model Creator  | Create & Export 2D Models                                   |    ❌    |
+| Particle Engine      | Configurable and Customizable Particle Management           |    ⭕    |
+| Physics Engine       | Custom 2D Physics Engine.                                   |    ❌    |
+| Asset Manager        | Load, Unload, and Hot Reload Game Assets                    |    ⭕    |
+| FastJ Model Creator  | Create & Export 2D Models                                   |    ⭕    |
 | FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor  |    ❌    |
 | Web Support          | Run FastJ Programs in a Web Browser                         |    ❌    |
 
@@ -46,19 +49,48 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 ❌ is not yet implemented.
 
 
-## Adding FastJ to a Project
+## Get Started
+There are many different ways to learn FastJ -- check them out!
+
+
+### Template Projects
+Use a template project! It's the fastest way to jump into using FastJ.
+
+Choose a programming language from the ones below. We suggest Java, as it has the most support:
+- Java: https://github.com/fastjengine/fastj-java-template
+
+However, Kotlin and Groovy are reasonable options as well:
+- Kotlin: https://github.com/fastjengine/fastj-kotlin-template
+- Groovy: https://github.com/fastjengine/fastj-groovy-template
+
+
+### Tutorials
+[FastJ provides article tutorials on its website][FastJ-Tutorials] to accommodate as many types of developers as possible. From beginners to experts, the website tutorials are written to give enough information to satisfy anyone willing to learn!
+
+
+### Code Examples
+[Explore FastJ's code examples][FastJ-Examples] to see the different ways FastJ can be used, and all of its features. These come with in-example explanations and easy plug-and-playability to give you the best chance at understanding how FastJ works.
+
+
+### API Documentation
+[Check out FastJ's documentation][Javadoc] to get a better understanding of the code FastJ provides to improve your game-making experience.
+
+
+### I'll add the dependency myself!
+Ok, ok, I hear ya. Just follow through with these instructions below.
+
+
+#### Dependency Management
 This library can be found in the following places:
 - [jitpack.io][Jitpack.IO], as a dependency.
 - [Maven Central][Maven-Central], as a dependency or as a jarfile.
 - The [Releases][Releases] section of this repository.
 
-
-### Adding the Dependency
-When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.5.1**.
+When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this in the jitpack.io or Maven Central link up above). **The current latest version is 1.6.0**.
 
 A few common dependencies are provided below:
 
-- **Gradle**
+- **Gradle Build Script**
   - Groovy:
     ```groovy
     repositories.maven {
@@ -75,7 +107,7 @@ A few common dependencies are provided below:
 
     dependencies.implementation("com.github.fastjengine:FastJ:[latest version here]")
     ```
-- **Maven**
+- **Maven POM**
   ```xml
   <repository>
     <id>jitpack.io</id>
@@ -89,53 +121,41 @@ A few common dependencies are provided below:
   </dependency>
   ```
 
-
-## Learning FastJ
-There are many different ways to learn FastJ -- namely the API documentation, the examples, and the tutorials on the main website.
+You'll also want to make sure you add a dependency for a logging framework from [SLF4J][SLF4J], since FastJ uses it for all its logging purposes. Take your pick!
 
 
-### Template Projects
-Check out these template projects for FastJ! They're the fastest way to jump right into using FastJ.
+#### Hello World Code (Java)
 
-- Java: https://github.com/fastjengine/fastj-java-template
-- Kotlin: https://github.com/fastjengine/fastj-kotlin-template
-- Groovy: https://github.com/fastjengine/fastj-groovy-template
+```java
+import tech.fastj.engine.FastJEngine;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.systems.control.SimpleManager;
+
+public class HelloFastJ extends SimpleManager {
+
+    @Override
+    public void init(FastJCanvas canvas) {}
+
+    @Override
+    public void update(FastJCanvas canvas) {}
+
+    public static void main(String[] args) {
+        // Creates an empty window titled "Hello, FastJ!"
+        FastJEngine.init("Hello, FastJ!", new Main());
+        FastJEngine.run();
+    }
+}
+```
 
 
-### Tutorials
-[FastJ provides article tutorials][FastJ-Tutorials] on its website to accommodate as many types of developers as possible. From beginners to experts, the website tutorials are written to give enough information to satisfy anyone willing to learn!
+## External Dependencies
+- [SLF4J][SLF4J]
 
 
-### Code Examples
-[Explore FastJ's code examples][FastJ-Examples] to see the different ways FastJ can be used, and all of its features. These come with in-example explanations and easy plug-and-playability to give you the best chance at understanding how FastJ works.
+## Contributing
+Plan on contributing to the repository? Awesome! We're glad to have you ❤️
 
-
-### API Documentation
-[Check out FastJ's documentation][Javadoc] to get a better understanding of the code FastJ provides to improve your game-making experience.
-
-
-## Contributing to FastJ
-Plan on contributing to the repository? Great! Be sure to read over the [contribution guidelines][Contributing-Guidelines], and read on to discover how to get started.
-
-
-### Building FastJ
-You'll need a few things in order to work on the repository:
-- [Git][Git-Link]
-- [Java 11][AdoptOpenJDK-Java11-Link]
-- (optional, but highly recommended!) A decent understanding of how to use [Gradle][Gradle-Link].
-  **Installation of Gradle is not required -- the project supplies the Gradle tools already.**
-  - For reference, this project currently makes use of Gradle 7.1.1.
-
-Once you have what you need, follow these simple steps:
-- Clone the FastJ repository.
-  ```bash
-  git clone https://github.com/fastjengine/FastJ.git
-  ```
-- Ensure that the FastJ project works on your device.
-  ```bash
-  ./gradlew check
-  ```
-  _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
+Please be sure to read over the [contribution guidelines][Contributing-Guidelines] so that you can get started.
 
 
 ## Community
@@ -173,12 +193,14 @@ This repository is licensed under the [MIT License][MIT-License].
 [JavaDoc]: https://javadoc.io/doc/io.github.lucasstarsz.fastj/fastj-library "FastJ Documentation"
 [JavaDoc-SVG]: https://javadoc.io/badge2/io.github.lucasstarsz.fastj/fastj-library/Javadocs.svg?style=for-the-badge&color=blue&labelColor=363e45&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFEklEQVR4Xu1bbXLbNhBdgFR6mLoWSSX2AfLVnqYZKW4mR8iHPT1NIjfJTH7Gqi1Rck5TkdjOgoJCyaQIkASoicxf8hDE7j487GIfaQYHfrEDjx/uAbhnwJ4iMOn38WQ+t85Q6wbq4vtvGOGj2dS6f9YN1AVgEkZ4cg/AgTJgEoYIwOBgGUD09xiDwfTG+ha1bsA0B0yCEIExwGQJp7e31v2zbsAYgDBCesYF/cnOXgFA1HcZ/F4BoILnjMFDB3tfMXMvGKCCd736nTNgcnyM4PnrNOFq3+fzUmcMyK961cpfhxEKRDiJZ6372/qEOllfBrQaSA6UnfmvowEiYul9HVtVY5wDkF/5B5xDcHN9x4ebaIApyoJgvRw6BSAfPALC6WyT0t+CADnjTgJ3XgXywTMh4NE83gC/q0rghAEbCa8gmVHvnxHePuW3c4J1APLBlSW8NUCWMv2uRGgdgCpqd7n6Tg5CVQBU3a8qY03vO2NAWX9/MAD4jEFU0OSYnAibrnbR8w4YkMlblQnwZ60CFNeuPj+fBFVSciGHd3IQ0mUBnf9PLTQ+nWwBZfQqjJAAKGp5r4IQGdvcja5aY+s5II860Z3+LqJ4V8nQKQAUPLW4QojC3r6LkugcAAJhGg2wsCSuJHGXPUEnAFCA8eAhbmsB9EYYuAcgEE7m7as/nSZBnUMMCSEkfemWwf7oEmXuRIT4/Pdai1nroV3BBC8vkXs+JMslLC7MnLrqh3haY+UDBQQwmL1/ZhST0eCywKO/PiOKFEjnm79/3sqcOozJj/kBAsDMwIdGzoYvL5WOASkKWJz/0Wi+ncwaXWIKCLc7qK78SYWAxYWeL7UdJqpvP8wYBzJO8s7iQo8JfQIREeiNEFDXwDngWjMGoDkFCog1VjU6+4T0LNmPz/Xs1wYgv1rHwzF6XiZmSuumF2NZoLSNEGFRM6GtGWAwRysAmMZra7wCwFkOsBVInXnDs3/kVqLdE2tuP9V91rFX+kwwGlMzB3PDEtjEiSZVqNUtoJIQneRmDQHoj8bo+T2Yvnm800dl04T2ebDtALBhIUtw9NmLSBOpDKk0Sb8Z94F4K2mzvrPJhzQRsPj7blmjPU8VYt6g/LYKgHI7evUFMU1qs1qWQiFKDzSD11/l/NO3Txr733gC3SiPXoyx5zG5xoIBcGRy1ecGCUvXlsk4ZwCYOOVy7D0ANtBWZaluZrbhU9mcVhiQb5Kk4dxRlwwKpPcE9D0kZYSsShRVASEoR5i11KbgWQGAnFAnM1OHNsYzDrN3T635aOUkuB2wFEi4B6QX7L6Y7ASpIdLp/BoBm3u4FrpSfOBUxgBiQwWmLce35zkafsTvmhpA7ZNgePZJdhuIDOJzM+nJVuBqXtpys3fmPmkzIJ/Y9im7B0PSIDlMa+YKLQD6ZGSld2zQh/uQpMvaAoYpK3598QF7ngfcW+WUkiRJW9SKInQ0+ogP/F+yhJaTre4EwjjQuz5MScVTV/ZrVfiAPpOTxZCOxeoGXz1Hc28rS1RKuQ/L5L/duqDhVtBigM5KHY/GSLqenHBV96W2pyWR0Vkgc4W6O3qGPpS81Uxqvw2pz/AkqKZ5oDUAdEBqa8zRnx+w1/Oz/3ZABMa92p1hawCQEkSr2GaC7A/HyDlRn/Y8vXXItpE6OZq+BClagNYAUJNTH6B+J8sEPI8BU5/EK9EDVSg/pJG1I7QVpEROFZdU4maCRxXrWgegyuC+3f8fARJ0X9/EzrEAAAAASUVORK5CYIIA
 
+[SLF4J]: https://www.slf4j.org/ "Simple Logging Facade for Java"
+
 [Releases]: https://github.com/fastjengine/FastJ/releases/ "FastJ Releases"
 
 [MIT-License]: https://github.com/fastjengine/FastJ/tree/main/LICENSE.txt "MIT Licensing"
 
 [FastJ-Tutorials]: https://fastj.tech/wiki/fastj-basics/fastj-quick-start "FastJ Tutorials"
-[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/main/src/example "FastJ: Example Game"
+[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/main/src/example "FastJ Examples"
 
 [Contributing-Guidelines]: https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md "Contributing to FastJ"
 
@@ -187,3 +209,4 @@ This repository is licensed under the [MIT License][MIT-License].
 [AdoptOpenJDK-Java11-Link]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot "Download Java 11"
 [Git-Link]: https://git-scm.com/downloads "Download Git, the powerful source control management tool."
 [Gradle-Link]: https://gradle.org/install/ "Download Gradle, the powerful build tool."
+

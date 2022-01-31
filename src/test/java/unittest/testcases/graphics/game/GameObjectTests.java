@@ -1,15 +1,16 @@
 package unittest.testcases.graphics.game;
 
 import tech.fastj.math.Maths;
+
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
 
-import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.behaviors.MockBehavior;
 import unittest.mock.systems.control.MockEmptyScene;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -148,6 +149,7 @@ class GameObjectTests {
 
         gameObject.addBehavior(mockBehavior, mockScene);
 
-        assertThrows(NullPointerException.class, gameObject::updateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf.");
+        Throwable exception = assertThrows(IllegalStateException.class, gameObject::updateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf, wrapped in an illegal state exception.");
+        assertEquals(NullPointerException.class, exception.getCause().getClass(), "The underlying exception should be a null pointer exception.");
     }
 }

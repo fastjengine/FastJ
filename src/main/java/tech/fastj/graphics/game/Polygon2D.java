@@ -1,6 +1,7 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
@@ -264,10 +265,6 @@ public class Polygon2D extends GameObject {
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) {
-            return;
-        }
-
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         Paint oldPaint = g.getPaint();
         Stroke oldStroke = g.getStroke();
@@ -304,24 +301,24 @@ public class Polygon2D extends GameObject {
 
     @Override
     public void destroy(Scene origin) {
-        originalPoints = null;
+        originalPoints = new Pointf[]{};
 
-        renderStyle = null;
-        fillPaint = null;
-        outlineColor = null;
-        outlineStroke = null;
+        renderStyle = DefaultRenderStyle;
+        fillPaint = DefaultFill;
+        outlineColor = DefaultOutlineColor;
+        outlineStroke = DefaultOutlineStroke;
 
         super.destroyTheRest(origin);
     }
 
     @Override
     public void destroy(SimpleManager origin) {
-        originalPoints = null;
+        originalPoints = new Pointf[]{};
 
-        renderStyle = null;
-        fillPaint = null;
-        outlineColor = null;
-        outlineStroke = null;
+        renderStyle = DefaultRenderStyle;
+        fillPaint = DefaultFill;
+        outlineColor = DefaultOutlineColor;
+        outlineStroke = DefaultOutlineStroke;
 
         super.destroyTheRest(origin);
     }

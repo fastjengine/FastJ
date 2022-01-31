@@ -1,8 +1,8 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.Drawable;
 
 import tech.fastj.systems.control.Scene;
@@ -16,6 +16,7 @@ import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 /**
@@ -30,6 +31,11 @@ public class Text2D extends GameObject {
     public static final Paint DefaultFill = Color.black;
     /** {@link Font} representing the default font of {@code Tahoma 16px}. */
     public static final Font DefaultFont = new Font("Tahoma", Font.PLAIN, 16);
+    /** {@code String} representing default text -- an empty string. */
+    public static final String DefaultText = "";
+
+    private static final Pointf OriginInstance = Pointf.origin();
+    private static final BufferedImage GraphicsHelper = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_ARGB);
 
     private String text;
     private Paint fillPaint;
@@ -46,7 +52,7 @@ public class Text2D extends GameObject {
      * @param text {@code String} that defines the text for the {@code Text2D}.
      */
     protected Text2D(String text) {
-        this.text = text;
+        this.text = Objects.requireNonNullElse(text, DefaultText);
         setFont(DefaultFont);
         setFill(DefaultFill);
     }
@@ -117,8 +123,10 @@ public class Text2D extends GameObject {
      * @return The {@code Text2D} instance, for method chaining.
      */
     public Text2D setText(String newText) {
-        text = newText;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        text = Objects.requireNonNullElse(newText, DefaultText);
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
 
         return this;
     }
@@ -142,17 +150,15 @@ public class Text2D extends GameObject {
      */
     public Text2D setFont(Font newFont) {
         font = newFont;
-        setMetrics(FastJEngine.getDisplay().getGraphics());
+        Graphics2D graphics = GraphicsHelper.createGraphics();
+        setMetrics(graphics);
+        graphics.dispose();
 
         return this;
     }
 
     @Override
     public void render(Graphics2D g) {
-        if (!shouldRender()) {
-            return;
-        }
-
         if (!hasMetrics) {
             setMetrics(g);
         }
@@ -165,7 +171,7 @@ public class Text2D extends GameObject {
         g.setFont(font);
         g.setPaint(fillPaint);
 
-        g.drawString(text, Pointf.Origin.x, font.getSize2D());
+        g.drawString(text, OriginInstance.x, font.getSize2D());
 
         g.setTransform(oldTransform);
         g.setFont(oldFont);
@@ -174,9 +180,9 @@ public class Text2D extends GameObject {
 
     @Override
     public void destroy(Scene origin) {
-        text = null;
-        fillPaint = null;
-        font = null;
+        text = DefaultText;
+        fillPaint = DefaultFill;
+        font = DefaultFont;
         hasMetrics = false;
 
         super.destroyTheRest(origin);
@@ -184,9 +190,9 @@ public class Text2D extends GameObject {
 
     @Override
     public void destroy(SimpleManager origin) {
-        text = null;
-        fillPaint = null;
-        font = null;
+        text = DefaultText;
+        fillPaint = DefaultFill;
+        font = DefaultFont;
         hasMetrics = false;
 
         super.destroyTheRest(origin);

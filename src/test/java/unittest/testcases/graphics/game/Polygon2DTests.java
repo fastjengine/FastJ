@@ -3,6 +3,7 @@ package unittest.testcases.graphics.game;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
@@ -128,7 +129,7 @@ class Polygon2DTests {
 
     @Test
     void checkModifyPointsOfPolygon2D_withTransformResetting() {
-        Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
+        Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin(), 5f);
         Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 100f);
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
@@ -137,7 +138,7 @@ class Polygon2DTests {
                 .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
                 .build();
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, true, true, true);
 
         assertArrayEquals(newSquarePoints, square.getPoints(), "The expected points should match the square's points -- no transformations have been performed.");
@@ -149,7 +150,7 @@ class Polygon2DTests {
 
     @Test
     void checkModifyPointsOfPolygon2D_withoutTransformResetting() {
-        Pointf[] squarePoints = DrawUtil.createBox(Pointf.Origin, 5f);
+        Pointf[] squarePoints = DrawUtil.createBox(Pointf.origin(), 5f);
         Pointf translationBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
         float rotationBeforeReset = Maths.random(0f, 100f);
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
@@ -158,7 +159,7 @@ class Polygon2DTests {
                 .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
                 .build();
 
-        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.Origin.copy().add(1f), 20f);
+        Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, false, false, false);
 
         assertFalse(Arrays.deepEquals(newSquarePoints, square.getPoints()), "The expected points should not match the square's transformed points -- no transformations have been reset.");
@@ -170,7 +171,7 @@ class Polygon2DTests {
 
     @Test
     void checkPolygon2DTranslation_shouldMatchExpected() {
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, 5f);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), 5f);
         Pointf randomTranslation = new Pointf(
                 Maths.random(0f, 1f),
                 Maths.random(0f, 1f)
@@ -196,7 +197,7 @@ class Polygon2DTests {
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
         float sinOfRotation = (float) Math.sin(randomRotationInRadians);
         float size = 5f;
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] expectedRotatedPoints = {
                 new Pointf(
@@ -218,7 +219,7 @@ class Polygon2DTests {
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
-        polygon2D.rotate(randomRotationInDegrees, Pointf.Origin);
+        polygon2D.rotate(randomRotationInDegrees, Pointf.origin());
         Pointf[] actualRotatedPoints = polygon2D.getPoints();
 
         assertArrayEquals(expectedRotatedPoints, actualRotatedPoints, "The actual Pointf array, which has been rotated about the origin, should match the expected Pointf array.");
@@ -231,7 +232,7 @@ class Polygon2DTests {
         float cosOfRotation = (float) Math.cos(randomRotationInRadians);
         float sinOfRotation = (float) Math.sin(randomRotationInRadians);
         float size = 5f;
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] pointsAtOrigin = {
                 originalPoints[0].copy().subtract(size / 2f),
@@ -274,7 +275,7 @@ class Polygon2DTests {
         float sinOfRotation = (float) Math.sin(randomRotationInRadians);
         float size = 5f;
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] pointsAtOrigin = {
                 originalPoints[0].copy().subtract(randomCenter),
@@ -312,7 +313,7 @@ class Polygon2DTests {
     void checkPolygon2DScaling_aroundOrigin_shouldMatchExpected() {
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] expectedScaledPoints = {
@@ -323,7 +324,7 @@ class Polygon2DTests {
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
-        polygon2D.scale(randomScaling, Pointf.Origin);
+        polygon2D.scale(randomScaling, Pointf.origin());
         Pointf[] actualScaledPoints = polygon2D.getPoints();
         assertArrayEquals(expectedScaledPoints, actualScaledPoints, "The actual Pointf array, which has been scaled, should match the expected Pointf array.");
     }
@@ -332,7 +333,7 @@ class Polygon2DTests {
     void checkPolygon2DScaling_aroundPolygonCenter_shouldMatchExpected() {
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] pointsAtOrigin = {
@@ -359,7 +360,7 @@ class Polygon2DTests {
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
         float size = 5f;
-        Pointf[] originalPoints = DrawUtil.createBox(Pointf.Origin, size);
+        Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] pointsAtOrigin = {

@@ -1,17 +1,18 @@
 package tech.fastj.systems.audio;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 
+import tech.fastj.logging.Log;
+
 import tech.fastj.systems.audio.state.PlaybackState;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class for playing {@link MemoryAudio memory audio}.
@@ -26,7 +27,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (clip.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"" + audio.getAudioPath().toString() + "\", but it was already open (and likely being used elsewhere.)");
+            Log.warn(MemoryAudioPlayer.class, "Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
             return;
         }
 
@@ -44,8 +45,13 @@ public class MemoryAudioPlayer {
             );
 
             playOrLoopAudio(audio);
-        } catch (LineUnavailableException | IOException exception) {
-            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+        } catch (LineUnavailableException exception) {
+            throw new IllegalStateException(
+                    "No audio lines were available to load the file \"" + audio.getAudioPath().toAbsolutePath() + "\" as a MemoryAudio.",
+                    exception
+            );
+        } catch (IOException exception) {
+            throw new IllegalStateException("IO read error while trying to open \"" + audio.getAudioPath().toAbsolutePath() + "\".", exception);
         }
     }
 
@@ -54,7 +60,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to pause audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -78,7 +84,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to resume audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -90,7 +96,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (!clip.isOpen()) {
-            FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -126,7 +132,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (clip.isActive()) {
-            FastJEngine.warning("Tried to change the playback position of audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to change the playback position of audio file \"{}\", but it was still running.", audio.getAudioPath().toString());
             return;
         }
 
@@ -139,7 +145,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (clip.isActive()) {
-            FastJEngine.warning("Tried to set the playback position of audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to set the playback position of audio file \"{}\", but it was still running.", audio.getAudioPath().toString());
             return;
         }
 
@@ -152,7 +158,7 @@ public class MemoryAudioPlayer {
         Clip clip = audio.getAudioSource();
 
         if (clip.isActive()) {
-            FastJEngine.warning("Tried to rewind audio file \"" + audio.getAudioPath().toString() + "\", but it was still running.");
+            Log.warn(MemoryAudioPlayer.class, "Tried to rewind audio file \"{}\", but it was still running.", audio.getAudioPath().toString());
             return;
         }
 

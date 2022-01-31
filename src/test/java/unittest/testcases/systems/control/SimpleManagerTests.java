@@ -8,10 +8,10 @@ import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.SimpleManager;
 import tech.fastj.systems.tags.TagManager;
 
-import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockDrawable;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.control.MockEmptySimpleManager;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

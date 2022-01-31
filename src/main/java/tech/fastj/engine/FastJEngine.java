@@ -1,22 +1,41 @@
 package tech.fastj.engine;
 
+import tech.fastj.engine.config.EngineConfig;
+import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
+
 import tech.fastj.math.Point;
+
 import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.DisplayState;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.graphics.display.SimpleDisplay;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
+import tech.fastj.resources.Resource;
+import tech.fastj.resources.ResourceManager;
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageResourceManager;
+
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
+import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.tags.TagManager;
 
-import java.util.ArrayList;
+import java.awt.Toolkit;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -44,7 +63,11 @@ public class FastJEngine {
     public static final Point DefaultWindowResolution = new Point(1280, 720);
 
     /** Default engine value for the window resolution of the {@link Display} of {@code 1280*720}. */
-    public static final Point DefaultInternalResolution = new Point(1280, 720);
+    public static final Point DefaultCanvasResolution = new Point(1280, 720);
+
+    public static final HWAccel DefaultHardwareAcceleration = HWAccel.Default;
+    public static final ExceptionAction DefaultExceptionAction = ExceptionAction.Throw;
+    public static final LogLevel DefaultLogLevel = LogLevel.Info;
 
     // engine speed variables
     private static int targetFPS;
@@ -62,38 +85,76 @@ public class FastJEngine {
     private static HWAccel hwAccel;
 
     // Display/Logic
+    private static String title;
     private static Display display;
+    private static FastJCanvas canvas;
     private static LogicManager gameManager;
 
     // Check values
     private static boolean isRunning;
-    private static boolean shouldThrowExceptions;
+    private static LogLevel logLevel = DefaultLogLevel;
+    private static ExceptionAction exceptionAction;
 
     // Late-running actions
-    private static final List<Runnable> AfterUpdateList = new ArrayList<>();
-    private static final List<Runnable> AfterRenderList = new ArrayList<>();
+    private static final ManagedList<Runnable> AfterUpdateList = new ManagedList<>();
+    private static final ManagedList<Runnable> AfterRenderList = new ManagedList<>();
+
+    private static Point windowResolution;
+    private static Point canvasResolution;
+
+    // Resources
+    private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
     }
 
+    static {
+        /* I never thought I would find a use for one of these, but I would rather the default resource managers be
+           added as soon as the FastJEngine class is loaded.
+           Rather than assume the engine will be initialized, it makes more sense for it to activate upon
+           initialization. */
+        addDefaultResourceManagers();
+    }
+
     /**
      * Initializes the game engine with the specified title and logic manager.
      * <p>
-     * Other values are set to their respective default values. These are as follows:
-     * <ul>
-     * 		<li>Default target FPS: {@link #DefaultFPS}</li>
-     * 		<li>Default target UPS: {@link #DefaultUPS}</li>
-     * 		<li>Default window resolution: {@link #DefaultWindowResolution}</li>
-     * 		<li>Default internal game resolution: {@link #DefaultInternalResolution}</li>
-     * 		<li>Default hardware acceleration: {@link HWAccel#Default}</li>
-     * </ul>
+     * Other values are set to their respective default values, inside {@link EngineConfig#Default}.
      *
      * @param gameTitle   The title to be used for the {@link Display} window.
      * @param gameManager The {@link LogicManager} instance to be controlled by the engine.
      */
     public static void init(String gameTitle, LogicManager gameManager) {
-        init(gameTitle, gameManager, DefaultFPS, DefaultUPS, DefaultWindowResolution, DefaultInternalResolution, HWAccel.Default);
+        init(gameTitle, gameManager, EngineConfig.Default);
+    }
+
+    /**
+     * Initializes the game engine with the specified title, logic manager, and an engine configuration.
+     *
+     * @param gameTitle    The title to be used for the {@link Display} window.
+     * @param gameManager  The {@link LogicManager} instance to be controlled by the engine.
+     * @param engineConfig A {@link EngineConfig} containing configuration for the target FPS, UPS, window resolution,
+     *                     internal resolution, hardware acceleration, and action upon exceptions.
+     */
+    public static void init(String gameTitle, LogicManager gameManager, EngineConfig engineConfig) {
+        runningCheck();
+
+        FastJEngine.gameManager = gameManager;
+        FastJEngine.title = gameTitle;
+        timer = new Timer();
+
+        fpsLog = new int[100];
+        Arrays.fill(fpsLog, -1);
+        fpsLogger = Executors.newSingleThreadScheduledExecutor();
+
+        setTargetFPS(engineConfig.targetFPS());
+        setTargetUPS(engineConfig.targetUPS());
+        configureWindowResolution(engineConfig.windowResolution());
+        configureCanvasResolution(engineConfig.internalResolution());
+        configureHardwareAcceleration(engineConfig.hardwareAcceleration());
+        configureExceptionAction(engineConfig.exceptionAction());
+        configureLogging(engineConfig.logLevel());
     }
 
     /**
@@ -104,40 +165,47 @@ public class FastJEngine {
      * @param fps                  The FPS (frames per second) target for the engine to reach.
      * @param ups                  The UPS (updates per second) target for the engine to reach.
      * @param windowResolution     The game's window resolution.
-     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     * @param canvasResolution     The game's canvas resolution. (This is the defined size of the game's canvas. As a
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
+     * @param exceptionAction      Defines what the engine should do upon receiving an exception.
+     * @deprecated As of 1.6.0, replaced by {@link #init(String, LogicManager, EngineConfig)} which makes use of {@link
+     * EngineConfig an engine configuration}.
      */
-    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
-        runningCheck();
+    @Deprecated
+    public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction) {
+        EngineConfig engineConfig = EngineConfig.create()
+                .withTargetFPS(fps)
+                .withTargetUPS(ups)
+                .withWindowResolution(windowResolution)
+                .withInternalResolution(canvasResolution)
+                .withHardwareAcceleration(hardwareAcceleration)
+                .withExceptionAction(exceptionAction)
+                .build();
 
-        FastJEngine.gameManager = gameManager;
-        display = new Display(gameTitle, windowResolution, internalResolution);
-        timer = new Timer();
+        init(gameTitle, gameManager, engineConfig);
+    }
 
-        fpsLog = new int[100];
-        Arrays.fill(fpsLog, -1);
-        fpsLogger = Executors.newSingleThreadScheduledExecutor();
-
-        configure(fps, ups, windowResolution, internalResolution, hardwareAcceleration);
+    private static void addDefaultResourceManagers() {
+        addResourceManager(new ImageResourceManager(), ImageResource.class);
     }
 
     /**
-     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), window resolution, internal resolution,
+     * Configures the game's FPS (Frames Per Second), UPS (Updates Per Second), window resolution, canvas resolution,
      * and hardware acceleration.
      *
      * @param fps                  The FPS (frames per second) target for the engine to reach.
      * @param ups                  The UPS (updates per second) target for the engine to reach.
      * @param windowResolution     The game's window resolution.
-     * @param internalResolution   The game's internal resolution. (This is the defined size of the game's canvas. As a
+     * @param canvasResolution     The game's canvas resolution. (This is the defined size of the game's canvas. As a
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      */
-    public static void configure(int fps, int ups, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration) {
+    public static void configure(int fps, int ups, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration) {
         runningCheck();
 
         configureWindowResolution(windowResolution);
-        configureInternalResolution(internalResolution);
+        configureCanvasResolution(canvasResolution);
         configureHardwareAcceleration(hardwareAcceleration);
         setTargetFPS(fps);
         setTargetUPS(ups);
@@ -155,26 +223,40 @@ public class FastJEngine {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
         }
 
-        display.setWindowResolution(windowResolution);
+        FastJEngine.windowResolution = windowResolution;
     }
 
     /**
-     * Configures the game's internal resolution.
+     * Configures the game's canvas resolution.
      * <p>
      * This sets the size of the game's drawing canvas. As a result, the content displayed on the canvas will be scaled
      * to fit the size of the {@code windowResolution}.
      *
-     * @param internalResolution The game's internal resolution. (This is the defined size of the game's canvas. As a
-     *                           result, the content is scaled to fit the size of the {@code windowResolution}).
+     * @param canvasResolution The game's canvas resolution. (This is the defined size of the game's canvas. As a
+     *                         result, the content is scaled to fit the size of the {@code windowResolution}).
      */
-    public static void configureInternalResolution(Point internalResolution) {
+    public static void configureCanvasResolution(Point canvasResolution) {
         runningCheck();
 
-        if ((internalResolution.x | internalResolution.y) < 1) {
-            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("internal resolution values must be at least 1."));
+        if ((canvasResolution.x | canvasResolution.y) < 1) {
+            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("canvas resolution values must be at least 1."));
         }
 
-        display.setInternalResolution(internalResolution);
+        FastJEngine.canvasResolution = canvasResolution;
+    }
+
+    public static void configureLogging(LogLevel logLevel) {
+        runningCheck();
+
+        FastJEngine.logLevel = Objects.requireNonNull(logLevel, "The given log level must not be null.");
+    }
+
+    public static boolean isLogging(LogLevel comparisonLevel) {
+        return logLevel.ordinal() >= comparisonLevel.ordinal();
+    }
+
+    public static LogLevel getLogLevel() {
+        return logLevel;
     }
 
     /**
@@ -195,7 +277,7 @@ public class FastJEngine {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
         } else {
-            warning(String.format("This OS doesn't support %s hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name()));
+            warning("This OS doesn't support {} hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name());
             HWAccel.setHardwareAcceleration(HWAccel.Default);
             hwAccel = HWAccel.Default;
         }
@@ -204,8 +286,7 @@ public class FastJEngine {
     private static boolean isSystemSupportingHA(HWAccel hardwareAcceleration) {
         if (hardwareAcceleration.equals(HWAccel.Direct3D)) {
             return System.getProperty("os.name").startsWith("Win");
-        }
-        else if (hardwareAcceleration.equals(HWAccel.X11)) {
+        } else if (hardwareAcceleration.equals(HWAccel.X11)) {
             return System.getProperty("os.name").startsWith("Linux");
         }
         return true;
@@ -224,12 +305,22 @@ public class FastJEngine {
     }
 
     /**
+     * Gets the {@link FastJCanvas} associated with the game engine.
+     *
+     * @return The game engine's canvas instance.
+     */
+    public static FastJCanvas getCanvas() {
+        return canvas;
+    }
+
+    /**
      * Gets the {@link Display} object associated with the game engine.
      *
      * @return The game engine's display instance.
      */
-    public static Display getDisplay() {
-        return display;
+    @SuppressWarnings("unchecked")
+    public static <T extends Display> T getDisplay() {
+        return (T) display;
     }
 
     /**
@@ -297,21 +388,24 @@ public class FastJEngine {
     }
 
     /**
-     * Sets whether the engine should throw exceptions.
+     * Configures what the engine should do with exceptions, should they occur.
      * <p>
-     * If this is set to {@code true}, then if an exception occurs in {@link FastJEngine#run()}, the exception will be
-     * thrown to the user.
-     * <p>
-     * By contrast, if it is set to {@code false}, the exception's stack trace will be printed.
-     * <p>
-     * In both situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
+     * Note that in all situations, the game engine will be closed via {@link FastJEngine#forceCloseGame()} beforehand.
      *
-     * @param shouldThrowExceptions The {@code boolean} to set whether exceptions should be thrown.
-     *
+     * @param exceptionAction The {@link ExceptionAction} to set how exceptions should be handled.
      * @since 1.5.0
      */
-    public static void setShouldThrowExceptions(boolean shouldThrowExceptions) {
-        FastJEngine.shouldThrowExceptions = shouldThrowExceptions;
+    public static void configureExceptionAction(ExceptionAction exceptionAction) {
+        FastJEngine.exceptionAction = exceptionAction;
+    }
+
+    /**
+     * Gets the engine's currently defined {@link ExceptionAction exception action}.
+     *
+     * @return The exception action instance.
+     */
+    public static ExceptionAction getExceptionAction() {
+        return exceptionAction;
     }
 
     /**
@@ -359,18 +453,41 @@ public class FastJEngine {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> void addResourceManager(T resourceManager, Class<V> resourceClass) {
+        ResourceManagers.put((Class<Resource<?>>) resourceClass, (ResourceManager<Resource<?>, ?>) resourceManager);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <U, V extends Resource<U>, T extends ResourceManager<V, U>> T getResourceManager(Class<V> resourceClass) {
+        return (T) ResourceManagers.computeIfAbsent((Class<Resource<?>>) resourceClass, rClass -> {
+            throw new IllegalStateException("No resource manager was added for the resource type \"" + resourceClass.getTypeName() + "\".");
+        });
+    }
+
+    public static <T extends Display> void setCustomDisplay(T display) {
+        FastJEngine.display = display;
+    }
+
     /** Runs the game. */
     public static void run() {
-        initEngine();
         try {
+            initEngine();
             gameLoop();
         } catch (Exception exception) {
             FastJEngine.forceCloseGame();
 
-            if (shouldThrowExceptions) {
-                throw exception;
-            } else {
-                exception.printStackTrace();
+            switch (exceptionAction) {
+                case Throw: {
+                    throw exception;
+                }
+                case LogError: {
+                    Log.error(exception.getMessage(), exception);
+                    break;
+                }
+                case Nothing: {
+                    break;
+                }
             }
         }
     }
@@ -395,52 +512,79 @@ public class FastJEngine {
      * @since 1.5.0
      */
     public static void forceCloseGame() {
-        if (display != null && display.isReady()) {
+        if (display != null) {
             display.close();
         }
         exit();
     }
 
     /**
-     * Logs the specified message, using {@code System.out.println}.
+     * Logs the specified message at the {@link LogLevel#Trace trace} level.
      *
-     * @param <T>     This allows for any type of message.
-     * @param message The message to log.
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#trace(String, Object...)
      */
-    public static <T> void log(T message) {
-        System.out.println("INFO: " + message);
+    public static void trace(String message, Object... formatting) {
+        Log.trace(FastJEngine.class, message, formatting);
     }
 
     /**
-     * Logs the specified warning message, using {@code System.err.println}.
+     * Logs the specified message at the {@link LogLevel#Debug debug} level.
      *
-     * @param <T>            This allows for any type of warning message.
-     * @param warningMessage The warning to log.
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#debug(String, Object...)
      */
-    public static <T> void warning(T warningMessage) {
-        System.err.println("WARNING: " + warningMessage);
+    public static void debug(String message, Object... formatting) {
+        Log.debug(FastJEngine.class, message, formatting);
+    }
+
+    /**
+     * Logs the specified message at the {@link LogLevel#Info info} level.
+     *
+     * @param message    The formatted message to log.
+     * @param formatting The arguments, if any, of the formatted message.
+     * @see Log#info(String, Object...)
+     */
+    public static void log(String message, Object... formatting) {
+        Log.info(FastJEngine.class, message, formatting);
+    }
+
+    /**
+     * Logs the specified message at the {@link LogLevel#Warn warning} level.
+     *
+     * @param warningMessage The formatted warning to log.
+     * @param formatting     The arguments, if any, of the formatted warning.
+     * @see Log#warn(String, Object...)
+     */
+    public static void warning(String warningMessage, Object... formatting) {
+        Log.warn(FastJEngine.class, warningMessage, formatting);
     }
 
     /**
      * Forcefully closes the game, then throws the error specified with the error message.
+     * <p>
+     * This logs the specified error message at the {@link LogLevel#Error error} level.
      *
-     * @param <T>          This allows for any type of error message.
      * @param errorMessage The error message to log.
      * @param exception    The exception that caused a need for this method call.
+     * @see Log#error(String, Exception)
      */
-    public static <T> void error(T errorMessage, Exception exception) {
+    public static void error(String errorMessage, Exception exception) {
         FastJEngine.forceCloseGame();
+        Log.error(FastJEngine.class, errorMessage, exception);
         throw new IllegalStateException("ERROR: " + errorMessage, exception);
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#update(Display) fixedUpdate} call.
+     * Runs the specified action after the game engine's next {@link LogicManager#update(FastJCanvas) fixedUpdate}
+     * call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#update(Display)} call.
-     *
+     * @param action Disposable action to be run after the next {@link LogicManager#update(FastJCanvas)} call.
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -448,13 +592,12 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#render(Display) render} call.
+     * Runs the specified action after the game engine's next {@link LogicManager#render(FastJCanvas) render} call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(Display)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#render(Display)} call.
-     *
+     * @param action Disposable action to be run after the next {@link LogicManager#render(FastJCanvas)} call.
      * @since 1.5.0
      */
     public static void runAfterRender(Runnable action) {
@@ -463,12 +606,24 @@ public class FastJEngine {
 
     /** Initializes the game engine's components. */
     private static void initEngine() {
+        if (isLogging(LogLevel.Info)) {
+            log("Initializing FastJ...");
+        }
+
         runningCheck();
         isRunning = true;
 
+        System.setProperty("sun.awt.noerasebackground", "true");
+        Toolkit.getDefaultToolkit().setDynamicLayout(false);
         ThreadFixer.start();
-        display.init();
-        gameManager.init(display);
+
+        if (display == null) {
+            display = new SimpleDisplay(title, windowResolution);
+        }
+        canvas = new FastJCanvas(display, canvasResolution);
+        canvas.init();
+
+        gameManager.init(canvas);
         gameManager.initBehaviors();
 
         timer.init();
@@ -479,6 +634,10 @@ public class FastJEngine {
 
         System.gc(); // yes, I really gc before starting.
         display.open();
+
+        if (isLogging(LogLevel.Info)) {
+            log("FastJ initialization complete. Enjoy your stay with FastJ!");
+        }
     }
 
     /** Runs the game loop -- the heart of the engine. */
@@ -487,18 +646,20 @@ public class FastJEngine {
         float accumulator = 0f;
         float updateInterval = 1f / targetUPS;
 
-        while (!display.isClosed()) {
+        while (display.getWindow().isVisible()) {
             elapsedTime = timer.getElapsedTime();
             accumulator += elapsedTime;
 
             while (accumulator >= updateInterval) {
-                gameManager.update(display);
+                gameManager.update(canvas);
                 gameManager.updateBehaviors();
 
                 if (!AfterUpdateList.isEmpty()) {
-                    for (Runnable action : AfterUpdateList) {
-                        action.run();
-                    }
+                    AfterUpdateList.run(list -> {
+                        for (Runnable action : list) {
+                            action.run();
+                        }
+                    });
                     AfterUpdateList.clear();
                 }
 
@@ -507,16 +668,19 @@ public class FastJEngine {
 
             gameManager.processInputEvents();
             gameManager.processKeysDown();
-            gameManager.render(display);
+            gameManager.render(canvas);
+
             if (!AfterRenderList.isEmpty()) {
-                for (Runnable action : AfterRenderList) {
-                    action.run();
-                }
+                AfterRenderList.run(list -> {
+                    for (Runnable action : list) {
+                        action.run();
+                    }
+                });
                 AfterRenderList.clear();
             }
             drawFrames++;
 
-            if (!display.isFullscreen()) {
+            if (display.getDisplayState() != DisplayState.FullScreen) {
                 sync();
             }
         }
@@ -538,7 +702,7 @@ public class FastJEngine {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
             } catch (InterruptedException exception) {
-                FastJEngine.warning("Interrupted while syncing game frame rate: " + exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
+                FastJEngine.warning("Interrupted while syncing game frame rate: {}", exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
                 Thread.currentThread().interrupt();
             }
         }
@@ -547,6 +711,23 @@ public class FastJEngine {
     /** Removes all resources created by the game engine. */
     private static void exit() {
         if (fpsLogger != null) {
+            if (isLogging(LogLevel.Debug)) {
+                FastJEngine.debug(
+                        "{}{}|---- FPS Results ----|{}{}Average FPS: {}{}Highest Frame Count: {}{}Lowest Frame Count: {}{}One Percent Low: {}",
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Average),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Highest),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.Lowest),
+                        System.lineSeparator(),
+                        getFPSData(FPSValue.OnePercentLow)
+                );
+            }
+
             fpsLogger.shutdownNow();
         }
         if (gameManager != null) {
@@ -559,8 +740,15 @@ public class FastJEngine {
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
         TagManager.reset();
+
+        AfterUpdateList.shutdownNow();
         AfterUpdateList.clear();
+        AfterUpdateList.resetManager();
+        AfterRenderList.shutdownNow();
         AfterRenderList.clear();
+        AfterRenderList.resetManager();
+        ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
+        ResourceManagers.clear();
 
         // engine speed variables
         targetFPS = 0;
@@ -589,13 +777,13 @@ public class FastJEngine {
     }
 
     /**
-     * Logs the current frames rendered, displaying it on the {@code Display} if necessary.
+     * Logs the current frames rendered.
      *
      * @param frames The count of frames rendered.
      */
     private static void logFPS(int frames) {
-        if (display.isShowingFPSInTitle()) {
-            display.setDisplayedTitle(String.format("%s | FPS: %d", display.getTitle(), frames));
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug("Frames rendered: {}", frames);
         }
 
         storeFPS(frames);

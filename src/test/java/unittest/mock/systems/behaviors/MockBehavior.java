@@ -1,6 +1,7 @@
 package unittest.mock.systems.behaviors;
 
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.behaviors.Behavior;
@@ -11,7 +12,7 @@ public class MockBehavior implements Behavior {
 
     @Override
     public void init(GameObject gameObject) {
-        pointf = new Pointf();
+        pointf = Pointf.origin();
     }
 
     @Override

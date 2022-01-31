@@ -2,6 +2,7 @@ package tech.fastj.graphics;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.util.DrawUtil;
 
 import tech.fastj.systems.control.Scene;
@@ -37,6 +38,7 @@ public abstract class Drawable extends TaggableEntity {
     private boolean shouldRender;
     protected final Transform2D transform;
     private Pointf initialCenter;
+    private boolean isDestroyed;
 
     /** Constructs a {@code Drawable}, initializing its internal variables. */
     protected Drawable() {
@@ -128,6 +130,28 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
+     * Calculates the width of the {@code Drawable}, based on its boundary positions.
+     *
+     * @return The width of the {@code Drawable}.
+     * @since 1.6.0
+     */
+    public float width() {
+        Pointf[] bounds = getBounds();
+        return Pointf.subtract(bounds[Boundary.TopRight.location], bounds[Boundary.TopLeft.location]).x;
+    }
+
+    /**
+     * Calculates the height of the {@code Drawable}, based on its boundary positions.
+     *
+     * @return The height of the {@code Drawable}.
+     * @since 1.6.0
+     */
+    public float height() {
+        Pointf[] bounds = getBounds();
+        return Pointf.subtract(bounds[Boundary.BottomRight.location], bounds[Boundary.TopRight.location]).y;
+    }
+
+    /**
      * Gets the center point of the {@code Drawable}.
      *
      * @return The center point, as a {@code Pointf}.
@@ -142,7 +166,7 @@ public abstract class Drawable extends TaggableEntity {
      * @return Boolean value that defines whether the {@code Drawable} should be rendered.
      */
     public boolean shouldRender() {
-        return shouldRender;
+        return shouldRender && !isDestroyed;
     }
 
     /**
@@ -154,6 +178,15 @@ public abstract class Drawable extends TaggableEntity {
     public Drawable setShouldRender(boolean shouldBeRendered) {
         shouldRender = shouldBeRendered;
         return this;
+    }
+
+    /**
+     * Gets whether the drawable is destroyed.
+     *
+     * @return Whether the drawable is destroyed.
+     */
+    public boolean isDestroyed() {
+        return isDestroyed;
     }
 
     /**
@@ -352,6 +385,55 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
+     * Rotates the {@code Drawable} so that it is facing towards the given destination {@link Drawable}.
+     *
+     * @param destination The other {@code Drawable} the {@code Drawable} will turn towards and "look" at.
+     */
+    public void lookAt(Drawable destination) {
+        lookAt(destination.getCenter());
+    }
+
+    /**
+     * Rotates the {@code Drawable} so that it is facing towards the given destination {@link Pointf}.
+     *
+     * @param destination The place the {@code Drawable} will turn towards and "look" at.
+     */
+    public void lookAt(Pointf destination) {
+        rotate(findRotationTowards(destination));
+    }
+
+    /**
+     * Calculates the rotation needed for the {@code Drawable} to "face towards" the given destination {@link Pointf}.
+     *
+     * @param destination The place to calculate a rotation towards.
+     * @return The amount of rotation needed to have the {@code Drawable} turn towards the destination.
+     */
+    public float findRotationTowards(Pointf destination) {
+        Pointf center = getCenter();
+        Pointf currentDirection = Pointf.up()
+                .rotate(-getRotationWithin360())
+                .add(center);
+
+        double distanceA = Pointf.distance(currentDirection, destination);
+        double distanceB = Pointf.distance(destination, center);
+        double distanceC = Pointf.distance(center, currentDirection);
+        double distanceASquared = distanceA * distanceA;
+        double distanceBSquared = distanceB * distanceB;
+        double distanceCSquared = distanceC * distanceC;
+        float angle = (float) Math.toDegrees(Math.acos(
+                (distanceBSquared + distanceCSquared - distanceASquared) / (2 * distanceB * distanceC)
+        ));
+
+        if (angle > 180) {
+            angle -= 360;
+        } else if (angle < 180) {
+            angle += 360;
+        }
+
+        return angle;
+    }
+
+    /**
      * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
      * within the {@code Scene} parameter.
      *
@@ -359,9 +441,11 @@ public abstract class Drawable extends TaggableEntity {
      */
     protected void destroyTheRest(Scene origin) {
         origin.removeTaggableEntity(this);
+        transform.reset();
         clearTags();
 
         collisionPath = null;
+        isDestroyed = true;
     }
 
     /**
@@ -372,9 +456,11 @@ public abstract class Drawable extends TaggableEntity {
      */
     protected void destroyTheRest(SimpleManager origin) {
         origin.removeTaggableEntity(this);
+        transform.reset();
         clearTags();
 
         collisionPath = null;
+        isDestroyed = true;
     }
 
     private void updateTransformedCollisionPath() {

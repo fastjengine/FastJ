@@ -20,7 +20,7 @@ class PointfTests {
 
     @Test
     void checkPointfCreation_withNoConstructorParams() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         assertEquals(0f, ptf.x, "The x value of the Pointf should default to 0f.");
         assertEquals(0f, ptf.y, "The y value of the Pointf should default to 0f.");
     }
@@ -58,8 +58,8 @@ class PointfTests {
     }
 
     @Test
-    void checkPointfAddition_withFloatValues() {
-        Pointf ptf = new Pointf();
+    void checkPointfAddition_withFloatValue() {
+        Pointf ptf = Pointf.origin();
         ptf.add(5f);
 
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
@@ -67,8 +67,17 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfAddition_withFloatValues() {
+        Pointf ptf = Pointf.origin();
+        ptf.add(5f, 10f);
+
+        assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(10f, ptf.y, "The y value of the Pointf should equal 10f.");
+    }
+
+    @Test
     void checkPointfAddition_withPointfObjects() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         Pointf ptf2 = new Pointf(5f);
         ptf.add(ptf2);
 
@@ -77,8 +86,8 @@ class PointfTests {
     }
 
     @Test
-    void checkPointfSubtraction_withFloatValues() {
-        Pointf ptf = new Pointf();
+    void checkPointfSubtraction_withFloatValue() {
+        Pointf ptf = Pointf.origin();
         ptf.subtract(5f);
 
         assertEquals(-5f, ptf.x, "The x value of the Pointf should equal -5f.");
@@ -86,8 +95,17 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfSubtraction_withFloatValues() {
+        Pointf ptf = Pointf.origin();
+        ptf.subtract(5f, 10f);
+
+        assertEquals(-5f, ptf.x, "The x value of the Pointf should equal -5f.");
+        assertEquals(-10f, ptf.y, "The y value of the Pointf should equal -10f.");
+    }
+
+    @Test
     void checkPointfSubtraction_withPointfObjects() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         Pointf ptf2 = new Pointf(5f);
         ptf.subtract(ptf2);
 
@@ -96,8 +114,8 @@ class PointfTests {
     }
 
     @Test
-    void checkPointfMultiplication_withFloatValues() {
-        Pointf ptf = new Pointf(1f);
+    void checkPointfMultiplication_withFloatValue() {
+        Pointf ptf = Pointf.unit();
         ptf.multiply(5f);
 
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
@@ -105,8 +123,17 @@ class PointfTests {
     }
 
     @Test
+    void checkPointfMultiplication_withFloatValues() {
+        Pointf ptf = Pointf.unit();
+        ptf.multiply(5f, 10f);
+
+        assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(10f, ptf.y, "The y value of the Pointf should equal 10f.");
+    }
+
+    @Test
     void checkPointfMultiplication_withPointfObjects() {
-        Pointf ptf = new Pointf(1f);
+        Pointf ptf = Pointf.unit();
         Pointf ptf2 = new Pointf(5f);
         ptf.multiply(ptf2);
 
@@ -115,12 +142,21 @@ class PointfTests {
     }
 
     @Test
-    void checkPointfDivision_withFloatValues() {
+    void checkPointfDivision_withFloatValue() {
         Pointf ptf = new Pointf(25f);
         ptf.divide(5f);
 
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f.");
+    }
+
+    @Test
+    void checkPointfDivision_withFloatValues() {
+        Pointf ptf = new Pointf(25f);
+        ptf.divide(5f, 25f);
+
+        assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(1f, ptf.y, "The y value of the Pointf should equal 1f.");
     }
 
     @Test
@@ -135,7 +171,7 @@ class PointfTests {
 
     @Test
     void checkArithmeticChaining_withPointfObjectsAndFloatValues() {
-        Pointf ptf = new Pointf()
+        Pointf ptf = Pointf.origin()
                 .add(2f)                                    // (2f, 2f)
                 .add(new Pointf(3f))                    // (5f, 5f)
                 .multiply(new Pointf(3f, 4f))    // (15f, 20f)
@@ -183,19 +219,19 @@ class PointfTests {
         Pointf ptf = new Pointf(13f, 37f);
         ptf.reset();
 
-        assertEquals(new Pointf(), ptf, "The Pointf's x and y values should have been reset to (0f, 0f).");
+        assertEquals(Pointf.origin(), ptf, "The Pointf's x and y values should have been reset to (0f, 0f).");
     }
 
     @Test
     void checkPointfSetting() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         ptf.set(13f, 37f);
 
         assertEquals(13f, ptf.x, "The x value of the Pointf should equal 13f.");
         assertEquals(37f, ptf.y, "The y value of the Pointf should equal 37f.");
 
         ptf.set(5f);
-        
+
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f");
         assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f");
     }
@@ -234,7 +270,7 @@ class PointfTests {
 
     @Test
     void checkPointNormalization_whenMagnitudeIsZero() {
-        Pointf pt = new Pointf();
+        Pointf pt = Pointf.origin();
         float expectedNormalizedX = 0f;
         float expectedNormalizedY = 0f;
 
@@ -319,8 +355,8 @@ class PointfTests {
 
 
     @Test
-    void static_checkPointfAddition_withFloatValues() {
-        Pointf ptf = new Pointf();
+    void static_checkPointfAddition_withFloatValue() {
+        Pointf ptf = Pointf.origin();
         Pointf added = Pointf.add(ptf, 5f);
 
         assertEquals(5f, added.x, "The x value of the Pointf should equal 5f.");
@@ -328,8 +364,17 @@ class PointfTests {
     }
 
     @Test
+    void static_checkPointfAddition_withFloatValues() {
+        Pointf ptf = Pointf.origin();
+        Pointf added = Pointf.add(ptf, 5f, 10f);
+
+        assertEquals(5f, added.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(10f, added.y, "The y value of the Pointf should equal 10f.");
+    }
+
+    @Test
     void static_checkPointfAddition_withPointfObjects() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         Pointf ptf2 = new Pointf(5f);
         Pointf added = Pointf.add(ptf, ptf2);
 
@@ -338,8 +383,8 @@ class PointfTests {
     }
 
     @Test
-    void static_checkPointfSubtraction_withFloatValues() {
-        Pointf ptf = new Pointf();
+    void static_checkPointfSubtraction_withFloatValue() {
+        Pointf ptf = Pointf.origin();
         Pointf subtracted = Pointf.subtract(ptf, 5f);
 
         assertEquals(-5f, subtracted.x, "The x value of the Pointf should equal -5f.");
@@ -347,8 +392,17 @@ class PointfTests {
     }
 
     @Test
+    void static_checkPointfSubtraction_withFloatValues() {
+        Pointf ptf = Pointf.origin();
+        Pointf subtracted = Pointf.subtract(ptf, 5f, 10f);
+
+        assertEquals(-5f, subtracted.x, "The x value of the Pointf should equal -5f.");
+        assertEquals(-10f, subtracted.y, "The y value of the Pointf should equal -10f.");
+    }
+
+    @Test
     void static_checkPointfSubtraction_withPointfObjects() {
-        Pointf ptf = new Pointf();
+        Pointf ptf = Pointf.origin();
         Pointf ptf2 = new Pointf(5f);
         Pointf subtracted = Pointf.subtract(ptf, ptf2);
 
@@ -357,8 +411,8 @@ class PointfTests {
     }
 
     @Test
-    void static_checkPointfMultiplication_withFloatValues() {
-        Pointf ptf = new Pointf(1f);
+    void static_checkPointfMultiplication_withFloatValue() {
+        Pointf ptf = Pointf.unit();
         Pointf multiplied = Pointf.multiply(ptf, 5f);
 
         assertEquals(5f, multiplied.x, "The x value of the Pointf should equal 5f.");
@@ -366,8 +420,17 @@ class PointfTests {
     }
 
     @Test
+    void static_checkPointfMultiplication_withFloatValues() {
+        Pointf ptf = Pointf.unit();
+        Pointf multiplied = Pointf.multiply(ptf, 5f, 10f);
+
+        assertEquals(5f, multiplied.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(10f, multiplied.y, "The y value of the Pointf should equal 10f.");
+    }
+
+    @Test
     void static_checkPointfMultiplication_withPointfObjects() {
-        Pointf ptf = new Pointf(1f);
+        Pointf ptf = Pointf.unit();
         Pointf ptf2 = new Pointf(5f);
         Pointf multiplied = Pointf.multiply(ptf, ptf2);
 
@@ -376,12 +439,21 @@ class PointfTests {
     }
 
     @Test
-    void static_checkPointfDivision_withFloatValues() {
+    void static_checkPointfDivision_withFloatValue() {
         Pointf ptf = new Pointf(25f);
         Pointf divided = Pointf.divide(ptf, 5f);
 
         assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, divided.y, "The y value of the Pointf should equal 5f.");
+    }
+
+    @Test
+    void static_checkPointfDivision_withFloatValues() {
+        Pointf ptf = new Pointf(25f);
+        Pointf divided = Pointf.divide(ptf, 5f, 25f);
+
+        assertEquals(5f, divided.x, "The x value of the Pointf should equal 5f.");
+        assertEquals(1f, divided.y, "The y value of the Pointf should equal 1f.");
     }
 
     @Test
@@ -466,6 +538,16 @@ class PointfTests {
         float expectedCrossProduct = 876.6225f;
         float actualCrossProduct = Pointf.cross(pt, pt2);
         assertEquals(expectedCrossProduct, actualCrossProduct, "The resulting cross product of the two Pointfs should equal the expected cross product of 876.6225f.");
+    }
+
+    @Test
+    void static_checkDistanceFormula() {
+        Pointf pt = Pointf.unit();
+        Pointf pt2 = Pointf.unit().add(5f, 12f);
+
+        float expectedDistance = 13f;
+        float actualDistance = Pointf.distance(pt, pt2);
+        assertEquals(expectedDistance, actualDistance, "The resulting distance calculation from the two Pointfs should equal the expected distance calculation of 13f.");
     }
 
     @Test

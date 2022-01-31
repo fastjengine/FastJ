@@ -1,6 +1,6 @@
 package unittest.mock.systems.control;
 
-import tech.fastj.graphics.display.Display;
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.systems.control.Scene;
 
@@ -13,15 +13,15 @@ public abstract class MockUpdatableScene extends Scene {
     }
 
     @Override
-    public void load(Display display) {
+    public void load(FastJCanvas canvas) {
 
     }
 
     @Override
-    public void unload(Display display) {
+    public void unload(FastJCanvas canvas) {
 
     }
 
     @Override
-    public abstract void update(Display display);
+    public abstract void update(FastJCanvas canvas);
 }

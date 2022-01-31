@@ -4,9 +4,11 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 
-import java.util.LinkedHashMap;
+import tech.fastj.input.InputActionEvent;
+
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Class to manage {@link Drawable} objects.
@@ -17,12 +19,12 @@ import java.util.Objects;
 public class DrawableManager {
 
     private final Map<String, GameObject> gameObjects;
-    private final Map<String, UIElement> uiElements;
+    private final Map<String, UIElement<? extends InputActionEvent>> uiElements;
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
-        gameObjects = new LinkedHashMap<>();
-        uiElements = new LinkedHashMap<>();
+        gameObjects = new ConcurrentHashMap<>();
+        uiElements = new ConcurrentHashMap<>();
     }
 
     /**
@@ -39,7 +41,7 @@ public class DrawableManager {
      *
      * @return The ui elements of the scene.
      */
-    public Map<String, UIElement> getUIElements() {
+    public Map<String, UIElement<? extends InputActionEvent>> getUIElements() {
         return uiElements;
     }
 
@@ -72,6 +74,18 @@ public class DrawableManager {
         removeGameObject(gameObject.getID());
     }
 
+    public void destroyGameObjects(SimpleManager manager) {
+        for (GameObject gameObject : gameObjects.values()) {
+            gameObject.destroy(manager);
+        }
+    }
+
+    public void destroyGameObjects(Scene scene) {
+        for (GameObject gameObject : gameObjects.values()) {
+            gameObject.destroy(scene);
+        }
+    }
+
     /** Removes any null values from the list of game objects for the manager. */
     public void refreshGameObjectList() {
         gameObjects.entrySet().removeIf(Objects::isNull);
@@ -89,7 +103,7 @@ public class DrawableManager {
      *
      * @param guiObject The ui element to add.
      */
-    public void addUIElement(UIElement guiObject) {
+    public void addUIElement(UIElement<? extends InputActionEvent> guiObject) {
         uiElements.put(guiObject.getID(), guiObject);
     }
 
@@ -107,8 +121,20 @@ public class DrawableManager {
      *
      * @param guiObject The ui element to remove.
      */
-    public void removeUIElement(UIElement guiObject) {
+    public void removeUIElement(UIElement<? extends InputActionEvent> guiObject) {
         removeUIElement(guiObject.getID());
+    }
+
+    public void destroyUIElements(SimpleManager manager) {
+        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
+            uiElement.destroy(manager);
+        }
+    }
+
+    public void destroyUIElements(Scene scene) {
+        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
+            uiElement.destroy(scene);
+        }
     }
 
     /** Removes any null values from the list of ui elements for the manager. */
@@ -122,6 +148,16 @@ public class DrawableManager {
     }
 
     /* reset */
+
+    public void destroyAllLists(Scene scene) {
+        destroyGameObjects(scene);
+        destroyUIElements(scene);
+    }
+
+    public void destroyAllLists(SimpleManager manager) {
+        destroyGameObjects(manager);
+        destroyUIElements(manager);
+    }
 
     /** Removes all game objects and ui elements from the manager. */
     public void clearAllLists() {

@@ -1,18 +1,18 @@
 package tech.fastj.systems.audio;
 
-import tech.fastj.engine.CrashMessages;
-import tech.fastj.engine.FastJEngine;
+import tech.fastj.logging.Log;
 
 import tech.fastj.systems.audio.state.PlaybackState;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Class for playing {@link StreamedAudio streamed audio}.
@@ -47,9 +47,9 @@ public class StreamedAudioPlayer {
                     sourceDataLine.write(soundSamples, 0, sourceLength);
                 }
             } catch (IOException exception) {
-                FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+                throw new IllegalStateException("Input stream read error for audio file \"" + audio.getAudioPath().toAbsolutePath() + "\"", exception);
             } catch (InterruptedException exception) {
-                FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+                Log.warn(StreamedAudioPlayer.class, "Audio file {} was interrupted: {}", audio.getAudioPath().toAbsolutePath(), exception.getMessage());
                 Thread.currentThread().interrupt();
             } finally {
                 sourceDataLine.drain();
@@ -63,7 +63,7 @@ public class StreamedAudioPlayer {
         AudioInputStream audioInputStream = audio.getAudioInputStream();
 
         if (sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to play audio file \"" + audio.getAudioPath().toString() + "\", but it was already open (and likely being used elsewhere.)");
+            Log.warn(StreamedAudioPlayer.class, "Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
             return;
         }
 
@@ -92,7 +92,10 @@ public class StreamedAudioPlayer {
                     )
             );
         } catch (LineUnavailableException exception) {
-            FastJEngine.error(CrashMessages.theGameCrashed("an error while trying to play sound."), exception);
+            throw new IllegalStateException(
+                    "No audio lines were available to load the file \"" + audio.getAudioPath().toAbsolutePath() + "\" as a StreamedAudio.",
+                    exception
+            );
         }
     }
 
@@ -101,7 +104,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to pause audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(StreamedAudioPlayer.class, "Tried to pause audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -125,7 +128,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to resume audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(StreamedAudioPlayer.class, "Tried to resume audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 
@@ -149,7 +152,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            FastJEngine.warning("Tried to stop audio file \"" + audio.getAudioPath().toString() + "\", but it wasn't being played.");
+            Log.warn(StreamedAudioPlayer.class, "Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
             return;
         }
 

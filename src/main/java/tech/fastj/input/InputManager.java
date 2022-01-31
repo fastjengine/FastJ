@@ -1,5 +1,18 @@
 package tech.fastj.input;
 
+import tech.fastj.input.keyboard.Keyboard;
+import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.input.keyboard.events.KeyboardActionEvent;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
+import tech.fastj.input.mouse.Mouse;
+import tech.fastj.input.mouse.MouseActionListener;
+import tech.fastj.input.mouse.events.MouseActionEvent;
+import tech.fastj.input.mouse.events.MouseButtonEvent;
+import tech.fastj.input.mouse.events.MouseMotionEvent;
+import tech.fastj.input.mouse.events.MouseScrollEvent;
+import tech.fastj.input.mouse.events.MouseWindowEvent;
+
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -7,14 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
-
-import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardEvent;
-import tech.fastj.input.keyboard.KeyboardStateEvent;
-import tech.fastj.input.keyboard.KeyboardTypedEvent;
-import tech.fastj.input.mouse.Mouse;
-import tech.fastj.input.mouse.MouseActionListener;
 
 /**
  * Class to manage user input and input event processing.
@@ -27,66 +32,65 @@ public class InputManager {
     private final List<MouseActionListener> mouseActionListeners;
 
     private final List<InputEvent> receivedInputEvents;
-    private final List<InputEvent> eventBacklog;
     private volatile boolean isProcessingEvents;
 
-    private static final Map<Integer, BiConsumer<MouseEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
+    private static final Map<Integer, BiConsumer<MouseActionEvent, List<MouseActionListener>>> MouseActionProcessor = Map.of(
             MouseEvent.MOUSE_PRESSED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMousePressed(mouseEvent);
+                    mouseActionListener.onMousePressed((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_RELEASED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseReleased(mouseEvent);
+                    mouseActionListener.onMouseReleased((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_CLICKED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseClicked(mouseEvent);
+                    mouseActionListener.onMouseClicked((MouseButtonEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_MOVED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseMoved(mouseEvent);
+                    mouseActionListener.onMouseMoved((MouseMotionEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_DRAGGED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseDragged(mouseEvent);
+                    mouseActionListener.onMouseDragged((MouseMotionEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_ENTERED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseEntersScreen(mouseEvent);
+                    mouseActionListener.onMouseEntersScreen((MouseWindowEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_EXITED, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseExitsScreen(mouseEvent);
+                    mouseActionListener.onMouseExitsScreen((MouseWindowEvent) mouseEvent);
                 }
             },
             MouseEvent.MOUSE_WHEEL, (mouseEvent, mouseActionListenerList) -> {
                 for (MouseActionListener mouseActionListener : mouseActionListenerList) {
-                    mouseActionListener.onMouseWheelScrolled(mouseEvent);
+                    mouseActionListener.onMouseWheelScrolled((MouseScrollEvent) mouseEvent);
                 }
             }
     );
 
-    private static final Map<Integer, BiConsumer<KeyboardEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (keyboardEvent, keyActionListenerList) -> {
+    private static final Map<Integer, BiConsumer<KeyboardActionEvent, List<KeyboardActionListener>>> KeyboardActionProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyRecentlyPressed((KeyboardStateEvent) keyboardEvent);
+                    keyboardActionListener.onKeyRecentlyPressed((KeyboardStateEvent) keyboardActionEvent);
                 }
             },
-            KeyEvent.KEY_RELEASED, (keyboardEvent, keyActionListenerList) -> {
+            KeyEvent.KEY_RELEASED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyReleased((KeyboardStateEvent) keyboardEvent);
+                    keyboardActionListener.onKeyReleased((KeyboardStateEvent) keyboardActionEvent);
                 }
             },
-            KeyEvent.KEY_TYPED, (keyboardEvent, keyActionListenerList) -> {
+            KeyEvent.KEY_TYPED, (keyboardActionEvent, keyActionListenerList) -> {
                 for (KeyboardActionListener keyboardActionListener : keyActionListenerList) {
-                    keyboardActionListener.onKeyTyped((KeyboardTypedEvent) keyboardEvent);
+                    keyboardActionListener.onKeyTyped((KeyboardTypedEvent) keyboardActionEvent);
                 }
             }
     );
@@ -95,9 +99,7 @@ public class InputManager {
     public InputManager() {
         keyActionListeners = new ArrayList<>();
         mouseActionListeners = new ArrayList<>();
-
         receivedInputEvents = new ArrayList<>();
-        eventBacklog = new ArrayList<>();
     }
 
     /**
@@ -145,10 +147,10 @@ public class InputManager {
     /**
      * Fires a keyboard event to all listening {@code KeyboardActionListeners}.
      *
-     * @param keyboardEvent The event to be fired to the action listeners.
+     * @param keyboardActionEvent The event to be fired to the action listeners.
      */
-    public void fireKeyEvent(KeyboardEvent keyboardEvent) {
-        KeyboardActionProcessor.get(keyboardEvent.getKeyEvent().getID()).accept(keyboardEvent, keyActionListeners);
+    public void fireKeyEvent(KeyboardActionEvent keyboardActionEvent) {
+        KeyboardActionProcessor.get(keyboardActionEvent.getRawEvent().getID()).accept(keyboardActionEvent, keyActionListeners);
     }
 
     /** Fires a {@code keys down} event to all listening {@code KeyboardActionListeners}. */
@@ -189,8 +191,8 @@ public class InputManager {
      *
      * @param mouseEvent The event to be fired to the action listeners.
      */
-    public void fireMouseEvent(MouseEvent mouseEvent) {
-        MouseActionProcessor.get(mouseEvent.getID()).accept(mouseEvent, mouseActionListeners);
+    public void fireMouseEvent(MouseActionEvent mouseEvent) {
+        MouseActionProcessor.get(mouseEvent.getRawEvent().getID()).accept(mouseEvent, mouseActionListeners);
     }
 
     /* Received input */
@@ -204,12 +206,16 @@ public class InputManager {
      * @param event The event to be stored for processing later.
      * @see #processEvents()
      */
-    public void receivedInputEvent(InputEvent event) {
-        if (isProcessingEvents) {
-            eventBacklog.add(event);
-        } else {
-            receivedInputEvents.add(event);
+    public synchronized void receivedInputEvent(InputEvent event) {
+        while (isProcessingEvents) {
+            try {
+                wait();
+            } catch (InterruptedException exception) {
+                Thread.currentThread().interrupt();
+                throw new IllegalStateException(exception);
+            }
         }
+        receivedInputEvents.add(event);
     }
 
     /**
@@ -218,7 +224,7 @@ public class InputManager {
      * This method also empties the event backlog into the main event set after all the current events have been
      * processed and removed.
      */
-    public void processEvents() {
+    public synchronized void processEvents() {
         isProcessingEvents = true;
 
         for (InputEvent inputEvent : receivedInputEvents) {
@@ -230,11 +236,8 @@ public class InputManager {
         }
         receivedInputEvents.clear();
 
+        notifyAll();
         isProcessingEvents = false;
-
-        // empty event backlog into received input events
-        receivedInputEvents.addAll(eventBacklog);
-        eventBacklog.clear();
     }
 
     /* Reset */

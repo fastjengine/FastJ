@@ -6,6 +6,8 @@ import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.MemoryAudio;
 import tech.fastj.systems.audio.state.PlaybackState;
 
+import unittest.EnvironmentHelper;
+
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +15,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import unittest.EnvironmentHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

@@ -2,11 +2,12 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.DataLine;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.DataLine;
 
 /**
  * The base of sound objects used in FastJ for audio playback.

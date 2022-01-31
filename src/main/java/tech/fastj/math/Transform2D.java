@@ -12,17 +12,17 @@ import java.util.Objects;
 public class Transform2D {
 
     /** {@link Pointf} representing a default translation of {@code (0f, 0f)}. */
-    public static final Pointf DefaultTranslation = Pointf.Origin.copy();
+    public static final Pointf DefaultTranslation = Pointf.origin();
     /** {@link Pointf} representing a default scale of {@code (1f, 1f)}. */
-    public static final Pointf DefaultScale = new Pointf(1f).copy();
+    public static final Pointf DefaultScale = Pointf.unit();
     /** {@code float} representing a default rotation value of {@code 0f}. */
     public static final float DefaultRotation = 0f;
 
     private final AffineTransform translationTransform = new AffineTransform();
     private final AffineTransform rotationTransform = new AffineTransform();
     private final AffineTransform scaleTransform = new AffineTransform();
-    private Pointf lastRotationPoint = Pointf.Origin.copy();
-    private Pointf lastScalePoint = Pointf.Origin.copy();
+    private Pointf lastRotationPoint = Pointf.origin();
+    private Pointf lastScalePoint = Pointf.origin();
     private float rotation = DefaultRotation;
 
     public AffineTransform getAffineTransform() {

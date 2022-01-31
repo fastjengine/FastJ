@@ -2,6 +2,7 @@ package unittest.mock.graphics;
 
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
+
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.control.Scene;

@@ -3,12 +3,14 @@ package tech.fastj.graphics.ui;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 
-import tech.fastj.input.mouse.MouseActionListener;
+import tech.fastj.input.InputActionEvent;
+
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -19,33 +21,29 @@ import java.util.function.Consumer;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public abstract class UIElement extends Drawable implements MouseActionListener {
+public abstract class UIElement<T extends InputActionEvent> extends Drawable {
 
-    private final List<Consumer<MouseEvent>> onActionEvents;
-    private EventCondition onActionCondition;
+    protected final List<Consumer<T>> onActionEvents;
+    protected EventCondition onActionCondition;
 
     /**
-     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
      *
      * @param origin The scene which this UIElement is tied to.
      */
     protected UIElement(Scene origin) {
         onActionEvents = new ArrayList<>();
-
         origin.drawableManager.addUIElement(this);
-        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
-     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element/mouse listener.
+     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
      *
      * @param origin The scene which this UIElement is tied to.
      */
     protected UIElement(SimpleManager origin) {
         onActionEvents = new ArrayList<>();
-
         origin.drawableManager.addUIElement(this);
-        origin.inputManager.addMouseActionListener(this);
     }
 
     /**
@@ -64,7 +62,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to set.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement setOnAction(Consumer<MouseEvent> action) {
+    public UIElement<T> setOnAction(Consumer<T> action) {
         onActionEvents.clear();
         onActionEvents.add(action);
         return this;
@@ -76,7 +74,7 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param action The action to add.
      * @return The {@code UIElement}, for method chaining.
      */
-    public UIElement addOnAction(Consumer<MouseEvent> action) {
+    public UIElement<T> addOnAction(Consumer<T> action) {
         onActionEvents.add(action);
         return this;
     }
@@ -88,44 +86,48 @@ public abstract class UIElement extends Drawable implements MouseActionListener 
      * @param g      {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
      * @param camera {@code Camera} to help render at the correct position on the screen.
      */
-    public abstract void renderAsGUIObject(Graphics2D g, Camera camera);
+    public final void renderAsGUIObject(Graphics2D g, Camera camera) {
+        AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
+        try {
+            g.transform(camera.getTransformation().createInverse());
+        } catch (NoninvertibleTransformException exception) {
+            throw new IllegalStateException(
+                    "Couldn't create an inverse transform of " + camera.getTransformation(),
+                    exception
+            );
+        }
+
+        render(g);
+        g.setTransform(oldTransform);
+    }
 
     /**
-     * Removes the {@code UIElement}'s references in the specified scene as a GUI object and as a mouse listener.
+     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, pre-aligned with the window after
+     * transforming the graphics transform to the current game {@code Camera}.
+     *
+     * @param g {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
+     */
+    public abstract void render(Graphics2D g);
+
+    /**
+     * Removes the {@code UIElement}'s references in the specified scene as a GUI object.
      *
      * @param origin {@code Scene} parameter that will have all references to this {@code UIElement} removed.
      */
     @Override
     protected void destroyTheRest(Scene origin) {
         super.destroyTheRest(origin);
-
         origin.drawableManager.removeUIElement(this);
-        origin.inputManager.removeMouseActionListener(this);
     }
 
     /**
-     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object and as a mouse
-     * listener.
+     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object.
      *
      * @param origin {@code SimpleManager} parameter that will have all references to this {@code UIElement} removed.
      */
     @Override
     protected void destroyTheRest(SimpleManager origin) {
         super.destroyTheRest(origin);
-
         origin.drawableManager.removeUIElement(this);
-        origin.inputManager.removeMouseActionListener(this);
-    }
-
-    /**
-     * Fires the ui element's {@code onAction} event(s), if its condition is met.
-     *
-     * @param mouseEvent The mouse event causing the {@code onAction} event(s) to be fired.
-     */
-    @Override
-    public void onMousePressed(MouseEvent mouseEvent) {
-        if (onActionCondition.condition(mouseEvent)) {
-            onActionEvents.forEach(action -> action.accept(mouseEvent));
-        }
     }
 }

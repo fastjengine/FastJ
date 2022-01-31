@@ -13,7 +13,14 @@ import java.util.Objects;
  */
 public class Point {
 
-    /** {@code Point} representing the origin as an {@code int}: {@code (0, 0)}. */
+    /**
+     * {@code Point} representing the origin as an {@code int}: {@code (0, 0)}.
+     *
+     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not
+     * receive <a href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this
+     * value will be removed very soon. Use {@link Point#origin()} instead.
+     */
+    @Deprecated
     public static final Point Origin = new Point();
 
     /** The x value of the {@link Point}. */
@@ -37,13 +44,35 @@ public class Point {
     }
 
     /**
-     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the parameter {@code
-     * Point}'s values.
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@code Point}'s values.
      *
      * @param p {@code Point} to set the x and y of this {@code Point} to.
      */
     public Point(Point p) {
         this(p.x, p.y);
+    }
+
+    /**
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@link Dimension}'s values.
+     *
+     * @param dimension {@code Dimension} to set the x and y of this {@code Point} to, using its {@code width} and
+     *                  {@code height} values.
+     */
+    public Point(Dimension dimension) {
+        this(dimension.width, dimension.height);
+    }
+
+    /**
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
+     * {@link java.awt.Point}'s values.
+     *
+     * @param awtPoint {@code java.awt.Point} to set the x and y of this {@code Point} to, using its {@code x} and
+     *                 {@code y} values.
+     */
+    public Point(java.awt.Point awtPoint) {
+        this(awtPoint.x, awtPoint.y);
     }
 
     /**
@@ -56,6 +85,67 @@ public class Point {
     public Point(int xVal, int yVal) {
         x = xVal;
         y = yVal;
+    }
+
+    /**
+     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}. Each returned
+     * instance is a newly created object.
+     *
+     * @return An {@code origin} instance.
+     * @since 1.6.0
+     */
+    public static Point origin() {
+        return new Point();
+    }
+
+    /**
+     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}. Each
+     * returned instance is a newly created object.
+     *
+     * @return A {@code unit} vector instance.
+     */
+    public static Point unit() {
+        return new Point(1);
+    }
+
+    /**
+     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}. Each
+     * returned instance is a newly created object.
+     *
+     * @return An {@code up} vector instance.
+     */
+    public static Point up() {
+        return new Point(0, -1);
+    }
+
+    /**
+     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}. Each
+     * returned instance is a newly created object.
+     *
+     * @return A {@code down} vector instance.
+     */
+    public static Point down() {
+        return new Point(0, 1);
+    }
+
+    /**
+     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}. Each
+     * returned instance is a newly created object.
+     *
+     * @return A {@code left} vector instance.
+     */
+    public static Point left() {
+        return new Point(-1, 0);
+    }
+
+    /**
+     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}. Each
+     * returned instance is a newly created object.
+     *
+     * @return A {@code right} vector instance.
+     */
+    public static Point right() {
+        return new Point(1, 0);
     }
 
     /**
@@ -80,6 +170,19 @@ public class Point {
      */
     public static Point add(Point p, int i) {
         return new Point(p.x + i, p.y + i);
+    }
+
+    /**
+     * Static method to add a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for addition.
+     * @param i1 The {@code integer} used for addition on the {@code x} value.
+     * @param i2 The {@code integer} used for addition on the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
+     * integer values.
+     */
+    public static Point add(Point p, int i1, int i2) {
+        return new Point(p.x + i1, p.y + i2);
     }
 
     /**
@@ -109,6 +212,19 @@ public class Point {
     }
 
     /**
+     * Static method to subtract a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
+     * @param i1 Integer value used for subtraction; the second value used in subtraction for the {@code x} value.
+     * @param i2 Integer value used for subtraction; the second value used in subtraction for the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
+     * the integer values.
+     */
+    public static Point subtract(Point p, int i1, int i2) {
+        return new Point(p.x - i1, p.y - i2);
+    }
+
+    /**
      * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new
      * {@code Point}.
      *
@@ -130,6 +246,19 @@ public class Point {
      */
     public static Point multiply(Point p, int i) {
         return new Point(p.x * i, p.y * i);
+    }
+
+    /**
+     * Static method to multiply a {@code Point} object by two integer values, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for multiplication.
+     * @param i1 Integer value used for multiplication on the {@code x} value.
+     * @param i2 Integer value used for multiplication on the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
+     * the integer values.
+     */
+    public static Point multiply(Point p, int i1, int i2) {
+        return new Point(p.x * i1, p.y * i2);
     }
 
     /**
@@ -157,6 +286,19 @@ public class Point {
     }
 
     /**
+     * Static method to divide a {@code Point} object by a integer value, and return a new {@code Point}.
+     *
+     * @param p  The {@code Point} used for division; the {@code Point} acting as the first value in division.
+     * @param i1 Integer value used for division; the second value used in division for the {@code x} value.
+     * @param i2 Integer value used for division; the second value used in division for the {@code y} value.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
+     * integer value.
+     */
+    public static Point divide(Point p, int i1, int i2) {
+        return new Point(p.x / i1, p.y / i2);
+    }
+
+    /**
      * Calculates and returns the dot product of the two specified {@code Point}s.
      *
      * @param p  The first of two {@code Point}s to calculate the dot product with.
@@ -179,6 +321,19 @@ public class Point {
      */
     public static int cross(Point p, Point p1) {
         return (p.x * p1.y) - (p.y * p1.x);
+    }
+
+    /**
+     * Calculates the distance between the two given {@code Point}s, using the distance formula.
+     *
+     * @param p  The first of the two {@code Point}s to calculate the distance between.
+     * @param p1 The second of the two {@code Point}s to calculate the distance between.
+     * @return The calculated distance.
+     */
+    public static float distance(Point p, Point p1) {
+        float differenceX = (float) p1.x - p.x;
+        float differenceY = (float) p1.y - p.y;
+        return (float) Math.sqrt(differenceX * differenceX + differenceY * differenceY);
     }
 
     /**
@@ -324,8 +479,8 @@ public class Point {
 
     /**
      * Sets the x and y position of this {@code Point} object to the value specified.
-     * 
-     * @param xy {@code int} value used to set the new x and y values for this {@code Point} object. 
+     *
+     * @param xy {@code int} value used to set the new x and y values for this {@code Point} object.
      */
     public void set(int xy) {
         x = xy;
@@ -399,6 +554,21 @@ public class Point {
     }
 
     /**
+     * Adds the values of this {@code Point} to the specified integer values, and returns a new {@code Point} with the
+     * modified values.
+     *
+     * @param i1 {@code x} value to add this {@code Point} to.
+     * @param i2 {@code y} value to add this {@code Point} to.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point add(int i1, int i2) {
+        x += i1;
+        y += i2;
+
+        return this;
+    }
+
+    /**
      * Subtracts the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with
      * the modified values.
      *
@@ -422,6 +592,21 @@ public class Point {
     public Point subtract(int f) {
         x -= f;
         y -= f;
+
+        return this;
+    }
+
+    /**
+     * Subtracts the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to subtract this {@code Point} by.
+     * @param i2 {@code y} value to subtract this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point subtract(int i1, int i2) {
+        x -= i1;
+        y -= i2;
 
         return this;
     }
@@ -455,6 +640,21 @@ public class Point {
     }
 
     /**
+     * Multiplies the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to multiply this {@code Point} by.
+     * @param i2 {@code y} value to multiply this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point multiply(int i1, int i2) {
+        x *= i1;
+        y *= i2;
+
+        return this;
+    }
+
+    /**
      * Divides the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the
      * modified values.
      *
@@ -478,6 +678,21 @@ public class Point {
     public Point divide(int f) {
         x /= f;
         y /= f;
+
+        return this;
+    }
+
+    /**
+     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
+     * the modified values.
+     *
+     * @param i1 {@code x} value to divide this {@code Point} by.
+     * @param i2 {@code y} value to divide this {@code Point} by.
+     * @return Returns this {@code Point}, with the modified values.
+     */
+    public Point divide(int i1, int i2) {
+        x /= i1;
+        y /= i2;
 
         return this;
     }
@@ -580,7 +795,7 @@ public class Point {
         int magnitude = (int) Math.sqrt((double) (x * x) + (double) (y * y));
 
         if (magnitude == 0) {
-            return Point.Origin.copy();
+            return Point.origin();
         }
 
         int normalizedX = x / magnitude;
@@ -600,7 +815,7 @@ public class Point {
         float magnitude = (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
 
         if (magnitude == 0f) {
-            return Pointf.Origin.copy();
+            return Pointf.origin();
         }
 
         float normalizedX = x / magnitude;
@@ -627,6 +842,15 @@ public class Point {
     }
 
     /**
+     * Creates a {@link java.awt.Point} version of the {@code Point}.
+     *
+     * @return The {@code java.awt.Point} created.
+     */
+    public java.awt.Point asAWTPoint() {
+        return new java.awt.Point(x, y);
+    }
+
+    /**
      * Compares the {@code Point} with a {@link Pointf}, and returns whether their {@code x} and {@code y} values are
      * equal.
      *
@@ -646,6 +870,17 @@ public class Point {
      */
     public boolean equalsDimension(Dimension other) {
         return x == other.width && y == other.height;
+    }
+
+    /**
+     * Compares the {@code Point} with a {@link java.awt.Point}, and returns whether their {@code x} and {@code y}
+     * values are equal.
+     *
+     * @param other The {@code java.awt.Point} to compare against.
+     * @return Whether the two's {@code x} and {@code y} values are equal.
+     */
+    public boolean equalsAWTPoint(java.awt.Point other) {
+        return x == other.x && y == other.y;
     }
 
     /**

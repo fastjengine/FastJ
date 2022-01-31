@@ -9,6 +9,9 @@ plugins {
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
     id 'signing'
+
+    // To be able to use Spotless in the project, this will be needed.
+    id "com.diffplug.spotless" version "5.16.0"
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -16,9 +19,6 @@ version('1.6.0-SNAPSHOT')
 description('An open source, Java-based 2D game engine.')
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
-
-import java.nio.file.Files
-import java.nio.file.Path
 
 
 /* ********************* *
@@ -49,49 +49,11 @@ wrapper.gradleVersion = '7.1.1'
 wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
-dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.7.2'))
-dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.7.2')
-
-
-/* ********************* *
- *   Example Programs    *
- * ********************* */
-
-
-sourceSets {
-    example {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-        output.setResourcesDir(java.destinationDirectory)
-
-        task example(type: Exec) {
-            doFirst {
-                if (!project.hasProperty('toRun')) {
-                    throw new IllegalArgumentException(
-                            'You need to specify which example using the \"toRun\" property!\nE.G. \"./gradlew example -PtoRun=hellofastj\"'
-                    )
-                }
-
-                if (!Files.exists(Path.of(projectDir.toString(), 'src', 'example', 'java', 'tech', 'fastj', 'example', project.getProperty('toRun') as String))) {
-                    throw new IllegalArgumentException(
-                            "The example ${project.getProperty('toRun')} does not exist."
-                    )
-                }
-            }
-
-            dependsOn(tasks.compileExampleJava)
-            description = 'Runs a FastJ example program.'
-            group = 'Execution'
-
-            commandLine(
-                    'java',
-                    '-classpath', sourceSets.example.runtimeClasspath.getAsPath(),
-                    "tech.fastj.example.${project.hasProperty('toRun') ? project.getProperty('toRun') : ''}.Main"
-            )
-        }
-    }
-}
-
+dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.8.2'))
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+dependencies.testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha5')
+dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha5')
 
 /* ********************* *
  *     Unit Testing      *
@@ -128,6 +90,28 @@ tasks.withType(Test) {
     }
 }
 
+/* ************************* *
+ *   Spotless Integration   *
+ * ************************* */
+
+spotless {
+    java {
+        trimTrailingWhitespace()
+        importOrder(
+                'tech.fastj.engine',
+                'tech.fastj.math',
+                'tech.fastj.graphics',
+                'tech.fastj.input',
+                'tech.fastj.resources',
+                'tech.fastj.systems',
+                'java',
+                'javax',
+                '\\#'
+        )
+        removeUnusedImports()
+    }
+}
+
 
 /* ********************* *
  *     Code Coverage     *
@@ -138,6 +122,7 @@ sonarqube.properties {
     property 'sonar.projectKey', 'fastjengine_FastJ'
     property 'sonar.organization', 'fastjengine'
     property 'sonar.host.url', 'https://sonarcloud.io'
+    property 'sonar.exclusions', ['examples/**']
 }
 
 jacocoTestReport {

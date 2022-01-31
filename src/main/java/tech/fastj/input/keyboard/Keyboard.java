@@ -2,6 +2,13 @@ package tech.fastj.input.keyboard;
 
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.input.InputManager;
+import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -10,8 +17,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
-
-import tech.fastj.input.InputManager;
 
 /**
  * Class that stores key input information from the {@code Display}.
@@ -67,8 +72,16 @@ public class Keyboard implements KeyListener {
 
     /** Initializes the keyboard. */
     public static void init() {
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Keyboard.class, "Initializing {}", Keyboard.class.getName());
+        }
+
         keyChecker = Executors.newSingleThreadScheduledExecutor();
         keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
+
+        if (FastJEngine.isLogging(LogLevel.Debug)) {
+            Log.debug(Keyboard.class, "Keyboard initialization complete.");
+        }
     }
 
     /** Updates each key if it was recently pressed. */
@@ -229,16 +242,28 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Keyboard.class, "Key {} was pressed in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Keyboard.class, "Key {} was released in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
+        if (FastJEngine.isLogging(LogLevel.Trace)) {
+            Log.trace(Keyboard.class, "Key {} was typed in event {}", String.valueOf(e.getKeyChar()), e);
+        }
+
         FastJEngine.getLogicManager().receivedInputEvent(e);
     }
 

@@ -1,7 +1,8 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.graphics.display.Display;
+
+import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
 import tech.fastj.input.keyboard.Keyboard;
@@ -29,15 +30,15 @@ public interface LogicManager {
     /**
      * Initializes the logic manager.
      * <p>
-     * This method is called after the engine has been set up, and the display has been created. As it is only called
+     * This method is called after the engine has been set up, and the canvas has been created. As it is only called
      * once, it is the best place to set some initial settings that apply to the entire game.
      *
-     * @param display The {@code Display} that the game renders to. Useful for applying display-related settings before
-     *                the game starts.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for applying canvas-related settings
+     *               before the game starts.
      */
-    void init(Display display);
+    void init(FastJCanvas canvas);
 
-    /** Initializes the logic manager's behaviors (called after {@link #init(Display)}). */
+    /** Initializes the logic manager's behaviors (called after {@link #init(FastJCanvas)}). */
     void initBehaviors();
 
     /**
@@ -68,12 +69,12 @@ public interface LogicManager {
      * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetUPS} times a second. This
      * value can be changed using {@link FastJEngine#setTargetUPS(int)}.
      *
-     * @param display The {@code Display} that the game renders to. Useful for checking certain attributes of the
-     *                display while updating the game state.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the
+     *               canvas while updating the game state.
      */
-    void update(Display display);
+    void update(FastJCanvas canvas);
 
-    /** Updates the logic manager's behaviors (called after {@link #update(Display)}). */
+    /** Updates the logic manager's behaviors (called after {@link #update(FastJCanvas)}). */
     void updateBehaviors();
 
     /**
@@ -82,9 +83,9 @@ public interface LogicManager {
      * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This
      * value can be changed using {@link FastJEngine#setTargetFPS(int)}.
      *
-     * @param display The {@code Display} that the game renders to.
+     * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    void render(Display display);
+    void render(FastJCanvas canvas);
 
     /**
      * Resets the logic manager entirely.
