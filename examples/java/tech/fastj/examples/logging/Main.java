@@ -2,6 +2,7 @@ package tech.fastj.examples.logging;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.logging.Log;
+import tech.fastj.math.Pointf;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,9 +12,21 @@ public class Main {
          * This allows the user to use a specific logging framework of their choice -- if such a
          * choice isn't needed, FastJ templates will include SimpleLogger as a dependency.
          * Otherwise, you may choose whichever logging framework you like, so long as it supports
-         * SLF4J!
-         *
-         * Now, onto log levels. FastJ, copying SLF4J, uses five levels -- "LogLevel"s -- of
+         * SLF4J! */
+
+
+        /* The first topic to cover is an easy one -- logging formatting.
+         * "{}" in a log message means there is an argument to be put there -- an argument of any
+         * type. */
+        String brackets = "Open and closed brackets";
+        String argument = "an argument for message formatting.";
+        FastJEngine.log("{} next to each other signifies {}.", brackets, argument);
+
+        // Let's demonstrate a bit further, and add a Pointf to the mix.
+        FastJEngine.log("Did you know the origin of the FastJ canvas is {}?", Pointf.origin());
+
+
+        /* Now, onto log levels. FastJ, copying SLF4J, uses five levels -- "LogLevel"s -- of
          * logging, in the following order:
          *
          * Error - The lowest level of logging. Nothing but exceptions and errors will be logged.
@@ -47,14 +60,6 @@ public class Main {
 
         FastJEngine.trace("I wonder if I'll be able to see this trace among all the other logs...");
         Log.trace(Main.class, "Perhaps if you saw the first trace message, maybe you'll see this one too...");
-
-        /* While you're here, you can also format your logs (except for error logging).
-         * "{}" in a log message means there is an argument to be put there -- an argument of any
-         * type. */
-        String brackets = "Open and closed brackets";
-        String argument = "an argument for message formatting.";
-        FastJEngine.log("{} next to each other signifies {}.", brackets, argument);
-
 
         /* Lastly, "FastJEngine#error". This method not only prints force closes the game and prints
          * out the error, but it crashes the engine with an exception as well. The engine's
