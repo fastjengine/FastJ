@@ -17,7 +17,7 @@
 FastJ is an open-source, Java-based 2D game engine and framework. Originally named the FastJ Engine, it aims to provide an easy-to-use, 2D game-making library.
 
 
-## Disclaimer
+### Disclaimer
 **This project is still under heavy development.** There is a very good chance bugs are still prevalent and untracked, as the engine is not fully covered by unit tests. Documentation is readily available, but may change over time. [Feel free to help us out by contributing to the project!](#contributing-to-fastj)
 
 
@@ -54,9 +54,12 @@ There are many different ways to learn FastJ -- check them out!
 
 
 ### Template Projects
-Check out these template projects for FastJ! They're the fastest way to jump right into using FastJ.
+Use a template project! It's the fastest way to jump into using FastJ.
 
+Choose a programming language from the ones below. We suggest Java, as it has the most support:
 - Java: https://github.com/fastjengine/fastj-java-template
+
+However, Kotlin and Groovy are reasonable options as well:
 - Kotlin: https://github.com/fastjengine/fastj-kotlin-template
 - Groovy: https://github.com/fastjengine/fastj-groovy-template
 
@@ -72,9 +75,12 @@ Check out these template projects for FastJ! They're the fastest way to jump rig
 ### API Documentation
 [Check out FastJ's documentation][Javadoc] to get a better understanding of the code FastJ provides to improve your game-making experience.
 
-### I'll add the dependency myself!
-Ok ok, I hear ya. Just follow through with these instructions below.
 
+### I'll add the dependency myself!
+Ok, ok, I hear ya. Just follow through with these instructions below.
+
+
+#### Dependency Management
 This library can be found in the following places:
 - [jitpack.io][Jitpack.IO], as a dependency.
 - [Maven Central][Maven-Central], as a dependency or as a jarfile.
@@ -84,7 +90,7 @@ When adding the dependency, **make sure to replace `[latest version here]` with 
 
 A few common dependencies are provided below:
 
-- **Gradle**
+- **Gradle Build Script**
   - Groovy:
     ```groovy
     repositories.maven {
@@ -101,7 +107,7 @@ A few common dependencies are provided below:
 
     dependencies.implementation("com.github.fastjengine:FastJ:[latest version here]")
     ```
-- **Maven**
+- **Maven POM**
   ```xml
   <repository>
     <id>jitpack.io</id>
@@ -116,6 +122,30 @@ A few common dependencies are provided below:
   ```
 
 You'll also want to make sure you add a dependency for a logging framework from [SLF4J][SLF4J], since FastJ uses it for all its logging purposes. Take your pick!
+
+
+#### Hello World Code (Java)
+
+```java
+import tech.fastj.engine.FastJEngine;
+import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.systems.control.SimpleManager;
+
+public class HelloFastJ extends SimpleManager {
+
+    @Override
+    public void init(FastJCanvas canvas) {}
+
+    @Override
+    public void update(FastJCanvas canvas) {}
+
+    public static void main(String[] args) {
+        // Creates an empty window titled "Hello, FastJ!"
+        FastJEngine.init("Hello, FastJ!", new Main());
+        FastJEngine.run();
+    }
+}
+```
 
 
 ## External Dependencies
