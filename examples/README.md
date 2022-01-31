@@ -12,9 +12,12 @@ Then, run the gradle task `example`. When you do this, you'll need to specify wh
 ```
 _Having trouble using `gradlew`? Read [this][Terminals Are Different]._
 
-_FastJ requires [Java 11][AdoptOpenJDK-Java11-Link] as a minimum_
+_FastJ requires [Java 11][AdoptOpenJDK-Java11-Link] at a minimum._
 
-## Informational Programs
+### I'd like to write my own example
+Absolutely do! [Check out how right here](https://github.com/fastjengine/FastJ/blob/main/.github/contributing/contributing-examples.md).
+
+## Informational Examples
 _These are examples to help you understand how FastJ works._
 
 ### [Hello, FastJ!](http://example.fastj.me/hellofastj/Main.java)
