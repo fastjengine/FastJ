@@ -163,6 +163,29 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
+     * Adds all the specified scenes into the logic manager.
+     * 
+     * @param scenes All the Scene objects to be added.
+     */
+    public void addScenes(Scene... scenes) {
+        for (Scene scene : scenes) {
+            addScene(scene);
+        }
+    }
+
+    /**
+     * Adds all the specified scenes into the logic manager.
+     * 
+     * @param scenes The list of Scene objects to be added.
+     */
+    public void addScenes(List<Scene> scenes) {
+        for (Scene scene : scenes) {
+            addScene(scene);
+        }
+    }
+
+
+    /**
      * Removes the specified scene from the logic manager.
      *
      * @param scene The Scene object to be removed.
