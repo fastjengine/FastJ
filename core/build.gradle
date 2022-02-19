@@ -1,0 +1,84 @@
+plugins {
+    // it's a java library. What did you expect?
+    id 'java-library'
+}
+
+group('io.github.lucasstarsz.fastj')
+version('1.7.0-SNAPSHOT')
+description('An open source, Java-based 2D game engine.')
+
+
+/* ********************* *
+ * General Configuration *
+ * ********************* */
+
+
+sourceSets {
+    main.java.srcDirs = ['main/java']
+    main.resources.srcDirs = ['main/resources']
+    test.java.srcDirs = ['test/java']
+    test.resources.srcDirs = ['test/resources']
+}
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+java.withSourcesJar()
+java.withJavadocJar()
+
+javadoc.source(sourceSets.main.allJava)
+javadoc.failOnError(false)
+javadoc.options.links = ['https://docs.oracle.com/en/java/javase/17/docs/api/', 'https://www.slf4j.org/apidocs/']
+
+sourcesJar.from(sourceSets.main.allSource)
+javadocJar.from(javadoc.destinationDir)
+artifacts.archives(sourcesJar)
+artifacts.archives(javadocJar)
+
+// Java modules need this in order for the module path to be inferred based on module-info.java files.
+plugins.withType(JavaPlugin).configureEach {
+    java.modularity.inferModulePath = true
+}
+
+repositories.mavenCentral()
+dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.8.2'))
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+dependencies.testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+dependencies.api('org.slf4j:slf4j-api:2.0.0-alpha6')
+dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha6')
+
+
+/* ********************* *
+ *     Unit Testing      *
+ * ********************* */
+
+
+import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    testLogging {
+
+        def totalTestTime = 0
+
+        afterTest { desc, DefaultTestResult result ->
+            totalTestTime += result.endTime - result.startTime
+        }
+
+        afterSuite { desc, DefaultTestResult result ->
+            if (!desc.parent) { // will match the outermost suite
+                def passFailSkip = "$result.successfulTestCount passed, $result.failedTestCount failed, $result.skippedTestCount skipped"
+                def results = "Test Suite Results: $result.resultType ($result.testCount tests, $passFailSkip) in $totalTestTime ms."
+
+                def startPipe = '|  '
+                def endPipe = '  |'
+                def repeatLength = startPipe.length() + results.length() + endPipe.length()
+                def dashes = '-' * repeatLength
+
+                logger.info(String.format('%n%n%s%n%s%s%s%n%s%n%n', dashes, startPipe, results, endPipe, dashes))
+
+                if (result.resultType != TestResult.ResultType.SUCCESS) {
+                    System.exit(0)
+                }
+            }
+        }
+    }
+}

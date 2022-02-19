@@ -4,6 +4,6 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/" # Dependencies managed in repository root build.gradle
+    directory: "/core/" # Dependencies managed in repository root build.gradle
     schedule:
       interval: "daily"
