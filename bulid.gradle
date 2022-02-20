@@ -1,6 +1,9 @@
 plugins {
     // it's a java library. What did you expect?
     id 'java-library'
+
+    // To be able to use Spotless in the project, this will be needed.
+    id 'com.diffplug.spotless' version '6.3.0'
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -18,4 +21,23 @@ java.withJavadocJar()
 // Java modules need this in order for the module path to be inferred based on module-info.java files.
 plugins.withType(JavaPlugin).configureEach {
     java.modularity.inferModulePath = true
+}
+
+
+/* ************************* *
+ *   Spotless Integration   *
+ * ************************* */
+
+
+spotless {
+    java {
+        trimTrailingWhitespace()
+        importOrder(
+                'tech.fastj',
+                'tech.fastj.feature',
+                'java',
+                '\\#'
+        )
+        removeUnusedImports()
+    }
 }
