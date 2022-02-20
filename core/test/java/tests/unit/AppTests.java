@@ -1,7 +1,7 @@
 package tests.unit;
 
-import org.junit.jupiter.api.Test;
 import tech.fastj.App;
+
 import tests.mock.constructorargs.MultiConstructorApp;
 import tests.mock.constructorargs.SingleConstructorApp;
 import tests.mock.simpleapp.SimpleApp;
@@ -10,6 +10,8 @@ import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
 
 import java.util.UUID;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

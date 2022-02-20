@@ -1,6 +1,7 @@
 package tests.mock.simpleapp;
 
 import tech.fastj.App;
+
 import tech.fastj.feature.StartupFeature;
 
 public class SimpleStartupFeature implements StartupFeature {
