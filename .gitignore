@@ -15,7 +15,8 @@ sandbox/
 .idea/
 
 # Ignore important information
-gradle.properties
+# ...except for https://github.com/diffplug/spotless/issues/834
+# gradle.properties
 
 # The next part was created by: https://www.toptal.com/developers/gitignore/api/java
 
