@@ -1,21 +1,22 @@
 package tests.unit;
 
+import org.junit.jupiter.api.Test;
 import tech.fastj.App;
-
 import tests.mock.constructorargs.MultiConstructorApp;
 import tests.mock.constructorargs.SingleConstructorApp;
 import tests.mock.simpleapp.SimpleApp;
 import tests.mock.simpleapp.SimpleCleanupFeature;
+import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
 
+import java.util.Set;
 import java.util.UUID;
-
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AppTests {
 
@@ -37,6 +38,23 @@ class AppTests {
         assertNotNull(app.getFeature(SimpleFeature.class), "The feature should have been added.");
         assertNotNull(app.getStartupFeature(SimpleStartupFeature.class), "The startup feature should have been added.");
         assertNotNull(app.getCleanupFeature(SimpleCleanupFeature.class), "The cleanup feature should have been added.");
+    }
+
+    @Test
+    void tryAddAppFeature_butIsMissingDependency() {
+        Throwable error = assertThrows(
+                IllegalArgumentException.class, () -> App.create(SimpleApp.class)
+                        .withFeature(SimpleDependentFeature.class)
+                        .build()
+        );
+
+        String expectedMissingDependencyErrorMessage = "Cannot add feature " + SimpleDependentFeature.class.getName()
+                + ", because it is missing the following dependencies: " + Set.of(SimpleFeature.class);
+        assertEquals(
+                error.getMessage(),
+                expectedMissingDependencyErrorMessage,
+                "The error message for a missing dependency should match."
+        );
     }
 
     @Test
