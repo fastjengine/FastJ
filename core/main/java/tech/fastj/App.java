@@ -93,8 +93,7 @@ public abstract class App implements Runnable {
 
         // startup
         for (StartupFeature startupFeature : startupFeatures.values()) {
-            startupFeature.load(this);
-            startupFeature.unload(this);
+            startupFeature.cleanup(this);
         }
         for (Feature feature : features.values()) {
             feature.load(this);
@@ -107,8 +106,7 @@ public abstract class App implements Runnable {
 
         // cleanup
         for (CleanupFeature cleanupFeature : cleanupFeatures.values()) {
-            cleanupFeature.load(this);
-            cleanupFeature.unload(this);
+            cleanupFeature.cleanup(this);
         }
         for (Feature feature : features.values()) {
             feature.unload(this);
