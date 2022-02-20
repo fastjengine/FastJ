@@ -1,0 +1,17 @@
+plugins {
+    id 'java-library'
+}
+
+group('io.github.lucasstarsz.fastj')
+version('1.7.0-SNAPSHOT')
+
+
+wrapper.gradleVersion = '7.4'
+wrapper.distributionType = Wrapper.DistributionType.ALL
+
+java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+
+// Java modules need this in order for the module path to be inferred based on module-info.java files.
+plugins.withType(JavaPlugin).configureEach {
+    java.modularity.inferModulePath = true
+}

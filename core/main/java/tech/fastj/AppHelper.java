@@ -5,7 +5,8 @@ import tech.fastj.feature.Feature;
 import tech.fastj.feature.StartupFeature;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * TODO: Documentation
@@ -63,6 +64,7 @@ public class AppHelper<T extends App> {
 
     private static <T extends App> T instantiateApp(Class<T> appClass, Object... args) {
         try {
+            // TODO: add primitive support
             Class<?>[] argsClasses = new Class<?>[args.length];
             for (int i = 0; i < args.length; i++) {
                 argsClasses[i] = args[i].getClass();

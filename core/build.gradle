@@ -9,6 +9,9 @@ plugins {
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
     id 'signing'
+
+    // To be able to use Spotless in the project, this will be needed.
+    id 'com.diffplug.spotless' version '6.3.0'
 }
 
 group('io.github.lucasstarsz.fastj')
@@ -158,4 +161,23 @@ publishing.repositories.maven {
     url = version.toString().endsWith('-SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots/' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
     credentials.username = System.getenv('ossrhUsername')
     credentials.password = System.getenv('ossrhPassword')
+}
+
+
+/* ************************* *
+ *   Spotless Integration   *
+ * ************************* */
+
+
+spotless {
+    java {
+        trimTrailingWhitespace()
+        importOrder(
+                'tech.fastj',
+                'tech.fastj.feature',
+                'java',
+                '\\#'
+        )
+        removeUnusedImports()
+    }
 }

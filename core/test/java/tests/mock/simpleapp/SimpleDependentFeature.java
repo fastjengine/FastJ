@@ -1,4 +1,4 @@
-package tests.integration.mock.simpleapp;
+package tests.mock.simpleapp;
 
 import tech.fastj.App;
 import tech.fastj.feature.AppFeature;
