@@ -199,6 +199,13 @@ public abstract class App implements Runnable {
         return false;
     }
 
+    /**
+     * Create an {@link AppHelper} to assist in creating an {@link App}.
+     * @param appClass The class of the app to create. Bound by generic type {@code T}.
+     * @param args The arguments for constructing the app. <b>Does not yet support primitives.</b>
+     * @param <T> The type of the {@link App} to create. {@code T} must extend {@link App}.
+     * @return The app builder.
+     */
     public static <T extends App> AppHelper<T> create(Class<T> appClass, Object... args) {
         return new AppHelper<>(appClass, args);
     }
