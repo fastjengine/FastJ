@@ -1,7 +1,7 @@
 name: Source Code
 description: "Something wrong with the source code, or just have a question? Let us know!"
 title: "[Source Code]: "
-labels: [source code]
+labels: [ source code ]
 body:
   - type: markdown
     attributes:

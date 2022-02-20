@@ -1,7 +1,7 @@
 name: Documentation Fix
 description: "Something wrong in FastJ's documentation (examples, tutorials, website, etc)? Let us know!"
 title: "[Documentation]: "
-labels: [documentation]
+labels: [ documentation ]
 assignees:
   lucasstarsz
 body:
