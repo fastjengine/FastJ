@@ -1,6 +1,7 @@
 package tests.mock.simpleapp;
 
 import tech.fastj.App;
+
 import tech.fastj.feature.CleanupFeature;
 
 public class SimpleCleanupFeature implements CleanupFeature {
