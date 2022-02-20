@@ -1,7 +1,7 @@
 name: Bug Report
 description: "Something not working? Let us know!"
 title: "[Bug]: "
-labels: [bug]
+labels: [ bug ]
 body:
   - type: markdown
     attributes:
@@ -35,8 +35,9 @@ body:
       description: What version(s) of FastJ are you having issues with?
       multiple: true
       options:
-        - 1.5.1 (Latest Version)
-        - 1.5.0 (Latest General Version)
+        - 1.6.0 (Latest Version)
+        - 1.5.1
+        - 1.5.0
         - 1.4.0
         - snapshot (please specify below)
         - other (please specify below)
@@ -58,6 +59,7 @@ body:
         - Java 11
         - Java 12-15
         - Java 16
+        - Java 17
   - type: textarea
     id: exceptions-and-logs
     attributes:
