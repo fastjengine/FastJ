@@ -43,7 +43,6 @@ public class ManagedThread extends Thread {
     @Override
     public void run() {
         setUncaughtExceptionHandler(managedThreadExceptionHandler);
-        System.out.println("start");
         super.run();
     }
 
