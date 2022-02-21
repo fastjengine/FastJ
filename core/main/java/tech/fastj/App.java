@@ -3,6 +3,7 @@ package tech.fastj;
 import tech.fastj.feature.AppFeature;
 import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
+import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,39 +20,27 @@ import java.util.stream.Collectors;
 public abstract class App implements Runnable {
 
     private final Map<Class<? extends Feature>, Feature> features;
+    private final Map<Class<? extends GameLoopFeature>, GameLoopFeature> gameLoopFeatures;
     private final Map<Class<? extends StartupFeature>, StartupFeature> startupFeatures;
     private final Map<Class<? extends CleanupFeature>, CleanupFeature> cleanupFeatures;
 
     private volatile boolean isRunning;
-    private volatile boolean shouldRun;
 
     protected App() {
         features = new LinkedHashMap<>(16, 0.75f, true);
+        gameLoopFeatures = new LinkedHashMap<>(16, 0.75f, true);
         startupFeatures = new LinkedHashMap<>(16, 0.75f, true);
         cleanupFeatures = new LinkedHashMap<>(16, 0.75f, true);
         isRunning = false;
-        shouldRun = false;
-    }
-
-    /**
-     * Sets whether the app should run.
-     * <p>
-     * If this is set to {@code false}, the app will attempt to stop running gracefully -- any remaining update/render calls will be
-     * concluded before the app's game loop exits. <b>This does not cause the JVM to exit.</b>
-     *
-     * @param shouldRun Sets whether the app should run.
-     */
-    public void setShouldRun(boolean shouldRun) {
-        this.shouldRun = shouldRun;
     }
 
     /**
      * Whether the app is currently running.
      * <p>
-     * This may be true regardless of whether the app {@link #shouldRun() should} be running.
+     * This may be true regardless of whether the app should be running (i.e. the engine is still considered running
+     * while in the process of closing.)
      * <p>
-     * When the app is told to stop running through {@link #setShouldRun(boolean) boolean setting} or from a game crash, it may take
-     * a while before it is able to completely stop running.
+     * It may take a while before it is able to completely stop running.
      *
      * @return Whether the app is running.
      */
@@ -60,14 +49,13 @@ public abstract class App implements Runnable {
     }
 
     /**
-     * Whether the app should be running.
-     * <p>
-     * You can tell the app to stop running with {@link #setShouldRun(boolean)}.
+     * Gracefully stops the app's execution.
      *
-     * @return Whether the app should be running.
+     * @param shouldCleanup        Determines whether {@link CleanupFeature}s should be activated.
+     * @param shouldUnloadFeatures Determines whether {@link Feature#unload(App) standard features should be unloaded}.
      */
-    public boolean shouldRun() {
-        return shouldRun;
+    public void stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
+        // TODO: stop run threads
     }
 
     @SuppressWarnings("unchecked")
@@ -85,6 +73,11 @@ public abstract class App implements Runnable {
         return (T) cleanupFeatures.get(cleanupFeatureClass);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T extends GameLoopFeature> T getGameLoopFeature(Class<T> gameLoopFeatureClass) {
+        return (T) gameLoopFeatures.get(gameLoopFeatureClass);
+    }
+
     @Override
     public synchronized void run() {
         isRunning = true;
@@ -100,8 +93,9 @@ public abstract class App implements Runnable {
         }
 
         // game runtime
-        while (shouldRun) {
-            // TODO: implement game loop
+        for (GameLoopFeature gameLoopFeature : gameLoopFeatures.values()) {
+            // TODO: add run threads
+            // TODO: run game loop features
         }
 
         // cleanup
@@ -154,6 +148,7 @@ public abstract class App implements Runnable {
     <T extends Feature> void addFeature(Class<T> featureClass) {
         if (features.get(featureClass) != null) {
             // TODO: warn of feature already added
+            // Since game loop features are a subset of features, this protects for both cases.
             return;
         }
 
@@ -166,6 +161,11 @@ public abstract class App implements Runnable {
         }
 
         features.put(featureClass, feature);
+
+        if (feature instanceof GameLoopFeature gameLoopFeature) {
+            // TODO: debug log of game loop feature detected
+            gameLoopFeatures.put(gameLoopFeature.getClass(), gameLoopFeature);
+        }
     }
 
     private static <T extends AppFeature> T instantiateFeature(Class<T> featureClass) {
@@ -199,9 +199,10 @@ public abstract class App implements Runnable {
 
     /**
      * Create an {@link AppHelper} to assist in creating an {@link App}.
+     *
      * @param appClass The class of the app to create. Bound by generic type {@code T}.
-     * @param args The arguments for constructing the app. <b>Does not yet support primitives.</b>
-     * @param <T> The type of the {@link App} to create. {@code T} must extend {@link App}.
+     * @param args     The arguments for constructing the app. <b>Does not yet support primitives.</b>
+     * @param <T>      The type of the {@link App} to create. {@code T} must extend {@link App}.
      * @return The app builder.
      */
     public static <T extends App> AppHelper<T> create(Class<T> appClass, Object... args) {
