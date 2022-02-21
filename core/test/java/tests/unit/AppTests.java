@@ -8,6 +8,7 @@ import tests.mock.simpleapp.SimpleApp;
 import tests.mock.simpleapp.SimpleCleanupFeature;
 import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
+import tests.mock.simpleapp.SimpleGameLoopFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
 
 import java.util.Set;
@@ -26,18 +27,19 @@ class AppTests {
     void checkAppStartsNotRunning() {
         SimpleApp app = App.create(SimpleApp.class).build();
         assertFalse(app.isRunning(), "App should not be running.");
-        assertFalse(app.shouldRun(), "App should not need to run yet -- it has not been told to run.");
     }
 
     @Test
     void checkAppBuilderAddsFeatures() {
         SimpleApp app = App.create(SimpleApp.class)
                 .withFeature(SimpleFeature.class)
+                .withFeature(SimpleGameLoopFeature.class)
                 .withStartupFeature(SimpleStartupFeature.class)
                 .withCleanupFeature(SimpleCleanupFeature.class)
                 .build();
 
         assertNotNull(app.getFeature(SimpleFeature.class), "The feature should have been added.");
+        assertNotNull(app.getGameLoopFeature(SimpleGameLoopFeature.class), "The game loop feature should have been added.");
         assertNotNull(app.getStartupFeature(SimpleStartupFeature.class), "The startup feature should have been added.");
         assertNotNull(app.getCleanupFeature(SimpleCleanupFeature.class), "The cleanup feature should have been added.");
     }
