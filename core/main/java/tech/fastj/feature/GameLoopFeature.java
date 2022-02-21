@@ -9,8 +9,7 @@ import tech.fastj.App;
  * First and foremost, the game loop feature should provide a looping mechanism to allow for event polling or other
  * related things -- {@link #gameLoop(App)}. This will be run on a separate thread.
  * <p>
- * As the app can have multiple loops running at once, the game loop feature must provide a way to tell if the loop has
- * finished executing - {@link #isFinished()}.
+ * The {@link App} will consider a loop to have "finished" when the {@link #gameLoop(App)} method returns.
  */
 public interface GameLoopFeature extends Feature {
 
