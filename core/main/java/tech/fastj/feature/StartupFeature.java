@@ -8,5 +8,5 @@ import tech.fastj.App;
  * @author Andrew Dey
  */
 public interface StartupFeature extends AppFeature {
-    void cleanup(App app);
+    void startup(App app);
 }
