@@ -167,7 +167,7 @@ FastJ's community of developers is growing day by day!
 This repository is licensed under the [MIT License][MIT-License].
 
 
-[FastJ-Logo]: https://raw.githubusercontent.com/fastjengine/FastJ/main/media/branding/fastj_logo.png "FastJ Logo"
+[FastJ-Logo]: https://raw.githubusercontent.com/fastjengine/FastJ/main/logos/fastj_logo.png "FastJ Logo"
 
 [SonarCloud-CodeCoverage-SVG]: https://img.shields.io/sonar/coverage/fastjengine_FastJ?labelColor=363e45&logo=sonarcloud&logoColor=f3702a&server=https%3A%2F%2Fsonarcloud.io&style=for-the-badge
 [SonarCloud-CodeCoverage-Report]: https://sonarcloud.io/dashboard?id=fastjengine_FastJ "SonarCloud Code Coverage"
