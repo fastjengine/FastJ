@@ -7,8 +7,6 @@ public class ManagedThread extends Thread {
 
     public static final String DefaultThreadPrefix = "FastJ-Thread-";
 
-    private final ThreadManager manager;
-
     /**
      * For naming anonymous threads.
      * <p>
@@ -16,33 +14,37 @@ public class ManagedThread extends Thread {
      */
     private static int threadInitNumber;
 
-    public ManagedThread(ThreadManager manager) {
-        super();
-        this.manager = manager;
+    private final ManagedThreadExceptionHandler managedThreadExceptionHandler;
+
+    public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler) {
+        super(DefaultThreadPrefix + nextThreadNum());
+        this.managedThreadExceptionHandler = managedThreadExceptionHandler;
+        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
-    public ManagedThread(ThreadManager manager, Runnable target) {
-        super(null, target, DefaultThreadPrefix + nextThreadNum(), 0);
-        this.manager = manager;
+    public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, Runnable target) {
+        super(target, DefaultThreadPrefix + nextThreadNum());
+        this.managedThreadExceptionHandler = managedThreadExceptionHandler;
+        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
-    public ManagedThread(ThreadManager manager, String name) {
-        super(null, null, name, 0);
-        this.manager = manager;
+    public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, String name) {
+        super(name);
+        this.managedThreadExceptionHandler = managedThreadExceptionHandler;
+        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
-    public ManagedThread(ThreadManager manager, Runnable target, String name) {
-        super(null, target, name, 0);
-        this.manager = manager;
+    public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, Runnable target, String name) {
+        super(target, name);
+        this.managedThreadExceptionHandler = managedThreadExceptionHandler;
+        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
     @Override
-    public synchronized void start() {
-        try {
-            super.start();
-        } catch (Exception exception) {
-            manager.receivedException(exception);
-        }
+    public void run() {
+        setUncaughtExceptionHandler(managedThreadExceptionHandler);
+        System.out.println("start");
+        super.run();
     }
 
     /**
