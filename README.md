@@ -200,7 +200,7 @@ This repository is licensed under the [MIT License][MIT-License].
 [MIT-License]: https://github.com/fastjengine/FastJ/tree/main/LICENSE.txt "MIT Licensing"
 
 [FastJ-Tutorials]: https://fastj.tech/wiki/fastj-basics/fastj-quick-start "FastJ Tutorials"
-[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/main/src/example "FastJ Examples"
+[FastJ-Examples]: https://github.com/fastjengine/FastJ/tree/1.6.0/src/example "FastJ Examples"
 
 [Contributing-Guidelines]: https://github.com/fastjengine/FastJ/tree/main/.github/CONTRIBUTING.md "Contributing to FastJ"
 
