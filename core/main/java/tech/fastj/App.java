@@ -5,11 +5,17 @@ import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
 import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
+import tech.fastj.thread.ManagedThreadFactory;
+import tech.fastj.thread.ThreadManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -17,21 +23,30 @@ import java.util.stream.Collectors;
  *
  * @author Andrew Dey
  */
-public abstract class App implements Runnable {
+public abstract class App implements Runnable, ThreadManager {
 
     private final Map<Class<? extends Feature>, Feature> features;
     private final Map<Class<? extends GameLoopFeature>, GameLoopFeature> gameLoopFeatures;
     private final Map<Class<? extends StartupFeature>, StartupFeature> startupFeatures;
     private final Map<Class<? extends CleanupFeature>, CleanupFeature> cleanupFeatures;
 
+    private ExecutorService gameLoopFeatureExecutor;
+    private final ManagedThreadFactory gameLoopThreadFactory;
+
     private volatile boolean isRunning;
+    private volatile boolean shouldCleanup;
+    private volatile boolean shouldUnloadFeatures;
 
     protected App() {
+        // use LinkedHashMap default initialCapacity and loadFactor to configure accessOrder
         features = new LinkedHashMap<>(16, 0.75f, true);
         gameLoopFeatures = new LinkedHashMap<>(16, 0.75f, true);
         startupFeatures = new LinkedHashMap<>(16, 0.75f, true);
         cleanupFeatures = new LinkedHashMap<>(16, 0.75f, true);
+        gameLoopThreadFactory = new ManagedThreadFactory(this);
         isRunning = false;
+        shouldCleanup = true;
+        shouldUnloadFeatures = true;
     }
 
     /**
@@ -54,8 +69,10 @@ public abstract class App implements Runnable {
      * @param shouldCleanup        Determines whether {@link CleanupFeature}s should be activated.
      * @param shouldUnloadFeatures Determines whether {@link Feature#unload(App) standard features should be unloaded}.
      */
-    public void stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
-        // TODO: stop run threads
+    public List<Runnable> stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
+        this.shouldCleanup = shouldCleanup;
+        this.shouldUnloadFeatures = shouldUnloadFeatures;
+        return gameLoopFeatureExecutor.shutdownNow();
     }
 
     @SuppressWarnings("unchecked")
@@ -83,6 +100,8 @@ public abstract class App implements Runnable {
         isRunning = true;
 
         // TODO: display app start
+        // executor should always be null here
+        gameLoopFeatureExecutor = Executors.newCachedThreadPool(gameLoopThreadFactory);
 
         // startup
         for (StartupFeature startupFeature : startupFeatures.values()) {
@@ -94,21 +113,33 @@ public abstract class App implements Runnable {
 
         // game runtime
         for (GameLoopFeature gameLoopFeature : gameLoopFeatures.values()) {
-            // TODO: add run threads
-            // TODO: run game loop features
+            gameLoopFeatureExecutor.execute(() -> gameLoopFeature.gameLoop(this));
         }
 
-        // cleanup
-        for (CleanupFeature cleanupFeature : cleanupFeatures.values()) {
-            cleanupFeature.cleanup(this);
-        }
-        for (Feature feature : features.values()) {
-            feature.unload(this);
-        }
+        try {
+            // wait for all game loops to finish
+            gameLoopFeatureExecutor.shutdown();
+            gameLoopFeatureExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
+            // TODO: log error
+        } finally {
+            // cleanup
+            if (shouldCleanup) {
+                for (CleanupFeature cleanupFeature : cleanupFeatures.values()) {
+                    cleanupFeature.cleanup(this);
+                }
+            }
+            if (shouldUnloadFeatures) {
+                for (Feature feature : features.values()) {
+                    feature.unload(this);
+                }
+            }
 
-        // TODO: display app end
+            // TODO: display app end
 
-        isRunning = false;
+            isRunning = false;
+        }
     }
 
     <T extends StartupFeature> void addStartupFeature(Class<T> startupFeatureClass) {
