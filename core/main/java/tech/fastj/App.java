@@ -5,6 +5,7 @@ import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
 import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
+import tech.fastj.thread.ManagedThreadExceptionHandler;
 import tech.fastj.thread.ManagedThreadFactory;
 import tech.fastj.thread.ThreadManager;
 
@@ -13,8 +14,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -43,7 +46,10 @@ public abstract class App implements Runnable, ThreadManager {
         gameLoopFeatures = new LinkedHashMap<>(16, 0.75f, true);
         startupFeatures = new LinkedHashMap<>(16, 0.75f, true);
         cleanupFeatures = new LinkedHashMap<>(16, 0.75f, true);
-        gameLoopThreadFactory = new ManagedThreadFactory(this);
+
+        ManagedThreadExceptionHandler managedThreadExceptionHandler = new ManagedThreadExceptionHandler(this);
+        gameLoopThreadFactory = new ManagedThreadFactory(managedThreadExceptionHandler);
+
         isRunning = false;
         shouldCleanup = true;
         shouldUnloadFeatures = true;
@@ -68,8 +74,15 @@ public abstract class App implements Runnable, ThreadManager {
      *
      * @param shouldCleanup        Determines whether {@link CleanupFeature}s should be activated.
      * @param shouldUnloadFeatures Determines whether {@link Feature#unload(App) standard features should be unloaded}.
+     * @return The list of tasks the app was in the process of computing. Null {@link #isRunning() if the app is not
+     * running}.
      */
     public List<Runnable> stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
+        if (!isRunning) {
+            // TODO: warn about not currently running
+            return null;
+        }
+
         this.shouldCleanup = shouldCleanup;
         this.shouldUnloadFeatures = shouldUnloadFeatures;
         return gameLoopFeatureExecutor.shutdownNow();
@@ -140,6 +153,13 @@ public abstract class App implements Runnable, ThreadManager {
 
             isRunning = false;
         }
+    }
+
+    @Override
+    public Future<Void> receivedException(Thread thread, Throwable exception) {
+        // TODO: add exception action configuration
+        exception.printStackTrace();
+        return new CompletableFuture<>();
     }
 
     <T extends StartupFeature> void addStartupFeature(Class<T> startupFeatureClass) {
