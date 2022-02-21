@@ -1,6 +1,7 @@
 package tests.mock.thread;
 
 import tech.fastj.App;
+
 import tech.fastj.feature.GameLoopFeature;
 
 public class SimpleExceptionGameLoopFeature implements GameLoopFeature {

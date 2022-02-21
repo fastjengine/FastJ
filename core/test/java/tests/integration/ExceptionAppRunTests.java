@@ -1,11 +1,13 @@
 package tests.integration;
 
-import org.junit.jupiter.api.Test;
 import tech.fastj.App;
+
 import tests.mock.thread.ObservableExceptionSavingApp;
 import tests.mock.thread.SimpleExceptionGameLoopFeature;
 
 import java.util.function.Consumer;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;

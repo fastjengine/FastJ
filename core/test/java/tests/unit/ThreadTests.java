@@ -1,13 +1,15 @@
 package tests.unit;
 
-import org.junit.jupiter.api.Test;
 import tech.fastj.thread.ManagedThreadExceptionHandler;
 import tech.fastj.thread.ManagedThreadFactory;
+
 import tests.mock.thread.SingleExceptionThreadManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
