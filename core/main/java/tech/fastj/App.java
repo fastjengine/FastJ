@@ -105,7 +105,7 @@ public abstract class App implements Runnable, ThreadManager {
 
         // startup
         for (StartupFeature startupFeature : startupFeatures.values()) {
-            startupFeature.cleanup(this);
+            startupFeature.startup(this);
         }
         for (Feature feature : features.values()) {
             feature.load(this);
