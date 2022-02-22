@@ -19,25 +19,21 @@ public class ManagedThread extends Thread {
     public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler) {
         super(DefaultThreadPrefix + nextThreadNum());
         this.managedThreadExceptionHandler = managedThreadExceptionHandler;
-        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
     public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, Runnable target) {
         super(target, DefaultThreadPrefix + nextThreadNum());
         this.managedThreadExceptionHandler = managedThreadExceptionHandler;
-        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
     public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, String name) {
         super(name);
         this.managedThreadExceptionHandler = managedThreadExceptionHandler;
-        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
     public ManagedThread(ManagedThreadExceptionHandler managedThreadExceptionHandler, Runnable target, String name) {
         super(target, name);
         this.managedThreadExceptionHandler = managedThreadExceptionHandler;
-        setUncaughtExceptionHandler(managedThreadExceptionHandler);
     }
 
     @Override
