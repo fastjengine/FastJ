@@ -24,9 +24,4 @@ public class SimpleGameLoopFeature implements GameLoopFeature {
 
         System.out.println("Simple game loop ended.");
     }
-
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
 }
