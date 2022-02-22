@@ -136,6 +136,7 @@ public abstract class App implements Runnable, ThreadManager {
             gameLoopFeatureExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException exception) {
             exception.printStackTrace();
+            Thread.currentThread().interrupt();
             // TODO: log error
         } finally {
             // cleanup
