@@ -15,3 +15,6 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 plugins.withType(JavaPlugin).configureEach {
     java.modularity.inferModulePath = true
 }
+
+repositories.mavenCentral()
+dependencies.implementation('info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.7.0')
