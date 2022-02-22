@@ -31,8 +31,8 @@ class ThreadTests {
 
             // if it takes longer than a second, honey you need a new pc
             executorService.awaitTermination(1, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            fail("Executor service should not be interrupted.");
+        } catch (InterruptedException exception) {
+            fail("Executor service should not be interrupted.", exception);
         } finally {
             Throwable exceptionFromThread = singleExceptionThreadManager.getExceptionReceived();
             assertNotNull(exceptionFromThread, "Exception received should be a RuntimeException -- not a null value.");
