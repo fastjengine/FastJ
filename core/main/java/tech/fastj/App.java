@@ -16,6 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,7 +36,7 @@ public abstract class App implements Runnable, ThreadManager {
     private final Map<Class<? extends StartupFeature>, StartupFeature> startupFeatures;
     private final Map<Class<? extends CleanupFeature>, CleanupFeature> cleanupFeatures;
 
-    private ExecutorService gameLoopFeatureExecutor;
+    private ExecutorService appThreadExecutor;
     private final ManagedThreadFactory gameLoopThreadFactory;
 
     private volatile boolean isRunning;
@@ -87,7 +88,23 @@ public abstract class App implements Runnable, ThreadManager {
 
         this.shouldCleanup = shouldCleanup;
         this.shouldUnloadFeatures = shouldUnloadFeatures;
-        return gameLoopFeatureExecutor.shutdownNow();
+        return appThreadExecutor.shutdownNow();
+    }
+
+    /**
+     * Completes an app task separately from the main thread.
+     *
+     * @param task The task to complete.
+     * @param <V>  The type of the task's returned value.
+     * @return The {@link Future} instance of the task, to later complete and get the result of.
+     */
+    public <V> Future<V> doTask(Callable<V> task) {
+        if (!isRunning) {
+            // TODO: warn about not currently running
+            return CompletableFuture.completedFuture(null);
+        }
+
+        return appThreadExecutor.submit(task);
     }
 
     @SuppressWarnings("unchecked")
@@ -116,7 +133,7 @@ public abstract class App implements Runnable, ThreadManager {
 
         // TODO: display app start
         // executor should always be null here
-        gameLoopFeatureExecutor = Executors.newCachedThreadPool(gameLoopThreadFactory);
+        appThreadExecutor = Executors.newCachedThreadPool(gameLoopThreadFactory);
 
         // startup
         for (StartupFeature startupFeature : startupFeatures.values()) {
@@ -128,13 +145,13 @@ public abstract class App implements Runnable, ThreadManager {
 
         // game runtime
         for (GameLoopFeature gameLoopFeature : gameLoopFeatures.values()) {
-            gameLoopFeatureExecutor.execute(() -> gameLoopFeature.gameLoop(this));
+            appThreadExecutor.execute(() -> gameLoopFeature.gameLoop(this));
         }
 
         try {
             // wait for all game loops to finish
-            gameLoopFeatureExecutor.shutdown();
-            gameLoopFeatureExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+            appThreadExecutor.shutdown();
+            appThreadExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         } catch (InterruptedException exception) {
             exception.printStackTrace();
             Thread.currentThread().interrupt();
