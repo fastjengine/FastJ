@@ -21,9 +21,4 @@ public class SimpleExceptionGameLoopFeature implements GameLoopFeature {
         System.out.println("Running exception-throwing game loop.");
         throw new RuntimeException();
     }
-
-    @Override
-    public boolean isFinished() {
-        return true;
-    }
 }

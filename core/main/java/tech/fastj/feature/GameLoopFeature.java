@@ -14,6 +14,4 @@ import tech.fastj.App;
 public interface GameLoopFeature extends Feature {
 
     void gameLoop(App app);
-
-    boolean isFinished();
 }
