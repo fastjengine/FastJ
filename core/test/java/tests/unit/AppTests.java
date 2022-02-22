@@ -10,9 +10,11 @@ import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleGameLoopFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
+import tests.mock.simpleapp.TaskFeature;
 
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class AppTests {
 
@@ -113,5 +117,23 @@ class AppTests {
         assertEquals(arg1, app.arg1, "The first argument should match the first input argument.");
         assertEquals(arg2, app.arg2, "The second argument should match the second input argument.");
         assertEquals(arg3, app.arg3, "The third argument should match the third input argument.");
+    }
+
+    @Test
+    void checkAppDoTask_shouldCompleteParallelToAppRunning() {
+        SimpleApp app = App.create(SimpleApp.class)
+                .withStartupFeature(TaskFeature.class)
+                .build();
+        TaskFeature taskFeature = app.getStartupFeature(TaskFeature.class);
+        app.run();
+
+        try {
+            boolean resultValue = taskFeature.getTaskResult().get();
+            assertTrue(resultValue, "");
+        } catch (InterruptedException | ExecutionException exception) {
+            fail(exception);
+        } catch (NullPointerException exception) {
+            fail("Task should complete before app finishes executing.", exception);
+        }
     }
 }
