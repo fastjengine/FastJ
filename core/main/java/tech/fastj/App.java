@@ -11,6 +11,7 @@ import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,7 +82,7 @@ public abstract class App implements Runnable, ThreadManager {
     public List<Runnable> stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
         if (!isRunning) {
             // TODO: warn about not currently running
-            return null;
+            return Collections.emptyList();
         }
 
         this.shouldCleanup = shouldCleanup;
