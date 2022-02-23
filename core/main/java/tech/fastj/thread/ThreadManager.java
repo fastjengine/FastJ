@@ -16,7 +16,5 @@ public interface ThreadManager {
      * @return Should always return some form of Future -- {@link CompletableFuture#CompletableFuture()} is a good
      * option.
      */
-    default Future<Void> receivedException(Thread thread, Throwable exception) {
-        return new CompletableFuture<>();
-    }
+    Future<Void> receivedException(Thread thread, Throwable exception);
 }

@@ -1,14 +1,13 @@
 package tech.fastj;
 
-import tech.fastj.thread.ManagedThreadExceptionHandler;
-import tech.fastj.thread.ManagedThreadFactory;
-import tech.fastj.thread.ThreadManager;
-
 import tech.fastj.feature.AppFeature;
 import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
 import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
+import tech.fastj.thread.ManagedThreadExceptionHandler;
+import tech.fastj.thread.ManagedThreadFactory;
+import tech.fastj.thread.ThreadManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -251,9 +250,11 @@ public abstract class App implements Runnable, ThreadManager {
 
     private static Set<Class<? extends AppFeature>> getMissingDependencies(App app, AppFeature appFeature) {
         return appFeature.dependencies().stream()
-                .filter(dependency -> !app.features.containsKey(dependency))
-                .filter(dependency -> !app.startupFeatures.containsKey(dependency))
-                .filter(dependency -> !app.cleanupFeatures.containsKey(dependency))
+                .filter(dependency -> {
+                    return !app.features.containsKey(dependency)
+                            && !app.startupFeatures.containsKey(dependency)
+                            && !app.cleanupFeatures.containsKey(dependency);
+                })
                 .collect(Collectors.toSet());
     }
 
