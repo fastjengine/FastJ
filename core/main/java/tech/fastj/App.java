@@ -1,16 +1,16 @@
 package tech.fastj;
 
+import tech.fastj.thread.ManagedThreadExceptionHandler;
+import tech.fastj.thread.ManagedThreadFactory;
+import tech.fastj.thread.ThreadManager;
+
 import tech.fastj.feature.AppFeature;
 import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
 import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
-import tech.fastj.thread.ManagedThreadExceptionHandler;
-import tech.fastj.thread.ManagedThreadFactory;
-import tech.fastj.thread.ThreadManager;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
