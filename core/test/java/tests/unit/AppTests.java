@@ -7,13 +7,13 @@ import tests.mock.constructorargs.SingleConstructorApp;
 import tests.mock.runcheck.CleanupRunCheckFeature;
 import tests.mock.runcheck.LoadUnloadGameLoopRunCheckFeature;
 import tests.mock.runcheck.LoadUnloadRunCheckFeature;
+import tests.mock.runcheck.StartupRunCheckFeature;
 import tests.mock.simpleapp.SimpleApp;
 import tests.mock.simpleapp.SimpleCleanupFeature;
 import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleGameLoopFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
-import tests.mock.runcheck.StartupRunCheckFeature;
 import tests.mock.simpleapp.TaskFeature;
 
 import java.util.Set;

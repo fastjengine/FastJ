@@ -1,6 +1,7 @@
 package tests.mock.runcheck;
 
 import tech.fastj.App;
+
 import tech.fastj.feature.GameLoopFeature;
 
 public class LoadUnloadGameLoopRunCheckFeature implements GameLoopFeature {
