@@ -4,12 +4,16 @@ import tech.fastj.App;
 
 import tests.mock.constructorargs.MultiConstructorApp;
 import tests.mock.constructorargs.SingleConstructorApp;
+import tests.mock.runcheck.CleanupRunCheckFeature;
+import tests.mock.runcheck.LoadUnloadGameLoopRunCheckFeature;
+import tests.mock.runcheck.LoadUnloadRunCheckFeature;
 import tests.mock.simpleapp.SimpleApp;
 import tests.mock.simpleapp.SimpleCleanupFeature;
 import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleGameLoopFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
+import tests.mock.runcheck.StartupRunCheckFeature;
 import tests.mock.simpleapp.TaskFeature;
 
 import java.util.Set;
@@ -31,6 +35,38 @@ class AppTests {
     void checkAppStartsNotRunning() {
         SimpleApp app = App.create(SimpleApp.class).build();
         assertFalse(app.isRunning(), "App should not be running.");
+    }
+
+    @Test
+    void checkAppEndsNotRunning() {
+        SimpleApp app = App.create(SimpleApp.class).build();
+        app.run();
+        assertFalse(app.isRunning(), "App should not be running.");
+    }
+
+    @Test
+    void checkAppIsRunning_whenRunMethodIsCalled() {
+        SimpleApp app = App.create(SimpleApp.class)
+                .withStartupFeature(StartupRunCheckFeature.class)
+                .withFeature(LoadUnloadRunCheckFeature.class)
+                .withFeature(LoadUnloadGameLoopRunCheckFeature.class)
+                .withCleanupFeature(CleanupRunCheckFeature.class)
+                .build();
+
+        StartupRunCheckFeature startupFeature = app.getStartupFeature(StartupRunCheckFeature.class);
+        LoadUnloadRunCheckFeature feature = app.getFeature(LoadUnloadRunCheckFeature.class);
+        LoadUnloadGameLoopRunCheckFeature gameLoopFeature = app.getGameLoopFeature(LoadUnloadGameLoopRunCheckFeature.class);
+        CleanupRunCheckFeature cleanupFeature = app.getCleanupFeature(CleanupRunCheckFeature.class);
+
+        app.run();
+
+        assertTrue(startupFeature.isAppRunningOnStartup(), "The app should be running during startup.");
+        assertTrue(feature.isAppRunningWhenLoading(), "The app should be running during feature load.");
+        assertTrue(gameLoopFeature.isAppRunningWhenLoading(), "The app should be running during game loop feature load.");
+        assertTrue(gameLoopFeature.isAppRunningDuringGameLoop(), "The app should be running during game looping.");
+        assertTrue(feature.isAppRunningWhenUnloading(), "The app should be running during feature unload.");
+        assertTrue(gameLoopFeature.isAppRunningWhenUnloading(), "The app should be running during game loop feature unload.");
+        assertTrue(cleanupFeature.isAppRunningOnCleanup(), "The app should be running during cleanup.");
     }
 
     @Test
