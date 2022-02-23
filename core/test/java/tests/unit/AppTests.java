@@ -1,7 +1,16 @@
 package tests.unit;
 
+import org.junit.jupiter.api.Test;
 import tech.fastj.App;
-
+import tests.mock.appstop.AppStopDefaultFeature;
+import tests.mock.appstop.AppStopOnStartupFeature;
+import tests.mock.appstop.AppStopOnStartupWithCleanupAndUnloadFeature;
+import tests.mock.appstop.AppStopWithCleanupAndUnloadFeature;
+import tests.mock.appstop.AppStopWithCleanupFeature;
+import tests.mock.appstop.AppStopWithUnloadFeature;
+import tests.mock.appstop.AppStopWithoutCleanupOrUnloadFeature;
+import tests.mock.callcheck.CleanupCallCheckFeature;
+import tests.mock.callcheck.UnloadCallCheckFeature;
 import tests.mock.constructorargs.MultiConstructorApp;
 import tests.mock.constructorargs.SingleConstructorApp;
 import tests.mock.runcheck.CleanupRunCheckFeature;
@@ -14,20 +23,16 @@ import tests.mock.simpleapp.SimpleDependentFeature;
 import tests.mock.simpleapp.SimpleFeature;
 import tests.mock.simpleapp.SimpleGameLoopFeature;
 import tests.mock.simpleapp.SimpleStartupFeature;
+import tests.mock.simpleapp.SimpleTimedGameLoopFeature;
 import tests.mock.simpleapp.TaskFeature;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 class AppTests {
 
@@ -67,6 +72,185 @@ class AppTests {
         assertTrue(feature.isAppRunningWhenUnloading(), "The app should be running during feature unload.");
         assertTrue(gameLoopFeature.isAppRunningWhenUnloading(), "The app should be running during game loop feature unload.");
         assertTrue(cleanupFeature.isAppRunningOnCleanup(), "The app should be running during cleanup.");
+    }
+
+    @Test
+    void checkStopAppAbruptly_withCleanupAndUnload() {
+        boolean expectedShouldCleanup = true;
+        boolean expectedShouldUnload = true;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withFeature(SimpleTimedGameLoopFeature.class)
+                .withFeature(AppStopWithCleanupAndUnloadFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        SimpleTimedGameLoopFeature gameLoopFeature = app.getGameLoopFeature(SimpleTimedGameLoopFeature.class);
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopWithCleanupAndUnloadFeature appStopFeature = app.getGameLoopFeature(AppStopWithCleanupAndUnloadFeature.class);
+
+        app.run();
+
+        assertFalse(gameLoopFeature.isFinishedSleeping(), "Should not have finished sleeping");
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptly_withCleanupAndUnloadOnDefault() {
+        boolean expectedShouldCleanup = true;
+        boolean expectedShouldUnload = true;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withFeature(SimpleTimedGameLoopFeature.class)
+                .withFeature(AppStopDefaultFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        SimpleTimedGameLoopFeature gameLoopFeature = app.getGameLoopFeature(SimpleTimedGameLoopFeature.class);
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopDefaultFeature appStopFeature = app.getGameLoopFeature(AppStopDefaultFeature.class);
+
+        app.run();
+
+        assertFalse(gameLoopFeature.isFinishedSleeping(), "Should not have finished sleeping");
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptly_withCleanupAndNotUnload() {
+        boolean expectedShouldCleanup = true;
+        boolean expectedShouldUnload = false;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withFeature(SimpleTimedGameLoopFeature.class)
+                .withFeature(AppStopWithCleanupFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        SimpleTimedGameLoopFeature gameLoopFeature = app.getGameLoopFeature(SimpleTimedGameLoopFeature.class);
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopWithCleanupFeature appStopFeature = app.getGameLoopFeature(AppStopWithCleanupFeature.class);
+
+        app.run();
+
+        assertFalse(gameLoopFeature.isFinishedSleeping(), "Should not have finished sleeping");
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should not run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptly_withUnloadAndNotCleanup() {
+        boolean expectedShouldCleanup = false;
+        boolean expectedShouldUnload = true;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withFeature(SimpleTimedGameLoopFeature.class)
+                .withFeature(AppStopWithUnloadFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        SimpleTimedGameLoopFeature gameLoopFeature = app.getGameLoopFeature(SimpleTimedGameLoopFeature.class);
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopWithUnloadFeature appStopFeature = app.getGameLoopFeature(AppStopWithUnloadFeature.class);
+
+        app.run();
+
+        assertFalse(gameLoopFeature.isFinishedSleeping(), "Should not have finished sleeping");
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should not run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptly_withoutCleanupOrUnload() {
+        boolean expectedShouldCleanup = false;
+        boolean expectedShouldUnload = false;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withFeature(SimpleTimedGameLoopFeature.class)
+                .withFeature(AppStopWithoutCleanupOrUnloadFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        SimpleTimedGameLoopFeature gameLoopFeature = app.getGameLoopFeature(SimpleTimedGameLoopFeature.class);
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopWithoutCleanupOrUnloadFeature appStopFeature = app.getGameLoopFeature(AppStopWithoutCleanupOrUnloadFeature.class);
+
+        app.run();
+
+        assertFalse(gameLoopFeature.isFinishedSleeping(), "Should not have finished sleeping");
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should not run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should not run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptlyOnLoad() {
+        boolean expectedShouldCleanup = false;
+        boolean expectedShouldUnload = false;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withStartupFeature(AppStopOnStartupFeature.class)
+                .withFeature(SimpleGameLoopFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopOnStartupFeature appStopFeature = app.getStartupFeature(AppStopOnStartupFeature.class);
+
+        app.run();
+
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should not run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should not run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppAbruptlyOnLoad_withCleanupAndUnload() {
+        boolean expectedShouldCleanup = true;
+        boolean expectedShouldUnload = true;
+
+        SimpleApp app = App.create(SimpleApp.class)
+                .withStartupFeature(AppStopOnStartupWithCleanupAndUnloadFeature.class)
+                .withFeature(SimpleGameLoopFeature.class)
+                .withFeature(UnloadCallCheckFeature.class)
+                .withCleanupFeature(CleanupCallCheckFeature.class)
+                .build();
+
+        UnloadCallCheckFeature unloadCallCheckFeature = app.getFeature(UnloadCallCheckFeature.class);
+        CleanupCallCheckFeature cleanupCallCheckFeature = app.getCleanupFeature(CleanupCallCheckFeature.class);
+        AppStopOnStartupWithCleanupAndUnloadFeature appStopFeature = app.getStartupFeature(AppStopOnStartupWithCleanupAndUnloadFeature.class);
+
+        app.run();
+
+        assertEquals(expectedShouldCleanup, cleanupCallCheckFeature.wasCalled(), "The app should run the cleanup feature.");
+        assertEquals(expectedShouldUnload, unloadCallCheckFeature.wasCalled(), "The app should run the feature unload.");
+        assertEquals(Collections.emptyList(), appStopFeature.getRunnables(), "There should be no actions which did not start.");
+    }
+
+    @Test
+    void checkStopAppWithoutStarting_shouldReturnNullCollection() {
+        App app = App.create(SimpleApp.class).build();
+        List<Runnable> remainingActions = app.stop();
+
+        assertNull(remainingActions, "The app has not started, so the collection should be null.");
     }
 
     @Test
