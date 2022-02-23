@@ -1,14 +1,13 @@
 package tech.fastj;
 
-import tech.fastj.thread.ManagedThreadExceptionHandler;
-import tech.fastj.thread.ManagedThreadFactory;
-import tech.fastj.thread.ThreadManager;
-
 import tech.fastj.feature.AppFeature;
 import tech.fastj.feature.CleanupFeature;
 import tech.fastj.feature.Feature;
 import tech.fastj.feature.GameLoopFeature;
 import tech.fastj.feature.StartupFeature;
+import tech.fastj.thread.ManagedThreadExceptionHandler;
+import tech.fastj.thread.ManagedThreadFactory;
+import tech.fastj.thread.ThreadManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
@@ -73,17 +72,27 @@ public abstract class App implements Runnable, ThreadManager {
     }
 
     /**
+     * Gracefully stops the app's execution, and also cleans up/unloads the app.
+     *
+     * @return The list of tasks the app was in the process of computing. Returns null {@link #isRunning() if
+     * the app is not running}.
+     */
+    public List<Runnable> stop() {
+        return stop(true, true);
+    }
+
+    /**
      * Gracefully stops the app's execution.
      *
      * @param shouldCleanup        Determines whether {@link CleanupFeature}s should be activated.
      * @param shouldUnloadFeatures Determines whether {@link Feature#unload(App) standard features should be unloaded}.
-     * @return The list of tasks the app was in the process of computing. Null {@link #isRunning() if the app is not
-     * running}.
+     * @return The list of tasks the app was in the process of computing. Returns null {@link #isRunning() if
+     * the app is not running}.
      */
     public List<Runnable> stop(boolean shouldCleanup, boolean shouldUnloadFeatures) {
-        if (!isRunning) {
+        if (appThreadExecutor == null) {
             // TODO: warn about not currently running
-            return Collections.emptyList();
+            return null;
         }
 
         this.shouldCleanup = shouldCleanup;
@@ -143,12 +152,17 @@ public abstract class App implements Runnable, ThreadManager {
             feature.load(this);
         }
 
-        // game runtime
-        for (GameLoopFeature gameLoopFeature : gameLoopFeatures.values()) {
-            appThreadExecutor.execute(() -> gameLoopFeature.gameLoop(this));
-        }
-
         try {
+            if (appThreadExecutor.isShutdown()) {
+                // TODO: debug app was shut down before game loops could start
+                return;
+            }
+
+            // game runtime
+            for (GameLoopFeature gameLoopFeature : gameLoopFeatures.values()) {
+                appThreadExecutor.execute(() -> gameLoopFeature.gameLoop(this));
+            }
+
             // wait for all game loops to finish
             appThreadExecutor.shutdown();
             appThreadExecutor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
@@ -168,6 +182,8 @@ public abstract class App implements Runnable, ThreadManager {
                     feature.unload(this);
                 }
             }
+
+            appThreadExecutor = null;
 
             // TODO: display app end
 
