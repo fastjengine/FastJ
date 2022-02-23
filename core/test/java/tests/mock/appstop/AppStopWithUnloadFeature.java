@@ -1,6 +1,7 @@
 package tests.mock.appstop;
 
 import tech.fastj.App;
+
 import tech.fastj.feature.GameLoopFeature;
 
 import java.util.List;

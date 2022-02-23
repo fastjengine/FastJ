@@ -1,7 +1,7 @@
 package tests.unit;
 
-import org.junit.jupiter.api.Test;
 import tech.fastj.App;
+
 import tests.mock.appstop.AppStopDefaultFeature;
 import tests.mock.appstop.AppStopOnStartupFeature;
 import tests.mock.appstop.AppStopOnStartupWithCleanupAndUnloadFeature;
@@ -31,6 +31,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
