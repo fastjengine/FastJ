@@ -7,7 +7,7 @@ plugins {
     id 'jacoco'
 
     // For mutation testing, this makes our lives a lot easier.
-    id 'info.solidsoft.pitest' version '1.7.0'
+    id 'info.solidsoft.pitest' version '1.7.4'
 
     // For publishing to Maven Central, we'll want these.
     id 'maven-publish'
