@@ -77,7 +77,7 @@ However, Kotlin and Groovy are reasonable options as well:
 
 
 ### I'll add the dependency myself!
-Ok, ok, I hear ya. Just follow through with these instructions below.
+Ok, ok, I hear ya. To do so, just follow through with these instructions below.
 
 
 #### Dependency Management
