@@ -5,9 +5,9 @@ name: Build-Windows
 
 on:
   push:
-    branches: [ 1.6.0 ]
+    branches: [ main ]
   pull_request:
-    branches: [ 1.6.0 ]
+    branches: [ main ]
 
 jobs:
   build-windows:

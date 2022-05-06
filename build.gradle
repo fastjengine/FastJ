@@ -15,7 +15,7 @@ plugins {
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.6.0')
+version('1.7.0-SNAPSHOT')
 description('An open source, Java-based 2D game engine.')
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
