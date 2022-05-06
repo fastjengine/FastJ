@@ -13,7 +13,6 @@ module fastj.library.test {
     opens unittest.testcases.graphics.util to org.junit.platform.commons;
 
     opens unittest.testcases.input.keyboard to org.junit.platform.commons;
-    opens unittest.testcases.input.mouse to org.junit.platform.commons;
 
     opens unittest.testcases.resources.models to org.junit.platform.commons;
 
