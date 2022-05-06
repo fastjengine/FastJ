@@ -16,8 +16,12 @@ public class MockBehavior implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
+    public void fixedUpdate(GameObject gameObject) {
         pointf.add(1f);
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface Behavior {
 
     /**
      * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, translates it by the specified
-     * translation every update call.
+     * translation every {@link #fixedUpdate(GameObject)} call.
      *
      * @param translationModifier The {@code Pointf} value to be used for translation.
      * @return The newly created {@code Behavior}.
@@ -29,15 +29,19 @@ public interface Behavior {
             }
 
             @Override
-            public void update(GameObject gameObject) {
+            public void fixedUpdate(GameObject gameObject) {
                 gameObject.translate(translationModifier);
+            }
+
+            @Override
+            public void update(GameObject gameObject) {
             }
         };
     }
 
     /**
      * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, rotates it by the specified
-     * rotation every update call.
+     * rotation every {@link #fixedUpdate(GameObject)} call.
      *
      * @param rotationModifier The float value to be used for rotation.
      * @return The newly created {@code Behavior}.
@@ -49,15 +53,19 @@ public interface Behavior {
             }
 
             @Override
-            public void update(GameObject gameObject) {
+            public void fixedUpdate(GameObject gameObject) {
                 gameObject.rotate(rotationModifier);
+            }
+
+            @Override
+            public void update(GameObject gameObject) {
             }
         };
     }
 
     /**
      * Gets an instance of {@code Behavior} that, when assigned to a {@code GameObject}, scales it by the specified
-     * scale every update call.
+     * scale every {@link #fixedUpdate(GameObject)} call.
      *
      * @param scaleModifier The {@code Pointf} value to be used for scaling.
      * @return The newly created {@code Behavior}.
@@ -69,8 +77,12 @@ public interface Behavior {
             }
 
             @Override
-            public void update(GameObject gameObject) {
+            public void fixedUpdate(GameObject gameObject) {
                 gameObject.scale(scaleModifier);
+            }
+
+            @Override
+            public void update(GameObject gameObject) {
             }
         };
     }
@@ -84,6 +96,17 @@ public interface Behavior {
      * @param gameObject A GameObject that has been assigned this behavior.
      */
     void init(GameObject gameObject);
+
+    /**
+     * Updates the assigned {@code GameObject}.
+     * <p>
+     * This method is used to modify anything about the assigned {@code GameObject}, every time the assigned {@code
+     * GameObject}'s containing {@code Scene} updates. It is called after the parent {@code Scene} has completed its
+     * {@code fixedUpdate()} method.
+     *
+     * @param gameObject A GameObject that has been assigned this behavior.
+     */
+    void fixedUpdate(GameObject gameObject);
 
     /**
      * Updates the assigned {@code GameObject}.

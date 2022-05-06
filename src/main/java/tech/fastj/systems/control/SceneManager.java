@@ -34,6 +34,16 @@ public abstract class SceneManager implements LogicManager {
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
     @Override
+    public void fixedUpdate(FastJCanvas canvas) {
+        safeUpdate(() -> currentScene.fixedUpdate(canvas));
+    }
+
+    /**
+     * Updates the current scene, its behaviors, and listeners before rendering.
+     *
+     * @param canvas The {@code FastJCanvas} that the game renders to.
+     */
+    @Override
     public void update(FastJCanvas canvas) {
         safeUpdate(() -> currentScene.update(canvas));
     }

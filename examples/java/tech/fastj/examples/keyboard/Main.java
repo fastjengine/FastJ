@@ -64,6 +64,11 @@ public class Main extends SimpleManager {
     }
 
     @Override
+    public void fixedUpdate(FastJCanvas canvas) {
+        // Empty -- this example does not make use of this method.
+    }
+
+    @Override
     public void update(FastJCanvas canvas) {
         /* Polling Keyboard for key state */
 

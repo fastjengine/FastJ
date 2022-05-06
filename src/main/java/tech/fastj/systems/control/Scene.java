@@ -66,7 +66,16 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
     public abstract void unload(FastJCanvas canvas);
 
     /**
-     * Updates the scene's state.
+     * Updates the scene's state during game state updates.
+     * <p>
+     * This method is called on the current scene every time the engine updates its state.
+     *
+     * @param canvas The {@code FastJCanvas} that the game renders to.
+     */
+    public abstract void fixedUpdate(FastJCanvas canvas);
+
+    /**
+     * Updates the scene's state during input receiving, before rendering.
      * <p>
      * This method is called on the current scene every time the engine updates its state.
      *

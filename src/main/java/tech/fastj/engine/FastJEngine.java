@@ -588,13 +588,13 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#update(FastJCanvas) fixedUpdate}
+     * Runs the specified action after the game engine's next {@link LogicManager#fixedUpdate(FastJCanvas) fixedUpdate}
      * call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)} call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#update(FastJCanvas)} call.
+     * @param action Disposable action to be run after the next {@link LogicManager#fixedUpdate(FastJCanvas)} call.
      * @since 1.4.0
      */
     public static void runAfterUpdate(Runnable action) {
@@ -605,7 +605,7 @@ public class FastJEngine {
      * Runs the specified action after the game engine's next {@link LogicManager#render(FastJCanvas) render} call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#update(FastJCanvas)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)} call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(FastJCanvas)} call.
      * @since 1.5.0
@@ -665,7 +665,7 @@ public class FastJEngine {
             while (accumulator >= updateInterval) {
                 fixedDeltaTimer.evalDeltaTime();
                 FastJEngine.log("Fixed Delta: {}", FastJEngine.getFixedDeltaTime());
-                gameManager.update(canvas);
+                gameManager.fixedUpdate(canvas);
                 gameManager.updateBehaviors();
 
                 if (!AfterUpdateList.isEmpty()) {
@@ -682,6 +682,7 @@ public class FastJEngine {
 
             gameManager.processInputEvents();
             gameManager.processKeysDown();
+            gameManager.update(canvas);
             gameManager.render(canvas);
 
             if (!AfterRenderList.isEmpty()) {

@@ -117,6 +117,10 @@ public class GameScene extends Scene {
     }
 
     @Override
+    public void fixedUpdate(FastJCanvas canvas) {
+    }
+
+    @Override
     public void update(FastJCanvas canvas) {
     }
 

@@ -33,9 +33,14 @@ public class EnemyMovement implements Behavior {
     }
 
     @Override
-    public void update(GameObject obj) {
+    public void fixedUpdate(GameObject obj) {
         checkCollisions(obj);
         moveToPlayer(obj);
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
+        // Empty -- this example does not make use of this method.
     }
 
     private void checkCollisions(GameObject obj) {

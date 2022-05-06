@@ -36,10 +36,15 @@ public class PlayerCannon implements Behavior {
     }
 
     @Override
-    public void update(GameObject obj) {
+    public void fixedUpdate(GameObject obj) {
         if (Keyboard.isKeyRecentlyPressed(Keys.Space) && bulletCount < MaxBulletCount) {
             FastJEngine.runAfterUpdate(() -> createBullet(obj));
         }
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
+        // Empty -- this example does not make use of this method.
     }
 
     private void createBullet(GameObject player) {

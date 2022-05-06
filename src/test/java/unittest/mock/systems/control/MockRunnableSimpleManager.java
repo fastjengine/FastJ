@@ -21,6 +21,10 @@ public class MockRunnableSimpleManager extends SimpleManager {
     }
 
     @Override
+    public void fixedUpdate(FastJCanvas canvas) {
+    }
+
+    @Override
     public void update(FastJCanvas canvas) {
     }
 }
