@@ -142,6 +142,47 @@ class GameObjectTests {
     }
 
     @Test
+    void checkInitBehavior_withAddLateBehavior_shouldInitializePointf() {
+        GameObject gameObject = new MockGameObject();
+        MockBehavior mockBehavior = new MockBehavior();
+        Scene mockScene = new MockEmptyScene();
+
+        gameObject.addLateBehavior(mockBehavior, mockScene);
+
+        assertNotNull(mockBehavior.getPointf(), "After initializing the GameObject's behaviors, its Pointf should not be null.");
+    }
+
+    @Test
+    void checkUpdateBehavior_withAddLateBehavior_shouldIncrementPointf() {
+        GameObject gameObject = new MockGameObject();
+        MockBehavior mockBehavior = new MockBehavior();
+        Scene mockScene = new MockEmptyScene();
+
+        gameObject.addLateBehavior(mockBehavior, mockScene);
+
+        int expectedIncrement = 15;
+        for (int i = 0; i < expectedIncrement; i++) {
+            gameObject.updateBehaviors();
+        }
+
+        boolean condition = Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().x) && Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().y);
+        assertTrue(condition, "After updating, the behavior's Pointf should have incremented.");
+    }
+
+    @Test
+    void checkDestroyBehavior_withAddLateBehavior_shouldMakePointfNull() {
+        GameObject gameObject = new MockGameObject();
+        MockBehavior mockBehavior = new MockBehavior();
+        Scene mockScene = new MockEmptyScene();
+
+        gameObject.addLateBehavior(mockBehavior, mockScene); // pointf is not null here
+        assertNotNull(mockBehavior.getPointf());
+
+        gameObject.destroyAllBehaviors(); // pointf is null here
+        assertNull(mockBehavior.getPointf(), "After destroying the GameObject's behaviors, the Pointf should be null.");
+    }
+
+    @Test
     void tryUpdateBehaviorWithoutInitializing_shouldThrowNullPointerException() {
         GameObject gameObject = new MockGameObject();
         MockBehavior mockBehavior = new MockBehavior();

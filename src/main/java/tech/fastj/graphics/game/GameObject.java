@@ -87,11 +87,30 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
+     * Adds the specified {@link Behavior} to the {@code GameObject}'s list of {@code Behavior}s, and initializes it.
+     * <p>
+     * This does not check to make sure the game is running -- it only initializes the given behavior.
+     * <p>
+     * {@code Behavior}s can be added as many times as needed.
+     *
+     * @param behavior        {@code Behavior} parameter to be added.
+     * @param behaviorHandler Handler that the {@code GameObject} will be added to, as a behavior listener.
+     * @return the {@code GameObject} is returned for method chaining.
+     */
+    public GameObject addLateBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
+        behaviors.add(behavior);
+        behaviorHandler.addBehaviorListener(this);
+        behavior.init(this);
+
+        return this;
+    }
+
+    /**
      * Removes the specified {@link Behavior} from the {@code GameObject}'s list of {@code Behavior}s.
      *
      * @param behavior        {@code Behavior} parameter to be removed from.
-     * @param behaviorHandler Handler that, if the {@code GameObject} no longer has any Behaviors, the {@code
-     *                        GameObject} will be removed from as a behavior listener.
+     * @param behaviorHandler Handler that, if the {@code GameObject} no longer has any Behaviors, the
+     *                        {@code GameObject} will be removed from as a behavior listener.
      * @return the {@code GameObject} is returned for method chaining.
      */
     public GameObject removeBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
@@ -127,8 +146,8 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the {@code
-     * SimpleManager}.
+     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the
+     * {@code SimpleManager}.
      *
      * @param origin {@code SimpleManager} parameter that will have all references to this {@code GameObject} removed.
      */
