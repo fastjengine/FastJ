@@ -23,5 +23,5 @@ public abstract class MockUpdatableScene extends Scene {
     }
 
     @Override
-    public abstract void update(FastJCanvas canvas);
+    public abstract void fixedUpdate(FastJCanvas canvas);
 }

@@ -43,7 +43,7 @@ public class PlayerHealthBar implements Behavior {
     }
 
     @Override
-    public void update(GameObject obj) {
+    public void fixedUpdate(GameObject obj) {
         if (obj instanceof Polygon2D && takenDamage) {
             Polygon2D polygon2D = (Polygon2D) obj;
             Pointf[] updatedHealthBarMesh = DrawUtil.createBox(new Pointf(25f, 40f), new Pointf(health, 20f));
@@ -53,6 +53,11 @@ public class PlayerHealthBar implements Behavior {
 
             takenDamage = false;
         }
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
+        // Empty -- this example does not make use of this method.
     }
 
     @Override

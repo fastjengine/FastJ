@@ -49,7 +49,10 @@ public class LoseScene extends Scene {
     }
 
     @Override
-    public void update(FastJCanvas canvas) {
+    public void fixedUpdate(FastJCanvas canvas) {
+    }
 
+    @Override
+    public void update(FastJCanvas canvas) {
     }
 }

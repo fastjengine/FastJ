@@ -30,7 +30,7 @@ public class BulletMovement implements Behavior {
     }
 
     @Override
-    public void update(GameObject obj) {
+    public void fixedUpdate(GameObject obj) {
         Pointf originalTranslation = obj.getTranslation();
         obj.translate(travelVector);
         if (!FastJEngine.getCanvas().isOnScreen(obj, gameScene.getCamera())) {
@@ -41,6 +41,10 @@ public class BulletMovement implements Behavior {
         if (newTranslation.equals(originalTranslation)) {
             FastJEngine.warning("not moving! bullet at {} with {}f{}", originalTranslation, travelAngle, travelVector);
         }
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
     }
 
     @Override

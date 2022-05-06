@@ -37,8 +37,8 @@ public class SimpleMovementBehavior implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
-        /* Since this will always be called right after the update() call on the
+    public void fixedUpdate(GameObject gameObject) {
+        /* Since this will always be called right after the fixedUpdate() call on the
          * SimpleManager/Scene, we can use it to accomplish repeated actions.
          *
          * In this case, we'll rotate the game object by 5 degrees every time the method is called.
@@ -46,6 +46,11 @@ public class SimpleMovementBehavior implements Behavior {
          * to any sort of GameObject that could be used with this Behavior. */
 
         gameObject.rotate(5f);
+    }
+
+    @Override
+    public void update(GameObject gameObject) {
+        // Empty -- this example does not make use of this method.
     }
 
     @Override

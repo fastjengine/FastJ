@@ -64,7 +64,19 @@ public interface LogicManager {
     void receivedInputEvent(InputEvent inputEvent);
 
     /**
-     * Allows the logic manager to update its game state once.
+     * Allows the logic manager to update its game state -- content updated whenever the game renders -- once.
+     * <p>
+     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This
+     * value can be changed using {@link FastJEngine#setTargetFPS(int)}.
+     *
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the
+     *               canvas while updating the game state.
+     */
+    void fixedUpdate(FastJCanvas canvas);
+
+    /**
+     * Allows the logic manager to update its fixed game state -- content updated whenever the game updates in physics
+     * once.
      * <p>
      * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetUPS} times a second. This
      * value can be changed using {@link FastJEngine#setTargetUPS(int)}.
@@ -74,7 +86,7 @@ public interface LogicManager {
      */
     void update(FastJCanvas canvas);
 
-    /** Updates the logic manager's behaviors (called after {@link #update(FastJCanvas)}). */
+    /** Updates the logic manager's behaviors (called after {@link #fixedUpdate(FastJCanvas)}). */
     void updateBehaviors();
 
     /**

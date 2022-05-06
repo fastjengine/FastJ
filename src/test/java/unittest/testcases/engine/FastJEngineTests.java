@@ -46,6 +46,10 @@ class FastJEngineTests {
             }
 
             @Override
+            public void fixedUpdate(FastJCanvas canvas) {
+            }
+
+            @Override
             public void update(FastJCanvas canvas) {
             }
 
@@ -71,6 +75,10 @@ class FastJEngineTests {
                     ranAfterRender.set(true);
                     FastJEngine.forceCloseGame();
                 });
+            }
+
+            @Override
+            public void fixedUpdate(FastJCanvas canvas) {
             }
 
             @Override
