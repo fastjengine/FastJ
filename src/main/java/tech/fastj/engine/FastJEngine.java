@@ -73,8 +73,9 @@ public class FastJEngine {
     private static int targetFPS;
     private static int targetUPS;
 
-    // FPS counting
-    private static Timer timer;
+    // Timings
+    private static Timer deltaTimer;
+    private static Timer fixedDeltaTimer;
     private static int[] fpsLog;
     private static int drawFrames;
     private static int totalFPS;
@@ -142,7 +143,8 @@ public class FastJEngine {
 
         FastJEngine.gameManager = gameManager;
         FastJEngine.title = gameTitle;
-        timer = new Timer();
+        deltaTimer = new Timer();
+        fixedDeltaTimer = new Timer();
 
         fpsLog = new int[100];
         Arrays.fill(fpsLog, -1);
@@ -343,6 +345,14 @@ public class FastJEngine {
      */
     public static HWAccel getHardwareAcceleration() {
         return hwAccel;
+    }
+
+    public static float getDeltaTime() {
+        return deltaTimer.getDeltaTime();
+    }
+
+    public static float getFixedDeltaTime() {
+        return fixedDeltaTimer.getDeltaTime();
     }
 
     /**
@@ -626,7 +636,8 @@ public class FastJEngine {
         gameManager.init(canvas);
         gameManager.initBehaviors();
 
-        timer.init();
+        deltaTimer.init();
+        fixedDeltaTimer.init();
         fpsLogger.scheduleWithFixedDelay(() -> {
             FastJEngine.logFPS(drawFrames);
             drawFrames = 0;
@@ -647,10 +658,13 @@ public class FastJEngine {
         float updateInterval = 1f / targetUPS;
 
         while (display.getWindow().isVisible()) {
-            elapsedTime = timer.getElapsedTime();
+            elapsedTime = deltaTimer.evalDeltaTime();
+            FastJEngine.log("Delta: {}", FastJEngine.getDeltaTime());
             accumulator += elapsedTime;
 
             while (accumulator >= updateInterval) {
+                fixedDeltaTimer.evalDeltaTime();
+                FastJEngine.log("Fixed Delta: {}", FastJEngine.getFixedDeltaTime());
                 gameManager.update(canvas);
                 gameManager.updateBehaviors();
 
@@ -696,8 +710,8 @@ public class FastJEngine {
      */
     private static void sync() {
         final float loopSlot = 1f / targetFPS;
-        final double endTime = timer.getLastLoopTime() + loopSlot;
-        final double currentTime = timer.getTime();
+        final double endTime = deltaTimer.getLastTimestamp() + loopSlot;
+        final double currentTime = deltaTimer.getTime();
         if (currentTime < endTime) {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
@@ -755,7 +769,8 @@ public class FastJEngine {
         targetUPS = 0;
 
         // FPS counting
-        timer = null;
+        deltaTimer = null;
+        fixedDeltaTimer = null;
         fpsLog = null;
         fpsLogger = null;
         drawFrames = 0;

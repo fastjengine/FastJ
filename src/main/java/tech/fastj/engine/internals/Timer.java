@@ -12,11 +12,13 @@ package tech.fastj.engine.internals;
  */
 public class Timer {
 
-    private double lastLoopTime;
+    private double lastTimestamp;
+    private float deltaTime;
 
     /** Initializes the Timer. */
     public void init() {
-        lastLoopTime = getTime();
+        lastTimestamp = getTime();
+        deltaTime = 0f;
     }
 
     /**
@@ -29,23 +31,30 @@ public class Timer {
     }
 
     /**
-     * Re-evaluates the last loop time, then returns the time passed since the last loop.
+     * Re-evaluates the last frame time, then returns the time passed since the last time evaluation.
      *
-     * @return The time elapsed since the last loop time.
+     * @return The time elapsed since the last time evaluation.
      */
-    public float getElapsedTime() {
+    public float evalDeltaTime() {
         double time = getTime();
-        float elapsedTime = (float) (time - lastLoopTime);
-        lastLoopTime = time;
-        return elapsedTime;
+        deltaTime = (float) (time - lastTimestamp);
+        lastTimestamp = time;
+        return deltaTime;
     }
 
     /**
-     * Gets the last loop time.
-     *
-     * @return The last loop time.
+     * @return The time elapsed from the second-to-last to the last time evaluation.
      */
-    public double getLastLoopTime() {
-        return lastLoopTime;
+    public float getDeltaTime() {
+        return deltaTime;
+    }
+
+    /**
+     * Gets the time of when a frame was last rendered.
+     *
+     * @return The time when a frame was last rendered.
+     */
+    public double getLastTimestamp() {
+        return lastTimestamp;
     }
 }
