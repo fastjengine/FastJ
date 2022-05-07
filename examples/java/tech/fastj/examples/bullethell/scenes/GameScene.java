@@ -165,7 +165,6 @@ public class GameScene extends Scene {
         enemyCount = calculateEnemyCount(wave);
         for (int i = 0; i < enemyCount; i++) {
             Model2D enemy = createEnemy();
-            enemy.initBehaviors();
             enemies.put(enemy.getID(), enemy);
         }
 
@@ -183,7 +182,7 @@ public class GameScene extends Scene {
         );
 
         Model2D enemy = Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
-        enemy.addBehavior(new EnemyMovement(this), this);
+        enemy.addLateBehavior(new EnemyMovement(this), this);
         enemy.setTranslation(randomPosition);
         drawableManager.addGameObject(enemy);
         return enemy;

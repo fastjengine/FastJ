@@ -1,9 +1,10 @@
 package tech.fastj.engine.internals;
 
 /**
- * Timer that accurately specifies time.
+ * Timekeeping class, primarily used to track the time between the previous and current game frames.
  * <p>
- * This class is based on Antonio Hernández Bejarano's Timer class: https://ahbejarano.gitbook.io/lwjglgamedev/
+ * This class is based on Antonio Hernández Bejarano's Timer class:
+ * <a href="https://ahbejarano.gitbook.io/lwjglgamedev/">https://ahbejarano.gitbook.io/lwjglgamedev/</a>
  * <p>
  * Didn't make too many changes.
  *
@@ -17,7 +18,7 @@ public class Timer {
 
     /** Initializes the Timer. */
     public void init() {
-        lastTimestamp = getTime();
+        lastTimestamp = getCurrentTime();
         deltaTime = 0f;
     }
 
@@ -26,7 +27,7 @@ public class Timer {
      *
      * @return The current time (nanoseconds) as a double.
      */
-    public double getTime() {
+    public double getCurrentTime() {
         return System.nanoTime() / 1_000_000_000d;
     }
 
@@ -36,7 +37,7 @@ public class Timer {
      * @return The time elapsed since the last time evaluation.
      */
     public float evalDeltaTime() {
-        double time = getTime();
+        double time = getCurrentTime();
         deltaTime = (float) (time - lastTimestamp);
         lastTimestamp = time;
         return deltaTime;
