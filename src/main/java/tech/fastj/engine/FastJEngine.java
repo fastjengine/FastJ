@@ -654,17 +654,16 @@ public class FastJEngine {
     /** Runs the game loop -- the heart of the engine. */
     private static void gameLoop() {
         float elapsedTime;
+        float elapsedFixedTime;
         float accumulator = 0f;
         float updateInterval = 1f / targetUPS;
 
         while (display.getWindow().isVisible()) {
             elapsedTime = deltaTimer.evalDeltaTime();
-            FastJEngine.log("Delta: {}", FastJEngine.getDeltaTime());
             accumulator += elapsedTime;
 
             while (accumulator >= updateInterval) {
-                fixedDeltaTimer.evalDeltaTime();
-                FastJEngine.log("Fixed Delta: {}", FastJEngine.getFixedDeltaTime());
+                elapsedFixedTime = fixedDeltaTimer.evalDeltaTime();
                 gameManager.fixedUpdate(canvas);
                 gameManager.updateBehaviors();
 
@@ -677,7 +676,7 @@ public class FastJEngine {
                     AfterUpdateList.clear();
                 }
 
-                accumulator -= updateInterval;
+                accumulator -= elapsedFixedTime;
             }
 
             gameManager.processInputEvents();
@@ -712,7 +711,7 @@ public class FastJEngine {
     private static void sync() {
         final float loopSlot = 1f / targetFPS;
         final double endTime = deltaTimer.getLastTimestamp() + loopSlot;
-        final double currentTime = deltaTimer.getTime();
+        final double currentTime = deltaTimer.getCurrentTime();
         if (currentTime < endTime) {
             try {
                 TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
