@@ -1,6 +1,7 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.math.Pointf;
+
 import tech.fastj.graphics.gradients.Gradients;
 
 import java.awt.AlphaComposite;
