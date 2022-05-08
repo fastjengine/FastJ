@@ -59,5 +59,6 @@ module fastj.library {
     exports tech.fastj.systems.audio.state;
     exports tech.fastj.systems.behaviors;
     exports tech.fastj.systems.control;
+    exports tech.fastj.systems.collections;
     exports tech.fastj.systems.tags;
 }

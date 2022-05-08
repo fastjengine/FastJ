@@ -1,5 +1,6 @@
 package tech.fastj.graphics.game;
 
+import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class Polygon2DBuilder {
 
     private final Pointf[] points;
+    private final Point[] altIndexes;
     private final boolean shouldRender;
     private final RenderStyle renderStyle;
 
@@ -31,8 +33,9 @@ public class Polygon2DBuilder {
      * @param renderStyle  The {@code RenderStyle} to use for the resulting {@code Polygon2D}.
      * @param shouldRender The "should render" {@code boolean} to use for the resulting {@code Polygon2D}.
      */
-    Polygon2DBuilder(Pointf[] points, RenderStyle renderStyle, boolean shouldRender) {
+    Polygon2DBuilder(Pointf[] points, Point[] altIndexes, RenderStyle renderStyle, boolean shouldRender) {
         this.points = Objects.requireNonNull(points, "The array of points must not be null.");
+        this.altIndexes = altIndexes;
         this.renderStyle = Objects.requireNonNull(renderStyle, "The render style must not be null.");
         this.shouldRender = shouldRender;
     }
@@ -85,7 +88,7 @@ public class Polygon2DBuilder {
      * @return The resulting {@code Polygon2D}.
      */
     public Polygon2D build() {
-        return (Polygon2D) new Polygon2D(points)
+        return (Polygon2D) new Polygon2D(points, altIndexes)
                 .setOutlineStroke(outlineStroke)
                 .setOutlineColor(outlineColor)
                 .setRenderStyle(renderStyle)

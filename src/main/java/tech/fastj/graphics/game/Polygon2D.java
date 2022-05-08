@@ -1,5 +1,6 @@
 package tech.fastj.graphics.game;
 
+import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 
 import tech.fastj.graphics.Drawable;
@@ -14,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -34,7 +36,12 @@ public class Polygon2D extends GameObject {
     /** {@link Color} representing the default outline color value as the color black. */
     public static final Color DefaultOutlineColor = Color.black;
 
+    public static final int QuadCurve = 1;
+    public static final int BezierCurve = 2;
+    public static final int MovePath = 3;
+
     private Pointf[] originalPoints;
+    private Point[] alternateIndexes;
 
     private RenderStyle renderStyle;
     private Paint fillPaint;
@@ -44,15 +51,18 @@ public class Polygon2D extends GameObject {
     /**
      * {@code Polygon2D} constructor that takes in an array of points.
      * <p>
-     * This constructor defaults the fill paint to {@link #DefaultFill}, the outline stroke to {@link
-     * #DefaultOutlineStroke}, the outline color to {@link #DefaultOutlineColor}, the render style to {@link
-     * #DefaultRenderStyle}, and the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
+     * If needed, an array of alternate point indexes can be supplied to model curves and other {@link Path2D} options.
+     * <p>
+     * This constructor defaults the fill paint to {@link #DefaultFill}, the outline stroke to
+     * {@link #DefaultOutlineStroke}, the outline color to {@link #DefaultOutlineColor}, the render style to
+     * {@link #DefaultRenderStyle}, and the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
      *
      * @param points {@code Pointf} array that defines the points for the polygon.
      */
-    protected Polygon2D(Pointf[] points) {
+    protected Polygon2D(Pointf[] points, Point[] altIndexes) {
         originalPoints = points;
-        setCollisionPath(DrawUtil.createPath(originalPoints));
+        alternateIndexes = altIndexes;
+        setCollisionPath(DrawUtil.createPath(originalPoints, alternateIndexes));
 
         setFill(DefaultFill);
         setOutlineStroke(DefaultOutlineStroke);
@@ -68,12 +78,23 @@ public class Polygon2D extends GameObject {
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points) {
-        return new Polygon2DBuilder(points, DefaultRenderStyle, Drawable.DefaultShouldRender);
+        return new Polygon2DBuilder(points, null, DefaultRenderStyle, Drawable.DefaultShouldRender);
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code
-     * shouldRender} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} field.
+     * <p>
+     *
+     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
+     */
+    public static Polygon2DBuilder create(Pointf[] points, Point[] altIndexes) {
+        return new Polygon2DBuilder(points, altIndexes, DefaultRenderStyle, Drawable.DefaultShouldRender);
+    }
+
+    /**
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
+     * {@code shouldRender} fields.
      * <p>
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
@@ -81,12 +102,12 @@ public class Polygon2D extends GameObject {
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, boolean shouldRender) {
-        return new Polygon2DBuilder(points, DefaultRenderStyle, shouldRender);
+        return new Polygon2DBuilder(points, null, DefaultRenderStyle, shouldRender);
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code
-     * renderStyle} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
+     * {@code renderStyle} fields.
      * <p>
      *
      * @param points      {@code Pointf} array that defines the points for the {@code Polygon2D}.
@@ -94,12 +115,12 @@ public class Polygon2D extends GameObject {
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle) {
-        return new Polygon2DBuilder(points, renderStyle, Drawable.DefaultShouldRender);
+        return new Polygon2DBuilder(points, null, renderStyle, Drawable.DefaultShouldRender);
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points}, {@code
-     * renderStyle}, and {@code shouldRender} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points},
+     * {@code renderStyle}, and {@code shouldRender} fields.
      * <p>
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
@@ -108,7 +129,7 @@ public class Polygon2D extends GameObject {
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle, boolean shouldRender) {
-        return new Polygon2DBuilder(points, renderStyle, shouldRender);
+        return new Polygon2DBuilder(points, null, renderStyle, shouldRender);
     }
 
     /**
@@ -118,7 +139,17 @@ public class Polygon2D extends GameObject {
      * @return The resulting {@code Polygon2D}.
      */
     public static Polygon2D fromPoints(Pointf[] points) {
-        return new Polygon2DBuilder(points, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
+        return new Polygon2DBuilder(points, null, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
+    }
+
+    /**
+     * Creates a {@code Polygon2D} from the specified points.
+     *
+     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @return The resulting {@code Polygon2D}.
+     */
+    public static Polygon2D fromPoints(Pointf[] points, Point[] altIndexes) {
+        return new Polygon2DBuilder(points, altIndexes, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
     }
 
     /**
@@ -128,6 +159,16 @@ public class Polygon2D extends GameObject {
      */
     public Pointf[] getOriginalPoints() {
         return originalPoints;
+    }
+
+    /**
+     * Gets the polygon's alternate indexes, which are associated with the
+     * {@link #getOriginalPoints() original point set.}
+     *
+     * @return The original set of points for this polygon, as a {@code Pointf[]}.
+     */
+    public Point[] getAlternateIndexes() {
+        return alternateIndexes;
     }
 
     /**
@@ -245,7 +286,40 @@ public class Polygon2D extends GameObject {
      */
     public void modifyPoints(Pointf[] points, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
         originalPoints = points;
+        alternateIndexes = null;
 
+        resetTransform(resetTranslation, resetRotation, resetScale);
+        setCollisionPath(DrawUtil.createPath(originalPoints));
+    }
+
+    /**
+     * Replaces the current point array with the parameter point array and alternate indexes.
+     * <p>
+     * This does not reset the rotation, scale, or location of the original, unless specified with the third, fourth,
+     * and fifth parameters.
+     *
+     * @param points           {@code Pointf} array that will replace the current points of the polygon.
+     * @param altIndexes       {@code Point} array that will replace the current alternate indexes of the polygon.
+     * @param resetTranslation Boolean to determine if the translation should be reset.
+     * @param resetRotation    Boolean to determine if the rotation should be reset.
+     * @param resetScale       Boolean to determine if the scale should be reset.
+     */
+    public void modifyPoints(Pointf[] points, Point[] altIndexes, boolean resetTranslation, boolean resetRotation, boolean resetScale) {
+        originalPoints = points;
+        alternateIndexes = altIndexes;
+
+        resetTransform(resetTranslation, resetRotation, resetScale);
+        setCollisionPath(DrawUtil.createPath(originalPoints, altIndexes));
+    }
+
+    /**
+     * Resets the {@code Polygon2D}'s transform.
+     *
+     * @param resetTranslation Boolean to determine if the translation should be reset.
+     * @param resetRotation    Boolean to determine if the rotation should be reset.
+     * @param resetScale       Boolean to determine if the scale should be reset.
+     */
+    private void resetTransform(boolean resetTranslation, boolean resetRotation, boolean resetScale) {
         if (resetTranslation && resetRotation && resetScale) {
             transform.reset();
         } else {
@@ -259,8 +333,6 @@ public class Polygon2D extends GameObject {
                 transform.resetScale();
             }
         }
-
-        setCollisionPath(DrawUtil.createPath(originalPoints));
     }
 
     @Override

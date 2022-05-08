@@ -1,10 +1,13 @@
 package tech.fastj.graphics.util;
 
 import tech.fastj.math.Maths;
+import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
+
+import tech.fastj.systems.collections.Pair;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -136,6 +139,52 @@ public final class DrawUtil {
     }
 
     /**
+     * Creates a {@code Path2D.Float} based on the specified {@code Pointf} array.
+     *
+     * @param pts The {@code Pointf} array to create the {@code Path2D.Float} from.
+     * @return The resulting {@code Path2D.Float}.
+     */
+    public static Path2D.Float createPath(Pointf[] pts, Point[] altIndexes) {
+        if (altIndexes == null) {
+            return createPath(pts);
+        }
+
+        Path2D.Float p = new Path2D.Float();
+
+        p.moveTo(pts[0].x, pts[0].y);
+        for (int i = 1, ai = 0; i < pts.length; i++) {
+            if (altIndexes[ai].x == i) {
+                switch (altIndexes[ai++].y) {
+                    case Polygon2D.MovePath: {
+                        p.moveTo(pts[i].x, pts[i].y);
+                        break;
+                    }
+                    case Polygon2D.QuadCurve: {
+                        p.quadTo(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y);
+                        i += 1;
+                        break;
+                    }
+                    case Polygon2D.BezierCurve: {
+                        p.curveTo(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y, pts[i + 2].x, pts[i + 2].y);
+                        i += 2;
+                        break;
+                    }
+                    default: {
+                        throw new UnsupportedOperationException(
+                                "No known path option for " + altIndexes[ai - 1].y + " on index " + i + " of the path."
+                        );
+                    }
+                }
+            } else {
+                p.lineTo(pts[i].x, pts[i].y);
+            }
+        }
+        p.closePath();
+
+        return p;
+    }
+
+    /**
      * Checks for equality in length and point values between two {@link Path2D} objects.
      * <p>
      * Order does not matter for equality checking.
@@ -252,6 +301,45 @@ public final class DrawUtil {
                 && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
                 && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
                 && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
+    }
+
+    public static Pair<Pointf[], Point[]> createCircle(float x, float y, float radius) {
+        return createCircle(new Pointf(x, y), radius);
+    }
+
+    public static Pair<Pointf[], Point[]> createCircle(float xy, float radius) {
+        return createCircle(new Pointf(xy), radius);
+    }
+
+    public static Pair<Pointf[], Point[]> createCircle(Pointf center, float radius) {
+        float curveOffset = (float) ((4f / 3f) * (Math.sqrt(2) - 1) * radius);
+        return Pair.of(
+                new Pointf[]{
+                        Pointf.subtract(center, radius, 0f),
+
+                        Pointf.subtract(center, radius, curveOffset),
+                        Pointf.subtract(center, curveOffset, radius),
+                        Pointf.subtract(center, 0f, radius),
+
+                        Pointf.subtract(center, -curveOffset, radius),
+                        Pointf.add(center, radius, -curveOffset),
+                        Pointf.add(center, radius, 0f),
+
+                        Pointf.add(center, radius, curveOffset),
+                        Pointf.add(center, curveOffset, radius),
+                        Pointf.add(center, 0f, radius),
+
+                        Pointf.add(center, -curveOffset, radius),
+                        Pointf.subtract(center, radius, -curveOffset),
+                        Pointf.subtract(center, radius, 0f)
+                },
+                new Point[]{
+                        new Point(1, Polygon2D.BezierCurve),
+                        new Point(4, Polygon2D.BezierCurve),
+                        new Point(7, Polygon2D.BezierCurve),
+                        new Point(10, Polygon2D.BezierCurve)
+                }
+        );
     }
 
     /**
