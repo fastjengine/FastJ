@@ -55,6 +55,7 @@ public class ObjUtil {
                     Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
                     boolean isLastPolygonOutline = false;
                     int lastPolygonIndex = polygons.size() - 1;
+                    Pointf[] lastPolygonPoints = polygons.get(lastPolygonIndex).getPoints();
 
                     for (int j = 0; j < tokens.length - 1; j++) {
                         int vertexesIndex = Integer.parseInt(tokens[j + 1].split("/")[0]);
@@ -62,7 +63,7 @@ public class ObjUtil {
                                 vertexes.get(vertexesIndex - 1)[0],
                                 vertexes.get(vertexesIndex - 1)[1]
                         );
-                        isLastPolygonOutline = polygons.get(lastPolygonIndex).getPoints()[j].equals(vertexesFromFaces[j]);
+                        isLastPolygonOutline = lastPolygonPoints[j].equals(vertexesFromFaces[j]);
                     }
 
                     if (isLastPolygonOutline) {
@@ -150,7 +151,7 @@ public class ObjUtil {
             writeObject(fileContents, i + 1);
             writeMaterial(fileContents, polygon, i + 1, vertexCount);
 
-            vertexCount += polygon.getPoints().length;
+            vertexCount += polygon.getOriginalPoints().length;
         }
 
         try {
@@ -175,8 +176,8 @@ public class ObjUtil {
 
     private static void writeVertexes(StringBuilder fileContents, Polygon2D polygon, int polygonIndex) {
         float vertexSpace = polygonIndex / 1000f;
-        for (int j = 0; j < polygon.getPoints().length; j++) {
-            Pointf vertex = polygon.getPoints()[j];
+        Pointf[] polygonPoints = polygon.getPoints();
+        for (Pointf vertex : polygonPoints) {
             fileContents.append(ParsingKeys.Vertex)
                     .append(' ')
                     .append(String.format("%4f", vertex.x))
@@ -192,9 +193,10 @@ public class ObjUtil {
         Pointf space = Pointf.subtract(polygon.getBound(Boundary.BottomRight), polygon.getBound(Boundary.TopLeft));
         Pointf topLeft = polygon.getBound(Boundary.TopLeft);
 
-        for (int j = 0; j < polygon.getPoints().length; j++) {
-            float circleX = Maths.normalize(polygon.getPoints()[j].x - topLeft.x, 0f, space.x);
-            float circleY = Maths.normalize(polygon.getPoints()[j].y - topLeft.y, 0f, space.y);
+        Pointf[] polygonPoints = polygon.getPoints();
+        for (Pointf polygonPoint : polygonPoints) {
+            float circleX = Maths.normalize(polygonPoint.x - topLeft.x, 0f, space.x);
+            float circleY = Maths.normalize(polygonPoint.y - topLeft.y, 0f, space.y);
             fileContents.append(ParsingKeys.VertexTexture)
                     .append(' ')
                     .append(String.format("%4f", circleX))
@@ -253,7 +255,8 @@ public class ObjUtil {
 
     private static void writeFaces(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
         fileContents.append(ParsingKeys.ObjectFace);
-        for (int i = 1; i <= polygon.getPoints().length; i++) {
+        Pointf[] polygonPoints = polygon.getPoints();
+        for (int i = 1; i <= polygonPoints.length; i++) {
             fileContents.append(' ')
                     .append(vertexCount + i)
                     .append('/')
@@ -264,7 +267,8 @@ public class ObjUtil {
 
     private static void writeLines(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
         fileContents.append(ParsingKeys.ObjectLine);
-        for (int i = 1; i <= polygon.getPoints().length; i++) {
+        Pointf[] polygonPoints = polygon.getPoints();
+        for (int i = 1; i <= polygonPoints.length; i++) {
             fileContents.append(' ').append(vertexCount + i);
         }
         fileContents.append(LineSeparator);

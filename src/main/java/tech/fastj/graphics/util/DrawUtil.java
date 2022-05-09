@@ -7,6 +7,8 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 
+import tech.fastj.logging.Log;
+
 import tech.fastj.systems.collections.Pair;
 
 import java.awt.*;
@@ -145,7 +147,7 @@ public final class DrawUtil {
      * @return The resulting {@code Path2D.Float}.
      */
     public static Path2D.Float createPath(Pointf[] pts, Point[] altIndexes) {
-        if (altIndexes == null) {
+        if (altIndexes == null || altIndexes.length == 0) {
             return createPath(pts);
         }
 
@@ -436,8 +438,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size {@code
-     * Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size
+     * {@code Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -478,8 +480,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and the location {@code
-     * Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and the location
+     * {@code Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -541,8 +543,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the location {@code
-     * Pointf}.
+     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the location
+     * {@code Pointf}.
      *
      * @param source      The source for the width and height.
      * @param translation The x and y locations.
@@ -568,40 +570,98 @@ public final class DrawUtil {
 
     /**
      * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter.
+     * <p>
+     * This method will record all curves and other points in the given path, without indication as to where they may
+     * be. Use {@link #pointsOfPathWithAlt(Path2D.Float)} to get an array of alternate indexes for the path which
+     * represent what actions were taken.
      *
      * @param path The path to get the points of.
      * @return The resultant array of points.
      */
     public static Pointf[] pointsOfPath(Path2D.Float path) {
         List<Pointf> pointList = new ArrayList<>();
-        float[] coords = new float[2];
-        int numSubPaths = 0;
+        float[] coords = new float[6];
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
+            switch (pi.currentSegment(coords)) {
+                case PathIterator.SEG_MOVETO:
+                case PathIterator.SEG_LINETO: {
+                    pointList.add(new Pointf(coords[0], coords[1]));
+                    break;
+                }
+                case PathIterator.SEG_CUBICTO: {
+                    pointList.add(new Pointf(coords[0], coords[1]));
+                    pointList.add(new Pointf(coords[2], coords[3]));
+                    pointList.add(new Pointf(coords[4], coords[5]));
+                    break;
+                }
+                case PathIterator.SEG_QUADTO: {
+                    pointList.add(new Pointf(coords[0], coords[1]));
+                    pointList.add(new Pointf(coords[2], coords[3]));
+                    break;
+                }
+                case PathIterator.SEG_CLOSE: {
+                    return pointList.toArray(new Pointf[0]);
+                }
+            }
+        }
+
+        return pointList.toArray(new Pointf[0]);
+    }
+
+    /**
+     * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter. as well as a
+     * {@code Point} array that indicates the location of curves and other {@link Path2D} iteration guides.
+     *
+     * @param path The path to get the points of.
+     * @return The resultant array of points.
+     */
+    public static Pair<Pointf[], Point[]> pointsOfPathWithAlt(Path2D.Float path) {
+        List<Pointf> pointList = new ArrayList<>();
+        List<Point> alternateIndexes = new ArrayList<>();
+        float[] coords = new float[6];
+        int numSubPaths = 0;
+
+        PathIterator pi = path.getPathIterator(null);
+        while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
                 case PathIterator.SEG_MOVETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     numSubPaths++;
+                    if (numSubPaths > 1) {
+                        alternateIndexes.add(new Point(pointList.size() - 1, Polygon2D.MovePath));
+                    }
                     break;
                 }
                 case PathIterator.SEG_LINETO: {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     break;
                 }
-                case PathIterator.SEG_CLOSE: {
-                    if (numSubPaths > 1) {
-                        throw new IllegalArgumentException("Path contains multiple sub-paths");
-                    }
-
-                    return pointList.toArray(new Pointf[0]);
+                case PathIterator.SEG_CUBICTO: {
+                    alternateIndexes.add(new Point(pointList.size(), Polygon2D.BezierCurve));
+                    pointList.add(new Pointf(coords[0], coords[1]));
+                    pointList.add(new Pointf(coords[2], coords[3]));
+                    pointList.add(new Pointf(coords[4], coords[5]));
+                    break;
                 }
-                default: {
-                    throw new IllegalArgumentException("Path contains curves");
+                case PathIterator.SEG_QUADTO: {
+                    alternateIndexes.add(new Point(pointList.size(), Polygon2D.QuadCurve));
+                    pointList.add(new Pointf(coords[0], coords[1]));
+                    pointList.add(new Pointf(coords[2], coords[3]));
+                    break;
+                }
+                case PathIterator.SEG_CLOSE: {
+                    if (!pi.isDone()) {
+                        Log.warn(DrawUtil.class, "tried to close path iterator before done");
+                        break;
+                    }
+                    return Pair.of(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
                 }
             }
+            pi.next();
         }
 
-        throw new IllegalArgumentException("Unclosed path");
+        return Pair.of(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
     }
 
     /**
@@ -770,8 +830,8 @@ public final class DrawUtil {
      * @param c  The starting value.
      * @param c1 The ending value.
      * @param v  The value representing the "result" of linear interpolation between the two {@code Color}s. This value
-     *           is used to calculate inverse linear interpolation of the colors' {@code red}, {@code green}, {@code
-     *           blue}, and {@code alpha} values.
+     *           is used to calculate inverse linear interpolation of the colors' {@code red}, {@code green},
+     *           {@code blue}, and {@code alpha} values.
      * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red},
      * {@code green}, {@code blue}, and {@code alpha} values.
      * @see Maths#inverseLerp(float, float, float)
