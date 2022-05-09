@@ -61,4 +61,6 @@ module fastj.library {
     exports tech.fastj.systems.control;
     exports tech.fastj.systems.collections;
     exports tech.fastj.systems.tags;
+    exports tech.fastj.animation;
+    exports tech.fastj.animation.sprite;
 }

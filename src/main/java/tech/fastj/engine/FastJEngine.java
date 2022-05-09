@@ -4,26 +4,22 @@ import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
 import tech.fastj.engine.internals.Timer;
-
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
-
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.display.DisplayState;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.SimpleDisplay;
+import tech.fastj.graphics.game.Sprite2D;
 import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
-
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceManager;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
-
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -39,6 +35,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import tech.fastj.animation.Animated;
+import tech.fastj.animation.AnimationData;
+import tech.fastj.animation.AnimationEngine;
+import tech.fastj.animation.sprite.SpriteAnimationEngine;
 
 /**
  * The main control hub of the game engine.
@@ -106,16 +107,16 @@ public class FastJEngine {
     // Resources
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
 
+    // Animation
+    private static final Map<Class<Animated<?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
+
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
     }
 
     static {
-        /* I never thought I would find a use for one of these, but I would rather the default resource managers be
-           added as soon as the FastJEngine class is loaded.
-           Rather than assume the engine will be initialized, it makes more sense for it to activate upon
-           initialization. */
         addDefaultResourceManagers();
+        addDefaultAnimationEngines();
     }
 
     /**
@@ -171,8 +172,8 @@ public class FastJEngine {
      *                             result, the content is scaled to fit the size of the {@code windowResolution}).
      * @param hardwareAcceleration Defines the type of hardware acceleration to use for the game.
      * @param exceptionAction      Defines what the engine should do upon receiving an exception.
-     * @deprecated As of 1.6.0, replaced by {@link #init(String, LogicManager, EngineConfig)} which makes use of {@link
-     * EngineConfig an engine configuration}.
+     * @deprecated As of 1.6.0, replaced by {@link #init(String, LogicManager, EngineConfig)} which makes use of
+     * {@link EngineConfig an engine configuration}.
      */
     @Deprecated
     public static void init(String gameTitle, LogicManager gameManager, int fps, int ups, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction) {
@@ -190,6 +191,10 @@ public class FastJEngine {
 
     private static void addDefaultResourceManagers() {
         addResourceManager(new ImageResourceManager(), ImageResource.class);
+    }
+
+    private static void addDefaultAnimationEngines() {
+        addAnimationEngine(new SpriteAnimationEngine(), Sprite2D.class);
     }
 
     /**
@@ -475,6 +480,18 @@ public class FastJEngine {
         });
     }
 
+    @SuppressWarnings("unchecked")
+    public static <TD extends AnimationData, T extends Animated<TD>> void addAnimationEngine(AnimationEngine<TD, T> animationEngine, Class<T> animationClass) {
+        AnimationEngines.put((Class<Animated<?>>) animationClass, animationEngine);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <TD extends AnimationData, T extends Animated<TD>> AnimationEngine<TD, T> getAnimationEngine(Class<T> animationClass) {
+        return (AnimationEngine<TD, T>) AnimationEngines.computeIfAbsent((Class<Animated<?>>) animationClass, aClass -> {
+            throw new IllegalStateException("No animation engine was added for the animation type \"" + animationClass.getTypeName() + "\".");
+        });
+    }
+
     public static <T extends Display> void setCustomDisplay(T display) {
         FastJEngine.display = display;
     }
@@ -592,7 +609,8 @@ public class FastJEngine {
      * call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)}
+     * call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#fixedUpdate(FastJCanvas)} call.
      * @since 1.4.0
@@ -605,7 +623,8 @@ public class FastJEngine {
      * Runs the specified action after the game engine's next {@link LogicManager#render(FastJCanvas) render} call.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)} call.
+     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)}
+     * call.
      *
      * @param action Disposable action to be run after the next {@link LogicManager#render(FastJCanvas)} call.
      * @since 1.5.0
@@ -682,6 +701,10 @@ public class FastJEngine {
             gameManager.processInputEvents();
             gameManager.processKeysDown();
             gameManager.update(canvas);
+            for (AnimationEngine<?, ?> animationEngine : AnimationEngines.values()) {
+                animationEngine.stepAnimations(elapsedTime);
+            }
+
             gameManager.render(canvas);
 
             if (!AfterRenderList.isEmpty()) {

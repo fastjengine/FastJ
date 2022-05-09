@@ -1,4 +1,4 @@
-package tech.fastj.graphics.game;
+package tech.fastj.animation;
 
 public enum AnimationStyle {
     ContinuousLoop,
