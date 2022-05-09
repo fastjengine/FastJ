@@ -72,64 +72,51 @@ public class Polygon2D extends GameObject {
 
     /**
      * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} field.
-     * <p>
      *
      * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points) {
-        return new Polygon2DBuilder(points, null, DefaultRenderStyle, Drawable.DefaultShouldRender);
+        return new Polygon2DBuilder(points, null, Drawable.DefaultShouldRender);
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} field.
-     * <p>
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
+     * {@code altIndexes} fields.
      *
-     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param points     {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points,
+     *                   as well as other {@code Path2D} options.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, Point[] altIndexes) {
-        return new Polygon2DBuilder(points, altIndexes, DefaultRenderStyle, Drawable.DefaultShouldRender);
+        return new Polygon2DBuilder(points, altIndexes, Drawable.DefaultShouldRender);
     }
 
     /**
      * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
      * {@code shouldRender} fields.
-     * <p>
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
      * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, boolean shouldRender) {
-        return new Polygon2DBuilder(points, null, DefaultRenderStyle, shouldRender);
-    }
-
-    /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
-     * {@code renderStyle} fields.
-     * <p>
-     *
-     * @param points      {@code Pointf} array that defines the points for the {@code Polygon2D}.
-     * @param renderStyle {@code RenderStyle} that defines the render style for the {@code Polygon2D}.
-     * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
-     */
-    public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle) {
-        return new Polygon2DBuilder(points, null, renderStyle, Drawable.DefaultShouldRender);
+        return new Polygon2DBuilder(points, null, shouldRender);
     }
 
     /**
      * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points},
      * {@code renderStyle}, and {@code shouldRender} fields.
-     * <p>
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
-     * @param renderStyle  {@code RenderStyle} that defines the render style for the {@code Polygon2D}.
+     * @param altIndexes   The {@code Point} array of alternate indexes defining where curves are in the array of
+     *                     points, as well as other {@code Path2D} options.
      * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
-    public static Polygon2DBuilder create(Pointf[] points, RenderStyle renderStyle, boolean shouldRender) {
-        return new Polygon2DBuilder(points, null, renderStyle, shouldRender);
+    public static Polygon2DBuilder create(Pointf[] points, Point[] altIndexes, boolean shouldRender) {
+        return new Polygon2DBuilder(points, altIndexes, shouldRender);
     }
 
     /**
@@ -139,17 +126,19 @@ public class Polygon2D extends GameObject {
      * @return The resulting {@code Polygon2D}.
      */
     public static Polygon2D fromPoints(Pointf[] points) {
-        return new Polygon2DBuilder(points, null, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
+        return new Polygon2DBuilder(points, null, Drawable.DefaultShouldRender).build();
     }
 
     /**
-     * Creates a {@code Polygon2D} from the specified points.
+     * Creates a {@code Polygon2D} from the specified points and alternate indexes.
      *
-     * @param points {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param points     {@code Pointf} array that defines the points for the {@code Polygon2D}.
+     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points,
+     *                   as well as other {@code Path2D} options.
      * @return The resulting {@code Polygon2D}.
      */
     public static Polygon2D fromPoints(Pointf[] points, Point[] altIndexes) {
-        return new Polygon2DBuilder(points, altIndexes, DefaultRenderStyle, Drawable.DefaultShouldRender).build();
+        return new Polygon2DBuilder(points, altIndexes, Drawable.DefaultShouldRender).build();
     }
 
     /**
@@ -163,7 +152,7 @@ public class Polygon2D extends GameObject {
 
     /**
      * Gets the polygon's alternate indexes, which are associated with the
-     * {@link #getOriginalPoints() original point set.}
+     * {@link #getOriginalPoints() original point set}.
      *
      * @return The original set of points for this polygon, as a {@code Pointf[]}.
      */

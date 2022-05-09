@@ -59,7 +59,8 @@ public class Main extends SimpleManager {
          *
          * For this example, we'll just use simpleRotation. */
 
-        Polygon2D premadeBehaviorsBox = Polygon2D.create(DrawUtil.createBox(500f, 500f, 50f), RenderStyle.FillAndOutline)
+        Polygon2D premadeBehaviorsBox = Polygon2D.create(DrawUtil.createBox(500f, 500f, 50f))
+                .withRenderStyle(RenderStyle.FillAndOutline)
                 .withFill(Color.red)
                 .withOutline(Polygon2D.DefaultOutlineStroke, Polygon2D.DefaultOutlineColor)
                 .build();

@@ -69,7 +69,7 @@ public class ObjUtil {
                         polygons.get(lastPolygonIndex).setRenderStyle(RenderStyle.FillAndOutline);
                         MtlUtil.parse(polygons.get(lastPolygonIndex), materialLibraryPath, currentMaterial, false);
                     } else {
-                        Polygon2D polygonFromVertexes = Polygon2D.create(vertexesFromFaces, RenderStyle.Outline).build();
+                        Polygon2D polygonFromVertexes = Polygon2D.create(vertexesFromFaces).withRenderStyle(RenderStyle.Outline).build();
                         MtlUtil.parse(polygonFromVertexes, materialLibraryPath, currentMaterial, false);
                         polygons.add(polygonFromVertexes);
                     }

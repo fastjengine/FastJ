@@ -109,7 +109,8 @@ public class PsdfUtil {
                     if (tokens.length == 4 && tokens[3].equals(";")) {
                         assert polygons != null;
 
-                        polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), renderStyle, shouldRender)
+                        polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), null, shouldRender)
+                                .withRenderStyle(renderStyle)
                                 .withOutline(outlineStroke, outlineColor)
                                 .withTransform(translation, rotation, scale)
                                 .build();

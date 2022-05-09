@@ -77,7 +77,8 @@ public class Main extends SimpleManager {
         float largeSquareRotation = 30f;
         Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
 
-        Polygon2D largeSquare = Polygon2D.create(largeSquareMesh, RenderStyle.FillAndOutline)
+        Polygon2D largeSquare = Polygon2D.create(largeSquareMesh)
+                .withRenderStyle(RenderStyle.FillAndOutline)
                 .withFill(Color.blue)
                 .withOutline(largeSquareOutlineStroke, Color.black)
                 .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
