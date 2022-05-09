@@ -1,6 +1,11 @@
 package tech.fastj.graphics.game;
 
+import tech.fastj.engine.FastJEngine;
+
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
+
+import tech.fastj.logging.Log;
 
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageUtil;
@@ -11,58 +16,97 @@ import tech.fastj.systems.control.SimpleManager;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.nio.file.Path;
+import java.util.Map;
 
-public class Sprite2D extends GameObject {
+import tech.fastj.animation.Animated;
+import tech.fastj.animation.AnimationStyle;
+import tech.fastj.animation.sprite.SpriteAnimationData;
+
+public class Sprite2D extends GameObject implements Animated<SpriteAnimationData> {
 
     public static final int DefaultStartingFrame = 0;
     public static final int DefaultAnimationFPS = 12;
-    public static final AnimationStyle DefaultAnimationStyle = AnimationStyle.ContinuousLoop;
     public static final int DefaultHorizontalImageCount = 1;
     public static final int DefaultVerticalImageCount = 1;
+    public static final String NoAnimation = "No Current Animation";
 
-    private ImageResource spritesResource;
+    private static final Map<String, SpriteAnimationData> NoAnimationsLoaded = Map.of(
+            NoAnimation, new SpriteAnimationData(NoAnimation, AnimationStyle.Static, 0, 0)
+    );
+
+    private static final BufferedImage[] NoSpritesLoaded = {
+            ImageUtil.createBufferedImage(16, 16)
+    };
+
+    private final Map<String, SpriteAnimationData> animationDataMap;
+
+    private final ImageResource spritesResource;
     private BufferedImage[] sprites;
-    private int currentFrame;
-    private int animationFPS = DefaultAnimationFPS;
-    private AnimationStyle animationStyle;
+    private String currentAnimation;
+    private volatile float currentFrame;
+    private volatile int animationFPS;
+    private volatile boolean paused;
 
-    private ScheduledExecutorService spriteAnimator;
-
-    Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount) {
+    Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimationData> animationDataMap) {
         this.spritesResource = spritesResource;
+        this.animationDataMap = animationDataMap;
+        this.paused = true;
+
+        if (this.animationDataMap.isEmpty()) {
+            animationDataMap.putAll(NoAnimationsLoaded);
+            Log.warn(
+                    Sprite2D.class,
+                    "No animations were loaded from Sprite2D created from resource at path \"{}\".",
+                    spritesResource.getPath().toAbsolutePath()
+            );
+        }
+
         resetSpriteSheet(horizontalImageCount, verticalImageCount);
         setCollisionPath(DrawUtil.createPath(DrawUtil.createBoxFromImage(sprites[0])));
-        resetSpriteAnimator();
     }
 
-    public static Sprite2DBuilder create(ImageResource spritesResource) {
-        return new Sprite2DBuilder(spritesResource);
+    public static BetterSprite2DBuilder create(Path spriteResourcePath) {
+        ImageResource spriteResource = FastJEngine.getResourceManager(ImageResource.class).loadResource(spriteResourcePath);
+        return create(spriteResource);
+    }
+
+    public static BetterSprite2DBuilder create(Path spriteResourcePath, boolean shouldRender) {
+        ImageResource spriteResource = FastJEngine.getResourceManager(ImageResource.class).loadResource(spriteResourcePath);
+        return create(spriteResource, shouldRender);
+    }
+
+    public static BetterSprite2DBuilder create(ImageResource spritesResource) {
+        return new BetterSprite2DBuilder(spritesResource, Drawable.DefaultShouldRender);
+    }
+
+    public static BetterSprite2DBuilder create(ImageResource spritesResource, boolean shouldRender) {
+        return new BetterSprite2DBuilder(spritesResource, shouldRender);
     }
 
     public static Sprite2D fromImageResource(ImageResource spritesResource) {
-        return new Sprite2DBuilder(spritesResource).build();
+        return new BetterSprite2DBuilder(spritesResource, Drawable.DefaultShouldRender).build();
     }
 
-    public void changeSpriteResource(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount) {
-        this.spritesResource = spritesResource;
+    public static Sprite2D fromPath(Path spriteResourcePath) {
+        return create(spriteResourcePath).build();
+    }
+
+    public void reloadSpriteResource(int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimationData> animationDataMap) {
         resetSpriteSheet(horizontalImageCount, verticalImageCount);
+        if (animationDataMap != null) {
+            this.animationDataMap.clear();
+            this.animationDataMap.putAll(animationDataMap);
+        }
     }
 
-    public int getCurrentFrame() {
+    public float getCurrentFrame() {
         return currentFrame;
     }
 
-    public int getAnimationFPS() {
-        return animationFPS;
-    }
-
-    public AnimationStyle getAnimationStyle() {
-        return animationStyle;
+    public Sprite2D setAnimationFPS(int animationFPS) {
+        this.animationFPS = animationFPS;
+        return this;
     }
 
     public Sprite2D setCurrentFrame(int currentFrame) {
@@ -70,15 +114,114 @@ public class Sprite2D extends GameObject {
         return this;
     }
 
-    public Sprite2D setAnimationFPS(int animationFPS) {
-        this.animationFPS = animationFPS;
-        resetSpriteAnimator();
+    public Sprite2D setCurrentAnimation(String currentAnimation) {
+        if (currentAnimation == null || animationDataMap.get(currentAnimation) == null) {
+            throw new IllegalArgumentException(
+                    "Could not find an animation named " + currentAnimation
+                            + " in animation from \"" + spritesResource.getPath().toAbsolutePath() + "\"."
+            );
+        } else {
+            this.currentAnimation = currentAnimation;
+            this.currentFrame = animationDataMap.get(currentAnimation).getFirstFrame();
+        }
         return this;
     }
 
-    public Sprite2D setAnimationStyle(AnimationStyle animationStyle) {
-        this.animationStyle = animationStyle;
-        return this;
+    private void resetSpriteSheet(int horizontalImageCount, int verticalImageCount) {
+        spritesResource.unload();
+        spritesResource.load();
+        sprites = ImageUtil.createSpriteSheet(spritesResource.get(), horizontalImageCount, verticalImageCount);
+    }
+
+    @Override
+    public Map<String, SpriteAnimationData> getAnimationDataMap() {
+        return animationDataMap;
+    }
+
+    @Override
+    public int getAnimationFPS() {
+        return animationFPS;
+    }
+
+    @Override
+    public String getCurrentAnimation() {
+        return currentAnimation;
+    }
+
+    @Override
+    public boolean isPaused() {
+        return paused;
+    }
+
+    @Override
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    @Override
+    public void stepAnimation(float deltaTime) {
+        if (paused) {
+            return;
+        }
+
+        synchronized (this) {
+            float nextFrame = currentFrame + (deltaTime * animationFPS);
+
+            // check if animation needs to be changed
+            SpriteAnimationData currentAnimationData = animationDataMap.get(currentAnimation);
+            for (var needsAnimationSwitch : currentAnimationData.getNextPossibleAnimations().entrySet()) {
+                if (needsAnimationSwitch.getKey().test(this)) {
+                    currentAnimation = needsAnimationSwitch.getValue().getAnimationName();
+                    currentFrame = needsAnimationSwitch.getValue().getFirstFrame();
+                    return;
+                }
+            }
+
+            // otherwise, account for animation style
+            switch (currentAnimationData.getAnimationStyle()) {
+                case ContinuousLoop: {
+                    if ((int) nextFrame > currentAnimationData.getLastFrame()) {
+                        nextFrame = currentAnimationData.getFirstFrame();
+                    }
+                    break;
+                }
+                case PlayUntilEnd: {
+                    if ((int) nextFrame >= currentAnimationData.getLastFrame()) {
+                        nextFrame = currentAnimationData.getLastFrame();
+                    }
+                    break;
+                }
+                case Static: {
+                    return;
+                }
+            }
+
+            currentFrame = nextFrame;
+        }
+    }
+
+    @Override
+    public void destroy(Scene origin) {
+        setPaused(true);
+
+        currentAnimation = NoAnimation;
+        sprites = NoSpritesLoaded;
+        currentFrame = DefaultStartingFrame;
+        animationFPS = DefaultAnimationFPS;
+
+        super.destroyTheRest(origin);
+    }
+
+    @Override
+    public void destroy(SimpleManager origin) {
+        setPaused(true);
+
+        currentAnimation = NoAnimation;
+        sprites = NoSpritesLoaded;
+        currentFrame = DefaultStartingFrame;
+        animationFPS = DefaultAnimationFPS;
+
+        super.destroyTheRest(origin);
     }
 
     @Override
@@ -86,107 +229,8 @@ public class Sprite2D extends GameObject {
         AffineTransform oldTransform = (AffineTransform) g.getTransform().clone();
         g.transform(getTransformation());
 
-        g.drawImage(sprites[currentFrame], null, null);
+        g.drawImage(sprites[(int) currentFrame], null, null);
 
         g.setTransform(oldTransform);
-    }
-
-    @Override
-    public void destroy(Scene origin) {
-        spriteAnimator.shutdownNow();
-        spriteAnimator = null;
-
-        sprites = new BufferedImage[]{};
-        currentFrame = DefaultStartingFrame;
-        animationFPS = DefaultAnimationFPS;
-        animationStyle = DefaultAnimationStyle;
-
-        super.destroyTheRest(origin);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
-        spriteAnimator.shutdownNow();
-        spriteAnimator = null;
-
-        sprites = new BufferedImage[]{};
-        currentFrame = DefaultStartingFrame;
-        animationFPS = DefaultAnimationFPS;
-        animationStyle = DefaultAnimationStyle;
-
-        super.destroyTheRest(origin);
-    }
-
-    private void resetSpriteSheet(int horizontalImageCount, int verticalImageCount) {
-        sprites = ImageUtil.createSpriteSheet(this.spritesResource.get(), horizontalImageCount, verticalImageCount);
-    }
-
-    private void resetSpriteAnimator() {
-        if (spriteAnimator != null) {
-            spriteAnimator.shutdownNow();
-            spriteAnimator = null;
-        }
-
-        spriteAnimator = Executors.newSingleThreadScheduledExecutor();
-        spriteAnimator.scheduleAtFixedRate(
-                () -> {
-                    switch (animationStyle) {
-                        case Static: {
-                            break;
-                        }
-                        case ContinuousLoop: {
-                            currentFrame++;
-                            if (currentFrame == sprites.length) {
-                                currentFrame = 0;
-                            }
-                            break;
-                        }
-                        case PlayUntilEnd: {
-                            if (currentFrame < sprites.length - 1) {
-                                currentFrame++;
-                            }
-                            break;
-                        }
-                    }
-                },
-                1000 / animationFPS,
-                1000 / animationFPS,
-                TimeUnit.MILLISECONDS
-        );
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        if (!super.equals(other)) {
-            return false;
-        }
-        Sprite2D sprite2D = (Sprite2D) other;
-        return currentFrame == sprite2D.currentFrame
-                && animationFPS == sprite2D.animationFPS
-                && animationStyle == sprite2D.animationStyle
-                && Arrays.equals(sprites, sprite2D.sprites);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(currentFrame, animationFPS, animationStyle);
-        result = 31 * result + Arrays.hashCode(sprites);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Sprite2D{" +
-                "sprites=" + Arrays.toString(sprites) +
-                ", currentFrame=" + currentFrame +
-                ", animationFPS=" + animationFPS +
-                ", animationStyle=" + animationStyle +
-                '}';
     }
 }
