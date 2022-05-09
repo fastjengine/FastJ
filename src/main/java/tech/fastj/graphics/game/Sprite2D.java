@@ -66,26 +66,26 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
         setCollisionPath(DrawUtil.createPath(DrawUtil.createBoxFromImage(sprites[0])));
     }
 
-    public static BetterSprite2DBuilder create(Path spriteResourcePath) {
+    public static Sprite2DBuilder create(Path spriteResourcePath) {
         ImageResource spriteResource = FastJEngine.getResourceManager(ImageResource.class).loadResource(spriteResourcePath);
         return create(spriteResource);
     }
 
-    public static BetterSprite2DBuilder create(Path spriteResourcePath, boolean shouldRender) {
+    public static Sprite2DBuilder create(Path spriteResourcePath, boolean shouldRender) {
         ImageResource spriteResource = FastJEngine.getResourceManager(ImageResource.class).loadResource(spriteResourcePath);
         return create(spriteResource, shouldRender);
     }
 
-    public static BetterSprite2DBuilder create(ImageResource spritesResource) {
-        return new BetterSprite2DBuilder(spritesResource, Drawable.DefaultShouldRender);
+    public static Sprite2DBuilder create(ImageResource spritesResource) {
+        return new Sprite2DBuilder(spritesResource, Drawable.DefaultShouldRender);
     }
 
-    public static BetterSprite2DBuilder create(ImageResource spritesResource, boolean shouldRender) {
-        return new BetterSprite2DBuilder(spritesResource, shouldRender);
+    public static Sprite2DBuilder create(ImageResource spritesResource, boolean shouldRender) {
+        return new Sprite2DBuilder(spritesResource, shouldRender);
     }
 
     public static Sprite2D fromImageResource(ImageResource spritesResource) {
-        return new BetterSprite2DBuilder(spritesResource, Drawable.DefaultShouldRender).build();
+        return new Sprite2DBuilder(spritesResource, Drawable.DefaultShouldRender).build();
     }
 
     public static Sprite2D fromPath(Path spriteResourcePath) {

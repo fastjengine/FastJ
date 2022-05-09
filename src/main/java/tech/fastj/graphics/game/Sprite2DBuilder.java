@@ -13,7 +13,7 @@ import java.util.Objects;
 
 import tech.fastj.animation.sprite.SpriteAnimationData;
 
-public class BetterSprite2DBuilder {
+public class Sprite2DBuilder {
 
     private final ImageResource spriteResource;
     private final Map<String, SpriteAnimationData> animationDataMap;
@@ -30,13 +30,13 @@ public class BetterSprite2DBuilder {
     private float rotation = Transform2D.DefaultRotation;
     private Pointf scale = Transform2D.DefaultScale.copy();
 
-    BetterSprite2DBuilder(ImageResource spriteResource, boolean shouldRender) {
+    Sprite2DBuilder(ImageResource spriteResource, boolean shouldRender) {
         this.spriteResource = Objects.requireNonNull(spriteResource, "The sprite resource instance must not be null.");
         this.shouldRender = shouldRender;
         this.animationDataMap = new LinkedHashMap<>();
     }
 
-    public BetterSprite2DBuilder withImageCount(int horizontalImageCount, int verticalImageCount) {
+    public Sprite2DBuilder withImageCount(int horizontalImageCount, int verticalImageCount) {
         if (horizontalImageCount < 1) {
             throw new IllegalArgumentException("The given horizontal image count must be at least 1.");
         }
@@ -50,7 +50,7 @@ public class BetterSprite2DBuilder {
         return this;
     }
 
-    public BetterSprite2DBuilder withStartingFrame(int startingFrame) {
+    public Sprite2DBuilder withStartingFrame(int startingFrame) {
         if (startingFrame < 0) {
             throw new IllegalArgumentException("The starting frame value must be at least 0.");
         }
@@ -62,7 +62,7 @@ public class BetterSprite2DBuilder {
         return this;
     }
 
-    public BetterSprite2DBuilder withAnimationFPS(int animationFPS) {
+    public Sprite2DBuilder withAnimationFPS(int animationFPS) {
         if (animationFPS < 1) {
             throw new IllegalArgumentException("The animation FPS must be at least 1 FPS.");
         }
@@ -71,17 +71,17 @@ public class BetterSprite2DBuilder {
         return this;
     }
 
-    public BetterSprite2DBuilder withStartingAnimation(String startingAnimation) {
+    public Sprite2DBuilder withStartingAnimation(String startingAnimation) {
         this.startingAnimation = Objects.requireNonNull(startingAnimation, "The current animation should not be null.");
         return this;
     }
 
-    public BetterSprite2DBuilder startPaused(boolean startPaused) {
+    public Sprite2DBuilder startPaused(boolean startPaused) {
         this.startPaused = startPaused;
         return this;
     }
 
-    public BetterSprite2DBuilder withAnimationData(SpriteAnimationData animationData) {
+    public Sprite2DBuilder withAnimationData(SpriteAnimationData animationData) {
         assert animationData != null;
         assert animationData.getAnimationName() != null;
 
@@ -97,7 +97,7 @@ public class BetterSprite2DBuilder {
      * @param scale       The scale {@code Pointf} to be used int he resulting {@code Polygon2D}.
      * @return The {@code BetterSprite2DBuilder}, for method chaining.
      */
-    public BetterSprite2DBuilder withTransform(Pointf translation, float rotation, Pointf scale) {
+    public Sprite2DBuilder withTransform(Pointf translation, float rotation, Pointf scale) {
         this.translation = Objects.requireNonNull(translation, "The translation value must not be null.");
         this.scale = Objects.requireNonNull(scale, "The scale value must not be null.");
         if (Float.isNaN(rotation)) {
