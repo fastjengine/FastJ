@@ -1,12 +1,15 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.logging.Log;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.logging.Log;
+
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageUtil;
+
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
