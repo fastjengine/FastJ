@@ -689,8 +689,16 @@ public final class DrawUtil {
                     count++;
                     break;
                 }
+                case PathIterator.SEG_QUADTO: {
+                    count += 2;
+                    break;
+                }
+                case PathIterator.SEG_CUBICTO: {
+                    count += 3;
+                    break;
+                }
                 default: {
-                    throw new IllegalArgumentException("Path contains curves");
+                    throw new IllegalArgumentException("unknown path segment type " + pi.currentSegment(coords));
                 }
             }
         }
