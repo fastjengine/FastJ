@@ -23,22 +23,22 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 
 ## Projected Feature List
 
-|       Feature        |                         Description                         |  Support  |
-| :------------------- | :---------------------------------------------------------- | :-------: |
-| 2D Rendering         | Rendering of 2D Polygons, Models, Lighting                  |    ✔     |
-| Scene System         | Scene-based Rendering, Scene Switching                      |    ✔     |
-| Scriptable Behaviors | Control GameObject state                                    |    ✅    |
-| Desktop Support      | Full Compatibility on Windows, Linux, and macOS             |    ✅    |
-| Audio Engine         | Loading, Playing, and Controlling .wav, .au, .aiff files    |    ✔     |
-| Image Support        | Image rendering, Sprite Animation                           |    ✔    |
-| Animation Support    | Interpolation, Tweening Framework                           |    ⭕    |
-| UI System            | Flexible UI System to replace Swing UI                      |    ⭕    |
-| Particle Engine      | Configurable and Customizable Particle Management           |    ⭕    |
-| Physics Engine       | Custom 2D Physics Engine.                                   |    ❌    |
-| Asset Manager        | Load, Unload, and Hot Reload Game Assets                    |    ⭕    |
-| FastJ Model Creator  | Create & Export 2D Models                                   |    ⭕    |
-| FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor  |    ❌    |
-| Web Support          | Run FastJ Programs in a Web Browser                         |    ❌    |
+|       Feature        | Description                                                                                                                                                                                                            |  Support  |
+| :------------------- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :-------: |
+| 2D Rendering         | Rendering of [2D Polygons](examples/java/tech/fastj/examples/polygon2d/Main.java), [Models](examples/java/tech/fastj/examples/model2d/Main.java), [Text](examples/java/tech/fastj/examples/text2d/Main.java), Lighting |    ✔     |
+| Scene System         | Scene-based Rendering, Scene Switching                                                                                                                                                                                 |    ✔     |
+| Scriptable Behaviors | [Control GameObject state](examples/java/tech/fastj/examples/behaviors/)                                                                                                                                               |    ✅    |
+| Desktop Support      | Full Compatibility on Windows, Linux, and macOS                                                                                                                                                                        |    ✅    |
+| Audio Engine         | [Loading, Playing, and Controlling .wav, .au, .aiff files](examples/java/tech/fastj/examples/audio/Main.java)                                                                                                          |    ✔     |
+| Image Support        | Image rendering, Sprite Animation                                                                                                                                                                                      |    ✔    |
+| Animation Support    | Interpolation, Tweening Framework                                                                                                                                                                                      |    ⭕    |
+| UI System            | Flexible UI System to replace Swing UI                                                                                                                                                                                 |    ⭕    |
+| Particle Engine      | Configurable and Customizable Particle Management                                                                                                                                                                      |    ⭕    |
+| Physics Engine       | Custom 2D Physics Engine.                                                                                                                                                                                              |    ❌    |
+| Asset Manager        | Load, Unload, and Hot Reload Game Assets                                                                                                                                                                               |    ⭕    |
+| FastJ Model Creator  | Create & Export 2D Models                                                                                                                                                                                              |    ⭕    |
+| FastJ Editor         | View, Run, Build, and Export FastJ programs from an editor                                                                                                                                                             |    ❌    |
+| Web Support          | Run FastJ Programs in a Web Browser                                                                                                                                                                                    |    ❌    |
 
 ✅ is complete and satisfactory.
 
@@ -47,6 +47,8 @@ FastJ is an open-source, Java-based 2D game engine and framework. Originally nam
 ⭕ is in progress.
 
 ❌ is not yet implemented.
+
+Features with examples available have their prime example linked.
 
 
 ## Get Started
