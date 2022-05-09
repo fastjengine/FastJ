@@ -45,7 +45,8 @@ class Polygon2DTests {
         RenderStyle renderStyle = RenderStyle.values()[Maths.randomInteger(0, RenderStyle.values().length - 1)];
         boolean shouldRender = Maths.randomBoolean();
 
-        Polygon2D polygon2D = Polygon2D.create(square, renderStyle, shouldRender)
+        Polygon2D polygon2D = Polygon2D.create(square, shouldRender)
+                .withRenderStyle(renderStyle)
                 .withFill(randomColor)
                 .build();
 
@@ -75,8 +76,9 @@ class Polygon2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
         float expectedNormalizedRotation = randomRotation % 360;
 
-        Polygon2D polygon2D = Polygon2D.create(square, renderStyle, shouldRender)
+        Polygon2D polygon2D = Polygon2D.create(square, shouldRender)
                 .withTransform(randomTranslation, randomRotation, randomScale)
+                .withRenderStyle(renderStyle)
                 .withOutline(outlineStroke, outlineColor)
                 .withFill(randomColor)
                 .build();

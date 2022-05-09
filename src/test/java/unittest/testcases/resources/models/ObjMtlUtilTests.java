@@ -60,7 +60,8 @@ class ObjMtlUtilTests {
     private static final RenderStyle expectedHouseWallsRenderStyle = RenderStyle.FillAndOutline;
     private static final BasicStroke expectedHouseWallsOutlineStroke = new BasicStroke(5.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 15f);
     private static final Color expectedHouseWallsOutlineColor = new Color(150, 150, 150, 150);
-    private static final Polygon2D expectedHouseWalls = Polygon2D.create(expectedHouseWallsMesh, expectedHouseWallsRenderStyle)
+    private static final Polygon2D expectedHouseWalls = Polygon2D.create(expectedHouseWallsMesh)
+            .withRenderStyle(expectedHouseWallsRenderStyle)
             .withOutline(expectedHouseWallsOutlineStroke, expectedHouseWallsOutlineColor)
             .build();
     private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient(expectedHouseWalls)
@@ -75,7 +76,8 @@ class ObjMtlUtilTests {
     };
     private static final RenderStyle expectedHouseRoofRenderStyle = RenderStyle.Outline;
     private static final BasicStroke expectedHouseRoofOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f);
-    private static final Polygon2D expectedHouseRoof = Polygon2D.create(expectedHouseRoofMesh, expectedHouseRoofRenderStyle)
+    private static final Polygon2D expectedHouseRoof = Polygon2D.create(expectedHouseRoofMesh)
+            .withRenderStyle(expectedHouseRoofRenderStyle)
             .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
             .build();
 
