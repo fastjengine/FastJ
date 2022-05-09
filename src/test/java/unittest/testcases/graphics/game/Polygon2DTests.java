@@ -11,6 +11,7 @@ import tech.fastj.graphics.util.DrawUtil;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Path2D;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -35,6 +36,28 @@ class Polygon2DTests {
         assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
+    }
+    @Test
+    void checkPolygon2DCreation_withPath2DParam() {
+        Path2D.Float path = new Path2D.Float();
+        path.moveTo(0f, 0f);
+        path.lineTo(10f, 0f);
+        path.curveTo(6f, 3f, 14f, 7f, 10f, 10f);
+        path.lineTo(0f, 10f);
+        path.quadTo(5f, 5f, 0f, 0f);
+        path.closePath();
+        Polygon2D polygon2D = Polygon2D.fromPath(path);
+
+        assertEquals(Polygon2D.DefaultFill, polygon2D.getFill(), "The created polygon's paint should match the default paint.");
+        assertEquals(Polygon2D.DefaultRenderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
+        assertEquals(Drawable.DefaultShouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the default shouldRender option.");
+        assertEquals(Polygon2D.DefaultOutlineStroke, polygon2D.getOutlineStroke(), "The created polygon's outline stroke option should match the default outline stroke.");
+        assertEquals(Polygon2D.DefaultOutlineColor, polygon2D.getOutlineColor(), "The created polygon's outline color option should match the default outline color.");
+        assertEquals(Transform2D.DefaultTranslation, polygon2D.getTranslation(), "The created polygon's translation should match an origin translation.");
+        assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
+        assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
+        assertArrayEquals(DrawUtil.pointsOfPath(path), polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the path's original Pointf array.");
+        assertArrayEquals(DrawUtil.pointsOfPathWithAlt(path).getRight(), polygon2D.getAlternateIndexes(), "The created polygon's Pointf alternate indexes should match the expected alternate indexes.");
     }
 
     @Test

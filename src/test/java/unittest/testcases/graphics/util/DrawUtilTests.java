@@ -1,9 +1,12 @@
 package unittest.testcases.graphics.util;
 
+import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
+
+import tech.fastj.systems.collections.Pair;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,6 +15,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -357,17 +361,80 @@ class DrawUtilTests {
     }
 
     @Test
+    void checkGetPointsOfPath2DFloat_andAlternateIndexes_shouldMatchOriginalPointfArray() {
+        float top = 0f;
+        float bottom = 75f;
+        float left = 0f;
+        float right = 75f;
+        float leftCenter = 25f;
+        float rightCenter = 50f;
+        float topCenter = 25f;
+        float bottomCenter = 50f;
+        Pointf[] expectedPoints = {
+                new Pointf(leftCenter, top),
+                new Pointf(rightCenter, top),
+                new Pointf(right, topCenter),
+                new Pointf(right, bottomCenter),
+                new Pointf(rightCenter, bottom),
+                new Pointf(leftCenter, bottom),
+                new Pointf(left, bottomCenter),
+                new Pointf(left, topCenter)
+        };
+        Pointf[] expectedCurvesAfterPoints = {
+                new Pointf(left - 50f, topCenter),
+                new Pointf(right + 50f, topCenter + 50f),
+                new Pointf(leftCenter, topCenter + 100f),
+                new Pointf(right, bottomCenter),
+                new Pointf(leftCenter, bottomCenter + 100f)
+        };
+        Point[] expectedAltIndexes = {
+                new Point(expectedPoints.length, Polygon2D.BezierCurve),
+                new Point(expectedPoints.length + 3, Polygon2D.QuadCurve)
+        };
+
+        Path2D.Float pathFromExpectedPoints = new Path2D.Float();
+        pathFromExpectedPoints.moveTo(expectedPoints[0].x, expectedPoints[0].y);
+        for (int i = 1; i < expectedPoints.length; i++) {
+            pathFromExpectedPoints.lineTo(expectedPoints[i].x, expectedPoints[i].y);
+        }
+        pathFromExpectedPoints.curveTo(
+                expectedCurvesAfterPoints[0].x,
+                expectedCurvesAfterPoints[0].y,
+                expectedCurvesAfterPoints[1].x,
+                expectedCurvesAfterPoints[1].y,
+                expectedCurvesAfterPoints[2].x,
+                expectedCurvesAfterPoints[2].y
+        );
+        pathFromExpectedPoints.quadTo(
+                expectedCurvesAfterPoints[3].x,
+                expectedCurvesAfterPoints[3].y,
+                expectedCurvesAfterPoints[4].x,
+                expectedCurvesAfterPoints[4].y
+        );
+        pathFromExpectedPoints.closePath();
+
+        Pair<Pointf[], Point[]> actualPoints = DrawUtil.pointsOfPathWithAlt(pathFromExpectedPoints);
+        Pointf[] allExpectedPoints = Stream.concat(Arrays.stream(expectedPoints), Arrays.stream(expectedCurvesAfterPoints))
+                        .toArray(Pointf[]::new);
+
+        assertArrayEquals(allExpectedPoints, actualPoints.getLeft(), "The actual array of Pointfs should match the expected array.");
+        assertArrayEquals(expectedAltIndexes, actualPoints.getRight(), "The actual array of alternate index Points should match the expected array.");
+    }
+
+    @Test
     void checkPathLengthGetter() {
         Path2D.Float path = new Path2D.Float();
-        int expectedLength = 26;
+        int expectedLength = 26 + 5;
 
         path.moveTo(0f, 0f);
 
         int initialPosition = 1;
-        int linesCreated = expectedLength - 1;
+        int linesCreated = expectedLength - 1 - 5;
         for (int i = initialPosition; i <= linesCreated; i++) {
             path.lineTo(i, i * 2);
         }
+        path.curveTo(0f, 0f, 100f, 5f, 50f, 200f);
+        path.quadTo(75f, 225f, 50f, 250f);
         path.closePath();
 
         int actualLength = DrawUtil.lengthOfPath(path);

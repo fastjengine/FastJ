@@ -6,6 +6,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
+import tech.fastj.systems.collections.Pair;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -139,6 +140,17 @@ public class Polygon2D extends GameObject {
      */
     public static Polygon2D fromPoints(Pointf[] points, Point[] altIndexes) {
         return new Polygon2DBuilder(points, altIndexes, Drawable.DefaultShouldRender).build();
+    }
+
+    /**
+     * Creates a {@code Polygon2D} from the specified {@link Path2D.Float}.
+     *
+     * @param path {@code Path2D.Float} that defines the points from which to create a {@code Polygon2D}.
+     * @return The resulting {@code Polygon2D}.
+     */
+    public static Polygon2D fromPath(Path2D.Float path) {
+        Pair<Pointf[], Point[]> pathMesh = DrawUtil.pointsOfPathWithAlt(path);
+        return new Polygon2DBuilder(pathMesh.getLeft(), pathMesh.getRight(), Drawable.DefaultShouldRender).build();
     }
 
     /**

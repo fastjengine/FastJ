@@ -672,7 +672,7 @@ public final class DrawUtil {
      */
     public static int lengthOfPath(Path2D path) {
         int count = 0;
-        double[] coords = new double[2];
+        double[] coords = new double[6];
 
         int numSubPaths = 0;
 
