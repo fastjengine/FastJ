@@ -3,6 +3,7 @@ package tech.fastj.resources.models;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 
+import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 
@@ -51,6 +52,7 @@ public class PsdfUtil {
         int polygonsIndex = 0;
 
         List<Pointf> polygonPoints = new ArrayList<>();
+        List<Point> altIndexes = new ArrayList<>();
         boolean shouldRender = Drawable.DefaultShouldRender;
 
         RenderStyle renderStyle = Polygon2D.DefaultRenderStyle;
@@ -102,6 +104,10 @@ public class PsdfUtil {
                     shouldRender = parseShouldRender(tokens);
                     break;
                 }
+                case ParsingKeys.AlternateIndex: {
+                    altIndexes.add(parseAltIndex(tokens));
+                    break;
+                }
                 case ParsingKeys.MeshPoint: {
                     polygonPoints.add(parseMeshPoint(tokens));
 
@@ -109,7 +115,7 @@ public class PsdfUtil {
                     if (tokens.length == 4 && tokens[3].equals(";")) {
                         assert polygons != null;
 
-                        polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), null, shouldRender)
+                        polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), altIndexes.toArray(new Point[0]), shouldRender)
                                 .withRenderStyle(renderStyle)
                                 .withOutline(outlineStroke, outlineColor)
                                 .withTransform(translation, rotation, scale)
@@ -123,6 +129,7 @@ public class PsdfUtil {
 
                         // reset values
                         polygonPoints.clear();
+                        altIndexes.clear();
                         shouldRender = Drawable.DefaultShouldRender;
 
                         renderStyle = Polygon2D.DefaultRenderStyle;
@@ -320,6 +327,10 @@ public class PsdfUtil {
         return Boolean.parseBoolean(tokens[1]);
     }
 
+    private static Point parseAltIndex(String[] tokens) {
+        return new Point(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+    }
+
     private static Pointf parseMeshPoint(String[] tokens) {
         return new Pointf(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));
     }
@@ -336,6 +347,7 @@ public class PsdfUtil {
             writeOutline(fileContents, polygon.getOutlineStroke(), polygon.getOutlineColor());
             writeTransform(fileContents, polygon.getTranslation(), polygon.getRotation(), polygon.getScale());
             writeShouldRender(fileContents, polygon.shouldRender());
+            writeAltIndexes(fileContents, polygon);
             writeMeshPoints(fileContents, polygon);
 
             // if there are more objects after this object, then add a new line.
@@ -516,15 +528,32 @@ public class PsdfUtil {
                 .append(LineSeparator);
     }
 
+    private static void writeAltIndexes(StringBuilder fileContents, Polygon2D polygon) {
+        if (polygon.getAlternateIndexes() == null) {
+            return;
+        }
+
+        for (int j = 0; j < polygon.getAlternateIndexes().length; j++) {
+            Point pt = polygon.getAlternateIndexes()[j];
+            fileContents.append(ParsingKeys.AlternateIndex)
+                    .append(' ')
+                    .append(pt.x)
+                    .append(' ')
+                    .append(pt.y)
+                    .append(LineSeparator);
+        }
+    }
+
     private static void writeMeshPoints(StringBuilder fileContents, Polygon2D polygon) {
-        for (int j = 0; j < polygon.getPoints().length; j++) {
-            Pointf pt = polygon.getPoints()[j];
+        Pointf[] pts = polygon.getPoints();
+        for (int j = 0; j < pts.length; j++) {
+            Pointf pt = pts[j];
             fileContents.append(PsdfUtil.ParsingKeys.MeshPoint)
                     .append(' ')
                     .append(pt.x)
                     .append(' ')
                     .append(pt.y)
-                    .append(j == polygon.getPoints().length - 1 ? " ;" : "")
+                    .append(j == pts.length - 1 ? " ;" : "")
                     .append(LineSeparator);
         }
     }
@@ -550,5 +579,6 @@ public class PsdfUtil {
         public static final String Transform = "tfm";
         public static final String ShouldRender = "sr";
         public static final String MeshPoint = "p";
+        public static final String AlternateIndex = "aip";
     }
 }
