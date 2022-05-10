@@ -1,18 +1,19 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.resources.files.FileUtil;
-
 import tech.fastj.systems.audio.state.PlaybackState;
+import tech.fastj.systems.tags.TagHandler;
 
+import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import javax.sound.sampled.*;
 
 /**
  * The manager of all audio-based content.
@@ -20,10 +21,10 @@ import javax.sound.sampled.*;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class AudioManager {
+public class AudioManager implements TagHandler<Audio> {
 
-    private static final Map<String, MemoryAudio> MemoryAudioFiles = new ConcurrentHashMap<>();
-    private static final Map<String, StreamedAudio> StreamedAudioFiles = new ConcurrentHashMap<>();
+    private final Map<String, MemoryAudio> memoryAudioFiles = new ConcurrentHashMap<>();
+    private final Map<String, StreamedAudio> streamedAudioFiles = new ConcurrentHashMap<>();
     private static ExecutorService audioEventExecutor = Executors.newWorkStealingPool();
 
     /**
@@ -71,9 +72,9 @@ public class AudioManager {
      * @param audioPath The path of the {@code MemoryAudio} object to load.
      * @return The created {@link MemoryAudio} instance.
      */
-    public static MemoryAudio loadMemoryAudio(Path audioPath) {
+    public MemoryAudio loadMemoryAudio(Path audioPath) {
         MemoryAudio audio = new MemoryAudio(audioPath);
-        MemoryAudioFiles.put(audio.getID(), audio);
+        memoryAudioFiles.put(audio.getID(), audio);
         return audio;
     }
 
@@ -83,9 +84,9 @@ public class AudioManager {
      * @param audioPath The path of the {@code MemoryAudio} object to load.
      * @return The created {@link MemoryAudio} instance.
      */
-    public static MemoryAudio loadMemoryAudio(URL audioPath) {
+    public MemoryAudio loadMemoryAudio(URL audioPath) {
         MemoryAudio audio = new MemoryAudio(audioPath);
-        MemoryAudioFiles.put(audio.getID(), audio);
+        memoryAudioFiles.put(audio.getID(), audio);
         return audio;
     }
 
@@ -95,12 +96,12 @@ public class AudioManager {
      * @param audioPaths The paths of the {@code MemoryAudio} objects to load.
      * @return The created {@link MemoryAudio} instances.
      */
-    public static MemoryAudio[] loadMemoryAudio(Path... audioPaths) {
+    public MemoryAudio[] loadMemoryAudio(Path... audioPaths) {
         MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
             MemoryAudio audio = new MemoryAudio(audioPaths[i]);
-            MemoryAudioFiles.put(audio.getID(), audio);
+            memoryAudioFiles.put(audio.getID(), audio);
             audioInstances[i] = audio;
         }
 
@@ -113,12 +114,12 @@ public class AudioManager {
      * @param audioPaths The URLs of the {@code MemoryAudio} objects to load.
      * @return The created {@link MemoryAudio} instances.
      */
-    public static MemoryAudio[] loadMemoryAudio(URL... audioPaths) {
+    public MemoryAudio[] loadMemoryAudio(URL... audioPaths) {
         MemoryAudio[] audioInstances = new MemoryAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
             MemoryAudio audio = new MemoryAudio(audioPaths[i]);
-            MemoryAudioFiles.put(audio.getID(), audio);
+            memoryAudioFiles.put(audio.getID(), audio);
             audioInstances[i] = audio;
         }
 
@@ -131,9 +132,9 @@ public class AudioManager {
      * @param audioPath The path of the {@code StreamedAudio} object to load.
      * @return The created {@link StreamedAudio} instance.
      */
-    public static StreamedAudio loadStreamedAudio(Path audioPath) {
+    public StreamedAudio loadStreamedAudio(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        StreamedAudioFiles.put(audio.getID(), audio);
+        streamedAudioFiles.put(audio.getID(), audio);
         return audio;
     }
 
@@ -143,9 +144,9 @@ public class AudioManager {
      * @param audioPath The path of the {@code StreamedAudio} object to load.
      * @return The created {@link StreamedAudio} instance.
      */
-    public static StreamedAudio loadStreamedAudio(URL audioPath) {
+    public StreamedAudio loadStreamedAudio(URL audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        StreamedAudioFiles.put(audio.getID(), audio);
+        streamedAudioFiles.put(audio.getID(), audio);
         return audio;
     }
 
@@ -155,12 +156,12 @@ public class AudioManager {
      * @param audioPaths The paths of the {@code StreamedAudio} objects to load.
      * @return The created {@link StreamedAudio} instances.
      */
-    public static StreamedAudio[] loadStreamedAudio(Path... audioPaths) {
+    public StreamedAudio[] loadStreamedAudio(Path... audioPaths) {
         StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
             StreamedAudio audio = new StreamedAudio(audioPaths[i]);
-            StreamedAudioFiles.put(audio.getID(), audio);
+            streamedAudioFiles.put(audio.getID(), audio);
             audioInstances[i] = audio;
         }
 
@@ -173,12 +174,12 @@ public class AudioManager {
      * @param audioPaths The URLs of the {@code StreamedAudio} objects to load.
      * @return The created {@link StreamedAudio} instances.
      */
-    public static StreamedAudio[] loadStreamedAudio(URL... audioPaths) {
+    public StreamedAudio[] loadStreamedAudio(URL... audioPaths) {
         StreamedAudio[] audioInstances = new StreamedAudio[audioPaths.length];
 
         for (int i = 0; i < audioPaths.length; i++) {
             StreamedAudio audio = new StreamedAudio(audioPaths[i]);
-            StreamedAudioFiles.put(audio.getID(), audio);
+            streamedAudioFiles.put(audio.getID(), audio);
             audioInstances[i] = audio;
         }
 
@@ -190,8 +191,8 @@ public class AudioManager {
      *
      * @param id The id of the {@code MemoryAudio} object to remove.
      */
-    public static void unloadMemoryAudio(String id) {
-        MemoryAudioFiles.remove(id);
+    public void unloadMemoryAudio(String id) {
+        memoryAudioFiles.remove(id);
     }
 
     /**
@@ -199,9 +200,9 @@ public class AudioManager {
      *
      * @param ids The ids of the {@code MemoryAudio} objects to remove.
      */
-    public static void unloadMemoryAudio(String... ids) {
+    public void unloadMemoryAudio(String... ids) {
         for (String id : ids) {
-            MemoryAudioFiles.remove(id);
+            memoryAudioFiles.remove(id);
         }
     }
 
@@ -210,8 +211,8 @@ public class AudioManager {
      *
      * @param id The id of the {@code StreamedAudio} object to remove.
      */
-    public static void unloadStreamedAudio(String id) {
-        StreamedAudioFiles.remove(id);
+    public void unloadStreamedAudio(String id) {
+        streamedAudioFiles.remove(id);
     }
 
     /**
@@ -219,9 +220,9 @@ public class AudioManager {
      *
      * @param ids The ids of the {@code StreamedAudio} objects to remove.
      */
-    public static void unloadStreamedAudio(String... ids) {
+    public void unloadStreamedAudio(String... ids) {
         for (String id : ids) {
-            StreamedAudioFiles.remove(id);
+            streamedAudioFiles.remove(id);
         }
     }
 
@@ -231,8 +232,8 @@ public class AudioManager {
      * @param id The id of the audio to get.
      * @return The {@code Audio} object.
      */
-    public static MemoryAudio getMemoryAudio(String id) {
-        return MemoryAudioFiles.get(id);
+    public MemoryAudio getMemoryAudio(String id) {
+        return memoryAudioFiles.get(id);
     }
 
     /**
@@ -241,26 +242,26 @@ public class AudioManager {
      * @param id The id of the audio to get.
      * @return The {@code Audio} object.
      */
-    public static StreamedAudio getStreamedAudio(String id) {
-        return StreamedAudioFiles.get(id);
+    public StreamedAudio getStreamedAudio(String id) {
+        return streamedAudioFiles.get(id);
     }
 
 
     /** Resets the {@code AudioManager}, removing all of its loaded audio files. */
-    public static void reset() {
-        MemoryAudioFiles.forEach((s, audio) -> {
+    public void reset() {
+        memoryAudioFiles.forEach((s, audio) -> {
             if (audio.currentPlaybackState != PlaybackState.Stopped) {
                 audio.stop();
             }
         });
-        MemoryAudioFiles.clear();
+        memoryAudioFiles.clear();
 
-        StreamedAudioFiles.forEach((s, audio) -> {
+        streamedAudioFiles.forEach((s, audio) -> {
             if (audio.currentPlaybackState != PlaybackState.Stopped) {
                 audio.stop();
             }
         });
-        StreamedAudioFiles.clear();
+        streamedAudioFiles.clear();
 
         audioEventExecutor.shutdownNow();
         audioEventExecutor = Executors.newWorkStealingPool();
@@ -339,5 +340,14 @@ public class AudioManager {
 
     static void fireAudioEvent(Audio audio, LineEvent audioEventType) {
         audioEventExecutor.submit(() -> audio.getAudioEventListener().fireEvent(audioEventType));
+    }
+
+    @Override
+    public List<Audio> getTaggableEntities() {
+        List<Audio> result = new ArrayList<>();
+        result.addAll(memoryAudioFiles.values());
+        result.addAll(streamedAudioFiles.values());
+
+        return result;
     }
 }

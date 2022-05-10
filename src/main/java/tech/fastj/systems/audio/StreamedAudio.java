@@ -30,10 +30,8 @@ import javax.sound.sampled.SourceDataLine;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class StreamedAudio implements Audio {
+public class StreamedAudio extends Audio {
 
-    private final Path audioPath;
-    private final String id;
     private final AudioInputStream audioInputStream;
 
     private SourceDataLine sourceDataLine;
@@ -44,8 +42,6 @@ public class StreamedAudio implements Audio {
     private BooleanControl muteControl;
 
     private AudioEventListener audioEventListener;
-    PlaybackState currentPlaybackState;
-    PlaybackState previousPlaybackState;
 
     /**
      * Constructs the {@code StreamedAudio} object with the given path.
@@ -53,8 +49,7 @@ public class StreamedAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     StreamedAudio(Path audioPath) {
-        this.audioPath = audioPath;
-        this.id = UUID.randomUUID().toString();
+        super(audioPath, UUID.randomUUID().toString());
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
 
@@ -67,8 +62,7 @@ public class StreamedAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     StreamedAudio(URL audioPath) {
-        this.id = UUID.randomUUID().toString();
-        this.audioPath = AudioManager.pathFromURL(audioPath);
+        super(AudioManager.pathFromURL(audioPath), UUID.randomUUID().toString());
 
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();

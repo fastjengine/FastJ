@@ -1,5 +1,6 @@
 package unittest.testcases.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Maths;
 
 import tech.fastj.systems.audio.AudioManager;
@@ -28,6 +29,7 @@ class MemoryAudioTests {
 
     private static final Path TestAudioPath = Path.of("src/test/resources/test_audio.wav");
     private static final URL TestAudioURL = MemoryAudioTests.class.getClassLoader().getResource("test_audio.wav");
+    private static final AudioManager AudioManager = FastJEngine.getAudioManager();
 
     @BeforeAll
     public static void onlyRunIfAudioOutputIsSupported() {

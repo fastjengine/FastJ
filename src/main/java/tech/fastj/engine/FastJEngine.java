@@ -114,6 +114,9 @@ public class FastJEngine {
     // Animation
     private static final Map<Class<Animated<?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
 
+    // Audio
+    private static final AudioManager AudioManager = new AudioManager();
+
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
     }
@@ -494,6 +497,10 @@ public class FastJEngine {
         return (AnimationEngine<TD, T>) AnimationEngines.computeIfAbsent((Class<Animated<?>>) animationClass, aClass -> {
             throw new IllegalStateException("No animation engine was added for the animation type \"" + animationClass.getTypeName() + "\".");
         });
+    }
+
+    public static AudioManager getAudioManager() {
+        return AudioManager;
     }
 
     public static <T extends Display> void setCustomDisplay(T display) {
