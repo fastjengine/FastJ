@@ -14,7 +14,6 @@ import unittest.mock.systems.control.MockEmptySimpleManager;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -27,14 +26,10 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FastJEngineTests {
 
-    @BeforeAll
-    public static void onlyRunIfNotHeadless() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-    }
-
     @Test
     @Order(0)
     void checkRunAfterUpdate() {
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
         AtomicBoolean ranAfterUpdate = new AtomicBoolean();
         FastJEngine.init("yeet", new SimpleManager() {
             @Override
@@ -67,6 +62,7 @@ class FastJEngineTests {
     @Test
     @Order(1)
     void checkRunAfterRender() {
+        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
         AtomicBoolean ranAfterRender = new AtomicBoolean();
         FastJEngine.init("yeet", new SimpleManager() {
             @Override

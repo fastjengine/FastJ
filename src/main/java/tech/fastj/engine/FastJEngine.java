@@ -31,6 +31,7 @@ import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
 
+import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.util.Arrays;
 import java.util.Map;
@@ -58,8 +59,8 @@ import tech.fastj.animation.sprite.SpriteAnimationEngine;
  */
 public class FastJEngine {
 
-    /** Default engine value for "frames per second" of at least {@code 60}, depending on the monitor's refresh rate. */
-    public static final int DefaultFPS = Math.max(DisplayUtil.getDefaultMonitorRefreshRate(), 60);
+    /** Default engine value for "frames per second" of {@code 60} or the monitor's refresh rate. */
+    public static final int DefaultFPS;
 
     /** Default engine value for "updates per second" of {@code 60}. */
     public static final int DefaultUPS = 60;
@@ -122,6 +123,15 @@ public class FastJEngine {
     }
 
     static {
+        int fps;
+        try {
+            fps = DisplayUtil.getDefaultMonitorRefreshRate();
+        } catch (HeadlessException exception) {
+            warning("Environment is headless, will default FPS to 60.");
+            fps = 60;
+        }
+        DefaultFPS = fps;
+
         addDefaultResourceManagers();
         addDefaultAnimationEngines();
     }

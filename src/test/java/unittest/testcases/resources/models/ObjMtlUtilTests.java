@@ -1,6 +1,5 @@
 package unittest.testcases.resources.models;
 
-
 import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.math.Pointf;
@@ -15,8 +14,6 @@ import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.resources.models.SupportedModelFormats;
-
-import unittest.EnvironmentHelper;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -44,7 +41,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ObjMtlUtilTests {
@@ -93,11 +89,6 @@ class ObjMtlUtilTests {
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
     @BeforeAll
-    public static void onlyRunIfNotHeadless() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-    }
-
-    @BeforeAll
     public static void createTempDirectoryAndFile_forReadWriteTests() throws IOException {
         Files.createDirectory(tempModelDirectoryPath);
         Log.debug("Temporary directory created at: {}", tempModelDirectoryPath.toAbsolutePath());
@@ -107,7 +98,6 @@ class ObjMtlUtilTests {
 
     @AfterAll
     public static void deleteTempModelFolder() throws IOException {
-        onlyRunIfNotHeadless();
         try (Stream<Path> pathWalker = Files.walk(tempModelDirectoryPath)) {
             pathWalker.sorted(Comparator.reverseOrder()).forEach(file -> {
                 try {
