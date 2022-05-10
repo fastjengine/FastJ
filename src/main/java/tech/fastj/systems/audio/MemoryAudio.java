@@ -26,7 +26,7 @@ import javax.sound.sampled.Clip;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class MemoryAudio implements Audio {
+public class MemoryAudio extends Audio {
 
     /**
      * Signifies that the audio should loop indefinitely when it finishes playing.
@@ -54,19 +54,14 @@ public class MemoryAudio implements Audio {
      */
     public static final int LoopAtEnd = -1;
 
-    private final Path audioPath;
-    private final String id;
-    private final AudioInputStream audioInputStream;
+    private final AudioEventListener audioEventListener;
     private final Clip clip;
+    private final AudioInputStream audioInputStream;
 
     private float loopStart;
     private float loopEnd;
     private int loopCount;
     private boolean shouldLoop;
-
-    private final AudioEventListener audioEventListener;
-    PlaybackState currentPlaybackState;
-    PlaybackState previousPlaybackState;
 
     /**
      * Constructs the {@code MemoryAudio} object with the given path.
@@ -74,15 +69,12 @@ public class MemoryAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     MemoryAudio(Path audioPath) {
-        this.audioPath = audioPath;
-        this.id = UUID.randomUUID().toString();
+        super(audioPath, UUID.randomUUID().toString());
 
         loopStart = LoopFromStart;
         loopEnd = LoopAtEnd;
-
         clip = Objects.requireNonNull(AudioManager.newClip());
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
-
         audioEventListener = new AudioEventListener(this);
         currentPlaybackState = PlaybackState.Stopped;
         previousPlaybackState = PlaybackState.Stopped;
@@ -94,17 +86,14 @@ public class MemoryAudio implements Audio {
      * @param audioPath The path of the audio to use.
      */
     MemoryAudio(URL audioPath) {
-        this.id = UUID.randomUUID().toString();
+        super(AudioManager.pathFromURL(audioPath), UUID.randomUUID().toString());
 
         loopStart = LoopFromStart;
         loopEnd = LoopAtEnd;
-
         clip = Objects.requireNonNull(AudioManager.newClip());
 
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
-
-        this.audioPath = AudioManager.pathFromURL(audioPath);
 
         if (urlPath.startsWith(urlProtocol) || urlPath.startsWith("file:///")) {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));

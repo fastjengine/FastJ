@@ -204,6 +204,8 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     public void destroy(Scene origin) {
         setPaused(true);
 
+        animationDataMap.clear();
+        animationDataMap.putAll(NoAnimationsLoaded);
         currentAnimation = NoAnimation;
         sprites = NoSpritesLoaded;
         currentFrame = DefaultStartingFrame;
@@ -216,6 +218,8 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     public void destroy(SimpleManager origin) {
         setPaused(true);
 
+        animationDataMap.clear();
+        animationDataMap.putAll(NoAnimationsLoaded);
         currentAnimation = NoAnimation;
         sprites = NoSpritesLoaded;
         currentFrame = DefaultStartingFrame;

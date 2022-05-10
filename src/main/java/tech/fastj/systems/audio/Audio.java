@@ -1,12 +1,14 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.systems.audio.state.PlaybackState;
+import tech.fastj.systems.tags.TaggableEntity;
 
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 /**
@@ -22,56 +24,69 @@ import javax.sound.sampled.DataLine;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public interface Audio {
+public abstract class Audio extends TaggableEntity {
+
+    protected final Path audioPath;
+    protected final String id;
+
+    PlaybackState currentPlaybackState;
+    PlaybackState previousPlaybackState;
+
+    protected Audio(Path audioPath, String id) {
+        this.audioPath = audioPath;
+        this.id = id;
+        currentPlaybackState = PlaybackState.Stopped;
+        previousPlaybackState = PlaybackState.Stopped;
+    }
 
     /**
      * Gets the audio path's id.
      *
      * @return The audio path's id.
      */
-    String getID();
+    public abstract String getID();
 
     /**
      * Gets the audio's {@link Path}.
      *
      * @return The audio's file path.
      */
-    Path getAudioPath();
+    public abstract Path getAudioPath();
 
     /**
      * Gets the audio's current playback state.
      *
      * @return The audio current playback state.
      */
-    PlaybackState getCurrentPlaybackState();
+    public abstract PlaybackState getCurrentPlaybackState();
 
     /**
      * Gets the audio's previous playback state.
      *
      * @return The audio's previous playback state.
      */
-    PlaybackState getPreviousPlaybackState();
+    public abstract PlaybackState getPreviousPlaybackState();
 
     /**
      * Gets the audio's {@link AudioEventListener}.
      *
      * @return The audio's {@code AudioEventListener}.
      */
-    AudioEventListener getAudioEventListener();
+    public abstract AudioEventListener getAudioEventListener();
 
     /**
      * Gets the audio's {@link AudioInputStream} object.
      *
      * @return The audio's {@code AudioInputStream}.
      */
-    AudioInputStream getAudioInputStream();
+    public abstract AudioInputStream getAudioInputStream();
 
     /**
      * Gets the audio's backing source object.
      *
      * @return The audio's backing source object.
      */
-    DataLine getAudioSource();
+    public abstract DataLine getAudioSource();
 
     /**
      * Starts playing audio's sound, if it was not previously playing.
@@ -83,7 +98,7 @@ public interface Audio {
      *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Consumer)}.</li>
      * </ul>
      */
-    void play();
+    public abstract void play();
 
     /**
      * Pauses audio playback, if it was playing.
@@ -93,7 +108,7 @@ public interface Audio {
      *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Consumer)}.</li>
      * </ul>
      */
-    void pause();
+    public abstract void pause();
 
     /**
      * Resumes audio playback, if it was paused.
@@ -103,7 +118,7 @@ public interface Audio {
      *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Consumer)}.</li>
      * </ul>
      */
-    void resume();
+    public abstract void resume();
 
     /**
      * Stops the audio's sound output entirely.
@@ -115,14 +130,14 @@ public interface Audio {
      *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Consumer)}.</li>
      * </ul>
      */
-    void stop();
+    public abstract void stop();
 
     /**
      * Gets the audio's current playback position, in milliseconds.
      *
      * @return The audio's current playback position, in milliseconds.
      */
-    default long getPlaybackPosition() {
+    public long getPlaybackPosition() {
         return TimeUnit.MILLISECONDS.convert(getAudioSource().getMicrosecondPosition(), TimeUnit.MILLISECONDS);
     }
 }
