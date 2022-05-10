@@ -440,7 +440,6 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
      */
     protected void destroyTheRest(Scene origin) {
-        origin.removeTaggableEntity(this);
         transform.reset();
         clearTags();
 
@@ -455,7 +454,6 @@ public abstract class Drawable extends TaggableEntity {
      * @param origin {@code SimpleManager} parameter that will have all references to this {@code Drawable} removed.
      */
     protected void destroyTheRest(SimpleManager origin) {
-        origin.removeTaggableEntity(this);
         transform.reset();
         clearTags();
 

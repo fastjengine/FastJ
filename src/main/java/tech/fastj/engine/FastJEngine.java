@@ -30,7 +30,6 @@ import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
-import tech.fastj.systems.tags.TagManager;
 
 import java.awt.Toolkit;
 import java.util.Arrays;
@@ -781,7 +780,6 @@ public class FastJEngine {
         AudioManager.reset();
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
-        TagManager.reset();
 
         AfterUpdateList.shutdownNow();
         AfterUpdateList.clear();

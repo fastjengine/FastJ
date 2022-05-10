@@ -1,5 +1,6 @@
 package tech.fastj.systems.control;
 
+import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
 
@@ -8,7 +9,8 @@ import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.tags.TagHandler;
-import tech.fastj.systems.tags.TagManager;
+
+import java.util.List;
 
 /**
  * Class containing the logic for a specific section, or scene, of a game.
@@ -19,7 +21,7 @@ import tech.fastj.systems.tags.TagManager;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public abstract class Scene implements BehaviorHandler, TagHandler {
+public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
 
     private final String sceneName;
     private final Camera camera;
@@ -43,7 +45,6 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
         inputManager = new InputManager();
         drawableManager = new DrawableManager();
 
-        TagManager.addTaggableEntityList(this);
         BehaviorManager.addListenerList(this);
     }
 
@@ -119,6 +120,11 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
         isInitialized = initialized;
     }
 
+    @Override
+    public List<Drawable> getTaggableEntities() {
+        return drawableManager.getDrawablesList();
+    }
+
     /* Reset */
 
     /** Removes all elements from the scene. */
@@ -126,7 +132,6 @@ public abstract class Scene implements BehaviorHandler, TagHandler {
         drawableManager.clearAllLists();
         inputManager.clearAllLists();
         this.clearBehaviorListeners();
-        this.clearTaggableEntities();
     }
 
     /** Resets the scene's state entirely. */

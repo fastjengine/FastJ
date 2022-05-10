@@ -1,11 +1,7 @@
 package tech.fastj.systems.tags;
 
-import tech.fastj.graphics.Drawable;
-
-import tech.fastj.systems.control.Scene;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Abstract class that allows you to identify objects by tags.
@@ -26,14 +22,14 @@ import java.util.List;
  * @since 1.0.0
  */
 public abstract class TaggableEntity {
-    private final List<String> tags = new ArrayList<>();
+    private final Set<String> tags = new HashSet<>();
 
     /**
      * Gets the {@code TaggableEntity}'s list of tags.
      *
      * @return The list of tags.
      */
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
@@ -53,20 +49,11 @@ public abstract class TaggableEntity {
      * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the return type is
      *                    {@code TaggableEntity}.
      * @param tag         Tag to be added to the object's list of tags.
-     * @param originScene Scene that the object will be added to, as a {@code TaggableEntity}.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      */
     @SuppressWarnings("unchecked")
-    public <T extends TaggableEntity> T addTag(String tag, Scene originScene) {
-        if (!tags.contains(tag)) {
-            tags.add(tag);
-            TagManager.addTagToMasterList(tag);
-
-            if (this instanceof Drawable) {
-                originScene.addTaggableEntity((Drawable) this);
-            }
-        }
-
+    public <T extends TaggableEntity> T addTag(String tag) {
+        tags.add(tag);
         return (T) this;
     }
 
@@ -78,18 +65,11 @@ public abstract class TaggableEntity {
      * @param <T>         The return type, which must extend {@code TaggableEntity}. By default, the return type is
      *                    {@code TaggableEntity}.
      * @param tag         Tag to be removed from the object;s list of tags.
-     * @param originScene Scene which this object, if it no longer has any tags, will be removed from as a {@code
-     *                    TaggableEntity}.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      */
     @SuppressWarnings("unchecked")
-    public <T extends TaggableEntity> T removeTag(String tag, Scene originScene) {
+    public <T extends TaggableEntity> T removeTag(String tag) {
         tags.remove(tag);
-
-        if (tags.isEmpty() && this instanceof Drawable) {
-            originScene.removeTaggableEntity((Drawable) this);
-        }
-
         return (T) this;
     }
 

@@ -8,7 +8,6 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 
 import tech.fastj.systems.behaviors.Behavior;
-import tech.fastj.systems.tags.TagManager;
 
 import java.util.List;
 
@@ -28,8 +27,8 @@ public class EnemyMovement implements Behavior {
 
     @Override
     public void init(GameObject obj) {
-        player = (Model2D) TagManager.getAllWithTag(Tags.Player).get(0);
-        playerHealthBar = (Polygon2D) TagManager.getAllWithTag(Tags.PlayerHealthBar).get(0);
+        player = (Model2D) gameScene.getAllWithTag(Tags.Player).get(0);
+        playerHealthBar = (Polygon2D) gameScene.getAllWithTag(Tags.PlayerHealthBar).get(0);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class EnemyMovement implements Behavior {
             ((PlayerHealthBar) playerHealthBar.getBehaviors().get(0)).takeDamage();
         }
 
-        List<Drawable> bullets = TagManager.getAllWithTag(Tags.Bullet);
+        List<Drawable> bullets = gameScene.getAllWithTag(Tags.Bullet);
         for (Drawable bullet : bullets) {
             if (obj.collidesWith(bullet)) {
                 BulletMovement bulletMovementScript = (BulletMovement) ((GameObject) bullet).getBehaviors().get(0);

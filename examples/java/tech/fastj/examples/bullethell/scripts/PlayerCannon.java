@@ -10,7 +10,6 @@ import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.Keys;
 import tech.fastj.systems.behaviors.Behavior;
-import tech.fastj.systems.tags.TagManager;
 
 import java.awt.Color;
 import java.util.Objects;
@@ -59,7 +58,7 @@ public class PlayerCannon implements Behavior {
         Polygon2D bullet = (Polygon2D) Polygon2D.fromPoints(bulletMesh)
                 .setFill(Color.red)
                 .addLateBehavior(bulletMovementScript, gameScene)
-                .<GameObject>addTag(Tags.Bullet, gameScene);
+                .<GameObject>addTag(Tags.Bullet);
 
         gameScene.drawableManager.addGameObject(bullet);
         bulletCount++;
@@ -75,7 +74,7 @@ public class PlayerCannon implements Behavior {
 
     @Override
     public void destroy() {
-        for (Drawable bullet : TagManager.getAllWithTag(Tags.Bullet)) {
+        for (Drawable bullet : gameScene.getAllWithTag(Tags.Bullet)) {
             bullet.destroy(gameScene);
         }
 

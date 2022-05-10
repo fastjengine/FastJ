@@ -50,7 +50,7 @@ public class GameScene extends Scene {
         playerHealthBar = createPlayerHealthBar();
         PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata, this);
         playerHealthBar.addBehavior(playerHealthBarScript, this)
-                .<GameObject>addTag(Tags.PlayerHealthBar, this);
+                .<GameObject>addTag(Tags.PlayerHealthBar);
 
 
         PlayerController playerControllerScript = new PlayerController(5f, 3f);
@@ -58,7 +58,7 @@ public class GameScene extends Scene {
         player = createPlayer();
         player.addBehavior(playerControllerScript, this)
                 .addBehavior(playerCannonScript, this)
-                .<GameObject>addTag(Tags.Player, this);
+                .<GameObject>addTag(Tags.Player);
 
 
         // add game objects to the screen in order!

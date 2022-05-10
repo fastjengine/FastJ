@@ -1,27 +1,19 @@
 package tech.fastj.systems.tags;
 
-import tech.fastj.graphics.Drawable;
-
-import tech.fastj.systems.behaviors.BehaviorManager;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Interface denoting that the implementing classes directly interface with the {@link BehaviorManager} class.
- * <p>
- * <b>FOR IMPLEMENTORS:</b> In order for these methods to work you need to call {@link
- * TagManager#addTaggableEntityList(TagHandler)} upon construction.
+ * General implementation for a class which holds tags for a type of object.
  */
-public interface TagHandler {
+public interface TagHandler<T extends TaggableEntity> {
 
     /**
      * Gets the taggable entities assigned to the tag handler.
      *
      * @return The taggable entities of the tag handler.
      */
-    default List<Drawable> getTaggableEntities() {
-        return TagManager.getEntityList(this);
-    }
+    List<T> getTaggableEntities();
 
     /**
      * Gets all taggable entities with the specified tag.
@@ -29,31 +21,30 @@ public interface TagHandler {
      * @param tag The tag to check for.
      * @return A list of all taggable entities with the specified tag.
      */
-    default List<Drawable> getAllWithTag(String tag) {
-        return TagManager.getAllInListWithTag(this, tag);
+    default List<T> getAllWithTag(String tag) {
+        List<T> result = new ArrayList<>();
+        for (T entity : getTaggableEntities()) {
+            if (entity.hasTag(tag)) {
+                result.add(entity);
+            }
+        }
+
+        return result;
     }
 
     /**
-     * Adds the specified taggable entity, only if it extends the {@code Drawable} class.
+     * Gets the first found taggable entity with the specified tag.
      *
-     * @param entity The taggable entity to add.
-     * @param <T>    The type of the taggable entity, which must extend the {@code Drawable} class.
+     * @param tag The tag to check for.
+     * @return A list of all taggable entities with the specified tag.
      */
-    default <T extends Drawable> void addTaggableEntity(T entity) {
-        TagManager.addTaggableEntity(this, entity);
-    }
+    default T getFirstWithTag(String tag) {
+        for (T entity : getTaggableEntities()) {
+            if (entity.hasTag(tag)) {
+                return entity;
+            }
+        }
 
-    /**
-     * Removes the specified taggable entity.
-     *
-     * @param entity The taggable entity to remove.
-     */
-    default void removeTaggableEntity(Drawable entity) {
-        TagManager.removeTaggableEntity(this, entity);
-    }
-
-    /** Removes all taggable entities from the tag handler. */
-    default void clearTaggableEntities() {
-        TagManager.clearEntityList(this);
+        return null;
     }
 }
