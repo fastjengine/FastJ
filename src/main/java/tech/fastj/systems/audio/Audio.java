@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 
 /**
