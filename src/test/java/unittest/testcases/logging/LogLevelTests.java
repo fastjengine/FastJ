@@ -3,14 +3,12 @@ package unittest.testcases.logging;
 import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.logging.LogLevel;
-import unittest.EnvironmentHelper;
 import unittest.mock.systems.control.MockEmptySimpleManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class LogLevelTests {
 
@@ -27,8 +25,6 @@ class LogLevelTests {
 
     @Test
     void checkSetFastJEngineLogLevel() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-
         FastJEngine.init("Logging Test", new MockEmptySimpleManager());
         assertSame(FastJEngine.DefaultLogLevel, FastJEngine.getLogLevel(), "FastJEngine's initial log level should match its default log level.");
 

@@ -9,19 +9,11 @@ import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 
 import tech.fastj.logging.LogLevel;
-import unittest.EnvironmentHelper;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeFalse;
 
 class EngineConfigTests {
-
-    @BeforeAll
-    public static void onlyRunIfNotHeadless() {
-        assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
-    }
 
     @Test
     void checkEngineConfigDefaults_shouldMatchEngineDefaults() {
