@@ -6,6 +6,8 @@ import tech.fastj.graphics.ui.UIElement;
 
 import tech.fastj.input.InputActionEvent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,12 +39,56 @@ public class DrawableManager {
     }
 
     /**
+     * Gets the game objects assigned to the manager.
+     *
+     * @return The game objects of the scene.
+     */
+    public List<GameObject> getGameObjectsList() {
+        return new ArrayList<>(gameObjects.values());
+    }
+
+    /**
      * Gets the ui elements assigned to the manager.
      *
      * @return The ui elements of the scene.
      */
     public Map<String, UIElement<? extends InputActionEvent>> getUIElements() {
         return uiElements;
+    }
+
+    /**
+     * Gets the ui elements assigned to the manager.
+     *
+     * @return The ui elements of the scene.
+     */
+    public List<UIElement<? extends InputActionEvent>> getUIElementsList() {
+        return new ArrayList<>(uiElements.values());
+    }
+
+    /**
+     * Gets the ui elements assigned to the manager.
+     *
+     * @return The ui elements of the scene.
+     */
+    public Map<String, Drawable> getDrawables() {
+        Map<String, Drawable> result = new ConcurrentHashMap<>();
+        result.putAll(gameObjects);
+        result.putAll(uiElements);
+
+        return result;
+    }
+
+    /**
+     * Gets the ui elements assigned to the manager.
+     *
+     * @return The ui elements of the scene.
+     */
+    public List<Drawable> getDrawablesList() {
+        List<Drawable> result = new ArrayList<>();
+        result.addAll(gameObjects.values());
+        result.addAll(uiElements.values());
+
+        return result;
     }
 
     /* Game Objects */
