@@ -125,7 +125,7 @@ public class FastJEngine {
     static {
         int fps;
         try {
-            fps = Math.min(60, DisplayUtil.getDefaultMonitorRefreshRate());
+            fps = Math.max(60, DisplayUtil.getDefaultMonitorRefreshRate());
         } catch (HeadlessException exception) {
             warning("Environment is headless, will default FPS to 60.");
             fps = 60;
