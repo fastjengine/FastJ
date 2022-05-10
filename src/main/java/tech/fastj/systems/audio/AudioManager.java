@@ -1,10 +1,10 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.resources.files.FileUtil;
+
 import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.tags.TagHandler;
 
-import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.sound.sampled.*;
 
 /**
  * The manager of all audio-based content.
