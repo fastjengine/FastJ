@@ -1,8 +1,8 @@
 package unittest.testcases.systems.tags;
 
-import org.junit.jupiter.api.Test;
 import unittest.mock.systems.tags.MockTagHandler;
 import unittest.mock.systems.tags.MockTaggableEntity;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
