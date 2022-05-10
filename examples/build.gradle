@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies.implementation(project(':'))
-dependencies.implementation('org.slf4j:slf4j-simple:2.0.0-alpha5')
+dependencies.implementation('org.slf4j:slf4j-simple:2.0.0-alpha7')
 
 sourceSets {
     main.java.srcDirs = ['java']
