@@ -759,15 +759,12 @@ public class FastJEngine {
                 loop -> display.getWindow().isVisible(),
                 loop -> display.getDisplayState() != DisplayState.FullScreen,
                 targetFPS,
-                targetUPS,
-                GeneralFixedUpdate,
-                BehaviorFixedUpdate,
-                AfterFixedUpdate,
-                GeneralUpdate,
-                AnimationStep,
-                GeneralRender,
-                AfterRender
+                targetUPS
         );
+
+        gameLoop.addGameLoopState(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
+        gameLoop.addGameLoopState(GeneralUpdate, AnimationStep);
+        gameLoop.addGameLoopState(GeneralRender, AfterRender);
 
         gameLoop.run();
 
