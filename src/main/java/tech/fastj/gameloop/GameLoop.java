@@ -1,11 +1,20 @@
 package tech.fastj.gameloop;
 
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Predicate;
-
 import tech.fastj.gameloop.event.GameEvent;
 import tech.fastj.gameloop.event.GameEventObserver;
+
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 public class GameLoop implements Runnable {
 
@@ -21,7 +30,7 @@ public class GameLoop implements Runnable {
     private final int targetFPS;
     private final int targetUPS;
 
-    private final Predicate<GameLoop> exitCondition;
+    private final Predicate<GameLoop> runCondition;
     private final Predicate<GameLoop> syncCondition;
 
     private final Map<CoreLoopState, Set<GameLoopState>> gameLoopStates = Map.of(
@@ -40,17 +49,17 @@ public class GameLoop implements Runnable {
     );
     private final Map<GameLoopState, Queue<GameEvent>> nextGameEvents;
 
-    private final Map<Class<? extends GameEvent>, List<GameEventObserver<GameEvent>>> gameEventObservers;
+    private final Map<Class<? extends GameEvent>, List<GameEventObserver<?>>> gameEventObservers;
 
     private GameLoopState currentGameLoopState;
     private boolean isRunning;
 
-    public GameLoop(Predicate<GameLoop> exit, Predicate<GameLoop> sync, int fps, int ups) {
+    public GameLoop(Predicate<GameLoop> shouldRun, Predicate<GameLoop> shouldSync, int fps, int ups) {
         deltaTimer = new Timer();
         fixedDeltaTimer = new Timer();
 
-        this.exitCondition = Objects.requireNonNull(exit);
-        this.syncCondition = Objects.requireNonNull(sync);
+        this.runCondition = Objects.requireNonNull(shouldRun);
+        this.syncCondition = Objects.requireNonNull(shouldSync);
 
         if (fps < 1) {
             throw new IllegalArgumentException("FPS amount must be at least 1.");
@@ -81,13 +90,12 @@ public class GameLoop implements Runnable {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends GameEvent> void addEventObserver(GameEventObserver<T> gameEventObserver, Class<T> eventClass) {
         synchronized (gameEventObservers) {
             if (!gameEventObservers.containsKey(eventClass)) {
                 gameEventObservers.put(eventClass, new ArrayList<>());
             }
-            gameEventObservers.get(eventClass).add((GameEventObserver<GameEvent>) gameEventObserver);
+            gameEventObservers.get(eventClass).add(gameEventObserver);
         }
     }
 
@@ -120,9 +128,10 @@ public class GameLoop implements Runnable {
         return currentGameLoopState;
     }
 
+    @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
         for (var gameEventObserver : gameEventObservers.get(event.getClass())) {
-            gameEventObserver.eventReceived(event);
+            ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
 
@@ -147,7 +156,7 @@ public class GameLoop implements Runnable {
         float accumulator = 0f;
         float updateInterval = 1f / targetUPS;
 
-        while (exitCondition.test(this)) {
+        while (runCondition.test(this)) {
             elapsedTime = deltaTimer.evalDeltaTime();
             accumulator += elapsedTime;
 
@@ -192,20 +201,22 @@ public class GameLoop implements Runnable {
         isRunning = false;
     }
 
-    private void runGameLoopStates(CoreLoopState fixedUpdate, float elapsedFixedTime) {
-        for (GameLoopState gameLoopState : gameLoopStates.get(fixedUpdate)) {
+    private void runGameLoopStates(CoreLoopState coreLoopState, float elapsedFixedTime) {
+        for (GameLoopState gameLoopState : gameLoopStates.get(coreLoopState)) {
+            System.out.println("running " + gameLoopState.toString() + " of " + coreLoopState);
             currentGameLoopState = gameLoopState;
             gameLoopState.accept(elapsedFixedTime);
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void fireNextCoreEvents(CoreLoopState coreLoopState) {
         synchronized (nextCoreEvents) {
-            Queue<GameEvent> gameEvents = nextCoreEvents.get(coreLoopState);
+            Queue<? extends GameEvent> gameEvents = nextCoreEvents.get(coreLoopState);
             while (!gameEvents.isEmpty()) {
                 GameEvent nextEvent = gameEvents.poll();
                 for (var gameEventObserver : gameEventObservers.get(nextEvent.getClass())) {
-                    gameEventObserver.eventReceived(nextEvent);
+                    ((GameEventObserver<GameEvent>) gameEventObserver).eventReceived(nextEvent);
                 }
             }
         }
