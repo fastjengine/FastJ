@@ -765,9 +765,9 @@ public class FastJEngine {
                 targetUPS
         );
 
-        gameLoop.addGameLoopState(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
-        gameLoop.addGameLoopState(GeneralUpdate, AnimationStep);
-        gameLoop.addGameLoopState(GeneralRender, AfterRender);
+        gameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
+        gameLoop.addGameLoopStates(GeneralUpdate, AnimationStep);
+        gameLoop.addGameLoopStates(GeneralRender, AfterRender);
 
         System.gc(); // yes, I really gc before starting.
         display.open();
