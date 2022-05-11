@@ -78,15 +78,27 @@ public class GameLoop implements Runnable {
         currentGameLoopState = NoState;
     }
 
-    public void addGameLoopState(GameLoopState... gameLoopStates) {
+    public void addGameLoopStates(GameLoopState firstGameLoopState, GameLoopState... gameLoopStates) {
         if (isRunning) {
             synchronized (nextLoopStates) {
+                nextLoopStates.add(firstGameLoopState);
                 nextLoopStates.addAll(Arrays.asList(gameLoopStates));
             }
         } else {
+            this.gameLoopStates.get(firstGameLoopState.getBaseLoopState()).add(firstGameLoopState);
             for (GameLoopState gameLoopState : gameLoopStates) {
                 this.gameLoopStates.get(gameLoopState.getBaseLoopState()).add(gameLoopState);
             }
+        }
+    }
+
+    public void addGameLoopState(GameLoopState gameLoopState) {
+        if (isRunning) {
+            synchronized (nextLoopStates) {
+                nextLoopStates.add(gameLoopState);
+            }
+        } else {
+            this.gameLoopStates.get(gameLoopState.getBaseLoopState()).add(gameLoopState);
         }
     }
 
