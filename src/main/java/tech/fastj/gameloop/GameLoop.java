@@ -12,6 +12,12 @@ import java.util.function.Predicate;
 
 public class GameLoop implements Runnable {
 
+    public static final GameLoopState NoState = new GameLoopState(
+            CoreLoopState.EarlyUpdate,
+            0,
+            (gameLoopState, deltaTime) -> {}
+    );
+
     private final Timer deltaTimer;
     private final Timer fixedDeltaTimer;
 
@@ -30,6 +36,7 @@ public class GameLoop implements Runnable {
 
     private final Queue<GameLoopState> nextLoopStates;
 
+    private GameLoopState currentGameLoopState;
     private boolean isRunning;
 
     public GameLoop(Predicate<GameLoop> exit, Predicate<GameLoop> sync, int fps, int ups) {
@@ -51,6 +58,7 @@ public class GameLoop implements Runnable {
 
         isRunning = false;
         nextLoopStates = new ArrayDeque<>();
+        currentGameLoopState = NoState;
     }
 
     public void addGameLoopState(GameLoopState... gameLoopStates) {
@@ -81,6 +89,10 @@ public class GameLoop implements Runnable {
         return gameLoopStates;
     }
 
+    public GameLoopState getCurrentGameLoopState() {
+        return currentGameLoopState;
+    }
+
     @Override
     public synchronized void run() {
         isRunning = true;
@@ -104,6 +116,7 @@ public class GameLoop implements Runnable {
             }
 
             for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.EarlyUpdate)) {
+                currentGameLoopState = gameLoopState;
                 gameLoopState.accept(elapsedTime);
             }
 
@@ -111,6 +124,7 @@ public class GameLoop implements Runnable {
                 elapsedFixedTime = fixedDeltaTimer.evalDeltaTime();
 
                 for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.FixedUpdate)) {
+                    currentGameLoopState = gameLoopState;
                     gameLoopState.accept(elapsedFixedTime);
                 }
 
@@ -119,11 +133,16 @@ public class GameLoop implements Runnable {
 
 
             for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.Update)) {
+                currentGameLoopState = gameLoopState;
                 gameLoopState.accept(elapsedTime);
             }
+
             for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.LateUpdate)) {
+                currentGameLoopState = gameLoopState;
                 gameLoopState.accept(elapsedTime);
             }
+
+            currentGameLoopState = NoState;
 
             if (syncCondition.test(this)) {
                 sync();
