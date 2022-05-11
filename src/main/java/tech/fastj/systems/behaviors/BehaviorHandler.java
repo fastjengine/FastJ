@@ -47,6 +47,11 @@ public interface BehaviorHandler {
         BehaviorManager.initBehaviorListeners(this);
     }
 
+    /** Updates (fixed update) all behavior listeners in the behavior handler. */
+    default void fixedUpdateBehaviorListeners() {
+        BehaviorManager.fixedUpdateBehaviorListeners(this);
+    }
+
     /** Updates all behavior listeners in the behavior handler. */
     default void updateBehaviorListeners() {
         BehaviorManager.updateBehaviorListeners(this);
