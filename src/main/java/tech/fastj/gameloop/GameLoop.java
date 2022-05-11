@@ -1,7 +1,10 @@
 package tech.fastj.gameloop;
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +28,11 @@ public class GameLoop implements Runnable {
             CoreLoopState.LateUpdate, new TreeSet<>()
     );
 
-    public GameLoop(Predicate<GameLoop> exit, Predicate<GameLoop> sync, int fps, int ups, GameLoopState... gameLoopStates) {
+    private final Queue<GameLoopState> nextLoopStates;
+
+    private boolean isRunning;
+
+    public GameLoop(Predicate<GameLoop> exit, Predicate<GameLoop> sync, int fps, int ups) {
         deltaTimer = new Timer();
         fixedDeltaTimer = new Timer();
 
@@ -42,35 +49,68 @@ public class GameLoop implements Runnable {
         }
         this.targetUPS = ups;
 
-        for (GameLoopState gameLoopState : gameLoopStates) {
-            this.gameLoopStates.get(gameLoopState.getBaseLoopState()).add(gameLoopState);
+        isRunning = false;
+        nextLoopStates = new ArrayDeque<>();
+    }
+
+    public void addGameLoopState(GameLoopState... gameLoopStates) {
+        if (isRunning) {
+            synchronized (nextLoopStates) {
+                nextLoopStates.addAll(Arrays.asList(gameLoopStates));
+            }
+        } else {
+            for (GameLoopState gameLoopState : gameLoopStates) {
+                this.gameLoopStates.get(gameLoopState.getBaseLoopState()).add(gameLoopState);
+            }
         }
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public int getTargetFPS() {
+        return targetFPS;
+    }
+
+    public int getTargetUPS() {
+        return targetUPS;
+    }
+
+    public Map<CoreLoopState, Set<GameLoopState>> getGameLoopStates() {
+        return gameLoopStates;
     }
 
     @Override
     public synchronized void run() {
+        isRunning = true;
+
         float elapsedTime;
         float elapsedFixedTime;
         float accumulator = 0f;
         float updateInterval = 1f / targetUPS;
 
-        Set<GameLoopState> earlyUpdateLoopStates = gameLoopStates.get(CoreLoopState.EarlyUpdate);
-        Set<GameLoopState> fixedUpdateLoopStates = gameLoopStates.get(CoreLoopState.FixedUpdate);
-        Set<GameLoopState> updateLoopStates = gameLoopStates.get(CoreLoopState.Update);
-        Set<GameLoopState> lateUpdateLoopStates = gameLoopStates.get(CoreLoopState.LateUpdate);
-
         while (exitCondition.test(this)) {
             elapsedTime = deltaTimer.evalDeltaTime();
             accumulator += elapsedTime;
 
-            for (GameLoopState gameLoopState : earlyUpdateLoopStates) {
+            if (!nextLoopStates.isEmpty()) {
+                synchronized (nextLoopStates) {
+                    for (GameLoopState nextLoopState : nextLoopStates) {
+                        gameLoopStates.get(nextLoopState.getBaseLoopState()).add(nextLoopState);
+                    }
+                    nextLoopStates.clear();
+                }
+            }
+
+            for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.EarlyUpdate)) {
                 gameLoopState.accept(elapsedTime);
             }
 
             while (accumulator >= updateInterval) {
                 elapsedFixedTime = fixedDeltaTimer.evalDeltaTime();
 
-                for (GameLoopState gameLoopState : fixedUpdateLoopStates) {
+                for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.FixedUpdate)) {
                     gameLoopState.accept(elapsedFixedTime);
                 }
 
@@ -78,10 +118,10 @@ public class GameLoop implements Runnable {
             }
 
 
-            for (GameLoopState gameLoopState : updateLoopStates) {
+            for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.Update)) {
                 gameLoopState.accept(elapsedTime);
             }
-            for (GameLoopState gameLoopState : lateUpdateLoopStates) {
+            for (GameLoopState gameLoopState : gameLoopStates.get(CoreLoopState.LateUpdate)) {
                 gameLoopState.accept(elapsedTime);
             }
 
@@ -89,6 +129,8 @@ public class GameLoop implements Runnable {
                 sync();
             }
         }
+
+        isRunning = false;
     }
 
     private void sync() {
