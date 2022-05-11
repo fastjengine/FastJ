@@ -65,6 +65,11 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
     }
 
     @Override
+    public void fixedUpdateBehaviors() {
+        this.fixedUpdateBehaviorListeners();
+    }
+
+    @Override
     public void updateBehaviors() {
         this.updateBehaviorListeners();
     }

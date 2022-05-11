@@ -106,6 +106,17 @@ public class BehaviorManager {
     }
 
     /**
+     * Updates (fixed update) the behavior listeners aliased to the specified {@link BehaviorHandler}.
+     *
+     * @param behaviorHandler The {@code BehaviorHandler} used as the alias to update the behavior listeners for.
+     */
+    public static void fixedUpdateBehaviorListeners(BehaviorHandler behaviorHandler) {
+        for (GameObject listener : BehaviorListenerLists.get(behaviorHandler).values()) {
+            listener.fixedUpdateBehaviors();
+        }
+    }
+
+    /**
      * Updates the behavior listeners aliased to the specified {@link BehaviorHandler}.
      *
      * @param behaviorHandler The {@code BehaviorHandler} used as the alias to update the behavior listeners for.

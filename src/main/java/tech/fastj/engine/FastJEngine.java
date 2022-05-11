@@ -123,17 +123,17 @@ public class FastJEngine {
     private static final AudioManager AudioManager = new AudioManager();
 
     // Game Loop
-    private static final GameLoopState GeneralFixedUpdate = new GameLoopState(
+    public static final GameLoopState GeneralFixedUpdate = new GameLoopState(
             CoreLoopState.FixedUpdate,
             1,
             (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdate(canvas)
     );
-    private static final GameLoopState BehaviorFixedUpdate = new GameLoopState(
+    public static final GameLoopState BehaviorFixedUpdate = new GameLoopState(
             CoreLoopState.FixedUpdate,
             2,
-            (gameLoopState, fixedDeltaTime) -> gameManager.updateBehaviors()
+            (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdateBehaviors()
     );
-    private static final GameLoopState AfterFixedUpdate = new GameLoopState(
+    public static final GameLoopState AfterFixedUpdate = new GameLoopState(
             CoreLoopState.FixedUpdate,
             3,
             (gameLoopState, fixedDeltaTime) -> {
@@ -147,30 +147,39 @@ public class FastJEngine {
                 }
             }
     );
-    private static final GameLoopState GeneralUpdate = new GameLoopState(
+    public static final GameLoopState ProcessInputEvents = new GameLoopState(
             CoreLoopState.Update,
             1,
             (gameLoopState, deltaTime) -> {
                 gameManager.processInputEvents();
                 gameManager.processKeysDown();
-                gameManager.update(canvas);
             }
     );
-    private static final GameLoopState AnimationStep = new GameLoopState(
+    public static final GameLoopState GeneralUpdate = new GameLoopState(
             CoreLoopState.Update,
             2,
+            (gameLoopState, deltaTime) -> gameManager.update(canvas)
+    );
+    public static final GameLoopState BehaviorUpdate = new GameLoopState(
+            CoreLoopState.Update,
+            3,
+            (gameLoopState, deltaTime) -> gameManager.updateBehaviors()
+    );
+    public static final GameLoopState AnimationStep = new GameLoopState(
+            CoreLoopState.Update,
+            4,
             (gameLoopState, deltaTime) -> {
                 for (AnimationEngine<?, ?> animationEngine : AnimationEngines.values()) {
                     animationEngine.stepAnimations(deltaTime);
                 }
             }
     );
-    private static final GameLoopState GeneralRender = new GameLoopState(
+    public static final GameLoopState GeneralRender = new GameLoopState(
             CoreLoopState.LateUpdate,
             Integer.MAX_VALUE - 1,
             (gameLoopState, deltaTime) -> gameManager.render(canvas)
     );
-    private static final GameLoopState AfterRender = new GameLoopState(
+    public static final GameLoopState AfterRender = new GameLoopState(
             CoreLoopState.LateUpdate,
             Integer.MAX_VALUE,
             (gameLoopState, deltaTime) -> {
@@ -766,7 +775,7 @@ public class FastJEngine {
         );
 
         gameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
-        gameLoop.addGameLoopStates(GeneralUpdate, AnimationStep);
+        gameLoop.addGameLoopStates(ProcessInputEvents, GeneralUpdate, BehaviorUpdate, AnimationStep);
         gameLoop.addGameLoopStates(GeneralRender, AfterRender);
 
         System.gc(); // yes, I really gc before starting.

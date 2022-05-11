@@ -120,7 +120,7 @@ class GameObjectTests {
 
         int expectedIncrement = 15;
         for (int i = 0; i < expectedIncrement; i++) {
-            gameObject.updateBehaviors();
+            gameObject.fixedUpdateBehaviors();
         }
 
         boolean condition = Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().x) && Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().y);
@@ -162,7 +162,7 @@ class GameObjectTests {
 
         int expectedIncrement = 15;
         for (int i = 0; i < expectedIncrement; i++) {
-            gameObject.updateBehaviors();
+            gameObject.fixedUpdateBehaviors();
         }
 
         boolean condition = Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().x) && Maths.floatEquals(expectedIncrement, mockBehavior.getPointf().y);
@@ -190,7 +190,7 @@ class GameObjectTests {
 
         gameObject.addBehavior(mockBehavior, mockScene);
 
-        Throwable exception = assertThrows(IllegalStateException.class, gameObject::updateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf, wrapped in an illegal state exception.");
+        Throwable exception = assertThrows(IllegalStateException.class, gameObject::fixedUpdateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf, wrapped in an illegal state exception.");
         assertEquals(NullPointerException.class, exception.getCause().getClass(), "The underlying exception should be a null pointer exception.");
     }
 }

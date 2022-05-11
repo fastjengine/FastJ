@@ -49,10 +49,19 @@ public abstract class GameObject extends Drawable {
     }
 
     /** Calls the {@link Behavior#fixedUpdate(GameObject)} method for each of the {@code GameObject}'s behaviors. */
-    public void updateBehaviors() {
+    public void fixedUpdateBehaviors() {
         behaviors.run(list -> {
             for (Behavior behavior : list) {
                 behavior.fixedUpdate(this);
+            }
+        });
+    }
+
+    /** Calls the {@link Behavior#update(GameObject)} method for each of the {@code GameObject}'s behaviors. */
+    public void updateBehaviors() {
+        behaviors.run(list -> {
+            for (Behavior behavior : list) {
+                behavior.update(this);
             }
         });
     }

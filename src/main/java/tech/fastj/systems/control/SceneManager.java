@@ -49,6 +49,11 @@ public abstract class SceneManager implements LogicManager {
     }
 
     @Override
+    public void fixedUpdateBehaviors() {
+        safeUpdate(currentScene::fixedUpdateBehaviorListeners);
+    }
+
+    @Override
     public void updateBehaviors() {
         safeUpdate(currentScene::updateBehaviorListeners);
     }

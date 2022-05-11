@@ -87,6 +87,9 @@ public interface LogicManager {
     void update(FastJCanvas canvas);
 
     /** Updates the logic manager's behaviors (called after {@link #fixedUpdate(FastJCanvas)}). */
+    void fixedUpdateBehaviors();
+
+    /** Updates the logic manager's behaviors (called after {@link #update(FastJCanvas)}. */
     void updateBehaviors();
 
     /**
