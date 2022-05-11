@@ -186,6 +186,8 @@ public class FastJEngine {
             }
     );
 
+    private static GameLoop gameLoop;
+
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
     }
@@ -445,6 +447,10 @@ public class FastJEngine {
         return fixedDeltaTimer.getDeltaTime();
     }
 
+    public static GameLoop getGameLoop() {
+        return gameLoop;
+    }
+
     /**
      * Gets the engine's current target FPS.
      *
@@ -589,7 +595,8 @@ public class FastJEngine {
     public static void run() {
         try {
             initEngine();
-            gameLoop();
+            gameLoop.run();
+            exit();
         } catch (Exception exception) {
             FastJEngine.forceCloseGame();
 
@@ -751,17 +758,7 @@ public class FastJEngine {
             drawFrames = 0;
         }, 1, 1, TimeUnit.SECONDS);
 
-        System.gc(); // yes, I really gc before starting.
-        display.open();
-
-        if (isLogging(LogLevel.Info)) {
-            log("FastJ initialization complete. Enjoy your stay with FastJ!");
-        }
-    }
-
-    /** Runs the game loop -- the heart of the engine. */
-    private static void gameLoop() {
-        GameLoop gameLoop = new GameLoop(
+        gameLoop = new GameLoop(
                 loop -> display.getWindow().isVisible(),
                 loop -> display.getDisplayState() != DisplayState.FullScreen,
                 targetFPS,
@@ -772,9 +769,12 @@ public class FastJEngine {
         gameLoop.addGameLoopState(GeneralUpdate, AnimationStep);
         gameLoop.addGameLoopState(GeneralRender, AfterRender);
 
-        gameLoop.run();
+        System.gc(); // yes, I really gc before starting.
+        display.open();
 
-        exit();
+        if (isLogging(LogLevel.Info)) {
+            log("FastJ initialization complete. Enjoy your stay with FastJ!");
+        }
     }
 
     /** Removes all resources created by the game engine. */
@@ -837,6 +837,9 @@ public class FastJEngine {
         // Display/Logic
         display = null;
         gameManager = null;
+
+        // game loop
+        gameLoop = null;
 
         // Check values
         isRunning = false;
