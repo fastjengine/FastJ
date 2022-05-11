@@ -3,16 +3,7 @@ package tech.fastj.gameloop;
 import tech.fastj.gameloop.event.GameEvent;
 import tech.fastj.gameloop.event.GameEventObserver;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 
@@ -49,7 +40,7 @@ public class GameLoop implements Runnable {
     );
     private final Map<GameLoopState, Queue<GameEvent>> nextGameEvents;
 
-    private final Map<Class<? extends GameEvent>, List<GameEventObserver<?>>> gameEventObservers;
+    private final Map<Class<? extends GameEvent>, List<GameEventObserver<? extends GameEvent>>> gameEventObservers;
 
     private GameLoopState currentGameLoopState;
     private boolean isRunning;
@@ -78,14 +69,12 @@ public class GameLoop implements Runnable {
         currentGameLoopState = NoState;
     }
 
-    public void addGameLoopStates(GameLoopState firstGameLoopState, GameLoopState... gameLoopStates) {
+    public void addGameLoopStates(GameLoopState... gameLoopStates) {
         if (isRunning) {
             synchronized (nextLoopStates) {
-                nextLoopStates.add(firstGameLoopState);
                 nextLoopStates.addAll(Arrays.asList(gameLoopStates));
             }
         } else {
-            this.gameLoopStates.get(firstGameLoopState.getBaseLoopState()).add(firstGameLoopState);
             for (GameLoopState gameLoopState : gameLoopStates) {
                 this.gameLoopStates.get(gameLoopState.getBaseLoopState()).add(gameLoopState);
             }
@@ -149,6 +138,9 @@ public class GameLoop implements Runnable {
 
     public <T extends GameEvent> void fireEvent(T event, GameLoopState whenToFire) {
         synchronized (nextGameEvents) {
+            if (nextGameEvents.get(whenToFire) == null) {
+                nextGameEvents.put(whenToFire, new ArrayDeque<>());
+            }
             nextGameEvents.get(whenToFire).add(event);
         }
     }
@@ -218,18 +210,32 @@ public class GameLoop implements Runnable {
             System.out.println("running " + gameLoopState.toString() + " of " + coreLoopState);
             currentGameLoopState = gameLoopState;
             gameLoopState.accept(elapsedFixedTime);
+            fireNextGameEvents(gameLoopState);
+        }
+    }
+
+    private void fireNextCoreEvents(CoreLoopState coreLoopState) {
+        synchronized (nextCoreEvents) {
+            fireNextEvents(nextCoreEvents.get(coreLoopState));
+        }
+    }
+
+    private void fireNextGameEvents(GameLoopState gameLoopState) {
+        synchronized (nextGameEvents) {
+            fireNextEvents(nextGameEvents.get(gameLoopState));
         }
     }
 
     @SuppressWarnings("unchecked")
-    private void fireNextCoreEvents(CoreLoopState coreLoopState) {
-        synchronized (nextCoreEvents) {
-            Queue<? extends GameEvent> gameEvents = nextCoreEvents.get(coreLoopState);
-            while (!gameEvents.isEmpty()) {
-                GameEvent nextEvent = gameEvents.poll();
-                for (var gameEventObserver : gameEventObservers.get(nextEvent.getClass())) {
-                    ((GameEventObserver<GameEvent>) gameEventObserver).eventReceived(nextEvent);
-                }
+    private void fireNextEvents(Queue<? extends GameEvent> gameEvents) {
+        if (gameEvents == null) {
+            return;
+        }
+
+        while (!gameEvents.isEmpty()) {
+            GameEvent nextEvent = gameEvents.poll();
+            for (var gameEventObserver : gameEventObservers.get(nextEvent.getClass())) {
+                ((GameEventObserver<GameEvent>) gameEventObserver).eventReceived(nextEvent);
             }
         }
     }

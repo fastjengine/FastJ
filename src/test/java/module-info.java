@@ -5,6 +5,8 @@ module fastj.library.test {
     opens unittest.testcases.engine to org.junit.platform.commons;
     opens unittest.testcases.engine.config to org.junit.platform.commons;
 
+    opens unittest.testcases.gameloop to org.junit.platform.commons;
+
     opens unittest.testcases.graphics to org.junit.platform.commons;
     opens unittest.testcases.graphics.display to org.junit.platform.commons;
     opens unittest.testcases.graphics.game to org.junit.platform.commons;
