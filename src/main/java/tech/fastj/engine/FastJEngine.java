@@ -3,9 +3,9 @@ package tech.fastj.engine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
+
 import tech.fastj.math.Point;
+
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.display.DisplayState;
 import tech.fastj.graphics.display.FastJCanvas;
@@ -15,15 +15,25 @@ import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
+
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceManager;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
+
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
+
+import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.gameloop.GameLoop;
+import tech.fastj.gameloop.GameLoopState;
+import tech.fastj.gameloop.Timer;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
@@ -39,10 +49,6 @@ import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationData;
 import tech.fastj.animation.AnimationEngine;
 import tech.fastj.animation.sprite.SpriteAnimationEngine;
-import tech.fastj.gameloop.CoreLoopState;
-import tech.fastj.gameloop.GameLoop;
-import tech.fastj.gameloop.GameLoopState;
-import tech.fastj.gameloop.Timer;
 
 /**
  * The main control hub of the game engine.
