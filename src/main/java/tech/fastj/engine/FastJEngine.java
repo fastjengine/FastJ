@@ -759,7 +759,7 @@ public class FastJEngine {
         }, 1, 1, TimeUnit.SECONDS);
 
         gameLoop = new GameLoop(
-                loop -> display.getWindow().isVisible(),
+                loop -> !display.getWindow().isVisible(),
                 loop -> display.getDisplayState() != DisplayState.FullScreen,
                 targetFPS,
                 targetUPS
