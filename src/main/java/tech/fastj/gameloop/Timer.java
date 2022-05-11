@@ -1,4 +1,4 @@
-package tech.fastj.engine.internals;
+package tech.fastj.gameloop;
 
 /**
  * Timekeeping class, primarily used to track the time between the previous and current game frames.

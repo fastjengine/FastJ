@@ -3,10 +3,9 @@ package tech.fastj.engine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
-import tech.fastj.engine.internals.Timer;
-
+import tech.fastj.logging.Log;
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
-
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.display.DisplayState;
 import tech.fastj.graphics.display.FastJCanvas;
@@ -16,15 +15,10 @@ import tech.fastj.graphics.util.DisplayUtil;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
-
-import tech.fastj.logging.Log;
-import tech.fastj.logging.LogLevel;
-
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceManager;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
-
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -45,6 +39,10 @@ import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationData;
 import tech.fastj.animation.AnimationEngine;
 import tech.fastj.animation.sprite.SpriteAnimationEngine;
+import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.gameloop.GameLoop;
+import tech.fastj.gameloop.GameLoopState;
+import tech.fastj.gameloop.Timer;
 
 /**
  * The main control hub of the game engine.
@@ -97,6 +95,9 @@ public class FastJEngine {
     private static FastJCanvas canvas;
     private static LogicManager gameManager;
 
+    private static Point windowResolution;
+    private static Point canvasResolution;
+
     // Check values
     private static boolean isRunning;
     private static LogLevel logLevel = DefaultLogLevel;
@@ -106,9 +107,6 @@ public class FastJEngine {
     private static final ManagedList<Runnable> AfterUpdateList = new ManagedList<>();
     private static final ManagedList<Runnable> AfterRenderList = new ManagedList<>();
 
-    private static Point windowResolution;
-    private static Point canvasResolution;
-
     // Resources
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
 
@@ -117,6 +115,70 @@ public class FastJEngine {
 
     // Audio
     private static final AudioManager AudioManager = new AudioManager();
+
+    // Game Loop
+    private static final GameLoopState GeneralFixedUpdate = new GameLoopState(
+            CoreLoopState.FixedUpdate,
+            1,
+            (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdate(canvas)
+    );
+    private static final GameLoopState BehaviorFixedUpdate = new GameLoopState(
+            CoreLoopState.FixedUpdate,
+            2,
+            (gameLoopState, fixedDeltaTime) -> gameManager.updateBehaviors()
+    );
+    private static final GameLoopState AfterFixedUpdate = new GameLoopState(
+            CoreLoopState.FixedUpdate,
+            3,
+            (gameLoopState, fixedDeltaTime) -> {
+                if (!AfterUpdateList.isEmpty()) {
+                    AfterUpdateList.run(list -> {
+                        for (Runnable action : list) {
+                            action.run();
+                        }
+                    });
+                    AfterUpdateList.clear();
+                }
+            }
+    );
+    private static final GameLoopState GeneralUpdate = new GameLoopState(
+            CoreLoopState.Update,
+            1,
+            (gameLoopState, deltaTime) -> {
+                gameManager.processInputEvents();
+                gameManager.processKeysDown();
+                gameManager.update(canvas);
+            }
+    );
+    private static final GameLoopState AnimationStep = new GameLoopState(
+            CoreLoopState.Update,
+            2,
+            (gameLoopState, deltaTime) -> {
+                for (AnimationEngine<?, ?> animationEngine : AnimationEngines.values()) {
+                    animationEngine.stepAnimations(deltaTime);
+                }
+            }
+    );
+    private static final GameLoopState GeneralRender = new GameLoopState(
+            CoreLoopState.LateUpdate,
+            Integer.MAX_VALUE - 1,
+            (gameLoopState, deltaTime) -> gameManager.render(canvas)
+    );
+    private static final GameLoopState AfterRender = new GameLoopState(
+            CoreLoopState.LateUpdate,
+            Integer.MAX_VALUE,
+            (gameLoopState, deltaTime) -> {
+                if (!AfterRenderList.isEmpty()) {
+                    AfterRenderList.run(list -> {
+                        for (Runnable action : list) {
+                            action.run();
+                        }
+                    });
+                    AfterRenderList.clear();
+                }
+                drawFrames++;
+            }
+    );
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -693,77 +755,23 @@ public class FastJEngine {
 
     /** Runs the game loop -- the heart of the engine. */
     private static void gameLoop() {
-        float elapsedTime;
-        float elapsedFixedTime;
-        float accumulator = 0f;
-        float updateInterval = 1f / targetUPS;
+        GameLoop gameLoop = new GameLoop(
+                loop -> display.getWindow().isVisible(),
+                loop -> display.getDisplayState() != DisplayState.FullScreen,
+                targetFPS,
+                targetUPS,
+                GeneralFixedUpdate,
+                BehaviorFixedUpdate,
+                AfterFixedUpdate,
+                GeneralUpdate,
+                AnimationStep,
+                GeneralRender,
+                AfterRender
+        );
 
-        while (display.getWindow().isVisible()) {
-            elapsedTime = deltaTimer.evalDeltaTime();
-            accumulator += elapsedTime;
-
-            while (accumulator >= updateInterval) {
-                elapsedFixedTime = fixedDeltaTimer.evalDeltaTime();
-                gameManager.fixedUpdate(canvas);
-                gameManager.updateBehaviors();
-
-                if (!AfterUpdateList.isEmpty()) {
-                    AfterUpdateList.run(list -> {
-                        for (Runnable action : list) {
-                            action.run();
-                        }
-                    });
-                    AfterUpdateList.clear();
-                }
-
-                accumulator -= elapsedFixedTime;
-            }
-
-            gameManager.processInputEvents();
-            gameManager.processKeysDown();
-            gameManager.update(canvas);
-            for (AnimationEngine<?, ?> animationEngine : AnimationEngines.values()) {
-                animationEngine.stepAnimations(elapsedTime);
-            }
-
-            gameManager.render(canvas);
-
-            if (!AfterRenderList.isEmpty()) {
-                AfterRenderList.run(list -> {
-                    for (Runnable action : list) {
-                        action.run();
-                    }
-                });
-                AfterRenderList.clear();
-            }
-            drawFrames++;
-
-            if (display.getDisplayState() != DisplayState.FullScreen) {
-                sync();
-            }
-        }
+        gameLoop.run();
 
         exit();
-    }
-
-    /**
-     * Syncs the game engine frame rate.
-     * <p>
-     * This provides, for a lack of better terms, "jank" way of emulating V-Sync when the game engine is not running in
-     * fullscreen mode.
-     */
-    private static void sync() {
-        final float loopSlot = 1f / targetFPS;
-        final double endTime = deltaTimer.getLastTimestamp() + loopSlot;
-        final double currentTime = deltaTimer.getCurrentTime();
-        if (currentTime < endTime) {
-            try {
-                TimeUnit.MILLISECONDS.sleep((long) ((endTime - currentTime) * 1000L));
-            } catch (InterruptedException exception) {
-                FastJEngine.warning("Interrupted while syncing game frame rate: {}", exception.getMessage() + Arrays.deepToString(exception.getStackTrace()));
-                Thread.currentThread().interrupt();
-            }
-        }
     }
 
     /** Removes all resources created by the game engine. */
