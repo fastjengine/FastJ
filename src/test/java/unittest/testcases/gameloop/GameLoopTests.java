@@ -1,11 +1,5 @@
 package unittest.testcases.gameloop;
 
-import unittest.mock.gameloop.event.MockEvent;
-import tech.fastj.gameloop.CoreLoopState;
-import tech.fastj.gameloop.GameLoop;
-import tech.fastj.gameloop.GameLoopState;
-import tech.fastj.gameloop.event.GameEventObserver;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +9,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
+import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.gameloop.GameLoop;
+import tech.fastj.gameloop.GameLoopState;
+import tech.fastj.gameloop.event.GameEventHandler;
+import tech.fastj.gameloop.event.GameEventObserver;
+import unittest.mock.gameloop.event.MockEvent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameLoopTests {
@@ -39,6 +40,30 @@ class GameLoopTests {
         for (Set<GameLoopState> gameLoopStates : gameLoopStatesMap.values()) {
             assertTrue(gameLoopStates.isEmpty(), "The game loop states set should start empty.");
         }
+    }
+
+    @Test
+    void tryGameLoopCreation_withNullExitCondition() {
+        assertThrows(NullPointerException.class, () -> new GameLoop(null, (gl) -> false, FPS, UPS));
+    }
+
+    @Test
+    void tryGameLoopCreation_withNullSyncCondition() {
+        assertThrows(NullPointerException.class, () -> new GameLoop((gl) -> false, null, FPS, UPS));
+    }
+
+    @Test
+    void tryGameLoopCreation_withFPSLessThanOne() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new GameLoop((gl) -> false, (gl) -> false, 0, UPS));
+        String expectedExceptionMessage = "FPS amount must be at least 1.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
+    }
+
+    @Test
+    void tryGameLoopCreation_withUPSLessThanOne() {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new GameLoop((gl) -> false, (gl) -> false, FPS, 0));
+        String expectedExceptionMessage = "UPS amount must be at least 1.";
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 
     @Test
@@ -70,6 +95,23 @@ class GameLoopTests {
         GameEventObserver<MockEvent> gameEventObserver = (event) -> firedEvent.set(true);
         gameLoop.addEventObserver(gameEventObserver, MockEvent.class);
         gameLoop.removeEventObserver(gameEventObserver, MockEvent.class);
+
+        gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())));
+        gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)));
+
+        gameLoop.run();
+        assertFalse(firedEvent.get(), "The event should have been fired and received immediately.");
+    }
+
+    @Test
+    void checkGameLoopRemovesEventHandlers_shouldNotFail() {
+        AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
+        AtomicBoolean firedEvent = new AtomicBoolean();
+        GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false, FPS, UPS);
+
+        GameEventHandler<MockEvent, GameEventObserver<MockEvent>> gameEventHandler = (eventObservers, event) -> firedEvent.set(true);
+        gameLoop.addEventHandler(gameEventHandler, MockEvent.class);
+        gameLoop.removeEventHandler(MockEvent.class);
 
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())));
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)));
@@ -151,6 +193,54 @@ class GameLoopTests {
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false, FPS, UPS);
 
         gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
+
+        GameLoopState lateUpdateState = new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false));
+        GameLoopState updateState = new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), lateUpdateState));
+        gameLoop.addGameLoopStates(updateState, lateUpdateState);
+
+        gameLoop.run();
+        assertTrue(firedEvent.get(), "The event should have been fired and received.");
+    }
+
+    @Test
+    void checkGameLoopFiresEventsImmediately_onEventHandler_shouldNotFail() {
+        AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
+        AtomicBoolean firedEvent = new AtomicBoolean();
+        GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false, FPS, UPS);
+
+        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addGameLoopStates(
+                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
+                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
+        );
+
+        gameLoop.run();
+        assertTrue(firedEvent.get(), "The event should have been fired and received immediately.");
+    }
+
+    @Test
+    void checkGameLoopFiresEventsOnCoreLoopState_onEventHandler_shouldNotFail() {
+        AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
+        AtomicBoolean firedEvent = new AtomicBoolean();
+        GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false, FPS, UPS);
+
+        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addGameLoopStates(
+                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
+                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
+        );
+
+        gameLoop.run();
+        assertTrue(firedEvent.get(), "The event should have been fired and received immediately.");
+    }
+
+    @Test
+    void checkGameLoopFiresEventsOnGameLoopState_onEventHandler_shouldNotFail() {
+        AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
+        AtomicBoolean firedEvent = new AtomicBoolean();
+        GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false, FPS, UPS);
+
+        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
 
         GameLoopState lateUpdateState = new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false));
         GameLoopState updateState = new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), lateUpdateState));

@@ -1,11 +1,12 @@
 package tech.fastj.gameloop;
 
-import tech.fastj.gameloop.event.GameEvent;
-import tech.fastj.gameloop.event.GameEventObserver;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
+
+import tech.fastj.gameloop.event.GameEvent;
+import tech.fastj.gameloop.event.GameEventHandler;
+import tech.fastj.gameloop.event.GameEventObserver;
 
 public class GameLoop implements Runnable {
 
@@ -41,6 +42,7 @@ public class GameLoop implements Runnable {
     private final Map<GameLoopState, Queue<GameEvent>> nextGameEvents;
 
     private final Map<Class<? extends GameEvent>, List<GameEventObserver<? extends GameEvent>>> gameEventObservers;
+    private final Map<Class<? extends GameEvent>, GameEventHandler<? extends GameEvent, ? extends GameEventObserver<? extends GameEvent>>> gameEventHandlers;
 
     private GameLoopState currentGameLoopState;
     private boolean isRunning;
@@ -66,6 +68,7 @@ public class GameLoop implements Runnable {
         nextLoopStates = new ArrayDeque<>();
         nextGameEvents = new HashMap<>();
         gameEventObservers = new HashMap<>();
+        gameEventHandlers = new HashMap<>();
         currentGameLoopState = NoState;
     }
 
@@ -109,6 +112,18 @@ public class GameLoop implements Runnable {
         }
     }
 
+    public <T extends GameEvent, V extends GameEventHandler<T, GameEventObserver<T>>> void addEventHandler(V gameEventHandler, Class<T> eventClass) {
+        synchronized (gameEventHandlers) {
+            gameEventHandlers.put(eventClass, gameEventHandler);
+        }
+    }
+
+    public <T extends GameEvent> void removeEventHandler(Class<T> eventClass) {
+        synchronized (gameEventHandlers) {
+            gameEventHandlers.remove(eventClass);
+        }
+    }
+
     public boolean isRunning() {
         return isRunning;
     }
@@ -131,7 +146,20 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
-        for (var gameEventObserver : gameEventObservers.get(event.getClass())) {
+        Class<T> eventClass = (Class<T>) event.getClass();
+        var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
+        if (gameEventHandler != null) {
+            ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
+            return;
+        }
+
+        List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
+        if (gameEventObserverList == null) {
+            gameEventObservers.put(eventClass, new ArrayList<>());
+            gameEventObserverList = gameEventObservers.get(eventClass);
+        }
+
+        for (var gameEventObserver : gameEventObserverList) {
             ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
@@ -207,7 +235,6 @@ public class GameLoop implements Runnable {
 
     private void runGameLoopStates(CoreLoopState coreLoopState, float elapsedFixedTime) {
         for (GameLoopState gameLoopState : gameLoopStates.get(coreLoopState)) {
-            System.out.println("running " + gameLoopState.toString() + " of " + coreLoopState);
             currentGameLoopState = gameLoopState;
             gameLoopState.accept(elapsedFixedTime);
             fireNextGameEvents(gameLoopState);
@@ -228,12 +255,24 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     private void fireNextEvents(Queue<? extends GameEvent> gameEvents) {
-        if (gameEvents == null) {
+        if (gameEvents == null || gameEvents.isEmpty()) {
+            return;
+        }
+
+        Class<? extends GameEvent> eventClass = gameEvents.peek().getClass();
+        var gameEventHandler = gameEventHandlers.get(eventClass);
+        if (gameEventHandler != null) {
+            ((GameEventHandler) gameEventHandler).handleEvents(gameEventObservers.get(eventClass), gameEvents);
             return;
         }
 
         while (!gameEvents.isEmpty()) {
             GameEvent nextEvent = gameEvents.poll();
+            if (gameEventObservers.get(nextEvent.getClass()) == null) {
+                gameEventObservers.put(nextEvent.getClass(), new ArrayList<>());
+                continue;
+            }
+
             for (var gameEventObserver : gameEventObservers.get(nextEvent.getClass())) {
                 ((GameEventObserver<GameEvent>) gameEventObserver).eventReceived(nextEvent);
             }
