@@ -244,6 +244,7 @@ public abstract class SceneManager implements LogicManager {
         }
 
         Scene nextScene = scenes.get(nextSceneName);
+        nextScene.inputManager.load();
 
         if (!nextScene.isInitialized()) {
             nextScene.generalLoad(canvas);
