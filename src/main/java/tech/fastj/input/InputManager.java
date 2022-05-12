@@ -4,10 +4,8 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
-import tech.fastj.input.keyboard.KeyboardInputHandler;
 import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.mouse.MouseActionListener;
-import tech.fastj.input.mouse.MouseInputHandler;
 import tech.fastj.input.mouse.events.MouseActionEvent;
 
 import java.util.List;
@@ -19,13 +17,6 @@ import java.util.List;
  * keyboard/mouse action listeners.
  */
 public class InputManager {
-
-    public InputManager() {
-        KeyboardInputHandler keyboardInputHandler = new KeyboardInputHandler();
-        MouseInputHandler mouseInputHandler = new MouseInputHandler();
-        FastJEngine.getGameLoop().addEventHandler(keyboardInputHandler, KeyboardActionEvent.class);
-        FastJEngine.getGameLoop().addEventHandler(mouseInputHandler, MouseActionEvent.class);
-    }
 
     /**
      * Gets the list of keyboard action listeners.
