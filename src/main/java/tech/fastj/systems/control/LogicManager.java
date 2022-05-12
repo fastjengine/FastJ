@@ -4,12 +4,6 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.graphics.display.FastJCanvas;
 
-import tech.fastj.input.InputManager;
-import tech.fastj.input.keyboard.Keyboard;
-import tech.fastj.input.mouse.Mouse;
-
-import java.awt.event.InputEvent;
-
 /**
  * The basis of game management in any game made with FastJ.
  * <p>
@@ -41,27 +35,8 @@ public interface LogicManager {
     /** Initializes the logic manager's behaviors (called after {@link #init(FastJCanvas)}). */
     void initBehaviors();
 
-    /**
-     * Allows the logic manager to process all pending input events.
-     *
-     * @see Keyboard
-     * @see Mouse
-     * @see InputManager
-     */
-    void processInputEvents();
-
     /** Allows the logic manager to process keys that are currently pressed. */
     void processKeysDown();
-
-    /**
-     * Allows the logic manager to take in an input event.
-     * <p>
-     * <b>FOR IMPLEMENTORS:</b> Input events taken in should be stored for later. When {@link #processInputEvents()} is
-     * called, it should process all the events stored.
-     *
-     * @param inputEvent The event taken in.
-     */
-    void receivedInputEvent(InputEvent inputEvent);
 
     /**
      * Allows the logic manager to update its game state -- content updated whenever the game renders -- once.

@@ -10,6 +10,8 @@ import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 import tech.fastj.input.keyboard.Keys;
 import tech.fastj.systems.control.SimpleManager;
 
+import java.util.Set;
+
 public class Main extends SimpleManager {
 
     @Override
@@ -32,7 +34,7 @@ public class Main extends SimpleManager {
         /* The KeyboardActionListener class is designed to set up actions depending on keyboard actions from the player.
          * It has 4 main methods:
          *
-         * - onKeyDown: this method is called when a key is held down.
+         * - onKeyDown: this method is called when at least one key is held down.
          * - onKeyRecentlyPressed: this method is called when a key is first pressed.
          * - onKeyReleased: this method is called when a key is released.
          * - onKeyTyped: this method is called when a key is typed -- first pressed or held down.
@@ -42,8 +44,8 @@ public class Main extends SimpleManager {
 
         inputManager.addKeyboardActionListener(new KeyboardActionListener() {
             @Override
-            public void onKeyDown() {
-                FastJEngine.log("Key(s) held down");
+            public void onKeyDown(Set<Keys> keysDown) {
+                FastJEngine.log("Key(s) held down: {}", keysDown);
             }
 
             @Override

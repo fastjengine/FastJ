@@ -10,7 +10,6 @@ import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.tags.TagHandler;
 
-import java.awt.event.InputEvent;
 import java.util.List;
 
 /**
@@ -47,21 +46,9 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         this.initBehaviorListeners();
     }
 
-    /** Processes all stored input events. */
-    @Override
-    public void processInputEvents() {
-        inputManager.processEvents();
-    }
-
     @Override
     public void processKeysDown() {
         inputManager.fireKeysDown();
-    }
-
-    /** Stores the specified input event to be processed later ({@link #processInputEvents()}). */
-    @Override
-    public void receivedInputEvent(InputEvent inputEvent) {
-        inputManager.receivedInputEvent(inputEvent);
     }
 
     @Override
@@ -103,7 +90,7 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         drawableManager.destroyAllLists(this);
         this.clearBehaviorListeners();
         drawableManager.clearAllLists();
-        inputManager.clearAllLists();
+        inputManager.reset();
         camera.reset();
     }
 }

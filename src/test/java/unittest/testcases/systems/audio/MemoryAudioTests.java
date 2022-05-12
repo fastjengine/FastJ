@@ -15,6 +15,7 @@ import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +36,16 @@ class MemoryAudioTests {
     @BeforeAll
     public static void onlyRunIfAudioOutputIsSupported() {
         assumeTrue(EnvironmentHelper.DoesEnvironmentSupportAudioOutput);
+    }
+
+    @BeforeAll
+    public static void initAudioManager() {
+        FastJEngine.getAudioManager().init();
+    }
+
+    @AfterAll
+    public static void resetAudioManager() {
+        FastJEngine.getAudioManager().reset();
     }
 
     @Test

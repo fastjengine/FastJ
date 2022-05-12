@@ -1,9 +1,14 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.resources.files.FileUtil;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.tags.TagHandler;
+
+import tech.fastj.gameloop.event.GameEventHandler;
+import tech.fastj.gameloop.event.GameEventObserver;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.sound.sampled.*;
 
@@ -23,11 +26,10 @@ import javax.sound.sampled.*;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class AudioManager implements TagHandler<Audio> {
+public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEvent, GameEventObserver<AudioEvent>> {
 
     private final Map<String, MemoryAudio> memoryAudioFiles = new ConcurrentHashMap<>();
     private final Map<String, StreamedAudio> streamedAudioFiles = new ConcurrentHashMap<>();
-    private static ExecutorService audioEventExecutor = Executors.newWorkStealingPool();
 
     /**
      * Checks whether the computer supports audio output.
@@ -66,6 +68,11 @@ public class AudioManager implements TagHandler<Audio> {
         StreamedAudio audio = new StreamedAudio(audioPath);
         audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
         audio.play();
+    }
+
+
+    public void init() {
+        FastJEngine.getGameLoop().addEventHandler(this, AudioEvent.class);
     }
 
     /**
@@ -265,8 +272,7 @@ public class AudioManager implements TagHandler<Audio> {
         });
         streamedAudioFiles.clear();
 
-        audioEventExecutor.shutdownNow();
-        audioEventExecutor = Executors.newWorkStealingPool();
+        FastJEngine.getGameLoop().removeEventHandler(AudioEvent.class);
     }
 
     static Path pathFromURL(URL audioPath) {
@@ -340,10 +346,6 @@ public class AudioManager implements TagHandler<Audio> {
         }
     }
 
-    static void fireAudioEvent(Audio audio, LineEvent audioEventType) {
-        audioEventExecutor.submit(() -> audio.getAudioEventListener().fireEvent(audioEventType));
-    }
-
     @Override
     public List<Audio> getTaggableEntities() {
         List<Audio> result = new ArrayList<>();
@@ -351,5 +353,15 @@ public class AudioManager implements TagHandler<Audio> {
         result.addAll(streamedAudioFiles.values());
 
         return result;
+    }
+
+    @Override
+    public void handleEvent(List<GameEventObserver<AudioEvent>> gameEventObservers, AudioEvent audioEvent) {
+        for (GameEventObserver<AudioEvent> gameEventObserver : gameEventObservers) {
+            if (audioEvent.getEventSource().getAudioEventListener().equals(gameEventObserver)) {
+                gameEventObserver.eventReceived(audioEvent);
+                return;
+            }
+        }
     }
 }

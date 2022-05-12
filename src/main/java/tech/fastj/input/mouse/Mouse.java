@@ -7,7 +7,6 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Display;
 
-import tech.fastj.input.InputManager;
 import tech.fastj.input.mouse.events.MouseActionEvent;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
@@ -200,8 +199,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Gets the value that determines whether the specified mouse button is currently pressed.
      * <p>
-     * You can get button values from the {@code MouseEvent} class, or from predefined values in the {@link
-     * MouseButtons} class.
+     * You can get button values from the {@code MouseEvent} class, or from predefined values in the
+     * {@link MouseButtons} class.
      *
      * @param mouseButton The {@link MouseButtons} enum value defining which button to check for.
      * @return The boolean value that represents whether the specified button is pressed.
@@ -336,7 +335,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse button {} was pressed at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_PRESSED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -345,7 +346,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse button {} was released at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_RELEASED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -354,7 +357,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse button {} was clicked at screen location {} in event {}", e.getButton(), e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_CLICKED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -363,7 +368,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse was moved at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_MOVED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -372,7 +379,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse was dragged at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_DRAGGED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -381,7 +390,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse wheel was scrolled in direction {} at screen location {} in event {}", e.getWheelRotation(), e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_WHEEL).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -390,7 +401,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse entered window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_ENTERED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -399,19 +412,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.trace(Mouse.class, "Mouse exited window at screen location {} in event {}", e.getLocationOnScreen(), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
-    }
-
-    /**
-     * Processes the specified mouse event for the specified input manager, based on its event type.
-     *
-     * @param inputManager The input manager to fire the event to.
-     * @param event        The mouse event to process.
-     */
-    public static void processEvent(InputManager inputManager, MouseEvent event) {
-        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(event.getID()).apply(event);
-        MouseEventProcessor.get(mouseActionEvent.getRawEvent().getID()).accept(mouseActionEvent.getRawEvent());
-        inputManager.fireMouseEvent(mouseActionEvent);
+        MouseActionEvent mouseActionEvent = MouseActionEventCreator.get(MouseEvent.MOUSE_EXITED).apply(e);
+        MouseEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(mouseActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     /** Private class to store the value of a mouse button, and whether it is currently pressed. */

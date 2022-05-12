@@ -130,7 +130,6 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     /** Removes all elements from the scene. */
     public void clearAllLists() {
         drawableManager.clearAllLists();
-        inputManager.clearAllLists();
         this.clearBehaviorListeners();
     }
 
@@ -139,6 +138,7 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
         this.setInitialized(false);
         this.destroyBehaviorListeners();
         drawableManager.destroyAllLists(this);
+        inputManager.reset();
         this.clearAllLists();
         camera.reset();
     }

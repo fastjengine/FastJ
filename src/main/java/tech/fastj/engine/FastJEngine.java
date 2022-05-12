@@ -119,9 +119,6 @@ public class FastJEngine {
     // Animation
     private static final Map<Class<Animated<?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
 
-    // Audio
-    private static final AudioManager AudioManager = new AudioManager();
-
     // Game Loop
     public static final GameLoopState GeneralFixedUpdate = new GameLoopState(
             CoreLoopState.FixedUpdate,
@@ -149,11 +146,13 @@ public class FastJEngine {
     );
     public static final GameLoopState ProcessInputEvents = new GameLoopState(
             CoreLoopState.Update,
+            0,
+            (gameLoopState, deltaTime) -> {}
+    );
+    public static final GameLoopState ProcessKeysDown = new GameLoopState(
+            CoreLoopState.Update,
             1,
-            (gameLoopState, deltaTime) -> {
-                gameManager.processInputEvents();
-                gameManager.processKeysDown();
-            }
+            (gameLoopState, deltaTime) -> gameManager.processKeysDown()
     );
     public static final GameLoopState GeneralUpdate = new GameLoopState(
             CoreLoopState.Update,
@@ -195,7 +194,13 @@ public class FastJEngine {
             }
     );
 
-    private static GameLoop gameLoop;
+    private static final GameLoop GameLoop = new GameLoop(
+            loop -> display.getWindow().isVisible(),
+            loop -> display.getDisplayState() != DisplayState.FullScreen
+    );
+
+    // Audio
+    private static final AudioManager AudioManager = new AudioManager();
 
     private FastJEngine() {
         throw new java.lang.IllegalStateException();
@@ -210,9 +215,14 @@ public class FastJEngine {
             fps = 60;
         }
         DefaultFPS = fps;
+        AudioManager.init();
 
         addDefaultResourceManagers();
         addDefaultAnimationEngines();
+
+        GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
+        GameLoop.addGameLoopStates(ProcessInputEvents, ProcessKeysDown, GeneralUpdate, BehaviorUpdate, AnimationStep);
+        GameLoop.addGameLoopStates(GeneralRender, AfterRender);
     }
 
     /**
@@ -457,7 +467,7 @@ public class FastJEngine {
     }
 
     public static GameLoop getGameLoop() {
-        return gameLoop;
+        return GameLoop;
     }
 
     /**
@@ -479,6 +489,7 @@ public class FastJEngine {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("FPS amount must be at least 1."));
         }
         targetFPS = fps;
+        GameLoop.setTargetFPS(targetFPS);
     }
 
     /**
@@ -500,6 +511,7 @@ public class FastJEngine {
             error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("UPS amount must be at least 1."));
         }
         targetUPS = ups;
+        GameLoop.setTargetUPS(targetUPS);
     }
 
     /**
@@ -604,7 +616,7 @@ public class FastJEngine {
     public static void run() {
         try {
             initEngine();
-            gameLoop.run();
+            GameLoop.run();
             exit();
         } catch (Exception exception) {
             FastJEngine.forceCloseGame();
@@ -751,6 +763,10 @@ public class FastJEngine {
         Toolkit.getDefaultToolkit().setDynamicLayout(false);
         ThreadFixer.start();
 
+        GameLoop.setTargetFPS(targetFPS);
+        GameLoop.setTargetUPS(targetUPS);
+        AudioManager.init();
+
         if (display == null) {
             display = new SimpleDisplay(title, windowResolution);
         }
@@ -766,17 +782,6 @@ public class FastJEngine {
             FastJEngine.logFPS(drawFrames);
             drawFrames = 0;
         }, 1, 1, TimeUnit.SECONDS);
-
-        gameLoop = new GameLoop(
-                loop -> !display.getWindow().isVisible(),
-                loop -> display.getDisplayState() != DisplayState.FullScreen,
-                targetFPS,
-                targetUPS
-        );
-
-        gameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
-        gameLoop.addGameLoopStates(ProcessInputEvents, GeneralUpdate, BehaviorUpdate, AnimationStep);
-        gameLoop.addGameLoopStates(GeneralRender, AfterRender);
 
         System.gc(); // yes, I really gc before starting.
         display.open();
@@ -815,6 +820,7 @@ public class FastJEngine {
         Mouse.stop();
         Keyboard.stop();
         AudioManager.reset();
+        AudioManager.init();
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
 
@@ -848,7 +854,10 @@ public class FastJEngine {
         gameManager = null;
 
         // game loop
-        gameLoop = null;
+        GameLoop.reset();
+        GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
+        GameLoop.addGameLoopStates(ProcessInputEvents, ProcessKeysDown, GeneralUpdate, BehaviorUpdate, AnimationStep);
+        GameLoop.addGameLoopStates(GeneralRender, AfterRender);
 
         // Check values
         isRunning = false;

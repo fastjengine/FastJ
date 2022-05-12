@@ -5,7 +5,6 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.graphics.display.FastJCanvas;
 
-import java.awt.event.InputEvent;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -68,20 +67,9 @@ public abstract class SceneManager implements LogicManager {
         safeRender(display);
     }
 
-    /** Processes all pending input events. */
-    @Override
-    public void processInputEvents() {
-        safeUpdate(currentScene.inputManager::processEvents);
-    }
-
     @Override
     public void processKeysDown() {
         safeUpdate(currentScene.inputManager::fireKeysDown);
-    }
-
-    @Override
-    public void receivedInputEvent(InputEvent inputEvent) {
-        safeUpdate(() -> currentScene.inputManager.receivedInputEvent(inputEvent));
     }
 
     /** Resets the logic manager. */

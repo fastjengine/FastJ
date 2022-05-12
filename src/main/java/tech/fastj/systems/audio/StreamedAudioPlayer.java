@@ -1,5 +1,7 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.logging.Log;
 
 import tech.fastj.systems.audio.state.PlaybackState;
@@ -69,28 +71,18 @@ public class StreamedAudioPlayer {
 
         try {
             sourceDataLine.open(audioInputStream.getFormat());
-            AudioManager.fireAudioEvent(
-                    audio,
-                    new LineEvent(
-                            audio.getAudioSource(),
-                            LineEvent.Type.OPEN,
-                            audio.getAudioSource().getLongFramePosition()
-                    )
-            );
+            LineEvent openLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.OPEN, sourceDataLine.getLongFramePosition());
+            AudioEvent openAudioEvent = new AudioEvent(openLineEvent, audio);
+            FastJEngine.getGameLoop().fireEvent(openAudioEvent);
 
             sourceDataLine.start();
 
             audio.previousPlaybackState = audio.currentPlaybackState;
             audio.currentPlaybackState = PlaybackState.Playing;
 
-            AudioManager.fireAudioEvent(
-                    audio,
-                    new LineEvent(
-                            audio.getAudioSource(),
-                            LineEvent.Type.START,
-                            audio.getAudioSource().getLongFramePosition()
-                    )
-            );
+            LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
+            AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+            FastJEngine.getGameLoop().fireEvent(startAudioEvent);
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException(
                     "No audio lines were available to load the file \"" + audio.getAudioPath().toAbsolutePath() + "\" as a StreamedAudio.",
@@ -113,14 +105,9 @@ public class StreamedAudioPlayer {
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Paused;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.STOP,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
     }
 
     /** See {@link StreamedAudio#resume()}. */
@@ -137,14 +124,9 @@ public class StreamedAudioPlayer {
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Playing;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.START,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
+        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 
     /** See {@link StreamedAudio#stop()}. */
@@ -163,22 +145,12 @@ public class StreamedAudioPlayer {
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.STOP,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.CLOSE,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent closeLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.CLOSE, sourceDataLine.getLongFramePosition());
+        AudioEvent closeAudioEvent = new AudioEvent(closeLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(closeAudioEvent);
     }
 }

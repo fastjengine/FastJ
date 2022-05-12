@@ -1,5 +1,7 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Maths;
 
 import tech.fastj.logging.Log;
@@ -35,14 +37,9 @@ public class MemoryAudioPlayer {
             AudioInputStream audioInputStream = audio.getAudioInputStream();
             clip.open(audioInputStream);
 
-            AudioManager.fireAudioEvent(
-                    audio,
-                    new LineEvent(
-                            audio.getAudioSource(),
-                            LineEvent.Type.OPEN,
-                            audio.getAudioSource().getLongFramePosition()
-                    )
-            );
+            LineEvent lineEvent = new LineEvent(clip, LineEvent.Type.OPEN, clip.getLongFramePosition());
+            AudioEvent audioEvent = new AudioEvent(lineEvent, audio);
+            FastJEngine.getGameLoop().fireEvent(audioEvent);
 
             playOrLoopAudio(audio);
         } catch (LineUnavailableException exception) {
@@ -69,14 +66,9 @@ public class MemoryAudioPlayer {
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Paused;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.STOP,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent lineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
+        AudioEvent audioEvent = new AudioEvent(lineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(audioEvent);
     }
 
     /** See {@link MemoryAudio#resume()}. */
@@ -101,30 +93,20 @@ public class MemoryAudioPlayer {
         }
 
         clip.stop();
-
         clip.flush();
         clip.close();
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.STOP,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.CLOSE,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent stopLineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
+
+        LineEvent closeLineEvent = new LineEvent(clip, LineEvent.Type.CLOSE, clip.getLongFramePosition());
+        AudioEvent closeAudioEvent = new AudioEvent(closeLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(closeAudioEvent);
     }
 
     /** See {@link MemoryAudio#seek(long)}. */
@@ -187,14 +169,9 @@ public class MemoryAudioPlayer {
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Playing;
 
-        AudioManager.fireAudioEvent(
-                audio,
-                new LineEvent(
-                        audio.getAudioSource(),
-                        LineEvent.Type.START,
-                        audio.getAudioSource().getLongFramePosition()
-                )
-        );
+        LineEvent startLineEvent = new LineEvent(clip, LineEvent.Type.START, clip.getLongFramePosition());
+        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+        FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 
     private static int denormalizeLoopStart(float normalizedLoopStart, int clipFrameCount) {

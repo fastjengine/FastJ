@@ -2,7 +2,7 @@ package tech.fastj.input.keyboard;
 
 import tech.fastj.engine.FastJEngine;
 
-import tech.fastj.input.InputManager;
+import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 
@@ -11,12 +11,15 @@ import tech.fastj.logging.LogLevel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * Class that stores key input information from the {@code Display}.
@@ -26,48 +29,56 @@ import java.util.function.BiConsumer;
  */
 public class Keyboard implements KeyListener {
 
-    private static final Map<KeyDescription, Key> Keys = new HashMap<>();
+    private static final Map<KeyDescription, Key> AllKeys = new TreeMap<>((o1, o2) -> {
+        if (o1 == null && o2 == null) {
+            return 0;
+        }
+        if (o1 == null) {
+            return 1;
+        }
+        if (o2 == null) {
+            return -1;
+        }
+
+        return o1.compareTo(o2);
+    });
+
+    private static final Set<Keys> AllKeysDown = new TreeSet<>();
     private static String lastKeyPressed = "";
     private static ScheduledExecutorService keyChecker;
 
-    private static final Map<Integer, BiConsumer<InputManager, KeyEvent>> KeyEventProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (inputManager, keyEvent) -> {
+    private static final Map<Integer, Consumer<KeyEvent>> KeyEventProcessor = Map.of(
+            KeyEvent.KEY_PRESSED, (keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 Key key = null;
 
-                if (Keys.get(keyDescription) == null) {
+                if (AllKeys.get(keyDescription) == null) {
                     key = new Key(keyEvent);
-                    Keys.put(key.keyDescription, key);
+                    AllKeys.put(key.keyDescription, key);
                     keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
                 }
 
                 if (key == null) {
-                    key = Keys.get(keyDescription);
+                    key = AllKeys.get(keyDescription);
                 }
 
                 if (!key.currentlyPressed) {
                     key.setRecentPress(true);
-                    inputManager.fireKeyEvent(KeyboardStateEvent.fromKeyEvent(keyEvent));
                 }
 
                 key.setCurrentPress(true);
             },
-            KeyEvent.KEY_RELEASED, (inputManager, keyEvent) -> {
+            KeyEvent.KEY_RELEASED, (keyEvent) -> {
                 KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key key = Keys.get(keyDescription);
+                Key key = AllKeys.get(keyDescription);
 
                 if (key != null) {
                     key.setCurrentPress(false);
                     key.setRecentPress(false);
                     key.setRecentRelease(true);
                 }
-
-                inputManager.fireKeyEvent(KeyboardStateEvent.fromKeyEvent(keyEvent));
             },
-            KeyEvent.KEY_TYPED, (inputManager, keyEvent) -> {
-                lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode());
-                inputManager.fireKeyEvent(KeyboardTypedEvent.fromKeyEvent(keyEvent));
-            }
+            KeyEvent.KEY_TYPED, (keyEvent) -> lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode())
     );
 
     /** Initializes the keyboard. */
@@ -86,7 +97,7 @@ public class Keyboard implements KeyListener {
 
     /** Updates each key if it was recently pressed. */
     private static void keyCheck() {
-        for (Key key : Keys.values()) {
+        for (Key key : AllKeys.values()) {
             if (key.recentPress) {
                 key.setRecentPress(!key.pressProgress());
             } else if (key.recentRelease) {
@@ -97,7 +108,7 @@ public class Keyboard implements KeyListener {
 
     /** Clears all key input from the keyboard. */
     public static void reset() {
-        Keys.clear();
+        AllKeys.clear();
     }
 
     /**
@@ -108,8 +119,8 @@ public class Keyboard implements KeyListener {
      * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
      *                    KeyEvent class.
      * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
-     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
+     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently pressed.
      */
     public static boolean isKeyRecentlyPressed(int keyCode, int keyLocation) {
@@ -117,7 +128,7 @@ public class Keyboard implements KeyListener {
         if (keyDescription == null) {
             return false;
         }
-        Key k = Keys.get(keyDescription);
+        Key k = AllKeys.get(keyDescription);
 
         boolean recentlyPressed = k.recentPress;
         k.recentPress = false;
@@ -144,8 +155,8 @@ public class Keyboard implements KeyListener {
      * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
      *                    KeyEvent class.
      * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
-     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
+     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently released.
      */
     public static boolean isKeyRecentlyReleased(int keyCode, int keyLocation) {
@@ -153,7 +164,7 @@ public class Keyboard implements KeyListener {
         if (keyDescription == null) {
             return false;
         }
-        Key key = Keys.get(keyDescription);
+        Key key = AllKeys.get(keyDescription);
 
         boolean recentlyReleased = key.recentRelease;
         key.recentRelease = false;
@@ -182,8 +193,8 @@ public class Keyboard implements KeyListener {
      * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
      *                    KeyEvent class.
      * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code
-     *                    NUMPAD} to define the different possible locations for a key on the keyboard.
+     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
+     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key is pressed.
      */
     public static boolean isKeyDown(int keyCode, int keyLocation) {
@@ -192,7 +203,7 @@ public class Keyboard implements KeyListener {
             return false;
         }
 
-        return Keys.get(keyDescription).isKeyDown;
+        return AllKeys.get(keyDescription).isKeyDown;
     }
 
     /**
@@ -223,12 +234,16 @@ public class Keyboard implements KeyListener {
      * @return boolean that determines whether there are any keys pressed.
      */
     public static boolean areKeysDown() {
-        for (Key key : Keys.values()) {
+        for (Key key : AllKeys.values()) {
             if (key.isKeyDown) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static Set<Keys> getKeysDown() {
+        return Collections.unmodifiableSet(AllKeysDown);
     }
 
     public static void stop() {
@@ -246,7 +261,9 @@ public class Keyboard implements KeyListener {
             Log.trace(Keyboard.class, "Key {} was pressed in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        KeyboardActionEvent keyboardActionEvent = KeyboardStateEvent.fromKeyEvent(e);
+        KeyEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(keyboardActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -255,7 +272,9 @@ public class Keyboard implements KeyListener {
             Log.trace(Keyboard.class, "Key {} was released in event {}", KeyEvent.getKeyText(e.getExtendedKeyCode()), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
+        KeyboardActionEvent keyboardActionEvent = KeyboardStateEvent.fromKeyEvent(e);
+        KeyEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(keyboardActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     @Override
@@ -264,20 +283,9 @@ public class Keyboard implements KeyListener {
             Log.trace(Keyboard.class, "Key {} was typed in event {}", String.valueOf(e.getKeyChar()), e);
         }
 
-        FastJEngine.getLogicManager().receivedInputEvent(e);
-    }
-
-    /**
-     * Processes the specified key event for the specified input manager, based on its event type.
-     *
-     * @param inputManager The input manager to fire the event to.
-     * @param event        The key event to process.
-     */
-    public static void processEvent(InputManager inputManager, KeyEvent event) {
-        KeyEventProcessor.get(event.getID()).accept(inputManager, event);
-        /* Don't call the fireKeyEvent here!
-         * KeyEvent.KEY_PRESSED only gets called under certain
-         * conditions, so it cannot be abstracted to work here without some serious effort. */
+        KeyboardActionEvent keyboardActionEvent = KeyboardTypedEvent.fromKeyEvent(e);
+        KeyEventProcessor.get(e.getID()).accept(e);
+        FastJEngine.getGameLoop().fireEvent(keyboardActionEvent, FastJEngine.ProcessKeysDown);
     }
 
     /**
@@ -337,6 +345,8 @@ public class Keyboard implements KeyListener {
             recentPress = keyPressed;
             if (!keyPressed) {
                 pressTimer = 0;
+            } else {
+                AllKeysDown.add(keyDescription.enumKey);
             }
         }
 
@@ -349,6 +359,8 @@ public class Keyboard implements KeyListener {
             recentRelease = keyReleased;
             if (!keyReleased) {
                 releaseTimer = 0;
+            } else {
+                AllKeysDown.remove(keyDescription.enumKey);
             }
         }
 
@@ -367,9 +379,10 @@ public class Keyboard implements KeyListener {
     }
 
     /** Class used to define a {@link Keyboard.Key}. */
-    private static class KeyDescription {
+    private static class KeyDescription implements Comparable<KeyDescription> {
         private final int keyCode;
         private final int keyLocation;
+        private final Keys enumKey;
 
         /**
          * Constructs a key description using the specified key event.
@@ -379,6 +392,7 @@ public class Keyboard implements KeyListener {
         private KeyDescription(KeyEvent keyEvent) {
             keyCode = keyEvent.getKeyCode();
             keyLocation = keyEvent.getKeyLocation();
+            enumKey = Keys.get(keyEvent);
         }
 
         /**
@@ -389,7 +403,7 @@ public class Keyboard implements KeyListener {
          * @return The {@code KeyDescription} with the specified key code. If none matches, this returns {@code null}.
          */
         private static KeyDescription get(int keyCode, int keyLocation) {
-            for (KeyDescription keyDescription : Keys.keySet()) {
+            for (KeyDescription keyDescription : AllKeys.keySet()) {
                 if (keyDescription.keyCode == keyCode && keyDescription.keyLocation == keyLocation) {
                     return keyDescription;
                 }
@@ -403,6 +417,16 @@ public class Keyboard implements KeyListener {
                     "keyCode=" + keyCode +
                     ", keyLocation=" + keyLocation +
                     '}';
+        }
+
+        @Override
+        public int compareTo(KeyDescription other) {
+            int keyCodeComparison = Integer.compare(keyCode, other.keyCode);
+            if (keyCodeComparison != 0) {
+                return keyCodeComparison;
+            }
+
+            return Integer.compare(keyLocation, other.keyLocation);
         }
     }
 }
