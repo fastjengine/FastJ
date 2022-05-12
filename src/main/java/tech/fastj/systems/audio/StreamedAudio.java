@@ -127,7 +127,6 @@ public class StreamedAudio extends Audio {
         muteControl = (BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE);
 
         sourceDataLine.close();
-        StreamedAudioPlayer.streamAudio(this);
 
         audioEventListener = new AudioEventListener(this);
         currentPlaybackState = PlaybackState.Stopped;

@@ -49,6 +49,7 @@ public class StreamedAudioPlayer {
                     }
                     sourceDataLine.write(soundSamples, 0, sourceLength);
                 }
+                audioInputStream.reset();
             } catch (IOException exception) {
                 throw new IllegalStateException("Input stream read error for audio file \"" + audio.getAudioPath().toAbsolutePath() + "\"", exception);
             } catch (InterruptedException exception) {
@@ -73,6 +74,8 @@ public class StreamedAudioPlayer {
             Log.warn(StreamedAudioPlayer.class, "Tried to play audio file \"{}\", but it was already open (and likely being used elsewhere.)", audio.getAudioPath().toString());
             return;
         }
+
+        streamAudio(audio);
 
         try {
             sourceDataLine.open(audioInputStream.getFormat());
