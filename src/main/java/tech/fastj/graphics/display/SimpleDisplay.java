@@ -10,8 +10,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Map;
-import java.util.function.BiConsumer;
 
 import javax.swing.JFrame;
 
@@ -21,7 +19,8 @@ import javax.swing.JFrame;
  *     <li>Window resizing</li>
  *     <li>Fullscreen toggling</li>
  *     <li>Enabling/Disabling the title bar</li>
- *     <li>Window title string modification</li>
+ *     <li>Window title modification</li>
+ *     <li>Window events</li>
  * </ul>
  *
  * @author Andrew Dey
@@ -42,30 +41,6 @@ public class SimpleDisplay implements Display {
     private DisplayState oldDisplayState;
     private DisplayState suspendedState;
 
-    private static final Map<DisplayEvent, BiConsumer<SimpleDisplay, WindowEvent>> windowEvents = Map.of(
-            DisplayEvent.Opened, (display, windowEvent) -> FastJEngine.debug("window \"{}\" opened", display.displayTitle),
-            DisplayEvent.Closing, (display, windowEvent) -> {
-                FastJEngine.debug("window \"{}\" closing", display.displayTitle);
-                FastJEngine.closeGame();
-                display.close();
-            },
-            DisplayEvent.Closed, (display, windowEvent) -> FastJEngine.debug("window \"{}\" closed", display.displayTitle),
-            DisplayEvent.Iconified, (display, windowEvent) -> {
-                FastJEngine.debug("window \"{}\" iconified", display.displayTitle);
-                display.suspendedState = display.displayState;
-                display.updateDisplayState(DisplayState.Iconified);
-                FastJEngine.debug("window \"{}\" suspended {} state", display.displayTitle, display.suspendedState);
-            },
-            DisplayEvent.DeIconified, (display, windowEvent) -> {
-                FastJEngine.debug("window \"{}\" de-iconified", display.displayTitle);
-                display.suspendedState = null;
-                display.updateDisplayState(display.oldDisplayState);
-                FastJEngine.debug("window \"{}\" removed suspended {} state", display.displayTitle, display.suspendedState);
-            },
-            DisplayEvent.Activated, (display, windowEvent) -> FastJEngine.debug("window \"{}\" activated", display.displayTitle),
-            DisplayEvent.Deactivated, (display, windowEvent) -> FastJEngine.debug("window \"{}\" de-activated", display.displayTitle)
-    );
-
     public SimpleDisplay() {
         this(DefaultTitle, DefaultDisplaySize);
     }
@@ -79,47 +54,82 @@ public class SimpleDisplay implements Display {
         window.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" opened", displayTitle);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Open, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
             public void windowClosing(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" closing", displayTitle);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Closing, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
+
+                FastJEngine.closeGame();
+                display.close();
             }
 
             @Override
             public void windowClosed(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" closed", displayTitle);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Close, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
             public void windowIconified(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" iconified", displayTitle);
+
+                suspendedState = displayState;
+                display.updateDisplayState(DisplayState.Iconified);
+                FastJEngine.debug("window \"{}\" suspended {} state", displayTitle, suspendedState);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Iconify, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
             public void windowDeiconified(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" de-iconified", displayTitle);
+
+                suspendedState = null;
+                display.updateDisplayState(oldDisplayState);
+                FastJEngine.debug("window \"{}\" un-suspended {} state", displayTitle, suspendedState);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.DeIconify, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
             public void windowActivated(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" activated", displayTitle);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Activate, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
             public void windowDeactivated(WindowEvent windowEvent) {
-                pipeEvent(windowEvent);
-            }
+                SimpleDisplay display = SimpleDisplay.this;
+                FastJEngine.debug("window \"{}\" de-activated", displayTitle);
 
-            void pipeEvent(WindowEvent windowEvent) {
-                windowEvents.get(DisplayEvent.fromEvent(windowEvent)).accept(SimpleDisplay.this, windowEvent);
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Deactivate, windowEvent, display);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
         });
 
         window.addComponentListener(new ComponentAdapter() {
             @Override
-            public void componentResized(ComponentEvent e) {
+            public void componentResized(ComponentEvent componentEvent) {
                 if (displayState == DisplayState.FullScreen) {
                     return;
                 }
@@ -127,12 +137,18 @@ public class SimpleDisplay implements Display {
                 Point newSize = new Point(window.getSize());
                 FastJEngine.debug("window \"{}\" resize event to {}", displayTitle, newSize);
                 resizeDisplay(newSize);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Resize, componentEvent, SimpleDisplay.this);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
 
             @Override
-            public void componentMoved(ComponentEvent e) {
-                Point newLocation = new Point(e.getComponent().getLocation());
+            public void componentMoved(ComponentEvent componentEvent) {
+                Point newLocation = new Point(componentEvent.getComponent().getLocation());
                 FastJEngine.trace("window \"{}\" moved to {}", displayTitle, newLocation);
+
+                DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Move, componentEvent, SimpleDisplay.this);
+                FastJEngine.getGameLoop().fireEvent(displayEvent);
             }
         });
 
