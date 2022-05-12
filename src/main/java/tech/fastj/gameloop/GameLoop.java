@@ -200,19 +200,24 @@ public class GameLoop implements Runnable {
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
         Class<T> eventClass = (Class<T>) event.getClass();
-        tryFireEvent(event, eventClass);
+        Set<Object> alreadyViewed = new HashSet<>();
+        Set<Object> handlerAlreadyViewed = new HashSet<>();
+        tryFireEvent(event, eventClass, alreadyViewed, handlerAlreadyViewed);
+
 
         Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
         if (classAlias != null) {
-            tryFireEvent(event, classAlias);
+            tryFireEvent(event, classAlias, alreadyViewed, handlerAlreadyViewed);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass) {
+    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass, Set<Object> alreadyViewedEvent, Set<Object> handlerAlreadyViewed) {
         var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
-            ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
+            if (handlerAlreadyViewed.add(gameEventHandler)) {
+                ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
+            }
             return;
         }
         Log.trace(GameLoop.class, "on {}, {}", eventClass, gameEventObservers.get(eventClass));
@@ -229,6 +234,10 @@ public class GameLoop implements Runnable {
         }
 
         for (var gameEventObserver : gameEventObserverList) {
+            if (!alreadyViewedEvent.add(gameEventObserver)) {
+                continue;
+            }
+
             ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
