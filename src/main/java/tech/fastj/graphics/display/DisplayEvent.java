@@ -1,37 +1,44 @@
 package tech.fastj.graphics.display;
 
+import tech.fastj.gameloop.event.GameEvent;
+
+import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 
-/**
- * AWT window events, abstracted for easier identification and use with FastJ.
- *
- * @author Andrew Dey
- * @since 1.6.0
- */
-public enum DisplayEvent {
+public class DisplayEvent<T extends Display> implements GameEvent {
 
-    Opened(WindowEvent.WINDOW_OPENED),
-    Closed(WindowEvent.WINDOW_CLOSED),
-    Closing(WindowEvent.WINDOW_CLOSING),
-    Activated(WindowEvent.WINDOW_ACTIVATED),
-    Deactivated(WindowEvent.WINDOW_DEACTIVATED),
-    Iconified(WindowEvent.WINDOW_ICONIFIED),
-    DeIconified(WindowEvent.WINDOW_DEICONIFIED);
+    private final DisplayEventType eventType;
+    private final ComponentEvent rawEvent;
+    private final T displaySource;
+    private final boolean hasWindowEvent;
 
-    public final int awtId;
-
-    DisplayEvent(int awtId) {
-        this.awtId = awtId;
+    public DisplayEvent(DisplayEventType eventType, WindowEvent rawEvent, T displaySource) {
+        this.eventType = eventType;
+        this.rawEvent = rawEvent;
+        this.displaySource = displaySource;
+        this.hasWindowEvent = true;
     }
 
-    public static DisplayEvent fromEvent(WindowEvent awtWindowEvent) {
-        int eventId = awtWindowEvent.getID();
-        for (DisplayEvent displayEvent : values()) {
-            if (displayEvent.awtId == eventId) {
-                return displayEvent;
-            }
-        }
+    public DisplayEvent(DisplayEventType eventType, ComponentEvent rawEvent, T displaySource) {
+        this.eventType = eventType;
+        this.rawEvent = rawEvent;
+        this.displaySource = displaySource;
+        this.hasWindowEvent = false;
+    }
 
-        throw new IllegalArgumentException("Invalid AWT id: " + eventId);
+    public DisplayEventType getEventType() {
+        return eventType;
+    }
+
+    public ComponentEvent getRawEvent() {
+        return rawEvent;
+    }
+
+    public T getDisplaySource() {
+        return displaySource;
+    }
+
+    public boolean hasWindowEvent() {
+        return hasWindowEvent;
     }
 }
