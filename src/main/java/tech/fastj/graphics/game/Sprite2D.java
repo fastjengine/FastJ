@@ -1,15 +1,12 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.engine.FastJEngine;
-
+import tech.fastj.logging.Log;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
-import tech.fastj.logging.Log;
-
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageUtil;
-
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -21,7 +18,13 @@ import java.util.Map;
 
 import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationStyle;
+import tech.fastj.animation.event.AnimationEvent;
 import tech.fastj.animation.sprite.SpriteAnimationData;
+import tech.fastj.animation.sprite.event.AnimationChangeEvent;
+import tech.fastj.animation.sprite.event.AnimationFlipEvent;
+import tech.fastj.animation.sprite.event.AnimationLoopEvent;
+import tech.fastj.animation.sprite.event.AnimationPauseEvent;
+import tech.fastj.animation.sprite.event.AnimationPlayEvent;
 
 public class Sprite2D extends GameObject implements Animated<SpriteAnimationData> {
 
@@ -155,7 +158,27 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
 
     @Override
     public void setPaused(boolean paused) {
+        AnimationEvent<SpriteAnimationData, Sprite2D> animationEvent = null;
+
+        if (this.paused && !paused) {
+            animationEvent = new AnimationPlayEvent<>(
+                    this,
+                    animationDataMap.get(currentAnimation),
+                    (int) currentFrame
+            );
+        } else if (!this.paused && paused) {
+            animationEvent = new AnimationPauseEvent<>(
+                    this,
+                    animationDataMap.get(currentAnimation),
+                    (int) currentFrame
+            );
+        }
+
         this.paused = paused;
+
+        if (animationEvent != null) {
+            FastJEngine.getGameLoop().fireEvent(animationEvent);
+        }
     }
 
     @Override
@@ -171,8 +194,17 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
             SpriteAnimationData currentAnimationData = animationDataMap.get(currentAnimation);
             for (var needsAnimationSwitch : currentAnimationData.getNextPossibleAnimations().entrySet()) {
                 if (needsAnimationSwitch.getKey().test(this)) {
-                    currentAnimation = needsAnimationSwitch.getValue().getAnimationName();
-                    currentFrame = needsAnimationSwitch.getValue().getFirstFrame();
+                    SpriteAnimationData nextAnimationData = needsAnimationSwitch.getValue();
+                    AnimationChangeEvent<SpriteAnimationData, Sprite2D> animationChangeEvent = new AnimationChangeEvent<>(
+                            this,
+                            currentAnimationData,
+                            (int) currentFrame,
+                            nextAnimationData,
+                            nextAnimationData.getFirstFrame()
+                    );
+                    currentAnimation = nextAnimationData.getAnimationName();
+                    currentFrame = nextAnimationData.getFirstFrame();
+                    FastJEngine.getGameLoop().fireEvent(animationChangeEvent);
                     return;
                 }
             }
@@ -182,6 +214,11 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                 case ContinuousLoop: {
                     if ((int) nextFrame > currentAnimationData.getLastFrame()) {
                         nextFrame = currentAnimationData.getFirstFrame();
+                        AnimationLoopEvent<SpriteAnimationData, Sprite2D> animationLoopEvent = new AnimationLoopEvent<>(
+                                this,
+                                currentAnimationData
+                        );
+                        FastJEngine.getGameLoop().fireEvent(animationLoopEvent);
                     }
                     break;
                 }
@@ -196,7 +233,22 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                 }
             }
 
+            AnimationFlipEvent<SpriteAnimationData, Sprite2D> animationFlipEvent = null;
+
+            if ((int) nextFrame > (int) currentFrame) {
+                animationFlipEvent = new AnimationFlipEvent<>(
+                        this,
+                        currentAnimationData,
+                        (int) currentFrame,
+                        (int) nextFrame
+                );
+            }
+
             currentFrame = nextFrame;
+
+            if (animationFlipEvent != null) {
+                FastJEngine.getGameLoop().fireEvent(animationFlipEvent);
+            }
         }
     }
 
