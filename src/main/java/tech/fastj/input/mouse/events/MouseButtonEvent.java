@@ -5,7 +5,7 @@ import tech.fastj.input.mouse.MouseAction;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class MouseButtonEvent implements MouseActionEvent {
+public class MouseButtonEvent extends MouseActionEvent {
 
     private final MouseEvent mouseEvent;
     private final int button;

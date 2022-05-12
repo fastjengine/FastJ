@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class KeyboardStateEvent implements KeyboardActionEvent {
+public class KeyboardStateEvent extends KeyboardActionEvent {
 
     private static final Map<int[], Keys> KeyboardMap = new ConcurrentHashMap<>();
     private final KeyEvent keyEvent;

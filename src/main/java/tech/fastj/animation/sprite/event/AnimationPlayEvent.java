@@ -4,7 +4,7 @@ import tech.fastj.animation.Animated;
 import tech.fastj.animation.event.AnimationEvent;
 import tech.fastj.animation.sprite.SpriteAnimationData;
 
-public class AnimationPlayEvent<TD extends SpriteAnimationData, T extends Animated<TD>> implements AnimationEvent<TD, T> {
+public class AnimationPlayEvent<TD extends SpriteAnimationData, T extends Animated<TD>> extends AnimationEvent<TD, T> {
 
     private final T eventSource;
     private final TD animationData;

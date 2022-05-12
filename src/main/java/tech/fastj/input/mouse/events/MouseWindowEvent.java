@@ -7,7 +7,7 @@ import tech.fastj.input.mouse.MouseAction;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
-public class MouseWindowEvent implements MouseActionEvent {
+public class MouseWindowEvent extends MouseActionEvent {
 
     private final MouseEvent mouseEvent;
     private final Pointf windowInteractionPosition;

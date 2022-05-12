@@ -5,9 +5,9 @@ import tech.fastj.input.mouse.MouseAction;
 
 import java.awt.event.MouseEvent;
 
-public interface MouseActionEvent extends InputActionEvent {
+public abstract class MouseActionEvent extends InputActionEvent {
     @Override
-    MouseEvent getRawEvent();
+    public abstract MouseEvent getRawEvent();
 
-    MouseAction getEventType();
+    public abstract MouseAction getEventType();
 }

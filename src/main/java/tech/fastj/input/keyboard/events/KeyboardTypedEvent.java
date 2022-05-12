@@ -2,7 +2,7 @@ package tech.fastj.input.keyboard.events;
 
 import java.awt.event.KeyEvent;
 
-public class KeyboardTypedEvent implements KeyboardActionEvent {
+public class KeyboardTypedEvent extends KeyboardActionEvent {
 
     private final KeyEvent keyEvent;
 

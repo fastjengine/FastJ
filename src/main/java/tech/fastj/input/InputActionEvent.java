@@ -4,6 +4,6 @@ import tech.fastj.gameloop.event.GameEvent;
 
 import java.awt.event.InputEvent;
 
-public interface InputActionEvent extends GameEvent {
-    InputEvent getRawEvent();
+public abstract class InputActionEvent extends GameEvent {
+    public abstract InputEvent getRawEvent();
 }

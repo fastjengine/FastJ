@@ -1,8 +1,14 @@
 package tech.fastj.gameloop.event;
 
-public interface GameEvent {
+public class GameEvent {
 
-    boolean isConsumed();
+    private boolean isConsumed = false;
 
-    void consume();
+    public boolean isConsumed() {
+        return isConsumed;
+    }
+
+    public void consume() {
+        isConsumed = true;
+    }
 }
