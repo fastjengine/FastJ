@@ -222,6 +222,10 @@ public class GameLoop implements Runnable {
         List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
         if (gameEventObserverList == null) {
             gameEventObservers.put(eventClass, new ArrayList<>());
+            gameEventObserverList = gameEventObservers.get(eventClass);
+        }
+
+        if (gameEventObservers.get(eventClass).isEmpty()) {
             return false;
         }
 
