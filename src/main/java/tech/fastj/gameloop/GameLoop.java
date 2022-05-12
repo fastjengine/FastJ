@@ -305,6 +305,7 @@ public class GameLoop implements Runnable {
             return;
         }
         System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
+        System.out.println("all: " + gameEventObservers);
 
         while (!gameEvents.isEmpty()) {
             GameEvent nextEvent = gameEvents.poll();
