@@ -191,6 +191,7 @@ public class GameLoop implements Runnable {
             return;
         }
         System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
+        System.out.println("all: " + gameEventObservers);
 
         List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
         if (gameEventObserverList == null) {
