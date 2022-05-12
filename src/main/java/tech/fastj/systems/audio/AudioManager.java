@@ -340,7 +340,24 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
         }
 
         try {
-            return (SourceDataLine) AudioSystem.getLine(lineInfo);
+            SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(lineInfo);
+            sourceDataLine.addLineListener(event -> {
+                switch (event.getType().toString()) {
+                    case "Open": {
+
+                    }
+                    case "Close": {
+
+                    }
+                    case "Stop": {
+
+                    }
+                    case "": {
+
+                    }
+                }
+            });
+            return sourceDataLine;
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException("No audio lines were available to load the data line with format " + audioFormat + ".", exception);
         }

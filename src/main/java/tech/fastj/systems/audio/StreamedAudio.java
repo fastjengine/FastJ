@@ -1,17 +1,23 @@
 package tech.fastj.systems.audio;
 
-import tech.fastj.systems.audio.state.PlaybackState;
+import tech.fastj.engine.FastJEngine;
 
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Objects;
-import java.util.UUID;
+import tech.fastj.systems.audio.state.PlaybackState;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+import java.net.URL;
+import java.nio.file.Path;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An audio object used for sound playback.
@@ -42,6 +48,40 @@ public class StreamedAudio extends Audio {
     private BooleanControl muteControl;
 
     private AudioEventListener audioEventListener;
+
+    private boolean forcedStart;
+    private boolean forcedStop;
+
+    private final LineListener eventHelper = event -> {
+        switch (event.getType().toString()) {
+            case "START": {
+                if (forcedStart) {
+                    return;
+                }
+
+                LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
+                AudioEvent startAudioEvent = new AudioEvent(startLineEvent, this);
+                FastJEngine.getGameLoop().fireEvent(startAudioEvent);
+                break;
+            }
+            case "STOP": {
+                if (forcedStop) {
+                    return;
+                }
+
+                LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
+                AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, this);
+                FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
+            }
+        }
+    };
+
+    private static ScheduledExecutorService forcedTimeout = Executors.newScheduledThreadPool(2);
+
+    public static void reset() {
+        forcedTimeout.shutdownNow();
+        forcedTimeout = Executors.newScheduledThreadPool(2);
+    }
 
     /**
      * Constructs the {@code StreamedAudio} object with the given path.
@@ -79,6 +119,7 @@ public class StreamedAudio extends Audio {
     /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
     private void initializeStreamData() {
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
+        sourceDataLine.addLineListener(eventHelper);
 
         try {
             sourceDataLine.open(audioInputStream.getFormat());
@@ -180,22 +221,30 @@ public class StreamedAudio extends Audio {
 
     @Override
     public void play() {
+        forcedStart = true;
         StreamedAudioPlayer.playAudio(this);
+        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void pause() {
+        forcedStop = true;
         StreamedAudioPlayer.pauseAudio(this);
+        forcedTimeout.schedule(() -> forcedStop = false, 20, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void resume() {
+        forcedStart = true;
         StreamedAudioPlayer.resumeAudio(this);
+        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public void stop() {
+        forcedStop = true;
         StreamedAudioPlayer.stopAudio(this);
+        forcedTimeout.schedule(() -> forcedStop = false, 20, TimeUnit.MILLISECONDS);
     }
 
     @Override

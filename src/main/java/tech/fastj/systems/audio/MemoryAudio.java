@@ -1,15 +1,22 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 
 /**
  * An audio object used for sound playback.
@@ -55,13 +62,47 @@ public class MemoryAudio extends Audio {
     public static final int LoopAtEnd = -1;
 
     private final AudioEventListener audioEventListener;
-    private final Clip clip;
+    private Clip clip;
     private final AudioInputStream audioInputStream;
 
     private float loopStart;
     private float loopEnd;
     private int loopCount;
     private boolean shouldLoop;
+
+    private boolean forcedStart;
+    private boolean forcedStop;
+
+    private final LineListener eventHelper = event -> {
+        switch (event.getType().toString()) {
+            case "START": {
+                if (forcedStart) {
+                    return;
+                }
+
+                LineEvent startLineEvent = new LineEvent(clip, LineEvent.Type.START, clip.getLongFramePosition());
+                AudioEvent startAudioEvent = new AudioEvent(startLineEvent, this);
+                FastJEngine.getGameLoop().fireEvent(startAudioEvent);
+                break;
+            }
+            case "STOP": {
+                if (forcedStop) {
+                    return;
+                }
+
+                LineEvent stopLineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
+                AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, this);
+                FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
+            }
+        }
+    };
+
+    private static ScheduledExecutorService forcedTimeout = Executors.newScheduledThreadPool(2);
+
+    public static void reset() {
+        forcedTimeout.shutdownNow();
+        forcedTimeout = Executors.newScheduledThreadPool(2);
+    }
 
     /**
      * Constructs the {@code MemoryAudio} object with the given path.
@@ -74,6 +115,7 @@ public class MemoryAudio extends Audio {
         loopStart = LoopFromStart;
         loopEnd = LoopAtEnd;
         clip = Objects.requireNonNull(AudioManager.newClip());
+        clip.addLineListener(eventHelper);
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         audioEventListener = new AudioEventListener(this);
         currentPlaybackState = PlaybackState.Stopped;
@@ -91,6 +133,7 @@ public class MemoryAudio extends Audio {
         loopStart = LoopFromStart;
         loopEnd = LoopAtEnd;
         clip = Objects.requireNonNull(AudioManager.newClip());
+        clip.addLineListener(eventHelper);
 
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
@@ -294,7 +337,9 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void play() {
+        forcedStart = true;
         MemoryAudioPlayer.playAudio(this);
+        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -307,7 +352,9 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void pause() {
+        forcedStop = true;
         MemoryAudioPlayer.pauseAudio(this);
+        forcedTimeout.schedule(() -> forcedStop = false, 20, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -321,7 +368,9 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void resume() {
+        forcedStart = true;
         MemoryAudioPlayer.resumeAudio(this);
+        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -336,9 +385,10 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void stop() {
+        forcedStop = true;
         MemoryAudioPlayer.stopAudio(this);
+        forcedTimeout.schedule(() -> forcedStop = false, 20, TimeUnit.MILLISECONDS);
     }
-
     @Override
     public String toString() {
         return "MemoryAudio{" +
