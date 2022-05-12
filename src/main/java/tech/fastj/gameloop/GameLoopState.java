@@ -6,19 +6,27 @@ import java.util.function.Consumer;
 
 public class GameLoopState implements Comparable<GameLoopState>, Consumer<Float> {
 
+    public static final boolean DefaultEnginePriority = false;
+
     private final CoreLoopState coreLoopState;
+    private final boolean hasEnginePriority;
     private final int subStatePriority;
     private final BiConsumer<GameLoopState, Float> loopStateAction;
 
     private boolean isActive;
 
     public GameLoopState(CoreLoopState coreLoopState, int priority, BiConsumer<GameLoopState, Float> loopStateAction) {
-        this.coreLoopState = coreLoopState;
-        this.subStatePriority = priority;
-        this.loopStateAction = loopStateAction;
+        this(coreLoopState, DefaultEnginePriority, priority, loopStateAction);
     }
 
-    public CoreLoopState getBaseLoopState() {
+    public GameLoopState(CoreLoopState coreLoopState, boolean enginePriority, int priority, BiConsumer<GameLoopState, Float> loopStateAction) {
+        this.coreLoopState = Objects.requireNonNull(coreLoopState);
+        this.hasEnginePriority = enginePriority;
+        this.subStatePriority = priority;
+        this.loopStateAction = Objects.requireNonNull(loopStateAction);
+    }
+
+    public CoreLoopState getCoreLoopState() {
         return coreLoopState;
     }
 
@@ -26,8 +34,16 @@ public class GameLoopState implements Comparable<GameLoopState>, Consumer<Float>
         return subStatePriority;
     }
 
+    public boolean hasEnginePriority() {
+        return hasEnginePriority;
+    }
+
     public boolean isActive() {
         return isActive;
+    }
+
+    public BiConsumer<GameLoopState, Float> getLoopStateAction() {
+        return loopStateAction;
     }
 
     @Override
@@ -44,6 +60,13 @@ public class GameLoopState implements Comparable<GameLoopState>, Consumer<Float>
             return comparison;
         }
 
+        if (hasEnginePriority && !other.hasEnginePriority) {
+            return -1;
+        }
+        if (!hasEnginePriority && other.hasEnginePriority) {
+            return 1;
+        }
+
         return Integer.compare(subStatePriority, other.subStatePriority);
     }
 
@@ -57,6 +80,7 @@ public class GameLoopState implements Comparable<GameLoopState>, Consumer<Float>
         }
         GameLoopState gameLoopState = (GameLoopState) other;
         return subStatePriority == gameLoopState.subStatePriority
+                && hasEnginePriority == gameLoopState.hasEnginePriority
                 && coreLoopState == gameLoopState.coreLoopState;
     }
 
@@ -69,6 +93,7 @@ public class GameLoopState implements Comparable<GameLoopState>, Consumer<Float>
     public String toString() {
         return "GameLoopState{" +
                 "baseLoopState=" + coreLoopState +
+                ", hasEnginePriority=" + hasEnginePriority +
                 ", subStatePriority=" + subStatePriority +
                 '}';
     }
