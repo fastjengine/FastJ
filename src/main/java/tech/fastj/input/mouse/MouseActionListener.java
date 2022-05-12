@@ -133,7 +133,5 @@ public interface MouseActionListener extends GameEventObserver<MouseActionEvent>
                 break;
             }
         }
-
-        mouseActionEvent.consume();
     }
 }

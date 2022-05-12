@@ -72,7 +72,5 @@ public interface KeyboardActionListener extends GameEventObserver<KeyboardAction
                 break;
             }
         }
-
-        keyboardActionEvent.consume();
     }
 }
