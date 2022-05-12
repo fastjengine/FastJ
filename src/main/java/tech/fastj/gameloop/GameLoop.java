@@ -44,6 +44,7 @@ public class GameLoop implements Runnable {
 
     private final Map<Class<? extends GameEvent>, List<GameEventObserver<? extends GameEvent>>> gameEventObservers;
     private final Map<Class<? extends GameEvent>, GameEventHandler<? extends GameEvent, ? extends GameEventObserver<? extends GameEvent>>> gameEventHandlers;
+    private final Map<Class<? extends GameEvent>, Class<? extends GameEvent>> classAliases;
 
     private GameLoopState currentGameLoopState;
     private volatile boolean isRunning;
@@ -64,6 +65,7 @@ public class GameLoop implements Runnable {
         nextGameEvents = new HashMap<>();
         gameEventObservers = new HashMap<>();
         gameEventHandlers = new HashMap<>();
+        classAliases = new HashMap<>();
         currentGameLoopState = NoState;
 
         fixedUpdateInterval = new AtomicReference<>();
@@ -121,6 +123,18 @@ public class GameLoop implements Runnable {
         synchronized (gameEventHandlers) {
             gameEventHandlers.remove(eventClass);
         }
+    }
+
+    public <S extends GameEvent, T extends S> void addClassAlias(Class<T> originalClass, Class<S> aliasedClass) {
+        classAliases.put(originalClass, aliasedClass);
+    }
+
+    public <S extends GameEvent, T extends S> void removeClassAlias(Class<T> originalClass) {
+        classAliases.remove(originalClass);
+    }
+
+    public <T extends GameEvent> Class<? extends GameEvent> getClassAlias(Class<T> originalClass) {
+        return classAliases.get(originalClass);
     }
 
     public boolean isRunning() {
@@ -185,10 +199,22 @@ public class GameLoop implements Runnable {
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
         Class<T> eventClass = (Class<T>) event.getClass();
+        boolean success = tryFireEvent(event, eventClass);
+
+        if (!success) {
+            Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
+            if (classAlias != null) {
+                tryFireEvent(event, classAlias);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends GameEvent> boolean tryFireEvent(T event, Class<T> eventClass) {
         var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
             ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
-            return;
+            return true;
         }
         System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
         System.out.println("all: " + gameEventObservers);
@@ -196,12 +222,14 @@ public class GameLoop implements Runnable {
         List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
         if (gameEventObserverList == null) {
             gameEventObservers.put(eventClass, new ArrayList<>());
-            gameEventObserverList = gameEventObservers.get(eventClass);
+            return false;
         }
 
         for (var gameEventObserver : gameEventObserverList) {
             ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
+
+        return true;
     }
 
     public <T extends GameEvent> void fireEvent(T event, GameLoopState whenToFire) {
@@ -292,31 +320,14 @@ public class GameLoop implements Runnable {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void fireNextEvents(Queue<? extends GameEvent> gameEvents) {
         if (gameEvents == null || gameEvents.isEmpty()) {
             return;
         }
 
-        Class<? extends GameEvent> eventClass = gameEvents.peek().getClass();
-        var gameEventHandler = gameEventHandlers.get(eventClass);
-        if (gameEventHandler != null) {
-            ((GameEventHandler) gameEventHandler).handleEvents(gameEventObservers.get(eventClass), gameEvents);
-            return;
-        }
-        System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
-        System.out.println("all: " + gameEventObservers);
-
         while (!gameEvents.isEmpty()) {
             GameEvent nextEvent = gameEvents.poll();
-            if (gameEventObservers.get(nextEvent.getClass()) == null) {
-                gameEventObservers.put(nextEvent.getClass(), new ArrayList<>());
-                continue;
-            }
-
-            for (var gameEventObserver : gameEventObservers.get(nextEvent.getClass())) {
-                ((GameEventObserver<GameEvent>) gameEventObserver).eventReceived(nextEvent);
-            }
+            fireEvent(nextEvent);
         }
     }
 

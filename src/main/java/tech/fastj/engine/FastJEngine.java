@@ -220,6 +220,10 @@ public class FastJEngine {
         addDefaultResourceManagers();
         addDefaultAnimationEngines();
 
+        initGameLoop();
+    }
+
+    private static void initGameLoop() {
         GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
         GameLoop.addGameLoopStates(ProcessInputEvents, ProcessKeysDown, GeneralUpdate, BehaviorUpdate, AnimationStep);
         GameLoop.addGameLoopStates(GeneralRender, AfterRender);
@@ -855,9 +859,7 @@ public class FastJEngine {
 
         // game loop
         GameLoop.reset();
-        GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
-        GameLoop.addGameLoopStates(ProcessInputEvents, ProcessKeysDown, GeneralUpdate, BehaviorUpdate, AnimationStep);
-        GameLoop.addGameLoopStates(GeneralRender, AfterRender);
+        initGameLoop();
 
         // Check values
         isRunning = false;

@@ -4,13 +4,6 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.BooleanControl;
-import javax.sound.sampled.FloatControl;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
@@ -18,6 +11,14 @@ import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
 
 /**
  * An audio object used for sound playback.

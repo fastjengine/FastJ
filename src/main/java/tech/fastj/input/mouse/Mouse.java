@@ -167,6 +167,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
         mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
+        FastJEngine.getGameLoop().addClassAlias(MouseWindowEvent.class, MouseActionEvent.class);
+        FastJEngine.getGameLoop().addClassAlias(MouseScrollEvent.class, MouseActionEvent.class);
+        FastJEngine.getGameLoop().addClassAlias(MouseMotionEvent.class, MouseActionEvent.class);
+        FastJEngine.getGameLoop().addClassAlias(MouseButtonEvent.class, MouseActionEvent.class);
+
         if (FastJEngine.isLogging(LogLevel.Debug)) {
             Log.debug(Mouse.class, "Mouse initialization complete.");
         }
@@ -322,6 +327,11 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
 
         MouseButtons.clear();
         mouseLocation.reset();
+
+        FastJEngine.getGameLoop().removeClassAlias(MouseWindowEvent.class);
+        FastJEngine.getGameLoop().removeClassAlias(MouseScrollEvent.class);
+        FastJEngine.getGameLoop().removeClassAlias(MouseMotionEvent.class);
+        FastJEngine.getGameLoop().removeClassAlias(MouseButtonEvent.class);
     }
 
     public static void stop() {
