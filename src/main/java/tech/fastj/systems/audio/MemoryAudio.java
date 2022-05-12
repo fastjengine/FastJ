@@ -70,30 +70,20 @@ public class MemoryAudio extends Audio {
     private int loopCount;
     private boolean shouldLoop;
 
-    private boolean forcedStart;
     private boolean forcedStop;
 
     private final LineListener eventHelper = event -> {
-        switch (event.getType().toString()) {
-            case "START": {
-                if (forcedStart) {
-                    return;
-                }
-
-                LineEvent startLineEvent = new LineEvent(clip, LineEvent.Type.START, clip.getLongFramePosition());
-                AudioEvent startAudioEvent = new AudioEvent(startLineEvent, this);
-                FastJEngine.getGameLoop().fireEvent(startAudioEvent);
-                break;
+        if ("STOP".equals(event.getType().toString())) {
+            if (forcedStop) {
+                System.out.println("decline on forced stop");
+                return;
             }
-            case "STOP": {
-                if (forcedStop) {
-                    return;
-                }
 
-                LineEvent stopLineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
-                AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, this);
-                FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
-            }
+            System.out.println("natural stop");
+
+            LineEvent stopLineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
+            AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, this);
+            FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
         }
     };
 
@@ -337,9 +327,7 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void play() {
-        forcedStart = true;
         MemoryAudioPlayer.playAudio(this);
-        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -368,9 +356,7 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void resume() {
-        forcedStart = true;
         MemoryAudioPlayer.resumeAudio(this);
-        forcedTimeout.schedule(() -> forcedStart = false, 20, TimeUnit.MILLISECONDS);
     }
 
     /**

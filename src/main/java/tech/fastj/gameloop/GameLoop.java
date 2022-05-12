@@ -190,6 +190,7 @@ public class GameLoop implements Runnable {
             ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
             return;
         }
+        System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
 
         List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
         if (gameEventObserverList == null) {
@@ -302,6 +303,7 @@ public class GameLoop implements Runnable {
             ((GameEventHandler) gameEventHandler).handleEvents(gameEventObservers.get(eventClass), gameEvents);
             return;
         }
+        System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
 
         while (!gameEvents.isEmpty()) {
             GameEvent nextEvent = gameEvents.poll();
