@@ -199,22 +199,20 @@ public class GameLoop implements Runnable {
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
         Class<T> eventClass = (Class<T>) event.getClass();
-        boolean success = tryFireEvent(event, eventClass);
+        tryFireEvent(event, eventClass);
 
-        if (!success) {
-            Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
-            if (classAlias != null) {
-                tryFireEvent(event, classAlias);
-            }
+        Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
+        if (classAlias != null) {
+            tryFireEvent(event, classAlias);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends GameEvent> boolean tryFireEvent(T event, Class<T> eventClass) {
+    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass) {
         var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
             ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
-            return true;
+            return;
         }
         System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
         System.out.println("all: " + gameEventObservers);
@@ -226,14 +224,12 @@ public class GameLoop implements Runnable {
         }
 
         if (gameEventObservers.get(eventClass).isEmpty()) {
-            return false;
+            return;
         }
 
         for (var gameEventObserver : gameEventObserverList) {
             ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
-
-        return true;
     }
 
     public <T extends GameEvent> void fireEvent(T event, GameLoopState whenToFire) {

@@ -53,20 +53,26 @@ public interface KeyboardActionListener extends GameEventObserver<KeyboardAction
     }
 
     @Override
-    default void eventReceived(KeyboardActionEvent event) {
-        switch (event.getRawEvent().getID()) {
+    default void eventReceived(KeyboardActionEvent keyboardActionEvent) {
+        if (keyboardActionEvent.isConsumed()) {
+            return;
+        }
+
+        switch (keyboardActionEvent.getRawEvent().getID()) {
             case KeyEvent.KEY_PRESSED: {
-                onKeyRecentlyPressed((KeyboardStateEvent) event);
+                onKeyRecentlyPressed((KeyboardStateEvent) keyboardActionEvent);
                 break;
             }
             case KeyEvent.KEY_RELEASED: {
-                onKeyReleased((KeyboardStateEvent) event);
+                onKeyReleased((KeyboardStateEvent) keyboardActionEvent);
                 break;
             }
             case KeyEvent.KEY_TYPED: {
-                onKeyTyped((KeyboardTypedEvent) event);
+                onKeyTyped((KeyboardTypedEvent) keyboardActionEvent);
                 break;
             }
         }
+
+        keyboardActionEvent.consume();
     }
 }

@@ -12,6 +12,8 @@ public class DisplayEvent<T extends Display> implements GameEvent {
     private final T displaySource;
     private final boolean hasWindowEvent;
 
+    private boolean isConsumed = false;
+
     public DisplayEvent(DisplayEventType eventType, WindowEvent rawEvent, T displaySource) {
         this.eventType = eventType;
         this.rawEvent = rawEvent;
@@ -40,5 +42,15 @@ public class DisplayEvent<T extends Display> implements GameEvent {
 
     public boolean hasWindowEvent() {
         return hasWindowEvent;
+    }
+
+    @Override
+    public boolean isConsumed() {
+        return isConsumed;
+    }
+
+    @Override
+    public void consume() {
+        isConsumed = true;
     }
 }

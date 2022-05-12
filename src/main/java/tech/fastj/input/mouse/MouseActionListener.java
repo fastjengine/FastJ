@@ -89,6 +89,10 @@ public interface MouseActionListener extends GameEventObserver<MouseActionEvent>
 
     @Override
     default void eventReceived(MouseActionEvent mouseActionEvent) {
+        if (mouseActionEvent.isConsumed()) {
+            return;
+        }
+
         switch (mouseActionEvent.getEventType()) {
             case Press: {
                 assert mouseActionEvent instanceof MouseButtonEvent;
@@ -129,5 +133,7 @@ public interface MouseActionListener extends GameEventObserver<MouseActionEvent>
                 break;
             }
         }
+
+        mouseActionEvent.consume();
     }
 }
