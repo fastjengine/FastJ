@@ -200,29 +200,21 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
-        Set<Object> alreadyViewed = new HashSet<>();
-        Set<Object> handlerAlreadyViewed = new HashSet<>();
-
         Class<T> eventClass = (Class<T>) event.getClass();
-        tryFireEvent(event, eventClass, alreadyViewed, handlerAlreadyViewed);
+        tryFireEvent(event, eventClass);
 
 
         Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
         if (classAlias != null) {
-            tryFireEvent(event, classAlias, alreadyViewed, handlerAlreadyViewed);
+            tryFireEvent(event, classAlias);
         }
-
-        alreadyViewed.clear();
-        handlerAlreadyViewed.clear();
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass, Set<Object> alreadyViewedEvent, Set<Object> handlerAlreadyViewed) {
+    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass) {
         var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
-            if (handlerAlreadyViewed.add(gameEventHandler)) {
-                ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
-            }
+            ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
             return;
         }
         Log.trace(GameLoop.class, "on {}, {}", eventClass, gameEventObservers.get(eventClass));
@@ -239,10 +231,7 @@ public class GameLoop implements Runnable {
         }
 
         for (var gameEventObserver : gameEventObserverList) {
-            if (alreadyViewedEvent.add(gameEventObserver)) {
-                ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
-            }
-
+            ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
 
