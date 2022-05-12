@@ -183,6 +183,11 @@ class AudioManagerTests {
     @Test
     void checkPlaySound_withPath() {
         assertDoesNotThrow(() -> AudioManager.playSound(TestAudioPath));
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test

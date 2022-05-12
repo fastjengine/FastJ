@@ -33,6 +33,7 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
     private static final Map<LineEvent.Type, BiConsumer<AudioEvent, AudioEventListener>> AudioEventProcessor = Map.of(
             LineEvent.Type.OPEN, (audioEvent, audioEventListener) -> {
                 if (audioEventListener.audioOpenAction != null) {
+                    System.out.println("open from open");
                     audioEventListener.audioOpenAction.accept(audioEvent);
                 }
             },
@@ -52,11 +53,13 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
                      * those break statements for a while now. */
                     case Paused: {
                         if (audioEventListener.audioResumeAction != null) {
+                            System.out.println("pause on previous from start");
                             audioEventListener.audioResumeAction.accept(audioEvent);
                         }
                     }
                     case Stopped: {
                         if (audioEventListener.audioStartAction != null) {
+                            System.out.println("stop on previous from start");
                             audioEventListener.audioStartAction.accept(audioEvent);
                         }
                         break;
@@ -72,11 +75,13 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
                     /* See the above comment. */
                     case Paused: {
                         if (audioEventListener.audioPauseAction != null) {
+                            System.out.println("pause on current from stop");
                             audioEventListener.audioPauseAction.accept(audioEvent);
                         }
                     }
                     case Stopped: {
                         if (audioEventListener.audioStopAction != null) {
+                            System.out.println("stop on current from stop");
                             audioEventListener.audioStopAction.accept(audioEvent);
                         }
                         break;
@@ -88,6 +93,7 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
             },
             LineEvent.Type.CLOSE, (audioEvent, audioEventListener) -> {
                 if (audioEventListener.audioCloseAction != null) {
+                    System.out.println("close from close");
                     audioEventListener.audioCloseAction.accept(audioEvent);
                 }
             }

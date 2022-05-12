@@ -36,6 +36,7 @@ public class StreamedAudioPlayer {
     /** Sets up the audio streaming process for the specified {@link StreamedAudio} object. */
     static void streamAudio(StreamedAudio audio) {
         lineWriter.submit(() -> {
+            System.out.println("begin stream");
             SourceDataLine sourceDataLine = audio.getAudioSource();
             AudioInputStream audioInputStream = audio.getAudioInputStream();
 
@@ -54,7 +55,10 @@ public class StreamedAudioPlayer {
                 Log.warn(StreamedAudioPlayer.class, "Audio file {} was interrupted: {}", audio.getAudioPath().toAbsolutePath(), exception.getMessage());
                 Thread.currentThread().interrupt();
             } finally {
+                System.out.println("drain");
                 sourceDataLine.drain();
+                System.out.println("active? " + sourceDataLine.isActive());
+                audio.stop();
             }
         });
     }
@@ -62,6 +66,7 @@ public class StreamedAudioPlayer {
     /** See {@link StreamedAudio#play()}. */
     static void playAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
+        System.out.println(sourceDataLine.toString());
         AudioInputStream audioInputStream = audio.getAudioInputStream();
 
         if (sourceDataLine.isOpen()) {
@@ -134,8 +139,7 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            Log.warn(StreamedAudioPlayer.class, "Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
-            return;
+            Log.warn(StreamedAudioPlayer.class, "Trying to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
         }
 
         sourceDataLine.stop();
@@ -144,6 +148,8 @@ public class StreamedAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
+
+        System.out.println("fire?");
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
         AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);

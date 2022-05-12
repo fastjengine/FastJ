@@ -376,9 +376,11 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
     public void handleEvent(List<GameEventObserver<AudioEvent>> gameEventObservers, AudioEvent audioEvent) {
         for (GameEventObserver<AudioEvent> gameEventObserver : gameEventObservers) {
             if (audioEvent.getEventSource().getAudioEventListener().equals(gameEventObserver)) {
+                System.out.println("equality");
                 gameEventObserver.eventReceived(audioEvent);
                 return;
             }
+            System.out.println("not equality");
         }
     }
 }
