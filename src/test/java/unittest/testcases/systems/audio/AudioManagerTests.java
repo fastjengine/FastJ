@@ -16,6 +16,7 @@ import java.util.UUID;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -35,6 +36,16 @@ class AudioManagerTests {
     @BeforeAll
     public static void onlyRunIfAudioOutputIsSupported() {
         assumeTrue(EnvironmentHelper.DoesEnvironmentSupportAudioOutput);
+    }
+
+    @BeforeAll
+    public static void initAudioManager() {
+        FastJEngine.getAudioManager().init();
+    }
+
+    @AfterAll
+    public static void resetAudioManager() {
+        FastJEngine.getAudioManager().reset();
     }
 
     @Test
