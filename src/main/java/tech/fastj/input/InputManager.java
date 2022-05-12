@@ -22,6 +22,8 @@ public class InputManager {
     private final List<KeyboardActionListener> keyboardActionListeners;
     private final List<MouseActionListener> mouseActionListeners;
 
+    private boolean isLoaded;
+
     public InputManager() {
         keyboardActionListeners = new ArrayList<>();
         mouseActionListeners = new ArrayList<>();
@@ -105,21 +107,30 @@ public class InputManager {
     }
 
     public void load() {
+        if (isLoaded) {
+            return;
+        }
+
         for (MouseActionListener mouseActionListener : mouseActionListeners) {
             FastJEngine.getGameLoop().addEventObserver(mouseActionListener, MouseActionEvent.class);
         }
         for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
             FastJEngine.getGameLoop().addEventObserver(keyboardActionListener, KeyboardActionEvent.class);
         }
+        isLoaded = true;
     }
 
     public void unload() {
+        if (!isLoaded) {
+            return;
+        }
         for (MouseActionListener mouseActionListener : mouseActionListeners) {
             FastJEngine.getGameLoop().removeEventObserver(mouseActionListener, MouseActionEvent.class);
         }
         for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
             FastJEngine.getGameLoop().removeEventObserver(keyboardActionListener, KeyboardActionEvent.class);
         }
+        isLoaded = false;
     }
 
     /** Resets the input manager. */
