@@ -226,6 +226,13 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
     @Override
     public void eventReceived(AudioEvent audioEvent) {
         AudioEventProcessor.get(audioEvent.getRawEvent().getType()).accept(audioEvent, this);
+        if (audioEvent.getRawEvent().getType() == LineEvent.Type.CLOSE && audioEvent.getEventSource().currentPlaybackState != PlaybackState.Stopped) {
+            try {
+                audio.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override

@@ -23,7 +23,7 @@ import javax.sound.sampled.DataLine;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public abstract class Audio extends TaggableEntity {
+public abstract class Audio extends TaggableEntity implements AutoCloseable {
 
     protected final Path audioPath;
     protected final String id;
