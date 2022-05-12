@@ -1,5 +1,6 @@
 package tech.fastj.gameloop;
 
+import tech.fastj.logging.Log;
 import tech.fastj.gameloop.event.GameEvent;
 import tech.fastj.gameloop.event.GameEventHandler;
 import tech.fastj.gameloop.event.GameEventObserver;
@@ -214,8 +215,8 @@ public class GameLoop implements Runnable {
             ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
             return;
         }
-        System.out.println("on " + eventClass + ", " + gameEventObservers.get(eventClass));
-        System.out.println("all: " + gameEventObservers);
+        Log.trace(GameLoop.class, "on {}, {}", eventClass, gameEventObservers.get(eventClass));
+        Log.trace(GameLoop.class, "count all: {}", gameEventObservers.size());
 
         List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
         if (gameEventObserverList == null) {
