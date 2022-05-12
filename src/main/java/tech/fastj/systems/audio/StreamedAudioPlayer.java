@@ -43,13 +43,17 @@ public class StreamedAudioPlayer {
             int sourceLength;
             byte[] soundSamples = new byte[BufferSize];
             try {
+                System.out.println("start reading");
                 while ((sourceLength = audioInputStream.read(soundSamples, 0, BufferSize)) != -1) {
+                    System.out.println("get " + sourceLength);
                     while (audio.currentPlaybackState != PlaybackState.Playing) {
                         TimeUnit.MILLISECONDS.sleep(100);
                     }
+                    System.out.println(sourceDataLine.available() + " available");
                     sourceDataLine.write(soundSamples, 0, sourceLength);
+                    System.out.println("written");
                 }
-                audioInputStream.reset();
+                System.out.println("done");
             } catch (IOException exception) {
                 throw new IllegalStateException("Input stream read error for audio file \"" + audio.getAudioPath().toAbsolutePath() + "\"", exception);
             } catch (InterruptedException exception) {

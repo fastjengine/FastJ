@@ -340,7 +340,7 @@ public class MemoryAudio extends Audio {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (clip.isActive()) {
             stop();
         }

@@ -55,7 +55,16 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
      */
     public static void playSound(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
+        audio.getAudioEventListener().setAudioStopAction(audioEvent -> {
+            System.out.println("on close");
+            try {
+                audio.close();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("now play it again");
+            audio.play();
+        });
         audio.play();
     }
 
@@ -380,7 +389,6 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
                 gameEventObserver.eventReceived(audioEvent);
                 return;
             }
-            System.out.println("not equality");
         }
     }
 }

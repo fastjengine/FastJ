@@ -83,6 +83,8 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
                         if (audioEventListener.audioStopAction != null) {
                             System.out.println("stop on current from stop");
                             audioEventListener.audioStopAction.accept(audioEvent);
+                        } else {
+                            System.out.println("no action");
                         }
                         break;
                     }
@@ -226,13 +228,6 @@ public class AudioEventListener implements GameEventObserver<AudioEvent> {
     @Override
     public void eventReceived(AudioEvent audioEvent) {
         AudioEventProcessor.get(audioEvent.getRawEvent().getType()).accept(audioEvent, this);
-        if (audioEvent.getRawEvent().getType() == LineEvent.Type.CLOSE && audioEvent.getEventSource().currentPlaybackState != PlaybackState.Stopped) {
-            try {
-                audio.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
     }
 
     @Override

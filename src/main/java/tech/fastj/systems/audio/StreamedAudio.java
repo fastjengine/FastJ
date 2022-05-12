@@ -1,5 +1,7 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.net.URL;
@@ -8,6 +10,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.BooleanControl;
@@ -44,6 +47,7 @@ public class StreamedAudio extends Audio {
     private BooleanControl muteControl;
 
     private AudioEventListener audioEventListener;
+    private boolean forceClosed;
 
     private static ScheduledExecutorService forcedTimeout = Executors.newScheduledThreadPool(2);
 
@@ -62,7 +66,7 @@ public class StreamedAudio extends Audio {
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
 
-        initializeStreamData();
+        initializeStreamData(false);
     }
 
     /**
@@ -82,12 +86,15 @@ public class StreamedAudio extends Audio {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 
-        initializeStreamData();
+        initializeStreamData(false);
     }
 
     /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
-    private void initializeStreamData() {
-        audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+    private void initializeStreamData(boolean resetInputStream) {
+        if (resetInputStream) {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+        }
+        System.out.println("reset data line");
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {
@@ -106,7 +113,31 @@ public class StreamedAudio extends Audio {
 
         sourceDataLine.close();
 
+
+        Consumer<AudioEvent> transferOpenAction = null;
+        Consumer<AudioEvent> transferCloseAction = null;
+        Consumer<AudioEvent> transferStartAction = null;
+        Consumer<AudioEvent> transferStopAction = null;
+        Consumer<AudioEvent> transferPauseAction = null;
+        Consumer<AudioEvent> transferResumeAction = null;
+        if (audioEventListener != null) {
+            transferOpenAction = audioEventListener.getAudioOpenAction();
+            transferCloseAction = audioEventListener.getAudioCloseAction();
+            transferStartAction = audioEventListener.getAudioStartAction();
+            transferStopAction = audioEventListener.getAudioStopAction();
+            transferPauseAction = audioEventListener.getAudioPauseAction();
+            transferResumeAction = audioEventListener.getAudioResumeAction();
+            FastJEngine.getGameLoop().removeEventObserver(audioEventListener, AudioEvent.class);
+        }
+
         audioEventListener = new AudioEventListener(this);
+        audioEventListener.setAudioOpenAction(transferOpenAction);
+        audioEventListener.setAudioCloseAction(transferCloseAction);
+        audioEventListener.setAudioStartAction(transferStartAction);
+        audioEventListener.setAudioStopAction(transferStopAction);
+        audioEventListener.setAudioPauseAction(transferPauseAction);
+        audioEventListener.setAudioResumeAction(transferResumeAction);
+
         currentPlaybackState = PlaybackState.Stopped;
         previousPlaybackState = PlaybackState.Stopped;
     }
@@ -204,14 +235,20 @@ public class StreamedAudio extends Audio {
 
     @Override
     public void stop() {
+        forceClosed = true;
         StreamedAudioPlayer.stopAudio(this);
     }
 
     @Override
-    public void close() throws Exception {
-        if (currentPlaybackState != PlaybackState.Stopped) {
+    public void close() {
+        if (sourceDataLine.isRunning() && !forceClosed) {
+            System.out.println("still running");
             stop();
-            initializeStreamData();
+            forceClosed = false;
+        }
+        if (!sourceDataLine.isRunning()) {
+            System.out.println("reset time");
+            initializeStreamData(true);
         }
     }
 
