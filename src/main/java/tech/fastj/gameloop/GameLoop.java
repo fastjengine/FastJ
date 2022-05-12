@@ -1,14 +1,15 @@
 package tech.fastj.gameloop;
 
 import tech.fastj.logging.Log;
-import tech.fastj.gameloop.event.GameEvent;
-import tech.fastj.gameloop.event.GameEventHandler;
-import tech.fastj.gameloop.event.GameEventObserver;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
+
+import tech.fastj.gameloop.event.GameEvent;
+import tech.fastj.gameloop.event.GameEventHandler;
+import tech.fastj.gameloop.event.GameEventObserver;
 
 public class GameLoop implements Runnable {
 
@@ -199,9 +200,10 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     public <T extends GameEvent> void fireEvent(T event) {
-        Class<T> eventClass = (Class<T>) event.getClass();
         Set<Object> alreadyViewed = new HashSet<>();
         Set<Object> handlerAlreadyViewed = new HashSet<>();
+
+        Class<T> eventClass = (Class<T>) event.getClass();
         tryFireEvent(event, eventClass, alreadyViewed, handlerAlreadyViewed);
 
 
@@ -209,6 +211,9 @@ public class GameLoop implements Runnable {
         if (classAlias != null) {
             tryFireEvent(event, classAlias, alreadyViewed, handlerAlreadyViewed);
         }
+
+        alreadyViewed.clear();
+        handlerAlreadyViewed.clear();
     }
 
     @SuppressWarnings("unchecked")
@@ -234,11 +239,10 @@ public class GameLoop implements Runnable {
         }
 
         for (var gameEventObserver : gameEventObserverList) {
-            if (!alreadyViewedEvent.add(gameEventObserver)) {
-                continue;
+            if (alreadyViewedEvent.add(gameEventObserver)) {
+                ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
             }
 
-            ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
 
