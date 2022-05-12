@@ -8,6 +8,7 @@ import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.events.MouseActionEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,14 @@ import java.util.List;
  * keyboard/mouse action listeners.
  */
 public class InputManager {
+
+    private final List<KeyboardActionListener> keyboardActionListeners;
+    private final List<MouseActionListener> mouseActionListeners;
+
+    public InputManager() {
+        keyboardActionListeners = new ArrayList<>();
+        mouseActionListeners = new ArrayList<>();
+    }
 
     /**
      * Gets the list of keyboard action listeners.
@@ -48,6 +57,7 @@ public class InputManager {
      * @param listener The {@code KeyboardActionListener} to be added.
      */
     public void addKeyboardActionListener(KeyboardActionListener listener) {
+        keyboardActionListeners.add(listener);
         FastJEngine.getGameLoop().addEventObserver(listener, KeyboardActionEvent.class);
     }
 
@@ -57,6 +67,7 @@ public class InputManager {
      * @param listener The {@code KeyboardActionListener} to be removed.
      */
     public void removeKeyboardActionListener(KeyboardActionListener listener) {
+        keyboardActionListeners.remove(listener);
         FastJEngine.getGameLoop().removeEventObserver(listener, KeyboardActionEvent.class);
     }
 
@@ -79,6 +90,7 @@ public class InputManager {
      * @param listener The {@code MouseActionListener} to be added.
      */
     public void addMouseActionListener(MouseActionListener listener) {
+        mouseActionListeners.add(listener);
         FastJEngine.getGameLoop().addEventObserver(listener, MouseActionEvent.class);
     }
 
@@ -88,7 +100,26 @@ public class InputManager {
      * @param listener The {@code MouseActionListener} to be removed.
      */
     public void removeMouseActionListener(MouseActionListener listener) {
+        mouseActionListeners.remove(listener);
         FastJEngine.getGameLoop().removeEventObserver(listener, MouseActionEvent.class);
+    }
+
+    public void load() {
+        for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            FastJEngine.getGameLoop().addEventObserver(mouseActionListener, MouseActionEvent.class);
+        }
+        for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
+            FastJEngine.getGameLoop().addEventObserver(keyboardActionListener, KeyboardActionEvent.class);
+        }
+    }
+
+    public void unload() {
+        for (MouseActionListener mouseActionListener : mouseActionListeners) {
+            FastJEngine.getGameLoop().removeEventObserver(mouseActionListener, MouseActionEvent.class);
+        }
+        for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
+            FastJEngine.getGameLoop().removeEventObserver(keyboardActionListener, KeyboardActionEvent.class);
+        }
     }
 
     /** Resets the input manager. */
