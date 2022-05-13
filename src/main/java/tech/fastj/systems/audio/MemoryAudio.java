@@ -6,6 +6,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
@@ -62,6 +63,7 @@ public class MemoryAudio extends Audio {
     private float loopEnd;
     private int loopCount;
     private boolean shouldLoop;
+    private long nextPlaybackPosition;
 
     /**
      * Constructs the {@code MemoryAudio} object with the given path.
@@ -188,13 +190,26 @@ public class MemoryAudio extends Audio {
         return clip;
     }
 
+    @Override
+    public long getPlaybackPosition() {
+        if (clip.isOpen()) {
+            return super.getPlaybackPosition();
+        } else {
+            return nextPlaybackPosition;
+        }
+    }
+
     /**
      * Sets the playback position to the specified {@code playbackPosition} value, in milliseconds.
      *
      * @param playbackPosition The playback position to set to, in milliseconds.
      */
     public void setPlaybackPosition(long playbackPosition) {
-        MemoryAudioPlayer.setAudioPlaybackPosition(this, playbackPosition);
+        if (clip.isOpen()) {
+            MemoryAudioPlayer.setAudioPlaybackPosition(this, playbackPosition);
+        } else {
+            this.nextPlaybackPosition = playbackPosition;
+        }
     }
 
     /**
@@ -294,7 +309,7 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void play() {
-        MemoryAudioPlayer.playAudio(this);
+        MemoryAudioPlayer.playAudio(this, nextPlaybackPosition);
     }
 
     /**
@@ -321,7 +336,7 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void resume() {
-        MemoryAudioPlayer.resumeAudio(this);
+        MemoryAudioPlayer.resumeAudio(this, nextPlaybackPosition);
     }
 
     /**
@@ -336,7 +351,12 @@ public class MemoryAudio extends Audio {
      */
     @Override
     public void stop() {
-        MemoryAudioPlayer.stopAudio(this);
+        nextPlaybackPosition = MemoryAudioPlayer.stopAudio(this);
+        long other = TimeUnit.MILLISECONDS.convert(clip.getMicrosecondLength(), TimeUnit.MICROSECONDS);
+
+        if (nextPlaybackPosition >= other) {
+            nextPlaybackPosition = 0L;
+        }
     }
 
     @Override

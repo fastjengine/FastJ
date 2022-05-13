@@ -1,20 +1,17 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.engine.FastJEngine;
-
+import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 
-import tech.fastj.logging.Log;
-
 import tech.fastj.systems.audio.state.PlaybackState;
-
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Class for playing {@link MemoryAudio memory audio}.
@@ -25,7 +22,7 @@ import javax.sound.sampled.LineUnavailableException;
 public class MemoryAudioPlayer {
 
     /** See {@link MemoryAudio#play()}. */
-    static void playAudio(MemoryAudio audio) {
+    static void playAudio(MemoryAudio audio, long playbackPosition) {
         Clip clip = audio.getAudioSource();
 
         if (clip.isOpen()) {
@@ -40,6 +37,8 @@ public class MemoryAudioPlayer {
             LineEvent lineEvent = new LineEvent(clip, LineEvent.Type.OPEN, clip.getLongFramePosition());
             AudioEvent audioEvent = new AudioEvent(lineEvent, audio);
             FastJEngine.getGameLoop().fireEvent(audioEvent);
+
+            clip.setMicrosecondPosition(playbackPosition);
 
             playOrLoopAudio(audio);
         } catch (LineUnavailableException exception) {
@@ -72,7 +71,7 @@ public class MemoryAudioPlayer {
     }
 
     /** See {@link MemoryAudio#resume()}. */
-    static void resumeAudio(MemoryAudio audio) {
+    static void resumeAudio(MemoryAudio audio, long playbackPosition) {
         Clip clip = audio.getAudioSource();
 
         if (!clip.isOpen()) {
@@ -80,17 +79,21 @@ public class MemoryAudioPlayer {
             return;
         }
 
+        clip.setMicrosecondPosition(playbackPosition);
+
         playOrLoopAudio(audio);
     }
 
     /** See {@link MemoryAudio#stop()}. */
-    static void stopAudio(MemoryAudio audio) {
+    static long stopAudio(MemoryAudio audio) {
         Clip clip = audio.getAudioSource();
 
         if (!clip.isOpen()) {
             Log.warn(MemoryAudioPlayer.class, "Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
-            return;
+            return audio.getPlaybackPosition();
         }
+
+        long playbackPosition = TimeUnit.MILLISECONDS.convert(clip.getMicrosecondPosition(), TimeUnit.MICROSECONDS);
 
         clip.stop();
         clip.flush();
@@ -107,6 +110,8 @@ public class MemoryAudioPlayer {
         LineEvent closeLineEvent = new LineEvent(clip, LineEvent.Type.CLOSE, clip.getLongFramePosition());
         AudioEvent closeAudioEvent = new AudioEvent(closeLineEvent, audio);
         FastJEngine.getGameLoop().fireEvent(closeAudioEvent);
+
+        return playbackPosition;
     }
 
     /** See {@link MemoryAudio#seek(long)}. */
@@ -131,8 +136,7 @@ public class MemoryAudioPlayer {
             return;
         }
 
-        long playbackPositionInMilliseconds = TimeUnit.MICROSECONDS.convert(playbackPosition, TimeUnit.MILLISECONDS);
-        clip.setMicrosecondPosition(playbackPositionInMilliseconds);
+        clip.setMicrosecondPosition(playbackPosition);
     }
 
     /** See {@link MemoryAudio#rewindToBeginning()}. */
