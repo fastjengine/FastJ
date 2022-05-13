@@ -57,11 +57,7 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
         StreamedAudio audio = new StreamedAudio(audioPath);
         audio.getAudioEventListener().setAudioStopAction(audioEvent -> {
             System.out.println("on close");
-            try {
-                audio.close();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            audio.reset();
             System.out.println("now play it again");
             audio.play();
         });

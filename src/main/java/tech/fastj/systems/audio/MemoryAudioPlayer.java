@@ -67,7 +67,7 @@ public class MemoryAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Paused;
 
         LineEvent lineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
-        AudioEvent audioEvent = new AudioEvent(lineEvent, audio);
+        AudioEvent audioEvent = new AudioEvent(lineEvent, audio, PlaybackState.Paused);
         FastJEngine.getGameLoop().fireEvent(audioEvent);
     }
 
@@ -101,7 +101,7 @@ public class MemoryAudioPlayer {
 
 
         LineEvent stopLineEvent = new LineEvent(clip, LineEvent.Type.STOP, clip.getLongFramePosition());
-        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Stopped);
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
 
         LineEvent closeLineEvent = new LineEvent(clip, LineEvent.Type.CLOSE, clip.getLongFramePosition());
@@ -170,7 +170,7 @@ public class MemoryAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Playing;
 
         LineEvent startLineEvent = new LineEvent(clip, LineEvent.Type.START, clip.getLongFramePosition());
-        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio, PlaybackState.Playing);
         FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 

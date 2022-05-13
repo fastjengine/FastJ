@@ -3,7 +3,6 @@ package tech.fastj.systems.audio;
 import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.tags.TaggableEntity;
 
-import java.io.Closeable;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -24,7 +23,7 @@ import javax.sound.sampled.DataLine;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public abstract class Audio extends TaggableEntity implements Closeable {
+public abstract class Audio extends TaggableEntity {
 
     protected final Path audioPath;
     protected final String id;

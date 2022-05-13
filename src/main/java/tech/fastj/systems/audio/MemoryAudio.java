@@ -55,7 +55,7 @@ public class MemoryAudio extends Audio {
     public static final int LoopAtEnd = -1;
 
     private final AudioEventListener audioEventListener;
-    private Clip clip;
+    private final Clip clip;
     private final AudioInputStream audioInputStream;
 
     private float loopStart;
@@ -337,13 +337,6 @@ public class MemoryAudio extends Audio {
     @Override
     public void stop() {
         MemoryAudioPlayer.stopAudio(this);
-    }
-
-    @Override
-    public void close() {
-        if (clip.isActive()) {
-            stop();
-        }
     }
 
     @Override

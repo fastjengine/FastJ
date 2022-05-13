@@ -93,7 +93,7 @@ public class StreamedAudioPlayer {
             audio.currentPlaybackState = PlaybackState.Playing;
 
             LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
-            AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+            AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio, PlaybackState.Playing);
             FastJEngine.getGameLoop().fireEvent(startAudioEvent);
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException(
@@ -118,7 +118,7 @@ public class StreamedAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Paused;
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
-        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Paused);
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
     }
 
@@ -137,7 +137,7 @@ public class StreamedAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Playing;
 
         LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
-        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio, PlaybackState.Playing);
         FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 
@@ -159,7 +159,7 @@ public class StreamedAudioPlayer {
         System.out.println("fire?");
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
-        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Stopped);
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
 
         LineEvent closeLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.CLOSE, sourceDataLine.getLongFramePosition());

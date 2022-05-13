@@ -8,8 +8,6 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
@@ -47,14 +45,6 @@ public class StreamedAudio extends Audio {
     private BooleanControl muteControl;
 
     private AudioEventListener audioEventListener;
-    private boolean forceClosed;
-
-    private static ScheduledExecutorService forcedTimeout = Executors.newScheduledThreadPool(2);
-
-    public static void reset() {
-        forcedTimeout.shutdownNow();
-        forcedTimeout = Executors.newScheduledThreadPool(2);
-    }
 
     /**
      * Constructs the {@code StreamedAudio} object with the given path.
@@ -235,16 +225,13 @@ public class StreamedAudio extends Audio {
 
     @Override
     public void stop() {
-        forceClosed = true;
         StreamedAudioPlayer.stopAudio(this);
     }
 
-    @Override
-    public void close() {
-        if (sourceDataLine.isRunning() && !forceClosed) {
+    public void reset() {
+        if (sourceDataLine.isRunning()) {
             System.out.println("still running");
             stop();
-            forceClosed = false;
         }
         if (!sourceDataLine.isRunning()) {
             System.out.println("reset time");
