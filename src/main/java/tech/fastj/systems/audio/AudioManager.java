@@ -55,12 +55,6 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
      */
     public static void playSound(Path audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        audio.getAudioEventListener().setAudioStopAction(audioEvent -> {
-            System.out.println("on close");
-            audio.reset();
-            System.out.println("now play it again");
-            audio.play();
-        });
         audio.play();
     }
 
@@ -71,7 +65,6 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
      */
     public static void playSound(URL audioPath) {
         StreamedAudio audio = new StreamedAudio(audioPath);
-        audio.getAudioEventListener().setAudioStopAction(audioEvent -> audio.stop());
         audio.play();
     }
 
@@ -345,24 +338,7 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
         }
 
         try {
-            SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(lineInfo);
-            sourceDataLine.addLineListener(event -> {
-                switch (event.getType().toString()) {
-                    case "Open": {
-
-                    }
-                    case "Close": {
-
-                    }
-                    case "Stop": {
-
-                    }
-                    case "": {
-
-                    }
-                }
-            });
-            return sourceDataLine;
+            return (SourceDataLine) AudioSystem.getLine(lineInfo);
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException("No audio lines were available to load the data line with format " + audioFormat + ".", exception);
         }
@@ -381,7 +357,6 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
     public void handleEvent(List<GameEventObserver<AudioEvent>> gameEventObservers, AudioEvent audioEvent) {
         for (GameEventObserver<AudioEvent> gameEventObserver : gameEventObservers) {
             if (audioEvent.getEventSource().getAudioEventListener().equals(gameEventObserver)) {
-                System.out.println("equality");
                 gameEventObserver.eventReceived(audioEvent);
                 return;
             }

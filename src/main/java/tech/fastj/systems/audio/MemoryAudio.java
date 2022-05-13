@@ -134,7 +134,7 @@ public class MemoryAudio extends Audio {
     }
 
     /**
-     * Gets whether the should should be looping.
+     * Gets whether the audio should be looping.
      * <p>
      * Notes:
      * <ul>

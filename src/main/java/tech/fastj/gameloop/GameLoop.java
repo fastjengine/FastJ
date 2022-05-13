@@ -1,6 +1,5 @@
 package tech.fastj.gameloop;
 
-import tech.fastj.logging.Log;
 import tech.fastj.gameloop.event.GameEvent;
 import tech.fastj.gameloop.event.GameEventHandler;
 import tech.fastj.gameloop.event.GameEventObserver;
@@ -211,12 +210,8 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass) {
-        Log.info(GameLoop.class, "on {}, {}", eventClass, gameEventObservers.get(eventClass));
-        Log.trace(GameLoop.class, "count all: {}", gameEventObservers.size());
-
         var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
-            Log.trace(GameLoop.class, "count all: {}", gameEventHandler);
             ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
             return;
         }

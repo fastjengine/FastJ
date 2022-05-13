@@ -84,7 +84,6 @@ public class StreamedAudio extends Audio {
         if (resetInputStream) {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
         }
-        System.out.println("reset data line");
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {
@@ -102,7 +101,6 @@ public class StreamedAudio extends Audio {
         muteControl = (BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE);
 
         sourceDataLine.close();
-
 
         Consumer<AudioEvent> transferOpenAction = null;
         Consumer<AudioEvent> transferCloseAction = null;
@@ -230,11 +228,9 @@ public class StreamedAudio extends Audio {
 
     public void reset() {
         if (sourceDataLine.isRunning()) {
-            System.out.println("still running");
             stop();
         }
         if (!sourceDataLine.isRunning()) {
-            System.out.println("reset time");
             initializeStreamData(true);
         }
     }

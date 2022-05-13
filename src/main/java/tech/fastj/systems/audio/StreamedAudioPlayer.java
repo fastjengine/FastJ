@@ -36,33 +36,25 @@ public class StreamedAudioPlayer {
     /** Sets up the audio streaming process for the specified {@link StreamedAudio} object. */
     static void streamAudio(StreamedAudio audio) {
         lineWriter.submit(() -> {
-            System.out.println("begin stream");
             SourceDataLine sourceDataLine = audio.getAudioSource();
             AudioInputStream audioInputStream = audio.getAudioInputStream();
 
             int sourceLength;
             byte[] soundSamples = new byte[BufferSize];
             try {
-                System.out.println("start reading");
                 while ((sourceLength = audioInputStream.read(soundSamples, 0, BufferSize)) != -1) {
-                    System.out.println("get " + sourceLength);
                     while (audio.currentPlaybackState != PlaybackState.Playing) {
                         TimeUnit.MILLISECONDS.sleep(100);
                     }
-                    System.out.println(sourceDataLine.available() + " available");
                     sourceDataLine.write(soundSamples, 0, sourceLength);
-                    System.out.println("written");
                 }
-                System.out.println("done");
             } catch (IOException exception) {
                 throw new IllegalStateException("Input stream read error for audio file \"" + audio.getAudioPath().toAbsolutePath() + "\"", exception);
             } catch (InterruptedException exception) {
                 Log.warn(StreamedAudioPlayer.class, "Audio file {} was interrupted: {}", audio.getAudioPath().toAbsolutePath(), exception.getMessage());
                 Thread.currentThread().interrupt();
             } finally {
-                System.out.println("drain");
                 sourceDataLine.drain();
-                System.out.println("active? " + sourceDataLine.isActive());
                 audio.stop();
             }
         });
@@ -71,7 +63,6 @@ public class StreamedAudioPlayer {
     /** See {@link StreamedAudio#play()}. */
     static void playAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
-        System.out.println(sourceDataLine.toString());
         AudioInputStream audioInputStream = audio.getAudioInputStream();
 
         if (sourceDataLine.isOpen()) {
@@ -146,7 +137,8 @@ public class StreamedAudioPlayer {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
         if (!sourceDataLine.isOpen()) {
-            Log.warn(StreamedAudioPlayer.class, "Trying to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
+            Log.warn(StreamedAudioPlayer.class, "Tried to stop audio file \"{}\", but it wasn't being played.", audio.getAudioPath().toString());
+            return;
         }
 
         sourceDataLine.stop();
@@ -155,8 +147,6 @@ public class StreamedAudioPlayer {
 
         audio.previousPlaybackState = audio.currentPlaybackState;
         audio.currentPlaybackState = PlaybackState.Stopped;
-
-        System.out.println("fire?");
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
         AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Stopped);
