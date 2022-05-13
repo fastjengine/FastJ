@@ -89,6 +89,8 @@ public class Keyboard implements KeyListener {
 
         keyChecker = Executors.newSingleThreadScheduledExecutor();
         keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
+        FastJEngine.getGameLoop().addClassAlias(KeyboardStateEvent.class, KeyboardActionEvent.class);
+        FastJEngine.getGameLoop().addClassAlias(KeyboardTypedEvent.class, KeyboardActionEvent.class);
 
         if (FastJEngine.isLogging(LogLevel.Debug)) {
             Log.debug(Keyboard.class, "Keyboard initialization complete.");
@@ -109,6 +111,9 @@ public class Keyboard implements KeyListener {
     /** Clears all key input from the keyboard. */
     public static void reset() {
         AllKeys.clear();
+
+        FastJEngine.getGameLoop().removeClassAlias(KeyboardStateEvent.class);
+        FastJEngine.getGameLoop().removeClassAlias(KeyboardTypedEvent.class);
     }
 
     /**

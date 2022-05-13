@@ -176,6 +176,27 @@ class MemoryAudioTests {
     }
 
     @Test
+    void checkSetPlaybackPosition() throws InterruptedException {
+        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        long expectedPlaybackPosition = Maths.randomInteger(1, 5) * 100L;
+
+        audio.setPlaybackPosition(expectedPlaybackPosition);
+        assertEquals(expectedPlaybackPosition, audio.getPlaybackPosition(), "The audio playback position should be set.");
+
+        audio.getAudioEventListener().setAudioStartAction(audioEvent -> {
+            audio.stop();
+            assertEquals(
+                    0L,
+                    audio.getPlaybackPosition(),
+                    "After the audio playback is stopped, the playback position should be at the beginning."
+            );
+        });
+
+        audio.play();
+        TimeUnit.SECONDS.sleep(2);
+    }
+
+    @Test
     void checkPlayMemoryAudio_shouldTriggerOpenAndStartEvents() throws InterruptedException {
         MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
         AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);

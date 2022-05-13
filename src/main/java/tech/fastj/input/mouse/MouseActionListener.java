@@ -89,34 +89,32 @@ public interface MouseActionListener extends GameEventObserver<MouseActionEvent>
 
     @Override
     default void eventReceived(MouseActionEvent mouseActionEvent) {
+        if (mouseActionEvent.isConsumed()) {
+            return;
+        }
+
         switch (mouseActionEvent.getEventType()) {
             case Press: {
-                assert mouseActionEvent instanceof MouseButtonEvent;
                 onMousePressed((MouseButtonEvent) mouseActionEvent);
                 break;
             }
             case Release: {
-                assert mouseActionEvent instanceof MouseButtonEvent;
                 onMouseReleased((MouseButtonEvent) mouseActionEvent);
                 break;
             }
             case Click: {
-                assert mouseActionEvent instanceof MouseButtonEvent;
                 onMouseClicked((MouseButtonEvent) mouseActionEvent);
                 break;
             }
             case Move: {
-                assert mouseActionEvent instanceof MouseMotionEvent;
                 onMouseMoved((MouseMotionEvent) mouseActionEvent);
                 break;
             }
             case Drag: {
-                assert mouseActionEvent instanceof MouseMotionEvent;
                 onMouseDragged((MouseMotionEvent) mouseActionEvent);
                 break;
             }
             case WheelScroll: {
-                assert mouseActionEvent instanceof MouseScrollEvent;
                 onMouseWheelScrolled((MouseScrollEvent) mouseActionEvent);
                 break;
             }

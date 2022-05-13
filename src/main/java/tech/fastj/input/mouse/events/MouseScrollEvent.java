@@ -6,7 +6,7 @@ import tech.fastj.input.mouse.MouseScrollType;
 import java.awt.event.MouseWheelEvent;
 import java.util.Objects;
 
-public class MouseScrollEvent implements MouseActionEvent {
+public class MouseScrollEvent extends MouseActionEvent {
 
     private final MouseWheelEvent mouseWheelEvent;
     private final MouseScrollType mouseScrollType;

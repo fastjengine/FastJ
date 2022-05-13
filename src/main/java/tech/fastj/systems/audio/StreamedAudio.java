@@ -1,11 +1,14 @@
 package tech.fastj.systems.audio;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.BooleanControl;
@@ -32,7 +35,7 @@ import javax.sound.sampled.SourceDataLine;
  */
 public class StreamedAudio extends Audio {
 
-    private final AudioInputStream audioInputStream;
+    private AudioInputStream audioInputStream;
 
     private SourceDataLine sourceDataLine;
 
@@ -53,7 +56,7 @@ public class StreamedAudio extends Audio {
 
         audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
 
-        initializeStreamData();
+        initializeStreamData(false);
     }
 
     /**
@@ -73,11 +76,28 @@ public class StreamedAudio extends Audio {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(this.audioPath));
         }
 
-        initializeStreamData();
+        initializeStreamData(false);
     }
 
     /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
-    private void initializeStreamData() {
+    private void initializeStreamData(boolean resetInputStream) {
+        if (resetInputStream) {
+            audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
+        }
+
+        float gainControlValue = 0f;
+        float panControlValue = 0f;
+        float balanceControlValue = 0f;
+        boolean muteControlValue = false;
+        boolean transferControls = sourceDataLine != null;
+
+        if (transferControls) {
+            gainControlValue = ((FloatControl) sourceDataLine.getControl(FloatControl.Type.MASTER_GAIN)).getValue();
+            panControlValue = ((FloatControl) sourceDataLine.getControl(FloatControl.Type.PAN)).getValue();
+            balanceControlValue = ((FloatControl) sourceDataLine.getControl(FloatControl.Type.BALANCE)).getValue();
+            muteControlValue = ((BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE)).getValue();
+        }
+
         sourceDataLine = Objects.requireNonNull(AudioManager.newSourceDataLine(audioInputStream.getFormat()));
 
         try {
@@ -95,9 +115,42 @@ public class StreamedAudio extends Audio {
         muteControl = (BooleanControl) sourceDataLine.getControl(BooleanControl.Type.MUTE);
 
         sourceDataLine.close();
-        StreamedAudioPlayer.streamAudio(this);
+
+        if (transferControls) {
+            gainControl.setValue(gainControlValue);
+            panControl.setValue(panControlValue);
+            balanceControl.setValue(balanceControlValue);
+            muteControl.setValue(muteControlValue);
+        }
+
+        Consumer<AudioEvent> transferOpenAction = null;
+        Consumer<AudioEvent> transferCloseAction = null;
+        Consumer<AudioEvent> transferStartAction = null;
+        Consumer<AudioEvent> transferStopAction = null;
+        Consumer<AudioEvent> transferPauseAction = null;
+        Consumer<AudioEvent> transferResumeAction = null;
+        boolean transferEventListener = audioEventListener != null;
+        if (transferEventListener) {
+            transferOpenAction = audioEventListener.getAudioOpenAction();
+            transferCloseAction = audioEventListener.getAudioCloseAction();
+            transferStartAction = audioEventListener.getAudioStartAction();
+            transferStopAction = audioEventListener.getAudioStopAction();
+            transferPauseAction = audioEventListener.getAudioPauseAction();
+            transferResumeAction = audioEventListener.getAudioResumeAction();
+            FastJEngine.getGameLoop().removeEventObserver(audioEventListener, AudioEvent.class);
+        }
 
         audioEventListener = new AudioEventListener(this);
+
+        if (transferEventListener) {
+            audioEventListener.setAudioOpenAction(transferOpenAction);
+            audioEventListener.setAudioCloseAction(transferCloseAction);
+            audioEventListener.setAudioStartAction(transferStartAction);
+            audioEventListener.setAudioStopAction(transferStopAction);
+            audioEventListener.setAudioPauseAction(transferPauseAction);
+            audioEventListener.setAudioResumeAction(transferResumeAction);
+        }
+
         currentPlaybackState = PlaybackState.Stopped;
         previousPlaybackState = PlaybackState.Stopped;
     }
@@ -196,6 +249,15 @@ public class StreamedAudio extends Audio {
     @Override
     public void stop() {
         StreamedAudioPlayer.stopAudio(this);
+    }
+
+    public void reset() {
+        if (sourceDataLine.isRunning()) {
+            stop();
+        }
+        if (!sourceDataLine.isRunning()) {
+            initializeStreamData(true);
+        }
     }
 
     @Override

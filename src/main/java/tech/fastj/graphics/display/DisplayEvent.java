@@ -5,7 +5,7 @@ import tech.fastj.gameloop.event.GameEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 
-public class DisplayEvent<T extends Display> implements GameEvent {
+public class DisplayEvent<T extends Display> extends GameEvent {
 
     private final DisplayEventType eventType;
     private final ComponentEvent rawEvent;

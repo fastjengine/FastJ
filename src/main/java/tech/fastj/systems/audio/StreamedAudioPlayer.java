@@ -55,6 +55,7 @@ public class StreamedAudioPlayer {
                 Thread.currentThread().interrupt();
             } finally {
                 sourceDataLine.drain();
+                audio.stop();
             }
         });
     }
@@ -69,6 +70,8 @@ public class StreamedAudioPlayer {
             return;
         }
 
+        streamAudio(audio);
+
         try {
             sourceDataLine.open(audioInputStream.getFormat());
             LineEvent openLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.OPEN, sourceDataLine.getLongFramePosition());
@@ -81,7 +84,7 @@ public class StreamedAudioPlayer {
             audio.currentPlaybackState = PlaybackState.Playing;
 
             LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
-            AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+            AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio, PlaybackState.Playing);
             FastJEngine.getGameLoop().fireEvent(startAudioEvent);
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException(
@@ -106,7 +109,7 @@ public class StreamedAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Paused;
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
-        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Paused);
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
     }
 
@@ -125,7 +128,7 @@ public class StreamedAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Playing;
 
         LineEvent startLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.START, sourceDataLine.getLongFramePosition());
-        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio);
+        AudioEvent startAudioEvent = new AudioEvent(startLineEvent, audio, PlaybackState.Playing);
         FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 
@@ -146,7 +149,7 @@ public class StreamedAudioPlayer {
         audio.currentPlaybackState = PlaybackState.Stopped;
 
         LineEvent stopLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.STOP, sourceDataLine.getLongFramePosition());
-        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio);
+        AudioEvent stopAudioEvent = new AudioEvent(stopLineEvent, audio, PlaybackState.Stopped);
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
 
         LineEvent closeLineEvent = new LineEvent(sourceDataLine, LineEvent.Type.CLOSE, sourceDataLine.getLongFramePosition());

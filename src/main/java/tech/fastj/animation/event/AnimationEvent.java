@@ -4,7 +4,7 @@ import tech.fastj.gameloop.event.GameEvent;
 import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationData;
 
-public interface AnimationEvent<TD extends AnimationData, T extends Animated<TD>> extends GameEvent {
+public abstract class AnimationEvent<TD extends AnimationData, T extends Animated<TD>> extends GameEvent {
 
-    T getEventSource();
+    public abstract T getEventSource();
 }

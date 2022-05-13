@@ -77,7 +77,7 @@ public abstract class SceneManager implements LogicManager {
     public void reset() {
         for (Scene scene : scenes.values()) {
             if (scene.isInitialized()) {
-                scene.unload(FastJEngine.getCanvas());
+                scene.generalUnload(FastJEngine.getCanvas());
             }
             scene.reset();
         }
@@ -99,8 +99,8 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Sets the current scene to the scene specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
-     * nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the
+     * {@code switchScene(String nextScene)} method.
      *
      * @param scene The scene which the current scene will be set to.
      */
@@ -111,8 +111,8 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Sets the current scene to the scene with the name specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String
-     * nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the
+     * {@code switchScene(String nextScene)} method.
      *
      * @param sceneName The name of the scene which the current scene will be set to.
      */
@@ -210,12 +210,23 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Switches to the scene specified, loading that scene if necessary.
      * <p>
-     * This is the preferred method of switching from one scene to another. However, it does not unload the last scene.
-     * That has to be done by the user.
+     * This is the preferred method of switching from one scene to another. It will also unload the current scene.
      *
      * @param nextSceneName The name of the next Scene to be loaded.
      */
     public void switchScenes(String nextSceneName) {
+        switchScenes(nextSceneName, true);
+    }
+
+    /**
+     * Switches to the scene specified, loading that scene if necessary.
+     * <p>
+     * This is the preferred method of switching from one scene to another.
+     *
+     * @param nextSceneName      The name of the next Scene to be loaded.
+     * @param unloadCurrentScene Whether to unload the current scene.
+     */
+    public void switchScenes(String nextSceneName, boolean unloadCurrentScene) {
         if (!scenes.containsKey(nextSceneName)) {
             FastJEngine.error(
                     CrashMessages.SceneError.errorMessage,
@@ -224,12 +235,19 @@ public abstract class SceneManager implements LogicManager {
         }
 
         switchingScenes = true;
-
         FastJCanvas canvas = FastJEngine.getCanvas();
+
+        if (unloadCurrentScene) {
+            currentScene.generalUnload(canvas);
+        } else {
+            currentScene.inputManager.unload();
+        }
+
         Scene nextScene = scenes.get(nextSceneName);
+        nextScene.inputManager.load();
 
         if (!nextScene.isInitialized()) {
-            nextScene.load(canvas);
+            nextScene.generalLoad(canvas);
             nextScene.initBehaviorListeners();
             nextScene.setInitialized(true);
         }
@@ -246,7 +264,7 @@ public abstract class SceneManager implements LogicManager {
 
         if (!currentScene.isInitialized()) {
             FastJCanvas canvas = FastJEngine.getCanvas();
-            currentScene.load(canvas);
+            currentScene.generalLoad(canvas);
             canvas.setBackgroundToCameraPos(currentScene.getCamera());
         }
 

@@ -125,6 +125,16 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
         return drawableManager.getDrawablesList();
     }
 
+    void generalLoad(FastJCanvas canvas) {
+        inputManager.load();
+        load(canvas);
+    }
+
+    void generalUnload(FastJCanvas canvas) {
+        inputManager.unload();
+        unload(canvas);
+    }
+
     /* Reset */
 
     /** Removes all elements from the scene. */

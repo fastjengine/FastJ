@@ -280,6 +280,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
         if (onActionCondition.condition(mouseButtonEvent)) {
             onActionEvents.forEach(action -> action.accept(mouseButtonEvent));
+            mouseButtonEvent.consume();
         }
     }
 
