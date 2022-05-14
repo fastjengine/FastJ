@@ -53,7 +53,7 @@ public class GameScene extends Scene {
                 .<GameObject>addTag(Tags.PlayerHealthBar);
 
 
-        PlayerController playerControllerScript = new PlayerController(5f, 3f);
+        PlayerController playerControllerScript = new PlayerController(3f, 3f);
         PlayerCannon playerCannonScript = new PlayerCannon(this);
         player = createPlayer();
         player.addBehavior(playerControllerScript, this)

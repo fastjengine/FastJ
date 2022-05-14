@@ -1,5 +1,6 @@
 package tech.fastj.examples.bullethell.scripts;
 
+import tech.fastj.engine.FastJEngine;
 import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.GameObject;
 
@@ -30,14 +31,14 @@ public class PlayerController implements Behavior {
     }
 
     @Override
-    public void fixedUpdate(GameObject obj) {
+    public void update(GameObject obj) {
         resetTransformations();
         pollMovement();
         movePlayer(obj);
     }
 
     @Override
-    public void update(GameObject gameObject) {
+    public void fixedUpdate(GameObject gameObject) {
         // Empty -- this example does not make use of this method.
     }
 
@@ -48,16 +49,16 @@ public class PlayerController implements Behavior {
 
     private void pollMovement() {
         if (Keyboard.isKeyDown(Keys.A)) {
-            inputRotation -= rotation;
+            inputRotation -= rotation * FastJEngine.getDeltaTime() * 100f;
         } else if (Keyboard.isKeyDown(Keys.D)) {
-            inputRotation += rotation;
+            inputRotation += rotation * FastJEngine.getDeltaTime() * 100f;
         }
         currentRotation += inputRotation;
 
         if (Keyboard.isKeyDown(Keys.W)) {
-            inputTranslation.y -= speed;
+            inputTranslation.y -= speed * FastJEngine.getDeltaTime() * 100f;
         } else if (Keyboard.isKeyDown(Keys.S)) {
-            inputTranslation.y += speed;
+            inputTranslation.y += speed * FastJEngine.getDeltaTime() * 100f;
         }
         inputTranslation.rotate(-currentRotation);
     }

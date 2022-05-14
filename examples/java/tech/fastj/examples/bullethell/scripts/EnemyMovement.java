@@ -32,13 +32,13 @@ public class EnemyMovement implements Behavior {
     }
 
     @Override
-    public void fixedUpdate(GameObject obj) {
+    public void update(GameObject obj) {
         checkCollisions(obj);
         moveToPlayer(obj);
     }
 
     @Override
-    public void update(GameObject gameObject) {
+    public void fixedUpdate(GameObject gameObject) {
         // Empty -- this example does not make use of this method.
     }
 
@@ -64,7 +64,7 @@ public class EnemyMovement implements Behavior {
     private void moveToPlayer(GameObject obj) {
         Pointf travelDistance = Pointf.subtract(player.getCenter(), obj.getCenter())
                 .normalized()
-                .multiply(2f);
+                .multiply(200f * FastJEngine.getDeltaTime());
         obj.translate(travelDistance);
     }
 }
