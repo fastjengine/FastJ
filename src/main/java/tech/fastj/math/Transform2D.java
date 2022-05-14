@@ -1,5 +1,7 @@
 package tech.fastj.math;
 
+import tech.fastj.logging.Log;
+
 import java.awt.geom.AffineTransform;
 import java.util.Objects;
 
@@ -17,6 +19,8 @@ public class Transform2D {
     public static final Pointf DefaultScale = Pointf.unit();
     /** {@code float} representing a default rotation value of {@code 0f}. */
     public static final float DefaultRotation = 0f;
+    /** The desired floating-point precision for {@link #getRotation() rotation checks} in FastJ. */
+    public static final float RotationPrecision = 0.01f;
 
     private final AffineTransform translationTransform = new AffineTransform();
     private final AffineTransform rotationTransform = new AffineTransform();
@@ -45,19 +49,27 @@ public class Transform2D {
         float approximatedRotation = (float) Math.toDegrees(Math.atan2(rotationTransform.getShearY(), rotationTransform.getScaleY()));
         float normalizedRotation = rotation % 360f;
 
-        if (Maths.floatEquals(normalizedRotation, approximatedRotation)) {
+        if (Float.compare(normalizedRotation, approximatedRotation) < RotationPrecision) {
             return rotation;
         }
 
         float rotationCheck = Math.abs(normalizedRotation) + Math.abs(approximatedRotation);
-        if (Maths.floatEquals(rotationCheck, 360f) || Maths.floatEquals(rotationCheck, 0f)) {
+        if (Float.compare(rotationCheck, 360f) < RotationPrecision || Float.compare(rotationCheck, 0f) < RotationPrecision) {
             return rotation;
         }
 
-        // according to logical thinking, this should not be reached.
-        throw new IllegalStateException(
-                "Something went wrong calculating the rotation.... we expected " + rotation + ", but we got " + approximatedRotation + " instead. :("
-        );
+        float rotationCheck2 = (rotation - approximatedRotation) % 360;
+        if (Float.compare(rotationCheck2, 0.0f) < RotationPrecision || Float.compare(rotationCheck2, 360.0f) < RotationPrecision) {
+            return rotation;
+        }
+
+        float rotationCheck3 = (rotation + approximatedRotation) % 360;
+        if (Float.compare(rotationCheck3, 0.0f) < RotationPrecision || Float.compare(rotationCheck3, 360.0f) < RotationPrecision) {
+            return rotation;
+        }
+
+        Log.warn("Something may have went wrong approximating the rotation.... we expected " + rotation + ", but we got " + approximatedRotation + " instead.");
+        return rotation;
     }
 
     public float getRotationWithin360() {
