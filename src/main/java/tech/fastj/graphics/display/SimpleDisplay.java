@@ -69,7 +69,7 @@ public class SimpleDisplay implements Display {
                 DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Closing, windowEvent, display);
                 FastJEngine.getGameLoop().fireEvent(displayEvent);
 
-                FastJEngine.closeGame();
+                FastJEngine.runAfterRender(FastJEngine::closeGame);
                 display.close();
             }
 
