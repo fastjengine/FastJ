@@ -149,6 +149,14 @@ public class GameLoop implements Runnable {
         return targetUPS;
     }
 
+    public float getDeltaTime() {
+        return deltaTimer.getDeltaTime();
+    }
+
+    public float getFixedDeltaTime() {
+        return fixedDeltaTimer.getDeltaTime();
+    }
+
     public void setTargetFPS(int fps) {
         if (!isRunning) {
             if (fps < 1) {
@@ -253,6 +261,10 @@ public class GameLoop implements Runnable {
         float elapsedTime;
         float elapsedFixedTime;
         float accumulator = 0f;
+
+        // start timers fresh
+        deltaTimer.init();
+        fixedDeltaTimer.init();
 
         while (runCondition.test(this)) {
             elapsedTime = deltaTimer.evalDeltaTime();

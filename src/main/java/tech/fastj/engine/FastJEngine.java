@@ -33,7 +33,6 @@ import tech.fastj.systems.control.LogicManager;
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.gameloop.GameLoop;
 import tech.fastj.gameloop.GameLoopState;
-import tech.fastj.gameloop.Timer;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
@@ -84,8 +83,6 @@ public class FastJEngine {
     private static int targetUPS;
 
     // Timings
-    private static Timer deltaTimer;
-    private static Timer fixedDeltaTimer;
     private static int[] fpsLog;
     private static int drawFrames;
     private static int totalFPS;
@@ -254,8 +251,6 @@ public class FastJEngine {
 
         FastJEngine.gameManager = gameManager;
         FastJEngine.title = gameTitle;
-        deltaTimer = new Timer();
-        fixedDeltaTimer = new Timer();
 
         fpsLog = new int[100];
         Arrays.fill(fpsLog, -1);
@@ -463,11 +458,11 @@ public class FastJEngine {
     }
 
     public static float getDeltaTime() {
-        return deltaTimer.getDeltaTime();
+        return GameLoop.getDeltaTime();
     }
 
     public static float getFixedDeltaTime() {
-        return fixedDeltaTimer.getDeltaTime();
+        return GameLoop.getDeltaTime();
     }
 
     public static GameLoop getGameLoop() {
@@ -780,8 +775,6 @@ public class FastJEngine {
         gameManager.init(canvas);
         gameManager.initBehaviors();
 
-        deltaTimer.init();
-        fixedDeltaTimer.init();
         fpsLogger.scheduleWithFixedDelay(() -> {
             FastJEngine.logFPS(drawFrames);
             drawFrames = 0;
@@ -842,8 +835,6 @@ public class FastJEngine {
         targetUPS = 0;
 
         // FPS counting
-        deltaTimer = null;
-        fixedDeltaTimer = null;
         fpsLog = null;
         fpsLogger = null;
         drawFrames = 0;

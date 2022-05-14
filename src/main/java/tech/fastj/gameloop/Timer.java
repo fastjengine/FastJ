@@ -18,7 +18,7 @@ public class Timer {
 
     /** Initializes the Timer. */
     public void init() {
-        lastTimestamp = getCurrentTime();
+        lastTimestamp = 0.0;
         deltaTime = 0f;
     }
 
@@ -38,7 +38,7 @@ public class Timer {
      */
     public float evalDeltaTime() {
         double time = getCurrentTime();
-        deltaTime = (float) (time - lastTimestamp);
+        deltaTime = (float) (lastTimestamp == 0 ? 0 : time - lastTimestamp);
         lastTimestamp = time;
         return deltaTime;
     }
