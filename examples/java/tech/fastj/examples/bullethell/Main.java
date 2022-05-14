@@ -33,6 +33,7 @@ public class Main extends SceneManager {
     public static void main(String[] args) {
         FastJEngine.init("Simple Bullet Hell", new Main());
         FastJEngine.configureLogging(LogLevel.Debug);
+        FastJEngine.setTargetUPS(15);
         FastJEngine.run();
     }
 }

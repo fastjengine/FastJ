@@ -10,7 +10,7 @@ import tech.fastj.examples.bullethell.scenes.GameScene;
 
 public class BulletMovement implements Behavior {
 
-    private static final float travelSpeed = 15f;
+    private static final float travelSpeed = 500f;
 
     private final GameScene gameScene;
     private final float travelAngle;
@@ -30,9 +30,9 @@ public class BulletMovement implements Behavior {
     }
 
     @Override
-    public void fixedUpdate(GameObject obj) {
+    public void update(GameObject obj) {
         Pointf originalTranslation = obj.getTranslation();
-        obj.translate(travelVector);
+        obj.translate(Pointf.multiply(travelVector, FastJEngine.getDeltaTime()));
         if (!FastJEngine.getCanvas().isOnScreen(obj, gameScene.getCamera())) {
             bulletDied(obj);
         }
@@ -44,7 +44,7 @@ public class BulletMovement implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
+    public void fixedUpdate(GameObject gameObject) {
     }
 
     @Override
