@@ -7,11 +7,8 @@ import tech.fastj.gameloop.GameLoopState;
 import tech.fastj.gameloop.event.GameEventHandler;
 import tech.fastj.gameloop.event.GameEventObserver;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -128,46 +125,6 @@ class GameLoopTests {
 
         gameLoop.run();
         assertFalse(firedEvent.get(), "The event should have been fired and received immediately.");
-    }
-
-    @Test
-    void checkGameLoopRunsAllGameLoopStates_inOrder_shouldNotFail() {
-        AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
-        List<GameLoopState> gameLoopStatesRun = new ArrayList<>();
-        GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
-
-        GameLoopState[] earlyUpdates = new GameLoopState[50];
-        for (int i = 0; i < earlyUpdates.length; i++) {
-            earlyUpdates[i] = new GameLoopState(CoreLoopState.EarlyUpdate, i, (gl, deltaTime) -> gameLoopStatesRun.add(gl));
-        }
-        GameLoopState[] fixedUpdates = new GameLoopState[50];
-        for (int i = 0; i < fixedUpdates.length; i++) {
-            fixedUpdates[i] = new GameLoopState(CoreLoopState.FixedUpdate, i, (gl, deltaTime) -> gameLoopStatesRun.add(gl));
-        }
-        GameLoopState[] updates = new GameLoopState[50];
-        for (int i = 0; i < updates.length; i++) {
-            updates[i] = new GameLoopState(CoreLoopState.Update, i, (gl, deltaTime) -> gameLoopStatesRun.add(gl));
-        }
-        GameLoopState[] lateUpdates = new GameLoopState[50];
-        for (int i = 0; i < lateUpdates.length; i++) {
-            lateUpdates[i] = new GameLoopState(CoreLoopState.LateUpdate, i, (gl, deltaTime) -> gameLoopStatesRun.add(gl));
-        }
-        gameLoop.addGameLoopStates(earlyUpdates);
-        gameLoop.addGameLoopStates(fixedUpdates);
-        gameLoop.addGameLoopStates(updates);
-        gameLoop.addGameLoopStates(lateUpdates);
-        gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, Integer.MAX_VALUE, (gl, deltaTime) -> shouldRemainOpen.set(false)));
-
-        gameLoop.run();
-
-        List<GameLoopState> sortedLoopStatesRun = new ArrayList<>(new TreeSet<>(gameLoopStatesRun));
-        List<GameLoopState> sortedStatesFromGameLoop = new ArrayList<>(gameLoop.getGameLoopStatesOrdered());
-        // remove ending LateUpdate game loop state
-        sortedStatesFromGameLoop.remove(sortedStatesFromGameLoop.size() - 1);
-
-        assertEquals(sortedLoopStatesRun, gameLoopStatesRun, "The game loop states should have been run in sorted order.");
-        assertEquals(sortedLoopStatesRun, sortedStatesFromGameLoop, "The game loop states should have been run in sorted order.");
-        assertEquals(sortedStatesFromGameLoop, gameLoopStatesRun, "The game loop states should all be in sorted order.");
     }
 
     @Test
