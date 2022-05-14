@@ -618,14 +618,14 @@ public class FastJEngine {
             GameLoop.run();
             exit();
         } catch (Exception exception) {
-            FastJEngine.forceCloseGame();
-
+            Log.error(exception.getMessage(), exception);
             switch (exceptionAction) {
                 case Throw: {
+                    FastJEngine.forceCloseGame();
                     throw exception;
                 }
                 case LogError: {
-                    Log.error(exception.getMessage(), exception);
+                    FastJEngine.forceCloseGame();
                     break;
                 }
                 case Nothing: {
