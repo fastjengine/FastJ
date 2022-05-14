@@ -7,6 +7,7 @@ import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.input.InputActionEvent;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,8 +26,8 @@ public class DrawableManager {
 
     /** Initializes a {@code DrawableManager}'s internals. */
     public DrawableManager() {
-        gameObjects = new ConcurrentHashMap<>();
-        uiElements = new ConcurrentHashMap<>();
+        gameObjects = new LinkedHashMap<>();
+        uiElements = new LinkedHashMap<>();
     }
 
     /**
