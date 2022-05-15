@@ -143,7 +143,7 @@ public class HelloFastJ extends SimpleManager {
 
     public static void main(String[] args) {
         // Creates an empty window titled "Hello, FastJ!"
-        FastJEngine.init("Hello, FastJ!", new Main());
+        FastJEngine.init("Hello, FastJ!", new HelloFastJ());
         FastJEngine.run();
     }
 }
