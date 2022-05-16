@@ -559,11 +559,16 @@ public class FastJEngine {
      * @return Double value, based on the information requested.
      */
     public static double getFPSData(FPSValue dataType) {
-        int[] validFPSValues = Arrays.copyOfRange(fpsLog, 0, Math.min(fpsLog.length, fpsLogIndex));
+        int validFPSIndex = fpsLogIndex == -1 ? 0 : fpsLogIndex;
+        int[] validFPSValues = Arrays.copyOfRange(
+                fpsLog,
+                0,
+                Math.min(fpsLog.length, validFPSIndex)
+        );
 
         switch (dataType) {
             case Current:
-                return (fpsLog[fpsLogIndex % 100] != -1) ? fpsLog[fpsLogIndex % 100] : 0;
+                return (fpsLog[validFPSIndex % 100] != -1) ? fpsLog[fpsLogIndex % 100] : 0;
             case Average:
                 return (double) totalFPS / (double) fpsLogIndex;
             case Highest:
@@ -775,6 +780,7 @@ public class FastJEngine {
         gameManager.init(canvas);
         gameManager.initBehaviors();
 
+        fpsLogIndex = -1;
         fpsLogger.scheduleWithFixedDelay(() -> {
             FastJEngine.logFPS(drawFrames);
             drawFrames = 0;
@@ -839,7 +845,7 @@ public class FastJEngine {
         fpsLogger = null;
         drawFrames = 0;
         totalFPS = 0;
-        fpsLogIndex = 0;
+        fpsLogIndex = -1;
 
         // HW acceleration
         hwAccel = null;
@@ -878,7 +884,7 @@ public class FastJEngine {
      * @param frames The count of frames rendered.
      */
     private static void storeFPS(int frames) {
-        fpsLog[fpsLogIndex % 100] = frames;
+        fpsLog[(fpsLogIndex + 1) % 100] = frames;
         fpsLogIndex++;
         totalFPS += frames;
     }
