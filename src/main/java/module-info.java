@@ -63,6 +63,8 @@ module fastj.library {
     exports tech.fastj.systems.tags;
     exports tech.fastj.animation;
     exports tech.fastj.animation.sprite;
+    exports tech.fastj.animation.event;
+    exports tech.fastj.animation.sprite.event;
     exports tech.fastj.gameloop;
     exports tech.fastj.gameloop.event;
 }
