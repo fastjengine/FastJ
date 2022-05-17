@@ -90,6 +90,9 @@ This project takes the concepts we've learned so far and meshes them together in
 
 Command to run: `./gradlew examples:run -PtoRun=bullethell`
 
+### Other Games Made with FastJ
+- [Stack Attack](https://github.com/lucasstarsz/stack-attack-fastj) by [lucasstarsz](https://github.com/lucasstarsz)
+
 
 [Terminals Are Different]: https://gist.github.com/lucasstarsz/9bbc306f8655b916367d557043e498ad "Terminals Access Files Differently"
 [AdoptOpenJDK-Java11-Link]: https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot
