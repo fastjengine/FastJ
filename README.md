@@ -165,6 +165,9 @@ FastJ's community of developers is growing day by day!
 - Join the [FastJ Discord Server][FastJ-Discord-Server] to get early-access to planned ideas and features, as well as join a welcoming community!
 
 
+## Games Made with FastJ
+- [Stack Attack](https://github.com/lucasstarsz/stack-attack-fastj) by [lucasstarsz](https://github.com/lucasstarsz)
+
 ## License
 This repository is licensed under the [MIT License][MIT-License].
 
