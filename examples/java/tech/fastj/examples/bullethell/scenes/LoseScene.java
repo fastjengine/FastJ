@@ -35,8 +35,8 @@ public class LoseScene extends Scene {
                 .withTransform(new Pointf(500f, 400f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
                 .build();
 
-        drawableManager.addGameObject(loseText);
-        drawableManager.addGameObject(deathInfo);
+        drawableManager().addGameObject(loseText);
+        drawableManager().addGameObject(deathInfo);
     }
 
     @Override

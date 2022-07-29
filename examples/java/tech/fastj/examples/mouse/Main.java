@@ -42,7 +42,7 @@ public class Main extends SimpleManager {
          * To demonstrate each method, I've chosen to log whenever any of the methods is called. Run the program to see
          * this in action. */
 
-        inputManager.addMouseActionListener(new MouseActionListener() {
+        inputManager().addMouseActionListener(new MouseActionListener() {
             @Override
             public void onMousePressed(MouseButtonEvent mouseButtonEvent) {
                 FastJEngine.log("Mouse button {} pressed", mouseButtonEvent.getMouseButton());

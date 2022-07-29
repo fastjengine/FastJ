@@ -25,7 +25,7 @@ public class Main extends SimpleManager {
 
         /* Super simple! Now, this alone does not cause the text to render to the screen. In order
          * for it to be rendered, you need to add it as a game object to the drawable manager. */
-        drawableManager.addGameObject(message);
+        drawableManager().addGameObject(message);
 
         /* If you comment out the line above, you'll see that the text does not get rendered. */
 
@@ -58,7 +58,7 @@ public class Main extends SimpleManager {
                 .build();
 
         // And of course, we need to add our interesting text to the drawable manager's game objects.
-        drawableManager.addGameObject(interestingText2D);
+        drawableManager().addGameObject(interestingText2D);
     }
 
     @Override

@@ -47,7 +47,7 @@ public class Main extends SimpleManager {
         /* Super simple! Now, this alone does not cause the square to render to the screen. In
          * order for it to be rendered, you need to add it as a game object to the drawable
          * manager. */
-        drawableManager.addGameObject(smallSquare);
+        drawableManager().addGameObject(smallSquare);
 
         /* If you comment out the line above, you'll see that the small square does not get
          * rendered. */
@@ -85,7 +85,7 @@ public class Main extends SimpleManager {
                 .build();
 
         // And of course, we need to add our large square to the drawable manager's game objects.
-        drawableManager.addGameObject(largeSquare);
+        drawableManager().addGameObject(largeSquare);
     }
 
     @Override

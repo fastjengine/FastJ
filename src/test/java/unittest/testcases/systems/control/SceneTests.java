@@ -39,7 +39,7 @@ class SceneTests {
 
         scene.getCamera().rotate(10f);
         GameObject gameObject = new MockGameObject();
-        scene.drawableManager.addGameObject(gameObject);
+        scene.drawableManager().addGameObject(gameObject);
         GameObject gameObject2 = new MockGameObject();
         scene.addBehaviorListener(gameObject2);
 

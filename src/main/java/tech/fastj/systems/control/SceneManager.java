@@ -69,7 +69,7 @@ public abstract class SceneManager implements LogicManager {
 
     @Override
     public void processKeysDown() {
-        safeUpdate(currentScene.inputManager::fireKeysDown);
+        safeUpdate(currentScene.inputManager()::fireKeysDown);
     }
 
     /** Resets the logic manager. */
@@ -238,11 +238,11 @@ public abstract class SceneManager implements LogicManager {
         if (unloadCurrentScene) {
             currentScene.generalUnload(canvas);
         } else {
-            currentScene.inputManager.unload();
+            currentScene.inputManager().unload();
         }
 
         Scene nextScene = scenes.get(nextSceneName);
-        nextScene.inputManager.load();
+        nextScene.inputManager().load();
 
         if (!nextScene.isInitialized()) {
             nextScene.generalLoad(canvas);
@@ -347,8 +347,8 @@ public abstract class SceneManager implements LogicManager {
             initSceneCheck();
 
             canvas.render(
-                    currentScene.drawableManager.getGameObjects(),
-                    currentScene.drawableManager.getUIElements(),
+                    currentScene.drawableManager().getGameObjects(),
+                    currentScene.drawableManager().getUIElements(),
                     currentScene.getCamera()
             );
 

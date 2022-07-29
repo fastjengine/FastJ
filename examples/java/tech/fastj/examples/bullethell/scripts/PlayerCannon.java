@@ -61,7 +61,7 @@ public class PlayerCannon implements Behavior {
                 .addLateBehavior(bulletMovementScript, gameScene)
                 .<GameObject>addTag(Tags.Bullet);
 
-        gameScene.drawableManager.addGameObject(bullet);
+        gameScene.drawableManager().addGameObject(bullet);
         bulletCount++;
     }
 

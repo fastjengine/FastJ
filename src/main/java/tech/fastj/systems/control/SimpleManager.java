@@ -19,9 +19,19 @@ import java.util.List;
 public abstract class SimpleManager implements LogicManager, GameHandler {
 
     private final Camera camera;
-    /** Input manager instance for the simple manager -- it controls the scene's received events. */
+
+    /**
+     * Input manager instance for the simple manager -- it controls the scene's received events.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#inputManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final InputManager inputManager;
-    /** Drawable manager instance for the simple manager -- it controls the scene's game objects and ui elements. */
+
+    /**
+     * Drawable manager instance for the simple manager -- it controls the scene's game objects and ui elements.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#drawableManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final DrawableManager drawableManager;
 
     /** Initializes the contents of the {@code SimpleManager}. */

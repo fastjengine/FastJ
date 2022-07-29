@@ -58,15 +58,15 @@ public class GameScene extends Scene {
 
 
         // add game objects to the screen in order!
-        drawableManager.addGameObject(player);
-        drawableManager.addGameObject(playerHealthBar);
-        drawableManager.addGameObject(playerMetadata);
+        drawableManager().addGameObject(player);
+        drawableManager().addGameObject(playerHealthBar);
+        drawableManager().addGameObject(playerMetadata);
 
 
         enemies = new ConcurrentHashMap<>();
         newWave();
 
-        inputManager.addKeyboardActionListener(new KeyboardActionListener() {
+        inputManager().addKeyboardActionListener(new KeyboardActionListener() {
             @Override
             public void onKeyRecentlyPressed(KeyboardStateEvent keyboardStateEvent) {
                 switch (keyboardStateEvent.getKey()) {
@@ -160,7 +160,7 @@ public class GameScene extends Scene {
         Model2D enemy = Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));
         enemy.addLateBehavior(new EnemyMovement(this), this);
         enemy.setTranslation(randomPosition);
-        drawableManager.addGameObject(enemy);
+        drawableManager().addGameObject(enemy);
         return enemy;
     }
 }
