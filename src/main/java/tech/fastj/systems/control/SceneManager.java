@@ -76,7 +76,9 @@ public abstract class SceneManager implements LogicManager {
     @Override
     public void reset() {
         for (Scene scene : scenes.values()) {
-            scene.reset();
+            if (scene.isInitialized()) {
+                scene.reset();
+            }
         }
 
         scenes.clear();
