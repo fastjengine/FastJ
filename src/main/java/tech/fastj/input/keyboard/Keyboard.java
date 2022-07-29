@@ -9,6 +9,8 @@ import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;
 
+import tech.fastj.systems.execution.FastJScheduledThreadPool;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Collections;
@@ -16,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -87,7 +88,7 @@ public class Keyboard implements KeyListener {
             Log.debug(Keyboard.class, "Initializing {}", Keyboard.class.getName());
         }
 
-        keyChecker = Executors.newSingleThreadScheduledExecutor();
+        keyChecker = new FastJScheduledThreadPool(1);
         keyChecker.scheduleWithFixedDelay(Keyboard::keyCheck, 1, 1, TimeUnit.MILLISECONDS);
         FastJEngine.getGameLoop().addClassAlias(KeyboardStateEvent.class, KeyboardActionEvent.class);
         FastJEngine.getGameLoop().addClassAlias(KeyboardTypedEvent.class, KeyboardActionEvent.class);

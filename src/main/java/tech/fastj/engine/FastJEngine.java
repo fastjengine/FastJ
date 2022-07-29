@@ -29,6 +29,7 @@ import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
+import tech.fastj.systems.executor.FastJScheduledThreadPool;
 
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.gameloop.GameLoop;
@@ -40,7 +41,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -254,7 +254,7 @@ public class FastJEngine {
 
         fpsLog = new int[100];
         Arrays.fill(fpsLog, -1);
-        fpsLogger = Executors.newSingleThreadScheduledExecutor();
+        fpsLogger = new FastJScheduledThreadPool(1);
 
         setTargetFPS(engineConfig.targetFPS());
         setTargetUPS(engineConfig.targetUPS());
@@ -716,13 +716,12 @@ public class FastJEngine {
      * This logs the specified error message at the {@link LogLevel#Error error} level.
      *
      * @param errorMessage The error message to log.
-     * @param exception    The exception that caused a need for this method call.
+     * @param throwable    The exception that caused a need for this method call.
      * @see Log#error(String, Exception)
      */
-    public static void error(String errorMessage, Exception exception) {
+    public static void error(String errorMessage, Throwable throwable) {
         FastJEngine.forceCloseGame();
-        Log.error(FastJEngine.class, errorMessage, exception);
-        throw new IllegalStateException("ERROR: " + errorMessage, exception);
+        Log.error(FastJEngine.class, errorMessage, throwable);
     }
 
     /**

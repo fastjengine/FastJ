@@ -407,13 +407,11 @@ public abstract class SceneManager implements LogicManager {
      */
     private void sceneNameAlreadyExistsCheck(String sceneName) {
         if (scenes.containsKey(sceneName)) {
-            IllegalArgumentException e = new IllegalArgumentException(
+            throw new IllegalArgumentException(
                     "The scene name \"" + sceneName + "\" is already in use."
                             + System.lineSeparator()
                             + "Scenes added: " + scenes.keySet()
             );
-
-            FastJEngine.error(CrashMessages.SceneError.errorMessage, e);
         }
     }
 
@@ -427,10 +425,7 @@ public abstract class SceneManager implements LogicManager {
      */
     private void sceneExistenceCheck(String sceneName) {
         if (!scenes.containsKey(sceneName)) {
-            FastJEngine.error(
-                    CrashMessages.SceneError.errorMessage,
-                    new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!")
-            );
+            throw new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!");
         }
     }
 }

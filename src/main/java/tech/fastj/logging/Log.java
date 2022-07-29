@@ -148,9 +148,9 @@ public class Log {
      * @param <T>          The type of the class to get the logging instance of.
      * @param loggingClass The class to get the logging instance of.
      * @param message      The error message to log.
-     * @param exception    The {@code Exception} causing a need to log the error.
+     * @param throwable    The {@code Throwable} causing a need to log the error.
      */
-    public static <T> void error(Class<T> loggingClass, String message, Exception exception) {
-        LoggerFactory.getLogger(loggingClass).error(message, exception);
+    public static <T> void error(Class<T> loggingClass, String message, Throwable throwable) {
+        LoggerFactory.getLogger(loggingClass).error(message, throwable);
     }
 }

@@ -1,13 +1,15 @@
 package tech.fastj.systems.collections;
 
+import tech.fastj.systems.execution.FastJScheduledThreadPool;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -49,6 +51,7 @@ public class ManagedList<E> implements List<E> {
 
     private final ArrayList<E> list;
     private ScheduledExecutorService listManager;
+    private final UUID uuid = UUID.randomUUID();
 
     /**
      * A constructor matching {@link ArrayList#ArrayList()}.
@@ -57,7 +60,7 @@ public class ManagedList<E> implements List<E> {
      */
     public ManagedList() {
         list = new ArrayList<>();
-        listManager = Executors.newScheduledThreadPool(1);
+        listManager = new FastJScheduledThreadPool(1);
     }
 
     /**
@@ -67,7 +70,7 @@ public class ManagedList<E> implements List<E> {
      */
     public ManagedList(int initialCapacity) {
         list = new ArrayList<>(initialCapacity);
-        listManager = Executors.newScheduledThreadPool(1);
+        listManager = new FastJScheduledThreadPool(1);
     }
 
     /**
@@ -77,7 +80,7 @@ public class ManagedList<E> implements List<E> {
      */
     public ManagedList(Collection<? extends E> collection) {
         list = new ArrayList<>(collection);
-        listManager = Executors.newScheduledThreadPool(1);
+        listManager = new FastJScheduledThreadPool(1);
     }
 
     /**
@@ -86,7 +89,7 @@ public class ManagedList<E> implements List<E> {
      */
     public List<Runnable> resetManager() {
         List<Runnable> remnants = shutdownNow();
-        listManager = Executors.newSingleThreadScheduledExecutor();
+        listManager = new FastJScheduledThreadPool(1);
         return remnants;
     }
 
@@ -129,7 +132,10 @@ public class ManagedList<E> implements List<E> {
      */
     public void run(Consumer<ArrayList<E>> action) {
         try {
-            listManager.submit(() -> action.accept(list)).get();
+            listManager.submit(() -> {
+                System.out.println("accept " + uuid);
+                action.accept(list);
+            }).get();
         } catch (InterruptedException exception) {
             Thread.currentThread().interrupt();
             throw new IllegalStateException(exception);
@@ -151,6 +157,7 @@ public class ManagedList<E> implements List<E> {
         try {
             listManager.submit(
                     () -> {
+                        System.out.println("access " + uuid);
                         for (E element : list) {
                             action.accept(element);
                         }
@@ -176,7 +183,10 @@ public class ManagedList<E> implements List<E> {
      * @throws NullPointerException       if command or unit is null
      */
     public ScheduledFuture<?> schedule(Consumer<ArrayList<E>> action, long delay, TimeUnit unit) {
-        return listManager.schedule(() -> action.accept(list), delay, unit);
+        return listManager.schedule(() -> {
+            System.out.println("accept scheduled " + uuid);
+            action.accept(list);
+        }, delay, unit);
     }
 
     /**
@@ -194,6 +204,7 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduleIterate(Consumer<E> action, long delay, TimeUnit unit) {
         return listManager.schedule(
                 () -> {
+                    System.out.println("access scheduled " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
@@ -219,7 +230,10 @@ public class ManagedList<E> implements List<E> {
      * @see ScheduledExecutorService#scheduleAtFixedRate(Runnable, long, long, TimeUnit)
      */
     public ScheduledFuture<?> scheduleAtFixedRate(Consumer<ArrayList<E>> action, long initialDelay, long period, TimeUnit unit) {
-        return listManager.scheduleAtFixedRate(() -> action.accept(list), initialDelay, period, unit);
+        return listManager.scheduleAtFixedRate(() -> {
+            System.out.println("accept fixed rate " + uuid);
+            action.accept(list);
+        }, initialDelay, period, unit);
     }
 
     /**
@@ -240,6 +254,7 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduledIterateAtFixedRate(Consumer<E> action, long initialDelay, long period, TimeUnit unit) {
         return listManager.scheduleAtFixedRate(
                 () -> {
+                    System.out.println("access scheduled " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
@@ -266,7 +281,10 @@ public class ManagedList<E> implements List<E> {
      * @see ScheduledExecutorService#scheduleWithFixedDelay(Runnable, long, long, TimeUnit)
      */
     public ScheduledFuture<?> scheduleWithFixedDelay(Consumer<ArrayList<E>> action, long initialDelay, long delay, TimeUnit unit) {
-        return listManager.scheduleWithFixedDelay(() -> action.accept(list), initialDelay, delay, unit);
+        return listManager.scheduleWithFixedDelay(() -> {
+            System.out.println("accept fixed delay " + uuid);
+            action.accept(list);
+        }, initialDelay, delay, unit);
     }
 
 
@@ -288,6 +306,7 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduledIterateWithFixedDelay(Consumer<E> action, long initialDelay, long delay, TimeUnit unit) {
         return listManager.scheduleWithFixedDelay(
                 () -> {
+                    System.out.println("access fixed delay " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
