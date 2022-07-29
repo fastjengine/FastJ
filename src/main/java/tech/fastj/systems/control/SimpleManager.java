@@ -87,7 +87,7 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
     @Override
     public void reset() {
         this.destroyBehaviorListeners();
-        drawableManager.destroyAllLists(this);
+        drawableManager.reset(this);
         this.clearBehaviorListeners();
         drawableManager.clearAllLists();
         inputManager.reset();

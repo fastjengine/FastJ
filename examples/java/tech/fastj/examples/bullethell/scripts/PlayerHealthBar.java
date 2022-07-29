@@ -15,7 +15,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import tech.fastj.examples.bullethell.scenes.GameScene;
 import tech.fastj.examples.bullethell.util.SceneNames;
 import tech.fastj.gameloop.CoreLoopState;
 
@@ -27,13 +26,11 @@ public class PlayerHealthBar implements Behavior {
     private boolean takenDamage;
     private boolean canTakeDamage;
 
-    private final GameScene gameScene;
     private final ScheduledExecutorService damageCooldown = Executors.newSingleThreadScheduledExecutor();
     private final Text2D playerMetadata;
 
-    public PlayerHealthBar(Text2D playerMetadata, GameScene gameScene) {
+    public PlayerHealthBar(Text2D playerMetadata) {
         this.playerMetadata = Objects.requireNonNull(playerMetadata);
-        this.gameScene = gameScene;
     }
 
     @Override
@@ -63,7 +60,7 @@ public class PlayerHealthBar implements Behavior {
 
     @Override
     public void destroy() {
-        damageCooldown.shutdownNow();
+        damageCooldown.shutdown();
     }
 
     void takeDamage() {
@@ -77,7 +74,7 @@ public class PlayerHealthBar implements Behavior {
                 FastJEngine.runLater(() -> {
                     SceneManager sceneManager = FastJEngine.getLogicManager();
                     sceneManager.switchScenes(SceneNames.LoseSceneName);
-                }, CoreLoopState.FixedUpdate);
+                }, CoreLoopState.LateUpdate);
             }
         }
     }

@@ -1,5 +1,7 @@
 package tech.fastj.systems.control;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
@@ -128,11 +130,16 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     void generalLoad(FastJCanvas canvas) {
         inputManager.load();
         load(canvas);
+
+        setInitialized(true);
     }
 
     void generalUnload(FastJCanvas canvas) {
         inputManager.unload();
         unload(canvas);
+        drawableManager.reset(this);
+
+        setInitialized(false);
     }
 
     /* Reset */
@@ -140,16 +147,15 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     /** Removes all elements from the scene. */
     public void clearAllLists() {
         drawableManager.clearAllLists();
-        this.clearBehaviorListeners();
+        clearBehaviorListeners();
     }
 
     /** Resets the scene's state entirely. */
     public void reset() {
-        this.setInitialized(false);
-        this.destroyBehaviorListeners();
-        drawableManager.destroyAllLists(this);
+        generalUnload(FastJEngine.getCanvas());
+
+        clearAllLists();
         inputManager.reset();
-        this.clearAllLists();
         camera.reset();
     }
 }

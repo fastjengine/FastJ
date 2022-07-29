@@ -16,9 +16,6 @@ import tech.fastj.examples.bullethell.util.SceneNames;
 
 public class LoseScene extends Scene {
 
-    private Text2D loseText;
-    private Text2D deathInfo;
-
     public LoseScene() {
         super(SceneNames.LoseSceneName);
     }
@@ -28,12 +25,12 @@ public class LoseScene extends Scene {
         GameScene gameScene = FastJEngine.<SceneManager>getLogicManager().getScene(SceneNames.GameSceneName);
         int waveNumber = gameScene.getWaveNumber();
 
-        loseText = Text2D.create("You Lost...")
+        Text2D loseText = Text2D.create("You Lost...")
                 .withFill(Color.red)
                 .withFont(new Font("Consolas", Font.PLAIN, 96))
                 .withTransform(new Pointf(300f, 375f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
                 .build();
-        deathInfo = Text2D.create("You died on wave: " + waveNumber)
+        Text2D deathInfo = Text2D.create("You died on wave: " + waveNumber)
                 .withFont(new Font("Consolas", Font.PLAIN, 16))
                 .withTransform(new Pointf(500f, 400f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
                 .build();
@@ -44,8 +41,6 @@ public class LoseScene extends Scene {
 
     @Override
     public void unload(FastJCanvas canvas) {
-        loseText.destroy(this);
-        deathInfo.destroy(this);
     }
 
     @Override

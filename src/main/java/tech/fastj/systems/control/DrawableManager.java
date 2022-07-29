@@ -122,13 +122,13 @@ public class DrawableManager {
     }
 
     public void destroyGameObjects(SimpleManager manager) {
-        for (GameObject gameObject : gameObjects.values()) {
+        for (GameObject gameObject : getGameObjectsList()) {
             gameObject.destroy(manager);
         }
     }
 
     public void destroyGameObjects(Scene scene) {
-        for (GameObject gameObject : gameObjects.values()) {
+        for (GameObject gameObject : getGameObjectsList()) {
             gameObject.destroy(scene);
         }
     }
@@ -173,13 +173,13 @@ public class DrawableManager {
     }
 
     public void destroyUIElements(SimpleManager manager) {
-        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
+        for (UIElement<? extends InputActionEvent> uiElement : getUIElementsList()) {
             uiElement.destroy(manager);
         }
     }
 
     public void destroyUIElements(Scene scene) {
-        for (UIElement<? extends InputActionEvent> uiElement : uiElements.values()) {
+        for (UIElement<? extends InputActionEvent> uiElement : getUIElementsList()) {
             uiElement.destroy(scene);
         }
     }
@@ -196,14 +196,18 @@ public class DrawableManager {
 
     /* reset */
 
-    public void destroyAllLists(Scene scene) {
+    public void reset(Scene scene) {
         destroyGameObjects(scene);
         destroyUIElements(scene);
+
+        clearAllLists();
     }
 
-    public void destroyAllLists(SimpleManager manager) {
+    public void reset(SimpleManager manager) {
         destroyGameObjects(manager);
         destroyUIElements(manager);
+
+        clearAllLists();
     }
 
     /** Removes all game objects and ui elements from the manager. */

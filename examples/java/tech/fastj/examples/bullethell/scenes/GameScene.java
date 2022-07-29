@@ -32,10 +32,6 @@ import tech.fastj.examples.bullethell.util.Tags;
 
 public class GameScene extends Scene {
 
-    private Model2D player;
-    private Text2D playerMetadata;
-    private Polygon2D playerHealthBar;
-
     private Map<String, Model2D> enemies;
     private int enemyCount = 0;
     private int wave = 0;
@@ -46,16 +42,16 @@ public class GameScene extends Scene {
 
     @Override
     public void load(FastJCanvas canvas) {
-        playerMetadata = createPlayerMetaData();
-        playerHealthBar = createPlayerHealthBar();
-        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata, this);
+        Text2D playerMetadata = createPlayerMetaData();
+        Polygon2D playerHealthBar = createPlayerHealthBar();
+        PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata);
         playerHealthBar.addBehavior(playerHealthBarScript, this)
                 .<GameObject>addTag(Tags.PlayerHealthBar);
 
 
         PlayerController playerControllerScript = new PlayerController(3f, 3f);
         PlayerCannon playerCannonScript = new PlayerCannon(this);
-        player = createPlayer();
+        Model2D player = createPlayer();
         player.addBehavior(playerControllerScript, this)
                 .addBehavior(playerCannonScript, this)
                 .<GameObject>addTag(Tags.Player);
@@ -93,26 +89,6 @@ public class GameScene extends Scene {
 
     @Override
     public void unload(FastJCanvas canvas) {
-        if (player != null) {
-            player.destroy(this);
-            player = null;
-        }
-
-        if (playerMetadata != null) {
-            playerMetadata.destroy(this);
-            playerMetadata = null;
-        }
-
-        if (playerHealthBar != null) {
-            playerHealthBar.destroy(this);
-            playerHealthBar = null;
-        }
-
-        if (enemies != null) {
-            enemies.forEach((id, enemy) -> enemy.destroy(this));
-            enemies.clear();
-        }
-
         enemyCount = 0;
     }
 
