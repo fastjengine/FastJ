@@ -181,6 +181,11 @@ public class FastJEngine {
         int fps;
         try {
             fps = DisplayUtil.getDefaultMonitorRefreshRate();
+
+            if (fps < 1) {
+                warning("Environment is not headless but monitor refresh rate was less than 1, will default FPS to 60.");
+                fps = 60;
+            }
         } catch (HeadlessException exception) {
             warning("Environment is headless, will default FPS to 60.");
             fps = 60;
