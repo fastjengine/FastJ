@@ -157,7 +157,10 @@ public class FastJEngine {
     public static final GameLoopState GeneralRender = new GameLoopState(
             CoreLoopState.LateUpdate,
             Integer.MAX_VALUE - 1,
-            (gameLoopState, deltaTime) -> gameManager.render(canvas)
+            (gameLoopState, deltaTime) -> {
+                gameManager.render(canvas);
+                drawFrames++;
+            }
     );
 
     private static final GameLoop GameLoop = new GameLoop(
@@ -177,7 +180,7 @@ public class FastJEngine {
     static {
         int fps;
         try {
-            fps = Math.max(60, DisplayUtil.getDefaultMonitorRefreshRate());
+            fps = DisplayUtil.getDefaultMonitorRefreshRate();
         } catch (HeadlessException exception) {
             warning("Environment is headless, will default FPS to 60.");
             fps = 60;
