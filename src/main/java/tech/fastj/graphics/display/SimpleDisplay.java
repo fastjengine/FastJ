@@ -1,9 +1,11 @@
 package tech.fastj.graphics.display;
 
 import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.math.Point;
 
-import javax.swing.JFrame;
+import tech.fastj.gameloop.CoreLoopState;
+
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
@@ -12,7 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.concurrent.TimeUnit;
 
-import tech.fastj.gameloop.CoreLoopState;
+import javax.swing.JFrame;
 
 /**
  * A simple implementation of {@link Display} which includes the following features:

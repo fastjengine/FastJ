@@ -6,8 +6,6 @@ import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.game.GameObject;
 
 import tech.fastj.systems.control.GameHandler;
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Graphics2D;
 
