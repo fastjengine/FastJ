@@ -16,6 +16,7 @@ import java.util.Objects;
 
 import tech.fastj.examples.bullethell.scenes.GameScene;
 import tech.fastj.examples.bullethell.util.Tags;
+import tech.fastj.gameloop.CoreLoopState;
 
 public class PlayerCannon implements Behavior {
 
@@ -37,7 +38,7 @@ public class PlayerCannon implements Behavior {
     @Override
     public void fixedUpdate(GameObject obj) {
         if (Keyboard.isKeyRecentlyPressed(Keys.Space) && bulletCount < MaxBulletCount) {
-            FastJEngine.runAfterUpdate(() -> createBullet(obj));
+            FastJEngine.runLater(() -> createBullet(obj), CoreLoopState.FixedUpdate);
         }
     }
 

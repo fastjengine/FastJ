@@ -27,9 +27,10 @@ import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
-import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.LogicManager;
-import tech.fastj.systems.executor.FastJScheduledThreadPool;
+import tech.fastj.systems.execution.FastJScheduledThreadPool;
+import tech.fastj.systems.execution.RunLaterEvent;
+import tech.fastj.systems.execution.RunLaterObserver;
 
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.gameloop.GameLoop;
@@ -106,10 +107,6 @@ public class FastJEngine {
     private static LogLevel logLevel = DefaultLogLevel;
     private static ExceptionAction exceptionAction;
 
-    // Late-running actions
-    private static final ManagedList<Runnable> AfterUpdateList = new ManagedList<>();
-    private static final ManagedList<Runnable> AfterRenderList = new ManagedList<>();
-
     // Resources
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
 
@@ -127,20 +124,7 @@ public class FastJEngine {
             2,
             (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdateBehaviors()
     );
-    public static final GameLoopState AfterFixedUpdate = new GameLoopState(
-            CoreLoopState.FixedUpdate,
-            3,
-            (gameLoopState, fixedDeltaTime) -> {
-                if (!AfterUpdateList.isEmpty()) {
-                    AfterUpdateList.run(list -> {
-                        for (Runnable action : list) {
-                            action.run();
-                        }
-                    });
-                    AfterUpdateList.clear();
-                }
-            }
-    );
+
     public static final GameLoopState ProcessInputEvents = new GameLoopState(
             CoreLoopState.Update,
             0,
@@ -175,26 +159,13 @@ public class FastJEngine {
             Integer.MAX_VALUE - 1,
             (gameLoopState, deltaTime) -> gameManager.render(canvas)
     );
-    public static final GameLoopState AfterRender = new GameLoopState(
-            CoreLoopState.LateUpdate,
-            Integer.MAX_VALUE,
-            (gameLoopState, deltaTime) -> {
-                if (!AfterRenderList.isEmpty()) {
-                    AfterRenderList.run(list -> {
-                        for (Runnable action : list) {
-                            action.run();
-                        }
-                    });
-                    AfterRenderList.clear();
-                }
-                drawFrames++;
-            }
-    );
 
     private static final GameLoop GameLoop = new GameLoop(
-            loop -> display.getWindow().isVisible(),
-            loop -> display.getDisplayState() != DisplayState.FullScreen
+            loop -> display != null && display.getWindow().isVisible(),
+            loop -> display != null && display.getDisplayState() != DisplayState.FullScreen
     );
+
+    private static final RunLaterObserver RunLaterObserver = new RunLaterObserver();
 
     // Audio
     private static final AudioManager AudioManager = new AudioManager();
@@ -221,9 +192,9 @@ public class FastJEngine {
     }
 
     private static void initGameLoop() {
-        GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate, AfterFixedUpdate);
+        GameLoop.addGameLoopStates(GeneralFixedUpdate, BehaviorFixedUpdate);
         GameLoop.addGameLoopStates(ProcessInputEvents, ProcessKeysDown, GeneralUpdate, BehaviorUpdate, AnimationStep);
-        GameLoop.addGameLoopStates(GeneralRender, AfterRender);
+        GameLoop.addGameLoopStates(GeneralRender);
     }
 
     /**
@@ -725,32 +696,31 @@ public class FastJEngine {
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#fixedUpdate(FastJCanvas) fixedUpdate}
-     * call.
+     * Runs the specified action after the game engine finishes the next {@link CoreLoopState#FixedUpdate fixed update} state it enters.
      * <p>
-     * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
-     * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)}
-     * call.
+     * This method runs {@link #runLater(Runnable, CoreLoopState)}, with a default {@link CoreLoopState} parameter of
+     * {@link CoreLoopState#FixedUpdate}.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#fixedUpdate(FastJCanvas)} call.
-     * @since 1.4.0
+     * @param action Disposable action to be run after the game engine finishes its next {@link CoreLoopState#FixedUpdate fixed update} state.
+     * @since 1.7.0
      */
-    public static void runAfterUpdate(Runnable action) {
-        AfterUpdateList.add(action);
+    public static void runLater(Runnable action) {
+        runLater(action, CoreLoopState.FixedUpdate);
     }
 
     /**
-     * Runs the specified action after the game engine's next {@link LogicManager#render(FastJCanvas) render} call.
+     * Runs the specified action after the game engine finishes the next {@link CoreLoopState coreLoopState} it enters.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible
      * otherwise, such as adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)}
      * call.
      *
-     * @param action Disposable action to be run after the next {@link LogicManager#render(FastJCanvas)} call.
-     * @since 1.5.0
+     * @param action Disposable action to be run after the game engine finishes its {@code coreLoopState} state.
+     * @param coreLoopState The {@link CoreLoopState core game loop state} after which the {@code action} will be run.
+     * @since 1.7.0
      */
-    public static void runAfterRender(Runnable action) {
-        AfterRenderList.add(action);
+    public static void runLater(Runnable action, CoreLoopState coreLoopState) {
+        GameLoop.fireEvent(new RunLaterEvent(action), coreLoopState);
     }
 
     /** Initializes the game engine's components. */
@@ -768,6 +738,9 @@ public class FastJEngine {
 
         GameLoop.setTargetFPS(targetFPS);
         GameLoop.setTargetUPS(targetUPS);
+
+        GameLoop.addEventObserver(RunLaterObserver, RunLaterEvent.class);
+
         AudioManager.init();
 
         if (display == null) {
@@ -826,12 +799,6 @@ public class FastJEngine {
         StreamedAudioPlayer.reset();
         BehaviorManager.reset();
 
-        AfterUpdateList.shutdownNow();
-        AfterUpdateList.clear();
-        AfterUpdateList.resetManager();
-        AfterRenderList.shutdownNow();
-        AfterRenderList.clear();
-        AfterRenderList.resetManager();
         ResourceManagers.forEach(((resourceClass, resourceResourceManager) -> resourceResourceManager.unloadAllResources()));
         ResourceManagers.clear();
 

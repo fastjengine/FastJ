@@ -7,6 +7,7 @@ import tech.fastj.graphics.game.GameObject;
 import tech.fastj.systems.behaviors.Behavior;
 
 import tech.fastj.examples.bullethell.scenes.GameScene;
+import tech.fastj.gameloop.CoreLoopState;
 
 public class BulletMovement implements Behavior {
 
@@ -53,10 +54,10 @@ public class BulletMovement implements Behavior {
     }
 
     public void bulletDied(GameObject obj) {
-        FastJEngine.runAfterUpdate(() -> {
+        FastJEngine.runLater(() -> {
             FastJEngine.log("death! of bullet {}f{}", travelAngle, travelVector);
             obj.destroy(gameScene);
             playerCannonScript.bulletDied();
-        });
+        }, CoreLoopState.FixedUpdate);
     }
 }

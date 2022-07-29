@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 import tech.fastj.examples.bullethell.scenes.GameScene;
 import tech.fastj.examples.bullethell.util.SceneNames;
+import tech.fastj.gameloop.CoreLoopState;
 
 public class PlayerHealthBar implements Behavior {
 
@@ -73,10 +74,10 @@ public class PlayerHealthBar implements Behavior {
             damageCooldown.schedule(() -> canTakeDamage = true, 1, TimeUnit.SECONDS);
 
             if (health == 0) {
-                FastJEngine.runAfterUpdate(() -> {
+                FastJEngine.runLater(() -> {
                     SceneManager sceneManager = FastJEngine.getLogicManager();
                     sceneManager.switchScenes(SceneNames.LoseSceneName);
-                });
+                }, CoreLoopState.FixedUpdate);
             }
         }
     }

@@ -7,6 +7,8 @@ import tech.fastj.math.Transform2D;
 
 import tech.fastj.resources.images.ImageResource;
 
+import tech.fastj.gameloop.CoreLoopState;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -117,7 +119,7 @@ public class Sprite2DBuilder {
 
         FastJEngine.getAnimationEngine(Sprite2D.class).addAnimated(sprite2D);
         if (!startPaused) {
-            FastJEngine.runAfterUpdate(() -> sprite2D.setPaused(false));
+            FastJEngine.runLater(() -> sprite2D.setPaused(false), CoreLoopState.FixedUpdate);
         }
 
         return sprite2D;

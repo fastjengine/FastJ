@@ -10,6 +10,7 @@ import tech.fastj.systems.control.SimpleManager;
 
 import unittest.EnvironmentHelper;
 import unittest.mock.systems.control.MockEmptySimpleManager;
+import tech.fastj.gameloop.CoreLoopState;
 
 import java.time.Duration;
 import java.util.UUID;
@@ -38,10 +39,10 @@ class FastJEngineTests {
             FastJEngine.init("yeet", new SimpleManager() {
                 @Override
                 public void init(FastJCanvas canvas) {
-                    FastJEngine.runAfterUpdate(() -> {
+                    FastJEngine.runLater(() -> {
                         ranAfterUpdate.set(true);
                         FastJEngine.forceCloseGame();
-                    });
+                    }, CoreLoopState.FixedUpdate);
                 }
 
                 @Override
@@ -74,10 +75,10 @@ class FastJEngineTests {
             FastJEngine.init("yeet", new SimpleManager() {
                 @Override
                 public void init(FastJCanvas canvas) {
-                    FastJEngine.runAfterRender(() -> {
+                    FastJEngine.runLater(() -> {
                         ranAfterRender.set(true);
                         FastJEngine.forceCloseGame();
-                    });
+                    }, CoreLoopState.LateUpdate);
                 }
 
                 @Override
