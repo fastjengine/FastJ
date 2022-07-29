@@ -1,16 +1,12 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
-
-import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
-import tech.fastj.systems.tags.TagHandler;
 
 import java.util.List;
 
@@ -23,7 +19,7 @@ import java.util.List;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
+public abstract class Scene implements GameHandler {
 
     private final String sceneName;
     private final Camera camera;
@@ -100,8 +96,19 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
      *
      * @return The camera of the scene.
      */
+    @Override
     public Camera getCamera() {
         return camera;
+    }
+
+    @Override
+    public InputManager inputManager() {
+        return inputManager;
+    }
+
+    @Override
+    public DrawableManager drawableManager() {
+        return drawableManager;
     }
 
     /**
@@ -151,6 +158,7 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     }
 
     /** Resets the scene's state entirely. */
+    @Override
     public void reset() {
         generalUnload(FastJEngine.getCanvas());
 

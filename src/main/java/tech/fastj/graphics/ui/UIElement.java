@@ -5,8 +5,7 @@ import tech.fastj.graphics.display.Camera;
 
 import tech.fastj.input.InputActionEvent;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -29,21 +28,11 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
     /**
      * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
      *
-     * @param origin The scene which this UIElement is tied to.
+     * @param origin The game handler which this UIElement is tied to.
      */
-    protected UIElement(Scene origin) {
+    protected UIElement(GameHandler origin) {
         onActionEvents = new ArrayList<>();
-        origin.drawableManager.addUIElement(this);
-    }
-
-    /**
-     * Instantiates the {@code UIElement}'s internals, and adds it to the origin scene as a ui element.
-     *
-     * @param origin The scene which this UIElement is tied to.
-     */
-    protected UIElement(SimpleManager origin) {
-        onActionEvents = new ArrayList<>();
-        origin.drawableManager.addUIElement(this);
+        origin.drawableManager().addUIElement(this);
     }
 
     /**
@@ -112,22 +101,11 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
     /**
      * Removes the {@code UIElement}'s references in the specified scene as a GUI object.
      *
-     * @param origin {@code Scene} parameter that will have all references to this {@code UIElement} removed.
+     * @param origin {@code GameHandler} parameter that will have all references to this {@code UIElement} removed.
      */
     @Override
-    protected void destroyTheRest(Scene origin) {
+    protected void destroyTheRest(GameHandler origin) {
         super.destroyTheRest(origin);
-        origin.drawableManager.removeUIElement(this);
-    }
-
-    /**
-     * Removes the {@code UIElement}'s references in the specified {@code SimpleManager} as a GUI object.
-     *
-     * @param origin {@code SimpleManager} parameter that will have all references to this {@code UIElement} removed.
-     */
-    @Override
-    protected void destroyTheRest(SimpleManager origin) {
-        super.destroyTheRest(origin);
-        origin.drawableManager.removeUIElement(this);
+        origin.drawableManager().removeUIElement(this);
     }
 }

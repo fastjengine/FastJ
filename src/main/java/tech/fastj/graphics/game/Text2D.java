@@ -5,8 +5,7 @@ import tech.fastj.math.Transform2D;
 
 import tech.fastj.graphics.Drawable;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -179,17 +178,7 @@ public class Text2D extends GameObject {
     }
 
     @Override
-    public void destroy(Scene origin) {
-        text = DefaultText;
-        fillPaint = DefaultFill;
-        font = DefaultFont;
-        hasMetrics = false;
-
-        super.destroyTheRest(origin);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
+    public void destroy(GameHandler origin) {
         text = DefaultText;
         fillPaint = DefaultFill;
         font = DefaultFont;

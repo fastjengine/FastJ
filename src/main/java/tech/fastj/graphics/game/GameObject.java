@@ -5,8 +5,7 @@ import tech.fastj.graphics.Drawable;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.collections.ManagedList;
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;
 import java.util.List;
@@ -139,32 +138,15 @@ public abstract class GameObject extends Drawable {
     public abstract void render(Graphics2D g);
 
     /**
-     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the scene.
+     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the {@link GameHandler}.
      *
-     * @param origin {@code Scene} parameter that will have all references to this {@code GameObject} removed.
+     * @param origin {@code GameHandler} parameter that will have all references to this {@code GameObject} removed.
      */
     @Override
-    protected void destroyTheRest(Scene origin) {
+    protected void destroyTheRest(GameHandler origin) {
         super.destroyTheRest(origin);
 
-        origin.drawableManager.removeGameObject(this);
-        origin.removeBehaviorListener(this);
-
-        destroyAllBehaviors();
-        clearAllBehaviors();
-    }
-
-    /**
-     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the
-     * {@code SimpleManager}.
-     *
-     * @param origin {@code SimpleManager} parameter that will have all references to this {@code GameObject} removed.
-     */
-    @Override
-    protected void destroyTheRest(SimpleManager origin) {
-        super.destroyTheRest(origin);
-
-        origin.drawableManager.removeGameObject(this);
+        origin.drawableManager().removeGameObject(this);
         origin.removeBehaviorListener(this);
 
         destroyAllBehaviors();
