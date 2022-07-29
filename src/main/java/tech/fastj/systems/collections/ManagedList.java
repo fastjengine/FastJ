@@ -133,7 +133,6 @@ public class ManagedList<E> implements List<E> {
     public void run(Consumer<ArrayList<E>> action) {
         try {
             listManager.submit(() -> {
-                System.out.println("accept " + uuid);
                 action.accept(list);
             }).get();
         } catch (InterruptedException exception) {
@@ -157,7 +156,6 @@ public class ManagedList<E> implements List<E> {
         try {
             listManager.submit(
                     () -> {
-                        System.out.println("access " + uuid);
                         for (E element : list) {
                             action.accept(element);
                         }
@@ -184,7 +182,6 @@ public class ManagedList<E> implements List<E> {
      */
     public ScheduledFuture<?> schedule(Consumer<ArrayList<E>> action, long delay, TimeUnit unit) {
         return listManager.schedule(() -> {
-            System.out.println("accept scheduled " + uuid);
             action.accept(list);
         }, delay, unit);
     }
@@ -204,7 +201,6 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduleIterate(Consumer<E> action, long delay, TimeUnit unit) {
         return listManager.schedule(
                 () -> {
-                    System.out.println("access scheduled " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
@@ -231,7 +227,6 @@ public class ManagedList<E> implements List<E> {
      */
     public ScheduledFuture<?> scheduleAtFixedRate(Consumer<ArrayList<E>> action, long initialDelay, long period, TimeUnit unit) {
         return listManager.scheduleAtFixedRate(() -> {
-            System.out.println("accept fixed rate " + uuid);
             action.accept(list);
         }, initialDelay, period, unit);
     }
@@ -254,7 +249,6 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduledIterateAtFixedRate(Consumer<E> action, long initialDelay, long period, TimeUnit unit) {
         return listManager.scheduleAtFixedRate(
                 () -> {
-                    System.out.println("access scheduled " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
@@ -282,7 +276,6 @@ public class ManagedList<E> implements List<E> {
      */
     public ScheduledFuture<?> scheduleWithFixedDelay(Consumer<ArrayList<E>> action, long initialDelay, long delay, TimeUnit unit) {
         return listManager.scheduleWithFixedDelay(() -> {
-            System.out.println("accept fixed delay " + uuid);
             action.accept(list);
         }, initialDelay, delay, unit);
     }
@@ -306,7 +299,6 @@ public class ManagedList<E> implements List<E> {
     public ScheduledFuture<?> scheduledIterateWithFixedDelay(Consumer<E> action, long initialDelay, long delay, TimeUnit unit) {
         return listManager.scheduleWithFixedDelay(
                 () -> {
-                    System.out.println("access fixed delay " + uuid);
                     for (E element : list) {
                         action.accept(element);
                     }
