@@ -5,8 +5,7 @@ import tech.fastj.math.Transform2D;
 
 import tech.fastj.graphics.util.DrawUtil;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 import tech.fastj.systems.tags.TaggableEntity;
 
 import java.awt.geom.AffineTransform;
@@ -56,16 +55,7 @@ public abstract class Drawable extends TaggableEntity {
      *
      * @param origin The origin of this {@code Drawable}.
      */
-    public abstract void destroy(Scene origin);
-
-    /**
-     * Destroys all memory the {@code Drawable} uses.
-     * <p>
-     * This also removes any internal references that the {@code Drawable} may have.
-     *
-     * @param origin The origin of this {@code Drawable}.
-     */
-    public abstract void destroy(SimpleManager origin);
+    public abstract void destroy(GameHandler origin);
 
     /**
      * Gets the collision path of the {@code Drawable}.
@@ -435,25 +425,11 @@ public abstract class Drawable extends TaggableEntity {
 
     /**
      * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
-     * within the {@code Scene} parameter.
+     * within the {@code GameHandler} parameter.
      *
-     * @param origin {@code Scene} parameter that will have all references to this {@code Drawable} removed.
+     * @param origin {@code GameHandler} parameter that will have all references to this {@code Drawable} removed.
      */
-    protected void destroyTheRest(Scene origin) {
-        transform.reset();
-        clearTags();
-
-        collisionPath = null;
-        isDestroyed = true;
-    }
-
-    /**
-     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
-     * within the {@code SimpleManager} parameter.
-     *
-     * @param origin {@code SimpleManager} parameter that will have all references to this {@code Drawable} removed.
-     */
-    protected void destroyTheRest(SimpleManager origin) {
+    protected void destroyTheRest(GameHandler origin) {
         transform.reset();
         clearTags();
 

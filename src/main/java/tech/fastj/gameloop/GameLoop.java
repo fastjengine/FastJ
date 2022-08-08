@@ -1,8 +1,8 @@
 package tech.fastj.gameloop;
 
-import tech.fastj.gameloop.event.GameEvent;
-import tech.fastj.gameloop.event.GameEventHandler;
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.Event;
+import tech.fastj.gameloop.event.EventHandler;
+import tech.fastj.gameloop.event.EventObserver;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -34,17 +34,17 @@ public class GameLoop implements Runnable {
     );
     private final Queue<GameLoopState> nextLoopStates;
 
-    private final Map<CoreLoopState, Queue<GameEvent>> nextCoreEvents = Map.of(
+    private final Map<CoreLoopState, Queue<Event>> nextCoreEvents = Map.of(
             CoreLoopState.EarlyUpdate, new ArrayDeque<>(),
             CoreLoopState.FixedUpdate, new ArrayDeque<>(),
             CoreLoopState.Update, new ArrayDeque<>(),
             CoreLoopState.LateUpdate, new ArrayDeque<>()
     );
-    private final Map<GameLoopState, Queue<GameEvent>> nextGameEvents;
+    private final Map<GameLoopState, Queue<Event>> nextEvents;
 
-    private final Map<Class<? extends GameEvent>, List<GameEventObserver<? extends GameEvent>>> gameEventObservers;
-    private final Map<Class<? extends GameEvent>, GameEventHandler<? extends GameEvent, ? extends GameEventObserver<? extends GameEvent>>> gameEventHandlers;
-    private final Map<Class<? extends GameEvent>, Class<? extends GameEvent>> classAliases;
+    private final Map<Class<? extends Event>, List<EventObserver<? extends Event>>> gameEventObservers;
+    private final Map<Class<? extends Event>, EventHandler<? extends Event, ? extends EventObserver<? extends Event>>> gameEventHandlers;
+    private final Map<Class<? extends Event>, Class<? extends Event>> classAliases;
 
     private GameLoopState currentGameLoopState;
     private volatile boolean isRunning;
@@ -62,7 +62,7 @@ public class GameLoop implements Runnable {
 
         isRunning = false;
         nextLoopStates = new ArrayDeque<>();
-        nextGameEvents = new HashMap<>();
+        nextEvents = new HashMap<>();
         gameEventObservers = new HashMap<>();
         gameEventHandlers = new HashMap<>();
         classAliases = new HashMap<>();
@@ -95,45 +95,45 @@ public class GameLoop implements Runnable {
         }
     }
 
-    public <T extends GameEvent> void addEventObserver(GameEventObserver<T> gameEventObserver, Class<T> eventClass) {
+    public <T extends Event> void addEventObserver(EventObserver<T> eventObserver, Class<T> eventClass) {
         synchronized (gameEventObservers) {
             if (!gameEventObservers.containsKey(eventClass)) {
                 gameEventObservers.put(eventClass, new ArrayList<>());
             }
-            gameEventObservers.get(eventClass).add(gameEventObserver);
+            gameEventObservers.get(eventClass).add(eventObserver);
         }
     }
 
-    public <T extends GameEvent> void removeEventObserver(GameEventObserver<T> gameEventObserver, Class<T> eventClass) {
+    public <T extends Event> void removeEventObserver(EventObserver<T> eventObserver, Class<T> eventClass) {
         if (!gameEventObservers.containsKey(eventClass)) {
             return;
         }
         synchronized (gameEventObservers) {
-            gameEventObservers.get(eventClass).remove(gameEventObserver);
+            gameEventObservers.get(eventClass).remove(eventObserver);
         }
     }
 
-    public <T extends GameEvent, V extends GameEventHandler<T, GameEventObserver<T>>> void addEventHandler(V gameEventHandler, Class<T> eventClass) {
+    public <T extends Event, V extends EventHandler<T, EventObserver<T>>> void addEventHandler(V gameEventHandler, Class<T> eventClass) {
         synchronized (gameEventHandlers) {
             gameEventHandlers.put(eventClass, gameEventHandler);
         }
     }
 
-    public <T extends GameEvent> void removeEventHandler(Class<T> eventClass) {
+    public <T extends Event> void removeEventHandler(Class<T> eventClass) {
         synchronized (gameEventHandlers) {
             gameEventHandlers.remove(eventClass);
         }
     }
 
-    public <S extends GameEvent, T extends S> void addClassAlias(Class<T> originalClass, Class<S> aliasedClass) {
+    public <S extends Event, T extends S> void addClassAlias(Class<T> originalClass, Class<S> aliasedClass) {
         classAliases.put(originalClass, aliasedClass);
     }
 
-    public <S extends GameEvent, T extends S> void removeClassAlias(Class<T> originalClass) {
+    public <S extends Event, T extends S> void removeClassAlias(Class<T> originalClass) {
         classAliases.remove(originalClass);
     }
 
-    public <T extends GameEvent> Class<? extends GameEvent> getClassAlias(Class<T> originalClass) {
+    public <T extends Event> Class<? extends Event> getClassAlias(Class<T> originalClass) {
         return classAliases.get(originalClass);
     }
 
@@ -178,13 +178,13 @@ public class GameLoop implements Runnable {
         }
     }
 
-    public <T extends GameEvent> List<GameEventObserver<? extends GameEvent>> getGameEventObservers(Class<T> eventClass) {
+    public <T extends Event> List<EventObserver<? extends Event>> getEventObservers(Class<T> eventClass) {
         return gameEventObservers.getOrDefault(eventClass, List.of());
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends GameEvent, V extends GameEventObserver<T>> GameEventHandler<T, V> getGameEventHandler(Class<T> eventClass) {
-        return (GameEventHandler<T, V>) gameEventHandlers.get(eventClass);
+    public <T extends Event, V extends EventObserver<T>> EventHandler<T, V> getEventHandler(Class<T> eventClass) {
+        return (EventHandler<T, V>) gameEventHandlers.get(eventClass);
     }
 
     public Map<CoreLoopState, Set<GameLoopState>> getGameLoopStates() {
@@ -205,50 +205,50 @@ public class GameLoop implements Runnable {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends GameEvent> void fireEvent(T event) {
+    public <T extends Event> void fireEvent(T event) {
         Class<T> eventClass = (Class<T>) event.getClass();
         tryFireEvent(event, eventClass);
 
 
-        Class<GameEvent> classAlias = (Class<GameEvent>) classAliases.get(eventClass);
+        Class<Event> classAlias = (Class<Event>) classAliases.get(eventClass);
         if (classAlias != null) {
             tryFireEvent(event, classAlias);
         }
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends GameEvent> void tryFireEvent(T event, Class<T> eventClass) {
-        var gameEventHandler = (GameEventHandler<T, GameEventObserver<T>>) gameEventHandlers.get(eventClass);
+    private <T extends Event> void tryFireEvent(T event, Class<T> eventClass) {
+        var gameEventHandler = (EventHandler<T, EventObserver<T>>) gameEventHandlers.get(eventClass);
         if (gameEventHandler != null) {
-            ((GameEventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
+            ((EventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
             return;
         }
 
-        List<GameEventObserver<? extends GameEvent>> gameEventObserverList = gameEventObservers.get(eventClass);
-        if (gameEventObserverList == null) {
+        List<EventObserver<? extends Event>> eventObservers = gameEventObservers.get(eventClass);
+        if (eventObservers == null) {
             gameEventObservers.put(eventClass, new ArrayList<>());
-            gameEventObserverList = gameEventObservers.get(eventClass);
+            eventObservers = gameEventObservers.get(eventClass);
         }
 
         if (gameEventObservers.get(eventClass).isEmpty()) {
             return;
         }
 
-        for (var gameEventObserver : gameEventObserverList) {
-            ((GameEventObserver<T>) gameEventObserver).eventReceived(event);
+        for (var gameEventObserver : eventObservers) {
+            ((EventObserver<T>) gameEventObserver).eventReceived(event);
         }
     }
 
-    public <T extends GameEvent> void fireEvent(T event, GameLoopState whenToFire) {
-        synchronized (nextGameEvents) {
-            if (nextGameEvents.get(whenToFire) == null) {
-                nextGameEvents.put(whenToFire, new ArrayDeque<>());
+    public <T extends Event> void fireEvent(T event, GameLoopState whenToFire) {
+        synchronized (nextEvents) {
+            if (nextEvents.get(whenToFire) == null) {
+                nextEvents.put(whenToFire, new ArrayDeque<>());
             }
-            nextGameEvents.get(whenToFire).add(event);
+            nextEvents.get(whenToFire).add(event);
         }
     }
 
-    public <T extends GameEvent> void fireEvent(T event, CoreLoopState whenToFire) {
+    public <T extends Event> void fireEvent(T event, CoreLoopState whenToFire) {
         synchronized (nextCoreEvents) {
             nextCoreEvents.get(whenToFire).add(event);
         }
@@ -274,8 +274,8 @@ public class GameLoop implements Runnable {
                 synchronized (nextLoopStates) {
                     for (GameLoopState nextLoopState : nextLoopStates) {
                         gameLoopStates.get(nextLoopState.getCoreLoopState()).add(nextLoopState);
-                        synchronized (nextGameEvents) {
-                            nextGameEvents.computeIfAbsent(nextLoopState, gameLoopState -> new ArrayDeque<>());
+                        synchronized (nextEvents) {
+                            nextEvents.computeIfAbsent(nextLoopState, gameLoopState -> new ArrayDeque<>());
                         }
                     }
                     nextLoopStates.clear();
@@ -315,7 +315,7 @@ public class GameLoop implements Runnable {
         for (GameLoopState gameLoopState : gameLoopStates.get(coreLoopState)) {
             currentGameLoopState = gameLoopState;
             gameLoopState.accept(elapsedFixedTime);
-            fireNextGameEvents(gameLoopState);
+            fireNextEvents(gameLoopState);
         }
     }
 
@@ -325,19 +325,19 @@ public class GameLoop implements Runnable {
         }
     }
 
-    private void fireNextGameEvents(GameLoopState gameLoopState) {
-        synchronized (nextGameEvents) {
-            fireNextEvents(nextGameEvents.get(gameLoopState));
+    private void fireNextEvents(GameLoopState gameLoopState) {
+        synchronized (nextEvents) {
+            fireNextEvents(nextEvents.get(gameLoopState));
         }
     }
 
-    private void fireNextEvents(Queue<? extends GameEvent> gameEvents) {
+    private void fireNextEvents(Queue<? extends Event> gameEvents) {
         if (gameEvents == null || gameEvents.isEmpty()) {
             return;
         }
 
         while (!gameEvents.isEmpty()) {
-            GameEvent nextEvent = gameEvents.poll();
+            Event nextEvent = gameEvents.poll();
             fireEvent(nextEvent);
         }
     }
@@ -360,8 +360,8 @@ public class GameLoop implements Runnable {
             loopStates.clear();
         }
         nextLoopStates.clear();
-        for (Queue<GameEvent> gameEvents : nextCoreEvents.values()) {
-            gameEvents.clear();
+        for (Queue<Event> events : nextCoreEvents.values()) {
+            events.clear();
         }
 
         currentGameLoopState = NoState;
@@ -372,7 +372,7 @@ public class GameLoop implements Runnable {
     }
 
     public void clear() {
-        nextGameEvents.clear();
+        nextEvents.clear();
         gameEventObservers.clear();
         gameEventHandlers.clear();
     }

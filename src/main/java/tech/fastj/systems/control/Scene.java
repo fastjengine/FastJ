@@ -1,14 +1,14 @@
 package tech.fastj.systems.control;
 
+import tech.fastj.engine.FastJEngine;
+
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
 
-import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
-import tech.fastj.systems.tags.TagHandler;
 
 import java.util.List;
 
@@ -21,14 +21,23 @@ import java.util.List;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
+public abstract class Scene implements GameHandler {
 
     private final String sceneName;
     private final Camera camera;
 
-    /** Input manager instance for the scene -- it controls the scene's received events. */
+    /**
+     * Input manager instance for the scene -- it controls the scene's received events.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#inputManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final InputManager inputManager;
-    /** Drawable manager instance for the scene -- it controls the scene's game objects and ui elements. */
+
+    /**
+     * Drawable manager instance for the scene -- it controls the scene's game objects and ui elements.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#drawableManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final DrawableManager drawableManager;
 
     private boolean isInitialized;
@@ -98,8 +107,19 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
      *
      * @return The camera of the scene.
      */
+    @Override
     public Camera getCamera() {
         return camera;
+    }
+
+    @Override
+    public InputManager inputManager() {
+        return inputManager;
+    }
+
+    @Override
+    public DrawableManager drawableManager() {
+        return drawableManager;
     }
 
     /**
@@ -128,11 +148,16 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     void generalLoad(FastJCanvas canvas) {
         inputManager.load();
         load(canvas);
+
+        setInitialized(true);
     }
 
     void generalUnload(FastJCanvas canvas) {
         inputManager.unload();
         unload(canvas);
+        drawableManager.reset(this);
+
+        setInitialized(false);
     }
 
     /* Reset */
@@ -140,16 +165,16 @@ public abstract class Scene implements BehaviorHandler, TagHandler<Drawable> {
     /** Removes all elements from the scene. */
     public void clearAllLists() {
         drawableManager.clearAllLists();
-        this.clearBehaviorListeners();
+        clearBehaviorListeners();
     }
 
     /** Resets the scene's state entirely. */
+    @Override
     public void reset() {
-        this.setInitialized(false);
-        this.destroyBehaviorListeners();
-        drawableManager.destroyAllLists(this);
+        generalUnload(FastJEngine.getCanvas());
+
+        clearAllLists();
         inputManager.reset();
-        this.clearAllLists();
         camera.reset();
     }
 }

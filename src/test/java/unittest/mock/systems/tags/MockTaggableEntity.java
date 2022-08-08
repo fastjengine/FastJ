@@ -2,8 +2,7 @@ package unittest.mock.systems.tags;
 
 import tech.fastj.graphics.Drawable;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.util.UUID;
 
@@ -14,12 +13,7 @@ public class MockTaggableEntity extends Drawable {
     }
 
     @Override
-    public void destroy(Scene origin) {
-        destroyTheRest(origin);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
-        destroyTheRest(origin);
+    public void destroy(GameHandler origin) {
+        super.destroyTheRest(origin);
     }
 }

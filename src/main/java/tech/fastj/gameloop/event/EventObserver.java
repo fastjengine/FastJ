@@ -1,6 +1,6 @@
 package tech.fastj.gameloop.event;
 
 @FunctionalInterface
-public interface GameEventObserver<T extends GameEvent> {
+public interface EventObserver<T extends Event> {
     void eventReceived(T event);
 }

@@ -49,7 +49,7 @@ public class Main extends SimpleManager {
         Text2D visualAid = Text2D.create("Render Settings are useful! (-.-)")
                 .withTransform(new Pointf(100f, 100f), Transform2D.DefaultRotation, new Pointf(3.0f, 3.0f))
                 .build();
-        drawableManager.addGameObject(visualAid);
+        drawableManager().addGameObject(visualAid);
     }
 
     @Override

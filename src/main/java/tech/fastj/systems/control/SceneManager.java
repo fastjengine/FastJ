@@ -69,7 +69,7 @@ public abstract class SceneManager implements LogicManager {
 
     @Override
     public void processKeysDown() {
-        safeUpdate(currentScene.inputManager::fireKeysDown);
+        safeUpdate(currentScene.inputManager()::fireKeysDown);
     }
 
     /** Resets the logic manager. */
@@ -77,10 +77,10 @@ public abstract class SceneManager implements LogicManager {
     public void reset() {
         for (Scene scene : scenes.values()) {
             if (scene.isInitialized()) {
-                scene.generalUnload(FastJEngine.getCanvas());
+                scene.reset();
             }
-            scene.reset();
         }
+
         scenes.clear();
     }
 
@@ -240,11 +240,11 @@ public abstract class SceneManager implements LogicManager {
         if (unloadCurrentScene) {
             currentScene.generalUnload(canvas);
         } else {
-            currentScene.inputManager.unload();
+            currentScene.inputManager().unload();
         }
 
         Scene nextScene = scenes.get(nextSceneName);
-        nextScene.inputManager.load();
+        nextScene.inputManager().load();
 
         if (!nextScene.isInitialized()) {
             nextScene.generalLoad(canvas);
@@ -349,8 +349,8 @@ public abstract class SceneManager implements LogicManager {
             initSceneCheck();
 
             canvas.render(
-                    currentScene.drawableManager.getGameObjects(),
-                    currentScene.drawableManager.getUIElements(),
+                    currentScene.drawableManager().getGameObjects(),
+                    currentScene.drawableManager().getUIElements(),
                     currentScene.getCamera()
             );
 
@@ -407,13 +407,11 @@ public abstract class SceneManager implements LogicManager {
      */
     private void sceneNameAlreadyExistsCheck(String sceneName) {
         if (scenes.containsKey(sceneName)) {
-            IllegalArgumentException e = new IllegalArgumentException(
+            throw new IllegalArgumentException(
                     "The scene name \"" + sceneName + "\" is already in use."
                             + System.lineSeparator()
                             + "Scenes added: " + scenes.keySet()
             );
-
-            FastJEngine.error(CrashMessages.SceneError.errorMessage, e);
         }
     }
 
@@ -427,10 +425,7 @@ public abstract class SceneManager implements LogicManager {
      */
     private void sceneExistenceCheck(String sceneName) {
         if (!scenes.containsKey(sceneName)) {
-            FastJEngine.error(
-                    CrashMessages.SceneError.errorMessage,
-                    new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!")
-            );
+            throw new IllegalArgumentException("A scene with the name: \"" + sceneName + "\" hasn't been added!");
         }
     }
 }

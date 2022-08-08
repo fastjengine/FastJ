@@ -2,11 +2,11 @@ package tech.fastj.systems.audio;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import tech.fastj.gameloop.event.GameEvent;
+import tech.fastj.gameloop.event.Event;
 
 import javax.sound.sampled.LineEvent;
 
-public class AudioEvent extends GameEvent {
+public class AudioEvent extends Event {
 
     private final LineEvent rawEvent;
     private final Audio eventSource;

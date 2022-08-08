@@ -5,8 +5,7 @@ import tech.fastj.math.Pointf;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.AlphaComposite;
 import java.awt.Composite;
@@ -34,12 +33,7 @@ public class Light2D extends GameObject {
     }
 
     @Override
-    public void destroy(Scene origin) {
-        super.destroyTheRest(origin);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
+    public void destroy(GameHandler origin) {
         super.destroyTheRest(origin);
     }
 

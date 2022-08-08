@@ -44,7 +44,7 @@ public class Main extends SimpleManager {
          * gameObject.addBehavior(Behavior, SimpleManager/Scene) -- the SimpleManager/Scene is the
          * manager the behavior is in. */
         box.addBehavior(movementBehavior, this);
-        drawableManager.addGameObject(box);
+        drawableManager().addGameObject(box);
 
 
         /* Pre-defined Behaviors */
@@ -66,7 +66,7 @@ public class Main extends SimpleManager {
                 .build();
 
         premadeBehaviorsBox.addBehavior(Behavior.simpleRotation(3f), this);
-        drawableManager.addGameObject(premadeBehaviorsBox);
+        drawableManager().addGameObject(premadeBehaviorsBox);
     }
 
     @Override

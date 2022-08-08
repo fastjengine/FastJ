@@ -19,7 +19,7 @@ public class Main extends SimpleManager {
          * The code is not the primary focus of the example -- this is just to give a visual. */
         Pointf[] squareMesh = DrawUtil.createBox(50f, 50f, 100f);
         Polygon2D square = Polygon2D.fromPoints(squareMesh);
-        drawableManager.addGameObject(square);
+        drawableManager().addGameObject(square);
     }
 
     @Override

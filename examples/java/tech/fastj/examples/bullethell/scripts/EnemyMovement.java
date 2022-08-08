@@ -13,6 +13,7 @@ import java.util.List;
 
 import tech.fastj.examples.bullethell.scenes.GameScene;
 import tech.fastj.examples.bullethell.util.Tags;
+import tech.fastj.gameloop.CoreLoopState;
 
 public class EnemyMovement implements Behavior {
 
@@ -58,7 +59,7 @@ public class EnemyMovement implements Behavior {
     }
 
     private void enemyDied(GameObject enemy) {
-        FastJEngine.runAfterUpdate(() -> gameScene.enemyDied((Model2D) enemy));
+        FastJEngine.runLater(() -> gameScene.enemyDied((Model2D) enemy), CoreLoopState.FixedUpdate);
     }
 
     private void moveToPlayer(GameObject obj) {

@@ -4,8 +4,8 @@ import unittest.mock.gameloop.event.MockEvent;
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.gameloop.GameLoop;
 import tech.fastj.gameloop.GameLoopState;
-import tech.fastj.gameloop.event.GameEventHandler;
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventHandler;
+import tech.fastj.gameloop.event.EventObserver;
 
 import java.util.Map;
 import java.util.Set;
@@ -96,11 +96,11 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        GameEventObserver<MockEvent> gameEventObserver = (event) -> firedEvent.set(true);
-        gameLoop.addEventObserver(gameEventObserver, MockEvent.class);
-        assertEquals(gameEventObserver, gameLoop.getGameEventObservers(MockEvent.class).get(0));
-        assertEquals(1, gameLoop.getGameEventObservers(MockEvent.class).size());
-        gameLoop.removeEventObserver(gameEventObserver, MockEvent.class);
+        EventObserver<MockEvent> eventObserver = (event) -> firedEvent.set(true);
+        gameLoop.addEventObserver(eventObserver, MockEvent.class);
+        assertEquals(eventObserver, gameLoop.getEventObservers(MockEvent.class).get(0));
+        assertEquals(1, gameLoop.getEventObservers(MockEvent.class).size());
+        gameLoop.removeEventObserver(eventObserver, MockEvent.class);
 
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())));
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)));
@@ -115,9 +115,9 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        GameEventHandler<MockEvent, GameEventObserver<MockEvent>> gameEventHandler = (eventObservers, event) -> firedEvent.set(true);
-        gameLoop.addEventHandler(gameEventHandler, MockEvent.class);
-        assertEquals(gameEventHandler, gameLoop.getGameEventHandler(MockEvent.class));
+        EventHandler<MockEvent, EventObserver<MockEvent>> eventHandler = (eventObservers, event) -> firedEvent.set(true);
+        gameLoop.addEventHandler(eventHandler, MockEvent.class);
+        assertEquals(eventHandler, gameLoop.getEventHandler(MockEvent.class));
         gameLoop.removeEventHandler(MockEvent.class);
 
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())));
@@ -255,8 +255,8 @@ class GameLoopTests {
 
         gameLoop.reset();
 
-        assertEquals(0, gameLoop.getGameEventObservers(MockEvent.class).size(), "After resetting, there should be no event observers.");
-        assertNull(gameLoop.getGameEventHandler(MockEvent.class), "After resetting, there should be no event handler.");
+        assertEquals(0, gameLoop.getEventObservers(MockEvent.class).size(), "After resetting, there should be no event observers.");
+        assertNull(gameLoop.getEventHandler(MockEvent.class), "After resetting, there should be no event handler.");
         for (Set<GameLoopState> gameLoopStates : gameLoop.getGameLoopStates().values()) {
             assertEquals(0, gameLoopStates.size(), "After resetting, there should be no game loop states.");
         }
@@ -276,7 +276,7 @@ class GameLoopTests {
 
         gameLoop.clear();
 
-        assertEquals(0, gameLoop.getGameEventObservers(MockEvent.class).size(), "After clearing, there should be no event observers.");
-        assertNull(gameLoop.getGameEventHandler(MockEvent.class), "After clearing, there should be no event handler.");
+        assertEquals(0, gameLoop.getEventObservers(MockEvent.class).size(), "After clearing, there should be no event observers.");
+        assertNull(gameLoop.getEventHandler(MockEvent.class), "After clearing, there should be no event handler.");
     }
 }

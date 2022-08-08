@@ -4,12 +4,15 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.math.Point;
 
+import tech.fastj.gameloop.CoreLoopState;
+
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 
@@ -69,8 +72,16 @@ public class SimpleDisplay implements Display {
                 DisplayEvent<SimpleDisplay> displayEvent = new DisplayEvent<>(DisplayEventType.Closing, windowEvent, display);
                 FastJEngine.getGameLoop().fireEvent(displayEvent);
 
-                FastJEngine.runAfterRender(FastJEngine::closeGame);
-                display.close();
+                // TODO: find out why this only works as intended during FixedUpdate
+                while (FastJEngine.getGameLoop().getCurrentGameLoopState().getCoreLoopState() != CoreLoopState.FixedUpdate) {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(1L);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+
+                FastJEngine.runLater(FastJEngine::closeGame);
             }
 
             @Override

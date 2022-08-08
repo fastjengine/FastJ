@@ -4,7 +4,7 @@ import tech.fastj.engine.FastJEngine;
 
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventObserver;
 
 import java.util.Map;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import javax.sound.sampled.LineEvent;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class AudioEventListener implements GameEventObserver<AudioEvent> {
+public class AudioEventListener implements EventObserver<AudioEvent> {
 
     private Consumer<AudioEvent> audioOpenAction;
     private Consumer<AudioEvent> audioCloseAction;

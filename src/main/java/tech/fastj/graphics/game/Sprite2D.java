@@ -10,8 +10,7 @@ import tech.fastj.logging.Log;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageUtil;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -256,21 +255,7 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     }
 
     @Override
-    public void destroy(Scene origin) {
-        setPaused(true);
-
-        animationDataMap.clear();
-        animationDataMap.putAll(NoAnimationsLoaded);
-        currentAnimation = NoAnimation;
-        sprites = NoSpritesLoaded;
-        currentFrame = DefaultStartingFrame;
-        animationFPS = DefaultAnimationFPS;
-
-        super.destroyTheRest(origin);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
+    public void destroy(GameHandler origin) {
         setPaused(true);
 
         animationDataMap.clear();

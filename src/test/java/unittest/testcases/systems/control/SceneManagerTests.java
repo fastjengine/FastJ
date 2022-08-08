@@ -44,12 +44,12 @@ class SceneManagerTests {
 
         sceneManager.addScene(nameSettingScene1);
 
-        Throwable exception = assertThrows(IllegalStateException.class, () -> sceneManager.addScene(nameSettingScene2));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> sceneManager.addScene(nameSettingScene2));
 
         String expectedExceptionMessage = "The scene name \"" + sceneName + "\" is already in use."
                 + System.lineSeparator()
                 + "Scenes added: [" + sceneName + "]";
-        assertEquals(expectedExceptionMessage, exception.getCause().getMessage(), "The exception message should match the expected exception message.");
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 
     @Test
@@ -67,10 +67,10 @@ class SceneManagerTests {
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to get a scene with a scene name that doesn't exist should throw an exception";
-        Throwable exception = assertThrows(IllegalStateException.class, () -> sceneManager.getScene(sceneName));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> sceneManager.getScene(sceneName));
 
         String expectedExceptionMessage = "A scene with the name: \"" + sceneName + "\" hasn't been added!";
-        assertEquals(expectedExceptionMessage, exception.getCause().getMessage(), "The exception message should match the expected exception message.");
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 
     @Test
@@ -100,10 +100,10 @@ class SceneManagerTests {
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to remove a scene with a scene name that doesn't exist should throw an exception";
-        Throwable exception = assertThrows(IllegalStateException.class, () -> sceneManager.removeScene(sceneName));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> sceneManager.removeScene(sceneName));
 
         String expectedExceptionMessage = "A scene with the name: \"" + sceneName + "\" hasn't been added!";
-        assertEquals(expectedExceptionMessage, exception.getCause().getMessage(), "The exception message should match the expected exception message.");
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 
     @Test
@@ -133,9 +133,9 @@ class SceneManagerTests {
         SceneManager sceneManager = new MockSceneManager();
 
         String sceneName = "trying to set the current scene with a scene name that doesn't exist should throw an exception";
-        Throwable exception = assertThrows(IllegalStateException.class, () -> sceneManager.setCurrentScene(sceneName));
+        Throwable exception = assertThrows(IllegalArgumentException.class, () -> sceneManager.setCurrentScene(sceneName));
 
         String expectedExceptionMessage = "A scene with the name: \"" + sceneName + "\" hasn't been added!";
-        assertEquals(expectedExceptionMessage, exception.getCause().getMessage(), "The exception message should match the expected exception message.");
+        assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 }

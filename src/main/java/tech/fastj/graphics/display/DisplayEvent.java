@@ -1,11 +1,11 @@
 package tech.fastj.graphics.display;
 
-import tech.fastj.gameloop.event.GameEvent;
+import tech.fastj.gameloop.event.Event;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowEvent;
 
-public class DisplayEvent<T extends Display> extends GameEvent {
+public class DisplayEvent<T extends Display> extends Event {
 
     private final DisplayEventType eventType;
     private final ComponentEvent rawEvent;

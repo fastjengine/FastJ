@@ -6,9 +6,7 @@ import tech.fastj.graphics.display.FastJCanvas;
 
 import tech.fastj.input.InputManager;
 
-import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.behaviors.BehaviorManager;
-import tech.fastj.systems.tags.TagHandler;
 
 import java.util.List;
 
@@ -18,12 +16,22 @@ import java.util.List;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public abstract class SimpleManager implements LogicManager, BehaviorHandler, TagHandler<Drawable> {
+public abstract class SimpleManager implements LogicManager, GameHandler {
 
     private final Camera camera;
-    /** Input manager instance for the simple manager -- it controls the scene's received events. */
+
+    /**
+     * Input manager instance for the simple manager -- it controls the scene's received events.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#inputManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final InputManager inputManager;
-    /** Drawable manager instance for the simple manager -- it controls the scene's game objects and ui elements. */
+
+    /**
+     * Drawable manager instance for the simple manager -- it controls the scene's game objects and ui elements.
+     * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#drawableManager()} instead.
+     */
+    @Deprecated(forRemoval = true)
     public final DrawableManager drawableManager;
 
     /** Initializes the contents of the {@code SimpleManager}. */
@@ -61,6 +69,26 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         this.updateBehaviorListeners();
     }
 
+    @Override
+    public InputManager inputManager() {
+        return inputManager;
+    }
+
+    @Override
+    public DrawableManager drawableManager() {
+        return drawableManager;
+    }
+
+    /**
+     * Gets the {@code Camera} of the manager.
+     *
+     * @return The manager's camera.
+     */
+    @Override
+    public Camera getCamera() {
+        return camera;
+    }
+
     /**
      * Renders the contents of the {@code DrawableManager} to the {@code FastJCanvas}.
      *
@@ -75,19 +103,10 @@ public abstract class SimpleManager implements LogicManager, BehaviorHandler, Ta
         );
     }
 
-    /**
-     * Gets the {@code Camera} of the manager.
-     *
-     * @return The manager's camera.
-     */
-    public Camera getCamera() {
-        return camera;
-    }
-
     @Override
     public void reset() {
         this.destroyBehaviorListeners();
-        drawableManager.destroyAllLists(this);
+        drawableManager.reset(this);
         this.clearBehaviorListeners();
         drawableManager.clearAllLists();
         inputManager.reset();

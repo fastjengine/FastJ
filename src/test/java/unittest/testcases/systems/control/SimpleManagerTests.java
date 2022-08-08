@@ -29,7 +29,7 @@ class SimpleManagerTests {
 
         simpleManager.getCamera().rotate(10f);
         GameObject gameObject = new MockGameObject();
-        simpleManager.drawableManager.addGameObject(gameObject);
+        simpleManager.drawableManager().addGameObject(gameObject);
         GameObject gameObject2 = new MockGameObject();
         simpleManager.addBehaviorListener(gameObject2);
 

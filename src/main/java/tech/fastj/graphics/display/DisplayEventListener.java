@@ -1,8 +1,8 @@
 package tech.fastj.graphics.display;
 
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventObserver;
 
-public interface DisplayEventListener<T extends Display> extends GameEventObserver<DisplayEvent<T>> {
+public interface DisplayEventListener<T extends Display> extends EventObserver<DisplayEvent<T>> {
 
     default void displayMoved(DisplayEvent<T> displayEvent) {
     }

@@ -13,8 +13,7 @@ import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.MouseButtons;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
 
-import tech.fastj.systems.control.Scene;
-import tech.fastj.systems.control.SimpleManager;
+import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -55,29 +54,20 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     /**
      * Constructs a button with a default location and size.
      *
-     * @param origin The scene to add the button as a gui object to.
+     * @param origin The game handler to add the button as a gui object to.
      */
-    public Button(Scene origin) {
-        this(origin, Transform2D.DefaultTranslation, DefaultSize);
-    }
-
-    /**
-     * Constructs a button with a default location and size.
-     *
-     * @param origin The simple manager to add the button as a gui object to.
-     */
-    public Button(SimpleManager origin) {
+    public Button(GameHandler origin) {
         this(origin, Transform2D.DefaultTranslation, DefaultSize);
     }
 
     /**
      * Constructs a button with the specified location and initial size.
      *
-     * @param origin      The scene to add the button as a gui object to.
+     * @param origin      The game handler to add the button as a gui object to.
      * @param location    The location to create the button at.
      * @param initialSize The initial size of the button, though the button will get larger if the text outgrows it.
      */
-    public Button(Scene origin, Pointf location, Pointf initialSize) {
+    public Button(GameHandler origin, Pointf location, Pointf initialSize) {
         super(origin);
         if (initialSize.x < Maths.FloatPrecision || initialSize.y < Maths.FloatPrecision) {
             throw new IllegalArgumentException(
@@ -101,41 +91,7 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         setMetrics(graphics);
         graphics.dispose();
 
-        origin.inputManager.addMouseActionListener(this);
-    }
-
-    /**
-     * Constructs a button with the specified location and initial size.
-     *
-     * @param origin      The simple manager to add the button as a gui object to.
-     * @param location    The location to create the button at.
-     * @param initialSize The initial size of the button, though the button will get larger if the text outgrows it.
-     */
-    public Button(SimpleManager origin, Pointf location, Pointf initialSize) {
-        super(origin);
-        if (initialSize.x < Maths.FloatPrecision || initialSize.y < Maths.FloatPrecision) {
-            throw new IllegalArgumentException(
-                    "The size " + initialSize + " is too small." +
-                            System.lineSeparator() +
-                            "The minimum size in both x and y directions is " + Maths.FloatPrecision + "."
-            );
-        }
-
-        super.setOnActionCondition(event -> Mouse.interactsWith(Button.this, MouseAction.Press) && Mouse.isMouseButtonPressed(MouseButtons.Left));
-
-        Pointf[] buttonCoords = DrawUtil.createBox(Pointf.origin(), initialSize);
-        super.setCollisionPath(DrawUtil.createPath(buttonCoords));
-
-        this.paint = DefaultFill;
-        this.font = DefaultFont;
-        this.text = DefaultText;
-
-        translate(location);
-        Graphics2D graphics = GraphicsHelper.createGraphics();
-        setMetrics(graphics);
-        graphics.dispose();
-
-        origin.inputManager.addMouseActionListener(this);
+        origin.inputManager().addMouseActionListener(this);
     }
 
     /**
@@ -258,17 +214,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
     }
 
     @Override
-    public void destroy(Scene origin) {
+    public void destroy(GameHandler origin) {
         super.destroyTheRest(origin);
         paint = null;
-        origin.inputManager.removeMouseActionListener(this);
-    }
-
-    @Override
-    public void destroy(SimpleManager origin) {
-        super.destroyTheRest(origin);
-        paint = null;
-        origin.inputManager.removeMouseActionListener(this);
+        origin.inputManager().removeMouseActionListener(this);
     }
 
     /**

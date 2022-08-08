@@ -42,7 +42,7 @@ public class Main extends SimpleManager {
          * To demonstrate each method, I've chosen to log whenever any of the methods is called. Run the program to see
          * this in action. */
 
-        inputManager.addKeyboardActionListener(new KeyboardActionListener() {
+        inputManager().addKeyboardActionListener(new KeyboardActionListener() {
             @Override
             public void onKeyDown(Set<Keys> keysDown) {
                 FastJEngine.log("Key(s) held down: {}", keysDown);

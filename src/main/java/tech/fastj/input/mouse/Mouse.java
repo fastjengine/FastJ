@@ -16,6 +16,8 @@ import tech.fastj.input.mouse.events.MouseWindowEvent;
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;
 
+import tech.fastj.systems.execution.FastJScheduledThreadPool;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -25,7 +27,6 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
@@ -46,7 +47,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static final int InitialWheelRotation = 0;
     private static final int InitialClickCount = 0;
 
-    private static ScheduledExecutorService mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+    private static ScheduledExecutorService mouseExecutor = new FastJScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
     private static int buttonLastPressed = Mouse.InitialMouseButton;
     private static int buttonLastReleased = Mouse.InitialMouseButton;
@@ -165,7 +166,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
             Log.debug(Mouse.class, "Initializing {}", Mouse.class.getName());
         }
 
-        mouseExecutor = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+        mouseExecutor = new FastJScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
         FastJEngine.getGameLoop().addClassAlias(MouseWindowEvent.class, MouseActionEvent.class);
         FastJEngine.getGameLoop().addClassAlias(MouseScrollEvent.class, MouseActionEvent.class);
