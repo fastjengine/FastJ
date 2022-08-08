@@ -1,7 +1,6 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.net.URL;

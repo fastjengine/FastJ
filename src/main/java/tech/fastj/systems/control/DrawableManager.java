@@ -3,7 +3,6 @@ package tech.fastj.systems.control;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
-
 import tech.fastj.input.InputActionEvent;
 
 import java.util.ArrayList;

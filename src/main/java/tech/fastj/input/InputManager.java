@@ -1,7 +1,6 @@
 package tech.fastj.input;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
 import tech.fastj.input.keyboard.events.KeyboardActionEvent;

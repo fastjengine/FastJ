@@ -5,8 +5,11 @@ plugins {
 }
 
 group('io.github.lucasstarsz.fastj')
-version('1.6.0-SNAPSHOT')
+version('1.7.0-SNAPSHOT')
 description('Example programs for the FastJ Game Engine.')
+
+sourceCompatibility = 18
+targetCompatibility = 18
 
 repositories {
     mavenCentral()

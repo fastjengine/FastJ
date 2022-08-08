@@ -1,29 +1,30 @@
 package tech.fastj.engine;
 
+import tech.fastj.animation.Animated;
+import tech.fastj.animation.AnimationData;
+import tech.fastj.animation.AnimationEngine;
+import tech.fastj.animation.sprite.SpriteAnimationEngine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
-
-import tech.fastj.math.Point;
-
+import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.gameloop.GameLoop;
+import tech.fastj.gameloop.GameLoopState;
 import tech.fastj.graphics.display.Display;
 import tech.fastj.graphics.display.DisplayState;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.SimpleDisplay;
 import tech.fastj.graphics.game.Sprite2D;
 import tech.fastj.graphics.util.DisplayUtil;
-
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
-
 import tech.fastj.logging.Log;
 import tech.fastj.logging.LogLevel;
-
+import tech.fastj.math.Point;
 import tech.fastj.resources.Resource;
 import tech.fastj.resources.ResourceManager;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
-
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
 import tech.fastj.systems.behaviors.BehaviorManager;
@@ -31,10 +32,6 @@ import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.execution.FastJScheduledThreadPool;
 import tech.fastj.systems.execution.RunLaterEvent;
 import tech.fastj.systems.execution.RunLaterObserver;
-
-import tech.fastj.gameloop.CoreLoopState;
-import tech.fastj.gameloop.GameLoop;
-import tech.fastj.gameloop.GameLoopState;
 
 import java.awt.HeadlessException;
 import java.awt.Toolkit;
@@ -44,11 +41,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import tech.fastj.animation.Animated;
-import tech.fastj.animation.AnimationData;
-import tech.fastj.animation.AnimationEngine;
-import tech.fastj.animation.sprite.SpriteAnimationEngine;
 
 /**
  * The main control hub of the game engine.

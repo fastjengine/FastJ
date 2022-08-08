@@ -1,7 +1,6 @@
 package tech.fastj.resources.images;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.resources.files.FileUtil;
 
 import java.awt.AWTException;

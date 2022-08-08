@@ -1,11 +1,9 @@
 package unittest.testcases.graphics.util;
 
-import tech.fastj.math.Point;
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Point;
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.collections.Pair;
 
 import java.awt.Color;

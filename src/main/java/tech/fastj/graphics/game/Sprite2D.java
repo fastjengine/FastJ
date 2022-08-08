@@ -1,23 +1,5 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.graphics.Drawable;
-import tech.fastj.graphics.util.DrawUtil;
-
-import tech.fastj.logging.Log;
-
-import tech.fastj.resources.images.ImageResource;
-import tech.fastj.resources.images.ImageUtil;
-
-import tech.fastj.systems.control.GameHandler;
-
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.nio.file.Path;
-import java.util.Map;
-
 import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationStyle;
 import tech.fastj.animation.event.AnimationEvent;
@@ -27,6 +9,19 @@ import tech.fastj.animation.sprite.event.AnimationFlipEvent;
 import tech.fastj.animation.sprite.event.AnimationLoopEvent;
 import tech.fastj.animation.sprite.event.AnimationPauseEvent;
 import tech.fastj.animation.sprite.event.AnimationPlayEvent;
+import tech.fastj.engine.FastJEngine;
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.logging.Log;
+import tech.fastj.resources.images.ImageResource;
+import tech.fastj.resources.images.ImageUtil;
+import tech.fastj.systems.control.GameHandler;
+
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.nio.file.Path;
+import java.util.Map;
 
 public class Sprite2D extends GameObject implements Animated<SpriteAnimationData> {
 

@@ -4,11 +4,10 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
-
+import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 
-import tech.fastj.logging.LogLevel;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -2,9 +2,7 @@ package tech.fastj.graphics.ui;
 
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
-
 import tech.fastj.input.InputActionEvent;
-
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;

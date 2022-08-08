@@ -1,10 +1,8 @@
 package unittest.mock.graphics;
 
+import tech.fastj.graphics.game.GameObject;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
-import tech.fastj.graphics.game.GameObject;
-
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;

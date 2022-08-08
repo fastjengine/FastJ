@@ -1,10 +1,9 @@
 package tech.fastj.input.keyboard;
 
+import tech.fastj.gameloop.event.EventObserver;
 import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
-
-import tech.fastj.gameloop.event.EventObserver;
 
 import java.awt.event.KeyEvent;
 import java.util.Set;

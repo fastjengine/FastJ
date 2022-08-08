@@ -1,12 +1,10 @@
 package unittest.testcases.graphics.ui.elements;
 
+import tech.fastj.graphics.ui.elements.Button;
+import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
-import tech.fastj.graphics.ui.elements.Button;
-import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.systems.control.SimpleManager;
 
 import unittest.mock.systems.control.MockEmptySimpleManager;

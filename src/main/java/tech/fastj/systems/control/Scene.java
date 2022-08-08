@@ -1,13 +1,10 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
 import tech.fastj.graphics.display.FastJCanvas;
-
 import tech.fastj.input.InputManager;
-
 import tech.fastj.systems.behaviors.BehaviorManager;
 
 import java.util.List;

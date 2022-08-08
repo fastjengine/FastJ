@@ -1,11 +1,8 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.math.Maths;
-
 import tech.fastj.logging.Log;
-
+import tech.fastj.math.Maths;
 import tech.fastj.systems.audio.state.PlaybackState;
 
 import java.io.IOException;

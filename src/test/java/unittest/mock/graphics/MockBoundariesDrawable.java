@@ -1,10 +1,8 @@
 package unittest.mock.graphics;
 
-import tech.fastj.math.Maths;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Maths;
 import tech.fastj.systems.control.GameHandler;
 
 public class MockBoundariesDrawable extends Drawable {

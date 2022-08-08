@@ -1,7 +1,6 @@
 package unittest.testcases.systems.audio;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudio;
 import tech.fastj.systems.audio.state.PlaybackState;

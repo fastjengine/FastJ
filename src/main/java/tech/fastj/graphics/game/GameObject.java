@@ -1,7 +1,6 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.graphics.Drawable;
-
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.collections.ManagedList;

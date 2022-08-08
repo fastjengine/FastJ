@@ -1,14 +1,13 @@
 package tech.fastj.animation.sprite;
 
+import tech.fastj.animation.AnimationData;
+import tech.fastj.animation.AnimationStyle;
 import tech.fastj.graphics.game.Sprite2D;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Predicate;
-
-import tech.fastj.animation.AnimationData;
-import tech.fastj.animation.AnimationStyle;
 
 public class SpriteAnimationData implements AnimationData {
     private final String animationName;

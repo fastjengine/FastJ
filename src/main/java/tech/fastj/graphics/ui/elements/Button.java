@@ -1,18 +1,15 @@
 package tech.fastj.graphics.ui.elements;
 
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
-import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.MouseButtons;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
-
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Color;

@@ -1,8 +1,7 @@
 package tech.fastj.animation.sprite;
 
-import tech.fastj.graphics.game.Sprite2D;
-
 import tech.fastj.animation.AnimationEngine;
+import tech.fastj.graphics.game.Sprite2D;
 
 public class SpriteAnimationEngine extends AnimationEngine<SpriteAnimationData, Sprite2D> {
     @Override

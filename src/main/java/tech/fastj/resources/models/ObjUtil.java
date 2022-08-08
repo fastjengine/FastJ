@@ -1,15 +1,12 @@
 package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
-
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
-
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
 import tech.fastj.resources.files.FileUtil;
 
 import java.io.File;

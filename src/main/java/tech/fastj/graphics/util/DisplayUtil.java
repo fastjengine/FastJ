@@ -1,8 +1,7 @@
 package tech.fastj.graphics.util;
 
-import tech.fastj.math.Point;
-
 import tech.fastj.graphics.display.Display;
+import tech.fastj.math.Point;
 
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;

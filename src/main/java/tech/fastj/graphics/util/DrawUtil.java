@@ -1,14 +1,11 @@
 package tech.fastj.graphics.util;
 
+import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.game.Polygon2D;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-
-import tech.fastj.graphics.Drawable;
-import tech.fastj.graphics.game.Polygon2D;
-
-import tech.fastj.logging.Log;
-
 import tech.fastj.systems.collections.Pair;
 
 import java.awt.*;

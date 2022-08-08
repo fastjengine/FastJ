@@ -1,7 +1,6 @@
 package tech.fastj.graphics.textures;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.resources.images.ImageResource;
 
 import java.awt.TexturePaint;

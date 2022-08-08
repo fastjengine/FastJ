@@ -2,9 +2,7 @@ package tech.fastj.systems.control;
 
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.display.Camera;
-
 import tech.fastj.input.InputManager;
-
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.tags.TagHandler;
 

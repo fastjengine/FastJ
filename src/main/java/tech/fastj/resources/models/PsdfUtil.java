@@ -2,11 +2,6 @@ package tech.fastj.resources.models;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.math.Point;
-import tech.fastj.math.Pointf;
-import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
@@ -16,7 +11,9 @@ import tech.fastj.graphics.gradients.LinearGradientBuilder;
 import tech.fastj.graphics.gradients.RadialGradientBuilder;
 import tech.fastj.graphics.textures.Textures;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Point;
+import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.resources.images.ImageResource;
 
 import java.awt.BasicStroke;

@@ -1,12 +1,11 @@
 package tech.fastj.input.mouse;
 
+import tech.fastj.gameloop.event.EventObserver;
 import tech.fastj.input.mouse.events.MouseActionEvent;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
-
-import tech.fastj.gameloop.event.EventObserver;
 
 /**
  * A mouse action listener.
