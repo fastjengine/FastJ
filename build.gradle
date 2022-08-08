@@ -26,14 +26,14 @@ import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
  * ********************* */
 
 
-sourceCompatibility = 11
-targetCompatibility = 11
+sourceCompatibility = 18
+targetCompatibility = 18
 java.withSourcesJar()
 java.withJavadocJar()
 
 javadoc.source(sourceSets.main.allJava)
 javadoc.failOnError(false)
-javadoc.options.links = ['https://docs.oracle.com/en/java/javase/11/docs/api/']
+javadoc.options.links = ['https://docs.oracle.com/en/java/javase/18/docs/api/', 'https://www.slf4j.org/apidocs/']
 
 sourcesJar.from(sourceSets.main.allSource)
 javadocJar.from(javadoc.destinationDir)
@@ -45,7 +45,7 @@ plugins.withType(JavaPlugin).configureEach {
     java.modularity.inferModulePath = true
 }
 
-wrapper.gradleVersion = '7.1.1'
+wrapper.gradleVersion = '7.5.1'
 wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
