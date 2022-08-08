@@ -1,6 +1,6 @@
 # This workflow builds and tests FastJ on the latest versions of macOS, Windows, and Ubuntu, using Gradle.
 
-name: Build-MacOS
+name: Build
 
 on:
   push:
