@@ -168,6 +168,8 @@ public class FastJCanvas {
                 drawBuffer = canvas.getBufferStrategy();
             } while (drawBuffer == null);
 
+            drawBuffer.getDrawGraphics().clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
             Graphics2D drawGraphics = prepareGraphics((Graphics2D) drawBuffer.getDrawGraphics(), camera);
             drawGraphics.clearRect(
                     (int) (background.x - camera.getTranslation().x),
@@ -179,7 +181,7 @@ public class FastJCanvas {
 
             for (GameObject gameObject : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(gameObject, camera) || !gameObject.shouldRender()) {
+                    if (!isOnScreen(gameObject) || !gameObject.shouldRender()) {
                         continue;
                     }
                     gameObject.render(drawGraphics);
@@ -191,7 +193,7 @@ public class FastJCanvas {
 
             for (UIElement<? extends InputActionEvent> guiObj : gui.values()) {
                 try {
-                    if (!isOnScreen(guiObj, camera) || !guiObj.shouldRender()) {
+                    if (!isOnScreen(guiObj) || !guiObj.shouldRender()) {
                         continue;
                     }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
@@ -213,8 +215,8 @@ public class FastJCanvas {
     /**
      * Changes the rendering settings for the specified key.
      * <p>
-     * This takes advantage of the {@code RenderingHints} class, allowing the programmer to change values of how the
-     * game engine renders objects.
+     * This takes advantage of the {@code RenderingHints} class, allowing the programmer to change values of how the game engine renders
+     * objects.
      *
      * @param renderHintKey   Rendering hint key used to determine which setting you are modifying.
      * @param renderHintValue The value to go along with the key.
@@ -238,22 +240,18 @@ public class FastJCanvas {
      * Gets the value that determines whether the {@code Drawable} is visible on screen.
      *
      * @param drawable The {@code Drawable} to check.
-     * @param camera   The {@code Camera} to check the drawable with.
-     * @return A boolean that represents whether the polygon is visible on screen.
+     * @return A boolean that represents whether the drawable is visible on screen.
      */
-    public boolean isOnScreen(Drawable drawable, Camera camera) {
+    public boolean isOnScreen(Drawable drawable) {
         Rectangle2D.Float drawableBounds = DrawUtil.createRect(drawable.getBounds());
-        drawableBounds.x += camera.getTranslation().x;
-        drawableBounds.y += camera.getTranslation().y;
-
-        return drawableBounds.intersects(background);
+        return drawableBounds.intersects(canvas.getBounds());
     }
 
     /**
      * Initializes the {@code Display}.
      * <p>
-     * This method should only be called once per instance of the {@code Display}. Furthermore, this method should not
-     * be used on the default window for the game engine - it is initialized internally.
+     * This method should only be called once per instance of the {@code Display}. Furthermore, this method should not be used on the
+     * default window for the game engine - it is initialized internally.
      */
     public void init() {
         initCanvas();
@@ -332,8 +330,8 @@ public class FastJCanvas {
     /**
      * Prepares the provided {@code Graphics2D} object.
      * <p>
-     * This scales the object by the current display's resolution scale, sets its rendering hints to the current {@code
-     * Display}'s rendering hints, and transforms it based on the specified camera's transformation.
+     * This scales the object by the current display's resolution scale, sets its rendering hints to the current {@code Display}'s rendering
+     * hints, and transforms it based on the specified camera's transformation.
      *
      * @param g      The {@code Graphics2D} object to be prepared.
      * @param camera The camera used to prepare the graphics object.
