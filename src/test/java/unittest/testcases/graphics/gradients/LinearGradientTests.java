@@ -1,12 +1,11 @@
 package unittest.testcases.graphics.gradients;
 
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.gradients.LinearGradientBuilder;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
 
 import unittest.mock.graphics.MockDrawable;
 

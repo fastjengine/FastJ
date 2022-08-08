@@ -3,14 +3,12 @@ package unittest.testcases.engine;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
-
+import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.graphics.display.FastJCanvas;
-
 import tech.fastj.systems.control.SimpleManager;
 
 import unittest.EnvironmentHelper;
 import unittest.mock.systems.control.MockEmptySimpleManager;
-import tech.fastj.gameloop.CoreLoopState;
 
 import java.time.Duration;
 import java.util.UUID;

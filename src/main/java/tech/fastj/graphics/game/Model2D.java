@@ -2,7 +2,6 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;

@@ -1,10 +1,8 @@
 package tech.fastj.graphics.display;
 
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.math.Point;
-
 import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.math.Point;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;

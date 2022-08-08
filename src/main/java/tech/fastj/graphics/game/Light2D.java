@@ -1,10 +1,8 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.AlphaComposite;

@@ -2,15 +2,12 @@ package unittest.testcases.resources.models;
 
 
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.resources.models.ModelUtil;

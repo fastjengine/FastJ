@@ -1,10 +1,8 @@
 package tech.fastj.graphics;
 
+import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
-import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.systems.control.GameHandler;
 import tech.fastj.systems.tags.TaggableEntity;
 

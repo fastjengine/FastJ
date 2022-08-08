@@ -1,10 +1,8 @@
 package tech.fastj.graphics.game;
 
+import tech.fastj.graphics.Drawable;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
-import tech.fastj.graphics.Drawable;
-
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Color;

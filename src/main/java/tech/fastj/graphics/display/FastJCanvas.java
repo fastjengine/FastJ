@@ -2,18 +2,15 @@ package tech.fastj.graphics.display;
 
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.math.Point;
-import tech.fastj.math.Pointf;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.input.InputActionEvent;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.mouse.Mouse;
+import tech.fastj.math.Point;
+import tech.fastj.math.Pointf;
 
 import java.awt.Canvas;
 import java.awt.Color;

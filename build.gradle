@@ -98,12 +98,7 @@ spotless {
     java {
         trimTrailingWhitespace()
         importOrder(
-                'tech.fastj.engine',
-                'tech.fastj.math',
-                'tech.fastj.graphics',
-                'tech.fastj.input',
-                'tech.fastj.resources',
-                'tech.fastj.systems',
+                'tech.fastj',
                 'java',
                 'javax',
                 '\\#'

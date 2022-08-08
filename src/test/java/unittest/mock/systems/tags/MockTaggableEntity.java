@@ -1,7 +1,6 @@
 package unittest.mock.systems.tags;
 
 import tech.fastj.graphics.Drawable;
-
 import tech.fastj.systems.control.GameHandler;
 
 import java.util.UUID;

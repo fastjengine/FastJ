@@ -1,19 +1,15 @@
 package tech.fastj.graphics.game;
 
+import tech.fastj.animation.sprite.SpriteAnimationData;
 import tech.fastj.engine.FastJEngine;
-
+import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
-
 import tech.fastj.resources.images.ImageResource;
-
-import tech.fastj.gameloop.CoreLoopState;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import tech.fastj.animation.sprite.SpriteAnimationData;
 
 public class Sprite2DBuilder {
 

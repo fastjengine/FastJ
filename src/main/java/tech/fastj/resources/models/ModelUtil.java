@@ -2,7 +2,6 @@ package tech.fastj.resources.models;
 
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-
 import tech.fastj.resources.files.FileUtil;
 
 import java.nio.file.Files;

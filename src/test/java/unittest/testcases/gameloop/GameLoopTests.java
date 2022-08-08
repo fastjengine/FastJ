@@ -1,11 +1,12 @@
 package unittest.testcases.gameloop;
 
-import unittest.mock.gameloop.event.MockEvent;
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.gameloop.GameLoop;
 import tech.fastj.gameloop.GameLoopState;
 import tech.fastj.gameloop.event.EventHandler;
 import tech.fastj.gameloop.event.EventObserver;
+
+import unittest.mock.gameloop.event.MockEvent;
 
 import java.util.Map;
 import java.util.Set;

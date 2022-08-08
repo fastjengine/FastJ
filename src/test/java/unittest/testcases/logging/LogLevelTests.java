@@ -1,8 +1,8 @@
 package unittest.testcases.logging;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.logging.LogLevel;
+
 import unittest.mock.systems.control.MockEmptySimpleManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,7 @@
 package unittest.testcases.graphics.game;
 
-import tech.fastj.math.Maths;
-
 import tech.fastj.graphics.game.GameObject;
-
+import tech.fastj.math.Maths;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
 

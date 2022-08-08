@@ -1,14 +1,11 @@
 package tech.fastj.systems.audio;
 
 import tech.fastj.engine.FastJEngine;
-
-import tech.fastj.resources.files.FileUtil;
-
-import tech.fastj.systems.audio.state.PlaybackState;
-import tech.fastj.systems.tags.TagHandler;
-
 import tech.fastj.gameloop.event.EventHandler;
 import tech.fastj.gameloop.event.EventObserver;
+import tech.fastj.resources.files.FileUtil;
+import tech.fastj.systems.audio.state.PlaybackState;
+import tech.fastj.systems.tags.TagHandler;
 
 import java.io.IOException;
 import java.net.URL;

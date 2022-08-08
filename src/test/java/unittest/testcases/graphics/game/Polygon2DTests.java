@@ -1,13 +1,12 @@
 package unittest.testcases.graphics.game;
 
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
-import tech.fastj.math.Transform2D;
-
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

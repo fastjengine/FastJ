@@ -1,8 +1,7 @@
 package tech.fastj.input.mouse.events;
 
-import tech.fastj.math.Pointf;
-
 import tech.fastj.input.mouse.MouseAction;
+import tech.fastj.math.Pointf;
 
 import java.awt.event.MouseEvent;
 import java.util.Objects;
