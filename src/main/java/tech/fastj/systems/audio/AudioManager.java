@@ -7,8 +7,8 @@ import tech.fastj.resources.files.FileUtil;
 import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.tags.TagHandler;
 
-import tech.fastj.gameloop.event.GameEventHandler;
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventHandler;
+import tech.fastj.gameloop.event.EventObserver;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +26,7 @@ import javax.sound.sampled.*;
  * @author Andrew Dey
  * @since 1.5.0
  */
-public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEvent, GameEventObserver<AudioEvent>> {
+public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent, EventObserver<AudioEvent>> {
 
     private final Map<String, MemoryAudio> memoryAudioFiles = new ConcurrentHashMap<>();
     private final Map<String, StreamedAudio> streamedAudioFiles = new ConcurrentHashMap<>();
@@ -354,10 +354,10 @@ public class AudioManager implements TagHandler<Audio>, GameEventHandler<AudioEv
     }
 
     @Override
-    public void handleEvent(List<GameEventObserver<AudioEvent>> gameEventObservers, AudioEvent audioEvent) {
-        for (GameEventObserver<AudioEvent> gameEventObserver : gameEventObservers) {
-            if (audioEvent.getEventSource().getAudioEventListener().equals(gameEventObserver)) {
-                gameEventObserver.eventReceived(audioEvent);
+    public void handleEvent(List<EventObserver<AudioEvent>> eventObservers, AudioEvent audioEvent) {
+        for (EventObserver<AudioEvent> eventObserver : eventObservers) {
+            if (audioEvent.getEventSource().getAudioEventListener().equals(eventObserver)) {
+                eventObserver.eventReceived(audioEvent);
                 return;
             }
         }

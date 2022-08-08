@@ -1,6 +1,6 @@
 package tech.fastj.gameloop.event;
 
-public class GameEvent {
+public class Event {
 
     private boolean isConsumed = false;
     private final long timestamp = System.nanoTime();

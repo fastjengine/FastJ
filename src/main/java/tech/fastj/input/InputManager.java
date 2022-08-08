@@ -36,7 +36,7 @@ public class InputManager {
      */
     @SuppressWarnings("unchecked")
     public List<KeyboardActionListener> getKeyboardActionListeners() {
-        return (List) FastJEngine.getGameLoop().getGameEventObservers(KeyboardActionEvent.class);
+        return (List) FastJEngine.getGameLoop().getEventObservers(KeyboardActionEvent.class);
     }
 
     /**
@@ -46,7 +46,7 @@ public class InputManager {
      */
     @SuppressWarnings("unchecked")
     public List<? extends MouseActionListener> getMouseActionListeners() {
-        return (List) FastJEngine.getGameLoop().getGameEventObservers(MouseActionEvent.class);
+        return (List) FastJEngine.getGameLoop().getEventObservers(MouseActionEvent.class);
     }
 
     /* Key Action Listeners */

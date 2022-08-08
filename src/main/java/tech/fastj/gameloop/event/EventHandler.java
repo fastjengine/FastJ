@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Queue;
 
 @FunctionalInterface
-public interface GameEventHandler<T extends GameEvent, V extends GameEventObserver<T>> {
+public interface EventHandler<T extends Event, V extends EventObserver<T>> {
 
     default void handleEvents(List<V> gameEventObservers, Queue<T> gameEvents) {
         while (!gameEvents.isEmpty()) {

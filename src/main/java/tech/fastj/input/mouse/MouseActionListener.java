@@ -6,11 +6,11 @@ import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
 
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventObserver;
 
 /**
  * A mouse action listener.
- *
+ * <p>
  * <b>NOTE:</b> For use with a FastJ {@code Scene}, a mouse action listener must be added to a
  * {@code Scene}'s list of mouse action listeners.
  * <br>
@@ -21,7 +21,7 @@ import tech.fastj.gameloop.event.GameEventObserver;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public interface MouseActionListener extends GameEventObserver<MouseActionEvent> {
+public interface MouseActionListener extends EventObserver<MouseActionEvent> {
 
     /**
      * Event called when a mouse button is pressed.

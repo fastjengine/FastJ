@@ -4,14 +4,14 @@ import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 
-import tech.fastj.gameloop.event.GameEventObserver;
+import tech.fastj.gameloop.event.EventObserver;
 
 import java.awt.event.KeyEvent;
 import java.util.Set;
 
 /**
  * A keyboard action listener.
- *
+ * <p>
  * <b>NOTE:</b> For use with a FastJ {@code Scene}, a keyboard action listener must be added to a
  * {@code Scene}'s list of keyboard action listeners.
  * <br>
@@ -22,7 +22,7 @@ import java.util.Set;
  * @author Andrew Dey
  * @since 1.0.0
  */
-public interface KeyboardActionListener extends GameEventObserver<KeyboardActionEvent> {
+public interface KeyboardActionListener extends EventObserver<KeyboardActionEvent> {
 
     /** Event called when a key is currently pressed, once per game update. */
     default void onKeyDown(Set<Keys> keysDown) {

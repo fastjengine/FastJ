@@ -1,8 +1,8 @@
 package tech.fastj.systems.execution;
 
-import tech.fastj.gameloop.event.GameEvent;
+import tech.fastj.gameloop.event.Event;
 
-public class RunLaterEvent extends GameEvent {
+public class RunLaterEvent extends Event {
 
     private final Runnable runLater;
 
