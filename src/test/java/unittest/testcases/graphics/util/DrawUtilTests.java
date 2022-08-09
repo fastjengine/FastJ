@@ -2,9 +2,9 @@ package unittest.testcases.graphics.util;
 
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.graphics.util.PointsAndAlts;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-import tech.fastj.systems.collections.Pair;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -411,12 +411,12 @@ class DrawUtilTests {
         );
         pathFromExpectedPoints.closePath();
 
-        Pair<Pointf[], Point[]> actualPoints = DrawUtil.pointsOfPathWithAlt(pathFromExpectedPoints);
+        PointsAndAlts actualPoints = DrawUtil.pointsOfPathWithAlt(pathFromExpectedPoints);
         Pointf[] allExpectedPoints = Stream.concat(Arrays.stream(expectedPoints), Arrays.stream(expectedCurvesAfterPoints))
                         .toArray(Pointf[]::new);
 
-        assertArrayEquals(allExpectedPoints, actualPoints.getLeft(), "The actual array of Pointfs should match the expected array.");
-        assertArrayEquals(expectedAltIndexes, actualPoints.getRight(), "The actual array of alternate index Points should match the expected array.");
+        assertArrayEquals(allExpectedPoints, actualPoints.points(), "The actual array of Pointfs should match the expected array.");
+        assertArrayEquals(expectedAltIndexes, actualPoints.altIndexes(), "The actual array of alternate index Points should match the expected array.");
     }
 
     @Test

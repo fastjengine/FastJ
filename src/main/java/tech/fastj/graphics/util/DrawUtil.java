@@ -6,7 +6,6 @@ import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-import tech.fastj.systems.collections.Pair;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -302,17 +301,17 @@ public final class DrawUtil {
                 && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
     }
 
-    public static Pair<Pointf[], Point[]> createCircle(float x, float y, float radius) {
+    public static PointsAndAlts createCircle(float x, float y, float radius) {
         return createCircle(new Pointf(x, y), radius);
     }
 
-    public static Pair<Pointf[], Point[]> createCircle(float xy, float radius) {
+    public static PointsAndAlts createCircle(float xy, float radius) {
         return createCircle(new Pointf(xy), radius);
     }
 
-    public static Pair<Pointf[], Point[]> createCircle(Pointf center, float radius) {
+    public static PointsAndAlts createCircle(Pointf center, float radius) {
         float curveOffset = (float) ((4f / 3f) * (Math.sqrt(2) - 1) * radius);
-        return Pair.of(
+        return new PointsAndAlts(
                 new Pointf[]{
                         Pointf.subtract(center, radius, 0f),
 
@@ -613,7 +612,7 @@ public final class DrawUtil {
      * @param path The path to get the points of.
      * @return The resultant array of points.
      */
-    public static Pair<Pointf[], Point[]> pointsOfPathWithAlt(Path2D.Float path) {
+    public static PointsAndAlts pointsOfPathWithAlt(Path2D.Float path) {
         List<Pointf> pointList = new ArrayList<>();
         List<Point> alternateIndexes = new ArrayList<>();
         float[] coords = new float[6];
@@ -652,13 +651,13 @@ public final class DrawUtil {
                         Log.warn(DrawUtil.class, "tried to close path iterator before done");
                         break;
                     }
-                    return Pair.of(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
+                    return new PointsAndAlts(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
                 }
             }
             pi.next();
         }
 
-        return Pair.of(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
+        return new PointsAndAlts(pointList.toArray(new Pointf[0]), alternateIndexes.toArray(new Point[0]));
     }
 
     /**
