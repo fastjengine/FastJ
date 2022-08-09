@@ -42,11 +42,6 @@ public class PlayerCannon implements Behavior {
         }
     }
 
-    @Override
-    public void update(GameObject gameObject) {
-        // Empty -- this example does not make use of this method.
-    }
-
     private void createBullet(GameObject player) {
         Pointf startingPoint = Pointf.add(player.getCenter(), new Pointf(0f, -50f));
         float rotationAngle = -player.getRotation();

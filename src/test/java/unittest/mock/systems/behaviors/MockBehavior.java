@@ -19,10 +19,6 @@ public class MockBehavior implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
-    }
-
-    @Override
     public void destroy() {
         pointf = null;
     }

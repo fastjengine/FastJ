@@ -45,10 +45,6 @@ public class BulletMovement implements Behavior {
     }
 
     @Override
-    public void fixedUpdate(GameObject gameObject) {
-    }
-
-    @Override
     public void destroy() {
         travelVector.reset();
     }

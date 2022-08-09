@@ -38,16 +38,4 @@ public class LoseScene extends Scene {
         drawableManager().addGameObject(loseText);
         drawableManager().addGameObject(deathInfo);
     }
-
-    @Override
-    public void unload(FastJCanvas canvas) {
-    }
-
-    @Override
-    public void fixedUpdate(FastJCanvas canvas) {
-    }
-
-    @Override
-    public void update(FastJCanvas canvas) {
-    }
 }

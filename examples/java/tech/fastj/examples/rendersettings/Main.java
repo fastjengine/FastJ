@@ -52,16 +52,6 @@ public class Main extends SimpleManager {
         drawableManager().addGameObject(visualAid);
     }
 
-    @Override
-    public void fixedUpdate(FastJCanvas canvas) {
-        // Empty -- this example does not make use of this method.
-    }
-
-    @Override
-    public void update(FastJCanvas canvas) {
-        // Empty -- this example does not make use of this method.
-    }
-
     public static void main(String[] args) {
         FastJEngine.init("Hello, Render Settings!", new Main());
         FastJEngine.run();

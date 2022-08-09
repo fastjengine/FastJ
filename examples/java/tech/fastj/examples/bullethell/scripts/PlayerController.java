@@ -37,11 +37,6 @@ public class PlayerController implements Behavior {
         movePlayer(obj);
     }
 
-    @Override
-    public void fixedUpdate(GameObject gameObject) {
-        // Empty -- this example does not make use of this method.
-    }
-
     private void resetTransformations() {
         inputTranslation.reset();
         inputRotation = 0f;

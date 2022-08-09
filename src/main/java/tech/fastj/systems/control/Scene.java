@@ -25,6 +25,7 @@ public abstract class Scene implements GameHandler {
 
     /**
      * Input manager instance for the scene -- it controls the scene's received events.
+     *
      * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#inputManager()} instead.
      */
     @Deprecated(forRemoval = true)
@@ -32,6 +33,7 @@ public abstract class Scene implements GameHandler {
 
     /**
      * Drawable manager instance for the scene -- it controls the scene's game objects and ui elements.
+     *
      * @deprecated Public access to this field will be removed soon -- please use {@link GameHandler#drawableManager()} instead.
      */
     @Deprecated(forRemoval = true)
@@ -61,7 +63,8 @@ public abstract class Scene implements GameHandler {
      *
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void load(FastJCanvas canvas);
+    public void load(FastJCanvas canvas) {
+    }
 
     /**
      * Unloads the scene into an uninitialized state.
@@ -70,7 +73,8 @@ public abstract class Scene implements GameHandler {
      *
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void unload(FastJCanvas canvas);
+    public void unload(FastJCanvas canvas) {
+    }
 
     /**
      * Updates the scene's state during game state updates.
@@ -79,7 +83,8 @@ public abstract class Scene implements GameHandler {
      *
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void fixedUpdate(FastJCanvas canvas);
+    public void fixedUpdate(FastJCanvas canvas) {
+    }
 
     /**
      * Updates the scene's state during input receiving, before rendering.
@@ -88,7 +93,9 @@ public abstract class Scene implements GameHandler {
      *
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
-    public abstract void update(FastJCanvas canvas);
+    public void update(FastJCanvas canvas) {
+
+    }
 
     /**
      * Gets the name of the scene.
