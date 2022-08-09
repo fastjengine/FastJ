@@ -90,30 +90,22 @@ public class ManagedList<E> implements List<E> {
         return remnants;
     }
 
-    /**
-     * See {@link ExecutorService#shutdown()}
-     */
+    /** See {@link ExecutorService#shutdown()} */
     public void shutdown() {
         listManager.shutdown();
     }
 
-    /**
-     * @return See {@link ExecutorService#shutdownNow()}
-     */
+    /** @return See {@link ExecutorService#shutdownNow()} */
     public List<Runnable> shutdownNow() {
         return listManager.shutdownNow();
     }
 
-    /**
-     * @return See {@link ExecutorService#isShutdown()}
-     */
+    /** @return See {@link ExecutorService#isShutdown()} */
     public boolean isShutdown() {
         return listManager.isShutdown();
     }
 
-    /**
-     * @return See {@link ExecutorService#isTerminated()}
-     */
+    /** @return See {@link ExecutorService#isTerminated()} */
     public boolean isTerminated() {
         return listManager.isTerminated();
     }
@@ -330,7 +322,6 @@ public class ManagedList<E> implements List<E> {
 
         return scheduledFuture;
     }
-
 
     /**
      * Schedules a task to iterate over the list, with a delay after each task run, after the given initial delay.

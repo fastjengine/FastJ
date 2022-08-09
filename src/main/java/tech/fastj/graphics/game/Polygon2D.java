@@ -2,9 +2,9 @@ package tech.fastj.graphics.game;
 
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.graphics.util.PointsAndAlts;
 import tech.fastj.math.Point;
 import tech.fastj.math.Pointf;
-import tech.fastj.systems.collections.Pair;
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.BasicStroke;
@@ -146,8 +146,8 @@ public class Polygon2D extends GameObject {
      * @return The resulting {@code Polygon2D}.
      */
     public static Polygon2D fromPath(Path2D.Float path) {
-        Pair<Pointf[], Point[]> pathMesh = DrawUtil.pointsOfPathWithAlt(path);
-        return new Polygon2DBuilder(pathMesh.getLeft(), pathMesh.getRight(), Drawable.DefaultShouldRender).build();
+        PointsAndAlts pathMesh = DrawUtil.pointsOfPathWithAlt(path);
+        return new Polygon2DBuilder(pathMesh.points(), pathMesh.altIndexes(), Drawable.DefaultShouldRender).build();
     }
 
     /**

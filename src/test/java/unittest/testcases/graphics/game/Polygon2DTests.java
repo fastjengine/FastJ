@@ -56,7 +56,7 @@ class Polygon2DTests {
         assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(DrawUtil.pointsOfPath(path), polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the path's original Pointf array.");
-        assertArrayEquals(DrawUtil.pointsOfPathWithAlt(path).getRight(), polygon2D.getAlternateIndexes(), "The created polygon's Pointf alternate indexes should match the expected alternate indexes.");
+        assertArrayEquals(DrawUtil.pointsOfPathWithAlt(path).altIndexes(), polygon2D.getAlternateIndexes(), "The created polygon's Pointf alternate indexes should match the expected alternate indexes.");
     }
 
     @Test
