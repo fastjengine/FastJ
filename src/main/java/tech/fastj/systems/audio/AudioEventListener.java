@@ -102,56 +102,32 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
         FastJEngine.getGameLoop().addEventObserver(this, AudioEvent.class);
     }
 
-    /**
-     * Gets the "audio open" event action.
-     *
-     * @return The "audio open" event action.
-     */
+    /** {@return the "audio open" event action} */
     public Consumer<AudioEvent> getAudioOpenAction() {
         return audioOpenAction;
     }
 
-    /**
-     * Gets the "audio close" event action.
-     *
-     * @return The "audio close" event action.
-     */
+    /** {@return the "audio close" event action} */
     public Consumer<AudioEvent> getAudioCloseAction() {
         return audioCloseAction;
     }
 
-    /**
-     * Gets the "audio start" event action.
-     *
-     * @return The "audio start" event action.
-     */
+    /** {@return the "audio start" event action} */
     public Consumer<AudioEvent> getAudioStartAction() {
         return audioStartAction;
     }
 
-    /**
-     * Gets the "audio stop" event action.
-     *
-     * @return The "audio stop" event action.
-     */
+    /** {@return the "audio stop" event action} */
     public Consumer<AudioEvent> getAudioStopAction() {
         return audioStopAction;
     }
 
-    /**
-     * Gets the "audio pause" event action.
-     *
-     * @return The "audio pause" event action.
-     */
+    /** {@return the "audio pause" event action} */
     public Consumer<AudioEvent> getAudioPauseAction() {
         return audioPauseAction;
     }
 
-    /**
-     * Gets the "audio resume" event action.
-     *
-     * @return The "audio resume" event action.
-     */
+    /** {@return the "audio resume" event action} */
     public Consumer<AudioEvent> getAudioResumeAction() {
         return audioResumeAction;
     }
@@ -159,7 +135,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio open" event action to the action specified.
      *
-     * @param audioOpenAction The action to set.
+     * @param audioOpenAction The action to run when the audio {@link Audio#play() is opened to start playing}.
      */
     public void setAudioOpenAction(Consumer<AudioEvent> audioOpenAction) {
         this.audioOpenAction = audioOpenAction;
@@ -168,7 +144,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio close" event action to the action specified.
      *
-     * @param audioCloseAction The action to set.
+     * @param audioCloseAction The action to run when the audio {@link Audio#() is closed to stop playing}.
      */
     public void setAudioCloseAction(Consumer<AudioEvent> audioCloseAction) {
         this.audioCloseAction = audioCloseAction;
@@ -177,7 +153,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio start" event action to the action specified.
      *
-     * @param audioStartAction The action to set.
+     * @param audioStartAction The action to run when the audio {@link Audio#play() begins playing, regardless of if it is resuming}.
      */
     public void setAudioStartAction(Consumer<AudioEvent> audioStartAction) {
         this.audioStartAction = audioStartAction;
@@ -186,7 +162,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio stop" event action to the action specified.
      *
-     * @param audioStopAction The action to set.
+     * @param audioStopAction The action to run when the audio {@link Audio#stop()} stops playing, regardless of if it is pausing}.
      */
     public void setAudioStopAction(Consumer<AudioEvent> audioStopAction) {
         this.audioStopAction = audioStopAction;
@@ -195,7 +171,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio pause" event action to the action specified.
      *
-     * @param audioPauseAction The action to set.
+     * @param audioPauseAction The action to run when the audio {@link Audio#pause()} is paused}.
      */
     public void setAudioPauseAction(Consumer<AudioEvent> audioPauseAction) {
         this.audioPauseAction = audioPauseAction;
@@ -204,7 +180,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio resume" event action to the action specified.
      *
-     * @param audioResumeAction The action to set.
+     * @param audioResumeAction The action to run when the audio {@link Audio#resume()} is resumed}.
      */
     public void setAudioResumeAction(Consumer<AudioEvent> audioResumeAction) {
         this.audioResumeAction = audioResumeAction;

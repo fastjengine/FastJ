@@ -58,7 +58,7 @@ public class StreamedAudioPlayer {
         });
     }
 
-    /** See {@link StreamedAudio#play()}. */
+    /** See {@link Audio#play()}. */
     static void playAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
         AudioInputStream audioInputStream = audio.getAudioInputStream();
@@ -92,7 +92,7 @@ public class StreamedAudioPlayer {
         }
     }
 
-    /** See {@link StreamedAudio#pause()}. */
+    /** See {@link Audio#pause()}. */
     static void pauseAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
@@ -111,7 +111,7 @@ public class StreamedAudioPlayer {
         FastJEngine.getGameLoop().fireEvent(stopAudioEvent);
     }
 
-    /** See {@link StreamedAudio#resume()}. */
+    /** See {@link Audio#resume()}. */
     static void resumeAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 
@@ -130,7 +130,7 @@ public class StreamedAudioPlayer {
         FastJEngine.getGameLoop().fireEvent(startAudioEvent);
     }
 
-    /** See {@link StreamedAudio#stop()}. */
+    /** See {@link Audio#stop()}. */
     static void stopAudio(StreamedAudio audio) {
         SourceDataLine sourceDataLine = audio.getAudioSource();
 

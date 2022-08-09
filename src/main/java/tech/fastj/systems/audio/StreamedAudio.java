@@ -20,14 +20,15 @@ import javax.sound.sampled.SourceDataLine;
  * <p>
  * This type of {@link Audio} is streamed from the file, reducing the amount of memory taken when loading it.
  * <p>
- * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code StreamedAudio} supports the
- * following extra controls:
+ * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code StreamedAudio} supports the following extra controls:
  * <ul>
  *     <li>Gain Controls</li>
  *     <li>Pan Controls</li>
  *     <li>Balance Controls</li>
  *     <li>Mute Controls</li>
  * </ul>
+ * <p>
+ * A {@link StreamedAudio} uses an {@link AudioInputStream} to get its musical content.
  *
  * @author Andrew Dey
  * @since 1.5.0
@@ -78,7 +79,11 @@ public class StreamedAudio extends Audio {
         initializeStreamData(false);
     }
 
-    /** Initializes a {@code StreamedAudio}'s data line, controls, and event listeners. */
+    /**
+     * Initializes a {@code StreamedAudio}'s data line, controls, and event listeners.
+     *
+     * @param resetInputStream Whether the input stream should be refreshed.
+     */
     private void initializeStreamData(boolean resetInputStream) {
         if (resetInputStream) {
             audioInputStream = Objects.requireNonNull(AudioManager.newAudioStream(audioPath));
@@ -103,8 +108,8 @@ public class StreamedAudio extends Audio {
             sourceDataLine.open(audioInputStream.getFormat());
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException(
-                    "No audio lines were available to load the file \"" + audioPath.toAbsolutePath() + "\" as a StreamedAudio.",
-                    exception
+                "No audio lines were available to load the file \"" + audioPath.toAbsolutePath() + "\" as a StreamedAudio.",
+                exception
             );
         }
 
@@ -154,38 +159,22 @@ public class StreamedAudio extends Audio {
         previousPlaybackState = PlaybackState.Stopped;
     }
 
-    /**
-     * Gets the audio's gain control.
-     *
-     * @return The audio's gain control.
-     */
+    /** {@return the audio's gain control} */
     public FloatControl gainControl() {
         return gainControl;
     }
 
-    /**
-     * Gets the audio's pan control.
-     *
-     * @return The audio's pan control.
-     */
+    /** {@return The audio's pan control} */
     public FloatControl panControl() {
         return panControl;
     }
 
-    /**
-     * Gets the audio's balance control.
-     *
-     * @return The audio's balance control.
-     */
+    /** {@return the audio's balance control} */
     public FloatControl balanceControl() {
         return balanceControl;
     }
 
-    /**
-     * Gets the audio's mute control.
-     *
-     * @return The audio's mute control.
-     */
+    /** {@return the audio's mute control} */
     public BooleanControl muteControl() {
         return muteControl;
     }
@@ -220,11 +209,7 @@ public class StreamedAudio extends Audio {
         return audioInputStream;
     }
 
-    /**
-     * Gets the audio's backing {@link SourceDataLine} object.
-     *
-     * @return The audio's {@code SourceDataLine}.
-     */
+    /** {@return the audio's backing {@link SourceDataLine} object} */
     @Override
     public SourceDataLine getAudioSource() {
         return sourceDataLine;
@@ -262,17 +247,17 @@ public class StreamedAudio extends Audio {
     @Override
     public String toString() {
         return "StreamedAudio{" +
-                "audioPath=" + audioPath +
-                ", id='" + id + '\'' +
-                ", audioInputStream=" + audioInputStream +
-                ", sourceDataLine=" + sourceDataLine +
-                ", gainControl=" + gainControl +
-                ", panControl=" + panControl +
-                ", balanceControl=" + balanceControl +
-                ", muteControl=" + muteControl +
-                ", audioEventListener=" + audioEventListener +
-                ", currentPlaybackState=" + currentPlaybackState +
-                ", previousPlaybackState=" + previousPlaybackState +
-                '}';
+            "audioPath=" + audioPath +
+            ", id='" + id + '\'' +
+            ", audioInputStream=" + audioInputStream +
+            ", sourceDataLine=" + sourceDataLine +
+            ", gainControl=" + gainControl +
+            ", panControl=" + panControl +
+            ", balanceControl=" + balanceControl +
+            ", muteControl=" + muteControl +
+            ", audioEventListener=" + audioEventListener +
+            ", currentPlaybackState=" + currentPlaybackState +
+            ", previousPlaybackState=" + previousPlaybackState +
+            '}';
     }
 }

@@ -7,7 +7,6 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.Clip;
@@ -17,8 +16,7 @@ import javax.sound.sampled.Clip;
  * <p>
  * This type of {@link Audio} requires that the audio is loaded into memory before accessing.
  * <p>
- * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code MemoryAudio} supports the
- * following extra controls:
+ * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code MemoryAudio} supports the following extra controls:
  * <ul>
  *     <li>Explicit Looping Controls ({@link #setLoopCount(int) Loop count}, {@link #setLoopPoints(float, float) Loop points}, {@link #stopLoopingNow() immediate loop stopping})</li>
  *     <li>Explicit Playback Position Controls ({@link #seek(long) Seeking}, {@link #rewindToBeginning() Rewinding})</li>
@@ -213,8 +211,8 @@ public class MemoryAudio extends Audio {
     }
 
     /**
-     * Directly sets whether the audio should loop, overriding changes made through
-     * {@link MemoryAudio#setLoopCount(int)} and {@link MemoryAudio#setLoopPoints(float, float)}.
+     * Directly sets whether the audio should loop, overriding changes made through {@link MemoryAudio#setLoopCount(int)} and
+     * {@link MemoryAudio#setLoopPoints(float, float)}.
      * <p>
      * Notes:
      * <ul>
@@ -238,10 +236,10 @@ public class MemoryAudio extends Audio {
      *     See {@link MemoryAudio#setLoopCount(int)} and {@link MemoryAudio#setShouldLoop(boolean)} for ways to disable looping.</li>
      * </ul>
      *
-     * @param loopStart The point to loop back to; the starting point for the audio loop. This value is on a scale of
-     *                  {@code 0.0} to {@code 1.0}.
-     * @param loopEnd   The point at which to loop; the ending point for the audio loop. This value is on a scale of
-     *                  {@code 0.0} to {@code 1.0}.
+     * @param loopStart The point to loop back to; the starting point for the audio loop. This value is on a scale of {@code 0.0} to
+     *                  {@code 1.0}.
+     * @param loopEnd   The point at which to loop; the ending point for the audio loop. This value is on a scale of {@code 0.0} to
+     *                  {@code 1.0}.
      */
     public void setLoopPoints(float loopStart, float loopEnd) {
         if (loopEnd < -1) {
@@ -297,14 +295,11 @@ public class MemoryAudio extends Audio {
     }
 
     /**
-     * Starts playing audio's sound, if it was not previously playing.
+     * See {@link Audio#play()}.
      * <p>
      * Notes:
      * <ul>
      *     <li>If the audio was set to loop (check using {@link MemoryAudio#shouldLoop()}) then calling this method will cause it to loop.</li>
-     *     <li>To stop the audio's playback, use {@link MemoryAudio#stop()}.</li>
-     *     <li>Starting the audio's playback calls an "audio start" event, which can be hooked into using {@link AudioEventListener#setAudioStartAction(Consumer)}.</li>
-     *     <li>Starting the audio's playback calls an "audio open" event, which can be hooked into using {@link AudioEventListener#setAudioOpenAction(Consumer)}.</li>
      * </ul>
      */
     @Override
@@ -312,43 +307,16 @@ public class MemoryAudio extends Audio {
         MemoryAudioPlayer.playAudio(this, nextPlaybackPosition);
     }
 
-    /**
-     * Pauses audio playback, if it was playing.
-     * <p>
-     * Notes:
-     * <ul>
-     *     <li>Starting the audio's playback calls an "audio pause" event, which can be hooked into using {@link AudioEventListener#setAudioPauseAction(Consumer)}.</li>
-     * </ul>
-     */
     @Override
     public void pause() {
         MemoryAudioPlayer.pauseAudio(this);
     }
 
-    /**
-     * Resumes audio playback, if it was paused.
-     * <p>
-     * Notes:
-     * <ul>
-     *     <li>If the audio was set to loop (check using {@link MemoryAudio#shouldLoop()}) then calling this method will cause it to continue looping.</li>
-     *     <li>Starting the audio's playback calls an "audio resume" event, which can be hooked into using {@link AudioEventListener#setAudioResumeAction(Consumer)}.</li>
-     * </ul>
-     */
     @Override
     public void resume() {
         MemoryAudioPlayer.resumeAudio(this, nextPlaybackPosition);
     }
 
-    /**
-     * Stops the audio's sound output entirely.
-     * <p>
-     * Notes:
-     * <ul>
-     *     <li>To start the audio's playback again, use {@link MemoryAudio#play()}.</li>
-     *     <li>Stopping the audio's playback calls an "audio stop" event, which can be hooked into using {@link AudioEventListener#setAudioStopAction(Consumer)}.</li>
-     *     <li>Stopping the audio's playback calls an "audio close" event, which can be hooked into using {@link AudioEventListener#setAudioCloseAction(Consumer)}.</li>
-     * </ul>
-     */
     @Override
     public void stop() {
         nextPlaybackPosition = MemoryAudioPlayer.stopAudio(this);
@@ -362,17 +330,17 @@ public class MemoryAudio extends Audio {
     @Override
     public String toString() {
         return "MemoryAudio{" +
-                "audioPath=" + audioPath +
-                ", id='" + id + '\'' +
-                ", audioInputStream=" + audioInputStream +
-                ", clip=" + clip +
-                ", loopStart=" + loopStart +
-                ", loopEnd=" + loopEnd +
-                ", loopCount=" + loopCount +
-                ", shouldLoop=" + shouldLoop +
-                ", audioEventListener=" + audioEventListener +
-                ", currentPlaybackState=" + currentPlaybackState +
-                ", previousPlaybackState=" + previousPlaybackState +
-                '}';
+            "audioPath=" + audioPath +
+            ", id='" + id + '\'' +
+            ", audioInputStream=" + audioInputStream +
+            ", clip=" + clip +
+            ", loopStart=" + loopStart +
+            ", loopEnd=" + loopEnd +
+            ", loopCount=" + loopCount +
+            ", shouldLoop=" + shouldLoop +
+            ", audioEventListener=" + audioEventListener +
+            ", currentPlaybackState=" + currentPlaybackState +
+            ", previousPlaybackState=" + previousPlaybackState +
+            '}';
     }
 }

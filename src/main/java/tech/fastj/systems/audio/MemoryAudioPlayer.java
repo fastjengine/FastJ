@@ -21,7 +21,7 @@ import javax.sound.sampled.LineUnavailableException;
  */
 public class MemoryAudioPlayer {
 
-    /** See {@link MemoryAudio#play()}. */
+    /** See {@link Audio#play()}. */
     static void playAudio(MemoryAudio audio, long playbackPosition) {
         Clip clip = audio.getAudioSource();
 
@@ -51,7 +51,7 @@ public class MemoryAudioPlayer {
         }
     }
 
-    /** See {@link MemoryAudio#pause()}. */
+    /** See {@link Audio#pause()}. */
     static void pauseAudio(MemoryAudio audio) {
         Clip clip = audio.getAudioSource();
 
@@ -70,7 +70,7 @@ public class MemoryAudioPlayer {
         FastJEngine.getGameLoop().fireEvent(audioEvent);
     }
 
-    /** See {@link MemoryAudio#resume()}. */
+    /** See {@link Audio#resume()}. */
     static void resumeAudio(MemoryAudio audio, long playbackPosition) {
         Clip clip = audio.getAudioSource();
 
@@ -84,7 +84,7 @@ public class MemoryAudioPlayer {
         playOrLoopAudio(audio);
     }
 
-    /** See {@link MemoryAudio#stop()}. */
+    /** See {@link Audio#stop()}. */
     static long stopAudio(MemoryAudio audio) {
         Clip clip = audio.getAudioSource();
 
