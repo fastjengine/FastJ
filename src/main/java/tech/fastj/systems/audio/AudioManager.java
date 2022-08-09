@@ -28,11 +28,7 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
     private final Map<String, MemoryAudio> memoryAudioFiles = new ConcurrentHashMap<>();
     private final Map<String, StreamedAudio> streamedAudioFiles = new ConcurrentHashMap<>();
 
-    /**
-     * Checks whether the computer supports audio output.
-     *
-     * @return Whether the computer supports audio output.
-     */
+    /** {@return whether the computer supports audio output} */
     public static boolean isOutputSupported() {
         Line.Info outputLineInfo = new Line.Info(SourceDataLine.class);
         for (Mixer.Info mixerInfo : AudioSystem.getMixerInfo()) {
@@ -65,7 +61,7 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
         audio.play();
     }
 
-
+    /** Initializes the audio manager to be ready to handle audio events. */
     public void init() {
         FastJEngine.getGameLoop().addEventHandler(this, AudioEvent.class);
     }
@@ -231,27 +227,24 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
     }
 
     /**
-     * Gets the {@link MemoryAudio} object from the loaded audio sets based on the provided {@code audioPath}.
+     * {@return the {@link MemoryAudio} object loaded from the given {@code audioPath}}
      *
      * @param id The id of the audio to get.
-     * @return The {@code Audio} object.
      */
     public MemoryAudio getMemoryAudio(String id) {
         return memoryAudioFiles.get(id);
     }
 
     /**
-     * Gets the {@link StreamedAudio} object from the loaded audio sets based on the provided {@code audioPath}.
+     * {@return the {@link StreamedAudio} object loaded from the given {@code audioPath}}
      *
      * @param id The id of the audio to get.
-     * @return The {@code Audio} object.
      */
     public StreamedAudio getStreamedAudio(String id) {
         return streamedAudioFiles.get(id);
     }
 
-
-    /** Resets the {@code AudioManager}, removing all of its loaded audio files. */
+    /** Resets the {@code AudioManager}, stopping and removing all of its loaded audio files. */
     public void reset() {
         memoryAudioFiles.forEach((s, audio) -> {
             if (audio.currentPlaybackState != PlaybackState.Stopped) {
@@ -270,6 +263,11 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
         FastJEngine.getGameLoop().removeEventHandler(AudioEvent.class);
     }
 
+    /**
+     * {@return a pseudo-{@link Path path} based on the given {@link URL}}
+     *
+     * @param audioPath The audio path to convert.
+     */
     static Path pathFromURL(URL audioPath) {
         String urlPath = audioPath.getPath();
         String urlProtocol = audioPath.getProtocol();
@@ -282,14 +280,14 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
             // In this case, the file path starts with "/" which may need to be removed depending
             // on the operating system.
             return Path.of(
-                    urlPath.startsWith("/") && !System.getProperty("os.name").startsWith("Mac")
-                    ? urlPath.replaceFirst("/*+", "")
-                    : urlPath
+                urlPath.startsWith("/") && !System.getProperty("os.name").startsWith("Mac")
+                ? urlPath.replaceFirst("/*+", "")
+                : urlPath
             );
         }
     }
 
-    /** Safely generates a {@link Clip} object, crashing the engine if something goes wrong. */
+    /** {@return a {@link Clip} object, crashing the engine if something goes wrong} */
     static Clip newClip() {
         try {
             return AudioSystem.getClip();
@@ -298,7 +296,11 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
         }
     }
 
-    /** Safely generates an {@link AudioInputStream} object, crashing the engine if something goes wrong. */
+    /**
+     * {@return an {@link AudioInputStream} object from the given {@link Path path}, crashing the engine if something goes wrong}
+     *
+     * @param audioPath The {@link Path path} of the audio to build an {@link AudioInputStream} from.
+     */
     static AudioInputStream newAudioStream(Path audioPath) {
         try {
             return AudioSystem.getAudioInputStream(audioPath.toFile());
@@ -306,13 +308,17 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
             throw new IllegalStateException(exception.getMessage(), exception);
         } catch (UnsupportedAudioFileException exception) {
             throw new IllegalArgumentException(
-                    audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".",
-                    exception
+                audioPath.toAbsolutePath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(audioPath) + "\".",
+                exception
             );
         }
     }
 
-    /** Safely generates an {@link AudioInputStream} object, crashing the engine if something goes wrong. */
+    /**
+     * {@return an {@link AudioInputStream} object from the given {@link URL url}, crashing the engine if something goes wrong}
+     *
+     * @param audioPath The {@link URL url} of the audio to build an {@link AudioInputStream} from.
+     */
     static AudioInputStream newAudioStream(URL audioPath) {
         try {
             return AudioSystem.getAudioInputStream(audioPath);
@@ -320,13 +326,18 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
             throw new IllegalStateException(exception.getMessage(), exception);
         } catch (UnsupportedAudioFileException exception) {
             throw new IllegalArgumentException(
-                    audioPath.getPath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(Path.of(audioPath.getPath())) + "\".",
-                    exception
+                audioPath.getPath() + " is of an unsupported file format \"" + FileUtil.getFileExtension(Path.of(audioPath.getPath())) + "\".",
+                exception
             );
         }
     }
 
-    /** Safely generates a {@link SourceDataLine} object, crashing the engine if something goes wrong. */
+    /**
+     * {@return a {@link SourceDataLine} object from the given {@link AudioFormat audio format}, crashing the engine if something goes
+     * wrong}
+     *
+     * @param audioFormat The {@link AudioFormat audio format} to generate a {@link SourceDataLine} from.
+     */
     static SourceDataLine newSourceDataLine(AudioFormat audioFormat) {
         DataLine.Info lineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
 

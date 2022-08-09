@@ -1,2 +1,2 @@
-/** Data about what state the audio is currently in. */
+/** Informative audio states. */
 package tech.fastj.systems.audio.state;
