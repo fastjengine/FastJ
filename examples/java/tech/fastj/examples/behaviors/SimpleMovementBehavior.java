@@ -49,11 +49,6 @@ public class SimpleMovementBehavior implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
-        // Empty -- this example does not make use of this method.
-    }
-
-    @Override
     public void destroy() {
         /* You can also implement this method -- destroy().
          * When the behavior's game object is destroyed, the behavior gets destroyed as well. You

@@ -22,16 +22,6 @@ public class Main extends SimpleManager {
         drawableManager().addGameObject(square);
     }
 
-    @Override
-    public void fixedUpdate(FastJCanvas canvas) {
-        // Empty -- this example does not make use of this method.
-    }
-
-    @Override
-    public void update(FastJCanvas canvas) {
-        // Empty -- this example does not make use of this method.
-    }
-
     public static void main(String[] args) {
         FastJEngine.init("Hello, Configuration!", new Main());
 

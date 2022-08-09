@@ -38,11 +38,6 @@ public class EnemyMovement implements Behavior {
         moveToPlayer(obj);
     }
 
-    @Override
-    public void fixedUpdate(GameObject gameObject) {
-        // Empty -- this example does not make use of this method.
-    }
-
     private void checkCollisions(GameObject obj) {
         if (obj.collidesWith(player)) {
             ((PlayerHealthBar) playerHealthBar.getBehaviors().get(0)).takeDamage();

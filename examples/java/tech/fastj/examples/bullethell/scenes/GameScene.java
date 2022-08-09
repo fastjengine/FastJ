@@ -92,14 +92,6 @@ public class GameScene extends Scene {
         enemyCount = 0;
     }
 
-    @Override
-    public void fixedUpdate(FastJCanvas canvas) {
-    }
-
-    @Override
-    public void update(FastJCanvas canvas) {
-    }
-
     public void enemyDied(Model2D enemy) {
         if (enemies.remove(enemy.getID()) == enemy) {
             enemy.destroy(this);

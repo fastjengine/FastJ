@@ -22,6 +22,9 @@ public abstract class SceneManager implements LogicManager {
     private boolean switchingScenes;
 
     @Override
+    public abstract void init(FastJCanvas canvas);
+
+    @Override
     public void initBehaviors() {
         safeInit();
     }
@@ -86,8 +89,8 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Gets the currently active scene.
      *
-     * @param <T> The type of the scene being retrieved. This type must match the actual type of the retrieved scene,
-     *            and must always extend {@link Scene}.
+     * @param <T> The type of the scene being retrieved. This type must match the actual type of the retrieved scene, and must always extend
+     *            {@link Scene}.
      * @return Returns the currently active scene.
      */
     @SuppressWarnings("unchecked")
@@ -98,8 +101,7 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Sets the current scene to the scene specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the
-     * {@code switchScene(String nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String nextScene)} method.
      *
      * @param scene The scene which the current scene will be set to.
      */
@@ -110,8 +112,7 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Sets the current scene to the scene with the name specified.
      * <p>
-     * Instead of using this method to switch scenes, it is preferred that you use the
-     * {@code switchScene(String nextScene)} method.
+     * Instead of using this method to switch scenes, it is preferred that you use the {@code switchScene(String nextScene)} method.
      *
      * @param sceneName The name of the scene which the current scene will be set to.
      */
@@ -134,8 +135,8 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Gets the scene with the specified scene name, if it exists.
      *
-     * @param <T>       The type of the scene being retrieved. This type must match the actual type of the retrieved
-     *                  scene, and must always extend {@link Scene}.
+     * @param <T>       The type of the scene being retrieved. This type must match the actual type of the retrieved scene, and must always
+     *                  extend {@link Scene}.
      * @param sceneName The name of the scene to retrieve.
      * @return The scene, if it exists.
      */
@@ -186,7 +187,6 @@ public abstract class SceneManager implements LogicManager {
         }
     }
 
-
     /**
      * Removes the specified scene from the logic manager.
      *
@@ -228,8 +228,8 @@ public abstract class SceneManager implements LogicManager {
     public void switchScenes(String nextSceneName, boolean unloadCurrentScene) {
         if (!scenes.containsKey(nextSceneName)) {
             FastJEngine.error(
-                    CrashMessages.SceneError.errorMessage,
-                    new IllegalArgumentException("A scene with the name: \"" + nextSceneName + "\" hasn't been added!")
+                CrashMessages.SceneError.errorMessage,
+                new IllegalArgumentException("A scene with the name: \"" + nextSceneName + "\" hasn't been added!")
             );
         }
 
@@ -272,25 +272,24 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
-     * Creates a snapshot of the {@code switchingScenes} boolean, to make sure the game doesn't crash out due to an
-     * attempt to call methods and other fields illegally.
+     * Creates a snapshot of the {@code switchingScenes} boolean, to make sure the game doesn't crash out due to an attempt to call methods
+     * and other fields illegally.
      *
      * @return An array of booleans to check through.
      */
     private boolean[] createSnapshot() {
-        return new boolean[]{switchingScenes};
+        return new boolean[] {switchingScenes};
     }
 
     /**
      * Checks if the logic manager was switching scenes.
      * <p>
-     * This method takes a boolean parameter, which is a record of whether the logic manager was switching scenes at the
-     * beginning of the parent method call.
+     * This method takes a boolean parameter, which is a record of whether the logic manager was switching scenes at the beginning of the
+     * parent method call.
      * <p>
      * If the logic manager was not switching scenes, this method will error out the game engine.
      *
-     * @param snapshot Record of whether the logic manager was switching scenes at the beginning of the parent method
-     *                 call.
+     * @param snapshot Record of whether the logic manager was switching scenes at the beginning of the parent method call.
      * @param e        The NullPointerException that would be used in the error call.
      */
     private void snapshotCheck(boolean[] snapshot, NullPointerException e) {
@@ -317,8 +316,7 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
-     * Safely updates the current scene with the specified action, by first checking for null pointers and scene
-     * initialization.
+     * Safely updates the current scene with the specified action, by first checking for null pointers and scene initialization.
      *
      * @param action The action to safely run.
      */
@@ -348,9 +346,9 @@ public abstract class SceneManager implements LogicManager {
             initSceneCheck();
 
             canvas.render(
-                    currentScene.drawableManager().getGameObjects(),
-                    currentScene.drawableManager().getUIElements(),
-                    currentScene.getCamera()
+                currentScene.drawableManager().getGameObjects(),
+                currentScene.drawableManager().getUIElements(),
+                currentScene.getCamera()
             );
 
         } catch (NullPointerException e) {
@@ -361,24 +359,23 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Checks if the current scene is null.
      * <p>
-     * If the current scene is null, this throws a NullPointerException that has a customized message, based on the
-     * context of the error.
+     * If the current scene is null, this throws a NullPointerException that has a customized message, based on the context of the error.
      */
     private void nullSceneCheck() {
         if (currentScene == null) {
             throw new NullPointerException(
-                    (scenes.size() < 1)
-                    ? "You haven't created a Scene yet, or you haven't added it to the list of scenes for the logic manager."
-                            + System.lineSeparator()
-                            + "To add a scene, use the addScene(Scene) method in your logic manager."
-                            + System.lineSeparator()
-                            + "Then, set the current scene to the scene you just added, using the setCurrentScene(Scene) method."
+                (scenes.size() < 1)
+                ? "You haven't created a Scene yet, or you haven't added it to the list of scenes for the logic manager."
+                    + System.lineSeparator()
+                    + "To add a scene, use the addScene(Scene) method in your logic manager."
+                    + System.lineSeparator()
+                    + "Then, set the current scene to the scene you just added, using the setCurrentScene(Scene) method."
 
-                    : "A current scene hasn't been set."
-                            + System.lineSeparator()
-                            + "You should set the current scene, using the setCurrentScene(Scene) method from your logic manager."
-                            + System.lineSeparator()
-                            + "Scenes added: " + scenes.keySet()
+                : "A current scene hasn't been set."
+                    + System.lineSeparator()
+                    + "You should set the current scene, using the setCurrentScene(Scene) method from your logic manager."
+                    + System.lineSeparator()
+                    + "Scenes added: " + scenes.keySet()
             );
         }
     }
@@ -391,9 +388,9 @@ public abstract class SceneManager implements LogicManager {
     private void initSceneCheck() {
         if (!currentScene.isInitialized()) {
             throw new NullPointerException(
-                    "Current scene \"" + currentScene.getSceneName() + "\" isn't initialized."
-                            + System.lineSeparator()
-                            + "You should initialize the current scene, using the initCurrentScene(Display) method from your logic manager.");
+                "Current scene \"" + currentScene.getSceneName() + "\" isn't initialized."
+                    + System.lineSeparator()
+                    + "You should initialize the current scene, using the initCurrentScene(Display) method from your logic manager.");
         }
     }
 
@@ -407,9 +404,9 @@ public abstract class SceneManager implements LogicManager {
     private void sceneNameAlreadyExistsCheck(String sceneName) {
         if (scenes.containsKey(sceneName)) {
             throw new IllegalArgumentException(
-                    "The scene name \"" + sceneName + "\" is already in use."
-                            + System.lineSeparator()
-                            + "Scenes added: " + scenes.keySet()
+                "The scene name \"" + sceneName + "\" is already in use."
+                    + System.lineSeparator()
+                    + "Scenes added: " + scenes.keySet()
             );
         }
     }
@@ -417,8 +414,7 @@ public abstract class SceneManager implements LogicManager {
     /**
      * Checks if the specified scene name corresponds with a scene in the logic manager.
      * <p>
-     * If the scene name doesn't correspond with any scenes in the logic manager, this method will error out the game
-     * engine.
+     * If the scene name doesn't correspond with any scenes in the logic manager, this method will error out the game engine.
      *
      * @param sceneName Name of the scene to be checked for.
      */

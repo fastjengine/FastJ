@@ -17,12 +17,4 @@ public class MockRunnableSimpleManager extends SimpleManager {
         runnable.run();
         FastJEngine.forceCloseGame();
     }
-
-    @Override
-    public void fixedUpdate(FastJCanvas canvas) {
-    }
-
-    @Override
-    public void update(FastJCanvas canvas) {
-    }
 }

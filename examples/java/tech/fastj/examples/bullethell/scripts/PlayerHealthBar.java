@@ -54,11 +54,6 @@ public class PlayerHealthBar implements Behavior {
     }
 
     @Override
-    public void update(GameObject gameObject) {
-        // Empty -- this example does not make use of this method.
-    }
-
-    @Override
     public void destroy() {
         damageCooldown.shutdown();
     }

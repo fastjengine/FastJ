@@ -23,13 +23,13 @@ public interface LogicManager {
     /**
      * Initializes the logic manager.
      * <p>
-     * This method is called after the engine has been set up, and the canvas has been created. As it is only called
-     * once, it is the best place to set some initial settings that apply to the entire game.
+     * This method is called after the engine has been set up, and the canvas has been created. As it is only called once, it is the best
+     * place to set some initial settings that apply to the entire game.
      *
-     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for applying canvas-related settings
-     *               before the game starts.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for applying canvas-related settings before the game starts.
      */
-    void init(FastJCanvas canvas);
+    default void init(FastJCanvas canvas) {
+    }
 
     /** Initializes the logic manager's behaviors (called after {@link #init(FastJCanvas)}). */
     void initBehaviors();
@@ -40,25 +40,26 @@ public interface LogicManager {
     /**
      * Allows the logic manager to update its game state -- content updated whenever the game renders -- once.
      * <p>
-     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This
-     * value can be changed using {@link FastJEngine#setTargetFPS(int)}.
+     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This value can be changed
+     * using {@link FastJEngine#setTargetFPS(int)}.
      *
-     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the
-     *               canvas while updating the game state.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the canvas while updating
+     *               the game state.
      */
-    void fixedUpdate(FastJCanvas canvas);
+    default void fixedUpdate(FastJCanvas canvas) {
+    }
 
     /**
-     * Allows the logic manager to update its fixed game state -- content updated whenever the game updates in physics
-     * once.
+     * Allows the logic manager to update its fixed game state -- content updated whenever the game updates in physics once.
      * <p>
-     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetUPS} times a second. This
-     * value can be changed using {@link FastJEngine#setTargetUPS(int)}.
+     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetUPS} times a second. This value can be changed
+     * using {@link FastJEngine#setTargetUPS(int)}.
      *
-     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the
-     *               canvas while updating the game state.
+     * @param canvas The {@code FastJCanvas} that the game renders to. Useful for checking certain attributes of the canvas while updating
+     *               the game state.
      */
-    void update(FastJCanvas canvas);
+    default void update(FastJCanvas canvas) {
+    }
 
     /** Updates the logic manager's behaviors (called after {@link #fixedUpdate(FastJCanvas)}). */
     void fixedUpdateBehaviors();
@@ -69,8 +70,8 @@ public interface LogicManager {
     /**
      * Allows the logic manager to render irs game's current state to the screen.
      * <p>
-     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This
-     * value can be changed using {@link FastJEngine#setTargetFPS(int)}.
+     * The {@code FastJEngine} attempts to call this method at most {@code FastJEngine#targetFPS} times a second. This value can be changed
+     * using {@link FastJEngine#setTargetFPS(int)}.
      *
      * @param canvas The {@code FastJCanvas} that the game renders to.
      */
@@ -79,8 +80,8 @@ public interface LogicManager {
     /**
      * Resets the logic manager entirely.
      * <p>
-     * This method is called when the engine exits. Due to the game engine's mutability, it is preferred that all
-     * resources of the game engine are removed gracefully.
+     * This method is called when the engine exits. Due to the game engine's mutability, it is preferred that all resources of the game
+     * engine are removed gracefully.
      * <p>
      * <b>FOR IMPLEMENTORS:</b> By the end of this method call, the logic manager should have released all its
      * resources.
