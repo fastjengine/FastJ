@@ -16,6 +16,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.geom.Area;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferStrategy;
 import java.util.LinkedHashMap;
@@ -181,7 +184,7 @@ public class FastJCanvas {
 
             for (GameObject gameObject : gameObjects.values()) {
                 try {
-                    if (!isOnScreen(gameObject) || !gameObject.shouldRender()) {
+                    if (!isOnScreen(gameObject, camera) || !gameObject.shouldRender()) {
                         continue;
                     }
                     gameObject.render(drawGraphics);
@@ -193,7 +196,7 @@ public class FastJCanvas {
 
             for (UIElement<? extends InputActionEvent> guiObj : gui.values()) {
                 try {
-                    if (!isOnScreen(guiObj) || !guiObj.shouldRender()) {
+                    if (!isOnScreen(guiObj, camera) || !guiObj.shouldRender()) {
                         continue;
                     }
                     guiObj.renderAsGUIObject(drawGraphics, camera);
@@ -242,9 +245,20 @@ public class FastJCanvas {
      * @param drawable The {@code Drawable} to check.
      * @return A boolean that represents whether the drawable is visible on screen.
      */
-    public boolean isOnScreen(Drawable drawable) {
-        Rectangle2D.Float drawableBounds = DrawUtil.createRect(drawable.getBounds());
-        return drawableBounds.intersects(canvas.getBounds());
+    public boolean isOnScreen(Drawable drawable, Camera camera) {
+        try {
+            Rectangle2D.Float drawableBounds = DrawUtil.createRect(drawable.getBounds());
+            Shape canvasShape = camera.getTransformation().createInverse().createTransformedShape(canvas.getBounds());
+
+            Area drawableArea = new Area(drawableBounds);
+            Area canvasArea = new Area(canvasShape);
+
+            drawableArea.intersect(canvasArea);
+
+            return !drawableArea.isEmpty();
+        } catch (NoninvertibleTransformException exception) {
+            throw new IllegalStateException(exception);
+        }
     }
 
     /**
