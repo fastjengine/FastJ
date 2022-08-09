@@ -1,2 +1,2 @@
-/** FastJ's internal engine classes. */
+/** Internal engine classes. */
 package tech.fastj.engine.internals;
