@@ -18,11 +18,10 @@ public class Maths {
     }
 
     /**
-     * Generates a random float number within the specified min and max limits.
+     * {@return a random {@code float} value within the specified min and max limits}
      *
      * @param min The minimum number possible.
      * @param max The maximum number possible.
-     * @return Randomized float value within the range of the specified parameters.
      */
     public static float random(float min, float max) {
         if (min >= max) {
@@ -33,14 +32,12 @@ public class Maths {
     }
 
     /**
-     * Generates a random integer number within the specified min and max limits.
+     * {@return a random integer number within the specified min and max limits}
      * <p>
      * Unlike the other random generator methods, this method <b>includes</b> the max number as a possibility.
      *
      * @param min The minimum number possible, inclusive.
      * @param max The maximum number possible, inclusive.
-     * @return Randomized integer value within the range of the specified parameters, including both the min and max as
-     * possible values.
      */
     public static int randomInteger(int min, int max) {
         if (min >= max) {
@@ -52,21 +49,16 @@ public class Maths {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    /**
-     * Generates a random boolean value.
-     *
-     * @return The randomized boolean value.
-     */
+    /** {@return a random boolean value} */
     public static boolean randomBoolean() {
         return ThreadLocalRandom.current().nextBoolean();
     }
 
     /**
-     * Generates a random number within the specified range, then snaps it to the edge it is closest to.
+     * {@return the edge that the random number (within range of the edges) is closest to}
      *
      * @param leftEdge  The leftmost edge.
      * @param rightEdge The rightmost edge.
-     * @return The edge that the random number is closest to.
      */
     public static float randomAtEdge(float leftEdge, float rightEdge) {
         if (leftEdge >= rightEdge) {
@@ -77,14 +69,13 @@ public class Maths {
     }
 
     /**
-     * Snaps the specified number to the edge it is closest to.
+     * {@return the edge that the specified number is closest to}
      * <p>
      * If the two edges are equidistant from the {@code num}, then the right edge will be returned.
      *
      * @param num       The number to be compared.
      * @param leftEdge  The leftmost edge.
      * @param rightEdge The rightmost edge.
-     * @return The edge that the number is closest to.
      */
     public static float snap(float num, float leftEdge, float rightEdge) {
         if (leftEdge >= rightEdge) {
@@ -95,39 +86,39 @@ public class Maths {
     }
 
     /**
-     * Finds the magnitude of the specified {@code x} and {@code y} values.
+     * {@return the magnitude of the specified {@code x} and {@code y} values}.
      *
      * @param x The x value.
      * @param y The y value.
-     * @return The magnitude, as a {@code float} value.
      */
     public static float magnitude(float x, float y) {
         return (float) Math.sqrt(x * x + y * y);
     }
 
     /**
-     * Checks for 'equality' between two floating point values through ensuring their difference is less than the
-     * defined float precision value {@link #FloatPrecision}.
+     * {@return whether the two {@code float}s are 'equal' (if their difference is less than {@link #FloatPrecision})}
      *
      * @param a The first {@code float}.
      * @param b The second {@code float}.
-     * @return Whether the two are 'equal' (if their difference is less than {@link #FloatPrecision}).
      */
     public static boolean floatEquals(float a, float b) {
         return Math.abs(a - b) < FloatPrecision;
     }
 
     /**
-     * Linearly interpolates between {@code f} and {@code f1}, by the interpolation point {@code t}.
+     * {@return a linear interpolation between {@code f} and {@code f1}, by the value {@code t}}
+     * <p>
+     * <b>Notes</b>
+     * <p>
+     * If {@code t} is within a range of {@code 0.0f} to {@code 1.0f}, then the returned value will be within the range of {@code f} and
+     * {@code f1}. Otherwise, it will be outside of that range.
+     * <p>
+     * The returned value can also be used to calculate {@code t} when used alongside {@code f} and {@code f1} in
+     * {@link #inverseLerp(float, float, float) an inverse linear interpolation}.
      *
      * @param f  The starting value.
      * @param f1 The ending value.
-     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0).
-     * @return The linearly interpolated value. (If the interpolation value {@code t} is within a range of {@code 0.0}
-     * to {@code 1.0}, then this value will be within the range of the provided values {@code f} and {@code f1}).
-     * <p>
-     * This value can also be used to calculate {@code t} when used alongside {@code f} and {@code f1} in an inverse
-     * linear interpolation calculation {@link Maths#inverseLerp(float, float, float)}.
+     * @param t  The interpolation value to evaluate {@code f} and {@code f1} on.
      * @author <a href="https://github.com/YeffyCodeGit" target="_blank">YeffyCodeGit</a>
      * @since 1.4.0
      */
@@ -136,15 +127,13 @@ public class Maths {
     }
 
     /**
-     * Calculates the linear interpolation value based on the provided {@code f} and {@code f1} range, and the value
-     * {@code v}.
+     * {@return the inverse linear interpolation of {@code v} for the range {@code f} to {@code f1}}
+     * <p>
+     * The returned value can also be used to calculate {@code v} in {@link #lerp(float, float, float) a linear interpolation}.
      *
      * @param f  The starting value.
      * @param f1 The ending value.
-     * @param v  The {@code float} value representing the "result" of linear interpolation between the two values {@code
-     *           f} and {@code f1}.
-     * @return The value which, when used to calculate linear interpolation with the same {@code f} and {@code f1}
-     * values (see: {@link Maths#lerp(float, float, float)}), will get {@code v} as a result.
+     * @param v  The result of linear interpolation on {@code f} and {@code f1}.
      * @author <a href="https://github.com/YeffyCodeGit" target="_blank">YeffyCodeGit</a>
      * @since 1.5.0
      */
@@ -153,15 +142,14 @@ public class Maths {
     }
 
     /**
-     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     * {@return the number, clamped within the range of the minimum and maximum numbers.}
      *
-     * @param num The original number.
-     * @param min The minimum number allowed.
-     * @param max The maximum number allowed.
-     * @return The number, within the range of the minimum and maximum numbers.
+     * @param num The number to clamp.
+     * @param min The minimum number.
+     * @param max The maximum number.
      * @since 1.5.0
      */
-    public static float withinRange(float num, float min, float max) {
+    public static float clamp(float num, float min, float max) {
         if (min >= max) {
             throw new IllegalArgumentException("The minimum must be less than the maximum.");
         }
@@ -169,15 +157,14 @@ public class Maths {
     }
 
     /**
-     * Ensures the specified number is within the range of the minimum and maximum numbers.
+     * {@return the number, clamped within the range of the minimum and maximum numbers.}
      *
-     * @param num The original number.
-     * @param min The minimum number allowed.
-     * @param max The maximum number allowed.
-     * @return The number, within the range of the minimum and maximum numbers.
+     * @param num The number to clamp.
+     * @param min The minimum number.
+     * @param max The maximum number.
      * @since 1.5.0
      */
-    public static int withinIntegerRange(int num, int min, int max) {
+    public static int clamp(int num, int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("The minimum must be less than the maximum.");
         }
@@ -185,8 +172,8 @@ public class Maths {
     }
 
     /**
-     * Scales the provided number {@code num} on a scale of {@code 0.0} to {@code 1.0} based on the provided {@code
-     * minimum} and {@code maximum} values.
+     * Scales the provided number {@code num} on a scale of {@code 0.0} to {@code 1.0} based on the provided {@code minimum} and
+     * {@code maximum} values.
      *
      * @param num The number to normalize.
      * @param min The minimum value in a range of possible values for {@code num}.
@@ -206,8 +193,8 @@ public class Maths {
     }
 
     /**
-     * Scales a normalized number {@code normalizedNum} on a scale of {@code min} to {@code max}, based on the provided
-     * {@code min} and {@code max} values.
+     * Scales a normalized number {@code normalizedNum} on a scale of {@code min} to {@code max}, based on the provided {@code min} and
+     * {@code max} values.
      *
      * @param normalizedNum The number to de-normalize.
      * @param min           The minimum value in a range of possible values for the result of the method.

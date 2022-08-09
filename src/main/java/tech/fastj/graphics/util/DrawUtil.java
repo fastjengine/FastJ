@@ -797,10 +797,10 @@ public final class DrawUtil {
      */
     public static Color colorLerp(Color c, Color c1, float t) {
         return new Color(
-                Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
+                Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
         );
     }
 
@@ -822,10 +822,10 @@ public final class DrawUtil {
      */
     public static Color colorLerp(Color c, Color c1, float t1, float t2, float t3, float t4) {
         return new Color(
-                Maths.withinIntegerRange((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
-                Maths.withinIntegerRange((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
+                Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
+                Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
         );
     }
 
