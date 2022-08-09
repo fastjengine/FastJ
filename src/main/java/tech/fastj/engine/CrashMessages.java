@@ -30,14 +30,11 @@ public enum CrashMessages {
      * Creates a string depicting an error caused by an illegal action in the method of the specified class.
      * <p>
      * Example:
-     * <pre>{@code
-     * Class classCausingTheError = MyClass.class;
-     * System.out.println(CrashMessages.illegalAction(classCausingTheError));
-     *
-     * // prints the following:
-     * //
-     * // The game crashed, due to an illegal action in class MyClass.
-     * }</pre>
+     * {@snippet lang = "java":
+     * Class<MyClass> classCausingTheError = MyClass.class;
+     * String errorMessage = CrashMessages.illegalAction(classCausingTheError);
+     * // "The game crashed, due to an illegal action in class MyClass."
+     *}
      *
      * @param className The class to generate the error message about.
      * @return The generated error message.
@@ -47,8 +44,7 @@ public enum CrashMessages {
     }
 
     /**
-     * Creates a string starting with {@code "The game crashed, due to "}, adding the specified error message to the
-     * end.
+     * Creates a string starting with {@code "The game crashed, due to "}, adding the specified error message to the end.
      *
      * @param errorMessage The error message to add to the end of the returned string.
      * @return {@code "The game crashed, due to " + errorMessage}

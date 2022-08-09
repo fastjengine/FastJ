@@ -51,7 +51,7 @@ public class FastJCanvas {
     private Canvas canvas;
 
     /**
-     * Creates a display with the specified title, window resolution, and internal resolution.
+     * Creates a display with the specified title, window resolution, and canvas cesolution.
      *
      * @param canvasResolution The internal game resolution.
      */
@@ -65,9 +65,9 @@ public class FastJCanvas {
     }
 
     /**
-     * Gets the internal resolution of the {@code Display}.
+     * Gets the canvas cesolution of the {@code Display}.
      *
-     * @return The internal resolution, as a {@code Point}.
+     * @return The canvas cesolution, as a {@code Point}.
      */
     public Point getResolution() {
         return resolution;
@@ -88,7 +88,7 @@ public class FastJCanvas {
     /**
      * Gets the scaling of the {@code Display} resolution.
      * <p>
-     * The scale is represented as an expression of {@code windowResolution / internalResolution}.
+     * The scale is represented as an expression of {@code windowResolution / canvasResolution}.
      * <p>
      * The values for the x and y of the returned {@code Pointf} are {@code 0 < x <= 1}.
      *
@@ -99,9 +99,9 @@ public class FastJCanvas {
     }
 
     /**
-     * Gets the centerpoint of the {@code Display}'s internal resolution.
+     * Gets the centerpoint of the {@code Display}'s canvas cesolution.
      *
-     * @return The centerpoint of the internal resolution as a {@code Pointf}.
+     * @return The centerpoint of the canvas cesolution as a {@code Pointf}.
      */
     public Pointf getCanvasCenter() {
         return Pointf.divide(resolution.asPointf(), 2f);

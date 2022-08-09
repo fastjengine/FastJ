@@ -1,110 +1,38 @@
 package tech.fastj.engine.config;
 
+import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
 import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
+import tech.fastj.systems.control.LogicManager;
 
 import java.util.Objects;
 
-public class EngineConfig {
+/**
+ * Simple {@link FastJEngine#init(String, LogicManager, EngineConfig) Engine configuration} storage.
+ * <p>
+ * Comes with a {@link EngineConfigBuilder builder} class to provide easy usage: {@link #create()}.
+ * <p>
+ * All values are sanitized upon adding, to ensure if something is not correct it will be replaced with their respective default value from
+ * {@link FastJEngine}.
+ */
+public record EngineConfig(int targetFPS, int targetUPS, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration,
+                           ExceptionAction exceptionAction, LogLevel logLevel) {
 
     public static final EngineConfig Default = EngineConfig.create().build();
 
-    private final int targetFPS;
-    private final int targetUPS;
-
-    private final Point windowResolution;
-    private final Point internalResolution;
-
-    private final HWAccel hardwareAcceleration;
-
-    private final ExceptionAction exceptionAction;
-    private final LogLevel logLevel;
-
-    EngineConfig(int targetFPS, int targetUPS, Point windowResolution, Point internalResolution, HWAccel hardwareAcceleration, ExceptionAction exceptionAction, LogLevel logLevel) {
-        this.targetFPS = targetFPS;
-        this.targetUPS = targetUPS;
-        this.windowResolution = windowResolution;
-        this.internalResolution = internalResolution;
-        this.hardwareAcceleration = hardwareAcceleration;
-        this.exceptionAction = exceptionAction;
-        this.logLevel = logLevel;
+    public EngineConfig(int targetFPS, int targetUPS, Point windowResolution, Point canvasResolution, HWAccel hardwareAcceleration,
+                        ExceptionAction exceptionAction, LogLevel logLevel) {
+        this.targetFPS = targetFPS > 0 ? targetFPS : FastJEngine.DefaultFPS;
+        this.targetUPS = targetUPS > 0 ? targetUPS : FastJEngine.DefaultUPS;
+        this.windowResolution = Objects.requireNonNullElse(windowResolution, FastJEngine.DefaultWindowResolution).copy();
+        this.canvasResolution = Objects.requireNonNullElse(canvasResolution, FastJEngine.DefaultCanvasResolution).copy();
+        this.hardwareAcceleration = Objects.requireNonNullElse(hardwareAcceleration, FastJEngine.DefaultHardwareAcceleration);
+        this.exceptionAction = Objects.requireNonNullElse(exceptionAction, FastJEngine.DefaultExceptionAction);
+        this.logLevel = Objects.requireNonNullElse(logLevel, FastJEngine.DefaultLogLevel);
     }
 
     public static EngineConfigBuilder create() {
         return new EngineConfigBuilder();
-    }
-
-    public int targetFPS() {
-        return targetFPS;
-    }
-
-    public int targetUPS() {
-        return targetUPS;
-    }
-
-    public Point windowResolution() {
-        return windowResolution;
-    }
-
-    public Point internalResolution() {
-        return internalResolution;
-    }
-
-    public HWAccel hardwareAcceleration() {
-        return hardwareAcceleration;
-    }
-
-    public ExceptionAction exceptionAction() {
-        return exceptionAction;
-    }
-
-    public LogLevel logLevel() {
-        return logLevel;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-
-        EngineConfig engineConfig = (EngineConfig) object;
-        return targetFPS == engineConfig.targetFPS
-                && targetUPS == engineConfig.targetUPS
-                && windowResolution.equals(engineConfig.windowResolution)
-                && internalResolution.equals(engineConfig.internalResolution)
-                && hardwareAcceleration == engineConfig.hardwareAcceleration
-                && exceptionAction == engineConfig.exceptionAction
-                && logLevel == engineConfig.logLevel;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                targetFPS,
-                targetUPS,
-                windowResolution,
-                internalResolution,
-                hardwareAcceleration,
-                exceptionAction,
-                logLevel
-        );
-    }
-
-    @Override
-    public String toString() {
-        return "EngineSettings{" +
-                "targetFPS=" + targetFPS +
-                ", targetUPS=" + targetUPS +
-                ", windowResolution=" + windowResolution +
-                ", internalResolution=" + internalResolution +
-                ", hardwareAcceleration=" + hardwareAcceleration +
-                ", exceptionAction=" + exceptionAction +
-                ", logLevel=" + logLevel +
-                '}';
     }
 }

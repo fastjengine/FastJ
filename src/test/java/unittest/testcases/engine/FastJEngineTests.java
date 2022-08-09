@@ -111,7 +111,7 @@ class FastJEngineTests {
         assertEquals(EngineConfig.Default.targetFPS(), FastJEngine.getTargetFPS(), "The engine config FPS should match the default FPS.");
         assertEquals(EngineConfig.Default.targetUPS(), FastJEngine.getTargetUPS(), "The engine config UPS should match the default UPS.");
 //        assertEquals(EngineConfig.Default.windowResolution(), FastJEngine.getDisplay().getWindowResolution(), "The engine config window resolution should match the default window resolution.");
-//        assertEquals(EngineConfig.Default.internalResolution(), FastJEngine.getDisplay().getInternalResolution(), "The engine config internal resolution should match the default internal resolution.");
+//        assertEquals(EngineConfig.Default.canvasResolution(), FastJEngine.getDisplay().getInternalResolution(), "The engine config canvas cesolution should match the default canvas cesolution.");
         assertEquals(EngineConfig.Default.hardwareAcceleration(), FastJEngine.getHardwareAcceleration(), "The engine config hardware acceleration should match the default hardware acceleration.");
         assertEquals(EngineConfig.Default.exceptionAction(), FastJEngine.getExceptionAction(), "The engine config exception action should match the default exception action.");
         assertEquals(EngineConfig.Default.logLevel(), FastJEngine.getLogLevel(), "The engine config log level should match the default log level.");

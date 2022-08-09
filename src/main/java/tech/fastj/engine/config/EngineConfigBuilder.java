@@ -5,13 +5,18 @@ import tech.fastj.engine.HWAccel;
 import tech.fastj.logging.LogLevel;
 import tech.fastj.math.Point;
 
+/**
+ * Builder class to create {@link EngineConfig} instances.
+ * <p>
+ * An instance of the builder can be created using {@link EngineConfig#create()}.
+ */
 public class EngineConfigBuilder {
 
     private int targetFPS = FastJEngine.DefaultFPS;
     private int targetUPS = FastJEngine.DefaultUPS;
 
     private Point windowResolution = FastJEngine.DefaultWindowResolution.copy();
-    private Point internalResolution = FastJEngine.DefaultCanvasResolution.copy();
+    private Point canvasResolution = FastJEngine.DefaultCanvasResolution.copy();
 
     private HWAccel hardwareAcceleration = FastJEngine.DefaultHardwareAcceleration;
     private ExceptionAction exceptionAction = FastJEngine.DefaultExceptionAction;
@@ -35,8 +40,8 @@ public class EngineConfigBuilder {
         return this;
     }
 
-    public EngineConfigBuilder withInternalResolution(Point internalResolution) {
-        this.internalResolution = internalResolution.copy();
+    public EngineConfigBuilder withCanvasResolution(Point canvasResolution) {
+        this.canvasResolution = canvasResolution.copy();
         return this;
     }
 
@@ -57,13 +62,13 @@ public class EngineConfigBuilder {
 
     public EngineConfig build() {
         return new EngineConfig(
-                targetFPS,
-                targetUPS,
-                windowResolution,
-                internalResolution,
-                hardwareAcceleration,
-                exceptionAction,
-                logLevel
+            targetFPS,
+            targetUPS,
+            windowResolution,
+            canvasResolution,
+            hardwareAcceleration,
+            exceptionAction,
+            logLevel
         );
     }
 }
