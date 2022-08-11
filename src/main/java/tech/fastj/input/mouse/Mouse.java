@@ -28,8 +28,23 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current
- * state.
+ * Mouse class that takes mouse input from the {@code Display}, and uses it to store variables about the mouse's current state.
+ * <p>
+ * Useful information:
+ * <ul>
+ *     <li>
+ *         Checking the mouse's last button {@link Mouse#getButtonLastClicked() clicked}, {@link Mouse#getButtonLastPressed() pressed}, or
+ *         {@link Mouse#getButtonLastReleased() released}
+ *     </li>
+ *     <li>{@link Mouse#getLastClickCount() Getting last button click count}</li>
+ *     <li>Getting last mouse {@link Mouse#getLastWheelRotation() wheel rotation} or {@link Mouse#getLastScrollAmount() scroll amount}</li>
+ *     <li>{@link Mouse#isOnScreen() Check if mouse is on screen}</li>
+ *     <li>{@link Mouse#getMouseLocation() Getting current momuse location}</li>
+ *     <li>{@link Mouse#isMouseButtonPressed(MouseButtons) Checking if a certain mouse button is pressed}</li>
+ *     <li>{@link #interactsWith(Drawable, MouseAction) Checking if the mouse is interacting with a given drawable}</li>
+ * </ul>
+ * <p>
+ * For receiving {@link MouseActionEvent mouse input events}, refer to {@link MouseActionListener}.
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -55,104 +70,96 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     private static Pointf mouseLocation = Pointf.origin();
 
     private static final Map<Integer, Consumer<MouseEvent>> MouseEventProcessor = Map.of(
-            MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-                if (!MouseAction.Press.recentAction) {
-                    createSleeperThread(MouseAction.Press);
-                }
-
-                if (!MouseButtons.containsKey(mouseEvent.getButton())) {
-                    MouseButton btn = new MouseButton(mouseEvent);
-                    MouseButtons.put(btn.buttonLocation, btn);
-                }
-
-                buttonLastPressed = mouseEvent.getButton();
-                MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
-            },
-            MouseEvent.MOUSE_RELEASED, mouseEvent -> {
-                if (!MouseAction.Release.recentAction) {
-                    createSleeperThread(MouseAction.Release);
-                }
-
-                if (MouseButtons.containsKey(mouseEvent.getButton())) {
-                    MouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
-                }
-
-                buttonLastReleased = mouseEvent.getButton();
-                lastClickCount = mouseEvent.getClickCount();
-            },
-            MouseEvent.MOUSE_CLICKED, mouseEvent -> {
-                if (!MouseAction.Click.recentAction) {
-                    createSleeperThread(MouseAction.Click);
-                }
-
-                buttonLastClicked = mouseEvent.getButton();
-            },
-            MouseEvent.MOUSE_MOVED, mouseEvent -> {
-                if (!MouseAction.Move.recentAction) {
-                    createSleeperThread(MouseAction.Move);
-                }
-
-                mouseLocation = Pointf.divide(
-                        new Pointf(mouseEvent.getX(), mouseEvent.getY()),
-                        FastJEngine.getCanvas().getResolutionScale()
-                );
-            },
-            MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
-                if (!MouseAction.Drag.recentAction) {
-                    createSleeperThread(MouseAction.Drag);
-                }
-
-                mouseLocation = Pointf.divide(
-                        new Pointf(mouseEvent.getX(), mouseEvent.getY()),
-                        FastJEngine.getCanvas().getResolutionScale()
-                );
-            },
-            MouseEvent.MOUSE_ENTERED, mouseEvent -> {
-                if (MouseAction.Enter.recentAction) {
-                    createSleeperThread(MouseAction.Enter);
-                }
-
-                currentlyOnScreen = true;
-            },
-            MouseEvent.MOUSE_EXITED, mouseEvent -> {
-                if (MouseAction.Enter.recentAction) {
-                    createSleeperThread(MouseAction.Exit);
-                }
-
-                currentlyOnScreen = false;
-            },
-            MouseEvent.MOUSE_WHEEL, mouseEvent -> {
-                if (!MouseAction.WheelScroll.recentAction) {
-                    createSleeperThread(MouseAction.WheelScroll);
-                }
-
-                MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
-                lastWheelRotation = mouseWheelEvent.getPreciseWheelRotation();
-                switch (mouseWheelEvent.getScrollType()) {
-                    case MouseWheelEvent.WHEEL_BLOCK_SCROLL: {
-                        lastScrollAmount = mouseWheelEvent.getPreciseWheelRotation();
-                        break;
-                    }
-                    case MouseWheelEvent.WHEEL_UNIT_SCROLL: {
-                        lastScrollAmount = mouseWheelEvent.getUnitsToScroll();
-                        break;
-                    }
-                    default: {
-                        throw new IllegalStateException("Invalid mouse scroll type: " + mouseWheelEvent.getScrollType());
-                    }
-                }
+        MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            if (!MouseAction.Press.recentAction) {
+                createSleeperThread(MouseAction.Press);
             }
+
+            if (!MouseButtons.containsKey(mouseEvent.getButton())) {
+                MouseButton btn = new MouseButton(mouseEvent);
+                MouseButtons.put(btn.buttonLocation, btn);
+            }
+
+            buttonLastPressed = mouseEvent.getButton();
+            MouseButtons.get(mouseEvent.getButton()).currentlyPressed = true;
+        },
+        MouseEvent.MOUSE_RELEASED, mouseEvent -> {
+            if (!MouseAction.Release.recentAction) {
+                createSleeperThread(MouseAction.Release);
+            }
+
+            if (MouseButtons.containsKey(mouseEvent.getButton())) {
+                MouseButtons.get(mouseEvent.getButton()).currentlyPressed = false;
+            }
+
+            buttonLastReleased = mouseEvent.getButton();
+            lastClickCount = mouseEvent.getClickCount();
+        },
+        MouseEvent.MOUSE_CLICKED, mouseEvent -> {
+            if (!MouseAction.Click.recentAction) {
+                createSleeperThread(MouseAction.Click);
+            }
+
+            buttonLastClicked = mouseEvent.getButton();
+        },
+        MouseEvent.MOUSE_MOVED, mouseEvent -> {
+            if (!MouseAction.Move.recentAction) {
+                createSleeperThread(MouseAction.Move);
+            }
+
+            mouseLocation = Pointf.divide(
+                new Pointf(mouseEvent.getX(), mouseEvent.getY()),
+                FastJEngine.getCanvas().getResolutionScale()
+            );
+        },
+        MouseEvent.MOUSE_DRAGGED, mouseEvent -> {
+            if (!MouseAction.Drag.recentAction) {
+                createSleeperThread(MouseAction.Drag);
+            }
+
+            mouseLocation = Pointf.divide(
+                new Pointf(mouseEvent.getX(), mouseEvent.getY()),
+                FastJEngine.getCanvas().getResolutionScale()
+            );
+        },
+        MouseEvent.MOUSE_ENTERED, mouseEvent -> {
+            if (MouseAction.Enter.recentAction) {
+                createSleeperThread(MouseAction.Enter);
+            }
+
+            currentlyOnScreen = true;
+        },
+        MouseEvent.MOUSE_EXITED, mouseEvent -> {
+            if (MouseAction.Enter.recentAction) {
+                createSleeperThread(MouseAction.Exit);
+            }
+
+            currentlyOnScreen = false;
+        },
+        MouseEvent.MOUSE_WHEEL, mouseEvent -> {
+            if (!MouseAction.WheelScroll.recentAction) {
+                createSleeperThread(MouseAction.WheelScroll);
+            }
+
+            MouseWheelEvent mouseWheelEvent = (MouseWheelEvent) mouseEvent;
+            lastWheelRotation = mouseWheelEvent.getPreciseWheelRotation();
+            switch (mouseWheelEvent.getScrollType()) {
+                case MouseWheelEvent.WHEEL_BLOCK_SCROLL -> lastScrollAmount = mouseWheelEvent.getPreciseWheelRotation();
+                case MouseWheelEvent.WHEEL_UNIT_SCROLL -> lastScrollAmount = mouseWheelEvent.getUnitsToScroll();
+                default -> throw new IllegalStateException("Invalid mouse scroll type: " + mouseWheelEvent.getScrollType());
+            }
+        }
     );
 
     private static final Map<Integer, Function<MouseEvent, MouseActionEvent>> MouseActionEventCreator = Map.of(
-            MouseEvent.MOUSE_PRESSED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Press),
-            MouseEvent.MOUSE_RELEASED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Release),
-            MouseEvent.MOUSE_CLICKED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Click),
-            MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Move),
-            MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Drag),
-            MouseEvent.MOUSE_ENTERED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Enter),
-            MouseEvent.MOUSE_EXITED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Exit),
-            MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent, MouseAction.WheelScroll)
+        MouseEvent.MOUSE_PRESSED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Press),
+        MouseEvent.MOUSE_RELEASED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Release),
+        MouseEvent.MOUSE_CLICKED, mouseEvent -> MouseButtonEvent.fromMouseEvent(mouseEvent, MouseAction.Click),
+        MouseEvent.MOUSE_MOVED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Move),
+        MouseEvent.MOUSE_DRAGGED, mouseEvent -> MouseMotionEvent.fromMouseEvent(mouseEvent, MouseAction.Drag),
+        MouseEvent.MOUSE_ENTERED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Enter),
+        MouseEvent.MOUSE_EXITED, mouseEvent -> MouseWindowEvent.fromMouseEvent(mouseEvent, MouseAction.Exit),
+        MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent, MouseAction.WheelScroll)
     );
 
     /** Initializes the mouse. */
@@ -174,14 +181,13 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the
-     * specified {@code MouseAction}.
+     * Determines whether the specified {@code Drawable} intersects the mouse, if the mouse is currently performing the specified
+     * {@code MouseAction}.
      *
      * @param button            The {@code Drawable} to be checked if the mouse is currently interacting with.
-     * @param recentMouseAction The {@code MouseAction} that the mouse has to be currently doing, in order to return
-     *                          true.
-     * @return Returns whether the mouse intersects the specified {@code Drawable}, and is currently performing the
-     * specified {@code MouseAction}.
+     * @param recentMouseAction The {@code MouseAction} that the mouse has to be currently doing, in order to return true.
+     * @return Returns whether the mouse intersects the specified {@code Drawable}, and is currently performing the specified
+     * {@code MouseAction}.
      */
     public static boolean interactsWith(Drawable button, MouseAction recentMouseAction) {
         PathIterator buttonPathIterator = button.getCollisionPath().getPathIterator(null);
@@ -200,8 +206,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Gets the value that determines whether the specified mouse button is currently pressed.
      * <p>
-     * You can get button values from the {@code MouseEvent} class, or from predefined values in the
-     * {@link MouseButtons} class.
+     * You can get button values from the {@code MouseEvent} class, or from predefined values in the {@link MouseButtons} class.
      *
      * @param mouseButton The {@link MouseButtons} enum value defining which button to check for.
      * @return The boolean value that represents whether the specified button is pressed.
@@ -213,8 +218,8 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     /**
      * Gets the value that determines whether the specified mouse button is currently pressed.
      * <p>
-     * You can get button values from the {@link MouseButtons} enum, the {@code MouseEvent} class, or define your own --
-     * the button numbers are just integers corresponding to buttons on the mouse.
+     * You can get button values from the {@link MouseButtons} enum, the {@code MouseEvent} class, or define your own -- the button numbers
+     * are just integers corresponding to buttons on the mouse.
      *
      * @param buttonNumber The int value defining which button to check for.
      * @return The boolean value that represents whether the specified button is pressed.
@@ -264,8 +269,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
     }
 
     /**
-     * Gets the amount of times the last button (which can be gotten using {@link #getButtonLastClicked()}) was clicked
-     * consecutively.
+     * Gets the amount of times the last button (which can be gotten using {@link #getButtonLastClicked()}) was clicked consecutively.
      *
      * @return Returns the number of times the last button was clicked consecutively.
      */
@@ -312,7 +316,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         mouseExecutor.schedule(() -> e.recentAction = false, 50, TimeUnit.MILLISECONDS);
     }
 
-    /** Resets the {@code Mouse}. */
+    /** Resets the {@link Mouse}, preparing it for re-use. */
     public static void reset() {
         buttonLastPressed = InitialMouseButton;
         buttonLastReleased = InitialMouseButton;
@@ -330,6 +334,7 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         FastJEngine.getGameLoop().removeClassAlias(MouseButtonEvent.class);
     }
 
+    /** Stops the {@link Mouse} entirely. */
     public static void stop() {
         reset();
         mouseExecutor.shutdownNow();
@@ -441,9 +446,9 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         @Override
         public String toString() {
             return "MouseButton{" +
-                    "buttonLocation=" + buttonLocation +
-                    ", currentlyPressed=" + currentlyPressed +
-                    '}';
+                "buttonLocation=" + buttonLocation +
+                ", currentlyPressed=" + currentlyPressed +
+                '}';
         }
     }
 }

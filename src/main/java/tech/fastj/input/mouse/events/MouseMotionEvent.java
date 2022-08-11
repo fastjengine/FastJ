@@ -6,6 +6,12 @@ import tech.fastj.math.Pointf;
 import java.awt.event.MouseEvent;
 import java.util.Objects;
 
+/**
+ * Mouse event referring to a mouse {@link MouseAction#Move movement} or {@link MouseAction#Drag drag}.
+ *
+ * @author Andrew Dey
+ * @since 1.7.0
+ */
 public class MouseMotionEvent extends MouseActionEvent {
 
     private final MouseEvent mouseEvent;
@@ -28,10 +34,17 @@ public class MouseMotionEvent extends MouseActionEvent {
         return eventType;
     }
 
+    /** {@return the location the mouse moved to, in this event} */
     public Pointf getMouseLocation() {
         return mouseLocation;
     }
 
+    /**
+     * {@return a mouse motion event instance from a {@link MouseEvent raw AWT event}}
+     *
+     * @param mouseEvent Raw {@link MouseEvent AWT mouse event}.
+     * @param eventType  The type of {@link MouseAction mouse action} performed to create this event.
+     */
     public static MouseMotionEvent fromMouseEvent(MouseEvent mouseEvent, MouseAction eventType) {
         return new MouseMotionEvent(mouseEvent, eventType);
     }
@@ -46,7 +59,7 @@ public class MouseMotionEvent extends MouseActionEvent {
         }
         MouseMotionEvent mouseMotionEvent = (MouseMotionEvent) other;
         return mouseLocation.equals(mouseMotionEvent.mouseLocation)
-                && eventType == mouseMotionEvent.eventType;
+            && eventType == mouseMotionEvent.eventType;
     }
 
     @Override
@@ -57,9 +70,9 @@ public class MouseMotionEvent extends MouseActionEvent {
     @Override
     public String toString() {
         return "MouseMotionEvent{" +
-                "mouseEvent=" + mouseEvent +
-                ", mouseLocation=" + mouseLocation +
-                ", eventType=" + eventType +
-                '}';
+            "mouseEvent=" + mouseEvent +
+            ", mouseLocation=" + mouseLocation +
+            ", eventType=" + eventType +
+            '}';
     }
 }

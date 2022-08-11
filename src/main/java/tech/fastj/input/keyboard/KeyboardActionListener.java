@@ -1,29 +1,36 @@
 package tech.fastj.input.keyboard;
 
 import tech.fastj.gameloop.event.EventObserver;
+import tech.fastj.input.InputManager;
 import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.Set;
 
 /**
- * A keyboard action listener.
+ * Listens to and receives {@link KeyboardActionEvent keyboard action events}.
  * <p>
- * <b>NOTE:</b> For use with a FastJ {@code Scene}, a keyboard action listener must be added to a
- * {@code Scene}'s list of keyboard action listeners.
- * <br>
- * If you are planning to implement this class into a separate usage, you may consider using the {@code InputManager}
- * class to store a list of keyboard action listeners. Then, have events from a class extending {@code KeyListener}
- * fired to that {@code InputManager}.
+ * Useful information:
+ * <ul>
+ *     <li>{@link InputManager#addKeyboardActionListener(KeyboardActionListener) Adding keyboard listeners to a game}</li>
+ * </ul>
+ * <b>For re-implementors of the mouse events system</b>: If you are planning to implement this class into a separate usage, you may
+ * consider using the {@code InputManager} class to store a list of keyboard action listeners. Then, have events from a class extending
+ * {@link KeyListener AWT's KeyListener} which fires {@link KeyboardActionEvent key events} to that {@link InputManager input manager}.
  *
  * @author Andrew Dey
- * @since 1.0.0
+ * @since 1.7.0
  */
 public interface KeyboardActionListener extends EventObserver<KeyboardActionEvent> {
 
-    /** Event called when a key is currently pressed, once per game update. */
+    /**
+     * Event called when a key is currently pressed, once per game update.
+     *
+     * @param keysDown The set of keys currently pressed down.
+     */
     default void onKeyDown(Set<Keys> keysDown) {
     }
 
@@ -58,18 +65,9 @@ public interface KeyboardActionListener extends EventObserver<KeyboardActionEven
         }
 
         switch (keyboardActionEvent.getRawEvent().getID()) {
-            case KeyEvent.KEY_PRESSED: {
-                onKeyRecentlyPressed((KeyboardStateEvent) keyboardActionEvent);
-                break;
-            }
-            case KeyEvent.KEY_RELEASED: {
-                onKeyReleased((KeyboardStateEvent) keyboardActionEvent);
-                break;
-            }
-            case KeyEvent.KEY_TYPED: {
-                onKeyTyped((KeyboardTypedEvent) keyboardActionEvent);
-                break;
-            }
+            case KeyEvent.KEY_PRESSED -> onKeyRecentlyPressed((KeyboardStateEvent) keyboardActionEvent);
+            case KeyEvent.KEY_RELEASED -> onKeyReleased((KeyboardStateEvent) keyboardActionEvent);
+            case KeyEvent.KEY_TYPED -> onKeyTyped((KeyboardTypedEvent) keyboardActionEvent);
         }
     }
 }

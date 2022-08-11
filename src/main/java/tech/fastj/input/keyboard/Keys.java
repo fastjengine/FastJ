@@ -2,11 +2,9 @@ package tech.fastj.input.keyboard;
 
 import java.awt.event.KeyEvent;
 import java.util.Arrays;
-import java.util.NoSuchElementException;
 
 /**
- * Based on the {@link KeyEvent} class, the {@code Keys} class defines better-looking names for keyboard input
- * keycodes.
+ * Based on the {@link KeyEvent} class, the {@code Keys} class redefines names for keyboard input keycodes as an enum.
  *
  * @author Andrew Dey
  * @since 1.5.0
@@ -618,43 +616,44 @@ public enum Keys {
     @Override
     public String toString() {
         return "Keys{" +
-                "name=" + name() +
-                ", keyCode=" + keyCode +
-                ", keyLocation=" + keyLocation +
-                '}';
+            "name=" + name() +
+            ", keyCode=" + keyCode +
+            ", keyLocation=" + keyLocation +
+            '}';
     }
 
     /**
      * Attempts to find a key based on the provided {@code keyName}, {@code keyCode}, and {@code keyLocation}.
      * <p>
-     * This method is meant for use in situations when trying to find a key while only knowing its key code and location
-     * (such as from a {@link KeyEvent} -- see {@link #get(KeyEvent)}).
+     * This method is meant for use in situations when trying to find a key while only knowing its key code and location (such as from a
+     * {@link KeyEvent} -- see {@link #get(KeyEvent)}).
      * <p>
-     * If possible, store the results of this computation because it searches the entire enum of keys to find the
-     * correct key -- this may take longer than expected on slower machines.
+     * If possible, store the results of this computation because it searches the entire enum of keys to find the correct key -- this may
+     * take longer than expected on slower machines.
      *
      * @param keyName     {@code String} name of the key.
      * @param keyCode     {@code int} the key's keyCode.
      * @param keyLocation {@code int} the key's location on the keyboard.
-     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
-     * thrown.
+     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link Keys#Undefined} is returned.
      */
     public static Keys get(String keyName, int keyCode, int keyLocation) {
         return Arrays.stream(Keys.values())
-                .filter(keys -> keys.name().equalsIgnoreCase(keyName) || keys.name().equalsIgnoreCase(keyName) && keys.keyCode == keyCode && keys.keyLocation == keyLocation)
-                .findFirst()
-                .orElse(Keys.Undefined);
+            .filter(
+                keys -> keys.name().equalsIgnoreCase(keyName)
+                    || keys.name().equalsIgnoreCase(keyName) && keys.keyCode == keyCode && keys.keyLocation == keyLocation
+            )
+            .findFirst()
+            .orElse(Keys.Undefined);
     }
 
     /**
      * Attempts to find a key based on the provided {@code keyEvent}.
      * <p>
-     * If possible, store the results of this computation because it searches the entire enum of keys to find the
-     * correct key -- this may take longer than expected on slower machines.
+     * If possible, store the results of this computation because it searches the entire enum of keys to find the correct key -- this may
+     * take longer than expected on slower machines.
      *
      * @param keyEvent The event to evaluate a key for.
-     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link NoSuchElementException} is
-     * thrown.
+     * @return A {@link Keys} enum instance, if one is found. If none is found, a {@link Keys#Undefined} is returned.
      */
     public static Keys get(KeyEvent keyEvent) {
         return get(KeyEvent.getKeyText(keyEvent.getExtendedKeyCode()), keyEvent.getKeyCode(), keyEvent.getKeyLocation());
