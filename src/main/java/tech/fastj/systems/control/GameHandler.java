@@ -6,12 +6,21 @@ import tech.fastj.input.InputManager;
 import tech.fastj.systems.behaviors.BehaviorHandler;
 import tech.fastj.systems.tags.TagHandler;
 
+/**
+ * Interface defining the general aspects any FastJ game should have.
+ *
+ * @author Andrew Dey
+ * @since 1.7.0
+ */
 public interface GameHandler extends BehaviorHandler, TagHandler<Drawable> {
 
+    /** {@return the game handler's {@link DrawableManager drawable manager}} */
     DrawableManager drawableManager();
 
+    /** {@return the game handler's {@link InputManager input manager}} */
     InputManager inputManager();
 
+    /** {@return the game handler's {@link Camera game camera}} */
     Camera getCamera();
 
     /**
