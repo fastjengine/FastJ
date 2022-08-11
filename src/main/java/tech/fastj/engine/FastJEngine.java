@@ -777,7 +777,7 @@ public class FastJEngine {
      * Runs the specified action after the game engine finishes the next {@link CoreLoopState coreLoopState} it enters.
      * <p>
      * This method serves the purpose of running certain necessary actions for a game that wouldn't be easily possible otherwise, such as
-     * adding a game object to a scene while in an {@link LogicManager#fixedUpdate(FastJCanvas)} call.
+     * {@link FastJEngine#closeGame() closing the game} from a non-main thread.
      *
      * @param action        Disposable action to be run after the game engine finishes its {@code coreLoopState} state.
      * @param coreLoopState The {@link CoreLoopState core game loop state} after which the {@code action} will be run.
