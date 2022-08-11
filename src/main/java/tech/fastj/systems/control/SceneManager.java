@@ -3,6 +3,11 @@ package tech.fastj.systems.control;
 import tech.fastj.engine.CrashMessages;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.display.FastJCanvas;
+import tech.fastj.graphics.game.GameObject;
+import tech.fastj.graphics.game.Text2D;
+import tech.fastj.graphics.ui.UIElement;
+import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.systems.behaviors.Behavior;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,7 +15,60 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * The manager which allows for control over the scenes in a game.
+ * Top-level game structure which manages {@link Scene scenes}.
+ * <p>
+ * Here is a simple example of the scene manager in action. It:
+ * <ol>
+ *     <li>Creates and loads an instance of a {@link Scene scene} called {@code MyScene}</li>
+ *     <li>{@link FastJEngine#run() Runs FastJ}, where the content shown is {@link Text2D text} saying {@code "Hello FastJ!"}</li>
+ * </ol>
+ * {@snippet lang = "java":
+ * // GameManager.java
+ * import tech.fastj.engine.FastJEngine;
+ * import tech.fastj.graphics.display.FastJCanvas;
+ * import tech.fastj.graphics.display.RenderSettings;
+ *
+ * public class GameManager extends SceneManager {
+ *     @Override
+ *     public void init(FastJCanvas canvas) {
+ *         // enable anti-aliasing
+ *         canvas.modifyRenderSettings(RenderSettings.Antialiasing.Enable);
+ *         // add scene to scene manager
+ *         MyScene scene = new MyScene();
+ *         addScene(scene);
+ *
+ *         // setup and load the first scene
+ *         setCurrentScene(scene);
+ *         loadCurrentScene();
+ *     }
+ *
+ *     public static void main(String[] args) {
+ *          // initialize and run the game, using the scene manager
+ *          FastJEngine.init("Scene-Based Game", new GameManager());
+ *          FastJEngine.run();
+ *     }
+ * }
+ *
+ * // MyScene.java
+ * import tech.fastj.graphics.display.FastJCanvas;
+ * import tech.fastj.graphics.game.Text2D;
+ * import tech.fastj.systems.control.Scene;
+ *
+ * public class MyScene extends Scene {
+ *     public static final String SceneName = "My Scene";
+ *
+ *     public MyScene() {
+ *         // set the scene name
+ *         super(SceneName);
+ *     }
+ *
+ *     @Override
+ *     public void load(FastJCanvas canvas) {
+ *         // say hello to FastJ from a scene!
+ *         Text2D helloWorld = Text2D.fromText("Hello FastJ!");
+ *         drawableManager().addGameObject(helloWorld);
+ *     }
+ * }}
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -21,18 +79,35 @@ public abstract class SceneManager implements LogicManager {
     private Scene currentScene;
     private boolean switchingScenes;
 
+    /**
+     * Initializes the scene manager, primarily for {@link #addScene(Scene) adding scenes} and
+     * {@link #setCurrentScene(Scene) setting}/{@link #loadCurrentScene() loading} an initial scene.
+     *
+     * @param canvas The {@link FastJCanvas} that the game renders to. Useful for applying canvas-related settings before the game starts.
+     */
     @Override
     public abstract void init(FastJCanvas canvas);
 
+    /**
+     * Internal method to initialize the scene manager (and {@link #getCurrentScene() current scene})'s {@link Behavior behaviors}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>.
+     * <ul>
+     *     <li>To perform initial scene manager setup, you must override {@link #init(FastJCanvas) the scene manager's init method}.</li>
+     *     <li>To perform initial scene setup, you must override {@link Scene#load(FastJCanvas) the scene's load method}.</li>
+     *     <li>To perform initial behavior setup, you must override {@link Behavior#init(GameObject) the behavior's init method}.</li>
+     * </ul>
+     */
     @Override
     public void initBehaviors() {
         safeInit();
     }
 
     /**
-     * Updates the current scene, its behaviors, and listeners.
-     *
-     * @param canvas The {@code FastJCanvas} that the game renders to.
+     * Internal method to run a fixed update on the {@link #getCurrentScene() current scene}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>. To perform actions during fixed update, you must override your current
+     * scene's {@link Scene#fixedUpdate(FastJCanvas) fixed update method}.
      */
     @Override
     public void fixedUpdate(FastJCanvas canvas) {
@@ -40,35 +115,65 @@ public abstract class SceneManager implements LogicManager {
     }
 
     /**
-     * Updates the current scene, its behaviors, and listeners before rendering.
-     *
-     * @param canvas The {@code FastJCanvas} that the game renders to.
+     * Internal method to run an update on the {@link #getCurrentScene() current scene}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>. To perform actions during update, you must override your current scene's
+     * {@link Scene#update(FastJCanvas) update method}.
      */
     @Override
     public void update(FastJCanvas canvas) {
         safeUpdate(() -> currentScene.update(canvas));
     }
 
+    /**
+     * Internal method to run a fixed update on the {@link #getCurrentScene() current scene}'s {@link Behavior behaviors}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>. To perform actions in a {@link Behavior game object behavior} during fixed
+     * update, you must override {@link Behavior#fixedUpdate(GameObject)} your behavior's fixed update method}.
+     */
     @Override
     public void fixedUpdateBehaviors() {
         safeUpdate(currentScene::fixedUpdateBehaviorListeners);
     }
 
+    /**
+     * Internal method to run an update on the {@link #getCurrentScene() current scene}'s {@link Behavior behaviors}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>. To perform actions in a {@link Behavior game object behavior} during
+     * update, you must override {@link Behavior#update(GameObject)} your behavior's update method}.
+     */
     @Override
     public void updateBehaviors() {
         safeUpdate(currentScene::updateBehaviorListeners);
     }
 
     /**
-     * Renders the current scene to the {@code Display}.
-     *
-     * @param display The {@code Display} that the game renders to.
+     * Internal method to render the {@link #getCurrentScene() current scene}'s {@link DrawableManager#getGameObjects() game objects} and
+     * {@link DrawableManager#getUIElements() ui}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>.
+     * <ul>
+     *     <li>
+     *         To render a {@link GameObject game object}, you must create one and {@link DrawableManager#addGameObject(GameObject) add it}
+     *         to the scene's {@link Scene#drawableManager() drawable manager}.
+     *     </li>
+     *     <li>
+     *         To render a {@link UIElement ui element}, you must create one and {@link DrawableManager#addUIElement(UIElement)} add it}
+     *         to the scene's {@link Scene#drawableManager() drawable manager}.
+     *     </li>
+     * </ul>
      */
     @Override
     public void render(FastJCanvas display) {
         safeRender(display);
     }
 
+    /**
+     * Internal method to send keyboard events to all {@link KeyboardActionListener keyboard listeners}.
+     * <p>
+     * For general purposes, <b>do not override this method</b>. Please see {@link KeyboardActionListener} to learn how to listen to the
+     * keyboard actions.
+     */
     @Override
     public void processKeysDown() {
         safeUpdate(currentScene.inputManager()::fireKeysDown);

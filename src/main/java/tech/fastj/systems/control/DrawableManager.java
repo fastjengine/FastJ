@@ -1,6 +1,7 @@
 package tech.fastj.systems.control;
 
 import tech.fastj.graphics.Drawable;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.ui.UIElement;
 import tech.fastj.input.InputActionEvent;
@@ -23,53 +24,33 @@ public class DrawableManager {
     private final Map<String, GameObject> gameObjects;
     private final Map<String, UIElement<? extends InputActionEvent>> uiElements;
 
-    /** Initializes a {@code DrawableManager}'s internals. */
+    /** Initializes a {@link DrawableManager}'s internals. */
     public DrawableManager() {
         gameObjects = new LinkedHashMap<>();
         uiElements = new LinkedHashMap<>();
     }
 
-    /**
-     * Gets the game objects assigned to the manager.
-     *
-     * @return The game objects of the scene.
-     */
+    /** {@return the game objects assigned to the manager, as a map} */
     public Map<String, GameObject> getGameObjects() {
         return gameObjects;
     }
 
-    /**
-     * Gets the game objects assigned to the manager.
-     *
-     * @return The game objects of the scene.
-     */
+    /** {@return the game objects assigned to the manager, wrapped as a list} */
     public List<GameObject> getGameObjectsList() {
         return new ArrayList<>(gameObjects.values());
     }
 
-    /**
-     * Gets the ui elements assigned to the manager.
-     *
-     * @return The ui elements of the scene.
-     */
+    /** {@return the ui elements assigned to the manager, as a map} */
     public Map<String, UIElement<? extends InputActionEvent>> getUIElements() {
         return uiElements;
     }
 
-    /**
-     * Gets the ui elements assigned to the manager.
-     *
-     * @return The ui elements of the scene.
-     */
+    /** {@return the ui elements assigned to the manager, wrapped as a list} */
     public List<UIElement<? extends InputActionEvent>> getUIElementsList() {
         return new ArrayList<>(uiElements.values());
     }
 
-    /**
-     * Gets the ui elements assigned to the manager.
-     *
-     * @return The ui elements of the scene.
-     */
+    /** {@return the game objects <b>and</b> ui elements assigned to the manager, as a map} */
     public Map<String, Drawable> getDrawables() {
         Map<String, Drawable> result = new ConcurrentHashMap<>();
         result.putAll(gameObjects);
@@ -78,11 +59,7 @@ public class DrawableManager {
         return result;
     }
 
-    /**
-     * Gets the ui elements assigned to the manager.
-     *
-     * @return The ui elements of the scene.
-     */
+    /** {@return the game objects <b>and</b> ui elements assigned to the manager, as a list} */
     public List<Drawable> getDrawablesList() {
         List<Drawable> result = new ArrayList<>();
         result.addAll(gameObjects.values());
@@ -94,9 +71,16 @@ public class DrawableManager {
     /* Game Objects */
 
     /**
-     * Adds the specified game object.
+     * Adds the specified {@link GameObject game object}.
+     * <p>
+     * Commonly used during initialization of a {@link SimpleManager#init(FastJCanvas) simple manager} or loading of a
+     * {@link Scene#load(FastJCanvas) scene}, this method is used to allow the manager/scene to render the game object.
+     * <ul>
+     *     <li>Getting a {@link DrawableManager drawable manager} from a {@link SimpleManager#drawableManager() simple manager}</li>
+     *     <li>Getting a {@link DrawableManager drawable manager} from a {@link Scene#drawableManager() scene}</li>
+     * </ul>
      *
-     * @param gameObject The game object to add.
+     * @param gameObject The {@link GameObject game object} to add.
      */
     public void addGameObject(GameObject gameObject) {
         gameObjects.put(gameObject.getID(), gameObject);
@@ -120,15 +104,14 @@ public class DrawableManager {
         removeGameObject(gameObject.getID());
     }
 
-    public void destroyGameObjects(SimpleManager manager) {
+    /**
+     * Destroys the game objects using the given {@link GameHandler}.
+     *
+     * @param gameHandler The game handler to destroy the game objects from.
+     */
+    public void destroyGameObjects(GameHandler gameHandler) {
         for (GameObject gameObject : getGameObjectsList()) {
-            gameObject.destroy(manager);
-        }
-    }
-
-    public void destroyGameObjects(Scene scene) {
-        for (GameObject gameObject : getGameObjectsList()) {
-            gameObject.destroy(scene);
+            gameObject.destroy(gameHandler);
         }
     }
 
@@ -145,9 +128,16 @@ public class DrawableManager {
     /* ui elements */
 
     /**
-     * Adds the specified ui element.
+     * Adds the specified {@link UIElement ui element}.
+     * <p>
+     * Commonly used during initialization of a {@link SimpleManager#init(FastJCanvas) simple manager} or loading of a
+     * {@link Scene#load(FastJCanvas) scene}, this method is used to allow the manager/scene to render the ui element.
+     * <ul>
+     *     <li>Getting a {@link DrawableManager drawable manager} from a {@link SimpleManager#drawableManager() simple manager}</li>
+     *     <li>Getting a {@link DrawableManager drawable manager} from a {@link Scene#drawableManager() scene}</li>
+     * </ul>
      *
-     * @param guiObject The ui element to add.
+     * @param guiObject The {@link UIElement ui element} to add.
      */
     public void addUIElement(UIElement<? extends InputActionEvent> guiObject) {
         uiElements.put(guiObject.getID(), guiObject);
@@ -171,15 +161,14 @@ public class DrawableManager {
         removeUIElement(guiObject.getID());
     }
 
-    public void destroyUIElements(SimpleManager manager) {
+    /**
+     * Destroys the ui elements using the given {@link GameHandler}.
+     *
+     * @param gameHandler The game handler to destroy the ui elements from.
+     */
+    public void destroyUIElements(GameHandler gameHandler) {
         for (UIElement<? extends InputActionEvent> uiElement : getUIElementsList()) {
-            uiElement.destroy(manager);
-        }
-    }
-
-    public void destroyUIElements(Scene scene) {
-        for (UIElement<? extends InputActionEvent> uiElement : getUIElementsList()) {
-            uiElement.destroy(scene);
+            uiElement.destroy(gameHandler);
         }
     }
 
@@ -195,21 +184,20 @@ public class DrawableManager {
 
     /* reset */
 
-    public void reset(Scene scene) {
-        destroyGameObjects(scene);
-        destroyUIElements(scene);
+    /**
+     * Resets the manager, destroying all its {@link #getGameObjects() game objects} <b>and</b> {@link #getUIElements() ui elements} using
+     * the given {@link GameHandler}.
+     *
+     * @param gameHandler The game handler to destroy game objects and ui elements from.
+     */
+    public void reset(GameHandler gameHandler) {
+        destroyGameObjects(gameHandler);
+        destroyUIElements(gameHandler);
 
         clearAllLists();
     }
 
-    public void reset(SimpleManager manager) {
-        destroyGameObjects(manager);
-        destroyUIElements(manager);
-
-        clearAllLists();
-    }
-
-    /** Removes all game objects and ui elements from the manager. */
+    /** Removes all game objects and ui elements from the manager, without destroying them. */
     public void clearAllLists() {
         clearGameObjects();
         clearUIElements();
