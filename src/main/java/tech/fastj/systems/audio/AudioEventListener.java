@@ -144,7 +144,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
     /**
      * Sets the "audio close" event action to the action specified.
      *
-     * @param audioCloseAction The action to run when the audio {@link Audio#() is closed to stop playing}.
+     * @param audioCloseAction The action to run when the audio {@link Audio#stop() is closed to stop playing}.
      */
     public void setAudioCloseAction(Consumer<AudioEvent> audioCloseAction) {
         this.audioCloseAction = audioCloseAction;

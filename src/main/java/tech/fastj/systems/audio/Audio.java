@@ -3,7 +3,10 @@ package tech.fastj.systems.audio;
 import tech.fastj.systems.audio.state.PlaybackState;
 import tech.fastj.systems.tags.TaggableEntity;
 
+import java.net.URI;
+import java.net.URL;
 import java.nio.file.Path;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -32,12 +35,21 @@ import javax.sound.sampled.LineEvent;
  */
 public abstract class Audio extends TaggableEntity {
 
+    /** General path to the audio file, typically a {@link Path#of(URI) general path} or a {@link URL} manually converted to a path. */
     protected final Path audioPath;
+
+    /** ID of the audio file, typically a {@link UUID#randomUUID() uuid} converted to a string. */
     protected final String id;
 
     PlaybackState currentPlaybackState;
     PlaybackState previousPlaybackState;
 
+    /**
+     * Constructs an {@link Audio} instance with the given path and id.
+     *
+     * @param audioPath The {@link #audioPath path} of the audio file.
+     * @param id        The {@link #id identifier} for the audio file.
+     */
     protected Audio(Path audioPath, String id) {
         this.audioPath = audioPath;
         this.id = id;
@@ -45,14 +57,10 @@ public abstract class Audio extends TaggableEntity {
         previousPlaybackState = PlaybackState.Stopped;
     }
 
-    /** {@return The audio path's id} */
+    /** {@return the audio's id} */
     public abstract String getID();
 
-    /**
-     * Gets the audio's {@link Path}.
-     *
-     * @return The audio's file path.
-     */
+    /** {@return the audio's file path} */
     public abstract Path getAudioPath();
 
     /** {@return the audio's current playback state} */
@@ -67,7 +75,7 @@ public abstract class Audio extends TaggableEntity {
     /** {@return the audio's {@link AudioInputStream audio input stream}} */
     public abstract AudioInputStream getAudioInputStream();
 
-    /** {return the audio's backing source object} */
+    /** {@return the audio's backing source object} */
     public abstract DataLine getAudioSource();
 
     /**
