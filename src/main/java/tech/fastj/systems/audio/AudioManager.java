@@ -18,15 +18,38 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.sound.sampled.*;
 
 /**
- * The manager of all audio-based content.
+ * The manager for all audio-based content.
+ * <p>
+ * An instance of {@link AudioManager} can be accessed from {@link FastJEngine#getAudioManager() the game engine}.
+ * <p>
+ * Useful to know:
+ * <ul>
+ *     <li>{@link #isOutputSupported() Checking if the device supports audio output}</li>
+ *     <li>Playing sound (streamed from a file) from a {@link #playSound(Path) filepath} or a {@link #playSound(URL) URL}</li>
+ *     <li>
+ *         Loading audio into memory from a {@link #loadMemoryAudio(Path) filepath} or a
+ *         {@link #loadMemoryAudio(URL) URL}
+ *     </li>
+ *     <li>
+ *         Loading audio played from a file stream from a {@link #loadStreamedAudio(Path) filepath} or a
+ *         {@link #loadStreamedAudio(URL) URL}
+ *     </li>
+ *     <li>{@link #getTaggableEntities() Getting all active audio instances why may contain tags}</li>
+ * </ul>
  *
  * @author Andrew Dey
  * @since 1.5.0
  */
 public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent, EventObserver<AudioEvent>> {
 
-    private final Map<String, MemoryAudio> memoryAudioFiles = new ConcurrentHashMap<>();
-    private final Map<String, StreamedAudio> streamedAudioFiles = new ConcurrentHashMap<>();
+    private final Map<String, MemoryAudio> memoryAudioFiles;
+    private final Map<String, StreamedAudio> streamedAudioFiles;
+
+    /** Initializes {@link AudioManager}'s internals. */
+    public AudioManager() {
+        memoryAudioFiles = new ConcurrentHashMap<>();
+        streamedAudioFiles = new ConcurrentHashMap<>();
+    }
 
     /** {@return whether the computer supports audio output} */
     public static boolean isOutputSupported() {

@@ -16,10 +16,13 @@ import javax.sound.sampled.Clip;
  * <p>
  * This type of {@link Audio} requires that the audio is loaded into memory before accessing.
  * <p>
- * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code MemoryAudio} supports the following extra controls:
+ * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code MemoryAudio} supports the following:
  * <ul>
- *     <li>Explicit Looping Controls ({@link #setLoopCount(int) Loop count}, {@link #setLoopPoints(float, float) Loop points}, {@link #stopLoopingNow() immediate loop stopping})</li>
- *     <li>Explicit Playback Position Controls ({@link #seek(long) Seeking}, {@link #rewindToBeginning() Rewinding})</li>
+ *     <li>
+ *         Looping Controls ({@link #setLoopCount(int) Loop count}, {@link #setLoopPoints(float, float) Loop points},
+ *         {@link #stopLoopingNow() Loop stopping})
+ *     </li>
+ *     <li>Playback Position Controls ({@link #seek(long) Seeking}, {@link #rewindToBeginning() Rewinding})</li>
  * </ul>
  *
  * @author Andrew Dey
@@ -33,6 +36,7 @@ public class MemoryAudio extends Audio {
      * Made for use with {@link MemoryAudio#setLoopCount(int)}.
      */
     public static final int ContinuousLoop = Clip.LOOP_CONTINUOUSLY;
+
     /**
      * Signifies that the audio should stop looping.
      * <p>
@@ -46,6 +50,7 @@ public class MemoryAudio extends Audio {
      * Made for use with {@link MemoryAudio#setLoopPoints(float, float)}, as the first parameter.
      */
     public static final int LoopFromStart = 0;
+
     /**
      * Signifies that the audio should loop back once it reaches the end of the audio track.
      * <p>

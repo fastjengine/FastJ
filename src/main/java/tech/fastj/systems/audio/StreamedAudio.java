@@ -20,12 +20,12 @@ import javax.sound.sampled.SourceDataLine;
  * <p>
  * This type of {@link Audio} is streamed from the file, reducing the amount of memory taken when loading it.
  * <p>
- * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code StreamedAudio} supports the following extra controls:
+ * In addition to {@link Audio the controls all Audio types in FastJ support}, {@code StreamedAudio} supports the following:
  * <ul>
- *     <li>Gain Controls</li>
- *     <li>Pan Controls</li>
- *     <li>Balance Controls</li>
- *     <li>Mute Controls</li>
+ *     <li>{@link #gainControl() Gain Controls}</li>
+ *     <li>{@link #panControl() Pan Controls}</li>
+ *     <li>{@link #balanceControl() Balance Controls}</li>
+ *     <li>{@link #muteControl() Mute Controls}</li>
  * </ul>
  * <p>
  * A {@link StreamedAudio} uses an {@link AudioInputStream} to get its musical content.
