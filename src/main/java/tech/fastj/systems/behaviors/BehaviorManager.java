@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Class to manage behavior listeners for all {@link BehaviorHandler}s.
+ * Class to manage behavior listeners and {@link Behavior behaviors} for all {@link BehaviorHandler behavior handler}s.
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -46,8 +46,7 @@ public class BehaviorManager {
     /**
      * Removes the specified behavior from the list aliased to the specified {@link BehaviorHandler}.
      *
-     * @param behaviorHandler The {@code BehaviorHandler} used as the alias to remove the specified behavior listener
-     *                        from.
+     * @param behaviorHandler The {@code BehaviorHandler} used as the alias to remove the specified behavior listener from.
      * @param listener        The behavior listener to remove.
      */
     public static void removeListener(BehaviorHandler behaviorHandler, GameObject listener) {
