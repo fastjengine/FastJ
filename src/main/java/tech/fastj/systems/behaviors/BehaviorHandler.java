@@ -5,10 +5,11 @@ import tech.fastj.graphics.game.GameObject;
 import java.util.List;
 
 /**
- * Interface denoting that the implementing classes directly interface with the {@link BehaviorManager} class.
+ * Interface denoting that the implementing classes directly interface with the {@link BehaviorManager} class for handling game objects'
+ * {@link Behavior behaviors}.
  * <p>
- * <b>FOR IMPLEMENTORS:</b> In order for these methods to work you need to call {@link
- * BehaviorManager#addListenerList(BehaviorHandler)} upon construction.
+ * <b>FOR IMPLEMENTORS:</b> In order for these methods to work you need to call
+ * {@link BehaviorManager#addListenerList(BehaviorHandler)} upon construction.
  *
  * @author Andrew Dey
  * @since 1.5.0
