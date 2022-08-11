@@ -1,24 +1,29 @@
 package tech.fastj.input.mouse;
 
 import tech.fastj.gameloop.event.EventObserver;
+import tech.fastj.input.InputManager;
 import tech.fastj.input.mouse.events.MouseActionEvent;
 import tech.fastj.input.mouse.events.MouseButtonEvent;
 import tech.fastj.input.mouse.events.MouseMotionEvent;
 import tech.fastj.input.mouse.events.MouseScrollEvent;
 import tech.fastj.input.mouse.events.MouseWindowEvent;
 
+import java.awt.event.MouseListener;
+
 /**
- * A mouse action listener.
+ * A mouse action listener which listens to and receives {@link MouseActionEvent mouse action events}.
  * <p>
- * <b>NOTE:</b> For use with a FastJ {@code Scene}, a mouse action listener must be added to a
- * {@code Scene}'s list of mouse action listeners.
- * <br>
- * If you are planning to implement this class into a separate usage, you may consider using the {@code InputManager}
- * class to store a list of mouse action listeners. Then, have events from a class extending {@code MouseListener} fired
- * to that {@code InputManager}.
+ * Useful information:
+ * <ul>
+ *     <li>{@link InputManager#addMouseActionListener(MouseActionListener) Adding mouse listeners to a game}</li>
+ * </ul>
+ * <b>For re-implementors of the mouse events system</b>: If you are planning to implement this class into a usage separate from FastJ's
+ * {@link Mouse}, you may consider using the {@link InputManager} class which stores a list of mouse action listeners. Then, have events
+ * from a class extending {@link MouseListener AWT's MouseListener} which fires {@link MouseActionEvent mouse events} to that
+ * {@link InputManager input manager}.
  *
  * @author Andrew Dey
- * @since 1.0.0
+ * @since 1.7.0
  */
 public interface MouseActionListener extends EventObserver<MouseActionEvent> {
 
@@ -93,38 +98,14 @@ public interface MouseActionListener extends EventObserver<MouseActionEvent> {
         }
 
         switch (mouseActionEvent.getEventType()) {
-            case Press: {
-                onMousePressed((MouseButtonEvent) mouseActionEvent);
-                break;
-            }
-            case Release: {
-                onMouseReleased((MouseButtonEvent) mouseActionEvent);
-                break;
-            }
-            case Click: {
-                onMouseClicked((MouseButtonEvent) mouseActionEvent);
-                break;
-            }
-            case Move: {
-                onMouseMoved((MouseMotionEvent) mouseActionEvent);
-                break;
-            }
-            case Drag: {
-                onMouseDragged((MouseMotionEvent) mouseActionEvent);
-                break;
-            }
-            case WheelScroll: {
-                onMouseWheelScrolled((MouseScrollEvent) mouseActionEvent);
-                break;
-            }
-            case Enter: {
-                onMouseEntersScreen((MouseWindowEvent) mouseActionEvent);
-                break;
-            }
-            case Exit: {
-                onMouseExitsScreen((MouseWindowEvent) mouseActionEvent);
-                break;
-            }
+            case Press -> onMousePressed((MouseButtonEvent) mouseActionEvent);
+            case Release -> onMouseReleased((MouseButtonEvent) mouseActionEvent);
+            case Click -> onMouseClicked((MouseButtonEvent) mouseActionEvent);
+            case Move -> onMouseMoved((MouseMotionEvent) mouseActionEvent);
+            case Drag -> onMouseDragged((MouseMotionEvent) mouseActionEvent);
+            case WheelScroll -> onMouseWheelScrolled((MouseScrollEvent) mouseActionEvent);
+            case Enter -> onMouseEntersScreen((MouseWindowEvent) mouseActionEvent);
+            case Exit -> onMouseExitsScreen((MouseWindowEvent) mouseActionEvent);
         }
     }
 }

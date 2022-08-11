@@ -1,11 +1,14 @@
 package tech.fastj.input;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
 import tech.fastj.input.keyboard.events.KeyboardActionEvent;
 import tech.fastj.input.mouse.MouseActionListener;
 import tech.fastj.input.mouse.events.MouseActionEvent;
+import tech.fastj.systems.control.Scene;
+import tech.fastj.systems.control.SimpleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +16,8 @@ import java.util.List;
 /**
  * Class to manage user input and input event processing.
  * <p>
- * This class fires input events to {@link KeyboardActionListener}s or {@link MouseActionListener}s in its lists of
- * keyboard/mouse action listeners.
+ * This class fires input events to {@link KeyboardActionListener}s or {@link MouseActionListener}s in its lists of keyboard/mouse action
+ * listeners.
  */
 public class InputManager {
 
@@ -23,6 +26,7 @@ public class InputManager {
 
     private boolean isLoaded;
 
+    /** Initializes {@link InputManager}'s internals. */
     public InputManager() {
         keyboardActionListeners = new ArrayList<>();
         mouseActionListeners = new ArrayList<>();
@@ -31,7 +35,7 @@ public class InputManager {
     /**
      * Gets the list of keyboard action listeners.
      *
-     * @return The list of {@code KeyboardActionListeners}.
+     * @return The list of {@link KeyboardActionListener keyboard action listeners}.
      */
     @SuppressWarnings("unchecked")
     public List<KeyboardActionListener> getKeyboardActionListeners() {
@@ -51,11 +55,11 @@ public class InputManager {
     /* Key Action Listeners */
 
     /**
-     * Adds the specified {@code KeyboardActionListener}.
+     * Adds the specified {@link KeyboardActionListener}.
      * <p>
-     * This method does not allow for {@code KeyboardActionListener}s to be added more than once.
+     * This method does not allow for {@link KeyboardActionListener}s to be added more than once.
      *
-     * @param listener The {@code KeyboardActionListener} to be added.
+     * @param listener The {@link KeyboardActionListener} to be added.
      */
     public void addKeyboardActionListener(KeyboardActionListener listener) {
         keyboardActionListeners.add(listener);
@@ -63,16 +67,16 @@ public class InputManager {
     }
 
     /**
-     * Removes the specified {@code KeyboardActionListener}.
+     * Removes the specified {@link KeyboardActionListener}.
      *
-     * @param listener The {@code KeyboardActionListener} to be removed.
+     * @param listener The {@link KeyboardActionListener} to be removed.
      */
     public void removeKeyboardActionListener(KeyboardActionListener listener) {
         keyboardActionListeners.remove(listener);
         FastJEngine.getGameLoop().removeEventObserver(listener, KeyboardActionEvent.class);
     }
 
-    /** Fires a {@code keys down} event to all listening {@code KeyboardActionListeners}. */
+    /** Fires a {@code keys down} event to all listening {@link KeyboardActionListener keyboard action listeners}. */
     public void fireKeysDown() {
         if (Keyboard.areKeysDown()) {
             for (KeyboardActionListener listener : getKeyboardActionListeners()) {
@@ -105,6 +109,14 @@ public class InputManager {
         FastJEngine.getGameLoop().removeEventObserver(listener, MouseActionEvent.class);
     }
 
+    /**
+     * Adds all the input manager's input listeners from the {@link FastJEngine#getGameLoop() engine's game loop}, particularly called
+     * internally during {@link Scene#load(FastJCanvas) scene loading} or
+     * {@link SimpleManager#init(FastJCanvas) simple maanger initialization}.
+     * <p>
+     * You do not usually need to call this method yourself -- your game structure (usually {@link Scene} or {@link SimpleManager})
+     * automatically calls this when necessary.
+     */
     public void load() {
         if (isLoaded) {
             return;
@@ -119,6 +131,13 @@ public class InputManager {
         isLoaded = true;
     }
 
+    /**
+     * Removes all the input manager's input listeners from the {@link FastJEngine#getGameLoop() engine's game loop}, particularly called
+     * during {@link Scene#unload(FastJCanvas) scene unloading} or {@link SimpleManager#reset() simple maanger resetting}.
+     * <p>
+     * You do not usually need to call this method yourself -- your game structure (usually {@link Scene} or {@link SimpleManager})
+     * automatically calls this when necessary.
+     */
     public void unload() {
         if (!isLoaded) {
             return;

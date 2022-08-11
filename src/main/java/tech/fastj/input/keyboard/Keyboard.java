@@ -21,6 +21,18 @@ import java.util.function.Consumer;
 
 /**
  * Class that stores key input information from the {@code Display}.
+ * <p>
+ * Useful information for keyboard input:
+ * <ul>
+ *     <li>
+ *         Checking if a key is {@link #isKeyDown(Keys) pressed down},
+ *         {@link #isKeyRecentlyPressed(Keys) recently pressed}, or
+ *         {@link #isKeyRecentlyReleased(Keys) recently released}
+ *     </li>
+ *     <li>{@link #getLastKeyPressed() Checking the last key pressed}</li>
+ * </ul>
+ * <p>
+ * For receiving {@link KeyboardActionEvent key input events}, refer to {@link KeyboardActionListener}.
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -46,37 +58,37 @@ public class Keyboard implements KeyListener {
     private static ScheduledExecutorService keyChecker;
 
     private static final Map<Integer, Consumer<KeyEvent>> KeyEventProcessor = Map.of(
-            KeyEvent.KEY_PRESSED, (keyEvent) -> {
-                KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key key = null;
+        KeyEvent.KEY_PRESSED, (keyEvent) -> {
+            KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+            Key key = null;
 
-                if (AllKeys.get(keyDescription) == null) {
-                    key = new Key(keyEvent);
-                    AllKeys.put(key.keyDescription, key);
-                    keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                }
+            if (AllKeys.get(keyDescription) == null) {
+                key = new Key(keyEvent);
+                AllKeys.put(key.keyDescription, key);
+                keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+            }
 
-                if (key == null) {
-                    key = AllKeys.get(keyDescription);
-                }
+            if (key == null) {
+                key = AllKeys.get(keyDescription);
+            }
 
-                if (!key.currentlyPressed) {
-                    key.setRecentPress(true);
-                }
+            if (!key.currentlyPressed) {
+                key.setRecentPress(true);
+            }
 
-                key.setCurrentPress(true);
-            },
-            KeyEvent.KEY_RELEASED, (keyEvent) -> {
-                KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
-                Key key = AllKeys.get(keyDescription);
+            key.setCurrentPress(true);
+        },
+        KeyEvent.KEY_RELEASED, (keyEvent) -> {
+            KeyDescription keyDescription = KeyDescription.get(keyEvent.getKeyCode(), keyEvent.getKeyLocation());
+            Key key = AllKeys.get(keyDescription);
 
-                if (key != null) {
-                    key.setCurrentPress(false);
-                    key.setRecentPress(false);
-                    key.setRecentRelease(true);
-                }
-            },
-            KeyEvent.KEY_TYPED, (keyEvent) -> lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode())
+            if (key != null) {
+                key.setCurrentPress(false);
+                key.setRecentPress(false);
+                key.setRecentRelease(true);
+            }
+        },
+        KeyEvent.KEY_TYPED, (keyEvent) -> lastKeyPressed = KeyEvent.getKeyText(keyEvent.getKeyCode())
     );
 
     /** Initializes the keyboard. */
@@ -106,6 +118,10 @@ public class Keyboard implements KeyListener {
         }
     }
 
+    /** Empty default constructor. */
+    public Keyboard() {
+    }
+
     /** Clears all key input from the keyboard. */
     public static void reset() {
         AllKeys.clear();
@@ -119,11 +135,10 @@ public class Keyboard implements KeyListener {
      * <p>
      * If the specified key was recently pressed, it will no longer be recently pressed when this method concludes.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
-     *                    KeyEvent class.
-     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
-     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent class.
+     * @param keyLocation KeyType value that determines where this key is on the keyboard. This value is based on the KeyEvent location
+     *                    values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different possible
+     *                    locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently pressed.
      */
     public static boolean isKeyRecentlyPressed(int keyCode, int keyLocation) {
@@ -155,11 +170,10 @@ public class Keyboard implements KeyListener {
      * <p>
      * If the specified key was recently released, it will no longer be recently released when this method concludes.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
-     *                    KeyEvent class.
-     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
-     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent class.
+     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the KeyEvent location
+     *                    values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different possible
+     *                    locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key was recently released.
      */
     public static boolean isKeyRecentlyReleased(int keyCode, int keyLocation) {
@@ -180,8 +194,8 @@ public class Keyboard implements KeyListener {
      * <p>
      * If the specified key was recently released, it will no longer be recently released when this method concludes.
      * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
-     * for the left location.
+     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check for the left
+     * location.
      *
      * @param key Enum value specifying a specific key.
      * @return Boolean value that determines if the specified key was recently released.
@@ -193,11 +207,10 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key (at the specified key location) is currently pressed.
      *
-     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the
-     *                    KeyEvent class.
-     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the
-     *                    KeyEvent location values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and
-     *                    {@code NUMPAD} to define the different possible locations for a key on the keyboard.
+     * @param keyCode     Integer value to look for a specific key. The best way to look for a key is to use the KeyEvent class.
+     * @param keyLocation Integer value that determines where this key is on the keyboard. This value is based on the KeyEvent location
+     *                    values, using {@code STANDARD}, {@code LEFT}, {@code RIGHT}, and {@code NUMPAD} to define the different possible
+     *                    locations for a key on the keyboard.
      * @return Boolean value that determines if the specified key is pressed.
      */
     public static boolean isKeyDown(int keyCode, int keyLocation) {
@@ -212,8 +225,8 @@ public class Keyboard implements KeyListener {
     /**
      * Checks if the specified key is currently pressed.
      * <p>
-     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check
-     * for the left location.
+     * If the key specified is either {@code KeyEvent.VK_CONTROL} or {@code KeyEvent.VK_SHIFT}, by default it will check for the left
+     * location.
      *
      * @param key Enum value specifying a specific key.
      * @return Boolean value that determines if the specified key is pressed.
@@ -245,10 +258,12 @@ public class Keyboard implements KeyListener {
         return false;
     }
 
+    /** {@return the set of {@link Keys keys} currently pressed down} */
     public static Set<Keys> getKeysDown() {
         return Collections.unmodifiableSet(AllKeysDown);
     }
 
+    /** Stops the keyboard entirely. */
     public static void stop() {
         reset();
 
@@ -294,8 +309,7 @@ public class Keyboard implements KeyListener {
     /**
      * Class to store the data and state of a key being pressed or not.
      * <p>
-     * Each {@code Key} also contains a {@code KeyDescription} that defines the code of the key, and its location on the
-     * keyboard.
+     * Each {@code Key} also contains a {@code KeyDescription} that defines the code of the key, and its location on the keyboard.
      */
     private static class Key {
         private final KeyDescription keyDescription;
@@ -370,14 +384,14 @@ public class Keyboard implements KeyListener {
         @Override
         public String toString() {
             return "Key{" +
-                    "keyDescription=" + keyDescription +
-                    ", isKeyDown=" + isKeyDown +
-                    ", recentPress=" + recentPress +
-                    ", recentRelease=" + recentRelease +
-                    ", lock=" + currentlyPressed +
-                    ", pressTimer=" + pressTimer +
-                    ", releaseTimer=" + releaseTimer +
-                    '}';
+                "keyDescription=" + keyDescription +
+                ", isKeyDown=" + isKeyDown +
+                ", recentPress=" + recentPress +
+                ", recentRelease=" + recentRelease +
+                ", lock=" + currentlyPressed +
+                ", pressTimer=" + pressTimer +
+                ", releaseTimer=" + releaseTimer +
+                '}';
         }
     }
 
@@ -417,9 +431,9 @@ public class Keyboard implements KeyListener {
         @Override
         public String toString() {
             return "KeyDescription{" +
-                    "keyCode=" + keyCode +
-                    ", keyLocation=" + keyLocation +
-                    '}';
+                "keyCode=" + keyCode +
+                ", keyLocation=" + keyLocation +
+                '}';
         }
 
         @Override
