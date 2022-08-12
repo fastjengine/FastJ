@@ -13,9 +13,16 @@ import javax.swing.JPanel;
  */
 public class DialogConfig {
 
+    /** Default parent component for the dialog. */
     public static final Component DefaultParentComponent = null;
+
+    /** Default dialog title. */
     public static final String DefaultTitle = "Dialog";
+
+    /** Default dialog prompt text. */
     public static final String DefaultPromptText = "";
+
+    /** Default dialog icon. */
     public static final Icon DefaultIcon = null;
 
     private final Component parentComponent;
@@ -58,8 +65,8 @@ public class DialogConfig {
     }
 
     /**
-     * The prompt for the dialog. This can be almost anything -- a simple {@code int}, a {@code String}, even a {@link
-     * JPanel} containing a bunch of {@code Component}s for custom dialog content.
+     * The prompt for the dialog. This can be almost anything -- a simple {@code int}, a {@code String}, even a {@link JPanel} containing a
+     * bunch of {@code Component}s for custom dialog content.
      *
      * @return The prompt {@code Object}.
      */
@@ -68,8 +75,7 @@ public class DialogConfig {
     }
 
     /**
-     * The {@link Icon} used for the dialog. This is often provided by the dialog's {@link DialogMessageTypes message
-     * type}.
+     * The {@link Icon} used for the dialog. This is often provided by the dialog's {@link DialogMessageTypes message type}.
      *
      * @return The {@link Icon} instance.
      */
