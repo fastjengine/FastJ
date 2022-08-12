@@ -63,6 +63,7 @@ public class ManagedList<E> implements List<E> {
     /**
      * A constructor matching {@link ArrayList#ArrayList(int)}.
      *
+     * @param initialCapacity see {@link ArrayList#ArrayList(int)}
      * @see ArrayList#ArrayList(int)
      */
     public ManagedList(int initialCapacity) {
@@ -73,6 +74,7 @@ public class ManagedList<E> implements List<E> {
     /**
      * A constructor matching {@link ArrayList#ArrayList(Collection)}.
      *
+     * @param collection see {@link ArrayList#ArrayList(Collection)}
      * @see ArrayList#ArrayList(Collection)
      */
     public ManagedList(Collection<? extends E> collection) {
@@ -83,6 +85,8 @@ public class ManagedList<E> implements List<E> {
     /**
      * {@link #shutdownNow() Shuts down} the list's manager, and creates a new one. If the manager was previously shut down, this is the
      * recommended way to restore it.
+     *
+     * @return the list of remaining actions from being shut down.
      */
     public List<Runnable> resetManager() {
         List<Runnable> remnants = shutdownNow();
@@ -95,17 +99,17 @@ public class ManagedList<E> implements List<E> {
         listManager.shutdown();
     }
 
-    /** @return See {@link ExecutorService#shutdownNow()} */
+    /** {@return See {@link ExecutorService#shutdownNow()}} */
     public List<Runnable> shutdownNow() {
         return listManager.shutdownNow();
     }
 
-    /** @return See {@link ExecutorService#isShutdown()} */
+    /** {@return See {@link ExecutorService#isShutdown()}} */
     public boolean isShutdown() {
         return listManager.isShutdown();
     }
 
-    /** @return See {@link ExecutorService#isTerminated()} */
+    /** {@return See {@link ExecutorService#isTerminated()}} */
     public boolean isTerminated() {
         return listManager.isTerminated();
     }
