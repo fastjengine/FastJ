@@ -21,6 +21,9 @@ import javax.sound.sampled.LineUnavailableException;
  */
 public class MemoryAudioPlayer {
 
+    private MemoryAudioPlayer() {
+    }
+
     /** See {@link Audio#play()}. */
     static void playAudio(MemoryAudio audio, long playbackPosition) {
         Clip clip = audio.getAudioSource();

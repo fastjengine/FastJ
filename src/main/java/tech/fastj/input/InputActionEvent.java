@@ -11,6 +11,11 @@ import java.awt.event.InputEvent;
  * @since 1.7.0
  */
 public abstract class InputActionEvent extends Event {
+
+    /** Empty default constructor. */
+    protected InputActionEvent() {
+    }
+
     /** {@return the {@link InputEvent raw AWT input event}} */
     public abstract InputEvent getRawEvent();
 }

@@ -13,6 +13,10 @@ import java.awt.event.MouseEvent;
  */
 public abstract class MouseActionEvent extends InputActionEvent {
 
+    /** Empty default constructor. */
+    protected MouseActionEvent() {
+    }
+
     /** {@return the raw {@link MouseEvent AWT mouse event}} */
     @Override
     public abstract MouseEvent getRawEvent();

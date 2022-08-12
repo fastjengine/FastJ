@@ -22,8 +22,12 @@ import javax.sound.sampled.SourceDataLine;
  */
 public class StreamedAudioPlayer {
 
+    /** Default buffer size for reading in audio. */
     public static final int BufferSize = 4096;
     private static ExecutorService lineWriter = Executors.newWorkStealingPool();
+
+    private StreamedAudioPlayer() {
+    }
 
     /** Resets the {@code StreamedAudioPlayer}, removing all of its loaded audio files. */
     public static void reset() {

@@ -162,6 +162,10 @@ public class Mouse implements MouseListener, MouseMotionListener, MouseWheelList
         MouseEvent.MOUSE_WHEEL, mouseEvent -> MouseScrollEvent.fromMouseWheelEvent((MouseWheelEvent) mouseEvent, MouseAction.WheelScroll)
     );
 
+    /** Empty default constructor. */
+    public Mouse() {
+    }
+
     /** Initializes the mouse. */
     public static void init() {
         if (FastJEngine.isLogging(LogLevel.Debug)) {

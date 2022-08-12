@@ -12,6 +12,10 @@ import java.awt.event.KeyEvent;
  */
 public abstract class KeyboardActionEvent extends InputActionEvent {
 
+    /** Empty default constructor. */
+    protected KeyboardActionEvent() {
+    }
+
     /** {@return the {@link KeyEvent raw AWT keyboard event}} */
     @Override
     public abstract KeyEvent getRawEvent();
