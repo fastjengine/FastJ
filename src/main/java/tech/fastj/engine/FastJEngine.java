@@ -27,6 +27,7 @@ import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudioPlayer;
+import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.LogicManager;
 import tech.fastj.systems.execution.FastJScheduledThreadPool;
@@ -111,37 +112,49 @@ public class FastJEngine {
     private static final Map<Class<Animated<?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
 
     // Game Loop
+    /** Fixed Update loop state definition. */
     public static final GameLoopState GeneralFixedUpdate = new GameLoopState(
         CoreLoopState.FixedUpdate,
         1,
         (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdate(canvas)
     );
+
+    /** Fixed Update loop state definition for {@link Behavior behvaiors}. */
     public static final GameLoopState BehaviorFixedUpdate = new GameLoopState(
         CoreLoopState.FixedUpdate,
         2,
         (gameLoopState, fixedDeltaTime) -> gameManager.fixedUpdateBehaviors()
     );
 
+    /** Update loop state for processing general input. Currently unused. */
     public static final GameLoopState ProcessInputEvents = new GameLoopState(
         CoreLoopState.Update,
         0,
         (gameLoopState, deltaTime) -> {}
     );
+
+    /** Update loop state for {@link LogicManager#processKeysDown() processing input keys pressed down}. */
     public static final GameLoopState ProcessKeysDown = new GameLoopState(
         CoreLoopState.Update,
         1,
         (gameLoopState, deltaTime) -> gameManager.processKeysDown()
     );
+
+    /** Update loop state definition. */
     public static final GameLoopState GeneralUpdate = new GameLoopState(
         CoreLoopState.Update,
         2,
         (gameLoopState, deltaTime) -> gameManager.update(canvas)
     );
+
+    /** Update loop state definition for {@link Behavior behaviors}. */
     public static final GameLoopState BehaviorUpdate = new GameLoopState(
         CoreLoopState.Update,
         3,
         (gameLoopState, deltaTime) -> gameManager.updateBehaviors()
     );
+
+    /** Update loop state definition for {@link AnimationEngine#stepAnimations(float) stepping animations forward}. */
     public static final GameLoopState AnimationStep = new GameLoopState(
         CoreLoopState.Update,
         4,
@@ -151,6 +164,8 @@ public class FastJEngine {
             }
         }
     );
+
+    /** Update loop state definition for {@link LogicManager#render(FastJCanvas) rendering}. */
     public static final GameLoopState GeneralRender = new GameLoopState(
         CoreLoopState.LateUpdate,
         Integer.MAX_VALUE - 1,
@@ -419,6 +434,7 @@ public class FastJEngine {
     /**
      * Gets the {@link Display} object associated with the game engine.
      *
+     * @param <T> The type of the display.
      * @return The game engine's display instance.
      */
     @SuppressWarnings("unchecked")
