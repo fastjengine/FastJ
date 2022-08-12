@@ -31,6 +31,7 @@ public class SimpleDisplay implements Display {
 
     /** The default title used in a {@code SimpleDisplay}. */
     public static final String DefaultTitle = "New FastJ Program";
+
     /** The default size of a {@code SimpleDisplay}. */
     public static final Point DefaultDisplaySize = new Point(1280, 720);
 
@@ -293,8 +294,8 @@ public class SimpleDisplay implements Display {
 
     private void toggleFullScreenWindow() {
         GraphicsEnvironment.getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice()
-                .setFullScreenWindow(window);
+            .getDefaultScreenDevice()
+            .setFullScreenWindow(window);
     }
 
     private void disposeWindow() {
