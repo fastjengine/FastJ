@@ -51,8 +51,9 @@ public class FastJCanvas {
     private Canvas canvas;
 
     /**
-     * Creates a display with the specified title, window resolution, and canvas cesolution.
+     * Creates a display with the specified title, window resolution, and canvas resolution.
      *
+     * @param display          The {@link Display display}.
      * @param canvasResolution The internal game resolution.
      */
     public FastJCanvas(Display display, Point canvasResolution) {
@@ -64,17 +65,13 @@ public class FastJCanvas {
         keyboard = new Keyboard();
     }
 
-    /**
-     * Gets the canvas cesolution of the {@code Display}.
-     *
-     * @return The canvas cesolution, as a {@code Point}.
-     */
+    /** {@return the canvas resolution} */
     public Point getResolution() {
         return resolution;
     }
 
     /**
-     * Sets the {@code Display}'s game resolution.
+     * Sets the canvas resolution.
      * <p>
      * This is the resolution that the game itself is intended for, and looks the best on.
      *
@@ -86,41 +83,28 @@ public class FastJCanvas {
     }
 
     /**
-     * Gets the scaling of the {@code Display} resolution.
+     * {@return the current scaling of the resolution}
      * <p>
-     * The scale is represented as an expression of {@code windowResolution / canvasResolution}.
+     * The scale is represented as an expression of
+     * {@code {@link Display#getScreenSize() display screen size} / {@link #getResolution() canvas resolution}}.
      * <p>
-     * The values for the x and y of the returned {@code Pointf} are {@code 0 < x <= 1}.
-     *
-     * @return The scale of the {@code Display} resolution.
+     * The values for the x and y of the returned {@link Pointf} are {@code 0 < x <= 1}.
      */
     public Pointf getResolutionScale() {
         return Pointf.divide(new Point(display.getWindow().getSize()).asPointf(), resolution.asPointf());
     }
 
-    /**
-     * Gets the centerpoint of the {@code Display}'s canvas cesolution.
-     *
-     * @return The centerpoint of the canvas cesolution as a {@code Pointf}.
-     */
+    /** {@return the center of the canvas' {@link #getResolution() resolution}} */
     public Pointf getCanvasCenter() {
         return Pointf.divide(resolution.asPointf(), 2f);
     }
 
-    /**
-     * Gets the background of the {@code Display}.
-     *
-     * @return The background, as a {@code Rectangle2D.Float}.
-     */
+    /** {@return the background} */
     public Rectangle2D.Float getBackground() {
         return background;
     }
 
-    /**
-     * Gets the color of the background of the {@code Display}.
-     *
-     * @return The color of the background, as a {@code Color}.
-     */
+    /** {@return the background color} */
     public Color getBackgroundColor() {
         return canvas.getBackground();
     }
@@ -134,18 +118,13 @@ public class FastJCanvas {
         canvas.setBackground(newColor);
     }
 
-    /**
-     * Gets the {@code Canvas} of the {@code Display}.
-     *
-     * @return The {@code Canvas} of the {@code Display}.
-     */
+    /** {@return the {@link Display display} canvas} */
     public Canvas getRawCanvas() {
         return canvas;
     }
 
     /**
-     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the transformation of the current
-     * scene's camera.
+     * Gets the {@code Graphics2D} object associated with this {@code Display}, set to the transformation of the current scene's camera.
      *
      * @return The {@code Graphics2D} object which is associated with the {@code Display}.
      */
@@ -175,11 +154,11 @@ public class FastJCanvas {
 
             Graphics2D drawGraphics = prepareGraphics((Graphics2D) drawBuffer.getDrawGraphics(), camera);
             drawGraphics.clearRect(
-                    (int) (background.x - camera.getTranslation().x),
-                    (int) (background.y - camera.getTranslation().y),
-                    // add 1 to these values to account for floating point cutoff, since this has to be all integers
-                    (int) background.width + 1,
-                    (int) background.height + 1
+                (int) (background.x - camera.getTranslation().x),
+                (int) (background.y - camera.getTranslation().y),
+                // add 1 to these values to account for floating point cutoff, since this has to be all integers
+                (int) background.width + 1,
+                (int) background.height + 1
             );
 
             for (GameObject gameObject : gameObjects.values()) {
@@ -240,10 +219,10 @@ public class FastJCanvas {
     }
 
     /**
-     * Gets the value that determines whether the {@code Drawable} is visible on screen.
+     * {@return whether the given {@link Drawable drawable} is visible on screen with the given {@link Camera camera} transform}
      *
      * @param drawable The {@code Drawable} to check.
-     * @return A boolean that represents whether the drawable is visible on screen.
+     * @param camera   The {@link Camera camera} to check from, for proper transformation checking.
      */
     public boolean isOnScreen(Drawable drawable, Camera camera) {
         try {
@@ -342,14 +321,13 @@ public class FastJCanvas {
     }
 
     /**
-     * Prepares the provided {@code Graphics2D} object.
+     * {@return a prepared version of the provided {@link Graphics2D} instance}
      * <p>
-     * This scales the object by the current display's resolution scale, sets its rendering hints to the current {@code Display}'s rendering
-     * hints, and transforms it based on the specified camera's transformation.
+     * This scales the object by the current {@link #getResolutionScale() resolution scale}, sets its rendering hints to the current
+     * rendering hints, and transforms it based on the specified {@link Camera#getTransformation() camera transform}.
      *
-     * @param g      The {@code Graphics2D} object to be prepared.
-     * @param camera The camera used to prepare the graphics object.
-     * @return A prepared version of the original {@code Graphics2D} object.
+     * @param g      The {@link Graphics2D} instance to be prepared.
+     * @param camera The camera used to transform the graphics object.
      */
     private Graphics2D prepareGraphics(Graphics2D g, Camera camera) {
         g.setRenderingHints(renderHints);
