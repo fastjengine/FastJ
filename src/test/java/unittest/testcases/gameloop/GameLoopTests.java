@@ -275,7 +275,7 @@ class GameLoopTests {
         gameLoop.addEventHandler((eventObservers, event) -> {}, MockEvent.class);
         gameLoop.addEventObserver(event -> {}, MockEvent.class);
 
-        gameLoop.clear();
+        gameLoop.clearEventSystem();
 
         assertEquals(0, gameLoop.getEventObservers(MockEvent.class).size(), "After clearing, there should be no event observers.");
         assertNull(gameLoop.getEventHandler(MockEvent.class), "After clearing, there should be no event handler.");
