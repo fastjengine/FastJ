@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 
+/**
+ * Utility class to load models for {@link Polygon2D} and {@link Model2D}, as well as to write them to files.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class ModelUtil {
 
     private ModelUtil() {
@@ -20,23 +26,23 @@ public class ModelUtil {
     }
 
     private static final Map<String, BiFunction<Path, List<String>, Polygon2D[]>> ModelParser = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::parse,
-            SupportedModelFormats.Obj, ObjUtil::parse
+        SupportedModelFormats.Psdf, PsdfUtil::parse,
+        SupportedModelFormats.Obj, ObjUtil::parse
     );
 
     private static final Map<String, BiConsumer<Path, Model2D>> ModelWriter = Map.of(
-            SupportedModelFormats.Psdf, PsdfUtil::write,
-            SupportedModelFormats.Obj, ObjUtil::write
+        SupportedModelFormats.Psdf, PsdfUtil::write,
+        SupportedModelFormats.Obj, ObjUtil::write
     );
 
     /**
      * Gets a {@code Polygon2D} array, loaded from a {@code .psdf} file.
      * <p>
-     * This method allows the user to load an array of {@code Polygon2D}s from a single file, decreasing the amount of
-     * models that have to be programmed in.
+     * This method allows the user to load an array of {@code Polygon2D}s from a single file, decreasing the amount of models that have to
+     * be programmed in.
      * <p>
-     * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly use the resulting
-     * array from this method to create a {@code Model2D} object.
+     * Furthermore, this allows for easy use of the {@code Model2D} class, allowing you to directly use the resulting array from this method
+     * to create a {@code Model2D} object.
      *
      * @param modelPath File location of the model.
      * @return An array of {@code Polygon2D}s.
@@ -54,8 +60,7 @@ public class ModelUtil {
     }
 
     /**
-     * Writes a model file containing the current state of the {@code Polygon2D}s that make up the specified {@code
-     * Model2D}.
+     * Writes a model file containing the current state of the {@code Polygon2D}s that make up the specified {@code Model2D}.
      *
      * @param destinationPath The destination path of the model file that will be written.
      * @param model           The {@code Model2D} that will be written to the file.
@@ -69,9 +74,9 @@ public class ModelUtil {
     private static void checkFileExtension(String fileExtension) {
         if (Arrays.stream(SupportedModelFormats.values()).noneMatch(fileFormat -> fileFormat.equalsIgnoreCase(fileExtension))) {
             throw new IllegalArgumentException(
-                    "Unsupported file extension \"" + fileExtension + "\"."
-                            + System.lineSeparator()
-                            + "This engine only supports files of the following extensions: " + SupportedModelFormats.valuesString
+                "Unsupported file extension \"" + fileExtension + "\"."
+                    + System.lineSeparator()
+                    + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString
             );
         }
     }

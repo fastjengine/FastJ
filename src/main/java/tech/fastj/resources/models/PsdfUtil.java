@@ -30,6 +30,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * WIP Utility class for reading and writing {@link Polygon2D} to and from the {@code .PSDF} file format.
+ *
+ * @author Andrew Dey
+ * @since 1.6.0
+ */
 public class PsdfUtil {
 
     private static final String LineSeparator = System.lineSeparator();
@@ -41,6 +47,7 @@ public class PsdfUtil {
     /**
      * Parses the specified file contents into a {@code Polygon2D} array.
      *
+     * @param modelPath path of the model -- currently unused.
      * @param lines The .psdf file, split line by line.
      * @return An array of {@code Polygon2D}s.
      */
@@ -332,6 +339,12 @@ public class PsdfUtil {
         return new Pointf(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]));
     }
 
+    /**
+     * Writes the given {@link Model2D model} to the given file path.
+     *
+     * @param destinationPath The {@link Path filepath} to write the model to.
+     * @param model The model to write.
+     */
     public static void write(Path destinationPath, Model2D model) {
         StringBuilder fileContents = new StringBuilder();
         writePolygonAmount(fileContents, model.getPolygons());
@@ -561,21 +574,37 @@ public class PsdfUtil {
             throw new java.lang.IllegalStateException();
         }
 
+        /** Empty line. */
         public static final String Empty = "";
+        /** Number of {@link Polygon2D} in file. */
         public static final String Amount = "amt";
+        /** Indicator of a {@link RenderStyle} present. */
         public static final String RenderStyle = "rs";
+        /** {@link Polygon2D} uses {@link RenderStyle#Fill}. */
         public static final String RenderStyleFill = "fill";
+        /** {@link Polygon2D} uses {@link RenderStyle#Outline}. */
         public static final String RenderStyleOutline = "outline";
+        /** {@link Polygon2D} uses {@link RenderStyle#FillAndOutline}. */
         public static final String RenderStyleFillAndOutline = "filloutline";
+        /** Indicator of a {@link Color color} present. */
         public static final String FillPaintColor = "c";
+        /** Indicator of a {@link LinearGradientPaint linear gradient} present. */
         public static final String FillPaintLinearGradient = "lg";
+        /** Indicator of a {@link RadialGradientPaint radial gradient} present. */
         public static final String FillPaintRadialGradient = "rg";
+        /** Indicator of a {@link TexturePaint texture} present. */
         public static final String FillPaintTexture = "tx";
+        /** Indicator of a {@link BasicStroke outline stroke} present. */
         public static final String OutlineStroke = "otls";
+        /** Indicator of a {@link Color outline color} present. */
         public static final String OutlineColor = "otlc";
+        /** Indicator of a {@link Transform2D transform} present. */
         public static final String Transform = "tfm";
+        /** Indicator of whether the {@link Polygon2D} should be rendered. */
         public static final String ShouldRender = "sr";
+        /** Indicator of a mesh point value. */
         public static final String MeshPoint = "p";
+        /** Indicator of an alternate index value. */
         public static final String AlternateIndex = "aip";
     }
 }
