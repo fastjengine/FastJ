@@ -13,8 +13,9 @@ import java.util.Objects;
 /**
  * A type of {@link Drawable} that can be easily transformed and otherwise manipulated.
  * <p>
- * The {@code GameObject} class is one of the most useful backing classes in the engine. It contains the logic needed to
- * transform objects that can be rendered to the screen -- polygons, models, and (still a work in progress) text.
+ * This is one of the most useful backing classes in the engine. It contains the logic needed to transform objects that can be rendered to
+ * the screen -- {@link Polygon2D shapes}, {@link Model2D models}, {@link Text2D text}, {@link Light2D light}, and
+ * {@link Sprite2D sprites}.
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -28,16 +29,12 @@ public abstract class GameObject extends Drawable {
         behaviors = new ManagedList<>();
     }
 
-    /**
-     * Gets the {@code GameObject}'s list of {@link Behavior}s.
-     *
-     * @return The list of {@code Behavior}s.
-     */
+    /** {@return the gmae object's {@link Behavior behaviors}} */
     public List<Behavior> getBehaviors() {
         return behaviors;
     }
 
-    /** Calls the {@link Behavior#init(GameObject)} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#init(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void initBehaviors() {
         behaviors.run(list -> {
             for (Behavior behavior : list) {
@@ -46,7 +43,7 @@ public abstract class GameObject extends Drawable {
         });
     }
 
-    /** Calls the {@link Behavior#fixedUpdate(GameObject)} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#fixedUpdate(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void fixedUpdateBehaviors() {
         behaviors.run(list -> {
             for (Behavior behavior : list) {
@@ -55,7 +52,7 @@ public abstract class GameObject extends Drawable {
         });
     }
 
-    /** Calls the {@link Behavior#update(GameObject)} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#update(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void updateBehaviors() {
         behaviors.run(list -> {
             for (Behavior behavior : list) {
@@ -64,7 +61,7 @@ public abstract class GameObject extends Drawable {
         });
     }
 
-    /** Calls the {@link Behavior#destroy()} method for each of the {@code GameObject}'s behaviors. */
+    /** Calls the {@link Behavior#destroy()} method for each of the {@link GameObject game object}'s behaviors. */
     public synchronized void destroyAllBehaviors() {
         behaviors.shutdownNow();
         for (Behavior behavior : behaviors) {
@@ -72,19 +69,17 @@ public abstract class GameObject extends Drawable {
         }
     }
 
-    /** Clears the {@code GameObject}'s list of {@code Behavior}s. */
+    /** Clears the {@link GameObject}'s list of {@link Behavior behaviors}. */
     public void clearAllBehaviors() {
         behaviors.clear();
     }
 
     /**
-     * Adds the specified {@link Behavior} to the {@code GameObject}'s list of {@code Behavior}s.
-     * <p>
-     * {@code Behavior}s can be added as many times as needed.
+     * Adds the specified {@link Behavior behavior} to the {@link GameObject}'s list of {@link Behavior behaviors}.
      *
      * @param behavior        {@code Behavior} parameter to be added.
-     * @param behaviorHandler Handler that the {@code GameObject} will be added to, as a behavior listener.
-     * @return the {@code GameObject} is returned for method chaining.
+     * @param behaviorHandler Handler that the {@link GameObject game object} will be added to, as a behavior listener.
+     * @return the {@link GameObject game object} is returned for method chaining.
      */
     public GameObject addBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
         behaviors.add(behavior);
@@ -94,15 +89,13 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Adds the specified {@link Behavior} to the {@code GameObject}'s list of {@code Behavior}s, and initializes it.
+     * Adds the specified {@link Behavior} to the {@link GameObject game object}'s list of {@link Behavior behaviors}, and initializes it.
      * <p>
      * This does not check to make sure the game is running -- it only initializes the given behavior.
-     * <p>
-     * {@code Behavior}s can be added as many times as needed.
      *
      * @param behavior        {@code Behavior} parameter to be added.
-     * @param behaviorHandler Handler that the {@code GameObject} will be added to, as a behavior listener.
-     * @return the {@code GameObject} is returned for method chaining.
+     * @param behaviorHandler Handler that the {@link GameObject game object} will be added to, as a behavior listener.
+     * @return the {@link GameObject game object} is returned for method chaining.
      */
     public GameObject addLateBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
         behaviors.add(behavior);
@@ -113,12 +106,12 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Removes the specified {@link Behavior} from the {@code GameObject}'s list of {@code Behavior}s.
+     * Removes the specified {@link Behavior} from the {@link GameObject game object}'s list of {@link Behavior behaviors}.
      *
      * @param behavior        {@code Behavior} parameter to be removed from.
-     * @param behaviorHandler Handler that, if the {@code GameObject} no longer has any Behaviors, the
-     *                        {@code GameObject} will be removed from as a behavior listener.
-     * @return the {@code GameObject} is returned for method chaining.
+     * @param behaviorHandler Handler that, if the {@link GameObject game object} no longer has any Behaviors, the
+     *                        {@link GameObject game object} will be removed from as a behavior listener.
+     * @return the {@link GameObject game object} is returned for method chaining.
      */
     public GameObject removeBehavior(Behavior behavior, BehaviorHandler behaviorHandler) {
         behaviors.remove(behavior);
@@ -130,16 +123,16 @@ public abstract class GameObject extends Drawable {
     }
 
     /**
-     * Renders the {@code GameObject} to the specified {@link Graphics2D} parameter.
+     * Renders the {@link GameObject game object} to the specified {@link Graphics2D} parameter.
      *
-     * @param g The {@code Graphics2D} parameter to render the {@code GameObject} to.
+     * @param g The {@code Graphics2D} parameter to render the {@link GameObject game object} to.
      */
     public abstract void render(Graphics2D g);
 
     /**
-     * Destroys all references of the {@code GameObject}'s behaviors and removes its references from the {@link GameHandler}.
+     * Destroys all references of the {@link GameObject game object}'s behaviors and removes its references from the {@link GameHandler}.
      *
-     * @param origin {@code GameHandler} parameter that will have all references to this {@code GameObject} removed.
+     * @param origin {@code GameHandler} parameter that will have all references to this {@link GameObject game object} removed.
      */
     @Override
     protected void destroyTheRest(GameHandler origin) {
@@ -172,8 +165,8 @@ public abstract class GameObject extends Drawable {
     @Override
     public String toString() {
         return "GameObject{" +
-                "behaviors=" + behaviors +
-                ", transform=" + transform +
-                '}';
+            "behaviors=" + behaviors +
+            ", transform=" + transform +
+            '}';
     }
 }
