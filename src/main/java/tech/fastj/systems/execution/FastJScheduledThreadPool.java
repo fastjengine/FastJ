@@ -102,6 +102,8 @@ public class FastJScheduledThreadPool extends ScheduledThreadPoolExecutor {
             if (shouldCloseOnError) {
                 FastJEngine.forceCloseGame();
             }
+
+            throw new IllegalStateException(throwable);
         }
     }
 }
