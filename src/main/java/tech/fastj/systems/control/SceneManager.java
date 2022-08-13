@@ -99,9 +99,6 @@ public abstract class SceneManager implements LogicManager {
      * </ul>
      */
     @Override
-    public abstract void init(FastJCanvas canvas);
-
-    @Override
     public void initBehaviors() {
         safeInit();
     }
