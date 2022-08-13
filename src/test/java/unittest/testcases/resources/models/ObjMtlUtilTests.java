@@ -268,7 +268,7 @@ class ObjMtlUtilTests {
 
         String expectedExceptionMessage = "Unsupported file extension \"txt\"."
                 + System.lineSeparator()
-                + "This engine only supports files of the following extensions: " + SupportedModelFormats.valuesString;
+                + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString;
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 

@@ -17,6 +17,12 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * WIP Utility class for reading and writing {@link Polygon2D} to and from the {@code .OBJ} file format.
+ *
+ * @author Andrew Dey
+ * @since 1.6.0
+ */
 public class ObjUtil {
 
     private static final String LineSeparator = System.lineSeparator();

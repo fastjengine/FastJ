@@ -17,6 +17,12 @@ import java.nio.file.Path;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Utility methods for working with images.
+ *
+ * @author Andrew Dey
+ * @since 1.6.0
+ */
 public class ImageUtil {
 
     private ImageUtil() {
@@ -25,12 +31,13 @@ public class ImageUtil {
 
     public static VolatileImage createVolatileImage(int width, int height) {
         try {
-            return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleVolatileImage(
+            return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration()
+                .createCompatibleVolatileImage(
                     width,
                     height,
                     new ImageCapabilities(true),
                     Transparency.TRANSLUCENT
-            );
+                );
         } catch (AWTException e) {
             throw new IllegalStateException("Issue creating volatile image", e);
         }
@@ -38,9 +45,9 @@ public class ImageUtil {
 
     public static BufferedImage createBufferedImage(int width, int height) {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().createCompatibleImage(
-                width,
-                height,
-                Transparency.TRANSLUCENT
+            width,
+            height,
+            Transparency.TRANSLUCENT
         );
     }
 
@@ -83,11 +90,11 @@ public class ImageUtil {
 
         if (expectedHorizontalImagePixels != actualHorizontalImagePixels) {
             FastJEngine.warning(
-                    "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
-                    horizontalImageCount,
-                    actualHorizontalImagePixels,
-                    bufferedImageWidth,
-                    horizontalImageCount
+                "The horizontal image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
+                horizontalImageCount,
+                actualHorizontalImagePixels,
+                bufferedImageWidth,
+                horizontalImageCount
             );
         }
 
@@ -97,11 +104,11 @@ public class ImageUtil {
 
         if (expectedVerticalImagePixels != actualVerticalImagePixels) {
             FastJEngine.warning(
-                    "The vertical image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
-                    verticalImageCount,
-                    actualVerticalImagePixels,
-                    bufferedImageHeight,
-                    verticalImageCount
+                "The vertical image count given ({}) may cause pixel loss, as not all images will receive the same amount. The calculated pixel count {} is derived from \"{} / {}\".",
+                verticalImageCount,
+                actualVerticalImagePixels,
+                bufferedImageHeight,
+                verticalImageCount
             );
         }
 
@@ -110,10 +117,10 @@ public class ImageUtil {
         for (int i = 0; i < verticalImageCount; i++) {
             for (int j = 0; j < horizontalImageCount; j++) {
                 spriteSheet[spriteSheetIndex] = bufferedImage.getSubimage(
-                        j * expectedHorizontalImagePixels,
-                        i * expectedVerticalImagePixels,
-                        expectedHorizontalImagePixels,
-                        expectedVerticalImagePixels
+                    j * expectedHorizontalImagePixels,
+                    i * expectedVerticalImagePixels,
+                    expectedHorizontalImagePixels,
+                    expectedVerticalImagePixels
                 );
                 spriteSheetIndex++;
             }
