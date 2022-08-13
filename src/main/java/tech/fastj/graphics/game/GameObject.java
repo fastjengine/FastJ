@@ -3,10 +3,10 @@ package tech.fastj.graphics.game;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.behaviors.BehaviorHandler;
-import tech.fastj.systems.collections.ManagedList;
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,11 +22,11 @@ import java.util.Objects;
  */
 public abstract class GameObject extends Drawable {
 
-    private final ManagedList<Behavior> behaviors;
+    private final List<Behavior> behaviors;
 
     /** Initializes {@link GameObject} internals. */
     protected GameObject() {
-        behaviors = new ManagedList<>();
+        behaviors = new ArrayList<>();
     }
 
     /** {@return the gmae object's {@link Behavior behaviors}} */
@@ -36,34 +36,27 @@ public abstract class GameObject extends Drawable {
 
     /** Calls the {@link Behavior#init(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void initBehaviors() {
-        behaviors.run(list -> {
-            for (Behavior behavior : list) {
-                behavior.init(this);
-            }
-        });
+        for (Behavior behavior : behaviors) {
+            behavior.init(this);
+        }
     }
 
     /** Calls the {@link Behavior#fixedUpdate(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void fixedUpdateBehaviors() {
-        behaviors.run(list -> {
-            for (Behavior behavior : list) {
-                behavior.fixedUpdate(this);
-            }
-        });
+        for (Behavior behavior : behaviors) {
+            behavior.fixedUpdate(this);
+        }
     }
 
     /** Calls the {@link Behavior#update(GameObject)} method for each of the {@link GameObject game object}'s behaviors. */
     public void updateBehaviors() {
-        behaviors.run(list -> {
-            for (Behavior behavior : list) {
-                behavior.update(this);
-            }
-        });
+        for (Behavior behavior : behaviors) {
+            behavior.update(this);
+        }
     }
 
     /** Calls the {@link Behavior#destroy()} method for each of the {@link GameObject game object}'s behaviors. */
     public synchronized void destroyAllBehaviors() {
-        behaviors.shutdownNow();
         for (Behavior behavior : behaviors) {
             behavior.destroy();
         }
