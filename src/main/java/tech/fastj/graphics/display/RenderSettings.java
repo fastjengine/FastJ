@@ -5,8 +5,8 @@ import tech.fastj.math.Maths;
 import java.awt.RenderingHints;
 
 /**
- * Based on the {@link RenderingHints} class, the {@code RenderSettings} class provides a simple way to set rendering
- * options using {@link FastJCanvas#modifyRenderSettings(RenderSettings)}.
+ * Based on the {@link RenderingHints} class, the {@code RenderSettings} class provides a simple way to set rendering options using
+ * {@link FastJCanvas#modifyRenderSettings(RenderSettings)}.
  *
  * @author Andrew Dey
  * @since 1.5.0
@@ -15,24 +15,25 @@ public class RenderSettings {
 
     final RenderingHints.Key key;
     final Object value;
-    /** String version of the {@code RenderSettings}' key. */
-    public final String keyString;
-    /** String version of the {@code RenderSettings}' value. */
-    public final String valueString;
 
-    RenderSettings(RenderingHints.Key key, String keyString, Object value, String valueString) {
+    /** Descriptive version of the {@link RenderSettings}' key. */
+    public final String keyDescriptor;
+    /** Descriptive version of the {@link RenderSettings}' value. */
+    public final String valueDescriptor;
+
+    RenderSettings(RenderingHints.Key key, String keyDescriptor, Object value, String valueDescriptor) {
         this.key = key;
-        this.keyString = keyString;
+        this.keyDescriptor = keyDescriptor;
         this.value = value;
-        this.valueString = valueString;
+        this.valueDescriptor = valueDescriptor;
     }
 
     @Override
     public String toString() {
         return "RenderSettings{" +
-                "key='" + keyString + '\'' +
-                ", value='" + valueString + '\'' +
-                '}';
+            "key='" + keyDescriptor + '\'' +
+            ", value='" + valueDescriptor + '\'' +
+            '}';
     }
 
     /** Render settings to enable/disable anti-aliasing. */
@@ -41,13 +42,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Antialiasing";
+        /** Render setting "enabled" descriptor string. */
         public static final String VStringEnable = "Enabled";
+        /** Render setting "disabled" descriptor string. */
         public static final String VStringDisable = "Disabled";
 
-        /** Render setting that enables anti-aliasing. */
+        /** Enables anti-aliasing. */
         public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_ANTIALIASING, KString, RenderingHints.VALUE_ANTIALIAS_ON, VStringEnable);
-        /** Render setting that disables anti-aliasing. */
+        /** Disables anti-aliasing. */
         public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_ANTIALIASING, KString, RenderingHints.VALUE_ANTIALIAS_OFF, VStringDisable);
     }
 
@@ -57,64 +61,67 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Text Antialiasing";
+        /** Render setting "enabled" descriptor string. */
         public static final String VStringOn = "Enabled";
+        /** Render setting "disabled" descriptor string. */
         public static final String VStringOff = "Disabled";
+        /** Render setting "text antialiasing: gasp" descriptor string. */
         public static final String VStringGasp = "Gasp";
+        /** Render setting "text antialiasing: LCD HRGB" descriptor string. */
         public static final String VStringLcdHrgb = "LCD HRGB";
+        /** Render setting "text antialiasing: LCD HBGR" descriptor string. */
         public static final String VStringLdcHbgr = "LCD HBGR";
+        /** Render setting "text antialiasing: LCD VRGB" descriptor string. */
         public static final String VStringLcdVrgb = "LCD VRGB";
+        /** Render setting "text antialiasing: LCD VBGR" descriptor string. */
         public static final String VStringLcdVbgr = "LCD VBGR";
 
-        /** Render setting that enables text anti-aliasing. */
+        /** Enables text anti-aliasing. */
         public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_ON, VStringOn);
-        /** Render setting that disables text anti-aliasing. */
+        /** Disables text anti-aliasing. */
         public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF, VStringOff);
         /**
-         * Render setting that enables anti-aliasing based on font resource specifications.
+         * Enables anti-aliasing based on font resource specifications.
          * <p>
-         * This setting uses information in font resources that specifies for each point size whether to enable or
-         * disable anti-aliasing.
+         * This setting uses information in font resources that specifies for each point size whether to enable or disable anti-aliasing.
          *
          * @see RenderingHints#VALUE_TEXT_ANTIALIAS_GASP
          */
         public static final RenderSettings Gasp = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP, VStringGasp);
         /**
-         * Render setting that enables anti-aliasing with LCD HRGB optimization.
+         * Enables anti-aliasing with LCD HRGB optimization.
          * <p>
-         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (R,
-         * G, B) such that the horizontal subpixel resolution is three times the full pixel horizontal resolution
-         * (HRGB).
+         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (R, G, B) such that the
+         * horizontal subpixel resolution is three times the full pixel horizontal resolution (HRGB).
          *
          * @see RenderingHints#VALUE_TEXT_ANTIALIAS_LCD_HRGB
          */
         public static final RenderSettings LcdHrgb = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB, VStringLcdHrgb);
         /**
-         * Render setting that enables anti-aliasing with LCD HBGR optimization.
+         * Enables anti-aliasing with LCD HBGR optimization.
          * <p>
-         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (B,
-         * G, R) such that the horizontal subpixel resolution is three times the full pixel horizontal resolution
-         * (HBGR).
+         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (B, G, R) such that the
+         * horizontal subpixel resolution is three times the full pixel horizontal resolution (HBGR).
          *
          * @see RenderingHints#VALUE_TEXT_ANTIALIAS_LCD_HBGR
          */
         public static final RenderSettings LcdHbgr = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR, VStringLdcHbgr);
         /**
-         * Render setting that enables anti-aliasing with LCD VRGB optimization.
+         * Enables anti-aliasing with LCD VRGB optimization.
          * <p>
-         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (R,
-         * G, B) such that the horizontal subpixel resolution is three times the full pixel horizontal resolution
-         * (VRGB).
+         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (R, G, B) such that the
+         * horizontal subpixel resolution is three times the full pixel horizontal resolution (VRGB).
          *
          * @see RenderingHints#VALUE_TEXT_ANTIALIAS_LCD_VRGB
          */
         public static final RenderSettings LcdVrgb = new RenderSettings(RenderingHints.KEY_TEXT_ANTIALIASING, KString, RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB, VStringLcdVrgb);
         /**
-         * Render setting that enables anti-aliasing with LCD VBGR optimization.
+         * Enables anti-aliasing with LCD VBGR optimization.
          * <p>
-         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (B,
-         * G, R) such that the horizontal subpixel resolution is three times the full pixel horizontal resolution
-         * (VBGR).
+         * This setting requests that text is optimized for an LCD display with sub-pixels displayed left to right (B, G, R) such that the
+         * horizontal subpixel resolution is three times the full pixel horizontal resolution (VBGR).
          *
          * @see RenderingHints#VALUE_TEXT_ANTIALIAS_LCD_VBGR
          */
@@ -127,13 +134,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Rendering Quality";
+        /** Render setting "low value" descriptor string. */
         public static final String VStringLow = "Low";
+        /** Render setting "high value" descriptor string. */
         public static final String VStringHigh = "High";
 
-        /** Render setting that opts for fast rendering algorithms. */
+        /** Opts for fast rendering algorithms. */
         public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_RENDERING, KString, RenderingHints.VALUE_RENDER_SPEED, VStringLow);
-        /** Render setting that opts for quality-accurate rendering algorithms. */
+        /** Opts for quality-accurate rendering algorithms. */
         public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_RENDERING, KString, RenderingHints.VALUE_RENDER_QUALITY, VStringHigh);
     }
 
@@ -143,13 +153,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Color Rendering Quality";
+        /** Render setting "low value" descriptor string. */
         public static final String VStringLow = "Low";
+        /** Render setting "high value" descriptor string. */
         public static final String VStringHigh = "High";
 
-        /** Render setting that opts for fast color rendering algorithms. */
+        /** Opts for fast color rendering algorithms. */
         public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, KString, RenderingHints.VALUE_COLOR_RENDER_SPEED, VStringLow);
-        /** Render setting that opts for quality-accurate color rendering algorithms. */
+        /** Opts for quality-accurate color rendering algorithms. */
         public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_COLOR_RENDERING, KString, RenderingHints.VALUE_COLOR_RENDER_QUALITY, VStringHigh);
     }
 
@@ -159,25 +172,29 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Image Interpolation";
+        /** Render setting "bilinear image interpolation" descriptor string. */
         public static final String VStringBilinear = "Bilinear";
+        /** Render setting "bicubic image interpolation" descriptor string. */
         public static final String VStringBicubic = "Bicubic";
+        /** Render setting "nearest-neighbor image interpolation" descriptor string. */
         public static final String VStringNearestNeighbor = "Nearest Neighbor";
 
         /**
-         * Render setting that sets image interpolation as bilinear.
+         * Sets image interpolation as bilinear.
          *
          * @see RenderingHints#VALUE_INTERPOLATION_BILINEAR
          */
         public static final RenderSettings Bilinear = new RenderSettings(RenderingHints.KEY_INTERPOLATION, KString, RenderingHints.VALUE_INTERPOLATION_BILINEAR, VStringBilinear);
         /**
-         * Render setting that sets image interpolation as bilinear.
+         * Sets image interpolation as bilinear.
          *
          * @see RenderingHints#VALUE_INTERPOLATION_BICUBIC
          */
         public static final RenderSettings Bicubic = new RenderSettings(RenderingHints.KEY_INTERPOLATION, KString, RenderingHints.VALUE_INTERPOLATION_BICUBIC, VStringBicubic);
         /**
-         * Render setting that sets image interpolation as nearest-neighbor.
+         * Sets image interpolation as nearest-neighbor.
          *
          * @see RenderingHints#VALUE_INTERPOLATION_NEAREST_NEIGHBOR
          */
@@ -190,13 +207,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Alpha Interpolation Quality";
+        /** Render setting "low value" descriptor string. */
         public static final String VStringLow = "Low";
+        /** Render setting "high value" descriptor string. */
         public static final String VStringHigh = "High";
 
-        /** Render setting that opts for fast alpha-blend rendering algorithms. */
+        /** Opts for fast alpha-blend rendering algorithms. */
         public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, KString, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED, VStringLow);
-        /** Render setting that opts for quality-accurate alpha-blend rendering algorithms. */
+        /** Opts for quality-accurate alpha-blend rendering algorithms. */
         public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_ALPHA_INTERPOLATION, KString, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY, VStringHigh);
     }
 
@@ -206,13 +226,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Outline Rendering";
+        /** Render setting "normalized" descriptor string. */
         public static final String VStringNormalize = "Normalize";
+        /** Render setting "unmodified" descriptor string. */
         public static final String VStringUnmodified = "Unmodified";
 
-        /** Render setting that normalizes polygon outlines when rendering to improve rendering uniformity. */
+        /** Normalizes polygon outlines when rendering to improve rendering uniformity. */
         public static final RenderSettings Normalize = new RenderSettings(RenderingHints.KEY_STROKE_CONTROL, KString, RenderingHints.VALUE_STROKE_NORMALIZE, VStringNormalize);
-        /** Render setting that does not normalize polygon outlines when rendering, leaving it unmodified. */
+        /** Does not normalize polygon outlines when rendering, leaving it unmodified. */
         public static final RenderSettings Unmodified = new RenderSettings(RenderingHints.KEY_STROKE_CONTROL, KString, RenderingHints.VALUE_STROKE_PURE, VStringUnmodified);
     }
 
@@ -222,16 +245,20 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Image Variant Resolution";
+        /** Render setting "standard size" descriptor string. */
         public static final String VStringStandard = "Standard";
-        public static final String VStringFitToCanavas = "Fit to Canvas";
+        /** Render setting "fit to canvas" descriptor string. */
+        public static final String VStringFitToCanvas = "Fit to Canvas";
+        /** Render setting "fit to screen DPI" descriptor string. */
         public static final String VStringFitToScreenDPI = "Fit to Screen DPI";
 
-        /** Render setting that specifies to always use the standard resolution of an image. */
+        /** Specifies to always use the standard resolution of an image. */
         public static final RenderSettings Standard = new RenderSettings(RenderingHints.KEY_RESOLUTION_VARIANT, KString, RenderingHints.VALUE_RESOLUTION_VARIANT_BASE, VStringStandard);
-        /** Render setting that specifies to choose image resolutions based on the camera transformation and screen DPI. */
-        public static final RenderSettings FitToCanvas = new RenderSettings(RenderingHints.KEY_RESOLUTION_VARIANT, KString, RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT, VStringFitToCanavas);
-        /** Render setting that specifies to choose image resolutions based on the screen DPI. */
+        /** Specifies to choose image resolutions based on the camera transformation and screen DPI. */
+        public static final RenderSettings FitToCanvas = new RenderSettings(RenderingHints.KEY_RESOLUTION_VARIANT, KString, RenderingHints.VALUE_RESOLUTION_VARIANT_SIZE_FIT, VStringFitToCanvas);
+        /** Specifies to choose image resolutions based on the screen DPI. */
         public static final RenderSettings FitToScreenDPI = new RenderSettings(RenderingHints.KEY_RESOLUTION_VARIANT, KString, RenderingHints.VALUE_RESOLUTION_VARIANT_DPI_FIT, VStringFitToScreenDPI);
     }
 
@@ -251,24 +278,31 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Text LCD Contrast";
-        public static final String VStringMinimum = "Minimum";
+        /** Render setting "lowest value" descriptor string. */
+        public static final String VStringLowest = "Lowest";
+        /** Render setting "low value" descriptor string. */
         public static final String VStringLow = "Low";
+        /** Render setting "medium value" descriptor string. */
         public static final String VStringMedium = "Medium";
+        /** Render setting "high value" descriptor string. */
         public static final String VStringHigh = "High";
-        public static final String VStringMaximum = "Maximum";
+        /** Render setting "highest value" descriptor string. */
+        public static final String VStringHighest = "Highest";
+        /** Render setting "custom value" descriptor string. */
         public static final String VStringCustom = "Custom";
 
-        /** Render setting that specifies the minimum possible contrast for text on LCD screens. */
-        public static final RenderSettings Minimum = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 250, VStringMinimum);
-        /** Render setting that specifies low contrast for text on LCD screens. */
+        /** Specifies the minimum possible contrast for text on LCD screens. */
+        public static final RenderSettings Minimum = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 250, VStringLowest);
+        /** Specifies low contrast for text on LCD screens. */
         public static final RenderSettings Low = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 213, VStringLow);
-        /** Render setting that specifies medium contrast for text on LCD screens. */
+        /** Specifies medium contrast for text on LCD screens. */
         public static final RenderSettings Medium = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 175, VStringMedium);
-        /** Render setting that specifies high contrast for text on LCD screens. */
+        /** Specifies high contrast for text on LCD screens. */
         public static final RenderSettings High = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 138, VStringHigh);
-        /** Render setting that specifies the maximum possible contrast for text on LCD screens. */
-        public static final RenderSettings Maximum = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 100, VStringMaximum);
+        /** Specifies the maximum possible contrast for text on LCD screens. */
+        public static final RenderSettings Maximum = new RenderSettings(RenderingHints.KEY_TEXT_LCD_CONTRAST, KString, 100, VStringHighest);
 
         private static final int MinimumValue = 250;
         private static final int MaximumValue = 100;
@@ -294,13 +328,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Dithering";
+        /** Render setting "enabled" descriptor string. */
         public static final String VStringEnable = "Enabled";
+        /** Render setting "disabled" descriptor string. */
         public static final String VStringDisable = "Disabled";
 
-        /** Render setting that enables dithering when rendering polygons. */
+        /** Enables dithering when rendering polygons. */
         public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_DITHERING, KString, RenderingHints.VALUE_DITHER_ENABLE, VStringEnable);
-        /** Render setting that disables dithering when rendering polygons. */
+        /** Disables dithering when rendering polygons. */
         public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_DITHERING, KString, RenderingHints.VALUE_DITHER_DISABLE, VStringDisable);
     }
 
@@ -310,13 +347,16 @@ public class RenderSettings {
             throw new IllegalStateException();
         }
 
+        /** Render setting descriptor string. */
         public static final String KString = "Subpixel Text Rendering";
+        /** Render setting "enabled" descriptor string. */
         public static final String VStringEnable = "Enabled";
+        /** Render setting "disabled" descriptor string. */
         public static final String VStringDisable = "Disabled";
 
-        /** Render setting that enables subpixel text rendering. */
+        /** Enables subpixel text rendering. */
         public static final RenderSettings Enable = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, KString, RenderingHints.VALUE_FRACTIONALMETRICS_ON, VStringEnable);
-        /** Render setting that disables subpixel text rendering. */
+        /** Disables subpixel text rendering. */
         public static final RenderSettings Disable = new RenderSettings(RenderingHints.KEY_FRACTIONALMETRICS, KString, RenderingHints.VALUE_FRACTIONALMETRICS_OFF, VStringDisable);
     }
 }
