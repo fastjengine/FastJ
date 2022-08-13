@@ -108,6 +108,8 @@ public class FastJScheduledThreadPool extends ScheduledThreadPoolExecutor {
             } finally {
                 Thread.currentThread().interrupt();
             }
+
+            throw new IllegalStateException(throwable);
         }
     }
 }
