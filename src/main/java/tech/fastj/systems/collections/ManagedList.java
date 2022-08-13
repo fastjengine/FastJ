@@ -139,7 +139,7 @@ public class ManagedList<E> implements List<E> {
         } catch (ExecutionException exception) {
             throw new IllegalStateException(exception.getCause());
         } catch (InterruptedException exception) {
-            throw new IllegalStateException(exception);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -172,7 +172,7 @@ public class ManagedList<E> implements List<E> {
         } catch (ExecutionException exception) {
             throw new IllegalStateException(exception.getCause());
         } catch (InterruptedException exception) {
-            throw new IllegalStateException(exception);
+            Thread.currentThread().interrupt();
         }
     }
 
