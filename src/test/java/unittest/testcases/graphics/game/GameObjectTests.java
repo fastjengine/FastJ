@@ -157,6 +157,7 @@ class GameObjectTests {
         Scene mockScene = new MockEmptyScene();
 
         gameObject.addLateBehavior(mockBehavior, mockScene);
+        assertNotNull(mockBehavior.getPointf());
 
         int expectedIncrement = 15;
         for (int i = 0; i < expectedIncrement; i++) {
