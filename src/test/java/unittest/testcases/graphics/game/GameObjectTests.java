@@ -196,9 +196,7 @@ class GameObjectTests {
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
-        gameObject.addBehavior(mockBehavior, mockScene);
-
-        Throwable exception = assertThrows(IllegalStateException.class, gameObject::fixedUpdateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf, wrapped in an illegal state exception.");
-        assertEquals(NullPointerException.class, exception.getCause().getClass(), "The underlying exception should be a null pointer exception.");
+        gameObject.addBehavior(mockBehavior, mockScene); // pointf is null here
+        assertThrows(NullPointerException.class, gameObject::fixedUpdateBehaviors, "Trying to update the behavior without initializing it should throw a null pointer exception on the Pointf.");
     }
 }
