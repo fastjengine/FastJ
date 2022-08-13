@@ -1,6 +1,7 @@
 package unittest.testcases.graphics.game;
 
 import tech.fastj.graphics.game.GameObject;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
@@ -98,6 +99,7 @@ class GameObjectTests {
     @Test
     void checkInitBehaviors_shouldInitializePointf() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -110,6 +112,7 @@ class GameObjectTests {
     @Test
     void checkUpdateBehaviors_shouldIncrementPointf() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -129,6 +132,7 @@ class GameObjectTests {
     @Test
     void checkDestroyBehaviors_shouldMakePointfNull() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -143,6 +147,7 @@ class GameObjectTests {
     @Test
     void checkInitBehavior_withAddLateBehavior_shouldInitializePointf() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -154,6 +159,7 @@ class GameObjectTests {
     @Test
     void checkUpdateBehavior_withAddLateBehavior_shouldIncrementPointf() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -172,6 +178,7 @@ class GameObjectTests {
     @Test
     void checkDestroyBehavior_withAddLateBehavior_shouldMakePointfNull() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
@@ -185,6 +192,7 @@ class GameObjectTests {
     @Test
     void tryUpdateBehaviorWithoutInitializing_shouldThrowNullPointerException() {
         GameObject gameObject = new MockGameObject();
+        Log.info("created game object {}", gameObject);
         MockBehavior mockBehavior = new MockBehavior();
         Scene mockScene = new MockEmptyScene();
 
