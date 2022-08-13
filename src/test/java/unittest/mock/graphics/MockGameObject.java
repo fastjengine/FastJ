@@ -6,8 +6,13 @@ import tech.fastj.math.Transform2D;
 import tech.fastj.systems.control.GameHandler;
 
 import java.awt.Graphics2D;
+import java.util.Objects;
+import java.util.UUID;
 
 public class MockGameObject extends GameObject {
+
+    private final UUID id = UUID.randomUUID();
+
     @Override
     public void destroy(GameHandler origin) {
     }
@@ -41,5 +46,25 @@ public class MockGameObject extends GameObject {
 
     @Override
     public void render(Graphics2D g) {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+        MockGameObject that = (MockGameObject) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), id);
     }
 }

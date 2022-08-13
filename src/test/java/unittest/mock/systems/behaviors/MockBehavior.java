@@ -5,7 +5,12 @@ import tech.fastj.logging.Log;
 import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class MockBehavior implements Behavior {
+
+    private final UUID id = UUID.randomUUID();
 
     private Pointf pointf;
 
@@ -34,5 +39,22 @@ public class MockBehavior implements Behavior {
 
     public Pointf getPointf() {
         return pointf;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        MockBehavior that = (MockBehavior) o;
+        return id.equals(that.id) && Objects.equals(pointf, that.pointf);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, pointf);
     }
 }
