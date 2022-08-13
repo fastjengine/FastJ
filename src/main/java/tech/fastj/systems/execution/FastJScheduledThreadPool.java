@@ -97,13 +97,17 @@ public class FastJScheduledThreadPool extends ScheduledThreadPoolExecutor {
         }
 
         if (throwable != null) {
-            FastJEngine.error("Error received while executing task", throwable);
+            try {
+                FastJEngine.error("Error received while executing task", throwable);
 
-            if (shouldCloseOnError) {
-                FastJEngine.forceCloseGame();
+                if (shouldCloseOnError) {
+                    FastJEngine.forceCloseGame();
+                }
+
+                throw new IllegalStateException(throwable);
+            } finally {
+                Thread.currentThread().interrupt();
             }
-
-            throw new IllegalStateException(throwable);
         }
     }
 }
