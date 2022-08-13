@@ -1,5 +1,6 @@
 package tech.fastj.systems.collections;
 
+import tech.fastj.graphics.game.GameObject;
 import tech.fastj.systems.execution.FastJScheduledThreadPool;
 
 import java.util.ArrayList;
@@ -41,10 +42,15 @@ import java.util.function.Consumer;
  * </ul>
  *
  * @param <E> The type of the list's contained elements.
+ * @author Andrew Dey
  * @see List
  * @see ArrayList
  * @see ScheduledExecutorService
+ * @since 1.6.0
+ * @deprecated ManagedList will no longer be supported for future usage, as its original use for
+ * {@link GameObject game object behavior storage} has caused far too many issues with hanging tasks.
  */
+@Deprecated(forRemoval = true)
 public class ManagedList<E> implements List<E> {
 
     private final ArrayList<E> list;
