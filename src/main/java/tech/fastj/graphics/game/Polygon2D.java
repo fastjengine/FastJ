@@ -18,7 +18,53 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * {@code Drawable} subclass for drawing a polygon.
+ * {@link GameObject Game object} subclass for drawing shapes.
+ * <h2>Creating Shapes</h2>
+ * This type of game object has its rendered shape defined by two arrays of points -- one for vertex positions, and one to define special
+ * usages of those vertexes ({@link #QuadCurve Quadratic} and {@link #BezierCurve Bézier} curves, or
+ * {@link #MovePath moving to a different polygon}). These two work together to allow creation of many types of polygons, as well as shapes
+ * with curves, like circles and ellipses.
+ * <p>
+ * You can create one using {@link Polygon2D#create(Pointf[])}, which uses a {@link Polygon2DBuilder builder} to streamline the process.
+ * Alternatively, {@link Polygon2D#fromPoints(Pointf[])} lets you create an instance using only the given points -- all other values are
+ * their defaults.
+ * <p>
+ * Below is an example of creating several instances based on several simple shapes: a square, rectangle, and a circle.
+ * {@snippet lang = "java":
+ * import tech.fastj.engine.FastJEngine;
+ * import tech.fastj.graphics.display.FastJCanvas;
+ * import tech.fastj.graphics.game.GameObject;
+ * import tech.fastj.graphics.game.Polygon2D;
+ * import tech.fastj.graphics.util.DrawUtil;
+ * import tech.fastj.systems.control.SimpleManager;
+ *
+ * public class Game extends SimpleManager {
+ *
+ *     @Override
+ *     public void init(FastJCanvas canvas) {
+ *         Polygon2D square = Polygon2D.fromPoints(DrawUtil.createBox(0f, 0f, 50f));  // @highlight
+ *         Polygon2D rectangle = Polygon2D.fromPoints(DrawUtil.createBox(100f, 0f, 70f, 50f));  // @highlight
+ *
+ *         var circlePoints = DrawUtil.createCircle(200f, 25f,  25f);
+ *         Polygon2D circle = Polygon2D.fromPoints(circlePoints.points(), circlePoints.altIndexes());  // @highlight
+ *
+ *         // add game objects to be rendered
+ *         drawableManager().addGameObject(square);
+ *         drawableManager().addGameObject(rectangle);
+ *         drawableManager().addGameObject(circle);
+ *     }
+ *
+ *     public static void main(String[] args) {
+ *         FastJEngine.init("Simple Shapes in FastJ", new Game());
+ *     }
+ * }}
+ * <p>
+ * Useful Information:
+ * <ul>
+ *     <li>{@link #setRenderStyle(RenderStyle) Enabling outlines/disabling fill}</li>
+ *     <li>{@link #setFill(Paint) Changing fill color}</li>
+ *     <li>{@link #setOutline(BasicStroke, Color) Changing outline color and style}</li>
+ * </ul>
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -34,8 +80,13 @@ public class Polygon2D extends GameObject {
     /** {@link Color} representing the default outline color value as the color black. */
     public static final Color DefaultOutlineColor = Color.black;
 
+    /** Alternate index identifier for Quadratic curves. */
     public static final int QuadCurve = 1;
+
+    /** Alternate index identifier for Bezier curves. */
     public static final int BezierCurve = 2;
+
+    /** Alternate identifier to move the path. */
     public static final int MovePath = 3;
 
     private Pointf[] originalPoints;
@@ -51,11 +102,15 @@ public class Polygon2D extends GameObject {
      * <p>
      * If needed, an array of alternate point indexes can be supplied to model curves and other {@link Path2D} options.
      * <p>
-     * This constructor defaults the fill paint to {@link #DefaultFill}, the outline stroke to
-     * {@link #DefaultOutlineStroke}, the outline color to {@link #DefaultOutlineColor}, the render style to
-     * {@link #DefaultRenderStyle}, and the {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
+     * This constructor defaults the fill paint to {@link #DefaultFill}, the outline stroke to {@link #DefaultOutlineStroke}, the outline
+     * color to {@link #DefaultOutlineColor}, the render style to {@link #DefaultRenderStyle}, and the {@code shouldRender} boolean to
+     * {@link Drawable#DefaultShouldRender}.
+     * <p>
+     * See {@link Polygon2D} for more information on points and alternate indexes.
      *
-     * @param points {@code Pointf} array that defines the points for the polygon.
+     * @param points     The {@link Pointf} array defining vertexes of the shape.
+     * @param altIndexes The {@link Point} array defining special values for the vertex array ({@link #QuadCurve Quadratic} and
+     *                   {@link #BezierCurve Bezier} curves, as well as {@link #MovePath moving to a new shape}).
      */
     protected Polygon2D(Pointf[] points, Point[] altIndexes) {
         originalPoints = points;
@@ -79,12 +134,12 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
-     * {@code altIndexes} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code altIndexes}
+     * fields.
      *
      * @param points     {@code Pointf} array that defines the points for the {@code Polygon2D}.
-     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points,
-     *                   as well as other {@code Path2D} options.
+     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points, as well as other
+     *                   {@code Path2D} options.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
     public static Polygon2DBuilder create(Pointf[] points, Point[] altIndexes) {
@@ -92,8 +147,8 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and
-     * {@code shouldRender} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points} and {@code shouldRender}
+     * fields.
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
      * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
@@ -104,12 +159,12 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points},
-     * {@code renderStyle}, and {@code shouldRender} fields.
+     * Gets a {@link Polygon2DBuilder} instance while setting the eventual {@link Polygon2D}'s {@code points}, {@code renderStyle}, and
+     * {@code shouldRender} fields.
      *
      * @param points       {@code Pointf} array that defines the points for the {@code Polygon2D}.
-     * @param altIndexes   The {@code Point} array of alternate indexes defining where curves are in the array of
-     *                     points, as well as other {@code Path2D} options.
+     * @param altIndexes   The {@code Point} array of alternate indexes defining where curves are in the array of points, as well as other
+     *                     {@code Path2D} options.
      * @param shouldRender {@code boolean} that defines whether the {@code Polygon2D} would be rendered to the screen.
      * @return A {@code Polygon2DBuilder} instance for creating a {@code Polygon2D}.
      */
@@ -131,8 +186,8 @@ public class Polygon2D extends GameObject {
      * Creates a {@code Polygon2D} from the specified points and alternate indexes.
      *
      * @param points     {@code Pointf} array that defines the points for the {@code Polygon2D}.
-     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points,
-     *                   as well as other {@code Path2D} options.
+     * @param altIndexes The {@code Point} array of alternate indexes defining where curves are in the array of points, as well as other
+     *                   {@code Path2D} options.
      * @return The resulting {@code Polygon2D}.
      */
     public static Polygon2D fromPoints(Pointf[] points, Point[] altIndexes) {
@@ -150,57 +205,32 @@ public class Polygon2D extends GameObject {
         return new Polygon2DBuilder(pathMesh.points(), pathMesh.altIndexes(), Drawable.DefaultShouldRender).build();
     }
 
-    /**
-     * Gets the polygon's original point set.
-     *
-     * @return The original set of points for this polygon, as a {@code Pointf[]}.
-     */
+    /** {@return The original set of points for this polygon} */
     public Pointf[] getOriginalPoints() {
         return originalPoints;
     }
 
-    /**
-     * Gets the polygon's alternate indexes, which are associated with the
-     * {@link #getOriginalPoints() original point set}.
-     *
-     * @return The original set of points for this polygon, as a {@code Pointf[]}.
-     */
+    /** {@return the polygon's alternate indexes} */
     public Point[] getAlternateIndexes() {
         return alternateIndexes;
     }
 
-    /**
-     * Gets the polygon's fill paint.
-     *
-     * @return The {@code Paint} set for this polygon.
-     */
+    /** {@return the {@link Paint} set for this polygon} */
     public Paint getFill() {
         return fillPaint;
     }
 
-    /**
-     * Gets the polygon's outline color.
-     *
-     * @return The polygon's outline {@code Color}.
-     */
+    /** {@return the polygon's outline {@link Color}} */
     public Color getOutlineColor() {
         return outlineColor;
     }
 
-    /**
-     * Gets the polygon's outline stroke.
-     *
-     * @return The polygon's outline {@code BasicStroke}.
-     */
+    /** {@return the polygon's outline {@link BasicStroke}} */
     public BasicStroke getOutlineStroke() {
         return outlineStroke;
     }
 
-    /**
-     * Gets the polygon's render style.
-     *
-     * @return The polygon's {@code RenderStyle}.
-     */
+    /** {@return the polygon's {@link RenderStyle}} */
     public RenderStyle getRenderStyle() {
         return renderStyle;
     }
@@ -208,7 +238,7 @@ public class Polygon2D extends GameObject {
     /**
      * Sets the polygon's fill paint.
      *
-     * @param newPaint The fill {@code Paint} to be used for the polygon.
+     * @param newPaint The fill {@link Paint} to be used for the polygon.
      * @return The polygon instance, for method chaining.
      */
     public Polygon2D setFill(Paint newPaint) {
@@ -218,6 +248,8 @@ public class Polygon2D extends GameObject {
 
     /**
      * Sets the polygon's outline color.
+     * <p>
+     * You can enable rendering of the outline by using {@link #setRenderStyle(RenderStyle)}.
      *
      * @param newOutlineColor The outline {@code Color} to be used for the polygon.
      * @return The polygon instance, for method chaining.
@@ -229,6 +261,8 @@ public class Polygon2D extends GameObject {
 
     /**
      * Sets the polygon's outline stroke.
+     * <p>
+     * You can enable rendering of the outline by using {@link #setRenderStyle(RenderStyle)}.
      *
      * @param newOutlineStroke The outline {@code BasicStroke} to be used for the polygon.
      * @return The polygon instance, for method chaining.
@@ -240,6 +274,8 @@ public class Polygon2D extends GameObject {
 
     /**
      * Sets the polygon's outline stroke and color.
+     * <p>
+     * You can enable rendering of the outline by using {@link #setRenderStyle(RenderStyle)}.
      *
      * @param newOutlineStroke The outline {@code BasicStroke} to be used for the polygon.
      * @param newOutlineColor  The outline {@code Color} to be used for the polygon.
@@ -252,7 +288,11 @@ public class Polygon2D extends GameObject {
     }
 
     /**
-     * Sets the polygon's render style.
+     * Sets the polygon's {@link RenderStyle render style}.
+     * <p>
+     * The render style controls what of a {@link Polygon2D shape} is rendered -- {@link RenderStyle#Outline outline},
+     * {@link RenderStyle#Fill fill}, or {@link RenderStyle#FillAndOutline both}. It is separate from
+     * {@link #setShouldRender(boolean) enabling/disabling overall rendering}.
      *
      * @param newRenderStyle The {@code RenderStyle} to be used for the polygon.
      * @return The polygon instance, for method chaining.
@@ -274,8 +314,8 @@ public class Polygon2D extends GameObject {
     /**
      * Replaces the current point array with the parameter point array.
      * <p>
-     * This does not reset the rotation, scale, or location of the original, unless specified with the second, third,
-     * and fourth parameters.
+     * This does not reset the rotation, scale, or location of the original, unless specified with the second, third, and fourth
+     * parameters.
      *
      * @param points           {@code Pointf} array that will replace the current points of the polygon.
      * @param resetTranslation Boolean to determine if the translation should be reset.
@@ -293,8 +333,7 @@ public class Polygon2D extends GameObject {
     /**
      * Replaces the current point array with the parameter point array and alternate indexes.
      * <p>
-     * This does not reset the rotation, scale, or location of the original, unless specified with the third, fourth,
-     * and fifth parameters.
+     * This does not reset the rotation, scale, or location of the original, unless specified with the third, fourth, and fifth parameters.
      *
      * @param points           {@code Pointf} array that will replace the current points of the polygon.
      * @param altIndexes       {@code Point} array that will replace the current alternate indexes of the polygon.
@@ -371,7 +410,7 @@ public class Polygon2D extends GameObject {
 
     @Override
     public void destroy(GameHandler origin) {
-        originalPoints = new Pointf[]{};
+        originalPoints = new Pointf[] { };
 
         renderStyle = DefaultRenderStyle;
         fillPaint = DefaultFill;
@@ -397,10 +436,10 @@ public class Polygon2D extends GameObject {
         }
         Polygon2D polygon2D = (Polygon2D) other;
         return Arrays.equals(originalPoints, polygon2D.originalPoints)
-                && renderStyle == polygon2D.renderStyle
-                && DrawUtil.paintEquals(fillPaint, polygon2D.fillPaint)
-                && outlineColor.equals(polygon2D.outlineColor)
-                && outlineStroke.equals(polygon2D.outlineStroke);
+            && renderStyle == polygon2D.renderStyle
+            && DrawUtil.paintEquals(fillPaint, polygon2D.fillPaint)
+            && outlineColor.equals(polygon2D.outlineColor)
+            && outlineStroke.equals(polygon2D.outlineStroke);
     }
 
     @Override
@@ -413,11 +452,11 @@ public class Polygon2D extends GameObject {
     @Override
     public String toString() {
         return "Polygon2D{" +
-                "originalPoints=" + Arrays.toString(originalPoints) +
-                ", renderStyle=" + renderStyle +
-                ", fillPaint=" + fillPaint +
-                ", outlineColor=" + outlineColor +
-                ", outlineStroke=" + outlineStroke +
-                '}';
+            "originalPoints=" + Arrays.toString(originalPoints) +
+            ", renderStyle=" + renderStyle +
+            ", fillPaint=" + fillPaint +
+            ", outlineColor=" + outlineColor +
+            ", outlineStroke=" + outlineStroke +
+            '}';
     }
 }

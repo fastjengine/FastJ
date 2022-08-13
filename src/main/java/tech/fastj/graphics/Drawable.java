@@ -29,11 +29,13 @@ public abstract class Drawable extends TaggableEntity {
     private final UUID rawID;
     private final String id;
 
-    /** The shape defining where the Drawable collides. */
+    /** The non-transformed path defining where the Drawable collides. */
     protected Path2D.Float collisionPath;
+    /** The path defining where the Drawable collides, with its transformation applied. */
     protected Path2D.Float transformedCollisionPath;
-    private boolean shouldRender;
+    /** The transformation of the Drawable. */
     protected final Transform2D transform;
+    private boolean shouldRender;
     private Pointf initialCenter;
     private boolean isDestroyed;
 
@@ -284,8 +286,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Translates the {@code Drawable}'s position by the specified translation.
      *
-     * @param translationMod {@code Pointf} parameter that the {@code Drawable}'s x and y location will be translated
-     *                       by.
+     * @param translationMod {@code Pointf} parameter that the {@code Drawable}'s x and y location will be translated by.
      */
     public void translate(Pointf translationMod) {
         if (Transform2D.DefaultTranslation.equals(translationMod)) {
@@ -365,8 +366,7 @@ public abstract class Drawable extends TaggableEntity {
     /**
      * Scales the {@code Drawable} in by the amount specified in the specified scale, about its center.
      *
-     * @param scaleMod {@code Pointf} parameter that the {@code Drawable} will be scaled by, based on its x and y
-     *                 values.
+     * @param scaleMod {@code Pointf} parameter that the {@code Drawable} will be scaled by, based on its x and y values.
      */
     public void scale(Pointf scaleMod) {
         scale(scaleMod, getCenter());
@@ -399,8 +399,8 @@ public abstract class Drawable extends TaggableEntity {
     public float findRotationTowards(Pointf destination) {
         Pointf center = getCenter();
         Pointf currentDirection = Pointf.up()
-                .rotate(-getRotationWithin360())
-                .add(center);
+            .rotate(-getRotationWithin360())
+            .add(center);
 
         double distanceA = Pointf.distance(currentDirection, destination);
         double distanceB = Pointf.distance(destination, center);
@@ -409,7 +409,7 @@ public abstract class Drawable extends TaggableEntity {
         double distanceBSquared = distanceB * distanceB;
         double distanceCSquared = distanceC * distanceC;
         float angle = (float) Math.toDegrees(Math.acos(
-                (distanceBSquared + distanceCSquared - distanceASquared) / (2 * distanceB * distanceC)
+            (distanceBSquared + distanceCSquared - distanceASquared) / (2 * distanceB * distanceC)
         ));
 
         if (angle > 180) {
@@ -422,8 +422,8 @@ public abstract class Drawable extends TaggableEntity {
     }
 
     /**
-     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has
-     * within the {@code GameHandler} parameter.
+     * Destroys the {@code Drawable}'s {@code Drawable} components, as well as any references the {@code Drawable} has within the
+     * {@code GameHandler} parameter.
      *
      * @param origin {@code GameHandler} parameter that will have all references to this {@code Drawable} removed.
      */
@@ -442,11 +442,11 @@ public abstract class Drawable extends TaggableEntity {
     @Override
     public String toString() {
         return "Drawable{" +
-                "rawID=" + rawID +
-                ", id='" + id + '\'' +
-                ", collisionPath=" + collisionPath +
-                ", shouldRender=" + shouldRender +
-                ", boundaries=" + Arrays.toString(getBounds()) +
-                '}';
+            "rawID=" + rawID +
+            ", id='" + id + '\'' +
+            ", collisionPath=" + collisionPath +
+            ", shouldRender=" + shouldRender +
+            ", boundaries=" + Arrays.toString(getBounds()) +
+            '}';
     }
 }

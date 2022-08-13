@@ -17,7 +17,48 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 /**
- * {@code Drawable} subclass for drawing text.
+ * {@link GameObject Game object} subclass for drawing text.
+ * <h2>Creating Text</h2>
+ * This type of game object simply renders text, of which you can {@link #setText(String) set}. You can also change the
+ * {@link #setFont(Font) font} and {@link #setFill(Paint) fill color} of the text.
+ * <p>
+ * You can create one using {@link Text2D#create(String)}, which uses a {@link Text2DBuilder builder} to streamline the process.
+ * Alternatively, {@link Text2D#fromText(String)} lets you create an instance using only text -- all other values are their defaults.
+ * <p>
+ * Below is an example of creating text, rendered with anti-aliasing enabled.
+ * {@snippet lang = "java":
+ * import tech.fastj.engine.FastJEngine;
+ * import tech.fastj.graphics.display.FastJCanvas;
+ * import tech.fastj.graphics.display.RenderSettings;
+ * import tech.fastj.graphics.game.GameObject;
+ * import tech.fastj.graphics.game.Text2D;
+ * import tech.fastj.graphics.util.DrawUtil;
+ * import tech.fastj.systems.control.SimpleManager;
+ *
+ * public class Game extends SimpleManager {
+ *
+ *     @Override
+ *     public void init(FastJCanvas canvas) {
+ *         // enable anti-aliasing
+ *         canvas.modifyRenderSettings(RenderSettings.Antialiasing.Enable);
+ *
+ *         Text2D helloText = Text2D.fromText("Hello, FastJ!"); // @highlight
+ *
+ *         // add game objects to be rendered
+ *         drawableManager().addGameObject(helloText);
+ *     }
+ *
+ *     public static void main(String[] args) {
+ *         FastJEngine.init("Simple Shapes in FastJ", new Game());
+ *     }
+ * }}
+ * <p>
+ * Useful Information:
+ * <ul>
+ *     <li>{@link #setText(String) Changing text}</li>
+ *     <li>{@link #setFont(Font) Changing text font}</li>
+ *     <li>{@link #setFill(Paint) Changing fill color}</li>
+ * </ul>
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -43,8 +84,8 @@ public class Text2D extends GameObject {
     /**
      * {@code Text2D} constructor that takes in a string of text.
      * <p>
-     * This constructor defaults the fill paint to {@link #DefaultFill}, the font to {@link #DefaultFont}, and sets the
-     * {@code shouldRender} boolean to {@link Drawable#DefaultShouldRender}.
+     * This constructor defaults the fill paint to {@link #DefaultFill}, the font to {@link #DefaultFont}, and sets the {@code shouldRender}
+     * boolean to {@link Drawable#DefaultShouldRender}.
      *
      * @param text {@code String} that defines the text for the {@code Text2D}.
      */
@@ -65,8 +106,7 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Text2DBuilder} instance while setting the eventual {@link Text2D}'s {@code text} and {@code
-     * shouldRender} fields.
+     * Gets a {@link Text2DBuilder} instance while setting the eventual {@link Text2D}'s {@code text} and {@code shouldRender} fields.
      *
      * @param text         {@code String} that defines the text for the {@code Text2D}.
      * @param shouldRender {@code boolean} that defines whether the {@code Text2D} would be rendered to the screen.
@@ -86,38 +126,26 @@ public class Text2D extends GameObject {
         return new Text2DBuilder(text, DefaultShouldRender).build();
     }
 
-    /**
-     * Gets the {@code Text2D}'s displayed text.
-     *
-     * @return Returns a String that contains the text displayed.
-     */
+    /** {@return the {@link Text2D}'s displayed text} */
     public String getText() {
         return text;
     }
 
-    /**
-     * Gets the {@code Text2D}'s fill {@code Paint}.
-     *
-     * @return Returns the Paint value for this Text2D.
-     */
+    /** {@return the {@link Text2D}'s {@link Paint fill color}} */
     public Paint getFill() {
         return fillPaint;
     }
 
-    /**
-     * Gets the {@code Text2D}'s {@code Font}.
-     *
-     * @return Returns the specified Font value for this Text2D.
-     */
+    /** {@return the {@link Text2D}'s {@link Font text font}} */
     public Font getFont() {
         return font;
     }
 
     /**
-     * Sets the {@code Text2D}'s text.
+     * Sets the {@link Text2D}'s text.
      *
      * @param newText The new text value.
-     * @return The {@code Text2D} instance, for method chaining.
+     * @return The {@link Text2D} instance, for method chaining.
      */
     public Text2D setText(String newText) {
         text = Objects.requireNonNullElse(newText, DefaultText);
@@ -129,10 +157,10 @@ public class Text2D extends GameObject {
     }
 
     /**
-     * Sets the {@code Text2D}'s {@code Paint}.
+     * Sets the {@link Text2D}'s {@link Paint fill paint}.
      *
-     * @param newPaint The new {@code Paint} value.
-     * @return The {@code Text2D} instance, for method chaining.
+     * @param newPaint The new {@link Paint} value.
+     * @return The {@link Text2D} instance, for method chaining.
      */
     public Text2D setFill(Paint newPaint) {
         fillPaint = newPaint;
@@ -200,10 +228,10 @@ public class Text2D extends GameObject {
         int textHeight = fm.getHeight();
 
         final Rectangle2D.Float bounds = new Rectangle2D.Float(
-                Transform2D.DefaultTranslation.x,
-                Transform2D.DefaultTranslation.y,
-                textWidth,
-                textHeight
+            Transform2D.DefaultTranslation.x,
+            Transform2D.DefaultTranslation.y,
+            textWidth,
+            textHeight
         );
 
         setCollisionPath(createMetricsPath(bounds));
@@ -243,8 +271,8 @@ public class Text2D extends GameObject {
         }
         Text2D text2D = (Text2D) o;
         return Objects.equals(text, text2D.text)
-                && Objects.equals(fillPaint, text2D.fillPaint)
-                && Objects.equals(font, text2D.font);
+            && Objects.equals(fillPaint, text2D.fillPaint)
+            && Objects.equals(font, text2D.font);
     }
 
     @Override

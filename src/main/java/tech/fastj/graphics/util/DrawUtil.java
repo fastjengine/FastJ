@@ -137,9 +137,12 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Path2D.Float} based on the specified {@code Pointf} array.
+     * Creates a {@code Path2D.Float} based on the specified points and alternate indexes.
+     * <p>
+     * See {@link Polygon2D} to learn more about alternate indexes.
      *
-     * @param pts The {@code Pointf} array to create the {@code Path2D.Float} from.
+     * @param pts        The {@code Pointf} array to create the {@code Path2D.Float} from.
+     * @param altIndexes The {@code Point} array defining alternate indexes for creating the {@code Path2D.Float} from.
      * @return The resulting {@code Path2D.Float}.
      */
     public static Path2D.Float createPath(Pointf[] pts, Point[] altIndexes) {
@@ -301,14 +304,35 @@ public final class DrawUtil {
                 && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
     }
 
+
+    /**
+     * {@return a set of circle points and alternate indexes from the given centerpoint and radius}
+     *
+     * @param x The centerpoint {@code x} of the circle.
+     * @param y The centerpoint {@code y} of the circle.
+     * @param radius The radius of the circle.
+     */
     public static PointsAndAlts createCircle(float x, float y, float radius) {
         return createCircle(new Pointf(x, y), radius);
     }
 
+
+    /**
+     * {@return a set of circle points and alternate indexes from the given centerpoint and radius}
+     *
+     * @param xy The centerpoint {@code x} and {@code y} of the circle.
+     * @param radius The radius of the circle.
+     */
     public static PointsAndAlts createCircle(float xy, float radius) {
         return createCircle(new Pointf(xy), radius);
     }
 
+    /**
+     * {@return a set of circle points and alternate indexes from the given centerpoint and radius}
+     *
+     * @param center The centerpoint of the circle.
+     * @param radius The radius of the circle.
+     */
     public static PointsAndAlts createCircle(Pointf center, float radius) {
         float curveOffset = (float) ((4f / 3f) * (Math.sqrt(2) - 1) * radius);
         return new PointsAndAlts(
@@ -524,7 +548,7 @@ public final class DrawUtil {
 
     /**
      * Creates a {@code Rectangle2D.Float} based on the specified {@code Pointf} array.
-     *
+     * <p>
      * <b>NOTE:</b> the {@code pts} parameter must have a length of 4.
      *
      * @param pts The {@code Pointf} array used to create the rectangle.
@@ -755,6 +779,7 @@ public final class DrawUtil {
         return new Font(randomFontName, randomFontStyle, randomFontSize);
     }
 
+    /** {@return a randomly generated {@link BasicStroke outline stroke} with a size from {@code 0} to {@code 32}} */
     public static BasicStroke randomOutlineStroke() {
         int cap = Maths.randomInteger(0, 2);
         int randomCap;

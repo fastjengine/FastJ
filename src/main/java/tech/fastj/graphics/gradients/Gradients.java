@@ -25,6 +25,9 @@ public class Gradients {
     /** The minimum radius allowed in a single {@link RadialGradientBuilder}, including the value of this constant. */
     public static final float MinimumRadius = 0.0f;
 
+    private Gradients() {
+    }
+
     /**
      * Gets a builder instance for creating a {@link LinearGradientPaint}.
      *
@@ -70,8 +73,7 @@ public class Gradients {
     }
 
     /**
-     * Generates a random linear gradient from the specified {@code drawable} and {@code start}/{@code end} values, with
-     * random colors.
+     * Generates a random linear gradient from the specified {@code drawable} and {@code start}/{@code end} values, with random colors.
      *
      * @param drawable The {@link Drawable} to calculate start/end {@code Pointf}s.
      * @param start    The {@link Boundary} specifying the starting area for the gradient.
@@ -90,8 +92,8 @@ public class Gradients {
     }
 
     /**
-     * Generates a random linear gradient from the specified {@code drawable} and {@code start}/{@code end} values, with
-     * random colors including random alpha values.
+     * Generates a random linear gradient from the specified {@code drawable} and {@code start}/{@code end} values, with random colors
+     * including random alpha values.
      *
      * @param drawable The {@link Drawable} to calculate start/end {@code Pointf}s.
      * @param start    The {@link Boundary} specifying the starting area for the gradient.
@@ -128,8 +130,8 @@ public class Gradients {
     }
 
     /**
-     * Generates a random linear gradient from the specified {@code start}/{@code end} values, with random colors
-     * including random alpha values.
+     * Generates a random linear gradient from the specified {@code start}/{@code end} values, with random colors including random alpha
+     * values.
      *
      * @param start The {@link Pointf} specifying the starting area for the gradient.
      * @param end   The {@link Pointf} specifying the ending area for the gradient.
@@ -164,8 +166,7 @@ public class Gradients {
     }
 
     /**
-     * Generates a random radial gradient from the specified {@code drawable}, with random colors including random alpha
-     * values.
+     * Generates a random radial gradient from the specified {@code drawable}, with random colors including random alpha values.
      *
      * @param drawable The {@link Drawable} specifying the center and radius for the gradient.
      * @return The randomly generated {@link RadialGradientPaint}.
@@ -182,8 +183,7 @@ public class Gradients {
     }
 
     /**
-     * Generates a random radial gradient from the specified {@code center} and {@code radius} values, with random
-     * colors.
+     * Generates a random radial gradient from the specified {@code center} and {@code radius} values, with random colors.
      *
      * @param center The {@link Pointf} specifying the centerpoint for the gradient.
      * @param radius The {@code float} specifying the radius for the gradient.
@@ -201,8 +201,8 @@ public class Gradients {
     }
 
     /**
-     * Generates a random radial gradient from the specified {@code center} and {@code radius} values, with random
-     * colors including random alpha values.
+     * Generates a random radial gradient from the specified {@code center} and {@code radius} values, with random colors including random
+     * alpha values.
      *
      * @param center The {@link Pointf} specifying the centerpoint for the gradient.
      * @param radius The {@code float} specifying the radius for the gradient.
@@ -222,9 +222,9 @@ public class Gradients {
     static void samePointfCheck(Pointf start, Pointf end) {
         if (start.equals(end)) {
             throw new IllegalArgumentException(
-                    "The starting and ending positions for a gradient must not be the same."
-                            + System.lineSeparator()
-                            + "Both positions evaluated to: " + start
+                "The starting and ending positions for a gradient must not be the same."
+                    + System.lineSeparator()
+                    + "Both positions evaluated to: " + start
             );
         }
     }
@@ -232,9 +232,9 @@ public class Gradients {
     static void sameBoundaryCheck(Boundary start, Boundary end) {
         if (start.equals(end)) {
             throw new IllegalArgumentException(
-                    "The starting and ending positions for a gradient must not be the same."
-                            + System.lineSeparator()
-                            + "Both positions evaluated to: " + start.name()
+                "The starting and ending positions for a gradient must not be the same."
+                    + System.lineSeparator()
+                    + "Both positions evaluated to: " + start.name()
             );
         }
     }
@@ -272,9 +272,10 @@ public class Gradients {
     static void minimumColorCheck(int count, Color[] colors) {
         if (count < MinimumColorCount) {
             throw new IllegalStateException(
-                    "Gradients must contain at least 2 colors."
-                            + System.lineSeparator()
-                            + "This gradient builder only contains the following gradients: " + Arrays.toString(Arrays.stream(colors).filter(Objects::nonNull).toArray())
+                "Gradients must contain at least 2 colors."
+                    + System.lineSeparator()
+                    + "This gradient builder only contains the following gradients: " + Arrays.toString(Arrays.stream(colors)
+                    .filter(Objects::nonNull).toArray())
             );
         }
     }

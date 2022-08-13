@@ -5,7 +5,12 @@ import tech.fastj.math.Transform2D;
 
 import java.util.Objects;
 
-/** A builder class for creating {@link Model2D} objects. */
+/**
+ * A builder class for creating {@link Model2D} objects.
+ *
+ * @author Andrew Dey
+ * @since 1.5.0
+ */
 public class Model2DBuilder {
 
     private final Polygon2D[] polygons;
@@ -51,7 +56,7 @@ public class Model2DBuilder {
      */
     public Model2D build() {
         return (Model2D) new Model2D(polygons)
-                .setShouldRender(shouldRender)
-                .setTransform(translation, rotation, scale);
+            .setShouldRender(shouldRender)
+            .setTransform(translation, rotation, scale);
     }
 }

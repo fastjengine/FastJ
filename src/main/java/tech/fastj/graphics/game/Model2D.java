@@ -9,7 +9,7 @@ import java.awt.geom.AffineTransform;
 import java.util.Arrays;
 
 /**
- * {@code Drawable} subclass for grouping an array of {@code Polygon2D}s under a single object.
+ * {@link GameObject Game object} subclass for grouping multiple {@link Polygon2D Polygon2Ds} as a single game object.
  *
  * @author Andrew Dey
  * @since 1.0.0
@@ -32,7 +32,6 @@ public class Model2D extends GameObject {
 
     /**
      * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} field.
-     * <p>
      *
      * @param polygons {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
      * @return A {@code Model2DBuilder} instance for creating a {@code Model2D}.
@@ -44,7 +43,6 @@ public class Model2D extends GameObject {
     /**
      * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} and {@code
      * shouldRender} fields.
-     * <p>
      *
      * @param polygons     {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
      * @param shouldRender The "should render" {@code boolean} to use for the {@code Model2D}.
