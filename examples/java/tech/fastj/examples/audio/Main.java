@@ -1,7 +1,6 @@
 package tech.fastj.examples.audio;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.audio.AudioManager;
 
 import java.nio.file.Path;

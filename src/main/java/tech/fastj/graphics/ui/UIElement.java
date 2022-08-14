@@ -34,8 +34,7 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
     }
 
     /**
-     * Sets the "onAction" condition, the determinant of whether the ui elements' {@code onAction} events will be
-     * fired.
+     * Sets the "onAction" condition, the determinant of whether the ui elements' {@code onAction} events will be fired.
      *
      * @param condition The condition to set.
      */
@@ -67,8 +66,8 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
     }
 
     /**
-     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, aligning with the window by rendering
-     * at the inverse translation of the specified {@code Camera}.
+     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, aligning with the window by rendering at the inverse
+     * translation of the specified {@code Camera}.
      *
      * @param g      {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
      * @param camera {@code Camera} to help render at the correct position on the screen.
@@ -79,8 +78,8 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
             g.transform(camera.getTransformation().createInverse());
         } catch (NoninvertibleTransformException exception) {
             throw new IllegalStateException(
-                    "Couldn't create an inverse transform of " + camera.getTransformation(),
-                    exception
+                "Couldn't create an inverse transform of " + camera.getTransformation(),
+                exception
             );
         }
 
@@ -89,8 +88,8 @@ public abstract class UIElement<T extends InputActionEvent> extends Drawable {
     }
 
     /**
-     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, pre-aligned with the window after
-     * transforming the graphics transform to the current game {@code Camera}.
+     * Renders the {@code UIElement} to the parameter {@code Graphics2D} object, pre-aligned with the window after transforming the graphics
+     * transform to the current game {@code Camera}.
      *
      * @param g {@code Graphics2D} parameter that the {@code UIElement} will be rendered to.
      */

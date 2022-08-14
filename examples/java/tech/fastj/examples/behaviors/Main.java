@@ -5,7 +5,6 @@ import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.SimpleManager;
 
@@ -60,10 +59,10 @@ public class Main extends SimpleManager {
          * For this example, we'll just use simpleRotation. */
 
         Polygon2D premadeBehaviorsBox = Polygon2D.create(DrawUtil.createBox(500f, 500f, 50f))
-                .withRenderStyle(RenderStyle.FillAndOutline)
-                .withFill(Color.red)
-                .withOutline(Polygon2D.DefaultOutlineStroke, Polygon2D.DefaultOutlineColor)
-                .build();
+            .withRenderStyle(RenderStyle.FillAndOutline)
+            .withFill(Color.red)
+            .withOutline(Polygon2D.DefaultOutlineStroke, Polygon2D.DefaultOutlineColor)
+            .build();
 
         premadeBehaviorsBox.addBehavior(Behavior.simpleRotation(3f), this);
         drawableManager().addGameObject(premadeBehaviorsBox);

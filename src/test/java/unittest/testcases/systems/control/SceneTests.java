@@ -5,9 +5,9 @@ import tech.fastj.graphics.game.GameObject;
 import tech.fastj.systems.behaviors.BehaviorManager;
 import tech.fastj.systems.control.Scene;
 
+import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.control.MockEmptyScene;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -46,7 +46,9 @@ class SceneTests {
 
         assertEquals(Camera.Default, scene.getCamera(), "After resetting the scene, its Camera should match the default camera.");
         assertFalse(scene.isInitialized(), "After resetting the scene, the scene should not be initialized.");
-        assertEquals(0, scene.getTaggableEntities().size(), "After resetting the scene, the tag manager should contain no taggable entities for it.");
-        assertEquals(0, BehaviorManager.getList(scene).size(), "After resetting the scene, the behavior manager should contain no behavior listeners for it.");
+        assertEquals(0, scene.getTaggableEntities()
+            .size(), "After resetting the scene, the tag manager should contain no taggable entities for it.");
+        assertEquals(0, BehaviorManager.getList(scene)
+            .size(), "After resetting the scene, the behavior manager should contain no behavior listeners for it.");
     }
 }

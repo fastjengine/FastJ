@@ -1,10 +1,9 @@
 package tech.fastj.examples.text2d;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Text2D;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.Color;
@@ -52,10 +51,10 @@ public class Main extends SimpleManager {
         Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
 
         Text2D interestingText2D = Text2D.create(interestingText)
-                .withFill(Color.magenta)
-                .withFont(interestingFont)
-                .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
-                .build();
+            .withFill(Color.magenta)
+            .withFont(interestingFont)
+            .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
+            .build();
 
         // And of course, we need to add our interesting text to the drawable manager's game objects.
         drawableManager().addGameObject(interestingText2D);

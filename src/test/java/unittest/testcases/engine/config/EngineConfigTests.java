@@ -36,14 +36,14 @@ class EngineConfigTests {
         LogLevel logLevel = LogLevel.values()[Maths.randomInteger(0, LogLevel.values().length - 1)];
 
         EngineConfig engineConfig = EngineConfig.create()
-                .withTargetFPS(fps)
-                .withTargetUPS(ups)
-                .withWindowResolution(windowResolution)
-                .withCanvasResolution(canvasResolution)
-                .withHardwareAcceleration(hardwareAcceleration)
-                .withExceptionAction(exceptionAction)
-                .withLogLevel(logLevel)
-                .build();
+            .withTargetFPS(fps)
+            .withTargetUPS(ups)
+            .withWindowResolution(windowResolution)
+            .withCanvasResolution(canvasResolution)
+            .withHardwareAcceleration(hardwareAcceleration)
+            .withExceptionAction(exceptionAction)
+            .withLogLevel(logLevel)
+            .build();
 
         assertEquals(fps, engineConfig.targetFPS(), "The engine config FPS should match the randomly generated FPS.");
         assertEquals(ups, engineConfig.targetUPS(), "The engine config UPS should match the randomly generated UPS.");

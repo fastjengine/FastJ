@@ -4,7 +4,6 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.SimpleDisplay;
 import tech.fastj.graphics.game.Text2D;
-
 import tech.fastj.input.keyboard.KeyboardActionListener;
 import tech.fastj.input.keyboard.Keys;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;

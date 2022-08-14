@@ -245,7 +245,7 @@ public class Camera {
     @Override
     public String toString() {
         return "Camera{" +
-                "transform=" + transform +
-                '}';
+            "transform=" + transform +
+            '}';
     }
 }

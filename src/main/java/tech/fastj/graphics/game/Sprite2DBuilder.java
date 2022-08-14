@@ -107,11 +107,11 @@ public class Sprite2DBuilder {
 
     public Sprite2D build() {
         Sprite2D sprite2D = (Sprite2D) new Sprite2D(spriteResource, horizontalImageCount, verticalImageCount, animationDataMap)
-                .setCurrentFrame(startingFrame)
-                .setAnimationFPS(animationFPS)
-                .setCurrentAnimation(startingAnimation)
-                .setTransform(translation, rotation, scale)
-                .setShouldRender(shouldRender);
+            .setCurrentFrame(startingFrame)
+            .setAnimationFPS(animationFPS)
+            .setCurrentAnimation(startingAnimation)
+            .setTransform(translation, rotation, scale)
+            .setShouldRender(shouldRender);
 
         FastJEngine.getAnimationEngine(Sprite2D.class).addAnimated(sprite2D);
         if (!startPaused) {

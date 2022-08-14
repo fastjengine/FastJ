@@ -1,13 +1,11 @@
 package tech.fastj.examples.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
-import tech.fastj.graphics.game.GameObject;
-
-import tech.fastj.systems.behaviors.Behavior;
-
 import tech.fastj.examples.bullethell.scenes.GameScene;
 import tech.fastj.gameloop.CoreLoopState;
+import tech.fastj.graphics.game.GameObject;
+import tech.fastj.math.Pointf;
+import tech.fastj.systems.behaviors.Behavior;
 
 public class BulletMovement implements Behavior {
 

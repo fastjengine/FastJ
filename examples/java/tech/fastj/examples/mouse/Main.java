@@ -4,7 +4,6 @@ import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.input.mouse.Mouse;
 import tech.fastj.input.mouse.MouseAction;
 import tech.fastj.input.mouse.MouseActionListener;
@@ -56,8 +55,8 @@ public class Main extends SimpleManager {
             @Override
             public void onMouseClicked(MouseButtonEvent mouseButtonEvent) {
                 FastJEngine.log("Mouse button {} clicked in succession {} times",
-                        mouseButtonEvent.getMouseButton(),
-                        mouseButtonEvent.getClickCount()
+                    mouseButtonEvent.getMouseButton(),
+                    mouseButtonEvent.getClickCount()
                 );
             }
 
@@ -74,33 +73,33 @@ public class Main extends SimpleManager {
             @Override
             public void onMouseWheelScrolled(MouseScrollEvent mouseScrollEvent) {
                 FastJEngine.log(
-                        "Mouse wheel scrolled in {}s by {}",
-                        mouseScrollEvent.getMouseScrollType().name().toLowerCase(),
-                        mouseScrollEvent.getScrollAmount()
+                    "Mouse wheel scrolled in {}s by {}",
+                    mouseScrollEvent.getMouseScrollType().name().toLowerCase(),
+                    mouseScrollEvent.getScrollAmount()
                 );
             }
 
             @Override
             public void onMouseEntersScreen(MouseWindowEvent mouseWindowEvent) {
                 FastJEngine.log(
-                        "Mouse entered game window at {}",
-                        mouseWindowEvent.getWindowInteractionPosition()
+                    "Mouse entered game window at {}",
+                    mouseWindowEvent.getWindowInteractionPosition()
                 );
             }
 
             @Override
             public void onMouseExitsScreen(MouseWindowEvent mouseWindowEvent) {
                 FastJEngine.log(
-                        "Mouse left game window at {}",
-                        mouseWindowEvent.getWindowInteractionPosition()
+                    "Mouse left game window at {}",
+                    mouseWindowEvent.getWindowInteractionPosition()
                 );
             }
         });
 
         button = Polygon2D.create(DrawUtil.createBox(300f, 300f, 100f, 40f))
-                .withFill(Color.white)
-                .withOutline(Polygon2D.DefaultOutlineStroke, Color.black)
-                .build();
+            .withFill(Color.white)
+            .withOutline(Polygon2D.DefaultOutlineStroke, Color.black)
+            .build();
     }
 
     @Override

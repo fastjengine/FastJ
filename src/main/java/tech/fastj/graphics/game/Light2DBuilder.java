@@ -32,8 +32,8 @@ public class Light2DBuilder {
         Objects.requireNonNull(centerColor, "The center color should not be null.");
         Objects.requireNonNull(outerColor, "The outer color should not be null.");
         this.gradientPaint = Gradients.radialGradient(Pointf.add(location, size.copy().divide(2f)), evaluateRadius())
-                .withColors(centerColor, outerColor)
-                .build();
+            .withColors(centerColor, outerColor)
+            .build();
         return this;
     }
 
@@ -49,7 +49,7 @@ public class Light2DBuilder {
      */
     public Light2D build() {
         return (Light2D) new Light2D(location, size, gradientPaint, alphaComposite)
-                .setShouldRender(shouldRender);
+            .setShouldRender(shouldRender);
     }
 
     private float evaluateRadius() {

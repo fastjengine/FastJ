@@ -1,6 +1,5 @@
 package unittest.testcases.resources.models;
 
-
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
@@ -12,8 +11,6 @@ import tech.fastj.resources.images.ImageResource;
 import tech.fastj.resources.images.ImageResourceManager;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.resources.models.SupportedModelFormats;
-
-import unittest.EnvironmentHelper;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -36,6 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import unittest.EnvironmentHelper;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -58,34 +56,34 @@ class ObjMtlUtilTests {
     private static final BasicStroke expectedHouseWallsOutlineStroke = new BasicStroke(5.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 15f);
     private static final Color expectedHouseWallsOutlineColor = new Color(150, 150, 150, 150);
     private static final Polygon2D expectedHouseWalls = Polygon2D.create(expectedHouseWallsMesh)
-            .withRenderStyle(expectedHouseWallsRenderStyle)
-            .withOutline(expectedHouseWallsOutlineStroke, expectedHouseWallsOutlineColor)
-            .build();
+        .withRenderStyle(expectedHouseWallsRenderStyle)
+        .withOutline(expectedHouseWallsOutlineStroke, expectedHouseWallsOutlineColor)
+        .build();
     private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient(expectedHouseWalls)
-            .withColor(Color.magenta)
-            .withColor(Color.lightGray)
-            .build();
+        .withColor(Color.magenta)
+        .withColor(Color.lightGray)
+        .build();
 
     private static final Pointf[] expectedHouseRoofMesh = {
-            new Pointf(15f, 25f),
-            new Pointf(50f, 20f),
-            new Pointf(85f, 25f)
+        new Pointf(15f, 25f),
+        new Pointf(50f, 20f),
+        new Pointf(85f, 25f)
     };
     private static final RenderStyle expectedHouseRoofRenderStyle = RenderStyle.Outline;
     private static final BasicStroke expectedHouseRoofOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f);
     private static final Polygon2D expectedHouseRoof = Polygon2D.create(expectedHouseRoofMesh)
-            .withRenderStyle(expectedHouseRoofRenderStyle)
-            .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
-            .build();
+        .withRenderStyle(expectedHouseRoofRenderStyle)
+        .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
+        .build();
 
     private static final Pointf[] expectedHouseDoorMesh = DrawUtil.createBox(20f, 35f, 15f);
     private static final Polygon2D expectedHouseDoor = Polygon2D.fromPoints(expectedHouseDoorMesh);
     private static final Color expectedHouseDoorGradient = new Color(88, 243, 240, 226);
 
     private static final Polygon2D[] expectedHouseArray = {
-            expectedHouseWalls.setFill(expectedHouseWallsGradient),
-            expectedHouseRoof,
-            expectedHouseDoor.setFill(expectedHouseDoorGradient)
+        expectedHouseWalls.setFill(expectedHouseWallsGradient),
+        expectedHouseRoof,
+        expectedHouseDoor.setFill(expectedHouseDoorGradient)
     };
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
@@ -121,46 +119,46 @@ class ObjMtlUtilTests {
     @Order(1)
     void checkWriteObj_fileShouldMatchExpectedContent() throws IOException {
         List<String> expectedObjContent = List.of(
-                "mtllib temp_house_model.mtl",
-                "",
-                "v 25.000000 25.000000 0.000000",
-                "v 75.000000 25.000000 0.000000",
-                "v 75.000000 75.000000 0.000000",
-                "v 25.000000 75.000000 0.000000",
-                "v 15.000000 25.000000 0.001000",
-                "v 50.000000 20.000000 0.001000",
-                "v 85.000000 25.000000 0.001000",
-                "v 20.000000 35.000000 0.002000",
-                "v 35.000000 35.000000 0.002000",
-                "v 35.000000 50.000000 0.002000",
-                "v 20.000000 50.000000 0.002000",
-                "",
-                "vt 0.000000 0.000000",
-                "vt 1.000000 0.000000",
-                "vt 1.000000 1.000000",
-                "vt 0.000000 1.000000",
-                "vt 0.000000 1.000000",
-                "vt 0.500000 0.000000",
-                "vt 1.000000 1.000000",
-                "vt 0.000000 0.000000",
-                "vt 1.000000 0.000000",
-                "vt 1.000000 1.000000",
-                "vt 0.000000 1.000000",
-                "",
-                "g Polygon2D_1",
-                "usemtl Polygon2D_material_fill_1",
-                "f 1/1 2/2 3/3 4/4",
-                "usemtl Polygon2D_material_outline_1",
-                "l 1 2 3 4",
-                "",
-                "g Polygon2D_2",
-                "usemtl Polygon2D_material_outline_2",
-                "l 5 6 7",
-                "",
-                "g Polygon2D_3",
-                "usemtl Polygon2D_material_fill_3",
-                "f 8/8 9/9 10/10 11/11",
-                ""
+            "mtllib temp_house_model.mtl",
+            "",
+            "v 25.000000 25.000000 0.000000",
+            "v 75.000000 25.000000 0.000000",
+            "v 75.000000 75.000000 0.000000",
+            "v 25.000000 75.000000 0.000000",
+            "v 15.000000 25.000000 0.001000",
+            "v 50.000000 20.000000 0.001000",
+            "v 85.000000 25.000000 0.001000",
+            "v 20.000000 35.000000 0.002000",
+            "v 35.000000 35.000000 0.002000",
+            "v 35.000000 50.000000 0.002000",
+            "v 20.000000 50.000000 0.002000",
+            "",
+            "vt 0.000000 0.000000",
+            "vt 1.000000 0.000000",
+            "vt 1.000000 1.000000",
+            "vt 0.000000 1.000000",
+            "vt 0.000000 1.000000",
+            "vt 0.500000 0.000000",
+            "vt 1.000000 1.000000",
+            "vt 0.000000 0.000000",
+            "vt 1.000000 0.000000",
+            "vt 1.000000 1.000000",
+            "vt 0.000000 1.000000",
+            "",
+            "g Polygon2D_1",
+            "usemtl Polygon2D_material_fill_1",
+            "f 1/1 2/2 3/3 4/4",
+            "usemtl Polygon2D_material_outline_1",
+            "l 1 2 3 4",
+            "",
+            "g Polygon2D_2",
+            "usemtl Polygon2D_material_outline_2",
+            "l 5 6 7",
+            "",
+            "g Polygon2D_3",
+            "usemtl Polygon2D_material_fill_3",
+            "f 8/8 9/9 10/10 11/11",
+            ""
         );
 
         ModelUtil.writeModel(pathToModel, expectedHouse);
@@ -176,39 +174,39 @@ class ObjMtlUtilTests {
         assertTrue(Files.exists(pathToMaterial), "Writing the .obj file should generate the material as a .mtl.");
 
         List<String> expectedMtlContent = List.of(
-                "newmtl Polygon2D_material_fill_1",
-                "Ka 1.000000 1.000000 1.000000",
-                "Kd 1.000000 1.000000 1.000000",
-                "Ks 0.000000 0.000000 0.000000",
-                "Ns 1.000000",
-                "d 1.000000",
-                "illum 1",
-                "map_Kd temp_house_model_gradient_1.png",
-                "",
-                "newmtl Polygon2D_material_outline_1",
-                "Ka 0.588235 0.588235 0.588235",
-                "Kd 0.588235 0.588235 0.588235",
-                "Ks 0.000000 0.000000 0.000000",
-                "Ns 1.000000",
-                "d 0.588235",
-                "illum 1",
-                "",
-                "newmtl Polygon2D_material_outline_2",
-                "Ka 0.000000 0.000000 0.000000",
-                "Kd 0.000000 0.000000 0.000000",
-                "Ks 0.000000 0.000000 0.000000",
-                "Ns 1.000000",
-                "d 1.000000",
-                "illum 1",
-                "",
-                "newmtl Polygon2D_material_fill_3",
-                "Ka 0.345098 0.952941 0.941176",
-                "Kd 0.345098 0.952941 0.941176",
-                "Ks 0.000000 0.000000 0.000000",
-                "Ns 1.000000",
-                "d 0.886275",
-                "illum 1",
-                ""
+            "newmtl Polygon2D_material_fill_1",
+            "Ka 1.000000 1.000000 1.000000",
+            "Kd 1.000000 1.000000 1.000000",
+            "Ks 0.000000 0.000000 0.000000",
+            "Ns 1.000000",
+            "d 1.000000",
+            "illum 1",
+            "map_Kd temp_house_model_gradient_1.png",
+            "",
+            "newmtl Polygon2D_material_outline_1",
+            "Ka 0.588235 0.588235 0.588235",
+            "Kd 0.588235 0.588235 0.588235",
+            "Ks 0.000000 0.000000 0.000000",
+            "Ns 1.000000",
+            "d 0.588235",
+            "illum 1",
+            "",
+            "newmtl Polygon2D_material_outline_2",
+            "Ka 0.000000 0.000000 0.000000",
+            "Kd 0.000000 0.000000 0.000000",
+            "Ks 0.000000 0.000000 0.000000",
+            "Ns 1.000000",
+            "d 1.000000",
+            "illum 1",
+            "",
+            "newmtl Polygon2D_material_fill_3",
+            "Ka 0.345098 0.952941 0.941176",
+            "Kd 0.345098 0.952941 0.941176",
+            "Ks 0.000000 0.000000 0.000000",
+            "Ns 1.000000",
+            "d 0.886275",
+            "illum 1",
+            ""
         );
 
         List<String> actualMtlContent = Files.readAllLines(pathToMaterial);
@@ -267,8 +265,8 @@ class ObjMtlUtilTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> ModelUtil.loadModel(pathToTempFile));
 
         String expectedExceptionMessage = "Unsupported file extension \"txt\"."
-                + System.lineSeparator()
-                + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString;
+            + System.lineSeparator()
+            + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString;
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 

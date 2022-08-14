@@ -7,13 +7,12 @@ import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
 import tech.fastj.math.Pointf;
 
-import unittest.mock.graphics.MockDrawable;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+import unittest.mock.graphics.MockDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,8 +39,8 @@ class DrawableTests {
         Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(polygons);
 
@@ -67,8 +66,8 @@ class DrawableTests {
         Pointf[] square1 = DrawUtil.createBox(Pointf.origin(), 50f);
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(polygons);
 

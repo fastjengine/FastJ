@@ -1,12 +1,13 @@
 package tech.fastj.examples.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
+import tech.fastj.examples.bullethell.util.SceneNames;
+import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.SceneManager;
 
@@ -14,9 +15,6 @@ import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import tech.fastj.examples.bullethell.util.SceneNames;
-import tech.fastj.gameloop.CoreLoopState;
 
 public class PlayerHealthBar implements Behavior {
 

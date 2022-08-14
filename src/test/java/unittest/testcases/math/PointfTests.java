@@ -172,14 +172,14 @@ class PointfTests {
     @Test
     void checkArithmeticChaining_withPointfObjectsAndFloatValues() {
         Pointf ptf = Pointf.origin()
-                .add(2f)                                    // (2f, 2f)
-                .add(new Pointf(3f))                    // (5f, 5f)
-                .multiply(new Pointf(3f, 4f))    // (15f, 20f)
-                .multiply(2f)                               // (30f, 40f)
-                .subtract(15f)                              // (15f, 25f)
-                .subtract(new Pointf(-5f, 5f))   // (20f, 20f)
-                .divide(new Pointf(2f))                 // (10f, 10f)
-                .divide(2f);                                // (5f, 5f)
+            .add(2f)                                    // (2f, 2f)
+            .add(new Pointf(3f))                    // (5f, 5f)
+            .multiply(new Pointf(3f, 4f))    // (15f, 20f)
+            .multiply(2f)                               // (30f, 40f)
+            .subtract(15f)                              // (15f, 25f)
+            .subtract(new Pointf(-5f, 5f))   // (20f, 20f)
+            .divide(new Pointf(2f))                 // (10f, 10f)
+            .divide(2f);                                // (5f, 5f)
 
         assertEquals(5f, ptf.x, "The x value of the Pointf should equal 5f.");
         assertEquals(5f, ptf.y, "The y value of the Pointf should equal 5f.");
@@ -352,7 +352,6 @@ class PointfTests {
 
         assertTrue(ptf.intersects(pathg), "Pointf should intersect with GeneralPath.");
     }
-
 
     @Test
     void static_checkPointfAddition_withFloatValue() {

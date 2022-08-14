@@ -1,18 +1,24 @@
 package tech.fastj.examples.bullethell.scenes;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Maths;
-import tech.fastj.math.Pointf;
-import tech.fastj.math.Transform2D;
+import tech.fastj.examples.bullethell.scripts.EnemyMovement;
+import tech.fastj.examples.bullethell.scripts.PlayerCannon;
+import tech.fastj.examples.bullethell.scripts.PlayerController;
+import tech.fastj.examples.bullethell.scripts.PlayerHealthBar;
+import tech.fastj.examples.bullethell.util.FilePaths;
+import tech.fastj.examples.bullethell.util.SceneNames;
+import tech.fastj.examples.bullethell.util.Tags;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.Text2D;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.input.keyboard.KeyboardActionListener;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
+import tech.fastj.math.Maths;
+import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.resources.models.ModelUtil;
 import tech.fastj.systems.control.Scene;
 
@@ -21,14 +27,6 @@ import java.awt.Font;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import tech.fastj.examples.bullethell.scripts.EnemyMovement;
-import tech.fastj.examples.bullethell.scripts.PlayerCannon;
-import tech.fastj.examples.bullethell.scripts.PlayerController;
-import tech.fastj.examples.bullethell.scripts.PlayerHealthBar;
-import tech.fastj.examples.bullethell.util.FilePaths;
-import tech.fastj.examples.bullethell.util.SceneNames;
-import tech.fastj.examples.bullethell.util.Tags;
 
 public class GameScene extends Scene {
 
@@ -46,22 +44,19 @@ public class GameScene extends Scene {
         Polygon2D playerHealthBar = createPlayerHealthBar();
         PlayerHealthBar playerHealthBarScript = new PlayerHealthBar(playerMetadata);
         playerHealthBar.addBehavior(playerHealthBarScript, this)
-                .<GameObject>addTag(Tags.PlayerHealthBar);
-
+            .<GameObject>addTag(Tags.PlayerHealthBar);
 
         PlayerController playerControllerScript = new PlayerController(3f, 3f);
         PlayerCannon playerCannonScript = new PlayerCannon(this);
         Model2D player = createPlayer();
         player.addBehavior(playerControllerScript, this)
-                .addBehavior(playerCannonScript, this)
-                .<GameObject>addTag(Tags.Player);
-
+            .addBehavior(playerCannonScript, this)
+            .<GameObject>addTag(Tags.Player);
 
         // add game objects to the screen in order!
         drawableManager().addGameObject(player);
         drawableManager().addGameObject(playerHealthBar);
         drawableManager().addGameObject(playerMetadata);
-
 
         enemies = new ConcurrentHashMap<>();
         newWave();
@@ -109,9 +104,9 @@ public class GameScene extends Scene {
 
     private Text2D createPlayerMetaData() {
         return Text2D.create("Health: 100")
-                .withFont(new Font("Consolas", Font.BOLD, 16))
-                .withTransform(new Pointf(27.5f, 40f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
-                .build();
+            .withFont(new Font("Consolas", Font.BOLD, 16))
+            .withTransform(new Pointf(27.5f, 40f), Transform2D.DefaultRotation, Transform2D.DefaultScale)
+            .build();
     }
 
     private Polygon2D createPlayerHealthBar() {
@@ -120,8 +115,8 @@ public class GameScene extends Scene {
         Pointf[] playerHealthBarMesh = DrawUtil.createBox(playerHealthBarMeshLocation, playerHealthBarMeshSize);
 
         return Polygon2D.create(playerHealthBarMesh)
-                .withFill(Color.green)
-                .build();
+            .withFill(Color.green)
+            .build();
     }
 
     private Model2D createPlayer() {
@@ -145,8 +140,8 @@ public class GameScene extends Scene {
 
     private Model2D createEnemy() {
         Pointf randomPosition = new Pointf(
-                Maths.random(-500f, 1780f),
-                Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
+            Maths.random(-500f, 1780f),
+            Maths.randomAtEdge(Maths.random(-500f, -250f), Maths.random(970f, 1220f))
         );
 
         Model2D enemy = Model2D.fromPolygons(ModelUtil.loadModel(Path.of(FilePaths.PathToResources + "enemy.psdf")));

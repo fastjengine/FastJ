@@ -7,9 +7,6 @@ import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.systems.control.SimpleManager;
 
-import unittest.EnvironmentHelper;
-import unittest.mock.systems.control.MockEmptySimpleManager;
-
 import java.time.Duration;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,6 +15,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import unittest.EnvironmentHelper;
+import unittest.mock.systems.control.MockEmptySimpleManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;

@@ -23,17 +23,17 @@ class RadialGradientTests {
 
     private static Pointf randomPointf() {
         return new Pointf(
-                Maths.random(0.0f, 100.0f),
-                Maths.random(0.0f, 100.0f)
+            Maths.random(0.0f, 100.0f),
+            Maths.random(0.0f, 100.0f)
         );
     }
 
     private static Color randomColor() {
         return new Color(
-                Maths.random(0.0f, 1.0f),
-                Maths.random(0.0f, 1.0f),
-                Maths.random(0.0f, 1.0f),
-                Maths.random(0.0f, 1.0f)
+            Maths.random(0.0f, 1.0f),
+            Maths.random(0.0f, 1.0f),
+            Maths.random(0.0f, 1.0f),
+            Maths.random(0.0f, 1.0f)
         );
     }
 
@@ -46,17 +46,17 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 1.0f},
-                new Color[]{randomColor1, randomColor2}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 1.0f},
+            new Color[] {randomColor1, randomColor2}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -68,11 +68,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -87,18 +87,18 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.5f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.5f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -110,11 +110,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -130,19 +130,19 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 3.0f), (2.0f / 3.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 3.0f), (2.0f / 3.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -154,11 +154,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -175,20 +175,20 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.25f, 0.5f, 0.75f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.25f, 0.5f, 0.75f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .withColor(randomColor5)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .withColor(randomColor5)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -200,11 +200,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -222,21 +222,21 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .withColor(randomColor5)
-                .withColor(randomColor6)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .withColor(randomColor5)
+            .withColor(randomColor6)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -248,11 +248,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -267,27 +267,26 @@ class RadialGradientTests {
         Color randomColor6 = randomColor();
         Color randomColor7 = randomColor();
 
-
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 6.0f), (2.0f / 6.0f), (3.0f / 6.0f), (4.0f / 6.0f), (5.0f / 6.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 6.0f), (2.0f / 6.0f), (3.0f / 6.0f), (4.0f / 6.0f), (5.0f / 6.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .withColor(randomColor5)
-                .withColor(randomColor6)
-                .withColor(randomColor7)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .withColor(randomColor5)
+            .withColor(randomColor6)
+            .withColor(randomColor7)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -299,11 +298,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -319,28 +318,27 @@ class RadialGradientTests {
         Color randomColor7 = randomColor();
         Color randomColor8 = randomColor();
 
-
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 7.0f), (2.0f / 7.0f), (3.0f / 7.0f), (4.0f / 7.0f), (5.0f / 7.0f), (6.0f / 7.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 7.0f), (2.0f / 7.0f), (3.0f / 7.0f), (4.0f / 7.0f), (5.0f / 7.0f), (6.0f / 7.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .withColor(randomColor5)
-                .withColor(randomColor6)
-                .withColor(randomColor7)
-                .withColor(randomColor8)
-                .build();
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .withColor(randomColor5)
+            .withColor(randomColor6)
+            .withColor(randomColor7)
+            .withColor(randomColor8)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -352,11 +350,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -370,16 +368,16 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 1.0f},
-                new Color[]{randomColor1, randomColor2}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 1.0f},
+            new Color[] {randomColor1, randomColor2}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2)
-                .build();
+            .withColors(randomColor1, randomColor2)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -391,11 +389,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -410,16 +408,16 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.5f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.5f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -431,11 +429,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -451,16 +449,16 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 3.0f), (2.0f / 3.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 3.0f), (2.0f / 3.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -472,11 +470,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -493,16 +491,16 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.25f, 0.5f, 0.75f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.25f, 0.5f, 0.75f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -514,11 +512,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -536,16 +534,16 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -557,11 +555,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -576,21 +574,20 @@ class RadialGradientTests {
         Color randomColor6 = randomColor();
         Color randomColor7 = randomColor();
 
-
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 6.0f), (2.0f / 6.0f), (3.0f / 6.0f), (4.0f / 6.0f), (5.0f / 6.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 6.0f), (2.0f / 6.0f), (3.0f / 6.0f), (4.0f / 6.0f), (5.0f / 6.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -602,11 +599,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -622,21 +619,20 @@ class RadialGradientTests {
         Color randomColor7 = randomColor();
         Color randomColor8 = randomColor();
 
-
         Pointf randomCenterpoint = randomPointf();
         float randomRadius = randomFloat();
 
         RadialGradientPaint expectedRadialGradientPaint = new RadialGradientPaint(
-                randomCenterpoint.x,
-                randomCenterpoint.y,
-                randomRadius,
-                new float[]{0.0f, (1.0f / 7.0f), (2.0f / 7.0f), (3.0f / 7.0f), (4.0f / 7.0f), (5.0f / 7.0f), (6.0f / 7.0f), 1.0f},
-                new Color[]{randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8}
+            randomCenterpoint.x,
+            randomCenterpoint.y,
+            randomRadius,
+            new float[] {0.0f, (1.0f / 7.0f), (2.0f / 7.0f), (3.0f / 7.0f), (4.0f / 7.0f), (5.0f / 7.0f), (6.0f / 7.0f), 1.0f},
+            new Color[] {randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8}
         );
 
         RadialGradientPaint actualRadialGradientPaint = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8)
-                .build();
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8)
+            .build();
 
         assertEquals(expectedRadialGradientPaint.getCenterPoint(), actualRadialGradientPaint.getCenterPoint(), "The created Radial gradient's starting point should match the expected Radial gradient's starting point.");
         assertEquals(expectedRadialGradientPaint.getRadius(), actualRadialGradientPaint.getRadius(), "The created Radial gradient's ending point should match the expected Radial gradient's ending point.");
@@ -648,11 +644,11 @@ class RadialGradientTests {
 
         for (int i = 0; i < expectedRadialGradientPaint.getFractions().length; i++) {
             assertTrue(
-                    Maths.floatEquals(
-                            expectedRadialGradientPaint.getFractions()[i],
-                            actualRadialGradientPaint.getFractions()[i]
-                    ),
-                    "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
+                Maths.floatEquals(
+                    expectedRadialGradientPaint.getFractions()[i],
+                    actualRadialGradientPaint.getFractions()[i]
+                ),
+                "The created Radial gradient's fractions should match the expected Radial gradient's fractions."
             );
         }
     }
@@ -695,14 +691,14 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientBuilder RadialGradientBuilder = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1)
-                .withColor(randomColor2)
-                .withColor(randomColor3)
-                .withColor(randomColor4)
-                .withColor(randomColor5)
-                .withColor(randomColor6)
-                .withColor(randomColor7)
-                .withColor(randomColor8);
+            .withColor(randomColor1)
+            .withColor(randomColor2)
+            .withColor(randomColor3)
+            .withColor(randomColor4)
+            .withColor(randomColor5)
+            .withColor(randomColor6)
+            .withColor(randomColor7)
+            .withColor(randomColor8);
 
         Throwable exception = assertThrows(IllegalStateException.class, () -> RadialGradientBuilder.withColor(invalid_randomColor9));
 
@@ -726,7 +722,7 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientBuilder RadialGradientBuilder = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8);
+            .withColors(randomColor1, randomColor2, randomColor3, randomColor4, randomColor5, randomColor6, randomColor7, randomColor8);
 
         Throwable exception = assertThrows(IllegalStateException.class, () -> RadialGradientBuilder.withColors(invalid_randomColor9));
 
@@ -771,8 +767,8 @@ class RadialGradientTests {
         Throwable exception = assertThrows(IllegalStateException.class, RadialGradientBuilder::build);
 
         String expectedExceptionMessage = "Gradients must contain at least 2 colors."
-                + System.lineSeparator()
-                + "This gradient builder only contains the following gradients: []";
+            + System.lineSeparator()
+            + "This gradient builder only contains the following gradients: []";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 
@@ -784,12 +780,12 @@ class RadialGradientTests {
         float randomRadius = randomFloat();
 
         RadialGradientBuilder RadialGradientBuilder = Gradients.radialGradient(randomCenterpoint, randomRadius)
-                .withColor(randomColor1);
+            .withColor(randomColor1);
         Throwable exception = assertThrows(IllegalStateException.class, RadialGradientBuilder::build);
 
         String expectedExceptionMessage = "Gradients must contain at least 2 colors."
-                + System.lineSeparator()
-                + "This gradient builder only contains the following gradients: [" + randomColor1 + "]";
+            + System.lineSeparator()
+            + "This gradient builder only contains the following gradients: [" + randomColor1 + "]";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 }

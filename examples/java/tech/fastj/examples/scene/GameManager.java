@@ -2,7 +2,6 @@ package tech.fastj.examples.scene;
 
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.RenderSettings;
-
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SceneManager;
 

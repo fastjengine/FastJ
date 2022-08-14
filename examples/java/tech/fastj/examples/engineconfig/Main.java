@@ -2,12 +2,11 @@ package tech.fastj.examples.engineconfig;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.engine.HWAccel;
-import tech.fastj.math.Point;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Point;
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.SimpleManager;
 
 public class Main extends SimpleManager {

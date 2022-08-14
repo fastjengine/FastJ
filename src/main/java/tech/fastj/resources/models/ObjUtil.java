@@ -35,7 +35,6 @@ public class ObjUtil {
         List<Polygon2D> polygons = new ArrayList<>();
         List<float[]> vertexes = new ArrayList<>();
 
-
         Path materialLibraryPath = null;
         String currentMaterial = "";
 
@@ -63,8 +62,8 @@ public class ObjUtil {
                     for (int j = 0; j < tokens.length - 1; j++) {
                         int vertexesIndex = Integer.parseInt(tokens[j + 1].split("/")[0]);
                         vertexesFromFaces[j] = new Pointf(
-                                vertexes.get(vertexesIndex - 1)[0],
-                                vertexes.get(vertexesIndex - 1)[1]
+                            vertexes.get(vertexesIndex - 1)[0],
+                            vertexes.get(vertexesIndex - 1)[1]
                         );
                         isLastPolygonOutline = lastPolygonPoints[j].equals(vertexesFromFaces[j]);
                     }
@@ -81,12 +80,12 @@ public class ObjUtil {
                 }
                 case ParsingKeys.MaterialLib: {
                     materialLibraryPath = Path.of(
-                            modelPath.toString().substring(
-                                    0,
-                                    modelPath.toString().indexOf(modelPath.getFileName().toString())
-                            ) + tokens[1]
-                            // filenames and paths in .obj files cannot contain spaces, allowing us to use a non-robust
-                            // solution for tokens.
+                        modelPath.toString().substring(
+                            0,
+                            modelPath.toString().indexOf(modelPath.getFileName().toString())
+                        ) + tokens[1]
+                        // filenames and paths in .obj files cannot contain spaces, allowing us to use a non-robust
+                        // solution for tokens.
                     );
                     break;
                 }
@@ -110,8 +109,8 @@ public class ObjUtil {
         for (int j = 1; j < tokens.length; j++) {
             int vertexesIndex = Integer.parseInt(tokens[Math.min(j, tokens.length - 1)].split("/")[0]);
             vertexesFromFaces[j - 1] = new Pointf(
-                    vertexes.get(vertexesIndex - 1)[0],
-                    vertexes.get(vertexesIndex - 1)[1]
+                vertexes.get(vertexesIndex - 1)[0],
+                vertexes.get(vertexesIndex - 1)[1]
             );
         }
 
@@ -119,10 +118,10 @@ public class ObjUtil {
     }
 
     private static float[] parseVertex(String[] tokens) {
-        return new float[]{
-                Float.parseFloat(tokens[1]),
-                Float.parseFloat(tokens[2]),
-                Float.parseFloat(tokens[3])
+        return new float[] {
+            Float.parseFloat(tokens[1]),
+            Float.parseFloat(tokens[2]),
+            Float.parseFloat(tokens[3])
         };
     }
 
@@ -161,8 +160,8 @@ public class ObjUtil {
             Files.writeString(destinationPath, fileContents, StandardCharsets.US_ASCII);
         } catch (IOException exception) {
             throw new IllegalStateException(
-                    CrashMessages.theGameCrashed("a ." + SupportedModelFormats.Obj + " file writing error."),
-                    exception
+                CrashMessages.theGameCrashed("a ." + SupportedModelFormats.Obj + " file writing error."),
+                exception
             );
         }
 
@@ -171,10 +170,10 @@ public class ObjUtil {
 
     private static void writeMaterialLib(StringBuilder fileContents, Path materialPath) {
         fileContents.append(ParsingKeys.MaterialLib)
-                .append(' ')
-                .append(materialPath.toString())
-                .append(LineSeparator)
-                .append(LineSeparator);
+            .append(' ')
+            .append(materialPath.toString())
+            .append(LineSeparator)
+            .append(LineSeparator);
     }
 
     private static void writeVertexes(StringBuilder fileContents, Polygon2D polygon, int polygonIndex) {
@@ -182,13 +181,13 @@ public class ObjUtil {
         Pointf[] polygonPoints = polygon.getPoints();
         for (Pointf vertex : polygonPoints) {
             fileContents.append(ParsingKeys.Vertex)
-                    .append(' ')
-                    .append(String.format("%4f", vertex.x))
-                    .append(' ')
-                    .append(String.format("%4f", vertex.y))
-                    .append(' ')
-                    .append(String.format("%4f", vertexSpace))
-                    .append(LineSeparator);
+                .append(' ')
+                .append(String.format("%4f", vertex.x))
+                .append(' ')
+                .append(String.format("%4f", vertex.y))
+                .append(' ')
+                .append(String.format("%4f", vertexSpace))
+                .append(LineSeparator);
         }
     }
 
@@ -201,20 +200,20 @@ public class ObjUtil {
             float circleX = Maths.normalize(polygonPoint.x - topLeft.x, 0f, space.x);
             float circleY = Maths.normalize(polygonPoint.y - topLeft.y, 0f, space.y);
             fileContents.append(ParsingKeys.VertexTexture)
-                    .append(' ')
-                    .append(String.format("%4f", circleX))
-                    .append(' ')
-                    .append(String.format("%4f", circleY))
-                    .append(LineSeparator);
+                .append(' ')
+                .append(String.format("%4f", circleX))
+                .append(' ')
+                .append(String.format("%4f", circleY))
+                .append(LineSeparator);
         }
     }
 
     private static void writeObject(StringBuilder fileContents, int polygonIndex) {
         fileContents.append(ParsingKeys.ObjectName)
-                .append(' ')
-                .append("Polygon2D_")
-                .append(polygonIndex)
-                .append(LineSeparator);
+            .append(' ')
+            .append("Polygon2D_")
+            .append(polygonIndex)
+            .append(LineSeparator);
     }
 
     private static void writeMaterial(StringBuilder fileContents, Polygon2D polygon, int polygonIndex, int vertexCount) {
@@ -242,18 +241,18 @@ public class ObjUtil {
 
     private static void writeFillMaterialUsage(StringBuilder fileContents, int polygonIndex) {
         fileContents.append(ParsingKeys.UseMaterial)
-                .append(' ')
-                .append("Polygon2D_material_fill_")
-                .append(polygonIndex)
-                .append(LineSeparator);
+            .append(' ')
+            .append("Polygon2D_material_fill_")
+            .append(polygonIndex)
+            .append(LineSeparator);
     }
 
     private static void writeOutlineMaterialUsage(StringBuilder fileContents, int polygonIndex) {
         fileContents.append(ParsingKeys.UseMaterial)
-                .append(' ')
-                .append("Polygon2D_material_outline_")
-                .append(polygonIndex)
-                .append(LineSeparator);
+            .append(' ')
+            .append("Polygon2D_material_outline_")
+            .append(polygonIndex)
+            .append(LineSeparator);
     }
 
     private static void writeFaces(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
@@ -261,9 +260,9 @@ public class ObjUtil {
         Pointf[] polygonPoints = polygon.getPoints();
         for (int i = 1; i <= polygonPoints.length; i++) {
             fileContents.append(' ')
-                    .append(vertexCount + i)
-                    .append('/')
-                    .append(vertexCount + i);
+                .append(vertexCount + i)
+                .append('/')
+                .append(vertexCount + i);
         }
         fileContents.append(LineSeparator);
     }

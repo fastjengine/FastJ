@@ -6,14 +6,13 @@ import tech.fastj.gameloop.GameLoopState;
 import tech.fastj.gameloop.event.EventHandler;
 import tech.fastj.gameloop.event.EventObserver;
 
-import unittest.mock.gameloop.event.MockEvent;
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Test;
+import unittest.mock.gameloop.event.MockEvent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -77,12 +76,12 @@ class GameLoopTests {
 
         AtomicReference<GameLoopState> expectedCurrentGameLoopState = new AtomicReference<>();
         expectedCurrentGameLoopState.set(new GameLoopState(
-                CoreLoopState.Update,
-                1,
-                (gl, deltaTime) -> {
-                    assertEquals(expectedCurrentGameLoopState.get(), gameLoop.getCurrentGameLoopState(), "The expected current game loop should match the expected game loop.");
-                    assertTrue(gameLoop.isRunning(), "The game loop should be running while in a game loop state.");
-                }
+            CoreLoopState.Update,
+            1,
+            (gl, deltaTime) -> {
+                assertEquals(expectedCurrentGameLoopState.get(), gameLoop.getCurrentGameLoopState(), "The expected current game loop should match the expected game loop.");
+                assertTrue(gameLoop.isRunning(), "The game loop should be running while in a game loop state.");
+            }
         ));
 
         gameLoop.addGameLoopState(expectedCurrentGameLoopState.get());
@@ -136,8 +135,8 @@ class GameLoopTests {
 
         gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
         gameLoop.addGameLoopStates(
-                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
-                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
+            new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
+            new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
         );
 
         gameLoop.run();
@@ -152,8 +151,8 @@ class GameLoopTests {
 
         gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
         gameLoop.addGameLoopStates(
-                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
-                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
+            new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
+            new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
         );
 
         gameLoop.run();
@@ -184,8 +183,8 @@ class GameLoopTests {
 
         gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
         gameLoop.addGameLoopStates(
-                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
-                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
+            new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
+            new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
         );
 
         gameLoop.run();
@@ -200,8 +199,8 @@ class GameLoopTests {
 
         gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
         gameLoop.addGameLoopStates(
-                new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
-                new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
+            new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
+            new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
         );
 
         gameLoop.run();

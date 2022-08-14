@@ -38,17 +38,17 @@ class DrawUtilTests {
         Pointf[] square1Points = DrawUtil.createBox(0f, 0f, 50f);
         Pointf[] square2Points = DrawUtil.createBox(25f, 25f, 50f);
         Pointf[] expectedOutline = {
-                square1Points[0].copy(),
-                square1Points[1].copy(),
-                square2Points[1].copy(),
-                square2Points[2].copy(),
-                square2Points[3].copy(),
-                square1Points[3].copy()
+            square1Points[0].copy(),
+            square1Points[1].copy(),
+            square2Points[1].copy(),
+            square2Points[2].copy(),
+            square2Points[3].copy(),
+            square1Points[3].copy()
         };
 
         Polygon2D[] squareArray = {
-                Polygon2D.fromPoints(square1Points),
-                Polygon2D.fromPoints(square2Points)
+            Polygon2D.fromPoints(square1Points),
+            Polygon2D.fromPoints(square2Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -61,19 +61,19 @@ class DrawUtilTests {
         Pointf[] square2Points = DrawUtil.createBox(40f, 20f, 60f);
         Pointf[] square3Points = DrawUtil.createBox(20f, 40f, 60f);
         Pointf[] expectedOutline = {
-                square1Points[0].copy(),
-                square1Points[1].copy(),
-                square2Points[1].copy(),
-                square2Points[2].copy(),
-                square3Points[2].copy(),
-                square3Points[3].copy(),
-                square1Points[3].copy()
+            square1Points[0].copy(),
+            square1Points[1].copy(),
+            square2Points[1].copy(),
+            square2Points[2].copy(),
+            square3Points[2].copy(),
+            square3Points[3].copy(),
+            square1Points[3].copy()
         };
 
         Polygon2D[] squareArray = {
-                Polygon2D.fromPoints(square1Points),
-                Polygon2D.fromPoints(square2Points),
-                Polygon2D.fromPoints(square3Points)
+            Polygon2D.fromPoints(square1Points),
+            Polygon2D.fromPoints(square2Points),
+            Polygon2D.fromPoints(square3Points)
         };
         Pointf[] actualOutline = DrawUtil.createCollisionOutline(squareArray);
 
@@ -83,11 +83,11 @@ class DrawUtilTests {
     @Test
     void checkGeneratePath2D_withPointfArray() {
         Pointf[] polygon = {
-                Pointf.origin(),
-                new Pointf(50f, 30f),
-                new Pointf(-5f, 47f),
-                new Pointf(45f, 20f),
-                new Pointf(5f, 15f)
+            Pointf.origin(),
+            new Pointf(50f, 30f),
+            new Pointf(-5f, 47f),
+            new Pointf(45f, 20f),
+            new Pointf(5f, 15f)
         };
         Path2D.Float expectedPath = new Path2D.Float();
         expectedPath.moveTo(polygon[0].x, polygon[0].y);
@@ -120,9 +120,9 @@ class DrawUtilTests {
     void tryComparePath2Ds_wherePathsAreNotEqual() {
         Pointf[] square = DrawUtil.createBox(50f, 50f, 50f);
         Pointf[] triangle = {
-                new Pointf(0f, 25f),
-                new Pointf(25f, 15f),
-                new Pointf(50f, 25f)
+            new Pointf(0f, 25f),
+            new Pointf(25f, 15f),
+            new Pointf(50f, 25f)
         };
 
         Path2D.Float path1 = DrawUtil.createPath(square);
@@ -133,7 +133,7 @@ class DrawUtilTests {
         String expectedMessage = "Path lengths differ\nPath 1 had a length of 4, but path 2 had a length of 3.";
         String actualMessage = exception.getMessage();
         assertEquals(expectedMessage, actualMessage,
-                "An IllegalStateException should be thrown stating the path's lengths are inequal, as well as each path's length."
+            "An IllegalStateException should be thrown stating the path's lengths are inequal, as well as each path's length."
         );
     }
 
@@ -150,10 +150,10 @@ class DrawUtilTests {
     void checkGenerateBox_withFloatXAndY_andFloatSize() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, 35f);
         Pointf[] expectedResult = {
-                new Pointf(5f, 5f),
-                new Pointf(40f, 5f),
-                new Pointf(40f, 40f),
-                new Pointf(5f, 40f)
+            new Pointf(5f, 5f),
+            new Pointf(40f, 5f),
+            new Pointf(40f, 40f),
+            new Pointf(5f, 40f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match the hand-made Pointf array.");
@@ -163,10 +163,10 @@ class DrawUtilTests {
     void checkGenerateBox_withFloatXAndY_andFloatSizeXAndY() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, 20f, 15f);
         Pointf[] expectedResult = {
-                new Pointf(5f, 5f),
-                new Pointf(25f, 5f),
-                new Pointf(25f, 20f),
-                new Pointf(5f, 20f)
+            new Pointf(5f, 5f),
+            new Pointf(25f, 5f),
+            new Pointf(25f, 20f),
+            new Pointf(5f, 20f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
@@ -176,10 +176,10 @@ class DrawUtilTests {
     void checkGenerateBox_withFloatXAndY_andPointfSize() {
         Pointf[] generatedResult = DrawUtil.createBox(5f, 5f, new Pointf(25f, 50f));
         Pointf[] expectedResult = {
-                new Pointf(5f, 5f),
-                new Pointf(30f, 5f),
-                new Pointf(30f, 55f),
-                new Pointf(5f, 55f)
+            new Pointf(5f, 5f),
+            new Pointf(30f, 5f),
+            new Pointf(30f, 55f),
+            new Pointf(5f, 55f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match the hand-made Pointf array.");
@@ -189,10 +189,10 @@ class DrawUtilTests {
     void checkGenerateBox_withPointfLocation_andFloatSize() {
         Pointf[] generatedResult = DrawUtil.createBox(new Pointf(5f, 10f), 35f);
         Pointf[] expectedResult = {
-                new Pointf(5f, 10f),
-                new Pointf(40f, 10f),
-                new Pointf(40f, 45f),
-                new Pointf(5f, 45f)
+            new Pointf(5f, 10f),
+            new Pointf(40f, 10f),
+            new Pointf(40f, 45f),
+            new Pointf(5f, 45f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
@@ -202,10 +202,10 @@ class DrawUtilTests {
     void checkGenerateBox_withPointfLocationY_andPointfSize() {
         Pointf[] generatedResult = DrawUtil.createBox(new Pointf(10f, 15f), new Pointf(25f, 40f));
         Pointf[] expectedResult = {
-                new Pointf(10f, 15f),
-                new Pointf(35f, 15f),
-                new Pointf(35f, 55f),
-                new Pointf(10f, 55f)
+            new Pointf(10f, 15f),
+            new Pointf(35f, 15f),
+            new Pointf(35f, 55f),
+            new Pointf(10f, 55f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
@@ -217,10 +217,10 @@ class DrawUtilTests {
 
         Pointf[] generatedResult = DrawUtil.createBoxFromImage(image);
         Pointf[] expectedResult = {
-                new Pointf(0f, 0f),
-                new Pointf(15f, 0f),
-                new Pointf(15f, 40f),
-                new Pointf(0f, 40f)
+            new Pointf(0f, 0f),
+            new Pointf(15f, 0f),
+            new Pointf(15f, 40f),
+            new Pointf(0f, 40f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
@@ -232,10 +232,10 @@ class DrawUtilTests {
 
         Pointf[] generatedResult = DrawUtil.createBoxFromImage(image, new Pointf(10f, 0f));
         Pointf[] expectedResult = {
-                new Pointf(10f, 0f),
-                new Pointf(60f, 0f),
-                new Pointf(60f, 25f),
-                new Pointf(10f, 25f)
+            new Pointf(10f, 0f),
+            new Pointf(60f, 0f),
+            new Pointf(60f, 25f),
+            new Pointf(10f, 25f)
         };
 
         assertArrayEquals(expectedResult, generatedResult, "The generated Pointf array should match hand-made Pointf array.");
@@ -249,10 +249,10 @@ class DrawUtilTests {
         float rectHeight = 30f;
 
         Pointf[] points = {
-                new Pointf(rectX, rectY),
-                new Pointf(rectX + rectWidth, rectY),
-                new Pointf(rectX + rectWidth, rectY + rectHeight),
-                new Pointf(rectX, rectY + rectHeight)
+            new Pointf(rectX, rectY),
+            new Pointf(rectX + rectWidth, rectY),
+            new Pointf(rectX + rectWidth, rectY + rectHeight),
+            new Pointf(rectX, rectY + rectHeight)
         };
 
         Rectangle2D.Float expectedRect = DrawUtil.createRect(points);
@@ -269,9 +269,9 @@ class DrawUtilTests {
         float rectHeight = 30f;
 
         Pointf[] points = {
-                new Pointf(rectX, rectY),
-                new Pointf(rectX + rectWidth, rectY),
-                new Pointf(rectX + rectWidth, rectY + rectHeight)
+            new Pointf(rectX, rectY),
+            new Pointf(rectX + rectWidth, rectY),
+            new Pointf(rectX + rectWidth, rectY + rectHeight)
         };
 
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> DrawUtil.createRect(points));
@@ -313,10 +313,10 @@ class DrawUtilTests {
     @Test
     void checkGetCenterOfPointfArray() {
         Pointf[] square = {
-                new Pointf(13f),
-                new Pointf(37f, 13f),
-                new Pointf(37f),
-                new Pointf(13f, 37f)
+            new Pointf(13f),
+            new Pointf(37f, 13f),
+            new Pointf(37f),
+            new Pointf(13f, 37f)
         };
 
         Pointf expectedCenterOfSquare = new Pointf(25f, 25f);
@@ -336,14 +336,14 @@ class DrawUtilTests {
         float topCenter = 25f;
         float bottomCenter = 50f;
         Pointf[] expectedPoints = {
-                new Pointf(leftCenter, top),
-                new Pointf(rightCenter, top),
-                new Pointf(right, topCenter),
-                new Pointf(right, bottomCenter),
-                new Pointf(rightCenter, bottom),
-                new Pointf(leftCenter, bottom),
-                new Pointf(left, bottomCenter),
-                new Pointf(left, topCenter)
+            new Pointf(leftCenter, top),
+            new Pointf(rightCenter, top),
+            new Pointf(right, topCenter),
+            new Pointf(right, bottomCenter),
+            new Pointf(rightCenter, bottom),
+            new Pointf(leftCenter, bottom),
+            new Pointf(left, bottomCenter),
+            new Pointf(left, topCenter)
         };
 
         Path2D.Float pathFromExpectedPoints = new Path2D.Float();
@@ -369,25 +369,25 @@ class DrawUtilTests {
         float topCenter = 25f;
         float bottomCenter = 50f;
         Pointf[] expectedPoints = {
-                new Pointf(leftCenter, top),
-                new Pointf(rightCenter, top),
-                new Pointf(right, topCenter),
-                new Pointf(right, bottomCenter),
-                new Pointf(rightCenter, bottom),
-                new Pointf(leftCenter, bottom),
-                new Pointf(left, bottomCenter),
-                new Pointf(left, topCenter)
+            new Pointf(leftCenter, top),
+            new Pointf(rightCenter, top),
+            new Pointf(right, topCenter),
+            new Pointf(right, bottomCenter),
+            new Pointf(rightCenter, bottom),
+            new Pointf(leftCenter, bottom),
+            new Pointf(left, bottomCenter),
+            new Pointf(left, topCenter)
         };
         Pointf[] expectedCurvesAfterPoints = {
-                new Pointf(left - 50f, topCenter),
-                new Pointf(right + 50f, topCenter + 50f),
-                new Pointf(leftCenter, topCenter + 100f),
-                new Pointf(right, bottomCenter),
-                new Pointf(leftCenter, bottomCenter + 100f)
+            new Pointf(left - 50f, topCenter),
+            new Pointf(right + 50f, topCenter + 50f),
+            new Pointf(leftCenter, topCenter + 100f),
+            new Pointf(right, bottomCenter),
+            new Pointf(leftCenter, bottomCenter + 100f)
         };
         Point[] expectedAltIndexes = {
-                new Point(expectedPoints.length, Polygon2D.BezierCurve),
-                new Point(expectedPoints.length + 3, Polygon2D.QuadCurve)
+            new Point(expectedPoints.length, Polygon2D.BezierCurve),
+            new Point(expectedPoints.length + 3, Polygon2D.QuadCurve)
         };
 
         Path2D.Float pathFromExpectedPoints = new Path2D.Float();
@@ -396,24 +396,24 @@ class DrawUtilTests {
             pathFromExpectedPoints.lineTo(expectedPoints[i].x, expectedPoints[i].y);
         }
         pathFromExpectedPoints.curveTo(
-                expectedCurvesAfterPoints[0].x,
-                expectedCurvesAfterPoints[0].y,
-                expectedCurvesAfterPoints[1].x,
-                expectedCurvesAfterPoints[1].y,
-                expectedCurvesAfterPoints[2].x,
-                expectedCurvesAfterPoints[2].y
+            expectedCurvesAfterPoints[0].x,
+            expectedCurvesAfterPoints[0].y,
+            expectedCurvesAfterPoints[1].x,
+            expectedCurvesAfterPoints[1].y,
+            expectedCurvesAfterPoints[2].x,
+            expectedCurvesAfterPoints[2].y
         );
         pathFromExpectedPoints.quadTo(
-                expectedCurvesAfterPoints[3].x,
-                expectedCurvesAfterPoints[3].y,
-                expectedCurvesAfterPoints[4].x,
-                expectedCurvesAfterPoints[4].y
+            expectedCurvesAfterPoints[3].x,
+            expectedCurvesAfterPoints[3].y,
+            expectedCurvesAfterPoints[4].x,
+            expectedCurvesAfterPoints[4].y
         );
         pathFromExpectedPoints.closePath();
 
         PointsAndAlts actualPoints = DrawUtil.pointsOfPathWithAlt(pathFromExpectedPoints);
         Pointf[] allExpectedPoints = Stream.concat(Arrays.stream(expectedPoints), Arrays.stream(expectedCurvesAfterPoints))
-                        .toArray(Pointf[]::new);
+            .toArray(Pointf[]::new);
 
         assertArrayEquals(allExpectedPoints, actualPoints.points(), "The actual array of Pointfs should match the expected array.");
         assertArrayEquals(expectedAltIndexes, actualPoints.altIndexes(), "The actual array of alternate index Points should match the expected array.");
@@ -465,11 +465,11 @@ class DrawUtilTests {
         Color[] generatedRGBColors = new Color[generatedColorCount];
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedColorCount; i++) {
-                        generatedRGBColors[i] = DrawUtil.randomColor();
-                    }
-                },
-                "Errors should not be produced while generating random RGB colors."
+                for (int i = 0; i < generatedColorCount; i++) {
+                    generatedRGBColors[i] = DrawUtil.randomColor();
+                }
+            },
+            "Errors should not be produced while generating random RGB colors."
         );
 
         Log.trace("Generated RGB colors: {}", Arrays.toString(generatedRGBColors));
@@ -481,11 +481,11 @@ class DrawUtilTests {
         Color[] generatedRGBAColors = new Color[generatedColorCount];
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedColorCount; i++) {
-                        generatedRGBAColors[i] = DrawUtil.randomColorWithAlpha();
-                    }
-                },
-                "Errors should not be produced while generating random RGBA colors."
+                for (int i = 0; i < generatedColorCount; i++) {
+                    generatedRGBAColors[i] = DrawUtil.randomColorWithAlpha();
+                }
+            },
+            "Errors should not be produced while generating random RGBA colors."
         );
 
         Log.trace("Generated RGBA colors: {}", Arrays.toString(generatedRGBAColors));
@@ -497,11 +497,11 @@ class DrawUtilTests {
         Font[] generatedFonts = new Font[generatedFontCount];
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedFontCount; i++) {
-                        generatedFonts[i] = DrawUtil.randomFont();
-                    }
-                },
-                "Errors should not be produced while generating random fonts."
+                for (int i = 0; i < generatedFontCount; i++) {
+                    generatedFonts[i] = DrawUtil.randomFont();
+                }
+            },
+            "Errors should not be produced while generating random fonts."
         );
 
         Log.trace("Generated fonts: {}", Arrays.toString(generatedFonts));
@@ -512,11 +512,11 @@ class DrawUtilTests {
         int generatedOutlineStrokeCount = 255;
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedOutlineStrokeCount; i++) {
-                        DrawUtil.randomOutlineStroke();
-                    }
-                },
-                "Errors should not be produced while generating random outline strokes."
+                for (int i = 0; i < generatedOutlineStrokeCount; i++) {
+                    DrawUtil.randomOutlineStroke();
+                }
+            },
+            "Errors should not be produced while generating random outline strokes."
         );
     }
 

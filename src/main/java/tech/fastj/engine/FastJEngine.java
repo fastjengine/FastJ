@@ -109,7 +109,7 @@ public class FastJEngine {
     private static final Map<Class<Resource<?>>, ResourceManager<Resource<?>, ?>> ResourceManagers = new ConcurrentHashMap<>();
 
     // Animation
-    private static final Map<Class<Animated<?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
+    private static final Map<Class<Animated<?, ?>>, AnimationEngine<?, ?>> AnimationEngines = new ConcurrentHashMap<>();
 
     // Game Loop
     /** Fixed Update loop state definition. */
@@ -323,7 +323,10 @@ public class FastJEngine {
         runningCheck();
 
         if ((windowResolution.x | windowResolution.y) < 1) {
-            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("Resolution values must be at least 1."));
+            error(
+                CrashMessages.ConfigurationError.errorMessage,
+                new IllegalArgumentException("Resolution values must be at least 1.")
+            );
         }
 
         FastJEngine.windowResolution = windowResolution;
@@ -342,7 +345,10 @@ public class FastJEngine {
         runningCheck();
 
         if ((canvasResolution.x | canvasResolution.y) < 1) {
-            error(CrashMessages.ConfigurationError.errorMessage, new IllegalArgumentException("canvas resolution values must be at least 1."));
+            error(
+                CrashMessages.ConfigurationError.errorMessage,
+                new IllegalArgumentException("canvas resolution values must be at least 1.")
+            );
         }
 
         FastJEngine.canvasResolution = canvasResolution;
@@ -396,7 +402,10 @@ public class FastJEngine {
             HWAccel.setHardwareAcceleration(hardwareAcceleration);
             hwAccel = hardwareAcceleration;
         } else {
-            warning("This OS doesn't support {} hardware acceleration. Configuration will be left at default.", hardwareAcceleration.name());
+            warning(
+                "This OS doesn't support {} hardware acceleration. Configuration will be left at default.",
+                hardwareAcceleration.name()
+            );
             HWAccel.setHardwareAcceleration(HWAccel.Default);
             hwAccel = HWAccel.Default;
         }
@@ -418,7 +427,10 @@ public class FastJEngine {
      */
     public static void runningCheck() {
         if (isRunning) {
-            error(CrashMessages.CalledAfterRunError.errorMessage, new IllegalStateException("This method cannot be called after the game begins running."));
+            error(
+                CrashMessages.CalledAfterRunError.errorMessage,
+                new IllegalStateException("This method cannot be called after the game begins running.")
+            );
         }
     }
 
@@ -628,8 +640,8 @@ public class FastJEngine {
      * @param <T>             The animated type.
      */
     @SuppressWarnings("unchecked")
-    public static <TD extends AnimationData, T extends Animated<TD>> void addAnimationEngine(AnimationEngine<TD, T> animationEngine, Class<T> animationClass) {
-        AnimationEngines.put((Class<Animated<?>>) animationClass, animationEngine);
+    public static <TD extends AnimationData<TD, T>, T extends Animated<TD, T>> void addAnimationEngine(AnimationEngine<TD, T> animationEngine, Class<T> animationClass) {
+        AnimationEngines.put((Class<Animated<?, ?>>) animationClass, animationEngine);
     }
 
     /**
@@ -641,8 +653,8 @@ public class FastJEngine {
      * @throws IllegalStateException if no animation engine is found for the specified animation class.
      */
     @SuppressWarnings("unchecked")
-    public static <TD extends AnimationData, T extends Animated<TD>> AnimationEngine<TD, T> getAnimationEngine(Class<T> animationClass) {
-        return (AnimationEngine<TD, T>) AnimationEngines.computeIfAbsent((Class<Animated<?>>) animationClass, aClass -> {
+    public static <TD extends AnimationData<TD, T>, T extends Animated<TD, T>> AnimationEngine<TD, T> getAnimationEngine(Class<T> animationClass) {
+        return (AnimationEngine<TD, T>) AnimationEngines.computeIfAbsent((Class<Animated<?, ?>>) animationClass, aClass -> {
             throw new IllegalStateException("No animation engine was added for the animation type \"" + animationClass.getTypeName() + "\".");
         });
     }

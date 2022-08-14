@@ -21,8 +21,8 @@ class Model2DTests {
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
 
         Model2D model2D = Model2D.fromPolygons(polygons);
@@ -40,8 +40,8 @@ class Model2DTests {
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
 
         boolean shouldRender = Maths.randomBoolean();
@@ -61,8 +61,8 @@ class Model2DTests {
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
 
         boolean shouldRender = Maths.randomBoolean();
@@ -72,8 +72,8 @@ class Model2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Model2D model2D = Model2D.create(polygons, shouldRender)
-                .withTransform(randomTranslation, randomRotation, randomScale)
-                .build();
+            .withTransform(randomTranslation, randomRotation, randomScale)
+            .build();
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'shouldRender' option should match the random shouldRender option.");
@@ -89,8 +89,8 @@ class Model2DTests {
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
 
         boolean shouldRender = Maths.randomBoolean();
@@ -100,10 +100,10 @@ class Model2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Model2D model2D = (Model2D) Model2D.fromPolygons(polygons)
-                .setTranslation(randomTranslation)
-                .setRotation(randomRotation)
-                .setScale(randomScale)
-                .setShouldRender(shouldRender);
+            .setTranslation(randomTranslation)
+            .setRotation(randomRotation)
+            .setScale(randomScale)
+            .setShouldRender(shouldRender);
 
         assertArrayEquals(polygons, model2D.getPolygons(), "The created model's Polygon2D array should match the original Polygon2D array.");
         assertEquals(shouldRender, model2D.shouldRender(), "The created model's 'shouldRender' option should match the expected shouldRender option.");
@@ -119,15 +119,15 @@ class Model2DTests {
         Pointf[] square2 = DrawUtil.createBox(Pointf.origin().add(25f), 50f);
 
         Polygon2D[] polygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
 
         Pointf[] expectedBounds = {
-                square1[0].copy(),
-                new Pointf(square2[1].x, square1[1].y),
-                square2[2].copy(),
-                new Pointf(square1[3].x, square2[3].y)
+            square1[0].copy(),
+            new Pointf(square2[1].x, square1[1].y),
+            square2[2].copy(),
+            new Pointf(square1[3].x, square2[3].y)
         };
 
         Pointf[] actualBounds = Model2D.fromPolygons(polygons).getBounds();
@@ -142,16 +142,16 @@ class Model2DTests {
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D polygon2D : expectedPolygons) {
             polygon2D.translate(randomTranslation);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.translate(randomTranslation);
@@ -169,16 +169,16 @@ class Model2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D polygon2D : expectedPolygons) {
             polygon2D.rotate(randomRotation, Pointf.origin());
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.rotate(randomRotation, Pointf.origin());
@@ -197,16 +197,16 @@ class Model2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D expectedPolygon : expectedPolygons) {
             expectedPolygon.rotate(randomRotation, expectedModelCenter);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.rotate(randomRotation);
@@ -225,16 +225,16 @@ class Model2DTests {
         float randomRotation = Maths.random(-5000f, 5000f);
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D expectedPolygon : expectedPolygons) {
             expectedPolygon.rotate(randomRotation, randomCenter);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.rotate(randomRotation, randomCenter);
@@ -252,16 +252,16 @@ class Model2DTests {
         Pointf randomScaling = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D polygon2D : expectedPolygons) {
             polygon2D.scale(randomScaling, Pointf.origin());
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.scale(randomScaling, Pointf.origin());
@@ -280,16 +280,16 @@ class Model2DTests {
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D expectedPolygon : expectedPolygons) {
             expectedPolygon.scale(randomScaling, expectedModelCenter);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.scale(randomScaling);
@@ -308,16 +308,16 @@ class Model2DTests {
         Pointf randomCenter = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D expectedPolygon : expectedPolygons) {
             expectedPolygon.scale(randomScaling, randomCenter);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.scale(randomScaling, randomCenter);
@@ -336,16 +336,16 @@ class Model2DTests {
         Pointf expectedModelCenter = Pointf.subtract(square2[2], square1[0]).divide(2f).add(square1[0]);
 
         Polygon2D[] expectedPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         for (Polygon2D expectedPolygon : expectedPolygons) {
             expectedPolygon.scale(new Pointf(randomScaling), expectedModelCenter);
         }
 
         Polygon2D[] actualPolygons = {
-                Polygon2D.fromPoints(square1),
-                Polygon2D.fromPoints(square2)
+            Polygon2D.fromPoints(square1),
+            Polygon2D.fromPoints(square2)
         };
         Model2D model2D = Model2D.fromPolygons(actualPolygons);
         model2D.scale(randomScaling);

@@ -3,10 +3,10 @@ package unittest.testcases.systems.control;
 import tech.fastj.systems.control.Scene;
 import tech.fastj.systems.control.SceneManager;
 
+import org.junit.jupiter.api.Test;
 import unittest.mock.systems.control.MockEmptyScene;
 import unittest.mock.systems.control.MockNameSettingScene;
 import unittest.mock.systems.control.MockSceneManager;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -47,8 +47,8 @@ class SceneManagerTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> sceneManager.addScene(nameSettingScene2));
 
         String expectedExceptionMessage = "The scene name \"" + sceneName + "\" is already in use."
-                + System.lineSeparator()
-                + "Scenes added: [" + sceneName + "]";
+            + System.lineSeparator()
+            + "Scenes added: [" + sceneName + "]";
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The exception message should match the expected exception message.");
     }
 

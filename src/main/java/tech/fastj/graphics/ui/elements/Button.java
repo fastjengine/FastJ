@@ -68,9 +68,9 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         super(origin);
         if (initialSize.x < Maths.FloatPrecision || initialSize.y < Maths.FloatPrecision) {
             throw new IllegalArgumentException(
-                    "The size " + initialSize + " is too small." +
-                            System.lineSeparator() +
-                            "The minimum size in both x and y directions is " + Maths.FloatPrecision + "."
+                "The size " + initialSize + " is too small." +
+                    System.lineSeparator() +
+                    "The minimum size in both x and y directions is " + Maths.FloatPrecision + "."
             );
         }
 
@@ -247,10 +247,10 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
         Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) collisionPath.getBounds2D();
 
         textBounds = new Rectangle2D.Float(
-                (renderPathBounds.width - textWidth) / 2f,
-                textHeight,
-                textWidth,
-                textHeight
+            (renderPathBounds.width - textWidth) / 2f,
+            textHeight,
+            textWidth,
+            textHeight
         );
 
         Rectangle2D.Float newPathBounds = (Rectangle2D.Float) super.collisionPath.getBounds2D();

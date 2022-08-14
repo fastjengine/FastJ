@@ -1,12 +1,11 @@
 package tech.fastj.examples.rendersettings;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
-import tech.fastj.math.Transform2D;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.display.RenderSettings;
 import tech.fastj.graphics.game.Text2D;
-
+import tech.fastj.math.Pointf;
+import tech.fastj.math.Transform2D;
 import tech.fastj.systems.control.SimpleManager;
 
 public class Main extends SimpleManager {
@@ -47,8 +46,8 @@ public class Main extends SimpleManager {
          * final look.
          * This code is not the primary focus of the example -- this is just to give a visual. */
         Text2D visualAid = Text2D.create("Render Settings are useful! (-.-)")
-                .withTransform(new Pointf(100f, 100f), Transform2D.DefaultRotation, new Pointf(3.0f, 3.0f))
-                .build();
+            .withTransform(new Pointf(100f, 100f), Transform2D.DefaultRotation, new Pointf(3.0f, 3.0f))
+            .build();
         drawableManager().addGameObject(visualAid);
     }
 

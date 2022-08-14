@@ -48,10 +48,10 @@ public class MtlUtil {
 
         List<String> lines = FileUtil.readFileLines(materialPath);
         int materialIndex = lines.indexOf(
-                lines.stream()
-                        .filter(line -> line.startsWith(ParsingKeys.NewMaterial + " " + materialName))
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalStateException("Couldn't find material \"" + materialName + "\" in file \"" + materialPath.toAbsolutePath() + "\"."))
+            lines.stream()
+                .filter(line -> line.startsWith(ParsingKeys.NewMaterial + " " + materialName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Couldn't find material \"" + materialName + "\" in file \"" + materialPath.toAbsolutePath() + "\"."))
         );
 
         for (int i = materialIndex + 1; i < lines.size(); i++) {
@@ -59,11 +59,11 @@ public class MtlUtil {
             switch (tokens[0]) {
                 case ParsingKeys.AmbientColor: {
                     parseColor(
-                            polygon,
-                            Float.parseFloat(tokens[1]),
-                            Float.parseFloat(tokens[2]),
-                            Float.parseFloat(tokens[3]),
-                            isFill
+                        polygon,
+                        Float.parseFloat(tokens[1]),
+                        Float.parseFloat(tokens[2]),
+                        Float.parseFloat(tokens[3]),
+                        isFill
                     );
                     break;
                 }
@@ -105,22 +105,22 @@ public class MtlUtil {
         if (isFill) {
             Color color = (Color) polygon.getFill();
             polygon.setFill(
-                    new Color(
-                            color.getRed(),
-                            color.getGreen(),
-                            color.getBlue(),
-                            (int) (alpha * 255 + 0.5)
-                    )
+                new Color(
+                    color.getRed(),
+                    color.getGreen(),
+                    color.getBlue(),
+                    (int) (alpha * 255 + 0.5)
+                )
             );
         } else {
             Color color = polygon.getOutlineColor();
             polygon.setOutlineColor(
-                    new Color(
-                            color.getRed(),
-                            color.getGreen(),
-                            color.getBlue(),
-                            (int) (alpha * 255 + 0.5)
-                    )
+                new Color(
+                    color.getRed(),
+                    color.getGreen(),
+                    color.getBlue(),
+                    (int) (alpha * 255 + 0.5)
+                )
             );
         }
     }
@@ -166,10 +166,10 @@ public class MtlUtil {
 
     private static void writeFillMaterial(StringBuilder fileContents, Polygon2D polygon, Path destinationPath, int materialIndex) {
         fileContents.append(ParsingKeys.NewMaterial)
-                .append(' ')
-                .append("Polygon2D_material_fill_")
-                .append(materialIndex)
-                .append(LineSeparator);
+            .append(' ')
+            .append("Polygon2D_material_fill_")
+            .append(materialIndex)
+            .append(LineSeparator);
 
         Paint material = polygon.getFill();
         if (material instanceof LinearGradientPaint || material instanceof RadialGradientPaint) {
@@ -180,22 +180,22 @@ public class MtlUtil {
             writeTextureMaterial(fileContents, (TexturePaint) material, destinationPath, materialIndex);
         } else {
             FastJEngine.error(
-                    CrashMessages.UnimplementedMethodError.errorMessage,
-                    new UnsupportedOperationException(
-                            "Writing paints other than LinearGradientPaint, RadialGradientPaint, Color, or TexturePaint is not supported."
-                                    + System.lineSeparator()
-                                    + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
-                    )
+                CrashMessages.UnimplementedMethodError.errorMessage,
+                new UnsupportedOperationException(
+                    "Writing paints other than LinearGradientPaint, RadialGradientPaint, Color, or TexturePaint is not supported."
+                        + System.lineSeparator()
+                        + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
+                )
             );
         }
     }
 
     private static void writeOutlineMaterial(StringBuilder fileContents, Polygon2D polygon, int materialIndex) {
         fileContents.append(ParsingKeys.NewMaterial)
-                .append(' ')
-                .append("Polygon2D_material_outline_")
-                .append(materialIndex)
-                .append(LineSeparator);
+            .append(' ')
+            .append("Polygon2D_material_outline_")
+            .append(materialIndex)
+            .append(LineSeparator);
         writeColorMaterial(fileContents, polygon.getOutlineColor());
     }
 
@@ -203,7 +203,8 @@ public class MtlUtil {
         writeDefaultColorValues(fileContents);
 
         int extensionIndex = destinationPath.toString().indexOf(FileUtil.getFileExtension(destinationPath));
-        Path texturePath = Path.of(destinationPath.toString().substring(0, extensionIndex - 1).replace(' ', '_') + "_gradient_" + materialIndex + ".png");
+        Path texturePath = Path.of(destinationPath.toString().substring(0, extensionIndex - 1)
+            .replace(' ', '_') + "_gradient_" + materialIndex + ".png");
 
         Pointf polygonSize = Pointf.subtract(polygon.getBound(Boundary.BottomRight), polygon.getBound(Boundary.TopLeft)).multiply(2f);
         BufferedImage bufferedImage = ImageUtil.createBufferedImage((int) (polygonSize.x / 2) + 1, (int) (polygonSize.y / 2) + 1);
@@ -219,10 +220,10 @@ public class MtlUtil {
         String texturePathString = texturePath.toString();
         Path shortenedTexturePath = Path.of(texturePathString.substring(texturePathString.lastIndexOf(File.separator) + 1));
         fileContents.append(ParsingKeys.TextureImage)
-                .append(' ')
-                .append(shortenedTexturePath)
-                .append(LineSeparator)
-                .append(LineSeparator);
+            .append(' ')
+            .append(shortenedTexturePath)
+            .append(LineSeparator)
+            .append(LineSeparator);
     }
 
     private static void writeTextureMaterial(StringBuilder fileContents, TexturePaint material, Path destinationPath, int materialIndex) {
@@ -243,84 +244,84 @@ public class MtlUtil {
         String texturePathString = texturePath.toString();
         Path shortenedTexturePath = Path.of(texturePathString.substring(texturePathString.lastIndexOf(File.separator) + 1));
         fileContents.append(ParsingKeys.TextureImage)
-                .append(' ')
-                .append(shortenedTexturePath)
-                .append(LineSeparator)
-                .append(LineSeparator);
+            .append(' ')
+            .append(shortenedTexturePath)
+            .append(LineSeparator)
+            .append(LineSeparator);
     }
 
     private static void writeDefaultColorValues(StringBuilder fileContents) {
         fileContents.append(ParsingKeys.AmbientColor)
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(LineSeparator);
         fileContents.append(ParsingKeys.DiffuseColor)
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(LineSeparator);
         writeSpecularValues(fileContents);
         fileContents.append(ParsingKeys.Transparency)
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(LineSeparator);
         fileContents.append(ParsingKeys.IlluminationMode)
-                .append(' ')
-                .append(1)
-                .append(LineSeparator);
+            .append(' ')
+            .append(1)
+            .append(LineSeparator);
     }
 
     private static void writeColorMaterial(StringBuilder fileContents, Color colorMaterial) {
         fileContents.append(ParsingKeys.AmbientColor)
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getRed(), 0f, 255f)))
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getGreen(), 0f, 255f)))
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getBlue(), 0f, 255f)))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getRed(), 0f, 255f)))
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getGreen(), 0f, 255f)))
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getBlue(), 0f, 255f)))
+            .append(LineSeparator);
         fileContents.append(ParsingKeys.DiffuseColor)
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getRed(), 0f, 255f)))
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getGreen(), 0f, 255f)))
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getBlue(), 0f, 255f)))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getRed(), 0f, 255f)))
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getGreen(), 0f, 255f)))
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getBlue(), 0f, 255f)))
+            .append(LineSeparator);
 
         writeSpecularValues(fileContents);
 
         fileContents.append(ParsingKeys.Transparency)
-                .append(' ')
-                .append(String.format("%6f", Maths.normalize(colorMaterial.getAlpha(), 0f, 255f)))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", Maths.normalize(colorMaterial.getAlpha(), 0f, 255f)))
+            .append(LineSeparator);
         fileContents.append(ParsingKeys.IlluminationMode)
-                .append(' ')
-                .append(1)
-                .append(LineSeparator)
-                .append(LineSeparator);
+            .append(' ')
+            .append(1)
+            .append(LineSeparator)
+            .append(LineSeparator);
     }
 
     private static void writeSpecularValues(StringBuilder fileContents) {
         fileContents.append(ParsingKeys.SpecularColor)
-                .append(' ')
-                .append(String.format("%6f", 0f))
-                .append(' ')
-                .append(String.format("%6f", 0f))
-                .append(' ')
-                .append(String.format("%6f", 0f))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", 0f))
+            .append(' ')
+            .append(String.format("%6f", 0f))
+            .append(' ')
+            .append(String.format("%6f", 0f))
+            .append(LineSeparator);
         fileContents.append(ParsingKeys.SpecularExponent)
-                .append(' ')
-                .append(String.format("%6f", 1f))
-                .append(LineSeparator);
+            .append(' ')
+            .append(String.format("%6f", 1f))
+            .append(LineSeparator);
     }
 
     public static class ParsingKeys {

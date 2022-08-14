@@ -41,8 +41,7 @@ public class Model2D extends GameObject {
     }
 
     /**
-     * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} and {@code
-     * shouldRender} fields.
+     * Gets a {@link Model2DBuilder} instance while setting the eventual {@link Model2D}'s {@code points} and {@code shouldRender} fields.
      *
      * @param polygons     {@code Polygon2D} array that defines the polygons for the {@code Model2D}.
      * @param shouldRender The "should render" {@code boolean} to use for the {@code Model2D}.
@@ -120,10 +119,10 @@ public class Model2D extends GameObject {
     @Override
     public String toString() {
         return "Model2D{" +
-                "polyArr=" + Arrays.deepToString(polygons) +
-                ", rotation=" + getRotation() +
-                ", scale=" + getScale() +
-                ", translation=" + getTranslation() +
-                '}';
+            "polyArr=" + Arrays.deepToString(polygons) +
+            ", rotation=" + getRotation() +
+            ", scale=" + getScale() +
+            ", translation=" + getTranslation() +
+            '}';
     }
 }

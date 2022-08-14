@@ -6,8 +6,6 @@ import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.MemoryAudio;
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import unittest.EnvironmentHelper;
-
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import unittest.EnvironmentHelper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -54,28 +53,41 @@ class MemoryAudioTests {
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
-        assertNull(audio.getAudioEventListener().getAudioOpenAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio open\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioStartAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio start\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioPauseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio pause\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioResumeAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio resume\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioStopAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio stop\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioCloseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio close\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioOpenAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio open\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioStartAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio start\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioPauseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio pause\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioResumeAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio resume\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioStopAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio stop\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioCloseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio close\" event action.");
     }
 
     @Test
     void checkLoadMemoryAudioInstance_withURL_shouldMatchExpectedValues() {
         MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioURL);
 
-        assertTrue(audio.getAudioPath().endsWith("test_audio.wav"), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
+        assertTrue(audio.getAudioPath()
+            .endsWith("test_audio.wav"), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
-        assertNull(audio.getAudioEventListener().getAudioOpenAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio open\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioStartAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio start\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioPauseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio pause\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioResumeAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio resume\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioStopAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio stop\" event action.");
-        assertNull(audio.getAudioEventListener().getAudioCloseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio close\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioOpenAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio open\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioStartAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio start\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioPauseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio pause\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioResumeAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio resume\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioStopAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio stop\" event action.");
+        assertNull(audio.getAudioEventListener()
+            .getAudioCloseAction(), "After loading the audio into memory, the gotten audio's event listener should not contain an \"audio close\" event action.");
     }
 
     @Test
@@ -184,9 +196,9 @@ class MemoryAudioTests {
         audio.getAudioEventListener().setAudioStartAction(audioEvent -> {
             audio.stop();
             assertEquals(
-                    0L,
-                    audio.getPlaybackPosition(),
-                    "After the audio playback is stopped, the playback position should be at the beginning."
+                0L,
+                audio.getPlaybackPosition(),
+                "After the audio playback is stopped, the playback position should be at the beginning."
             );
         });
 

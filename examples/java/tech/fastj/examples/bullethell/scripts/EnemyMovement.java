@@ -1,19 +1,17 @@
 package tech.fastj.examples.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
+import tech.fastj.examples.bullethell.scenes.GameScene;
+import tech.fastj.examples.bullethell.util.Tags;
+import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 
 import java.util.List;
-
-import tech.fastj.examples.bullethell.scenes.GameScene;
-import tech.fastj.examples.bullethell.util.Tags;
-import tech.fastj.gameloop.CoreLoopState;
 
 public class EnemyMovement implements Behavior {
 
@@ -59,8 +57,8 @@ public class EnemyMovement implements Behavior {
 
     private void moveToPlayer(GameObject obj) {
         Pointf travelDistance = Pointf.subtract(player.getCenter(), obj.getCenter())
-                .normalized()
-                .multiply(200f * FastJEngine.getDeltaTime());
+            .normalized()
+            .multiply(200f * FastJEngine.getDeltaTime());
         obj.translate(travelDistance);
     }
 }

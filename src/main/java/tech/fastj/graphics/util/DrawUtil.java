@@ -49,7 +49,8 @@ public final class DrawUtil {
             int intersectionCount = 0;
             // if a point intersects with more than one polygon, then it is an inner point and should be removed
             for (Polygon2D polygon : polygons) {
-                if (Path2D.Float.intersects(polygon.getCollisionPath().getPathIterator(null), polygonsPoints.get(i).x - 1f, polygonsPoints.get(i).y - 1f, 2f, 2f)) {
+                if (Path2D.Float.intersects(polygon.getCollisionPath()
+                    .getPathIterator(null), polygonsPoints.get(i).x - 1f, polygonsPoints.get(i).y - 1f, 2f, 2f)) {
                     intersectionCount++;
                     if (intersectionCount == 2) {
                         polygonsPoints.remove(i);
@@ -172,7 +173,7 @@ public final class DrawUtil {
                     }
                     default: {
                         throw new UnsupportedOperationException(
-                                "No known path option for " + altIndexes[ai - 1].y + " on index " + i + " of the path."
+                            "No known path option for " + altIndexes[ai - 1].y + " on index " + i + " of the path."
                         );
                     }
                 }
@@ -250,9 +251,9 @@ public final class DrawUtil {
             var radialGradientPaint2 = (RadialGradientPaint) paint2;
 
             return radialGradientPaint1.getCenterPoint().equals(radialGradientPaint2.getCenterPoint())
-                    && radialGradientPaint1.getFocusPoint().equals(radialGradientPaint2.getFocusPoint())
-                    && Maths.floatEquals(radialGradientPaint1.getRadius(), radialGradientPaint2.getRadius())
-                    && mGradientEquals(radialGradientPaint1, radialGradientPaint2);
+                && radialGradientPaint1.getFocusPoint().equals(radialGradientPaint2.getFocusPoint())
+                && Maths.floatEquals(radialGradientPaint1.getRadius(), radialGradientPaint2.getRadius())
+                && mGradientEquals(radialGradientPaint1, radialGradientPaint2);
         }
 
         if (paint1 instanceof LinearGradientPaint) {
@@ -260,8 +261,8 @@ public final class DrawUtil {
             var linearGradientPaint2 = (LinearGradientPaint) paint2;
 
             return linearGradientPaint1.getStartPoint().equals(linearGradientPaint2.getStartPoint())
-                    && linearGradientPaint1.getEndPoint().equals(linearGradientPaint2.getEndPoint())
-                    && mGradientEquals(linearGradientPaint1, linearGradientPaint2);
+                && linearGradientPaint1.getEndPoint().equals(linearGradientPaint2.getEndPoint())
+                && mGradientEquals(linearGradientPaint1, linearGradientPaint2);
         }
 
         if (paint1 instanceof GradientPaint) {
@@ -269,11 +270,11 @@ public final class DrawUtil {
             var gradientPaint2 = (GradientPaint) paint2;
 
             return gradientPaint1.isCyclic() == gradientPaint2.isCyclic()
-                    && gradientPaint1.getTransparency() == gradientPaint2.getTransparency()
-                    && gradientPaint1.getColor1().equals(gradientPaint2.getColor1())
-                    && gradientPaint1.getColor2().equals(gradientPaint2.getColor2())
-                    && gradientPaint1.getPoint1().equals(gradientPaint2.getPoint1())
-                    && gradientPaint1.getPoint2().equals(gradientPaint2.getPoint2());
+                && gradientPaint1.getTransparency() == gradientPaint2.getTransparency()
+                && gradientPaint1.getColor1().equals(gradientPaint2.getColor1())
+                && gradientPaint1.getColor2().equals(gradientPaint2.getColor2())
+                && gradientPaint1.getPoint1().equals(gradientPaint2.getPoint1())
+                && gradientPaint1.getPoint2().equals(gradientPaint2.getPoint2());
         }
 
         if (paint1 instanceof TexturePaint) {
@@ -281,8 +282,8 @@ public final class DrawUtil {
             var texturePaint2 = (TexturePaint) paint2;
 
             return texturePaint1.getTransparency() == texturePaint2.getTransparency()
-                    && texturePaint1.getAnchorRect().equals(texturePaint2.getAnchorRect())
-                    && texturePaint1.getImage().equals(texturePaint2.getImage());
+                && texturePaint1.getAnchorRect().equals(texturePaint2.getAnchorRect())
+                && texturePaint1.getImage().equals(texturePaint2.getImage());
         }
 
         return paint1.equals(paint2);
@@ -297,30 +298,28 @@ public final class DrawUtil {
      */
     private static boolean mGradientEquals(MultipleGradientPaint mGradientPaint1, MultipleGradientPaint mGradientPaint2) {
         return mGradientPaint1.getTransparency() == mGradientPaint2.getTransparency()
-                && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
-                && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
-                && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
-                && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
-                && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
+            && mGradientPaint1.getTransform().equals(mGradientPaint2.getTransform())
+            && mGradientPaint1.getColorSpace().equals(mGradientPaint2.getColorSpace())
+            && mGradientPaint1.getCycleMethod().equals(mGradientPaint2.getCycleMethod())
+            && Arrays.deepEquals(mGradientPaint1.getColors(), mGradientPaint2.getColors())
+            && Arrays.equals(mGradientPaint1.getFractions(), mGradientPaint2.getFractions());
     }
-
 
     /**
      * {@return a set of circle points and alternate indexes from the given centerpoint and radius}
      *
-     * @param x The centerpoint {@code x} of the circle.
-     * @param y The centerpoint {@code y} of the circle.
+     * @param x      The centerpoint {@code x} of the circle.
+     * @param y      The centerpoint {@code y} of the circle.
      * @param radius The radius of the circle.
      */
     public static PointsAndAlts createCircle(float x, float y, float radius) {
         return createCircle(new Pointf(x, y), radius);
     }
 
-
     /**
      * {@return a set of circle points and alternate indexes from the given centerpoint and radius}
      *
-     * @param xy The centerpoint {@code x} and {@code y} of the circle.
+     * @param xy     The centerpoint {@code x} and {@code y} of the circle.
      * @param radius The radius of the circle.
      */
     public static PointsAndAlts createCircle(float xy, float radius) {
@@ -336,31 +335,31 @@ public final class DrawUtil {
     public static PointsAndAlts createCircle(Pointf center, float radius) {
         float curveOffset = (float) ((4f / 3f) * (Math.sqrt(2) - 1) * radius);
         return new PointsAndAlts(
-                new Pointf[]{
-                        Pointf.subtract(center, radius, 0f),
+            new Pointf[] {
+                Pointf.subtract(center, radius, 0f),
 
-                        Pointf.subtract(center, radius, curveOffset),
-                        Pointf.subtract(center, curveOffset, radius),
-                        Pointf.subtract(center, 0f, radius),
+                Pointf.subtract(center, radius, curveOffset),
+                Pointf.subtract(center, curveOffset, radius),
+                Pointf.subtract(center, 0f, radius),
 
-                        Pointf.subtract(center, -curveOffset, radius),
-                        Pointf.add(center, radius, -curveOffset),
-                        Pointf.add(center, radius, 0f),
+                Pointf.subtract(center, -curveOffset, radius),
+                Pointf.add(center, radius, -curveOffset),
+                Pointf.add(center, radius, 0f),
 
-                        Pointf.add(center, radius, curveOffset),
-                        Pointf.add(center, curveOffset, radius),
-                        Pointf.add(center, 0f, radius),
+                Pointf.add(center, radius, curveOffset),
+                Pointf.add(center, curveOffset, radius),
+                Pointf.add(center, 0f, radius),
 
-                        Pointf.add(center, -curveOffset, radius),
-                        Pointf.subtract(center, radius, -curveOffset),
-                        Pointf.subtract(center, radius, 0f)
-                },
-                new Point[]{
-                        new Point(1, Polygon2D.BezierCurve),
-                        new Point(4, Polygon2D.BezierCurve),
-                        new Point(7, Polygon2D.BezierCurve),
-                        new Point(10, Polygon2D.BezierCurve)
-                }
+                Pointf.add(center, -curveOffset, radius),
+                Pointf.subtract(center, radius, -curveOffset),
+                Pointf.subtract(center, radius, 0f)
+            },
+            new Point[] {
+                new Point(1, Polygon2D.BezierCurve),
+                new Point(4, Polygon2D.BezierCurve),
+                new Point(7, Polygon2D.BezierCurve),
+                new Point(10, Polygon2D.BezierCurve)
+            }
         );
     }
 
@@ -384,11 +383,11 @@ public final class DrawUtil {
      * @return A 4 {@code Pointf} array based on the x, y, width, and height specified.
      */
     public static Pointf[] createBox(float x, float y, float width, float height) {
-        return new Pointf[]{
-                new Pointf(x, y),
-                new Pointf(x + width, y),
-                new Pointf(x + width, y + height),
-                new Pointf(x, y + height)
+        return new Pointf[] {
+            new Pointf(x, y),
+            new Pointf(x + width, y),
+            new Pointf(x + width, y + height),
+            new Pointf(x, y + height)
         };
     }
 
@@ -458,8 +457,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size
-     * {@code Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified location {@code Pointf} and size {@code Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -500,8 +498,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and the location
-     * {@code Pointf}.
+     * Creates a {@code Pointf} array of 4 points, based on the specified {@code BufferedImage} and the location {@code Pointf}.
      * <p>
      * This creates an array with the following values:
      * <pre>
@@ -518,11 +515,11 @@ public final class DrawUtil {
      * @return A 4 {@code Pointf} array based on the location and size specified.
      */
     public static Pointf[] createBoxFromImage(BufferedImage source, Pointf location) {
-        return new Pointf[]{
-                new Pointf(location.x, location.y),
-                new Pointf(location.x + source.getWidth(), location.y),
-                new Pointf(location.x + source.getWidth(), location.y + source.getHeight()),
-                new Pointf(location.x, location.y + source.getHeight())
+        return new Pointf[] {
+            new Pointf(location.x, location.y),
+            new Pointf(location.x + source.getWidth(), location.y),
+            new Pointf(location.x + source.getWidth(), location.y + source.getHeight()),
+            new Pointf(location.x, location.y + source.getHeight())
         };
     }
 
@@ -563,8 +560,7 @@ public final class DrawUtil {
     }
 
     /**
-     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the location
-     * {@code Pointf}.
+     * Creates a {@code Rectangle2D.Float} based on the specified {@code BufferedImage} and the location {@code Pointf}.
      *
      * @param source      The source for the width and height.
      * @param translation The x and y locations.
@@ -591,9 +587,9 @@ public final class DrawUtil {
     /**
      * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter.
      * <p>
-     * This method will record all curves and other points in the given path, without indication as to where they may
-     * be. Use {@link #pointsOfPathWithAlt(Path2D.Float)} to get an array of alternate indexes for the path which
-     * represent what actions were taken.
+     * This method will record all curves and other points in the given path, without indication as to where they may be. Use
+     * {@link #pointsOfPathWithAlt(Path2D.Float)} to get an array of alternate indexes for the path which represent what actions were
+     * taken.
      *
      * @param path The path to get the points of.
      * @return The resultant array of points.
@@ -630,8 +626,8 @@ public final class DrawUtil {
     }
 
     /**
-     * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter. as well as a
-     * {@code Point} array that indicates the location of curves and other {@link Path2D} iteration guides.
+     * Gets a {@code Pointf} array that represents the points of the {@code Path2D.Float} parameter. as well as a {@code Point} array that
+     * indicates the location of curves and other {@link Path2D} iteration guides.
      *
      * @param path The path to get the points of.
      * @return The resultant array of points.
@@ -733,10 +729,10 @@ public final class DrawUtil {
      */
     public static Color randomColor() {
         return new Color(
-                (int) Maths.random(0, 255),
-                (int) Maths.random(0, 255),
-                (int) Maths.random(0, 255),
-                255
+            (int) Maths.random(0, 255),
+            (int) Maths.random(0, 255),
+            (int) Maths.random(0, 255),
+            255
         );
     }
 
@@ -747,16 +743,16 @@ public final class DrawUtil {
      */
     public static Color randomColorWithAlpha() {
         return new Color(
-                (int) Maths.random(0, 255),
-                (int) Maths.random(0, 255),
-                (int) Maths.random(0, 255),
-                (int) Maths.random(0, 255)
+            (int) Maths.random(0, 255),
+            (int) Maths.random(0, 255),
+            (int) Maths.random(0, 255),
+            (int) Maths.random(0, 255)
         );
     }
 
     /**
-     * Generates a random {@link Font} using the available fonts on the system, with a font size within the range of
-     * {@code 1-256}, inclusive.
+     * Generates a random {@link Font} using the available fonts on the system, with a font size within the range of {@code 1-256},
+     * inclusive.
      *
      * @return The randomly generated {@link Font}.
      */
@@ -802,10 +798,10 @@ public final class DrawUtil {
         }
 
         return new BasicStroke(
-                Maths.random(0.0f, 32.0f),
-                randomCap,
-                randomJoin,
-                randomJoin == BasicStroke.JOIN_MITER ? Maths.random(1.0f, 64.0f) : 0.0f
+            Maths.random(0.0f, 32.0f),
+            randomCap,
+            randomJoin,
+            randomJoin == BasicStroke.JOIN_MITER ? Maths.random(1.0f, 64.0f) : 0.0f
         );
     }
 
@@ -814,17 +810,17 @@ public final class DrawUtil {
      *
      * @param c  The starting value.
      * @param c1 The ending value.
-     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used
-     *           to linear interpolate all 4 of the {@code Color}'s values (red, blue, green, alpha).
+     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used to linear
+     *           interpolate all 4 of the {@code Color}'s values (red, blue, green, alpha).
      * @return A new {@code Color}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
      */
     public static Color colorLerp(Color c, Color c1, float t) {
         return new Color(
-                Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
+            Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t), 0, 255)
         );
     }
 
@@ -833,23 +829,23 @@ public final class DrawUtil {
      *
      * @param c  The starting value.
      * @param c1 The ending value.
-     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used to linear interpolate the {@code Color}'s red value.
-     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used to linear interpolate the {@code Color}'s green value.
-     * @param t3 The third interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used to linear interpolate the {@code Color}'s blue value.
-     * @param t4 The fourth interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used to linear interpolate the {@code Color}'s alpha value.
+     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used to linear
+     *           interpolate the {@code Color}'s red value.
+     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used to linear
+     *           interpolate the {@code Color}'s green value.
+     * @param t3 The third interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used to linear
+     *           interpolate the {@code Color}'s blue value.
+     * @param t4 The fourth interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used to linear
+     *           interpolate the {@code Color}'s alpha value.
      * @return A new {@code Color}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
      */
     public static Color colorLerp(Color c, Color c1, float t1, float t2, float t3, float t4) {
         return new Color(
-                Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
-                Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
+            Maths.clamp((int) Maths.lerp(c.getRed(), c1.getRed(), t1), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getGreen(), c1.getGreen(), t2), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getBlue(), c1.getBlue(), t3), 0, 255),
+            Maths.clamp((int) Maths.lerp(c.getAlpha(), c1.getAlpha(), t4), 0, 255)
         );
     }
 
@@ -858,19 +854,18 @@ public final class DrawUtil {
      *
      * @param c  The starting value.
      * @param c1 The ending value.
-     * @param v  The value representing the "result" of linear interpolation between the two {@code Color}s. This value
-     *           is used to calculate inverse linear interpolation of the colors' {@code red}, {@code green},
-     *           {@code blue}, and {@code alpha} values.
-     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red},
-     * {@code green}, {@code blue}, and {@code alpha} values.
+     * @param v  The value representing the "result" of linear interpolation between the two {@code Color}s. This value is used to calculate
+     *           inverse linear interpolation of the colors' {@code red}, {@code green}, {@code blue}, and {@code alpha} values.
+     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red}, {@code green},
+     * {@code blue}, and {@code alpha} values.
      * @see Maths#inverseLerp(float, float, float)
      */
     public static float[] inverseColorLerp(Color c, Color c1, float v) {
-        return new float[]{
-                Maths.inverseLerp(c.getRed(), c1.getRed(), v),
-                Maths.inverseLerp(c.getGreen(), c1.getGreen(), v),
-                Maths.inverseLerp(c.getBlue(), c1.getBlue(), v),
-                Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v),
+        return new float[] {
+            Maths.inverseLerp(c.getRed(), c1.getRed(), v),
+            Maths.inverseLerp(c.getGreen(), c1.getGreen(), v),
+            Maths.inverseLerp(c.getBlue(), c1.getBlue(), v),
+            Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v),
         };
     }
 
@@ -879,24 +874,24 @@ public final class DrawUtil {
      *
      * @param c  The starting value.
      * @param c1 The ending value.
-     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Color}s. This
-     *           value is used to calculate inverse linear interpolation of the colors' {@code red} value.
-     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Color}s. This
-     *           value is used to calculate inverse linear interpolation of the colors' {@code green} value.
-     * @param v3 The third value representing the "result" of linear interpolation between the two {@code Color}s. This
-     *           value is used to calculate inverse linear interpolation of the colors' {@code blue} value.
-     * @param v4 The fourth value representing the "result" of linear interpolation between the two {@code Color}s. This
-     *           value is used to calculate inverse linear interpolation of the colors' {@code alpha} value.
-     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red},
-     * {@code green}, {@code blue}, and {@code alpha} values.
+     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Color}s. This value is used to
+     *           calculate inverse linear interpolation of the colors' {@code red} value.
+     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Color}s. This value is used to
+     *           calculate inverse linear interpolation of the colors' {@code green} value.
+     * @param v3 The third value representing the "result" of linear interpolation between the two {@code Color}s. This value is used to
+     *           calculate inverse linear interpolation of the colors' {@code blue} value.
+     * @param v4 The fourth value representing the "result" of linear interpolation between the two {@code Color}s. This value is used to
+     *           calculate inverse linear interpolation of the colors' {@code alpha} value.
+     * @return An array of floats containing the resulting inverse linear interpolations of the colors' {@code red}, {@code green},
+     * {@code blue}, and {@code alpha} values.
      * @see Maths#lerp(float, float, float)
      */
     public static float[] inverseColorLerp(Color c, Color c1, float v1, float v2, float v3, float v4) {
-        return new float[]{
-                Maths.inverseLerp(c.getRed(), c1.getRed(), v1),
-                Maths.inverseLerp(c.getGreen(), c1.getGreen(), v2),
-                Maths.inverseLerp(c.getBlue(), c1.getBlue(), v3),
-                Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v4),
+        return new float[] {
+            Maths.inverseLerp(c.getRed(), c1.getRed(), v1),
+            Maths.inverseLerp(c.getGreen(), c1.getGreen(), v2),
+            Maths.inverseLerp(c.getBlue(), c1.getBlue(), v3),
+            Maths.inverseLerp(c.getAlpha(), c1.getAlpha(), v4),
         };
     }
 }

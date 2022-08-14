@@ -8,11 +8,10 @@ import java.util.TreeSet;
 /**
  * Abstract class that allows you to identify objects by tags.
  * <p>
- * A {@code TaggableEntity} is an entity that can be given tags to describe what it is, such as {@code "enemy"}, or
- * {@code "player"}.
+ * A {@code TaggableEntity} is an entity that can be given tags to describe what it is, such as {@code "enemy"}, or {@code "player"}.
  * <p>
- * Each {@code TaggableEntity} can be added to a list of taggable entities for each {@code Scene}. From the scene, you
- * can find all entities with a certain tag, as well as finding the first entity with a tag.
+ * Each {@code TaggableEntity} can be added to a list of taggable entities for each {@code Scene}. From the scene, you can find all entities
+ * with a certain tag, as well as finding the first entity with a tag.
  * <p>
  * This can be helpful for a few reasons:
  * <ul>
@@ -48,8 +47,7 @@ public abstract class TaggableEntity implements Comparable<TaggableEntity> {
     /**
      * Adds the specified tag to the object's list of tags.
      *
-     * @param <T> The return type, which must extend {@code TaggableEntity}. By default, the return type is
-     *            {@code TaggableEntity}.
+     * @param <T> The return type, which must extend {@code TaggableEntity}. By default, the return type is {@code TaggableEntity}.
      * @param tag Tag to be added to the object's list of tags.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      */
@@ -64,8 +62,7 @@ public abstract class TaggableEntity implements Comparable<TaggableEntity> {
      * <p>
      * This can also remove this entity from the scene's list of tagged entities if the entity has no more tags left.
      *
-     * @param <T> The return type, which must extend {@code TaggableEntity}. By default, the return type is
-     *            {@code TaggableEntity}.
+     * @param <T> The return type, which must extend {@code TaggableEntity}. By default, the return type is {@code TaggableEntity}.
      * @param tag Tag to be removed from the object;s list of tags.
      * @return This instance of the {@code TaggableEntity} (or the specified type), for method chaining.
      */
@@ -131,7 +128,7 @@ public abstract class TaggableEntity implements Comparable<TaggableEntity> {
     @Override
     public String toString() {
         return "TaggableEntity{" +
-                "tags=" + tags +
-                '}';
+            "tags=" + tags +
+            '}';
     }
 }

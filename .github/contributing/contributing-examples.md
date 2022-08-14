@@ -1,20 +1,28 @@
 # Contributing Examples
 
 ## Picking an Example Topic
+
 Head to [FastJ issue #20](https://github.com/fastjengine/FastJ/issues/20) to find examples that need creating!
 
-
 ## Setting Up the Example
-- Inside of the `examples` subproject, create a package inside `tech.fastj.examples` regarding your example program.
-- Inside of your new package, create a class called `Main.java`. **It is extremely important that your example's main class is named Main.java.** Without this, you will not be able to run the example through the examples:run task.
+
+- Inside the `examples` subproject, create a package inside `tech.fastj.examples` regarding your example program.
+- Inside your new package, create a class called `Main.java`. **It is extremely important that your example's main
+  class is named Main.java.** Without this, you will not be able to run the example through the examples:run task.
 
 ## Writing the Example
-- Follow FastJ's [code contribution convention guide](https://github.com/fastjengine/FastJ/blob/main/.github/contributing/contributing-code.md) while writing your example -- deviations from this style guide will result in PR checks failing.
-- Explain the process! Your audience is likely students and other programmers with minimal java experience, if any. Your program should be covering:
+
+- Follow
+  FastJ's [code contribution convention guide](https://github.com/fastjengine/FastJ/blob/main/.github/contributing/contributing-code.md)
+  while writing your example -- deviations from this style guide will result in PR checks failing.
+- Explain the process! Your audience is likely students and other programmers with minimal java experience, if any. Your
+  program should be covering:
     - How the feature being covered works as a whole
     - What it provides in terms of usefulness
     - The different components of the feature, and how to use each one (with both code and comments)
-- Don't have the user normally run code that will crash with an exception. Not only does this mean to cheeck your code, but also to leave explanatory code that would cause an exception, _commented_. Let the reader uncomment the code for themselves if they would like to test and see what happens in real time.
+- Don't have the user normally run code that will crash with an exception. Not only does this mean to check your code,
+  but also to leave explanatory code that would cause an exception, _commented_. Let the reader uncomment the code for
+  themselves if they would like to test and see what happens in real time.
 - Explain code you wrote if it's not directly used:
     ```java
     /* For the sake of this example, ... */
@@ -25,6 +33,7 @@ Head to [FastJ issue #20](https://github.com/fastjengine/FastJ/issues/20) to fin
     ```
 
 A decent example of all of these concepts combined: (from `tech.fastj.example.audio`)
+
 ```java
 package tech.fastj.examples.audio;
 

@@ -52,9 +52,9 @@ class Text2DTests {
         boolean randomShouldRender = Maths.randomBoolean();
 
         Text2D text2D = Text2D.create(text, randomShouldRender)
-                .withFill(randomFill)
-                .withFont(randomFont)
-                .build();
+            .withFill(randomFill)
+            .withFont(randomFont)
+            .build();
 
         assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
         assertEquals(randomFill, text2D.getFill(), "The actual fill paint should match the expected random fill paint.");
@@ -76,10 +76,10 @@ class Text2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Text2D text2D = Text2D.create(text, randomShouldRender)
-                .withFill(randomFill)
-                .withFont(randomFont)
-                .withTransform(randomTranslation, randomRotation, randomScale)
-                .build();
+            .withFill(randomFill)
+            .withFont(randomFont)
+            .withTransform(randomTranslation, randomRotation, randomScale)
+            .build();
 
         assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
         assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
@@ -105,12 +105,12 @@ class Text2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Text2D text2D = (Text2D) Text2D.fromText(text)
-                .setFill(randomFill)
-                .setFont(randomFont)
-                .setTranslation(randomTranslation)
-                .setRotation(randomRotation)
-                .setScale(randomScale)
-                .setShouldRender(randomShouldRender);
+            .setFill(randomFill)
+            .setFont(randomFont)
+            .setTranslation(randomTranslation)
+            .setRotation(randomRotation)
+            .setScale(randomScale)
+            .setShouldRender(randomShouldRender);
 
         assertEquals(text, text2D.getText(), "The actual text should match the expected text.");
         assertEquals(randomTranslation, text2D.getTranslation(), "The actual translation should match the expected translation.");
@@ -129,8 +129,8 @@ class Text2DTests {
         Pointf randomTranslation = new Pointf(Maths.random(-50f, 50f), Maths.random(-50f, 50f));
 
         Text2D text2D = Text2D.create(text)
-                .withTransform(originalTranslation, Transform2D.DefaultRotation, Transform2D.DefaultScale)
-                .build();
+            .withTransform(originalTranslation, Transform2D.DefaultRotation, Transform2D.DefaultScale)
+            .build();
         text2D.translate(randomTranslation);
 
         Pointf expectedTranslation = Pointf.add(originalTranslation, randomTranslation);
