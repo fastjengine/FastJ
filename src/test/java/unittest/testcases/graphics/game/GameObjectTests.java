@@ -6,10 +6,10 @@ import tech.fastj.math.Maths;
 import tech.fastj.systems.behaviors.Behavior;
 import tech.fastj.systems.control.Scene;
 
+import org.junit.jupiter.api.Test;
 import unittest.mock.graphics.MockGameObject;
 import unittest.mock.systems.behaviors.MockBehavior;
 import unittest.mock.systems.control.MockEmptyScene;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -23,7 +23,8 @@ class GameObjectTests {
     @Test
     void checkCreateGameObject_behaviorsShouldBeEmpty() {
         GameObject gameObject = new MockGameObject();
-        assertEquals(0, gameObject.getBehaviors().size(), "When initially created, a GameObject's behavior list should contain no behaviors.");
+        assertEquals(0, gameObject.getBehaviors()
+            .size(), "When initially created, a GameObject's behavior list should contain no behaviors.");
     }
 
     @Test
@@ -38,7 +39,8 @@ class GameObjectTests {
             gameObject.addBehavior(mockBehavior, mockScene);
         }
 
-        assertEquals(behaviorCount, gameObject.getBehaviors().size(), "When a behavior is added multiple times, the GameObject's behavior count should increase.");
+        assertEquals(behaviorCount, gameObject.getBehaviors()
+            .size(), "When a behavior is added multiple times, the GameObject's behavior count should increase.");
     }
 
     @Test
@@ -55,7 +57,8 @@ class GameObjectTests {
         assertNotEquals(0, gameObject.getBehaviors().size());
 
         gameObject.clearAllBehaviors();
-        assertEquals(0, gameObject.getBehaviors().size(), "After clearing all behaviors from the GameObject, it should not contain any behaviors.");
+        assertEquals(0, gameObject.getBehaviors()
+            .size(), "After clearing all behaviors from the GameObject, it should not contain any behaviors.");
     }
 
     @Test
@@ -75,7 +78,8 @@ class GameObjectTests {
             gameObject.removeBehavior(mockBehavior, mockScene);
         }
 
-        assertEquals(expectedBehaviorCount, gameObject.getBehaviors().size(), "When behaviors are removed, the behavior count should decrease.");
+        assertEquals(expectedBehaviorCount, gameObject.getBehaviors()
+            .size(), "When behaviors are removed, the behavior count should decrease.");
     }
 
     @Test
@@ -84,16 +88,17 @@ class GameObjectTests {
         Scene mockScene = new MockEmptyScene();
 
         GameObject gameObject = new MockGameObject()
-                .addBehavior(mockBehavior, mockScene)    // 1
-                .addBehavior(mockBehavior, mockScene)    // 2
-                .addBehavior(mockBehavior, mockScene)    // 3
-                .removeBehavior(mockBehavior, mockScene) // 2
-                .addBehavior(mockBehavior, mockScene)    // 3
-                .removeBehavior(mockBehavior, mockScene) // 2
-                .removeBehavior(mockBehavior, mockScene) // 1
-                .addBehavior(mockBehavior, mockScene);   // 2
+            .addBehavior(mockBehavior, mockScene)    // 1
+            .addBehavior(mockBehavior, mockScene)    // 2
+            .addBehavior(mockBehavior, mockScene)    // 3
+            .removeBehavior(mockBehavior, mockScene) // 2
+            .addBehavior(mockBehavior, mockScene)    // 3
+            .removeBehavior(mockBehavior, mockScene) // 2
+            .removeBehavior(mockBehavior, mockScene) // 1
+            .addBehavior(mockBehavior, mockScene);   // 2
 
-        assertEquals(2, gameObject.getBehaviors().size(), "After the sequence of adding and removing behaviors, the remaining behavior count should be 5.");
+        assertEquals(2, gameObject.getBehaviors()
+            .size(), "After the sequence of adding and removing behaviors, the remaining behavior count should be 5.");
     }
 
     @Test

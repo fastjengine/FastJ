@@ -11,8 +11,9 @@ import javax.swing.JOptionPane;
 public enum DialogOptions {
 
     /**
-     * The default option -- used primarily for {@link DialogUtil#showOptionDialog(DialogConfig, DialogMessageTypes,
-     * Object[], Object) option dialogs}, as they tend to provide their own options instead of needing specific ones.
+     * The default option -- used primarily for
+     * {@link DialogUtil#showOptionDialog(DialogConfig, DialogMessageTypes, Object[], Object) option dialogs}, as they tend to provide their
+     * own options instead of needing specific ones.
      *
      * @see JOptionPane#DEFAULT_OPTION
      */

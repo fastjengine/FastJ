@@ -36,6 +36,7 @@ class Polygon2DTests {
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(square, polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the original Pointf array.");
     }
+
     @Test
     void checkPolygon2DCreation_withPath2DParam() {
         Path2D.Float path = new Path2D.Float();
@@ -56,7 +57,8 @@ class Polygon2DTests {
         assertEquals(Transform2D.DefaultRotation, polygon2D.getRotation(), "The created polygon's rotation should match an origin rotation.");
         assertEquals(Transform2D.DefaultScale, polygon2D.getScale(), "The created polygon's scaling should match an origin scale.");
         assertArrayEquals(DrawUtil.pointsOfPath(path), polygon2D.getOriginalPoints(), "The created polygon's Pointf array should match the path's original Pointf array.");
-        assertArrayEquals(DrawUtil.pointsOfPathWithAlt(path).altIndexes(), polygon2D.getAlternateIndexes(), "The created polygon's Pointf alternate indexes should match the expected alternate indexes.");
+        assertArrayEquals(DrawUtil.pointsOfPathWithAlt(path)
+            .altIndexes(), polygon2D.getAlternateIndexes(), "The created polygon's Pointf alternate indexes should match the expected alternate indexes.");
     }
 
     @Test
@@ -68,9 +70,9 @@ class Polygon2DTests {
         boolean shouldRender = Maths.randomBoolean();
 
         Polygon2D polygon2D = Polygon2D.create(square, shouldRender)
-                .withRenderStyle(renderStyle)
-                .withFill(randomColor)
-                .build();
+            .withRenderStyle(renderStyle)
+            .withFill(randomColor)
+            .build();
 
         assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(renderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
@@ -99,11 +101,11 @@ class Polygon2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Polygon2D polygon2D = Polygon2D.create(square, shouldRender)
-                .withTransform(randomTranslation, randomRotation, randomScale)
-                .withRenderStyle(renderStyle)
-                .withOutline(outlineStroke, outlineColor)
-                .withFill(randomColor)
-                .build();
+            .withTransform(randomTranslation, randomRotation, randomScale)
+            .withRenderStyle(renderStyle)
+            .withOutline(outlineStroke, outlineColor)
+            .withFill(randomColor)
+            .build();
 
         assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(renderStyle, polygon2D.getRenderStyle(), "The created polygon's render style option should match the default render style.");
@@ -133,11 +135,11 @@ class Polygon2DTests {
         float expectedNormalizedRotation = randomRotation % 360;
 
         Polygon2D polygon2D = (Polygon2D) Polygon2D.fromPoints(square)
-                .setOutline(outlineStroke, outlineColor)
-                .setRenderStyle(renderStyle)
-                .setFill(randomColor)
-                .setShouldRender(shouldRender)
-                .setTransform(randomTranslation, randomRotation, randomScale);
+            .setOutline(outlineStroke, outlineColor)
+            .setRenderStyle(renderStyle)
+            .setFill(randomColor)
+            .setShouldRender(shouldRender)
+            .setTransform(randomTranslation, randomRotation, randomScale);
 
         assertEquals(randomColor, polygon2D.getFill(), "The created polygon's paint should match the randomly generated paint.");
         assertEquals(shouldRender, polygon2D.shouldRender(), "The created polygon's 'show' option should match the randomly generated shouldRender option.");
@@ -159,8 +161,8 @@ class Polygon2DTests {
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
         Polygon2D square = Polygon2D.create(squarePoints)
-                .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
-                .build();
+            .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
+            .build();
 
         Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, true, true, true);
@@ -180,8 +182,8 @@ class Polygon2DTests {
         Pointf scaleBeforeReset = new Pointf(Maths.random(0f, 1f), Maths.random(0f, 1f));
 
         Polygon2D square = Polygon2D.create(squarePoints)
-                .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
-                .build();
+            .withTransform(translationBeforeReset, rotationBeforeReset, scaleBeforeReset)
+            .build();
 
         Pointf[] newSquarePoints = DrawUtil.createBox(Pointf.unit(), 20f);
         square.modifyPoints(newSquarePoints, false, false, false);
@@ -197,14 +199,14 @@ class Polygon2DTests {
     void checkPolygon2DTranslation_shouldMatchExpected() {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), 5f);
         Pointf randomTranslation = new Pointf(
-                Maths.random(0f, 1f),
-                Maths.random(0f, 1f)
+            Maths.random(0f, 1f),
+            Maths.random(0f, 1f)
         );
         Pointf[] expectedTranslatedPoints = {
-                originalPoints[0].copy().add(randomTranslation),
-                originalPoints[1].copy().add(randomTranslation),
-                originalPoints[2].copy().add(randomTranslation),
-                originalPoints[3].copy().add(randomTranslation)
+            originalPoints[0].copy().add(randomTranslation),
+            originalPoints[1].copy().add(randomTranslation),
+            originalPoints[2].copy().add(randomTranslation),
+            originalPoints[3].copy().add(randomTranslation)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -224,22 +226,22 @@ class Polygon2DTests {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] expectedRotatedPoints = {
-                new Pointf(
-                        originalPoints[0].x * cosOfRotation - originalPoints[0].y * sinOfRotation,
-                        originalPoints[0].y * cosOfRotation + originalPoints[0].x * sinOfRotation
-                ),
-                new Pointf(
-                        originalPoints[1].x * cosOfRotation - originalPoints[1].y * sinOfRotation,
-                        originalPoints[1].y * cosOfRotation + originalPoints[1].x * sinOfRotation
-                ),
-                new Pointf(
-                        originalPoints[2].x * cosOfRotation - originalPoints[2].y * sinOfRotation,
-                        originalPoints[2].y * cosOfRotation + originalPoints[2].x * sinOfRotation
-                ),
-                new Pointf(
-                        originalPoints[3].x * cosOfRotation - originalPoints[3].y * sinOfRotation,
-                        originalPoints[3].y * cosOfRotation + originalPoints[3].x * sinOfRotation
-                )
+            new Pointf(
+                originalPoints[0].x * cosOfRotation - originalPoints[0].y * sinOfRotation,
+                originalPoints[0].y * cosOfRotation + originalPoints[0].x * sinOfRotation
+            ),
+            new Pointf(
+                originalPoints[1].x * cosOfRotation - originalPoints[1].y * sinOfRotation,
+                originalPoints[1].y * cosOfRotation + originalPoints[1].x * sinOfRotation
+            ),
+            new Pointf(
+                originalPoints[2].x * cosOfRotation - originalPoints[2].y * sinOfRotation,
+                originalPoints[2].y * cosOfRotation + originalPoints[2].x * sinOfRotation
+            ),
+            new Pointf(
+                originalPoints[3].x * cosOfRotation - originalPoints[3].y * sinOfRotation,
+                originalPoints[3].y * cosOfRotation + originalPoints[3].x * sinOfRotation
+            )
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -259,29 +261,29 @@ class Polygon2DTests {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] pointsAtOrigin = {
-                originalPoints[0].copy().subtract(size / 2f),
-                originalPoints[1].copy().subtract(size / 2f),
-                originalPoints[2].copy().subtract(size / 2f),
-                originalPoints[3].copy().subtract(size / 2f),
+            originalPoints[0].copy().subtract(size / 2f),
+            originalPoints[1].copy().subtract(size / 2f),
+            originalPoints[2].copy().subtract(size / 2f),
+            originalPoints[3].copy().subtract(size / 2f),
         };
 
         Pointf[] expectedRotatedPoints = {
-                new Pointf(
-                        pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
-                        pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
-                ).add(size / 2f),
-                new Pointf(
-                        pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
-                        pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
-                ).add(size / 2f),
-                new Pointf(
-                        pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
-                        pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
-                ).add(size / 2f),
-                new Pointf(
-                        pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
-                        pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
-                ).add(size / 2f)
+            new Pointf(
+                pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
+                pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
+            ).add(size / 2f),
+            new Pointf(
+                pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
+                pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
+            ).add(size / 2f),
+            new Pointf(
+                pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
+                pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
+            ).add(size / 2f),
+            new Pointf(
+                pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
+                pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
+            ).add(size / 2f)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -302,29 +304,29 @@ class Polygon2DTests {
         Pointf[] originalPoints = DrawUtil.createBox(Pointf.origin(), size);
 
         Pointf[] pointsAtOrigin = {
-                originalPoints[0].copy().subtract(randomCenter),
-                originalPoints[1].copy().subtract(randomCenter),
-                originalPoints[2].copy().subtract(randomCenter),
-                originalPoints[3].copy().subtract(randomCenter),
+            originalPoints[0].copy().subtract(randomCenter),
+            originalPoints[1].copy().subtract(randomCenter),
+            originalPoints[2].copy().subtract(randomCenter),
+            originalPoints[3].copy().subtract(randomCenter),
         };
 
         Pointf[] expectedRotatedPoints = {
-                new Pointf(
-                        pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
-                        pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
-                ).add(randomCenter),
-                new Pointf(
-                        pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
-                        pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
-                ).add(randomCenter),
-                new Pointf(
-                        pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
-                        pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
-                ).add(randomCenter),
-                new Pointf(
-                        pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
-                        pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
-                ).add(randomCenter)
+            new Pointf(
+                pointsAtOrigin[0].x * cosOfRotation - pointsAtOrigin[0].y * sinOfRotation,
+                pointsAtOrigin[0].y * cosOfRotation + pointsAtOrigin[0].x * sinOfRotation
+            ).add(randomCenter),
+            new Pointf(
+                pointsAtOrigin[1].x * cosOfRotation - pointsAtOrigin[1].y * sinOfRotation,
+                pointsAtOrigin[1].y * cosOfRotation + pointsAtOrigin[1].x * sinOfRotation
+            ).add(randomCenter),
+            new Pointf(
+                pointsAtOrigin[2].x * cosOfRotation - pointsAtOrigin[2].y * sinOfRotation,
+                pointsAtOrigin[2].y * cosOfRotation + pointsAtOrigin[2].x * sinOfRotation
+            ).add(randomCenter),
+            new Pointf(
+                pointsAtOrigin[3].x * cosOfRotation - pointsAtOrigin[3].y * sinOfRotation,
+                pointsAtOrigin[3].y * cosOfRotation + pointsAtOrigin[3].x * sinOfRotation
+            ).add(randomCenter)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -341,10 +343,10 @@ class Polygon2DTests {
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] expectedScaledPoints = {
-                originalPoints[0].copy().multiply(newScale),
-                originalPoints[1].copy().multiply(newScale),
-                originalPoints[2].copy().multiply(newScale),
-                originalPoints[3].copy().multiply(newScale)
+            originalPoints[0].copy().multiply(newScale),
+            originalPoints[1].copy().multiply(newScale),
+            originalPoints[2].copy().multiply(newScale),
+            originalPoints[3].copy().multiply(newScale)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -361,16 +363,16 @@ class Polygon2DTests {
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] pointsAtOrigin = {
-                originalPoints[0].copy().subtract(size / 2f),
-                originalPoints[1].copy().subtract(size / 2f),
-                originalPoints[2].copy().subtract(size / 2f),
-                originalPoints[3].copy().subtract(size / 2f),
+            originalPoints[0].copy().subtract(size / 2f),
+            originalPoints[1].copy().subtract(size / 2f),
+            originalPoints[2].copy().subtract(size / 2f),
+            originalPoints[3].copy().subtract(size / 2f),
         };
         Pointf[] expectedScaledPoints = {
-                pointsAtOrigin[0].copy().multiply(newScale).add(size / 2f),
-                pointsAtOrigin[1].copy().multiply(newScale).add(size / 2f),
-                pointsAtOrigin[2].copy().multiply(newScale).add(size / 2f),
-                pointsAtOrigin[3].copy().multiply(newScale).add(size / 2f)
+            pointsAtOrigin[0].copy().multiply(newScale).add(size / 2f),
+            pointsAtOrigin[1].copy().multiply(newScale).add(size / 2f),
+            pointsAtOrigin[2].copy().multiply(newScale).add(size / 2f),
+            pointsAtOrigin[3].copy().multiply(newScale).add(size / 2f)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);
@@ -388,16 +390,16 @@ class Polygon2DTests {
 
         Pointf newScale = Pointf.add(randomScaling, Transform2D.DefaultScale);
         Pointf[] pointsAtOrigin = {
-                originalPoints[0].copy().subtract(randomCenter),
-                originalPoints[1].copy().subtract(randomCenter),
-                originalPoints[2].copy().subtract(randomCenter),
-                originalPoints[3].copy().subtract(randomCenter),
+            originalPoints[0].copy().subtract(randomCenter),
+            originalPoints[1].copy().subtract(randomCenter),
+            originalPoints[2].copy().subtract(randomCenter),
+            originalPoints[3].copy().subtract(randomCenter),
         };
         Pointf[] expectedScaledPoints = {
-                pointsAtOrigin[0].copy().multiply(newScale).add(randomCenter),
-                pointsAtOrigin[1].copy().multiply(newScale).add(randomCenter),
-                pointsAtOrigin[2].copy().multiply(newScale).add(randomCenter),
-                pointsAtOrigin[3].copy().multiply(newScale).add(randomCenter)
+            pointsAtOrigin[0].copy().multiply(newScale).add(randomCenter),
+            pointsAtOrigin[1].copy().multiply(newScale).add(randomCenter),
+            pointsAtOrigin[2].copy().multiply(newScale).add(randomCenter),
+            pointsAtOrigin[3].copy().multiply(newScale).add(randomCenter)
         };
 
         Polygon2D polygon2D = Polygon2D.fromPoints(originalPoints);

@@ -1,12 +1,11 @@
 package tech.fastj.examples.polygon2d;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.awt.BasicStroke;
@@ -25,10 +24,10 @@ public class Main extends SimpleManager {
 
         // You can create a mesh by hand...
         Pointf[] smallSquareMeshByHand = {
-                new Pointf(0f, 0f),
-                new Pointf(0f, 50f),
-                new Pointf(50f, 50f),
-                new Pointf(50f, 0f)
+            new Pointf(0f, 0f),
+            new Pointf(0f, 50f),
+            new Pointf(50f, 50f),
+            new Pointf(50f, 0f)
         };
 
         // ...or by using one of the many "DrawUtil.create" methods.
@@ -78,11 +77,11 @@ public class Main extends SimpleManager {
         Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
 
         Polygon2D largeSquare = Polygon2D.create(largeSquareMesh)
-                .withRenderStyle(RenderStyle.FillAndOutline)
-                .withFill(Color.blue)
-                .withOutline(largeSquareOutlineStroke, Color.black)
-                .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
-                .build();
+            .withRenderStyle(RenderStyle.FillAndOutline)
+            .withFill(Color.blue)
+            .withOutline(largeSquareOutlineStroke, Color.black)
+            .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
+            .build();
 
         // And of course, we need to add our large square to the drawable manager's game objects.
         drawableManager().addGameObject(largeSquare);

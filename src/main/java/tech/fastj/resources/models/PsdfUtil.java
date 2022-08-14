@@ -48,7 +48,7 @@ public class PsdfUtil {
      * Parses the specified file contents into a {@code Polygon2D} array.
      *
      * @param modelPath path of the model -- currently unused.
-     * @param lines The .psdf file, split line by line.
+     * @param lines     The .psdf file, split line by line.
      * @return An array of {@code Polygon2D}s.
      */
     public static Polygon2D[] parse(Path modelPath, List<String> lines) {
@@ -120,10 +120,10 @@ public class PsdfUtil {
                         assert polygons != null;
 
                         polygons[polygonsIndex] = Polygon2D.create(polygonPoints.toArray(new Pointf[0]), altIndexes.toArray(new Point[0]), shouldRender)
-                                .withRenderStyle(renderStyle)
-                                .withOutline(outlineStroke, outlineColor)
-                                .withTransform(translation, rotation, scale)
-                                .build();
+                            .withRenderStyle(renderStyle)
+                            .withOutline(outlineStroke, outlineColor)
+                            .withTransform(translation, rotation, scale)
+                            .build();
 
                         if (!texturePath.isBlank()) {
                             fillPaint = Textures.create(Path.of(texturePath), DrawUtil.createRect(polygons[polygonsIndex].getBounds()));
@@ -174,25 +174,25 @@ public class PsdfUtil {
             }
             case ParsingKeys.FillPaintLinearGradient: {
                 LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(
-                        new Pointf(
-                                Float.parseFloat(tokens[1]),
-                                Float.parseFloat(tokens[2])
-                        ),
-                        new Pointf(
-                                Float.parseFloat(tokens[3]),
-                                Float.parseFloat(tokens[4])
-                        )
+                    new Pointf(
+                        Float.parseFloat(tokens[1]),
+                        Float.parseFloat(tokens[2])
+                    ),
+                    new Pointf(
+                        Float.parseFloat(tokens[3]),
+                        Float.parseFloat(tokens[4])
+                    )
                 );
 
                 int colorTokens = (tokens.length - 5);
                 for (int i = 5; i <= colorTokens + 1; i += 4) {
                     linearGradientBuilder.withColor(
-                            new Color(
-                                    Integer.parseInt(tokens[i]),
-                                    Integer.parseInt(tokens[i + 1]),
-                                    Integer.parseInt(tokens[i + 2]),
-                                    Integer.parseInt(tokens[i + 3])
-                            )
+                        new Color(
+                            Integer.parseInt(tokens[i]),
+                            Integer.parseInt(tokens[i + 1]),
+                            Integer.parseInt(tokens[i + 2]),
+                            Integer.parseInt(tokens[i + 3])
+                        )
                     );
                 }
 
@@ -200,22 +200,22 @@ public class PsdfUtil {
             }
             case ParsingKeys.FillPaintRadialGradient: {
                 RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(
-                        new Pointf(
-                                Float.parseFloat(tokens[1]),
-                                Float.parseFloat(tokens[2])
-                        ),
-                        Float.parseFloat(tokens[3])
+                    new Pointf(
+                        Float.parseFloat(tokens[1]),
+                        Float.parseFloat(tokens[2])
+                    ),
+                    Float.parseFloat(tokens[3])
                 );
 
                 int colorCount = (tokens.length - 4);
                 for (int i = 4; i <= colorCount + 1; i += 4) {
                     radialGradientBuilder.withColor(
-                            new Color(
-                                    Integer.parseInt(tokens[i]),
-                                    Integer.parseInt(tokens[i + 1]),
-                                    Integer.parseInt(tokens[i + 2]),
-                                    Integer.parseInt(tokens[i + 3])
-                            )
+                        new Color(
+                            Integer.parseInt(tokens[i]),
+                            Integer.parseInt(tokens[i + 1]),
+                            Integer.parseInt(tokens[i + 2]),
+                            Integer.parseInt(tokens[i + 3])
+                        )
                     );
                 }
 
@@ -232,7 +232,7 @@ public class PsdfUtil {
 
         if (!tokens[1].startsWith("\"") || !tokens[tokens.length - 1].endsWith("\"")) {
             throw new IllegalArgumentException(
-                    "The given path " + Arrays.toString(tokens) + " does not start and end with quotation marks."
+                "The given path " + Arrays.toString(tokens) + " does not start and end with quotation marks."
             );
         }
 
@@ -343,7 +343,7 @@ public class PsdfUtil {
      * Writes the given {@link Model2D model} to the given file path.
      *
      * @param destinationPath The {@link Path filepath} to write the model to.
-     * @param model The model to write.
+     * @param model           The model to write.
      */
     public static void write(Path destinationPath, Model2D model) {
         StringBuilder fileContents = new StringBuilder();
@@ -375,9 +375,9 @@ public class PsdfUtil {
 
     private static void writePolygonAmount(StringBuilder fileContents, Polygon2D[] polygons) {
         fileContents.append(PsdfUtil.ParsingKeys.Amount)
-                .append(' ')
-                .append(polygons.length)
-                .append(LineSeparator);
+            .append(' ')
+            .append(polygons.length)
+            .append(LineSeparator);
     }
 
     private static void writeRenderStyle(StringBuilder fileContents, RenderStyle renderStyle) {
@@ -410,26 +410,26 @@ public class PsdfUtil {
             writeTexture(fileContents, (TexturePaint) paint);
         } else {
             FastJEngine.error(
-                    CrashMessages.UnimplementedMethodError.errorMessage,
-                    new UnsupportedOperationException(
-                            "Writing paints other than LinearGradientPaint, RadialGradientPaint, or Color is not supported."
-                                    + System.lineSeparator()
-                                    + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
-                    )
+                CrashMessages.UnimplementedMethodError.errorMessage,
+                new UnsupportedOperationException(
+                    "Writing paints other than LinearGradientPaint, RadialGradientPaint, or Color is not supported."
+                        + System.lineSeparator()
+                        + "Check the github to confirm you are on the latest version, as that version may have more implemented features."
+                )
             );
         }
     }
 
     private static void writeFillLinearGradient(StringBuilder fileContents, LinearGradientPaint linearGradientPaint) {
         fileContents.append(PsdfUtil.ParsingKeys.FillPaintLinearGradient)
-                .append(' ')
-                .append(linearGradientPaint.getStartPoint().getX())
-                .append(' ')
-                .append(linearGradientPaint.getStartPoint().getY())
-                .append(' ')
-                .append(linearGradientPaint.getEndPoint().getX())
-                .append(' ')
-                .append(linearGradientPaint.getEndPoint().getY());
+            .append(' ')
+            .append(linearGradientPaint.getStartPoint().getX())
+            .append(' ')
+            .append(linearGradientPaint.getStartPoint().getY())
+            .append(' ')
+            .append(linearGradientPaint.getEndPoint().getX())
+            .append(' ')
+            .append(linearGradientPaint.getEndPoint().getY());
 
         for (Color color : linearGradientPaint.getColors()) {
             if (color == null) {
@@ -437,44 +437,6 @@ public class PsdfUtil {
             }
 
             fileContents.append(' ')
-                    .append(color.getRed())
-                    .append(' ')
-                    .append(color.getGreen())
-                    .append(' ')
-                    .append(color.getBlue())
-                    .append(' ')
-                    .append(color.getAlpha());
-        }
-    }
-
-    private static void writeFillRadialGradient(StringBuilder fileContents, RadialGradientPaint radialGradientPaint) {
-        fileContents.append(PsdfUtil.ParsingKeys.FillPaintRadialGradient)
-                .append(' ')
-                .append(radialGradientPaint.getCenterPoint().getX())
-                .append(' ')
-                .append(radialGradientPaint.getCenterPoint().getY())
-                .append(' ')
-                .append(radialGradientPaint.getRadius());
-
-        for (Color color : radialGradientPaint.getColors()) {
-            if (color == null) {
-                continue;
-            }
-
-            fileContents.append(' ')
-                    .append(color.getRed())
-                    .append(' ')
-                    .append(color.getGreen())
-                    .append(' ')
-                    .append(color.getBlue())
-                    .append(' ')
-                    .append(color.getAlpha());
-        }
-    }
-
-    private static void writeFillColor(StringBuilder fileContents, Color color) {
-        fileContents.append(PsdfUtil.ParsingKeys.FillPaintColor)
-                .append(' ')
                 .append(color.getRed())
                 .append(' ')
                 .append(color.getGreen())
@@ -482,60 +444,98 @@ public class PsdfUtil {
                 .append(color.getBlue())
                 .append(' ')
                 .append(color.getAlpha());
+        }
+    }
+
+    private static void writeFillRadialGradient(StringBuilder fileContents, RadialGradientPaint radialGradientPaint) {
+        fileContents.append(PsdfUtil.ParsingKeys.FillPaintRadialGradient)
+            .append(' ')
+            .append(radialGradientPaint.getCenterPoint().getX())
+            .append(' ')
+            .append(radialGradientPaint.getCenterPoint().getY())
+            .append(' ')
+            .append(radialGradientPaint.getRadius());
+
+        for (Color color : radialGradientPaint.getColors()) {
+            if (color == null) {
+                continue;
+            }
+
+            fileContents.append(' ')
+                .append(color.getRed())
+                .append(' ')
+                .append(color.getGreen())
+                .append(' ')
+                .append(color.getBlue())
+                .append(' ')
+                .append(color.getAlpha());
+        }
+    }
+
+    private static void writeFillColor(StringBuilder fileContents, Color color) {
+        fileContents.append(PsdfUtil.ParsingKeys.FillPaintColor)
+            .append(' ')
+            .append(color.getRed())
+            .append(' ')
+            .append(color.getGreen())
+            .append(' ')
+            .append(color.getBlue())
+            .append(' ')
+            .append(color.getAlpha());
     }
 
     private static void writeTexture(StringBuilder fileContents, TexturePaint texturePaint) {
         fileContents.append(ParsingKeys.FillPaintTexture)
-                .append(' ')
-                .append('\"')
-                .append(FastJEngine.getResourceManager(ImageResource.class).tryFindPathOfResource(texturePaint.getImage()).toString())
-                .append('\"');
+            .append(' ')
+            .append('\"')
+            .append(FastJEngine.getResourceManager(ImageResource.class).tryFindPathOfResource(texturePaint.getImage()).toString())
+            .append('\"');
     }
 
     private static void writeOutline(StringBuilder fileContents, BasicStroke outlineStroke, Color outlineColor) {
         fileContents.append(LineSeparator)
-                .append(PsdfUtil.ParsingKeys.OutlineStroke)
-                .append(' ')
-                .append(outlineStroke.getLineWidth())
-                .append(' ')
-                .append(outlineStroke.getEndCap())
-                .append(' ')
-                .append(outlineStroke.getLineJoin())
-                .append(' ')
-                .append(outlineStroke.getMiterLimit())
-                .append(LineSeparator)
-                .append(PsdfUtil.ParsingKeys.OutlineColor)
-                .append(' ')
-                .append(outlineColor.getRed())
-                .append(' ')
-                .append(outlineColor.getGreen())
-                .append(' ')
-                .append(outlineColor.getBlue())
-                .append(' ')
-                .append(outlineColor.getAlpha())
-                .append(LineSeparator);
+            .append(PsdfUtil.ParsingKeys.OutlineStroke)
+            .append(' ')
+            .append(outlineStroke.getLineWidth())
+            .append(' ')
+            .append(outlineStroke.getEndCap())
+            .append(' ')
+            .append(outlineStroke.getLineJoin())
+            .append(' ')
+            .append(outlineStroke.getMiterLimit())
+            .append(LineSeparator)
+            .append(PsdfUtil.ParsingKeys.OutlineColor)
+            .append(' ')
+            .append(outlineColor.getRed())
+            .append(' ')
+            .append(outlineColor.getGreen())
+            .append(' ')
+            .append(outlineColor.getBlue())
+            .append(' ')
+            .append(outlineColor.getAlpha())
+            .append(LineSeparator);
     }
 
     private static void writeTransform(StringBuilder fileContents, Pointf translation, float rotation, Pointf scale) {
         fileContents.append(PsdfUtil.ParsingKeys.Transform)
-                .append(' ')
-                .append(translation.x)
-                .append(' ')
-                .append(translation.y)
-                .append(' ')
-                .append(rotation)
-                .append(' ')
-                .append(scale.x)
-                .append(' ')
-                .append(scale.y)
-                .append(LineSeparator);
+            .append(' ')
+            .append(translation.x)
+            .append(' ')
+            .append(translation.y)
+            .append(' ')
+            .append(rotation)
+            .append(' ')
+            .append(scale.x)
+            .append(' ')
+            .append(scale.y)
+            .append(LineSeparator);
     }
 
     private static void writeShouldRender(StringBuilder fileContents, boolean shouldRender) {
         fileContents.append(PsdfUtil.ParsingKeys.ShouldRender)
-                .append(' ')
-                .append(shouldRender)
-                .append(LineSeparator);
+            .append(' ')
+            .append(shouldRender)
+            .append(LineSeparator);
     }
 
     private static void writeAltIndexes(StringBuilder fileContents, Polygon2D polygon) {
@@ -546,11 +546,11 @@ public class PsdfUtil {
         for (int j = 0; j < polygon.getAlternateIndexes().length; j++) {
             Point pt = polygon.getAlternateIndexes()[j];
             fileContents.append(ParsingKeys.AlternateIndex)
-                    .append(' ')
-                    .append(pt.x)
-                    .append(' ')
-                    .append(pt.y)
-                    .append(LineSeparator);
+                .append(' ')
+                .append(pt.x)
+                .append(' ')
+                .append(pt.y)
+                .append(LineSeparator);
         }
     }
 
@@ -559,12 +559,12 @@ public class PsdfUtil {
         for (int j = 0; j < pts.length; j++) {
             Pointf pt = pts[j];
             fileContents.append(PsdfUtil.ParsingKeys.MeshPoint)
-                    .append(' ')
-                    .append(pt.x)
-                    .append(' ')
-                    .append(pt.y)
-                    .append(j == pts.length - 1 ? " ;" : "")
-                    .append(LineSeparator);
+                .append(' ')
+                .append(pt.x)
+                .append(' ')
+                .append(pt.y)
+                .append(j == pts.length - 1 ? " ;" : "")
+                .append(LineSeparator);
         }
     }
 

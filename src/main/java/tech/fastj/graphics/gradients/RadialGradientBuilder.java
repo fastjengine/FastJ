@@ -79,8 +79,7 @@ public class RadialGradientBuilder implements GradientBuilder {
      * <p>
      * The amount of colors used in a {@link RadialGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
      *
-     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8
-     *               colors.
+     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8 colors.
      * @return The {@code RadialGradientBuilder}, for method chaining.
      */
     public RadialGradientBuilder withColors(Color... colors) {

@@ -1,11 +1,10 @@
 package tech.fastj.examples.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.GameObject;
-
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.Keys;
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 
 public class PlayerController implements Behavior {

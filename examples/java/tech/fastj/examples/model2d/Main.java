@@ -1,12 +1,11 @@
 package tech.fastj.examples.model2d;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.control.SimpleManager;
 
 public class Main extends SimpleManager {
@@ -56,8 +55,8 @@ public class Main extends SimpleManager {
          * - Rotation by 30 degrees
          * - Scaled down to 50% (0.5) */
         Polygon2D[] squares = {
-                Polygon2D.fromPoints(DrawUtil.createBox(10, 10, 100)),
-                Polygon2D.fromPoints(DrawUtil.createBox(110, 110, 100))
+            Polygon2D.fromPoints(DrawUtil.createBox(10, 10, 100)),
+            Polygon2D.fromPoints(DrawUtil.createBox(110, 110, 100))
         };
 
         Pointf largeSquareTranslation = new Pointf(20f, 10f);
@@ -65,8 +64,8 @@ public class Main extends SimpleManager {
         Pointf largeSquareScale = new Pointf(0.5f, 0.5f);
 
         Model2D squaresTogether = Model2D.create(squares)
-                .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
-                .build();
+            .withTransform(largeSquareTranslation, largeSquareRotation, largeSquareScale)
+            .build();
 
         // And of course, we need to add our model of squares to the drawable manager's game objects.
         drawableManager().addGameObject(squaresTogether);

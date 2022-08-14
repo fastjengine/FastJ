@@ -16,9 +16,9 @@ public class Point {
     /**
      * {@code Point} representing the origin as an {@code int}: {@code (0, 0)}.
      *
-     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not
-     * receive <a href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this
-     * value will be removed very soon. Use {@link Point#origin()} instead.
+     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not receive <a
+     * href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this value will be removed very
+     * soon. Use {@link Point#origin()} instead.
      */
     @Deprecated
     public static final Point Origin = new Point();
@@ -34,8 +34,7 @@ public class Point {
     }
 
     /**
-     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the integer
-     * parameter's values.
+     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the integer parameter's values.
      *
      * @param xy Value to set the x and y of this {@code Point} to.
      */
@@ -44,8 +43,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
-     * {@code Point}'s values.
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter {@code Point}'s
+     * values.
      *
      * @param p {@code Point} to set the x and y of this {@code Point} to.
      */
@@ -54,11 +53,10 @@ public class Point {
     }
 
     /**
-     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
-     * {@link Dimension}'s values.
+     * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter {@link Dimension}'s
+     * values.
      *
-     * @param dimension {@code Dimension} to set the x and y of this {@code Point} to, using its {@code width} and
-     *                  {@code height} values.
+     * @param dimension {@code Dimension} to set the x and y of this {@code Point} to, using its {@code width} and {@code height} values.
      */
     public Point(Dimension dimension) {
         this(dimension.width, dimension.height);
@@ -68,16 +66,14 @@ public class Point {
      * {@code Point} copy constructor, where the values for the newly created {@code Point} are set to the parameter
      * {@link java.awt.Point}'s values.
      *
-     * @param awtPoint {@code java.awt.Point} to set the x and y of this {@code Point} to, using its {@code x} and
-     *                 {@code y} values.
+     * @param awtPoint {@code java.awt.Point} to set the x and y of this {@code Point} to, using its {@code x} and {@code y} values.
      */
     public Point(java.awt.Point awtPoint) {
         this(awtPoint.x, awtPoint.y);
     }
 
     /**
-     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the specified x and y
-     * parameters.
+     * {@code Point} constructor, where the values for the newly created {@code Point} are set to the specified x and y parameters.
      *
      * @param xVal Value to define the x coordinate for this {@code Point} object.
      * @param yVal Value to define the y coordinate for this {@code Point} object.
@@ -88,8 +84,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}. Each returned
-     * instance is a newly created object.
+     * {@code Point} representing a 2D graph's origin as a pair of {@code integer}s: {@code (0, 0)}. Each returned instance is a newly
+     * created object.
      *
      * @return An {@code origin} instance.
      * @since 1.6.0
@@ -99,8 +95,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}. Each
-     * returned instance is a newly created object.
+     * {@code Point} representing a unit vector in a 2D graph as a pair of {@code integer}s: {@code (0, 0)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code unit} vector instance.
      */
@@ -109,8 +105,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}. Each
-     * returned instance is a newly created object.
+     * {@code Point} representing an up vector in a 2D graph as a pair of {@code integer}s: {@code (0, -1)}. Each returned instance is a
+     * newly created object.
      *
      * @return An {@code up} vector instance.
      */
@@ -119,8 +115,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}. Each
-     * returned instance is a newly created object.
+     * {@code Point} representing a down vector in a 2D graph as a pair of {@code integer}s: {@code (0, 1)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code down} vector instance.
      */
@@ -129,8 +125,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}. Each
-     * returned instance is a newly created object.
+     * {@code Point} representing a left vector in a 2D graph as a pair of {@code integer}s: {@code (-1, 0)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code left} vector instance.
      */
@@ -139,8 +135,8 @@ public class Point {
     }
 
     /**
-     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}. Each
-     * returned instance is a newly created object.
+     * {@code Point} representing a right vector in a 2D graph as a pair of {@code integer}s: {@code (1, 0)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code right} vector instance.
      */
@@ -149,8 +145,7 @@ public class Point {
     }
 
     /**
-     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point}
-     * object.
+     * Static method to add two {@code Point}s (from the parameters specified) together, and return a new {@code Point} object.
      *
      * @param p1 The first {@code Point} used for addition.
      * @param p2 The second {@code Point} used for addition.
@@ -165,8 +160,7 @@ public class Point {
      *
      * @param p The {@code Point} used for addition.
      * @param i Integer value used for addition.
-     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
-     * integer value.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the integer value.
      */
     public static Point add(Point p, int i) {
         return new Point(p.x + i, p.y + i);
@@ -178,21 +172,17 @@ public class Point {
      * @param p  The {@code Point} used for addition.
      * @param i1 The {@code integer} used for addition on the {@code x} value.
      * @param i2 The {@code integer} used for addition on the {@code y} value.
-     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the
-     * integer values.
+     * @return Returns a new {@code Point} with coordinates equal to the added values from the {@code Point} and the integer values.
      */
     public static Point add(Point p, int i1, int i2) {
         return new Point(p.x + i1, p.y + i2);
     }
 
     /**
-     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Point}
-     * object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Point} object.
      *
-     * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in
-     *           subtraction.
-     * @param p2 The second {@code Point} used for subtraction; the {@code Point} acting as the second value in
-     *           subtraction.
+     * @param p1 The first {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
+     * @param p2 The second {@code Point} used for subtraction; the {@code Point} acting as the second value in subtraction.
      * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the two {@code Point}s.
      */
     public static Point subtract(Point p1, Point p2) {
@@ -204,8 +194,7 @@ public class Point {
      *
      * @param p The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
      * @param i Integer value used for subtraction; the second value used in subtraction.
-     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
-     * the integer value.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and the integer value.
      */
     public static Point subtract(Point p, int i) {
         return new Point(p.x - i, p.y - i);
@@ -217,16 +206,14 @@ public class Point {
      * @param p  The {@code Point} used for subtraction; the {@code Point} acting as the first value in subtraction.
      * @param i1 Integer value used for subtraction; the second value used in subtraction for the {@code x} value.
      * @param i2 Integer value used for subtraction; the second value used in subtraction for the {@code y} value.
-     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and
-     * the integer values.
+     * @return Returns a new {@code Point} with coordinates equal to the subtracted values from the {@code Point} and the integer values.
      */
     public static Point subtract(Point p, int i1, int i2) {
         return new Point(p.x - i1, p.y - i2);
     }
 
     /**
-     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new
-     * {@code Point}.
+     * Static method to multiply two {@code Point} objects (from the parameters specified) together, and return a new {@code Point}.
      *
      * @param p1 The first {@code Point} used for multiplication.
      * @param p2 The second {@code Point} used for multiplication.
@@ -241,8 +228,7 @@ public class Point {
      *
      * @param p The {@code Point} used for multiplication.
      * @param i Integer value used for multiplication.
-     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
-     * the integer value.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and the integer value.
      */
     public static Point multiply(Point p, int i) {
         return new Point(p.x * i, p.y * i);
@@ -254,16 +240,14 @@ public class Point {
      * @param p  The {@code Point} used for multiplication.
      * @param i1 Integer value used for multiplication on the {@code x} value.
      * @param i2 Integer value used for multiplication on the {@code y} value.
-     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and
-     * the integer values.
+     * @return Returns a new {@code Point} with coordinates equal to the multiplied values from the {@code Point} and the integer values.
      */
     public static Point multiply(Point p, int i1, int i2) {
         return new Point(p.x * i1, p.y * i2);
     }
 
     /**
-     * Static method to divide two {@code Point} objects (from the parameters specified) together, and return a new
-     * {@code Point}.
+     * Static method to divide two {@code Point} objects (from the parameters specified) together, and return a new {@code Point}.
      *
      * @param p1 The first {@code Point} used for division; the {@code Point} acting as the first value in division.
      * @param p2 The second {@code Point} used for division; the {@code Point} acting as the second value in division.
@@ -278,8 +262,7 @@ public class Point {
      *
      * @param p The {@code Point} used for division; the {@code Point} acting as the first value in division.
      * @param i Integer value used for division; the second value used in division.
-     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
-     * integer value.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the integer value.
      */
     public static Point divide(Point p, int i) {
         return new Point(p.x / i, p.y / i);
@@ -291,8 +274,7 @@ public class Point {
      * @param p  The {@code Point} used for division; the {@code Point} acting as the first value in division.
      * @param i1 Integer value used for division; the second value used in division for the {@code x} value.
      * @param i2 Integer value used for division; the second value used in division for the {@code y} value.
-     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the
-     * integer value.
+     * @return Returns a new {@code Point} with coordinates equal to the divided values from the {@code Point} and the integer value.
      */
     public static Point divide(Point p, int i1, int i2) {
         return new Point(p.x / i1, p.y / i2);
@@ -312,8 +294,8 @@ public class Point {
     /**
      * Calculates and returns the cross product of the two specified {@code Point}s.
      * <p>
-     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
-     * {@code Point}s were 3-dimensional vectors with Z values implicitly set to {@code 0}.
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two {@code Point}s were
+     * 3-dimensional vectors with Z values implicitly set to {@code 0}.
      *
      * @param p  The first of two {@code Point}s to calculate the cross product with.
      * @param p1 The second of two {@code Point}s to calculate the cross product with.
@@ -339,9 +321,9 @@ public class Point {
     /**
      * Creates a rotated version of the {@code Point} based on the provided angle.
      * <p>
-     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
-     * the {@code Point} version of the calculation. If you want the rotation calculated with floating-point math, use
-     * {@link Point#rotate(Point, float)} instead.
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns the {@code Point}
+     * version of the calculation. If you want the rotation calculated with floating-point math, use {@link Point#rotate(Point, float)}
+     * instead.
      *
      * @param p     The point to rotate.
      * @param angle The angle to rotate by, in degrees.
@@ -385,8 +367,8 @@ public class Point {
     /**
      * Creates a rotated version of the {@code Point} based on the provided angle.
      * <p>
-     * This rotation method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
-     * returns the {@code Pointf} version of the calculation. If you want the rotation calculated with integer math, use
+     * This rotation method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns the
+     * {@code Pointf} version of the calculation. If you want the rotation calculated with integer math, use
      * {@link Point#integerRotate(Point, int)} instead.
      *
      * @param p     The point to rotate.
@@ -526,8 +508,7 @@ public class Point {
     }
 
     /**
-     * Adds the values of this {@code Point} to the specified {@code Point}, and returns a new {@code Point} with the
-     * modified values.
+     * Adds the values of this {@code Point} to the specified {@code Point}, and returns a new {@code Point} with the modified values.
      *
      * @param p {@code Point} to add this {@code Point} to.
      * @return Returns this {@code Point}, with the modified values.
@@ -540,8 +521,7 @@ public class Point {
     }
 
     /**
-     * Adds the values of this {@code Point} to the specified integer value, and returns a new {@code Point} with the
-     * modified values.
+     * Adds the values of this {@code Point} to the specified integer value, and returns a new {@code Point} with the modified values.
      *
      * @param f Value to add this {@code Point} to.
      * @return Returns this {@code Point}, with the modified values.
@@ -554,8 +534,7 @@ public class Point {
     }
 
     /**
-     * Adds the values of this {@code Point} to the specified integer values, and returns a new {@code Point} with the
-     * modified values.
+     * Adds the values of this {@code Point} to the specified integer values, and returns a new {@code Point} with the modified values.
      *
      * @param i1 {@code x} value to add this {@code Point} to.
      * @param i2 {@code y} value to add this {@code Point} to.
@@ -569,8 +548,7 @@ public class Point {
     }
 
     /**
-     * Subtracts the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with
-     * the modified values.
+     * Subtracts the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the modified values.
      *
      * @param p {@code Point} to subtract this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -583,8 +561,7 @@ public class Point {
     }
 
     /**
-     * Subtracts the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with
-     * the modified values.
+     * Subtracts the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with the modified values.
      *
      * @param f Value to subtract this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -597,8 +574,8 @@ public class Point {
     }
 
     /**
-     * Subtracts the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
-     * the modified values.
+     * Subtracts the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with the modified
+     * values.
      *
      * @param i1 {@code x} value to subtract this {@code Point} by.
      * @param i2 {@code y} value to subtract this {@code Point} by.
@@ -612,8 +589,8 @@ public class Point {
     }
 
     /**
-     * Multiplies the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with
-     * the modified values.
+     * Multiplies the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the modified
+     * values.
      *
      * @param p {@code Point} to multiply this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -626,8 +603,8 @@ public class Point {
     }
 
     /**
-     * Multiplies the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with
-     * the modified values.
+     * Multiplies the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with the modified
+     * values.
      *
      * @param f Value to multiply this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -640,8 +617,8 @@ public class Point {
     }
 
     /**
-     * Multiplies the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
-     * the modified values.
+     * Multiplies the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with the modified
+     * values.
      *
      * @param i1 {@code x} value to multiply this {@code Point} by.
      * @param i2 {@code y} value to multiply this {@code Point} by.
@@ -655,8 +632,7 @@ public class Point {
     }
 
     /**
-     * Divides the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the
-     * modified values.
+     * Divides the values of this {@code Point} by the specified {@code Point}, and returns a new {@code Point} with the modified values.
      *
      * @param p {@code Point} to divide this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -669,8 +645,7 @@ public class Point {
     }
 
     /**
-     * Divides the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with the
-     * modified values.
+     * Divides the values of this {@code Point} by the specified integer value, and returns a new {@code Point} with the modified values.
      *
      * @param f Value to divide this {@code Point} by.
      * @return Returns this {@code Point}, with the modified values.
@@ -683,8 +658,7 @@ public class Point {
     }
 
     /**
-     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with
-     * the modified values.
+     * Divides the values of this {@code Point} by the specified integer values, and returns a new {@code Point} with the modified values.
      *
      * @param i1 {@code x} value to divide this {@code Point} by.
      * @param i2 {@code y} value to divide this {@code Point} by.
@@ -700,8 +674,8 @@ public class Point {
     /**
      * Rotates the {@code Point} based on the provided angle.
      * <p>
-     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
-     * the {@code Point} version of the calculation.
+     * This rotation method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns the {@code Point}
+     * version of the calculation.
      *
      * @param angle The angle to rotate by, in degrees.
      * @return The {@code Point} with the rotated values.
@@ -722,8 +696,7 @@ public class Point {
     /**
      * Rotates the {@code Point} based on the provided angle and center point.
      * <p>
-     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
-     * {@link #rotate(int)}.
+     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use {@link #rotate(int)}.
      *
      * @param angle  The angle to rotate by, in degrees.
      * @param center The point to rotate about.
@@ -749,12 +722,10 @@ public class Point {
     /**
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
      * <p>
-     * This magnitude method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns
-     * the {@code int} version of the calculation. If you want the magnitude calculated with floating-point math, use
-     * {@link #magnitude()} instead.
+     * This magnitude method uses integer versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns the {@code int}
+     * version of the calculation. If you want the magnitude calculated with floating-point math, use {@link #magnitude()} instead.
      *
-     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
-     * values.
+     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values.
      */
     public int integerMagnitude() {
         return (int) Math.sqrt((double) (x * x) + (double) (y * y));
@@ -763,12 +734,11 @@ public class Point {
     /**
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Point}.
      * <p>
-     * This magnitude method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and
-     * returns the {@code float} version of the calculation. If you want the magnitude calculated with integer math, use
-     * {@link #integerMagnitude()} instead.
+     * This magnitude method uses floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values, and returns the
+     * {@code float} version of the calculation. If you want the magnitude calculated with integer math, use {@link #integerMagnitude()}
+     * instead.
      *
-     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y}
-     * values.
+     * @return The magnitude, calculated using floating-point versions of the {@code Point}'s {@link #x} and {@link #y} values.
      */
     public float magnitude() {
         return (float) Math.sqrt(((float) x * (float) x) + ((float) y * (float) y));
@@ -786,8 +756,8 @@ public class Point {
     /**
      * Creates a normalized version of the {@code Point} using integer division.
      * <p>
-     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
-     * Pointf} or floating-point division, consider using {@link #normalized()} instead.
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code Pointf} or
+     * floating-point division, consider using {@link #normalized()} instead.
      *
      * @return A normalized version of the {@code Point}.
      */
@@ -806,8 +776,8 @@ public class Point {
     /**
      * Creates a normalized version of the {@code Point}, as a {@code Pointf}, using floating-point division.
      * <p>
-     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code
-     * Point} or integer division, consider using {@link #integerNormalized()} instead.
+     * This method does not modify the contents of the original {@code Point}. If the desired result requires a {@code Point} or integer
+     * division, consider using {@link #integerNormalized()} instead.
      *
      * @return A normalized version of the {@code Point}, as a {@code Pointf}.
      */
@@ -851,8 +821,7 @@ public class Point {
     }
 
     /**
-     * Compares the {@code Point} with a {@link Pointf}, and returns whether their {@code x} and {@code y} values are
-     * equal.
+     * Compares the {@code Point} with a {@link Pointf}, and returns whether their {@code x} and {@code y} values are equal.
      *
      * @param other The {@code Pointf} to compare against.
      * @return Whether the two's {@code x} and {@code y} values are equal.
@@ -862,8 +831,8 @@ public class Point {
     }
 
     /**
-     * Compares the {@code Point} with a {@link Dimension}, and returns whether the {@code Point}'s {@code x} and {@code
-     * y} values are equal to the {@code Dimension}'s {@code width} and {@code height} values, respectively.
+     * Compares the {@code Point} with a {@link Dimension}, and returns whether the {@code Point}'s {@code x} and {@code y} values are equal
+     * to the {@code Dimension}'s {@code width} and {@code height} values, respectively.
      *
      * @param other The {@code Dimension} to compare against.
      * @return Whether the two's {@code x}/{@code width} and {@code y}/{@code height} values are equal.
@@ -873,8 +842,7 @@ public class Point {
     }
 
     /**
-     * Compares the {@code Point} with a {@link java.awt.Point}, and returns whether their {@code x} and {@code y}
-     * values are equal.
+     * Compares the {@code Point} with a {@link java.awt.Point}, and returns whether their {@code x} and {@code y} values are equal.
      *
      * @param other The {@code java.awt.Point} to compare against.
      * @return Whether the two's {@code x} and {@code y} values are equal.
@@ -921,8 +889,8 @@ public class Point {
     @Override
     public String toString() {
         return "Point{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+            "x=" + x +
+            ", y=" + y +
+            '}';
     }
 }

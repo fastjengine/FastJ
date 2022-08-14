@@ -1,6 +1,6 @@
 /**
- * Gradient creation system, to give {@link tech.fastj.graphics.game.Polygon2D polygons} and other supporting game
- * objects/ui elements gradients as their {@link java.awt.Paint fill 'color'}.
+ * Gradient creation system, to give {@link tech.fastj.graphics.game.Polygon2D polygons} and other supporting game objects/ui elements
+ * gradients as their {@link java.awt.Paint fill 'color'}.
  *
  * <ul>
  *     <li>{@link tech.fastj.graphics.gradients.Gradients#linearGradient(tech.fastj.math.Pointf, tech.fastj.math.Pointf) General linear gradient creation}</li>

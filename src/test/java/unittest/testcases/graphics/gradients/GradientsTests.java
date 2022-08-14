@@ -6,8 +6,8 @@ import tech.fastj.graphics.gradients.Gradients;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 
-import unittest.mock.graphics.MockBoundariesDrawable;
 import org.junit.jupiter.api.Test;
+import unittest.mock.graphics.MockBoundariesDrawable;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
@@ -19,8 +19,8 @@ class GradientsTests {
 
     private static Pointf randomPointf() {
         return new Pointf(
-                Maths.random(0.0f, 100.0f),
-                Maths.random(0.0f, 100.0f)
+            Maths.random(0.0f, 100.0f),
+            Maths.random(0.0f, 100.0f)
         );
     }
 
@@ -38,11 +38,11 @@ class GradientsTests {
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomLinearGradient(mockBoundariesDrawable, randomBeginningBoundary(), randomEndingBoundary());
-                    }
-                },
-                "Errors should not be produced while generating random linear gradients (using a drawable with random boundaries)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomLinearGradient(mockBoundariesDrawable, randomBeginningBoundary(), randomEndingBoundary());
+                }
+            },
+            "Errors should not be produced while generating random linear gradients (using a drawable with random boundaries)."
         );
     }
 
@@ -52,11 +52,11 @@ class GradientsTests {
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomLinearGradientWithAlpha(mockBoundariesDrawable, randomBeginningBoundary(), randomEndingBoundary());
-                    }
-                },
-                "Errors should not be produced while generating random linear gradients with random alpha (using a drawable with random boundaries)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomLinearGradientWithAlpha(mockBoundariesDrawable, randomBeginningBoundary(), randomEndingBoundary());
+                }
+            },
+            "Errors should not be produced while generating random linear gradients with random alpha (using a drawable with random boundaries)."
         );
     }
 
@@ -67,11 +67,11 @@ class GradientsTests {
         Pointf randomEndingPosition = randomPointf();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomLinearGradient(randomStartingPosition, randomEndingPosition);
-                    }
-                },
-                "Errors should not be produced while generating random linear gradients (using random starting and ending points)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomLinearGradient(randomStartingPosition, randomEndingPosition);
+                }
+            },
+            "Errors should not be produced while generating random linear gradients (using random starting and ending points)."
         );
     }
 
@@ -82,11 +82,11 @@ class GradientsTests {
         Pointf randomEndingPosition = randomPointf();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomLinearGradientWithAlpha(randomStartingPosition, randomEndingPosition);
-                    }
-                },
-                "Errors should not be produced while generating random linear gradients with random alpha (using random starting and ending points)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomLinearGradientWithAlpha(randomStartingPosition, randomEndingPosition);
+                }
+            },
+            "Errors should not be produced while generating random linear gradients with random alpha (using random starting and ending points)."
         );
     }
 
@@ -96,11 +96,11 @@ class GradientsTests {
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomRadialGradient(mockBoundariesDrawable);
-                    }
-                },
-                "Errors should not be produced while generating random radial gradients (using a drawable)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomRadialGradient(mockBoundariesDrawable);
+                }
+            },
+            "Errors should not be produced while generating random radial gradients (using a drawable)."
         );
     }
 
@@ -110,11 +110,11 @@ class GradientsTests {
         Drawable mockBoundariesDrawable = new MockBoundariesDrawable();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomRadialGradientWithAlpha(mockBoundariesDrawable);
-                    }
-                },
-                "Errors should not be produced while generating random radial gradients with random alpha (using a drawable)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomRadialGradientWithAlpha(mockBoundariesDrawable);
+                }
+            },
+            "Errors should not be produced while generating random radial gradients with random alpha (using a drawable)."
         );
     }
 
@@ -125,11 +125,11 @@ class GradientsTests {
         float randomRadius = randomFloat();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomRadialGradient(randomCenterpoint, randomRadius);
-                    }
-                },
-                "Errors should not be produced while generating random radial gradients (using a random center and radius)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomRadialGradient(randomCenterpoint, randomRadius);
+                }
+            },
+            "Errors should not be produced while generating random radial gradients (using a random center and radius)."
         );
     }
 
@@ -140,11 +140,11 @@ class GradientsTests {
         float randomRadius = randomFloat();
 
         assertDoesNotThrow(() -> {
-                    for (int i = 0; i < generatedGradientCount; i++) {
-                        Gradients.randomRadialGradientWithAlpha(randomCenterpoint, randomRadius);
-                    }
-                },
-                "Errors should not be produced while generating random radial gradients with alpha (using a random center and radius)."
+                for (int i = 0; i < generatedGradientCount; i++) {
+                    Gradients.randomRadialGradientWithAlpha(randomCenterpoint, randomRadius);
+                }
+            },
+            "Errors should not be produced while generating random radial gradients with alpha (using a random center and radius)."
         );
     }
 }

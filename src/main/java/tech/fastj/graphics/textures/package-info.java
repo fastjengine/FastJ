@@ -1,6 +1,6 @@
 /**
- * Texture creation system, to give {@link tech.fastj.graphics.game.Polygon2D polygons} and other supporting game
- * objects/ui elements textures/images as their {@link java.awt.Paint fill 'color'}.
+ * Texture creation system, to give {@link tech.fastj.graphics.game.Polygon2D polygons} and other supporting game objects/ui elements
+ * textures/images as their {@link java.awt.Paint fill 'color'}.
  * <p>
  * Textures are based on {@link java.awt.image.BufferedImage images}.
  *

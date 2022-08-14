@@ -31,8 +31,7 @@ public class Log {
     }
 
     /**
-     * Logs the specified message at the {@link LogLevel#Trace trace} level using the logging instance of the specified
-     * class.
+     * Logs the specified message at the {@link LogLevel#Trace trace} level using the logging instance of the specified class.
      * <p>
      * Example usage: {@code Log.trace(MyClass.class, "This is a {}", "trace message"); }
      *
@@ -58,8 +57,7 @@ public class Log {
     }
 
     /**
-     * Logs the specified message at the {@link LogLevel#Debug debug} level using the logging instance of the specified
-     * class.
+     * Logs the specified message at the {@link LogLevel#Debug debug} level using the logging instance of the specified class.
      * <p>
      * Example usage: {@code Log.debug(MyClass.class, "This is a {}", "debug message"); }
      *
@@ -85,8 +83,7 @@ public class Log {
     }
 
     /**
-     * Logs the specified message at the {@link LogLevel#Info info} level using the logging instance of the specified
-     * class.
+     * Logs the specified message at the {@link LogLevel#Info info} level using the logging instance of the specified class.
      * <p>
      * Example usage: {@code Log.info(MyClass.class, "This is an {}", "info message"); }
      *
@@ -112,8 +109,7 @@ public class Log {
     }
 
     /**
-     * Logs the specified message at the {@link LogLevel#Warn warning} level using the logging instance of the specified
-     * class.
+     * Logs the specified message at the {@link LogLevel#Warn warning} level using the logging instance of the specified class.
      * <p>
      * Example usage: {@code Log.warn(MyClass.class, "This is a {}", "warning message"); }
      *
@@ -138,10 +134,8 @@ public class Log {
         BaseLog.error(message, exception);
     }
 
-
     /**
-     * Logs the specified error message at the {@link LogLevel#Error error} level using the logging instance of the
-     * specified class.
+     * Logs the specified error message at the {@link LogLevel#Error error} level using the logging instance of the specified class.
      * <p>
      * Example usage: {@code Log.error(MyClass.class, "This is an error message", new RuntimeException()); }
      *

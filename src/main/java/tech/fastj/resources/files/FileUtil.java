@@ -22,8 +22,8 @@ public class FileUtil {
     /**
      * Gets the file extension of the specified path.
      * <p>
-     * This method does <b>not</b> account for file extensions with more than one dot ({@code .}) -- in cases like
-     * those, only the last part of the extension will be returned.
+     * This method does <b>not</b> account for file extensions with more than one dot ({@code .}) -- in cases like those, only the last part
+     * of the extension will be returned.
      * <p>
      * For paths which contain no file extension, an empty {@code String} will be returned.
      *
@@ -38,8 +38,7 @@ public class FileUtil {
     }
 
     /**
-     * Reads all lines of a file, as an abstraction of {@link Files#readAllLines(Path)} which handles the possible
-     * {@link IOException}.
+     * Reads all lines of a file, as an abstraction of {@link Files#readAllLines(Path)} which handles the possible {@link IOException}.
      *
      * @param filePath The {@code Path} of the file to read.
      * @return The lines of the file.
@@ -49,8 +48,8 @@ public class FileUtil {
             return Files.readAllLines(filePath);
         } catch (IOException exception) {
             throw new IllegalStateException(
-                    CrashMessages.theGameCrashed("an issue while trying to read file \"" + filePath.toAbsolutePath() + "\"."),
-                    exception
+                CrashMessages.theGameCrashed("an issue while trying to read file \"" + filePath.toAbsolutePath() + "\"."),
+                exception
             );
         }
     }

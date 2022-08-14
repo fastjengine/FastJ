@@ -15,9 +15,9 @@ public class Pointf {
     /**
      * {@code Pointf} representing the origin as a {@code float}: {@code (0f, 0f)}.
      *
-     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not
-     * receive <a href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this
-     * value will be removed very soon. Use {@link Pointf#origin()} instead.
+     * @deprecated As an object, users are likely to accidentally modify this value. Furthermore, Java will likely not receive <a
+     * href="https://openjdk.java.net/jeps/401" target="_blank">primitive objects</a> any time soon, so this value will be removed very
+     * soon. Use {@link Pointf#origin()} instead.
      */
     @Deprecated
     public static final Pointf Origin = new Pointf();
@@ -33,8 +33,7 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the float
-     * parameter's values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the float parameter's values.
      *
      * @param xy Value to set the x and y of this {@code Pointf} to.
      */
@@ -43,8 +42,7 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code
-     * Pointf}'s values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code Pointf}'s values.
      *
      * @param p {@code Pointf} to set the x and y of this {@code Pointf} to.
      */
@@ -53,8 +51,7 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code
-     * Point}'s values.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the parameter {@code Point}'s values.
      *
      * @param p {@code Point} to set the x and y of this {@code Pointf} to.
      */
@@ -63,8 +60,7 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the specified x and
-     * y parameters.
+     * {@code Pointf} constructor, where the values for the newly created {@code Pointf} are set to the specified x and y parameters.
      *
      * @param xVal Value to define the x coordinate for this {@code Pointf} object.
      * @param yVal Value to define the y coordinate for this {@code Pointf} object.
@@ -75,8 +71,8 @@ public class Pointf {
     }
 
     /**
-     * A new {@code Pointf} representing a 2D graph's origin as a pair of {@code float}s: {@code (0f, 0f)}. Each
-     * returned instance is a newly created object.
+     * A new {@code Pointf} representing a 2D graph's origin as a pair of {@code float}s: {@code (0f, 0f)}. Each returned instance is a
+     * newly created object.
      *
      * @return An {@code origin} instance.
      * @since 1.6.0
@@ -86,8 +82,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing a unit vector in a 2D graph as a pair of {@code float}s: {@code (0f, 0f)}. Each
-     * returned instance is a newly created object.
+     * {@code Pointf} representing a unit vector in a 2D graph as a pair of {@code float}s: {@code (0f, 0f)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code unit} vector instance.
      */
@@ -96,8 +92,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing an up vector in a 2D graph as a pair of {@code float}s: {@code (0f, -1f)}. Each
-     * returned instance is a newly created object.
+     * {@code Pointf} representing an up vector in a 2D graph as a pair of {@code float}s: {@code (0f, -1f)}. Each returned instance is a
+     * newly created object.
      *
      * @return An {@code up} vector instance.
      */
@@ -106,8 +102,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing a down vector in a 2D graph as a pair of {@code float}s: {@code (0f, 1f)}. Each
-     * returned instance is a newly created object.
+     * {@code Pointf} representing a down vector in a 2D graph as a pair of {@code float}s: {@code (0f, 1f)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code down} vector instance.
      */
@@ -116,8 +112,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing a left vector in a 2D graph as a pair of {@code float}s: {@code (-1f, 0f)}. Each
-     * returned instance is a newly created object.
+     * {@code Pointf} representing a left vector in a 2D graph as a pair of {@code float}s: {@code (-1f, 0f)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code left} vector instance.
      */
@@ -126,8 +122,8 @@ public class Pointf {
     }
 
     /**
-     * {@code Pointf} representing a right vector in a 2D graph as a pair of {@code float}s: {@code (1f, 0f)}. Each
-     * returned instance is a newly created object.
+     * {@code Pointf} representing a right vector in a 2D graph as a pair of {@code float}s: {@code (1f, 0f)}. Each returned instance is a
+     * newly created object.
      *
      * @return A {@code right} vector instance.
      */
@@ -136,8 +132,7 @@ public class Pointf {
     }
 
     /**
-     * Static method to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code
-     * Pointf} object.
+     * Static method to add two {@code Pointf}s (from the parameters specified) together, and return a new {@code Pointf} object.
      *
      * @param p1 The first {@code Pointf} used for addition.
      * @param p2 The second {@code Pointf} used for addition.
@@ -152,8 +147,7 @@ public class Pointf {
      *
      * @param p The {@code Pointf} used for addition.
      * @param f float value used for addition.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
-     * float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the float value.
      */
     public static Pointf add(Pointf p, float f) {
         return new Pointf(p.x + f, p.y + f);
@@ -165,23 +159,18 @@ public class Pointf {
      * @param p  The {@code Pointf} used for addition.
      * @param f1 The {@code float} used for addition on the {@code x} value.
      * @param f2 The {@code float} used for addition on the {@code y} value.
-     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the
-     * float values.
+     * @return Returns a new {@code Pointf} with coordinates equal to the added values from the {@code Pointf} and the float values.
      */
     public static Pointf add(Pointf p, float f1, float f2) {
         return new Pointf(p.x + f1, p.y + f2);
     }
 
     /**
-     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Pointf}
-     * object.
+     * Static method to subtract two Points (from the parameters specified) together, and return a new {@code Pointf} object.
      *
-     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in
-     *           subtraction.
-     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the second value in
-     *           subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the two {@code
-     * Pointf}s.
+     * @param p1 The first {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
+     * @param p2 The second {@code Pointf} used for subtraction; the {@code Pointf} acting as the second value in subtraction.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the two {@code Pointf}s.
      */
     public static Pointf subtract(Pointf p1, Pointf p2) {
         return new Pointf(p1.x - p2.x, p1.y - p2.y);
@@ -192,8 +181,7 @@ public class Pointf {
      *
      * @param p The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
      * @param f float value used for subtraction; the second value used in subtraction.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
-     * the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and the float value.
      */
     public static Pointf subtract(Pointf p, float f) {
         return new Pointf(p.x - f, p.y - f);
@@ -205,21 +193,18 @@ public class Pointf {
      * @param p  The {@code Pointf} used for subtraction; the {@code Pointf} acting as the first value in subtraction.
      * @param f1 float value used for subtraction; the second value used in subtraction for the {@code x} value.
      * @param f2 float value used for subtraction; the second value used in subtraction for the {@code y} value.
-     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and
-     * the float values.
+     * @return Returns a new {@code Pointf} with coordinates equal to the subtracted values from the {@code Pointf} and the float values.
      */
     public static Pointf subtract(Pointf p, float f1, float f2) {
         return new Pointf(p.x - f1, p.y - f2);
     }
 
     /**
-     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a new
-     * {@code Pointf}.
+     * Static method to multiply two {@code Pointf} objects (from the parameters specified) together, and return a new {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for multiplication.
      * @param p2 The second {@code Pointf} used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the two {@code
-     * Pointf}s.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the two {@code Pointf}s.
      */
     public static Pointf multiply(Pointf p1, Pointf p2) {
         return new Pointf(p1.x * p2.x, p1.y * p2.y);
@@ -230,8 +215,7 @@ public class Pointf {
      *
      * @param p The {@code Pointf} used for multiplication.
      * @param f float value used for multiplication.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
-     * the float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and the float value.
      */
     public static Pointf multiply(Pointf p, float f) {
         return new Pointf(p.x * f, p.y * f);
@@ -243,20 +227,17 @@ public class Pointf {
      * @param p  The {@code Pointf} used for multiplication.
      * @param f1 float value used for multiplication on the {@code x} value.
      * @param f2 float value used for multiplication on the {@code y} value.
-     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and
-     * the float values.
+     * @return Returns a new {@code Pointf} with coordinates equal to the multiplied values from the {@code Pointf} and the float values.
      */
     public static Pointf multiply(Pointf p, float f1, float f2) {
         return new Pointf(p.x * f1, p.y * f2);
     }
 
     /**
-     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a new
-     * {@code Pointf}.
+     * Static method to divide two {@code Pointf} objects (from the parameters specified) together, and return a new {@code Pointf}.
      *
      * @param p1 The first {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
-     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in
-     *           division.
+     * @param p2 The second {@code Pointf} used for division; the {@code Pointf} acting as the second value in division.
      * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the two {@code Pointf}s.
      */
     public static Pointf divide(Pointf p1, Pointf p2) {
@@ -268,8 +249,7 @@ public class Pointf {
      *
      * @param p The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param f float value used for division; the second value used in division.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
-     * float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the float value.
      */
     public static Pointf divide(Pointf p, float f) {
         return new Pointf(p.x / f, p.y / f);
@@ -281,8 +261,7 @@ public class Pointf {
      * @param p  The {@code Pointf} used for division; the {@code Pointf} acting as the first value in division.
      * @param f1 float value used for division; the second value used in division for the {@code x} value.
      * @param f2 float value used for division; the second value used in division for the {@code y} value.
-     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the
-     * float value.
+     * @return Returns a new {@code Pointf} with coordinates equal to the divided values from the {@code Pointf} and the float value.
      */
     public static Pointf divide(Pointf p, float f1, float f2) {
         return new Pointf(p.x / f1, p.y / f2);
@@ -302,8 +281,8 @@ public class Pointf {
     /**
      * Calculates and returns the cross product of the two specified {@code Pointf}s.
      * <p>
-     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two
-     * {@code Pointf}s were 3-dimensional vectors with Z values implicitly set to {@code 0f}.
+     * Unlike calculating the cross product of two 3-dimensional vectors, this cross product calculates as if the two {@code Pointf}s were
+     * 3-dimensional vectors with Z values implicitly set to {@code 0f}.
      *
      * @param p  The first of two {@code Pointf}s to calculate the cross product with.
      * @param p1 The second of two {@code Pointf}s to calculate the cross product with.
@@ -329,8 +308,8 @@ public class Pointf {
     /**
      * Creates a rotated version of the {@code Pointf} based on the provided angle.
      * <p>
-     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not
-     * the origin, use {@link #rotate(float, Pointf)}.
+     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not the origin, use
+     * {@link #rotate(float, Pointf)}.
      *
      * @param p     The point to rotate.
      * @param angle The angle to rotate by, in degrees.
@@ -404,16 +383,16 @@ public class Pointf {
      *
      * @param p  The starting value.
      * @param p1 The ending value.
-     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used
-     *           for linear interpolation of the {@code Pointf}'s {@code x} and {@code y} values.
+     * @param t  The interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used for linear
+     *           interpolation of the {@code Pointf}'s {@code x} and {@code y} values.
      * @return A new {@code Pointf}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
      * @since 1.5.0
      */
     public static Pointf lerp(Pointf p, Pointf p1, float t) {
         return new Pointf(
-                Maths.lerp(p.x, p1.x, t),
-                Maths.lerp(p.y, p1.y, t)
+            Maths.lerp(p.x, p1.x, t),
+            Maths.lerp(p.y, p1.y, t)
         );
     }
 
@@ -422,62 +401,60 @@ public class Pointf {
      *
      * @param p  The starting value.
      * @param p1 The ending value.
-     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used for linear interpolation of the {@code Pointf}'s {@code x} value.
-     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will
-     *           be used for linear interpolation of the {@code Pointf}'s {@code y} value.
+     * @param t1 The first interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used for linear
+     *           interpolation of the {@code Pointf}'s {@code x} value.
+     * @param t2 The second interpolation value to work with (preferably within a range of 0.0 to 1.0). This value will be used for linear
+     *           interpolation of the {@code Pointf}'s {@code y} value.
      * @return A new {@code Pointf}, linearly interpolated as specified.
      * @see Maths#lerp(float, float, float)
      * @since 1.5.0
      */
     public static Pointf lerp(Pointf p, Pointf p1, float t1, float t2) {
         return new Pointf(
-                Maths.lerp(p.x, p1.x, t1),
-                Maths.lerp(p.y, p1.y, t2)
+            Maths.lerp(p.x, p1.x, t1),
+            Maths.lerp(p.y, p1.y, t2)
         );
     }
 
     /**
-     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range,
-     * and the value {@code v}.
+     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range, and the value
+     * {@code v}.
      *
      * @param p  The starting value.
      * @param p1 The ending value.
-     * @param v  The value representing the "result" of linear interpolation between the two {@code Pointf}s. This value
-     *           will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x} and {@code y}
-     *           values.
-     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
-     * x} and {@code y} values.
+     * @param v  The value representing the "result" of linear interpolation between the two {@code Pointf}s. This value will be used to
+     *           calculate inverse linear interpolation for the {@code Pointf}s' {@code x} and {@code y} values.
+     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code x} and {@code y}
+     * values.
      * @see Maths#inverseLerp(float, float, float)
      * @since 1.5.0
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v) {
-        return new float[]{
-                Maths.inverseLerp(p.x, p1.x, v),
-                Maths.inverseLerp(p.y, p1.y, v)
+        return new float[] {
+            Maths.inverseLerp(p.x, p1.x, v),
+            Maths.inverseLerp(p.y, p1.y, v)
         };
     }
 
     /**
-     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range,
-     * and the values {@code v1} and {@code v2}.
+     * Calculates the linear interpolation values based on the provided {@code p} and {@code p1} {@code Pointf} range, and the values
+     * {@code v1} and {@code v2}.
      *
      * @param p  The starting value.
      * @param p1 The ending value.
-     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Pointf}s. This
-     *           value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code x} value.
-     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Pointf}s.
-     *           This value will be used to calculate inverse linear interpolation for the {@code Pointf}s' {@code y}
-     *           value.
-     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code
-     * x} and {@code y} values.
+     * @param v1 The first value representing the "result" of linear interpolation between the two {@code Pointf}s. This value will be used
+     *           to calculate inverse linear interpolation for the {@code Pointf}s' {@code x} value.
+     * @param v2 The second value representing the "result" of linear interpolation between the two {@code Pointf}s. This value will be used
+     *           to calculate inverse linear interpolation for the {@code Pointf}s' {@code y} value.
+     * @return An array of floats containing the resulting inverse linear interpolations of the {@code Pointf}s' {@code x} and {@code y}
+     * values.
      * @see Maths#inverseLerp(float, float, float)
      * @since 1.5.0
      */
     public static float[] inverseLerp(Pointf p, Pointf p1, float v1, float v2) {
-        return new float[]{
-                Maths.inverseLerp(p.x, p1.x, v1),
-                Maths.inverseLerp(p.y, p1.y, v2)
+        return new float[] {
+            Maths.inverseLerp(p.x, p1.x, v1),
+            Maths.inverseLerp(p.y, p1.y, v2)
         };
     }
 
@@ -541,8 +518,7 @@ public class Pointf {
     }
 
     /**
-     * Adds the values of this {@code Pointf} to the specified {@code Pointf}, and returns a new {@code Pointf} with the
-     * modified values.
+     * Adds the values of this {@code Pointf} to the specified {@code Pointf}, and returns a new {@code Pointf} with the modified values.
      *
      * @param p {@code Pointf} to add this {@code Pointf} to.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -555,8 +531,7 @@ public class Pointf {
     }
 
     /**
-     * Adds the values of this {@code Pointf} to the specified float value, and returns a new {@code Pointf} with the
-     * modified values.
+     * Adds the values of this {@code Pointf} to the specified float value, and returns a new {@code Pointf} with the modified values.
      *
      * @param f Value to add this {@code Pointf} to.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -569,8 +544,7 @@ public class Pointf {
     }
 
     /**
-     * Adds the values of this {@code Pointf} to the specified float values, and returns a new {@code Pointf} with the
-     * modified values.
+     * Adds the values of this {@code Pointf} to the specified float values, and returns a new {@code Pointf} with the modified values.
      *
      * @param f1 {@code x} value to add this {@code Pointf} to.
      * @param f2 {@code y} value to add this {@code Pointf} to.
@@ -584,8 +558,8 @@ public class Pointf {
     }
 
     /**
-     * Subtracts the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf}
-     * with the modified values.
+     * Subtracts the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param p {@code Pointf} to subtract this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -598,8 +572,7 @@ public class Pointf {
     }
 
     /**
-     * Subtracts the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with
-     * the modified values.
+     * Subtracts the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with the modified values.
      *
      * @param f Value to subtract this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -612,8 +585,8 @@ public class Pointf {
     }
 
     /**
-     * Subtracts the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
-     * the modified values.
+     * Subtracts the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param f1 {@code x} value to subtract this {@code Pointf} by.
      * @param f2 {@code y} value to subtract this {@code Pointf} by.
@@ -627,8 +600,8 @@ public class Pointf {
     }
 
     /**
-     * Multiplies the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf}
-     * with the modified values.
+     * Multiplies the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param p {@code Pointf} to multiply this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -641,8 +614,8 @@ public class Pointf {
     }
 
     /**
-     * Multiplies the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with
-     * the modified values.
+     * Multiplies the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param f Value to multiply this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -655,8 +628,8 @@ public class Pointf {
     }
 
     /**
-     * Multiplies the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
-     * the modified values.
+     * Multiplies the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param f1 {@code x} value to multiply this {@code Pointf} by.
      * @param f2 {@code y} value to multiply this {@code Pointf} by.
@@ -670,8 +643,8 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with
-     * the modified values.
+     * Divides the values of this {@code Pointf} by the specified {@code Pointf}, and returns a new {@code Pointf} with the modified
+     * values.
      *
      * @param p {@code Pointf} to divide this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -684,8 +657,7 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with the
-     * modified values.
+     * Divides the values of this {@code Pointf} by the specified float value, and returns a new {@code Pointf} with the modified values.
      *
      * @param f Value to divide this {@code Pointf} by.
      * @return Returns this {@code Pointf}, with the modified values.
@@ -698,8 +670,7 @@ public class Pointf {
     }
 
     /**
-     * Divides the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with
-     * the modified values.
+     * Divides the values of this {@code Pointf} by the specified float values, and returns a new {@code Pointf} with the modified values.
      *
      * @param f1 {@code x} value to divide this {@code Pointf} by.
      * @param f2 {@code y} value to divide this {@code Pointf} by.
@@ -715,8 +686,8 @@ public class Pointf {
     /**
      * Rotates the {@code Pointf} based on the provided angle.
      * <p>
-     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not
-     * the origin, use {@link #rotate(float, Pointf)}.
+     * This rotation method rotates about the origin, {@code (0, 0)}. If you need to rotate about a point that is not the origin, use
+     * {@link #rotate(float, Pointf)}.
      *
      * @param angle The angle to rotate by, in degrees.
      * @return The {@code Pointf} with the rotated values.
@@ -737,8 +708,7 @@ public class Pointf {
     /**
      * Rotates the {@code Pointf} based on the provided angle and center point.
      * <p>
-     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use
-     * {@link #rotate(float)}.
+     * This rotation method rotates about the specified {@code center}. If you need to rotate about the origin, use {@link #rotate(float)}.
      *
      * @param angle  The angle to rotate by, in degrees.
      * @param center The point to rotate around.
@@ -773,8 +743,7 @@ public class Pointf {
     /**
      * Calculates and returns the {@code length}, or {@code magnitude}, of the {@code Pointf}.
      *
-     * @return The magnitude, calculated using floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y}
-     * values.
+     * @return The magnitude, calculated using floating-point versions of the {@code Pointf}'s {@link #x} and {@link #y} values.
      */
     public float magnitude() {
         return (float) Math.sqrt((x * x) + (y * y));
@@ -800,8 +769,7 @@ public class Pointf {
     }
 
     /**
-     * Compares the {@code Pointf} with a {@link Point}, and returns whether their {@code x} and {@code y} values are
-     * equal.
+     * Compares the {@code Pointf} with a {@link Point}, and returns whether their {@code x} and {@code y} values are equal.
      *
      * @param other The {@code Point} to compare against.
      * @return Whether the two's {@code x} and {@code y} values are equal.
@@ -842,8 +810,8 @@ public class Pointf {
     @Override
     public String toString() {
         return "Pointf{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+            "x=" + x +
+            ", y=" + y +
+            '}';
     }
 }

@@ -1,9 +1,8 @@
 package tech.fastj.examples.behaviors;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
 import tech.fastj.graphics.game.GameObject;
-
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 
 public class SimpleMovementBehavior implements Behavior {

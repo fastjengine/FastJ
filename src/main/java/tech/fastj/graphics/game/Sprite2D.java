@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class Sprite2D extends GameObject implements Animated<SpriteAnimationData> {
+public class Sprite2D extends GameObject implements Animated<SpriteAnimationData, Sprite2D> {
 
     public static final int DefaultStartingFrame = 0;
     public static final int DefaultAnimationFPS = 12;
@@ -32,11 +32,11 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     public static final String NoAnimation = "No Current Animation";
 
     private static final Map<String, SpriteAnimationData> NoAnimationsLoaded = Map.of(
-            NoAnimation, new SpriteAnimationData(NoAnimation, AnimationStyle.Static, 0, 0)
+        NoAnimation, new SpriteAnimationData(NoAnimation, AnimationStyle.Static, 0, 0)
     );
 
     private static final BufferedImage[] NoSpritesLoaded = {
-            ImageUtil.createBufferedImage(16, 16)
+        ImageUtil.createBufferedImage(16, 16)
     };
 
     private final Map<String, SpriteAnimationData> animationDataMap;
@@ -56,9 +56,9 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
         if (this.animationDataMap.isEmpty()) {
             animationDataMap.putAll(NoAnimationsLoaded);
             Log.warn(
-                    Sprite2D.class,
-                    "No animations were loaded from Sprite2D created from resource at path \"{}\".",
-                    spritesResource.getPath().toAbsolutePath()
+                Sprite2D.class,
+                "No animations were loaded from Sprite2D created from resource at path \"{}\".",
+                spritesResource.getPath().toAbsolutePath()
             );
         }
 
@@ -117,8 +117,8 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     public Sprite2D setCurrentAnimation(String currentAnimation) {
         if (currentAnimation == null || animationDataMap.get(currentAnimation) == null) {
             throw new IllegalArgumentException(
-                    "Could not find an animation named " + currentAnimation
-                            + " in animation from \"" + spritesResource.getPath().toAbsolutePath() + "\"."
+                "Could not find an animation named " + currentAnimation
+                    + " in animation from \"" + spritesResource.getPath().toAbsolutePath() + "\"."
             );
         } else {
             this.currentAnimation = currentAnimation;
@@ -159,15 +159,15 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
 
         if (this.paused && !paused) {
             animationEvent = new AnimationPlayEvent<>(
-                    this,
-                    animationDataMap.get(currentAnimation),
-                    (int) currentFrame
+                this,
+                animationDataMap.get(currentAnimation),
+                (int) currentFrame
             );
         } else if (!this.paused && paused) {
             animationEvent = new AnimationPauseEvent<>(
-                    this,
-                    animationDataMap.get(currentAnimation),
-                    (int) currentFrame
+                this,
+                animationDataMap.get(currentAnimation),
+                (int) currentFrame
             );
         }
 
@@ -193,11 +193,11 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                 if (needsAnimationSwitch.getKey().test(this)) {
                     SpriteAnimationData nextAnimationData = needsAnimationSwitch.getValue();
                     AnimationChangeEvent<SpriteAnimationData, Sprite2D> animationChangeEvent = new AnimationChangeEvent<>(
-                            this,
-                            currentAnimationData,
-                            (int) currentFrame,
-                            nextAnimationData,
-                            nextAnimationData.getFirstFrame()
+                        this,
+                        currentAnimationData,
+                        (int) currentFrame,
+                        nextAnimationData,
+                        nextAnimationData.getFirstFrame()
                     );
                     currentAnimation = nextAnimationData.getAnimationName();
                     currentFrame = nextAnimationData.getFirstFrame();
@@ -212,8 +212,8 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                     if ((int) nextFrame > currentAnimationData.getLastFrame()) {
                         nextFrame = currentAnimationData.getFirstFrame();
                         AnimationLoopEvent<SpriteAnimationData, Sprite2D> animationLoopEvent = new AnimationLoopEvent<>(
-                                this,
-                                currentAnimationData
+                            this,
+                            currentAnimationData
                         );
                         FastJEngine.getGameLoop().fireEvent(animationLoopEvent);
                     }
@@ -234,10 +234,10 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
 
             if ((int) nextFrame > (int) currentFrame) {
                 animationFlipEvent = new AnimationFlipEvent<>(
-                        this,
-                        currentAnimationData,
-                        (int) currentFrame,
-                        (int) nextFrame
+                    this,
+                    currentAnimationData,
+                    (int) currentFrame,
+                    (int) nextFrame
                 );
             }
 

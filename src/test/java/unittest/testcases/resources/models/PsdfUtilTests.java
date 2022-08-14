@@ -50,48 +50,48 @@ class PsdfUtilTests {
     private static final BasicStroke expectedHouseWallsOutlineStroke = new BasicStroke(5.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 15f);
     private static final Color expectedHouseWallsOutlineColor = new Color(150, 150, 150, 150);
     private static final Polygon2D expectedHouseWalls = Polygon2D.create(expectedHouseWallsMesh)
-            .withRenderStyle(expectedHouseWallsRenderStyle)
-            .withOutline(expectedHouseWallsOutlineStroke, expectedHouseWallsOutlineColor)
-            .build();
+        .withRenderStyle(expectedHouseWallsRenderStyle)
+        .withOutline(expectedHouseWallsOutlineStroke, expectedHouseWallsOutlineColor)
+        .build();
     private static final RadialGradientPaint expectedHouseWallsGradient = Gradients.radialGradient(expectedHouseWalls)
-            .withColor(Color.magenta)
-            .withColor(Color.lightGray)
-            .build();
+        .withColor(Color.magenta)
+        .withColor(Color.lightGray)
+        .build();
 
     private static final Pointf[] expectedHouseRoofMesh = {
-            new Pointf(15f, 25f),
-            new Pointf(50f, 20f),
-            new Pointf(85f, 25f)
+        new Pointf(15f, 25f),
+        new Pointf(50f, 20f),
+        new Pointf(85f, 25f)
     };
     private static final RenderStyle expectedHouseRoofRenderStyle = RenderStyle.Outline;
     private static final BasicStroke expectedHouseRoofOutlineStroke = new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0.0f);
     private static final Polygon2D expectedHouseRoof = Polygon2D.create(expectedHouseRoofMesh)
-            .withRenderStyle(expectedHouseRoofRenderStyle)
-            .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
-            .build();
+        .withRenderStyle(expectedHouseRoofRenderStyle)
+        .withOutline(expectedHouseRoofOutlineStroke, Polygon2D.DefaultOutlineColor)
+        .build();
     private static final LinearGradientPaint expectedHouseRoofGradient = Gradients.linearGradient(expectedHouseRoof, Boundary.TopLeft, Boundary.BottomRight)
-            .withColor(Color.blue)
-            .withColor(Color.cyan)
-            .withColor(Color.yellow)
-            .withColor(Color.black)
-            .withColor(Color.red)
-            .withColor(Color.darkGray)
-            .withColor(Color.orange)
-            .withColor(Color.white)
-            .build();
+        .withColor(Color.blue)
+        .withColor(Color.cyan)
+        .withColor(Color.yellow)
+        .withColor(Color.black)
+        .withColor(Color.red)
+        .withColor(Color.darkGray)
+        .withColor(Color.orange)
+        .withColor(Color.white)
+        .build();
 
     private static final Pointf[] expectedHouseDoorMesh = DrawUtil.createBox(20f, 35f, 15f);
     private static final BasicStroke expectedHouseDoorOutlineStroke = new BasicStroke(25.13f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 0.0f);
     private static final Color expectedHouseDoorOutlineColor = new Color(40, 200, 0, 1);
     private static final Polygon2D expectedHouseDoor = Polygon2D.create(expectedHouseDoorMesh)
-            .withOutline(expectedHouseDoorOutlineStroke, expectedHouseDoorOutlineColor)
-            .build();
+        .withOutline(expectedHouseDoorOutlineStroke, expectedHouseDoorOutlineColor)
+        .build();
     private static final Color expectedHouseDoorGradient = new Color(88, 243, 240, 226);
 
     private static final Polygon2D[] expectedHouseArray = {
-            expectedHouseWalls.setFill(expectedHouseWallsGradient),
-            expectedHouseRoof.setFill(expectedHouseRoofGradient),
-            expectedHouseDoor.setFill(expectedHouseDoorGradient)
+        expectedHouseWalls.setFill(expectedHouseWallsGradient),
+        expectedHouseRoof.setFill(expectedHouseRoofGradient),
+        expectedHouseDoor.setFill(expectedHouseDoorGradient)
     };
     private static final Model2D expectedHouse = Model2D.create(expectedHouseArray, false).build();
 
@@ -121,38 +121,38 @@ class PsdfUtilTests {
     @Order(1)
     void checkWritePsdf_fileShouldMatchExpectedContent() throws IOException {
         List<String> expectedContent = List.of(
-                "amt 3",
-                "rs filloutline",
-                "rg 50.0 50.0 25.0 255 0 255 255 192 192 192 255",
-                "otls 5.5 1 0 15.0",
-                "otlc 150 150 150 150",
-                "tfm 0.0 0.0 0.0 1.0 1.0",
-                "sr true",
-                "p 25.0 25.0",
-                "p 75.0 25.0",
-                "p 75.0 75.0",
-                "p 25.0 75.0 ;",
-                "",
-                "rs outline",
-                "lg 15.0 20.0 85.0 25.0 0 0 255 255 0 255 255 255 255 255 0 255 0 0 0 255 255 0 0 255 64 64 64 255 255 200 0 255 255 255 255 255",
-                "otls 1.0 0 2 0.0",
-                "otlc 0 0 0 255",
-                "tfm 0.0 0.0 0.0 1.0 1.0",
-                "sr true",
-                "p 15.0 25.0",
-                "p 50.0 20.0",
-                "p 85.0 25.0 ;",
-                "",
-                "rs fill",
-                "c 88 243 240 226",
-                "otls 25.13 2 1 0.0",
-                "otlc 40 200 0 1",
-                "tfm 0.0 0.0 0.0 1.0 1.0",
-                "sr true",
-                "p 20.0 35.0",
-                "p 35.0 35.0",
-                "p 35.0 50.0",
-                "p 20.0 50.0 ;"
+            "amt 3",
+            "rs filloutline",
+            "rg 50.0 50.0 25.0 255 0 255 255 192 192 192 255",
+            "otls 5.5 1 0 15.0",
+            "otlc 150 150 150 150",
+            "tfm 0.0 0.0 0.0 1.0 1.0",
+            "sr true",
+            "p 25.0 25.0",
+            "p 75.0 25.0",
+            "p 75.0 75.0",
+            "p 25.0 75.0 ;",
+            "",
+            "rs outline",
+            "lg 15.0 20.0 85.0 25.0 0 0 255 255 0 255 255 255 255 255 0 255 0 0 0 255 255 0 0 255 64 64 64 255 255 200 0 255 255 255 255 255",
+            "otls 1.0 0 2 0.0",
+            "otlc 0 0 0 255",
+            "tfm 0.0 0.0 0.0 1.0 1.0",
+            "sr true",
+            "p 15.0 25.0",
+            "p 50.0 20.0",
+            "p 85.0 25.0 ;",
+            "",
+            "rs fill",
+            "c 88 243 240 226",
+            "otls 25.13 2 1 0.0",
+            "otlc 40 200 0 1",
+            "tfm 0.0 0.0 0.0 1.0 1.0",
+            "sr true",
+            "p 20.0 35.0",
+            "p 35.0 35.0",
+            "p 35.0 50.0",
+            "p 20.0 50.0 ;"
         );
 
         ModelUtil.writeModel(pathToModel, expectedHouse);
@@ -178,8 +178,8 @@ class PsdfUtilTests {
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> ModelUtil.loadModel(pathToTempFile));
 
         String expectedExceptionMessage = "Unsupported file extension \"txt\"."
-                + System.lineSeparator()
-                + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString;
+            + System.lineSeparator()
+            + "This engine only supports files of the following extensions: " + SupportedModelFormats.ValuesString;
         assertEquals(expectedExceptionMessage, exception.getMessage(), "The thrown exception's message should match the expected exception message.");
     }
 

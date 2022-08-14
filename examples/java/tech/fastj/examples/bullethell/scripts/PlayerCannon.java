@@ -1,22 +1,20 @@
 package tech.fastj.examples.bullethell.scripts;
 
 import tech.fastj.engine.FastJEngine;
-import tech.fastj.math.Pointf;
+import tech.fastj.examples.bullethell.scenes.GameScene;
+import tech.fastj.examples.bullethell.util.Tags;
+import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.game.GameObject;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.util.DrawUtil;
-
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.Keys;
+import tech.fastj.math.Pointf;
 import tech.fastj.systems.behaviors.Behavior;
 
 import java.awt.Color;
 import java.util.Objects;
-
-import tech.fastj.examples.bullethell.scenes.GameScene;
-import tech.fastj.examples.bullethell.util.Tags;
-import tech.fastj.gameloop.CoreLoopState;
 
 public class PlayerCannon implements Behavior {
 
@@ -52,9 +50,9 @@ public class PlayerCannon implements Behavior {
         Pointf[] bulletMesh = DrawUtil.createBox(cannonFront, BulletSize);
 
         Polygon2D bullet = (Polygon2D) Polygon2D.fromPoints(bulletMesh)
-                .setFill(Color.red)
-                .addLateBehavior(bulletMovementScript, gameScene)
-                .<GameObject>addTag(Tags.Bullet);
+            .setFill(Color.red)
+            .addLateBehavior(bulletMovementScript, gameScene)
+            .<GameObject>addTag(Tags.Bullet);
 
         gameScene.drawableManager().addGameObject(bullet);
         bulletCount++;

@@ -181,14 +181,14 @@ class PointTests {
     @Test
     void checkArithmeticChaining_withPointObjectsAndIntegerValues() {
         Point pt = Point.origin()
-                .add(2)                                // (2, 2)
-                .add(new Point(3))                 // (5, 5)
-                .multiply(new Point(3, 4))  // (15, 20)
-                .multiply(2)                           // (30, 40)
-                .subtract(15)                          // (15, 25)
-                .subtract(new Point(-5, 5)) // (20, 20)
-                .divide(new Point(2))              // (10, 10)
-                .divide(2);                            // (5, 5)
+            .add(2)                                // (2, 2)
+            .add(new Point(3))                 // (5, 5)
+            .multiply(new Point(3, 4))  // (15, 20)
+            .multiply(2)                           // (30, 40)
+            .subtract(15)                          // (15, 25)
+            .subtract(new Point(-5, 5)) // (20, 20)
+            .divide(new Point(2))              // (10, 10)
+            .divide(2);                            // (5, 5)
 
         assertEquals(5, pt.x, "The x value of the Point should equal 5.");
         assertEquals(5, pt.y, "The y value of the Point should equal 5.");
@@ -467,7 +467,6 @@ class PointTests {
 
         assertTrue(pt.intersects(pathg), "Point should intersect with GeneralPath.");
     }
-
 
     @Test
     void static_checkPointAddition_withIntegerValue() {

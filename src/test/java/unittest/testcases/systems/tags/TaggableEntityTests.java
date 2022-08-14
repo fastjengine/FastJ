@@ -2,8 +2,8 @@ package unittest.testcases.systems.tags;
 
 import tech.fastj.systems.tags.TaggableEntity;
 
-import unittest.mock.systems.tags.MockTaggableEntity;
 import org.junit.jupiter.api.Test;
+import unittest.mock.systems.tags.MockTaggableEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -19,11 +19,12 @@ class TaggableEntityTests {
         int expectedTagAmount = 3;
 
         TaggableEntity entity = new MockTaggableEntity()
-                .addTag(expectedTag1)
-                .addTag(expectedTag2)
-                .addTag(expectedTag3);
+            .addTag(expectedTag1)
+            .addTag(expectedTag2)
+            .addTag(expectedTag3);
 
-        assertEquals(expectedTagAmount, entity.getTags().size(), "There should be the correct number of tags present in the taggable entity.");
+        assertEquals(expectedTagAmount, entity.getTags()
+            .size(), "There should be the correct number of tags present in the taggable entity.");
         assertTrue(entity.hasTag(expectedTag1), "The taggable entity should have the first tag it was assigned.");
         assertTrue(entity.hasTag(expectedTag2), "The taggable entity should have the second tag it was assigned.");
         assertTrue(entity.hasTag(expectedTag3), "The taggable entity should have the third tag it was assigned.");
@@ -37,14 +38,15 @@ class TaggableEntityTests {
         int expectedTagAmountAfterRemoval = 0;
 
         TaggableEntity entity = new MockTaggableEntity()
-                .addTag(expectedTag1)
-                .addTag(expectedTag2)
-                .addTag(expectedTag3)
-                .removeTag(expectedTag1)
-                .removeTag(expectedTag2)
-                .removeTag(expectedTag3);
+            .addTag(expectedTag1)
+            .addTag(expectedTag2)
+            .addTag(expectedTag3)
+            .removeTag(expectedTag1)
+            .removeTag(expectedTag2)
+            .removeTag(expectedTag3);
 
-        assertEquals(expectedTagAmountAfterRemoval, entity.getTags().size(), "There should be the correct number of tags present in the taggable entity.");
+        assertEquals(expectedTagAmountAfterRemoval, entity.getTags()
+            .size(), "There should be the correct number of tags present in the taggable entity.");
         assertFalse(entity.hasTag(expectedTag1), "The taggable entity should no longer have the first tag it was assigned.");
         assertFalse(entity.hasTag(expectedTag2), "The taggable entity should no longer have the second tag it was assigned.");
         assertFalse(entity.hasTag(expectedTag3), "The taggable entity should no longer have the third tag it was assigned.");
@@ -58,12 +60,13 @@ class TaggableEntityTests {
         int expectedTagAmountAfterRemoval = 0;
 
         TaggableEntity entity = new MockTaggableEntity()
-                .addTag(expectedTag1)
-                .addTag(expectedTag2)
-                .addTag(expectedTag3);
+            .addTag(expectedTag1)
+            .addTag(expectedTag2)
+            .addTag(expectedTag3);
         entity.clearTags();
 
-        assertEquals(expectedTagAmountAfterRemoval, entity.getTags().size(), "There should be the correct number of tags present in the taggable entity.");
+        assertEquals(expectedTagAmountAfterRemoval, entity.getTags()
+            .size(), "There should be the correct number of tags present in the taggable entity.");
         assertFalse(entity.hasTag(expectedTag1), "The taggable entity should no longer have the first tag it was assigned.");
         assertFalse(entity.hasTag(expectedTag2), "The taggable entity should no longer have the second tag it was assigned.");
         assertFalse(entity.hasTag(expectedTag3), "The taggable entity should no longer have the third tag it was assigned.");
@@ -77,14 +80,14 @@ class TaggableEntityTests {
         String secondEndingTag = "g";
 
         TaggableEntity taggableEntity1 = new MockTaggableEntity()
-                .addTag(sharedTag1)
-                .addTag(sharedTag2)
-                .addTag(firstEndingTag);
+            .addTag(sharedTag1)
+            .addTag(sharedTag2)
+            .addTag(firstEndingTag);
 
         TaggableEntity taggableEntity2 = new MockTaggableEntity()
-                .addTag(sharedTag1)
-                .addTag(sharedTag2)
-                .addTag(secondEndingTag);
+            .addTag(sharedTag1)
+            .addTag(sharedTag2)
+            .addTag(secondEndingTag);
 
         int expectedComparisonDifference = String.CASE_INSENSITIVE_ORDER.compare(firstEndingTag, secondEndingTag);
 
@@ -98,8 +101,8 @@ class TaggableEntityTests {
         String tag2 = "bbbbbbbbbbbbc" + MockTaggableEntity.generateTag();
 
         TaggableEntity taggableEntity1 = new MockTaggableEntity()
-                .addTag(tag1)
-                .addTag(tag2);
+            .addTag(tag1)
+            .addTag(tag2);
 
         TaggableEntity taggableEntity2 = new MockTaggableEntity();
 
@@ -115,12 +118,12 @@ class TaggableEntityTests {
         String sharedTag2 = "bbbbbbbbbbbbc" + MockTaggableEntity.generateTag();
 
         TaggableEntity taggableEntity1 = new MockTaggableEntity()
-                .addTag(sharedTag1)
-                .addTag(sharedTag2);
+            .addTag(sharedTag1)
+            .addTag(sharedTag2);
 
         TaggableEntity taggableEntity2 = new MockTaggableEntity()
-                .addTag(sharedTag1)
-                .addTag(sharedTag2);
+            .addTag(sharedTag1)
+            .addTag(sharedTag2);
 
         int expectedComparisonDifference = 0;
 

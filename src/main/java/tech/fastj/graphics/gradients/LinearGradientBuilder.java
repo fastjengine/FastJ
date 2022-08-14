@@ -41,8 +41,7 @@ public class LinearGradientBuilder implements GradientBuilder {
     }
 
     /**
-     * Sets the starting and ending points for the resulting gradient, based on the provided {@link Drawable} and {@link
-     * Boundary} values.
+     * Sets the starting and ending points for the resulting gradient, based on the provided {@link Drawable} and {@link Boundary} values.
      *
      * @param drawable The basis for what the {@code start} and {@code end} end positions evaluate to.
      * @param start    The starting boundary to create the gradient from.
@@ -90,8 +89,7 @@ public class LinearGradientBuilder implements GradientBuilder {
      * <p>
      * The amount of colors used in a {@link LinearGradientBuilder} cannot exceed {@link Gradients#MaximumColorCount}.
      *
-     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8
-     *               colors.
+     * @param colors The {@code Color}s being added. This parameter must not cause the builder to increase over 8 colors.
      * @return The {@code LinearGradientBuilder}, for method chaining.
      */
     public LinearGradientBuilder withColors(Color... colors) {

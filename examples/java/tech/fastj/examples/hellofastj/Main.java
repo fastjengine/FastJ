@@ -1,7 +1,6 @@
 package tech.fastj.examples.hellofastj;
 
 import tech.fastj.engine.FastJEngine;
-
 import tech.fastj.systems.control.SimpleManager;
 
 public class Main extends SimpleManager {

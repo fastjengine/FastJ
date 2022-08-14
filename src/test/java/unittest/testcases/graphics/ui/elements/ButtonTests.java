@@ -7,9 +7,9 @@ import tech.fastj.math.Pointf;
 import tech.fastj.math.Transform2D;
 import tech.fastj.systems.control.SimpleManager;
 
+import org.junit.jupiter.api.Test;
 import unittest.mock.systems.control.MockEmptySimpleManager;
 import unittest.mock.systems.control.MockNameSettingScene;
-import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;

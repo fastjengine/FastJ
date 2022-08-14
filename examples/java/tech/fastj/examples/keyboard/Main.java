@@ -2,12 +2,11 @@ package tech.fastj.examples.keyboard;
 
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.display.FastJCanvas;
-
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
+import tech.fastj.input.keyboard.Keys;
 import tech.fastj.input.keyboard.events.KeyboardStateEvent;
 import tech.fastj.input.keyboard.events.KeyboardTypedEvent;
-import tech.fastj.input.keyboard.Keys;
 import tech.fastj.systems.control.SimpleManager;
 
 import java.util.Set;
