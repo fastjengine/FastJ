@@ -4,7 +4,7 @@
  * <p>
  * Events integrated with FastJ:
  * <ul>
- *     <li>{@link tech.fastj.animation.sprite.SpriteAnimationEngine Sprite Animation}</li>
+ *     <li>{@link tech.fastj.animation.sprite.SpriteAnimEngine Sprite Animation}</li>
  *     <li>{@link tech.fastj.graphics.display.SimpleDisplay Display}</li>
  *     <li>{@link tech.fastj.systems.audio.Audio Audio}</li>
  *     <li>

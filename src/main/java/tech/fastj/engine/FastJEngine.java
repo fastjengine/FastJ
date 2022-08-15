@@ -3,7 +3,7 @@ package tech.fastj.engine;
 import tech.fastj.animation.Animated;
 import tech.fastj.animation.AnimationData;
 import tech.fastj.animation.AnimationEngine;
-import tech.fastj.animation.sprite.SpriteAnimationEngine;
+import tech.fastj.animation.sprite.SpriteAnimEngine;
 import tech.fastj.engine.config.EngineConfig;
 import tech.fastj.engine.config.ExceptionAction;
 import tech.fastj.engine.internals.ThreadFixer;
@@ -290,7 +290,7 @@ public class FastJEngine {
     }
 
     private static void addDefaultAnimationEngines() {
-        addAnimationEngine(new SpriteAnimationEngine(), Sprite2D.class);
+        addAnimationEngine(new SpriteAnimEngine(), Sprite2D.class);
     }
 
     /**
@@ -640,7 +640,7 @@ public class FastJEngine {
      * @param <T>             The animated type.
      */
     @SuppressWarnings("unchecked")
-    public static <TD extends AnimationData<TD, T>, T extends Animated<TD, T>> void addAnimationEngine(AnimationEngine<TD, T> animationEngine, Class<T> animationClass) {
+    public static <T extends Animated<T, TD>, TD extends AnimationData<T, TD>> void addAnimationEngine(AnimationEngine<T, TD> animationEngine, Class<T> animationClass) {
         AnimationEngines.put((Class<Animated<?, ?>>) animationClass, animationEngine);
     }
 
@@ -653,8 +653,8 @@ public class FastJEngine {
      * @throws IllegalStateException if no animation engine is found for the specified animation class.
      */
     @SuppressWarnings("unchecked")
-    public static <TD extends AnimationData<TD, T>, T extends Animated<TD, T>> AnimationEngine<TD, T> getAnimationEngine(Class<T> animationClass) {
-        return (AnimationEngine<TD, T>) AnimationEngines.computeIfAbsent((Class<Animated<?, ?>>) animationClass, aClass -> {
+    public static <T extends Animated<T, TD>, TD extends AnimationData<T, TD>> AnimationEngine<T, TD> getAnimationEngine(Class<T> animationClass) {
+        return (AnimationEngine<T, TD>) AnimationEngines.computeIfAbsent((Class<Animated<?, ?>>) animationClass, aClass -> {
             throw new IllegalStateException("No animation engine was added for the animation type \"" + animationClass.getTypeName() + "\".");
         });
     }

@@ -1,17 +1,17 @@
 package tech.fastj.animation.sprite.event;
 
 import tech.fastj.animation.Animated;
-import tech.fastj.animation.event.AnimationEvent;
-import tech.fastj.animation.sprite.SpriteAnimationData;
+import tech.fastj.animation.AnimationData;
+import tech.fastj.animation.event.AnimEvent;
 
-public class AnimationFlipEvent<TD extends SpriteAnimationData, T extends Animated<TD>> extends AnimationEvent<TD, T> {
+public class SpriteFrameStepEvent<T extends Animated<T, TD>, TD extends AnimationData<T, TD>> extends AnimEvent<T, TD> {
 
     private final T eventSource;
     private final TD animationData;
     private final int oldFrame;
     private final int newFrame;
 
-    public AnimationFlipEvent(T eventSource, TD animationData, int oldFrame, int newFrame) {
+    public SpriteFrameStepEvent(T eventSource, TD animationData, int oldFrame, int newFrame) {
         this.eventSource = eventSource;
         this.animationData = animationData;
         this.oldFrame = oldFrame;

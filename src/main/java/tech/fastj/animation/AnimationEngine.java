@@ -3,7 +3,7 @@ package tech.fastj.animation;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AnimationEngine<TD extends AnimationData, T extends Animated<TD>> {
+public abstract class AnimationEngine<T extends Animated<T, TD>, TD extends AnimationData<T, TD>> {
 
     protected final List<T> animatedObjects;
 

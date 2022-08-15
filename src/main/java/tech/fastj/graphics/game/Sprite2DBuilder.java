@@ -1,6 +1,6 @@
 package tech.fastj.graphics.game;
 
-import tech.fastj.animation.sprite.SpriteAnimationData;
+import tech.fastj.animation.sprite.SpriteAnimData;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.gameloop.CoreLoopState;
 import tech.fastj.math.Pointf;
@@ -14,7 +14,7 @@ import java.util.Objects;
 public class Sprite2DBuilder {
 
     private final ImageResource spriteResource;
-    private final Map<String, SpriteAnimationData> animationDataMap;
+    private final Map<String, SpriteAnimData> animationDataMap;
     private final boolean shouldRender;
 
     private int startingFrame = Sprite2D.DefaultStartingFrame;
@@ -79,7 +79,7 @@ public class Sprite2DBuilder {
         return this;
     }
 
-    public Sprite2DBuilder withAnimationData(SpriteAnimationData animationData) {
+    public Sprite2DBuilder withAnimationData(SpriteAnimData animationData) {
         assert animationData != null;
         assert animationData.getAnimationName() != null;
 
