@@ -32,7 +32,7 @@ class FastJEngineTests {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
         AtomicBoolean ranAfterUpdate = new AtomicBoolean();
 
-        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(10), () -> {
             FastJEngine.init("yeet", new SimpleManager() {
                 @Override
                 public void init(FastJCanvas canvas) {
@@ -40,18 +40,6 @@ class FastJEngineTests {
                         ranAfterUpdate.set(true);
                         FastJEngine.forceCloseGame();
                     }, CoreLoopState.FixedUpdate);
-                }
-
-                @Override
-                public void fixedUpdate(FastJCanvas canvas) {
-                }
-
-                @Override
-                public void update(FastJCanvas canvas) {
-                }
-
-                @Override
-                public void render(FastJCanvas canvas) {
                 }
             });
 
@@ -67,7 +55,7 @@ class FastJEngineTests {
     void checkRunAfterRender() {
         assumeFalse(EnvironmentHelper.IsEnvironmentHeadless);
 
-        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {
+        assertTimeoutPreemptively(Duration.ofSeconds(10), () -> {
             AtomicBoolean ranAfterRender = new AtomicBoolean();
             FastJEngine.init("yeet", new SimpleManager() {
                 @Override
@@ -76,18 +64,6 @@ class FastJEngineTests {
                         ranAfterRender.set(true);
                         FastJEngine.forceCloseGame();
                     }, CoreLoopState.LateUpdate);
-                }
-
-                @Override
-                public void fixedUpdate(FastJCanvas canvas) {
-                }
-
-                @Override
-                public void update(FastJCanvas canvas) {
-                }
-
-                @Override
-                public void render(FastJCanvas canvas) {
                 }
             });
 
