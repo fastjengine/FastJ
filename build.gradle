@@ -20,7 +20,6 @@ description('An open source, Java-based 2D game engine.')
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
-
 /* ********************* *
  * General Configuration *
  * ********************* */
@@ -34,6 +33,14 @@ java.withJavadocJar()
 javadoc.source(sourceSets.main.allJava)
 javadoc.failOnError(false)
 javadoc.options.links = ['https://docs.oracle.com/en/java/javase/18/docs/api/', 'https://www.slf4j.org/apidocs/']
+javadoc.options.stylesheetFile = file("${projectDir}/src/fastjstyle.css")
+javadoc.doLast {
+    copy {
+        from "${projectDir}"
+        into "${projectDir}/build/docs/javadoc"
+        include "src/jquery-ui.overrides.css"
+    }
+}
 
 sourcesJar.from(sourceSets.main.allSource)
 javadocJar.from(javadoc.destinationDir)
