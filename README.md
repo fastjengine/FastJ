@@ -99,7 +99,7 @@ This library can be found in the following places:
 - The [Releases][Releases] section of this repository.
 
 When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this
-in the jitpack.io or Maven Central link up above). **The current latest version is 1.6.0**.
+in the jitpack.io or Maven Central link up above). **The current latest version is 1.7.0-SNAPSHOT-1**.
 
 A few common dependencies are provided below:
 
@@ -110,7 +110,7 @@ A few common dependencies are provided below:
           url('https://jitpack.io')
       }
   
-      dependencies.implementation('com.github.fastjengine:FastJ:[latest version here]')
+      dependencies.implementation('com.github.fastjengine:FastJ:1.7.0-SNAPSHOT-1')
       ```
     - Kotlin:
       ```kotlin
@@ -118,7 +118,7 @@ A few common dependencies are provided below:
           setUrl("https://jitpack.io")
       }
   
-      dependencies.implementation("com.github.fastjengine:FastJ:[latest version here]")
+      dependencies.implementation("com.github.fastjengine:FastJ:1.7.0-SNAPSHOT-1")
       ```
 - **Maven POM**
   ```xml
@@ -130,7 +130,7 @@ A few common dependencies are provided below:
   <dependency>
     <groupId>com.github.fastjengine</groupId>
     <artifactId>FastJ</artifactId>
-    <version>[latest version here]</version>
+    <version>1.7.0-SNAPSHOT-1</version>
   </dependency>
   ```
 
