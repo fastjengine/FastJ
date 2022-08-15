@@ -2,7 +2,7 @@ package tech.fastj.animation;
 
 import java.util.Map;
 
-public interface Animated<TD extends AnimationData> {
+public interface Animated<T extends Animated<T, TD>, TD extends AnimationData<T, TD>> {
     Map<String, TD> getAnimationDataMap();
 
     default TD getAnimationData(String animationName) {

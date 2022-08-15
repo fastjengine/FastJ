@@ -1,14 +1,14 @@
 package tech.fastj.graphics.game;
 
 import tech.fastj.animation.Animated;
-import tech.fastj.animation.AnimationStyle;
-import tech.fastj.animation.event.AnimationEvent;
-import tech.fastj.animation.sprite.SpriteAnimationData;
-import tech.fastj.animation.sprite.event.AnimationChangeEvent;
-import tech.fastj.animation.sprite.event.AnimationFlipEvent;
-import tech.fastj.animation.sprite.event.AnimationLoopEvent;
-import tech.fastj.animation.sprite.event.AnimationPauseEvent;
-import tech.fastj.animation.sprite.event.AnimationPlayEvent;
+import tech.fastj.animation.event.AnimChangeEvent;
+import tech.fastj.animation.event.AnimEvent;
+import tech.fastj.animation.event.AnimLoopEvent;
+import tech.fastj.animation.event.AnimPauseEvent;
+import tech.fastj.animation.event.AnimPlayEvent;
+import tech.fastj.animation.sprite.SpriteAnimData;
+import tech.fastj.animation.sprite.SpriteAnimStyle;
+import tech.fastj.animation.sprite.event.SpriteFrameStepEvent;
 import tech.fastj.engine.FastJEngine;
 import tech.fastj.graphics.Drawable;
 import tech.fastj.graphics.util.DrawUtil;
@@ -23,7 +23,7 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.Map;
 
-public class Sprite2D extends GameObject implements Animated<SpriteAnimationData, Sprite2D> {
+public class Sprite2D extends GameObject implements Animated<Sprite2D, SpriteAnimData> {
 
     public static final int DefaultStartingFrame = 0;
     public static final int DefaultAnimationFPS = 12;
@@ -31,15 +31,15 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     public static final int DefaultVerticalImageCount = 1;
     public static final String NoAnimation = "No Current Animation";
 
-    private static final Map<String, SpriteAnimationData> NoAnimationsLoaded = Map.of(
-        NoAnimation, new SpriteAnimationData(NoAnimation, AnimationStyle.Static, 0, 0)
+    private static final Map<String, SpriteAnimData> NoAnimationsLoaded = Map.of(
+        NoAnimation, new SpriteAnimData(NoAnimation, SpriteAnimStyle.Static, 0, 0)
     );
 
     private static final BufferedImage[] NoSpritesLoaded = {
         ImageUtil.createBufferedImage(16, 16)
     };
 
-    private final Map<String, SpriteAnimationData> animationDataMap;
+    private final Map<String, SpriteAnimData> animationDataMap;
 
     private final ImageResource spritesResource;
     private BufferedImage[] sprites;
@@ -48,7 +48,7 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     private volatile int animationFPS;
     private volatile boolean paused;
 
-    Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimationData> animationDataMap) {
+    Sprite2D(ImageResource spritesResource, int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimData> animationDataMap) {
         this.spritesResource = spritesResource;
         this.animationDataMap = animationDataMap;
         this.paused = true;
@@ -92,7 +92,7 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
         return create(spriteResourcePath).build();
     }
 
-    public void reloadSpriteResource(int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimationData> animationDataMap) {
+    public void reloadSpriteResource(int horizontalImageCount, int verticalImageCount, Map<String, SpriteAnimData> animationDataMap) {
         resetSpriteSheet(horizontalImageCount, verticalImageCount);
         if (animationDataMap != null) {
             this.animationDataMap.clear();
@@ -134,7 +134,7 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
     }
 
     @Override
-    public Map<String, SpriteAnimationData> getAnimationDataMap() {
+    public Map<String, SpriteAnimData> getAnimationDataMap() {
         return animationDataMap;
     }
 
@@ -155,16 +155,16 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
 
     @Override
     public void setPaused(boolean paused) {
-        AnimationEvent<SpriteAnimationData, Sprite2D> animationEvent = null;
+        AnimEvent<Sprite2D, SpriteAnimData> animEvent = null;
 
         if (this.paused && !paused) {
-            animationEvent = new AnimationPlayEvent<>(
+            animEvent = new AnimPlayEvent<>(
                 this,
                 animationDataMap.get(currentAnimation),
                 (int) currentFrame
             );
         } else if (!this.paused && paused) {
-            animationEvent = new AnimationPauseEvent<>(
+            animEvent = new AnimPauseEvent<>(
                 this,
                 animationDataMap.get(currentAnimation),
                 (int) currentFrame
@@ -173,8 +173,8 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
 
         this.paused = paused;
 
-        if (animationEvent != null) {
-            FastJEngine.getGameLoop().fireEvent(animationEvent);
+        if (animEvent != null) {
+            FastJEngine.getGameLoop().fireEvent(animEvent);
         }
     }
 
@@ -188,11 +188,11 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
             float nextFrame = currentFrame + (deltaTime * animationFPS);
 
             // check if animation needs to be changed
-            SpriteAnimationData currentAnimationData = animationDataMap.get(currentAnimation);
+            SpriteAnimData currentAnimationData = animationDataMap.get(currentAnimation);
             for (var needsAnimationSwitch : currentAnimationData.getNextPossibleAnimations().entrySet()) {
                 if (needsAnimationSwitch.getKey().test(this)) {
-                    SpriteAnimationData nextAnimationData = needsAnimationSwitch.getValue();
-                    AnimationChangeEvent<SpriteAnimationData, Sprite2D> animationChangeEvent = new AnimationChangeEvent<>(
+                    SpriteAnimData nextAnimationData = needsAnimationSwitch.getValue();
+                    AnimChangeEvent<Sprite2D, SpriteAnimData> animChangeEvent = new AnimChangeEvent<>(
                         this,
                         currentAnimationData,
                         (int) currentFrame,
@@ -201,7 +201,7 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                     );
                     currentAnimation = nextAnimationData.getAnimationName();
                     currentFrame = nextAnimationData.getFirstFrame();
-                    FastJEngine.getGameLoop().fireEvent(animationChangeEvent);
+                    FastJEngine.getGameLoop().fireEvent(animChangeEvent);
                     return;
                 }
             }
@@ -211,11 +211,11 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                 case ContinuousLoop: {
                     if ((int) nextFrame > currentAnimationData.getLastFrame()) {
                         nextFrame = currentAnimationData.getFirstFrame();
-                        AnimationLoopEvent<SpriteAnimationData, Sprite2D> animationLoopEvent = new AnimationLoopEvent<>(
+                        AnimLoopEvent<Sprite2D, SpriteAnimData> animLoopEvent = new AnimLoopEvent<>(
                             this,
                             currentAnimationData
                         );
-                        FastJEngine.getGameLoop().fireEvent(animationLoopEvent);
+                        FastJEngine.getGameLoop().fireEvent(animLoopEvent);
                     }
                     break;
                 }
@@ -230,10 +230,10 @@ public class Sprite2D extends GameObject implements Animated<SpriteAnimationData
                 }
             }
 
-            AnimationFlipEvent<SpriteAnimationData, Sprite2D> animationFlipEvent = null;
+            SpriteFrameStepEvent<Sprite2D, SpriteAnimData> animationFlipEvent = null;
 
             if ((int) nextFrame > (int) currentFrame) {
-                animationFlipEvent = new AnimationFlipEvent<>(
+                animationFlipEvent = new SpriteFrameStepEvent<>(
                     this,
                     currentAnimationData,
                     (int) currentFrame,
