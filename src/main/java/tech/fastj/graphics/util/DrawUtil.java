@@ -157,25 +157,18 @@ public final class DrawUtil {
         for (int i = 1, ai = 0; i < pts.length; i++) {
             if (altIndexes[ai].x == i) {
                 switch (altIndexes[ai++].y) {
-                    case Polygon2D.MovePath: {
-                        p.moveTo(pts[i].x, pts[i].y);
-                        break;
-                    }
-                    case Polygon2D.QuadCurve: {
+                    case Polygon2D.MovePath -> p.moveTo(pts[i].x, pts[i].y);
+                    case Polygon2D.QuadCurve -> {
                         p.quadTo(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y);
                         i += 1;
-                        break;
                     }
-                    case Polygon2D.BezierCurve: {
+                    case Polygon2D.BezierCurve -> {
                         p.curveTo(pts[i].x, pts[i].y, pts[i + 1].x, pts[i + 1].y, pts[i + 2].x, pts[i + 2].y);
                         i += 2;
-                        break;
                     }
-                    default: {
-                        throw new UnsupportedOperationException(
-                            "No known path option for " + altIndexes[ai - 1].y + " on index " + i + " of the path."
-                        );
-                    }
+                    default -> throw new UnsupportedOperationException(
+                        "No known path option for " + altIndexes[ai - 1].y + " on index " + i + " of the path."
+                    );
                 }
             } else {
                 p.lineTo(pts[i].x, pts[i].y);
@@ -242,12 +235,12 @@ public final class DrawUtil {
         if (paint1 == paint2) {
             return true;
         }
+
         if (paint1 == null || paint2 == null || paint1.getClass() != paint2.getClass()) {
             return false;
         }
 
-        if (paint1 instanceof RadialGradientPaint) {
-            var radialGradientPaint1 = (RadialGradientPaint) paint1;
+        if (paint1 instanceof RadialGradientPaint radialGradientPaint1) {
             var radialGradientPaint2 = (RadialGradientPaint) paint2;
 
             return radialGradientPaint1.getCenterPoint().equals(radialGradientPaint2.getCenterPoint())
@@ -256,8 +249,7 @@ public final class DrawUtil {
                 && mGradientEquals(radialGradientPaint1, radialGradientPaint2);
         }
 
-        if (paint1 instanceof LinearGradientPaint) {
-            var linearGradientPaint1 = (LinearGradientPaint) paint1;
+        if (paint1 instanceof LinearGradientPaint linearGradientPaint1) {
             var linearGradientPaint2 = (LinearGradientPaint) paint2;
 
             return linearGradientPaint1.getStartPoint().equals(linearGradientPaint2.getStartPoint())
@@ -265,8 +257,7 @@ public final class DrawUtil {
                 && mGradientEquals(linearGradientPaint1, linearGradientPaint2);
         }
 
-        if (paint1 instanceof GradientPaint) {
-            var gradientPaint1 = (GradientPaint) paint1;
+        if (paint1 instanceof GradientPaint gradientPaint1) {
             var gradientPaint2 = (GradientPaint) paint2;
 
             return gradientPaint1.isCyclic() == gradientPaint2.isCyclic()
@@ -277,8 +268,7 @@ public final class DrawUtil {
                 && gradientPaint1.getPoint2().equals(gradientPaint2.getPoint2());
         }
 
-        if (paint1 instanceof TexturePaint) {
-            var texturePaint1 = (TexturePaint) paint1;
+        if (paint1 instanceof TexturePaint texturePaint1) {
             var texturePaint2 = (TexturePaint) paint2;
 
             return texturePaint1.getTransparency() == texturePaint2.getTransparency()
@@ -600,23 +590,17 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO:
-                case PathIterator.SEG_LINETO: {
-                    pointList.add(new Pointf(coords[0], coords[1]));
-                    break;
-                }
-                case PathIterator.SEG_CUBICTO: {
+                case PathIterator.SEG_MOVETO, PathIterator.SEG_LINETO -> pointList.add(new Pointf(coords[0], coords[1]));
+                case PathIterator.SEG_CUBICTO -> {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     pointList.add(new Pointf(coords[2], coords[3]));
                     pointList.add(new Pointf(coords[4], coords[5]));
-                    break;
                 }
-                case PathIterator.SEG_QUADTO: {
+                case PathIterator.SEG_QUADTO -> {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     pointList.add(new Pointf(coords[2], coords[3]));
-                    break;
                 }
-                case PathIterator.SEG_CLOSE: {
+                case PathIterator.SEG_CLOSE -> {
                     return pointList.toArray(new Pointf[0]);
                 }
             }
@@ -641,32 +625,26 @@ public final class DrawUtil {
         PathIterator pi = path.getPathIterator(null);
         while (!pi.isDone()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO: {
+                case PathIterator.SEG_MOVETO -> {
                     pointList.add(new Pointf(coords[0], coords[1]));
                     numSubPaths++;
                     if (numSubPaths > 1) {
                         alternateIndexes.add(new Point(pointList.size() - 1, Polygon2D.MovePath));
                     }
-                    break;
                 }
-                case PathIterator.SEG_LINETO: {
-                    pointList.add(new Pointf(coords[0], coords[1]));
-                    break;
-                }
-                case PathIterator.SEG_CUBICTO: {
+                case PathIterator.SEG_LINETO -> pointList.add(new Pointf(coords[0], coords[1]));
+                case PathIterator.SEG_CUBICTO -> {
                     alternateIndexes.add(new Point(pointList.size(), Polygon2D.BezierCurve));
                     pointList.add(new Pointf(coords[0], coords[1]));
                     pointList.add(new Pointf(coords[2], coords[3]));
                     pointList.add(new Pointf(coords[4], coords[5]));
-                    break;
                 }
-                case PathIterator.SEG_QUADTO: {
+                case PathIterator.SEG_QUADTO -> {
                     alternateIndexes.add(new Point(pointList.size(), Polygon2D.QuadCurve));
                     pointList.add(new Pointf(coords[0], coords[1]));
                     pointList.add(new Pointf(coords[2], coords[3]));
-                    break;
                 }
-                case PathIterator.SEG_CLOSE: {
+                case PathIterator.SEG_CLOSE -> {
                     if (!pi.isDone()) {
                         Log.warn(DrawUtil.class, "tried to close path iterator before done");
                         break;
@@ -694,28 +672,13 @@ public final class DrawUtil {
 
         for (PathIterator pi = path.getPathIterator(null); !pi.isDone(); pi.next()) {
             switch (pi.currentSegment(coords)) {
-                case PathIterator.SEG_MOVETO: {
-                    break;
+                case PathIterator.SEG_MOVETO -> {
                 }
-                case PathIterator.SEG_CLOSE: {
-                    numSubPaths++;
-                    break;
-                }
-                case PathIterator.SEG_LINETO: {
-                    count++;
-                    break;
-                }
-                case PathIterator.SEG_QUADTO: {
-                    count += 2;
-                    break;
-                }
-                case PathIterator.SEG_CUBICTO: {
-                    count += 3;
-                    break;
-                }
-                default: {
-                    throw new IllegalArgumentException("unknown path segment type " + pi.currentSegment(coords));
-                }
+                case PathIterator.SEG_CLOSE -> numSubPaths++;
+                case PathIterator.SEG_LINETO -> count++;
+                case PathIterator.SEG_QUADTO -> count += 2;
+                case PathIterator.SEG_CUBICTO -> count += 3;
+                default -> throw new IllegalArgumentException("unknown path segment type " + pi.currentSegment(coords));
             }
         }
 

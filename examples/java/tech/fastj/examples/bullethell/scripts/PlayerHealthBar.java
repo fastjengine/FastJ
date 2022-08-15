@@ -40,8 +40,7 @@ public class PlayerHealthBar implements Behavior {
 
     @Override
     public void fixedUpdate(GameObject obj) {
-        if (obj instanceof Polygon2D && takenDamage) {
-            Polygon2D polygon2D = (Polygon2D) obj;
+        if (takenDamage && obj instanceof Polygon2D polygon2D) {
             Pointf[] updatedHealthBarMesh = DrawUtil.createBox(new Pointf(25f, 40f), new Pointf(health, 20f));
             polygon2D.modifyPoints(updatedHealthBarMesh, false, false, false);
 

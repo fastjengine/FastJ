@@ -80,15 +80,7 @@ public class DialogUtil {
             dialogConfig.icon()
         );
 
-        switch (result) {
-            case JOptionPane.YES_OPTION: {
-                return true;
-            }
-            case JOptionPane.NO_OPTION:
-            default: {
-                return false;
-            }
-        }
+        return result == JOptionPane.YES_OPTION;
     }
 
     /**

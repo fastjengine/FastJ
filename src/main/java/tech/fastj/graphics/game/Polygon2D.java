@@ -381,25 +381,22 @@ public class Polygon2D extends GameObject {
         g.transform(getTransformation());
 
         switch (renderStyle) {
-            case Fill: {
+            case Fill -> {
                 g.setPaint(fillPaint);
                 g.fill(collisionPath);
-                break;
             }
-            case Outline: {
+            case Outline -> {
                 g.setStroke(outlineStroke);
                 g.setPaint(outlineColor);
                 g.draw(collisionPath);
-                break;
             }
-            case FillAndOutline: {
+            case FillAndOutline -> {
                 g.setPaint(fillPaint);
                 g.fill(collisionPath);
 
                 g.setStroke(outlineStroke);
                 g.setPaint(outlineColor);
                 g.draw(collisionPath);
-                break;
             }
         }
 

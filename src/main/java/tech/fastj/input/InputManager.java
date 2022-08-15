@@ -38,8 +38,8 @@ public class InputManager {
      * @return The list of {@link KeyboardActionListener keyboard action listeners}.
      */
     @SuppressWarnings("unchecked")
-    public List<KeyboardActionListener> getKeyboardActionListeners() {
-        return (List) FastJEngine.getGameLoop().getEventObservers(KeyboardActionEvent.class);
+    public List<? extends KeyboardActionListener> getKeyboardActionListeners() {
+        return (List<? extends KeyboardActionListener>) FastJEngine.getGameLoop().getEventObservers(KeyboardActionEvent.class);
     }
 
     /**
@@ -49,7 +49,7 @@ public class InputManager {
      */
     @SuppressWarnings("unchecked")
     public List<? extends MouseActionListener> getMouseActionListeners() {
-        return (List) FastJEngine.getGameLoop().getEventObservers(MouseActionEvent.class);
+        return (List<? extends MouseActionListener>) FastJEngine.getGameLoop().getEventObservers(MouseActionEvent.class);
     }
 
     /* Key Action Listeners */
