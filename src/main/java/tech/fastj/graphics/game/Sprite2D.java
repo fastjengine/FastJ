@@ -208,7 +208,7 @@ public class Sprite2D extends GameObject implements Animated<Sprite2D, SpriteAni
 
             // otherwise, account for animation style
             switch (currentAnimationData.getAnimationStyle()) {
-                case ContinuousLoop: {
+                case ContinuousLoop -> {
                     if ((int) nextFrame > currentAnimationData.getLastFrame()) {
                         nextFrame = currentAnimationData.getFirstFrame();
                         AnimLoopEvent<Sprite2D, SpriteAnimData> animLoopEvent = new AnimLoopEvent<>(
@@ -217,15 +217,13 @@ public class Sprite2D extends GameObject implements Animated<Sprite2D, SpriteAni
                         );
                         FastJEngine.getGameLoop().fireEvent(animLoopEvent);
                     }
-                    break;
                 }
-                case PlayUntilEnd: {
+                case PlayUntilEnd -> {
                     if ((int) nextFrame >= currentAnimationData.getLastFrame()) {
                         nextFrame = currentAnimationData.getLastFrame();
                     }
-                    break;
                 }
-                case Static: {
+                case Static -> {
                     return;
                 }
             }

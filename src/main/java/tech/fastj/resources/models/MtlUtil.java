@@ -7,6 +7,7 @@ import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.textures.Textures;
 import tech.fastj.graphics.util.DrawUtil;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.resources.files.FileUtil;
@@ -15,9 +16,8 @@ import tech.fastj.resources.images.ImageUtil;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
 import java.awt.Paint;
-import java.awt.RadialGradientPaint;
 import java.awt.TexturePaint;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -47,6 +47,7 @@ public class MtlUtil {
         }
 
         List<String> lines = FileUtil.readFileLines(materialPath);
+
         int materialIndex = lines.indexOf(
             lines.stream()
                 .filter(line -> line.startsWith(ParsingKeys.NewMaterial + " " + materialName))
@@ -55,45 +56,38 @@ public class MtlUtil {
         );
 
         for (int i = materialIndex + 1; i < lines.size(); i++) {
+
             String[] tokens = lines.get(i).split("\\s+");
+
             switch (tokens[0]) {
-                case ParsingKeys.AmbientColor: {
-                    parseColor(
-                        polygon,
-                        Float.parseFloat(tokens[1]),
-                        Float.parseFloat(tokens[2]),
-                        Float.parseFloat(tokens[3]),
-                        isFill
-                    );
-                    break;
-                }
-                case ParsingKeys.Transparency: {
-                    parseColorAlpha(polygon, Float.parseFloat(tokens[1]), isFill);
-                    break;
-                }
-                case ParsingKeys.TextureImage: {
+                case ParsingKeys.AmbientColor -> parseColor(
+                    polygon,
+                    Float.parseFloat(tokens[1]),
+                    Float.parseFloat(tokens[2]),
+                    Float.parseFloat(tokens[3]),
+                    isFill
+                );
+                case ParsingKeys.Transparency -> parseColorAlpha(polygon, Float.parseFloat(tokens[1]), isFill);
+                case ParsingKeys.TextureImage -> {
                     String materialPathString = materialPath.toString();
                     String materialFileName = materialPath.getFileName().toString();
                     Path imagePath = Path.of(materialPathString.substring(0, materialPathString.indexOf(materialFileName)) + tokens[1]);
+
                     parseImageTexture(polygon, imagePath);
-                    break;
                 }
-                case ParsingKeys.NewMaterial: {
+                case ParsingKeys.NewMaterial -> {
                     return;
                 }
-                case ParsingKeys.DiffuseColor:
-                case ParsingKeys.SpecularColor:
-                case ParsingKeys.SpecularExponent:
-                case ParsingKeys.Empty:
-                default: {
-                    break;
+                case ParsingKeys.DiffuseColor, ParsingKeys.SpecularColor, ParsingKeys.SpecularExponent, ParsingKeys.Empty -> {
                 }
+                default -> Log.warn(ObjUtil.class, "Unused parsing key: \"{}\"", tokens[0]);
             }
         }
     }
 
     public static void parseColor(Polygon2D polygon, float red, float green, float blue, boolean isFill) {
         Color color = new Color(red, green, blue);
+
         if (isFill) {
             polygon.setFill(color);
         } else {
@@ -104,6 +98,7 @@ public class MtlUtil {
     public static void parseColorAlpha(Polygon2D polygon, float alpha, boolean isFill) {
         if (isFill) {
             Color color = (Color) polygon.getFill();
+
             polygon.setFill(
                 new Color(
                     color.getRed(),
@@ -114,6 +109,7 @@ public class MtlUtil {
             );
         } else {
             Color color = polygon.getOutlineColor();
+
             polygon.setOutlineColor(
                 new Color(
                     color.getRed(),
@@ -148,18 +144,11 @@ public class MtlUtil {
 
     private static void writeMaterial(StringBuilder fileContents, Polygon2D polygon, Path destinationPath, int materialIndex) {
         switch (polygon.getRenderStyle()) {
-            case Fill: {
-                writeFillMaterial(fileContents, polygon, destinationPath, materialIndex);
-                break;
-            }
-            case Outline: {
-                writeOutlineMaterial(fileContents, polygon, materialIndex);
-                break;
-            }
-            case FillAndOutline: {
+            case Fill -> writeFillMaterial(fileContents, polygon, destinationPath, materialIndex);
+            case Outline -> writeOutlineMaterial(fileContents, polygon, materialIndex);
+            case FillAndOutline -> {
                 writeFillMaterial(fileContents, polygon, destinationPath, materialIndex);
                 writeOutlineMaterial(fileContents, polygon, materialIndex);
-                break;
             }
         }
     }
@@ -172,12 +161,13 @@ public class MtlUtil {
             .append(LineSeparator);
 
         Paint material = polygon.getFill();
-        if (material instanceof LinearGradientPaint || material instanceof RadialGradientPaint) {
+
+        if (material instanceof MultipleGradientPaint) {
             writeGradientMaterial(fileContents, polygon, destinationPath, materialIndex);
-        } else if (material instanceof Color) {
-            writeColorMaterial(fileContents, (Color) material);
-        } else if (material instanceof TexturePaint) {
-            writeTextureMaterial(fileContents, (TexturePaint) material, destinationPath, materialIndex);
+        } else if (material instanceof Color color) {
+            writeColorMaterial(fileContents, color);
+        } else if (material instanceof TexturePaint texturePaint) {
+            writeTextureMaterial(fileContents, texturePaint, destinationPath, materialIndex);
         } else {
             FastJEngine.error(
                 CrashMessages.UnimplementedMethodError.errorMessage,
@@ -196,6 +186,7 @@ public class MtlUtil {
             .append("Polygon2D_material_outline_")
             .append(materialIndex)
             .append(LineSeparator);
+
         writeColorMaterial(fileContents, polygon.getOutlineColor());
     }
 
@@ -203,13 +194,18 @@ public class MtlUtil {
         writeDefaultColorValues(fileContents);
 
         int extensionIndex = destinationPath.toString().indexOf(FileUtil.getFileExtension(destinationPath));
-        Path texturePath = Path.of(destinationPath.toString().substring(0, extensionIndex - 1)
-            .replace(' ', '_') + "_gradient_" + materialIndex + ".png");
+        Path texturePath = Path.of(
+            destinationPath.toString()
+                .substring(0, extensionIndex - 1)
+                .replace(' ', '_')
+                + "_gradient_" + materialIndex + ".png"
+        );
 
         Pointf polygonSize = Pointf.subtract(polygon.getBound(Boundary.BottomRight), polygon.getBound(Boundary.TopLeft)).multiply(2f);
         BufferedImage bufferedImage = ImageUtil.createBufferedImage((int) (polygonSize.x / 2) + 1, (int) (polygonSize.y / 2) + 1);
 
         Graphics2D graphics2D = bufferedImage.createGraphics();
+
         graphics2D.setPaint(polygon.getFill());
         graphics2D.translate(-bufferedImage.getWidth(), -bufferedImage.getHeight());
         graphics2D.fillRect(0, 0, (int) polygonSize.x + 1, (int) polygonSize.y + 1);
@@ -219,6 +215,7 @@ public class MtlUtil {
 
         String texturePathString = texturePath.toString();
         Path shortenedTexturePath = Path.of(texturePathString.substring(texturePathString.lastIndexOf(File.separator) + 1));
+
         fileContents.append(ParsingKeys.TextureImage)
             .append(' ')
             .append(shortenedTexturePath)
@@ -230,8 +227,10 @@ public class MtlUtil {
         writeDefaultColorValues(fileContents);
 
         Path texturePath;
+
         try {
             texturePath = FastJEngine.getResourceManager(ImageResource.class).tryFindPathOfResource(material.getImage()).toAbsolutePath();
+
             if (texturePath.toString().contains("\\s+")) {
                 throw new IllegalStateException("The file path for a texture image in .mtl cannot contain whitespace.");
             }
@@ -243,6 +242,7 @@ public class MtlUtil {
 
         String texturePathString = texturePath.toString();
         Path shortenedTexturePath = Path.of(texturePathString.substring(texturePathString.lastIndexOf(File.separator) + 1));
+
         fileContents.append(ParsingKeys.TextureImage)
             .append(' ')
             .append(shortenedTexturePath)
@@ -259,6 +259,7 @@ public class MtlUtil {
             .append(' ')
             .append(String.format("%6f", 1f))
             .append(LineSeparator);
+
         fileContents.append(ParsingKeys.DiffuseColor)
             .append(' ')
             .append(String.format("%6f", 1f))
@@ -267,11 +268,14 @@ public class MtlUtil {
             .append(' ')
             .append(String.format("%6f", 1f))
             .append(LineSeparator);
+
         writeSpecularValues(fileContents);
+
         fileContents.append(ParsingKeys.Transparency)
             .append(' ')
             .append(String.format("%6f", 1f))
             .append(LineSeparator);
+
         fileContents.append(ParsingKeys.IlluminationMode)
             .append(' ')
             .append(1)
@@ -287,6 +291,7 @@ public class MtlUtil {
             .append(' ')
             .append(String.format("%6f", Maths.normalize(colorMaterial.getBlue(), 0f, 255f)))
             .append(LineSeparator);
+
         fileContents.append(ParsingKeys.DiffuseColor)
             .append(' ')
             .append(String.format("%6f", Maths.normalize(colorMaterial.getRed(), 0f, 255f)))
@@ -302,6 +307,7 @@ public class MtlUtil {
             .append(' ')
             .append(String.format("%6f", Maths.normalize(colorMaterial.getAlpha(), 0f, 255f)))
             .append(LineSeparator);
+
         fileContents.append(ParsingKeys.IlluminationMode)
             .append(' ')
             .append(1)
@@ -318,6 +324,7 @@ public class MtlUtil {
             .append(' ')
             .append(String.format("%6f", 0f))
             .append(LineSeparator);
+
         fileContents.append(ParsingKeys.SpecularExponent)
             .append(' ')
             .append(String.format("%6f", 1f))

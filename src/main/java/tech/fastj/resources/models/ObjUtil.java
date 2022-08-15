@@ -5,6 +5,7 @@ import tech.fastj.graphics.Boundary;
 import tech.fastj.graphics.game.Model2D;
 import tech.fastj.graphics.game.Polygon2D;
 import tech.fastj.graphics.game.RenderStyle;
+import tech.fastj.logging.Log;
 import tech.fastj.math.Maths;
 import tech.fastj.math.Pointf;
 import tech.fastj.resources.files.FileUtil;
@@ -40,35 +41,34 @@ public class ObjUtil {
 
         for (String line : lines) {
             String[] tokens = line.split("\\s+");
-            switch (tokens[0]) {
-                case ParsingKeys.Vertex: {
-                    vertexes.add(parseVertex(tokens));
-                    break;
-                }
-                case ParsingKeys.ObjectFace: {
-                    Pointf[] vertexesFromFaces = parseVertexesFromFaces(vertexes, tokens);
 
+            switch (tokens[0]) {
+                case ParsingKeys.Vertex -> vertexes.add(parseVertex(tokens));
+                case ParsingKeys.ObjectFace -> {
+                    Pointf[] vertexesFromFaces = parseVertexesFromFaces(vertexes, tokens);
                     Polygon2D polygonFromVertexes = Polygon2D.fromPoints(vertexesFromFaces);
+
                     MtlUtil.parse(polygonFromVertexes, materialLibraryPath, currentMaterial, true);
                     polygons.add(polygonFromVertexes);
-                    break;
                 }
-                case ParsingKeys.ObjectLine: {
-                    Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
-                    boolean isLastPolygonOutline = false;
+                case ParsingKeys.ObjectLine -> {
+                    boolean isLastOutline = false;
                     int lastPolygonIndex = polygons.size() - 1;
-                    Pointf[] lastPolygonPoints = polygons.get(lastPolygonIndex).getPoints();
+                    Pointf[] lastVertexes = polygons.get(lastPolygonIndex).getPoints();
+                    Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
 
                     for (int j = 0; j < tokens.length - 1; j++) {
                         int vertexesIndex = Integer.parseInt(tokens[j + 1].split("/")[0]);
+
                         vertexesFromFaces[j] = new Pointf(
                             vertexes.get(vertexesIndex - 1)[0],
                             vertexes.get(vertexesIndex - 1)[1]
                         );
-                        isLastPolygonOutline = lastPolygonPoints[j].equals(vertexesFromFaces[j]);
+
+                        isLastOutline = lastVertexes[j].equals(vertexesFromFaces[j]);
                     }
 
-                    if (isLastPolygonOutline) {
+                    if (isLastOutline) {
                         polygons.get(lastPolygonIndex).setRenderStyle(RenderStyle.FillAndOutline);
                         MtlUtil.parse(polygons.get(lastPolygonIndex), materialLibraryPath, currentMaterial, false);
                     } else {
@@ -76,38 +76,32 @@ public class ObjUtil {
                         MtlUtil.parse(polygonFromVertexes, materialLibraryPath, currentMaterial, false);
                         polygons.add(polygonFromVertexes);
                     }
-                    break;
                 }
-                case ParsingKeys.MaterialLib: {
-                    materialLibraryPath = Path.of(
-                        modelPath.toString().substring(
-                            0,
-                            modelPath.toString().indexOf(modelPath.getFileName().toString())
-                        ) + tokens[1]
-                        // filenames and paths in .obj files cannot contain spaces, allowing us to use a non-robust
-                        // solution for tokens.
-                    );
-                    break;
+                // filenames and paths in .obj files cannot contain spaces, allowing us to use a
+                // non-robust solution.
+                case ParsingKeys.MaterialLib -> materialLibraryPath = Path.of(modelPath.toString().substring(
+                        0,
+                        modelPath.toString().indexOf(modelPath.getFileName().toString())
+                    ) + tokens[1]
+                );
+                // material names in .obj files cannot contain spaces, allowing us to use a
+                // non-robust solution.
+                case ParsingKeys.UseMaterial -> currentMaterial = tokens[1];
+                case ParsingKeys.Empty -> {
                 }
-                case ParsingKeys.UseMaterial: {
-                    // material names in .obj files cannot contain spaces, allowing us to use a non-robust solution for
-                    // tokens.
-                    currentMaterial = tokens[1];
-                    break;
-                }
-                case ParsingKeys.Empty:
-                default: {
-                    break;
-                }
+                default -> Log.warn(ObjUtil.class, "Unrecognized parsing key: \"{}\"", tokens[0]);
             }
         }
+
         return polygons.toArray(new Polygon2D[0]);
     }
 
     private static Pointf[] parseVertexesFromFaces(List<float[]> vertexes, String[] tokens) {
         Pointf[] vertexesFromFaces = new Pointf[tokens.length - 1];
+
         for (int j = 1; j < tokens.length; j++) {
             int vertexesIndex = Integer.parseInt(tokens[Math.min(j, tokens.length - 1)].split("/")[0]);
+
             vertexesFromFaces[j - 1] = new Pointf(
                 vertexes.get(vertexesIndex - 1)[0],
                 vertexes.get(vertexesIndex - 1)[1]
@@ -128,28 +122,30 @@ public class ObjUtil {
     public static void write(Path destinationPath, Model2D model) {
         StringBuilder fileContents = new StringBuilder();
 
-        Path destinationPathWithoutSpaces = Path.of(destinationPath.toString().replace(' ', '_'));
-        int extensionIndex = destinationPathWithoutSpaces.toString().lastIndexOf(FileUtil.getFileExtension(destinationPathWithoutSpaces));
+        Path destinationPathNoSpaces = Path.of(destinationPath.toString().replace(' ', '_'));
+        int extensionIndex = destinationPathNoSpaces.toString().lastIndexOf(FileUtil.getFileExtension(destinationPathNoSpaces));
 
-        Path materialPath = Path.of(destinationPathWithoutSpaces.toString().substring(0, extensionIndex) + "mtl");
+        Path materialPath = Path.of(destinationPathNoSpaces.toString().substring(0, extensionIndex) + "mtl");
         String materialPathString = materialPath.toString();
-        Path shortenedMaterialPath = Path.of(materialPathString.substring(materialPathString.lastIndexOf(File.separator) + 1));
+        Path shortMaterialPath = Path.of(materialPathString.substring(materialPathString.lastIndexOf(File.separator) + 1));
 
-        writeMaterialLib(fileContents, shortenedMaterialPath);
+        writeMaterialLib(fileContents, shortMaterialPath);
 
-        int vertexCount = 0;
         for (int i = 0; i < model.getPolygons().length; i++) {
             writeVertexes(fileContents, model.getPolygons()[i], i);
         }
+
         fileContents.append(LineSeparator);
 
         for (int i = 0; i < model.getPolygons().length; i++) {
             writeVertexTextures(fileContents, model.getPolygons()[i]);
         }
+
         fileContents.append(LineSeparator);
 
-        for (int i = 0; i < model.getPolygons().length; i++) {
+        for (int i = 0, vertexCount = 0; i < model.getPolygons().length; i++) {
             Polygon2D polygon = model.getPolygons()[i];
+
             writeObject(fileContents, i + 1);
             writeMaterial(fileContents, polygon, i + 1, vertexCount);
 
@@ -179,6 +175,7 @@ public class ObjUtil {
     private static void writeVertexes(StringBuilder fileContents, Polygon2D polygon, int polygonIndex) {
         float vertexSpace = polygonIndex / 1000f;
         Pointf[] polygonPoints = polygon.getPoints();
+
         for (Pointf vertex : polygonPoints) {
             fileContents.append(ParsingKeys.Vertex)
                 .append(' ')
@@ -194,8 +191,8 @@ public class ObjUtil {
     private static void writeVertexTextures(StringBuilder fileContents, Polygon2D polygon) {
         Pointf space = Pointf.subtract(polygon.getBound(Boundary.BottomRight), polygon.getBound(Boundary.TopLeft));
         Pointf topLeft = polygon.getBound(Boundary.TopLeft);
-
         Pointf[] polygonPoints = polygon.getPoints();
+
         for (Pointf polygonPoint : polygonPoints) {
             float circleX = Maths.normalize(polygonPoint.x - topLeft.x, 0f, space.x);
             float circleY = Maths.normalize(polygonPoint.y - topLeft.y, 0f, space.y);
@@ -218,24 +215,22 @@ public class ObjUtil {
 
     private static void writeMaterial(StringBuilder fileContents, Polygon2D polygon, int polygonIndex, int vertexCount) {
         switch (polygon.getRenderStyle()) {
-            case Fill: {
+            case Fill -> {
                 writeFillMaterialUsage(fileContents, polygonIndex);
                 writeFaces(fileContents, polygon, vertexCount);
-                break;
             }
-            case Outline: {
+            case Outline -> {
                 writeOutlineMaterialUsage(fileContents, polygonIndex);
                 writeLines(fileContents, polygon, vertexCount);
-                break;
             }
-            case FillAndOutline: {
+            case FillAndOutline -> {
                 writeFillMaterialUsage(fileContents, polygonIndex);
                 writeFaces(fileContents, polygon, vertexCount);
                 writeOutlineMaterialUsage(fileContents, polygonIndex);
                 writeLines(fileContents, polygon, vertexCount);
-                break;
             }
         }
+
         fileContents.append(LineSeparator);
     }
 
@@ -258,21 +253,25 @@ public class ObjUtil {
     private static void writeFaces(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
         fileContents.append(ParsingKeys.ObjectFace);
         Pointf[] polygonPoints = polygon.getPoints();
+
         for (int i = 1; i <= polygonPoints.length; i++) {
             fileContents.append(' ')
                 .append(vertexCount + i)
                 .append('/')
                 .append(vertexCount + i);
         }
+
         fileContents.append(LineSeparator);
     }
 
     private static void writeLines(StringBuilder fileContents, Polygon2D polygon, int vertexCount) {
         fileContents.append(ParsingKeys.ObjectLine);
         Pointf[] polygonPoints = polygon.getPoints();
+
         for (int i = 1; i <= polygonPoints.length; i++) {
             fileContents.append(' ').append(vertexCount + i);
         }
+
         fileContents.append(LineSeparator);
     }
 

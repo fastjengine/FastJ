@@ -8,7 +8,6 @@ import tech.fastj.math.Pointf;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -139,11 +138,10 @@ class DrawUtilTests {
 
     @Test
     void comparePaints_withNullPaintParameters() {
-        Paint paint1_null = null;
         Color paint2 = Color.red;
 
-        assertFalse(DrawUtil.paintEquals(paint1_null, paint2), "The two paints should not be equal.");
-        assertFalse(DrawUtil.paintEquals(paint2, paint1_null), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(null, paint2), "The two paints should not be equal.");
+        assertFalse(DrawUtil.paintEquals(paint2, null), "The two paints should not be equal.");
     }
 
     @Test

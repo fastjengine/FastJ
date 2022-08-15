@@ -304,9 +304,8 @@ class PointTests {
 
     @Test
     void checkPointNormalization_usingIntegerDivision() {
-        // these are integers -- decimals are cut off, leaving the expected values at (0, 0)
-        int expectedNormalizedX = (int) 0.3314859950125598;
-        int expectedNormalizedY = (int) 0.9434601396511317;
+        int expectedNormalizedX = 0;
+        int expectedNormalizedY = 0;
 
         Point pt = new Point(13, 37);
         Point expectedNormalization = new Point(expectedNormalizedX, expectedNormalizedY);

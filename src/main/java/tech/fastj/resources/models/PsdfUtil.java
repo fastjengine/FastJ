@@ -72,47 +72,23 @@ public class PsdfUtil {
         for (String words : lines) {
             String[] tokens = words.split("\\s+");
             switch (tokens[0]) {
-                case ParsingKeys.Amount: {
-                    polygons = parsePolygonCount(tokens);
-                    break;
+                case ParsingKeys.Empty -> {
                 }
-                case ParsingKeys.FillPaintColor:
-                case ParsingKeys.FillPaintLinearGradient:
-                case ParsingKeys.FillPaintRadialGradient: {
+                case ParsingKeys.Amount -> polygons = parsePolygonCount(tokens);
+                case ParsingKeys.RenderStyle -> renderStyle = parseRenderStyle(tokens);
+                case ParsingKeys.FillPaintColor, ParsingKeys.FillPaintLinearGradient, ParsingKeys.FillPaintRadialGradient ->
                     fillPaint = parsePaint(tokens);
-                    break;
-                }
-                case ParsingKeys.FillPaintTexture: {
-                    texturePath = parseTexture(tokens);
-                    break;
-                }
-                case ParsingKeys.OutlineStroke: {
-                    outlineStroke = parseOutlineStroke(tokens);
-                    break;
-                }
-                case ParsingKeys.OutlineColor: {
-                    outlineColor = parseOutlineColor(tokens);
-                    break;
-                }
-                case ParsingKeys.RenderStyle: {
-                    renderStyle = parseRenderStyle(tokens);
-                    break;
-                }
-                case ParsingKeys.Transform: {
+                case ParsingKeys.FillPaintTexture -> texturePath = parseTexture(tokens);
+                case ParsingKeys.OutlineStroke -> outlineStroke = parseOutlineStroke(tokens);
+                case ParsingKeys.OutlineColor -> outlineColor = parseOutlineColor(tokens);
+                case ParsingKeys.ShouldRender -> shouldRender = parseShouldRender(tokens);
+                case ParsingKeys.AlternateIndex -> altIndexes.add(parseAltIndex(tokens));
+                case ParsingKeys.Transform -> {
                     translation = parseTranslation(tokens);
                     rotation = parseRotation(tokens);
                     scale = parseScale(tokens);
-                    break;
                 }
-                case ParsingKeys.ShouldRender: {
-                    shouldRender = parseShouldRender(tokens);
-                    break;
-                }
-                case ParsingKeys.AlternateIndex: {
-                    altIndexes.add(parseAltIndex(tokens));
-                    break;
-                }
-                case ParsingKeys.MeshPoint: {
+                case ParsingKeys.MeshPoint -> {
                     polygonPoints.add(parseMeshPoint(tokens));
 
                     // if end of polygon, add polygon to array
@@ -150,16 +126,11 @@ public class PsdfUtil {
                         polygonsIndex++;
                     }
 
-                    break;
                 }
-                case ParsingKeys.Empty: {
-                    break;
-                }
-                default: {
-                    throw new IllegalStateException("Invalid .psdf token: \"" + tokens[0] + "\".");
-                }
+                default -> throw new IllegalStateException("Invalid .psdf token: \"" + tokens[0] + "\".");
             }
         }
+
         return polygons;
     }
 
@@ -169,10 +140,15 @@ public class PsdfUtil {
 
     private static Paint parsePaint(String[] tokens) {
         switch (tokens[0]) {
-            case ParsingKeys.FillPaintColor: {
-                return new Color(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), Integer.parseInt(tokens[3]), Integer.parseInt(tokens[4]));
+            case ParsingKeys.FillPaintColor -> {
+                return new Color(
+                    Integer.parseInt(tokens[1]),
+                    Integer.parseInt(tokens[2]),
+                    Integer.parseInt(tokens[3]),
+                    Integer.parseInt(tokens[4])
+                );
             }
-            case ParsingKeys.FillPaintLinearGradient: {
+            case ParsingKeys.FillPaintLinearGradient -> {
                 LinearGradientBuilder linearGradientBuilder = Gradients.linearGradient(
                     new Pointf(
                         Float.parseFloat(tokens[1]),
@@ -198,7 +174,7 @@ public class PsdfUtil {
 
                 return linearGradientBuilder.build();
             }
-            case ParsingKeys.FillPaintRadialGradient: {
+            case ParsingKeys.FillPaintRadialGradient -> {
                 RadialGradientBuilder radialGradientBuilder = Gradients.radialGradient(
                     new Pointf(
                         Float.parseFloat(tokens[1]),
@@ -221,9 +197,7 @@ public class PsdfUtil {
 
                 return radialGradientBuilder.build();
             }
-            default: {
-                throw new IllegalStateException("Invalid fill paint type: " + tokens[0]);
-            }
+            default -> throw new IllegalStateException("Invalid fill paint type: " + tokens[0]);
         }
     }
 
@@ -253,43 +227,19 @@ public class PsdfUtil {
     }
 
     private static BasicStroke parseOutlineStroke(String[] tokens) {
-        int basicStrokeCap;
-        switch (Integer.parseInt(tokens[2])) {
-            case BasicStroke.CAP_BUTT: {
-                basicStrokeCap = BasicStroke.CAP_BUTT;
-                break;
-            }
-            case BasicStroke.CAP_ROUND: {
-                basicStrokeCap = BasicStroke.CAP_ROUND;
-                break;
-            }
-            case BasicStroke.CAP_SQUARE: {
-                basicStrokeCap = BasicStroke.CAP_SQUARE;
-                break;
-            }
-            default: {
-                throw new IllegalStateException("Invalid BasicStroke Cap value: " + Integer.parseInt(tokens[2]));
-            }
-        }
+        int basicStrokeCap = switch (Integer.parseInt(tokens[2])) {
+            case BasicStroke.CAP_BUTT -> BasicStroke.CAP_BUTT;
+            case BasicStroke.CAP_ROUND -> BasicStroke.CAP_ROUND;
+            case BasicStroke.CAP_SQUARE -> BasicStroke.CAP_SQUARE;
+            default -> throw new IllegalStateException("Invalid BasicStroke Cap value: " + Integer.parseInt(tokens[2]));
+        };
 
-        int basicStrokeJoinStyle;
-        switch (Integer.parseInt(tokens[3])) {
-            case BasicStroke.JOIN_MITER: {
-                basicStrokeJoinStyle = BasicStroke.JOIN_MITER;
-                break;
-            }
-            case BasicStroke.JOIN_ROUND: {
-                basicStrokeJoinStyle = BasicStroke.JOIN_ROUND;
-                break;
-            }
-            case BasicStroke.JOIN_BEVEL: {
-                basicStrokeJoinStyle = BasicStroke.JOIN_BEVEL;
-                break;
-            }
-            default: {
-                throw new IllegalStateException("Invalid BasicStroke Join value: " + Integer.parseInt(tokens[3]));
-            }
-        }
+        int basicStrokeJoinStyle = switch (Integer.parseInt(tokens[3])) {
+            case BasicStroke.JOIN_MITER -> BasicStroke.JOIN_MITER;
+            case BasicStroke.JOIN_ROUND -> BasicStroke.JOIN_ROUND;
+            case BasicStroke.JOIN_BEVEL -> BasicStroke.JOIN_BEVEL;
+            default -> throw new IllegalStateException("Invalid BasicStroke Join value: " + Integer.parseInt(tokens[3]));
+        };
 
         return new BasicStroke(Float.parseFloat(tokens[1]), basicStrokeCap, basicStrokeJoinStyle, Float.parseFloat(tokens[4]), null, 0.0f);
     }
@@ -299,20 +249,12 @@ public class PsdfUtil {
     }
 
     private static RenderStyle parseRenderStyle(String[] tokens) {
-        switch (tokens[1]) {
-            case ParsingKeys.RenderStyleFill: {
-                return RenderStyle.Fill;
-            }
-            case ParsingKeys.RenderStyleOutline: {
-                return RenderStyle.Outline;
-            }
-            case ParsingKeys.RenderStyleFillAndOutline: {
-                return RenderStyle.FillAndOutline;
-            }
-            default: {
-                throw new IllegalStateException("Invalid render style: " + tokens[1]);
-            }
-        }
+        return switch (tokens[1]) {
+            case ParsingKeys.RenderStyleFill -> RenderStyle.Fill;
+            case ParsingKeys.RenderStyleOutline -> RenderStyle.Outline;
+            case ParsingKeys.RenderStyleFillAndOutline -> RenderStyle.FillAndOutline;
+            default -> throw new IllegalStateException("Invalid render style: " + tokens[1]);
+        };
     }
 
     private static Pointf parseTranslation(String[] tokens) {
@@ -381,33 +323,27 @@ public class PsdfUtil {
     }
 
     private static void writeRenderStyle(StringBuilder fileContents, RenderStyle renderStyle) {
-        fileContents.append(PsdfUtil.ParsingKeys.RenderStyle).append(' ');
-        switch (renderStyle) {
-            case Fill: {
-                fileContents.append(PsdfUtil.ParsingKeys.RenderStyleFill);
-                break;
-            }
-            case Outline: {
-                fileContents.append(ParsingKeys.RenderStyleOutline);
-                break;
-            }
-            case FillAndOutline: {
-                fileContents.append(PsdfUtil.ParsingKeys.RenderStyleFillAndOutline);
-                break;
-            }
-        }
-        fileContents.append(LineSeparator);
+        String renderStyleString = switch (renderStyle) {
+            case Fill -> ParsingKeys.RenderStyleFill;
+            case Outline -> ParsingKeys.RenderStyleOutline;
+            case FillAndOutline -> ParsingKeys.RenderStyleFillAndOutline;
+        };
+
+        fileContents.append(PsdfUtil.ParsingKeys.RenderStyle)
+            .append(' ')
+            .append(renderStyleString)
+            .append(LineSeparator);
     }
 
     private static void writeFill(StringBuilder fileContents, Paint paint) {
-        if (paint instanceof LinearGradientPaint) {
-            writeFillLinearGradient(fileContents, (LinearGradientPaint) paint);
-        } else if (paint instanceof RadialGradientPaint) {
-            writeFillRadialGradient(fileContents, (RadialGradientPaint) paint);
-        } else if (paint instanceof Color) {
-            writeFillColor(fileContents, (Color) paint);
-        } else if (paint instanceof TexturePaint) {
-            writeTexture(fileContents, (TexturePaint) paint);
+        if (paint instanceof LinearGradientPaint linearGradientPaint) {
+            writeFillLinearGradient(fileContents, linearGradientPaint);
+        } else if (paint instanceof RadialGradientPaint radialGradientPaint) {
+            writeFillRadialGradient(fileContents, radialGradientPaint);
+        } else if (paint instanceof Color color) {
+            writeFillColor(fileContents, color);
+        } else if (paint instanceof TexturePaint texturePaint) {
+            writeTexture(fileContents, texturePaint);
         } else {
             FastJEngine.error(
                 CrashMessages.UnimplementedMethodError.errorMessage,

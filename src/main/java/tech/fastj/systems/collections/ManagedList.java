@@ -197,7 +197,7 @@ public class ManagedList<E> implements List<E> {
         ScheduledFuture<?> scheduledFuture = null;
 
         try {
-            return listManager.schedule(() -> action.accept(list), delay, unit);
+            scheduledFuture = listManager.schedule(() -> action.accept(list), delay, unit);
         } catch (RejectedExecutionException exception) {
             if (!listManager.isShutdown() && !listManager.isTerminated()) {
                 throw new IllegalStateException(exception.getCause());
@@ -223,7 +223,7 @@ public class ManagedList<E> implements List<E> {
         ScheduledFuture<?> scheduledFuture = null;
 
         try {
-            return listManager.schedule(
+            scheduledFuture = listManager.schedule(
                 () -> {
                     for (E element : list) {
                         action.accept(element);
@@ -259,7 +259,7 @@ public class ManagedList<E> implements List<E> {
         ScheduledFuture<?> scheduledFuture = null;
 
         try {
-            return listManager.scheduleAtFixedRate(() -> action.accept(list), initialDelay, period, unit);
+            scheduledFuture = listManager.scheduleAtFixedRate(() -> action.accept(list), initialDelay, period, unit);
         } catch (RejectedExecutionException exception) {
             if (!listManager.isShutdown() && !listManager.isTerminated()) {
                 throw new IllegalStateException(exception.getCause());
