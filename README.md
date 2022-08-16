@@ -106,11 +106,9 @@ A few common dependencies are provided below:
 - **Gradle Build Script**
     - Groovy:
       ```groovy
-      repositories.maven {
-          url('https://jitpack.io')
-      }
+      repositories.mavenCentral()
   
-      dependencies.implementation('com.github.fastjengine:FastJ:1.7.0-SNAPSHOT-1')
+      dependencies.implementation('io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-1')
       ```
     - Kotlin:
       ```kotlin
@@ -118,18 +116,13 @@ A few common dependencies are provided below:
           setUrl("https://jitpack.io")
       }
   
-      dependencies.implementation("com.github.fastjengine:FastJ:1.7.0-SNAPSHOT-1")
+      dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-1")
       ```
 - **Maven POM**
   ```xml
-  <repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-  </repository>
-
   <dependency>
-    <groupId>com.github.fastjengine</groupId>
-    <artifactId>FastJ</artifactId>
+    <groupId>io.github.lucasstarsz.fastj</groupId>
+    <artifactId>fastj-library</artifactId>
     <version>1.7.0-SNAPSHOT-1</version>
   </dependency>
   ```
