@@ -143,11 +143,11 @@ FastJ's community of developers is growing day by day!
 
 ### **[Stack Attack](https://lucas-z.itch.io/stack-attack)** by [lucasstarsz](https://github.com/lucasstarsz)
 
-<img height="450" src="https://img.itch.zone/aW1nLzg5NTA3MjIuZ2lm/original/FvfecS.gif" title="Stack Attack" width="600" alt="Gameplay of Stack Attack by Lucas Z"/>
+![Gameplay of Stack Attack by Lucas Z](https://img.itch.zone/aW1nLzg5NTA3MjIuZ2lm/original/FvfecS.gif "Stack Attack")
 
 ### **[Unnamed Rhythm Game](https://lucas-z.itch.io/rhythm-game)** by [lucasstarsz](https://github.com/lucasstarsz)
 
-<img height="360" src="https://img.itch.zone/aW1hZ2UvMTU3OTU3My85MjI2ODA2LmdpZg==/347x500/Qqcd3w.gif" title="Unnamed Rhythm Game" width="640" alt="Gameplay of Rhythm Game by Lucas Z"/>
+![Gameplay of Rhythm Game by Lucas Z](https://img.itch.zone/aW1hZ2UvMTU3OTU3My85MjI2ODA2LmdpZg==/347x500/Qqcd3w.gif "Unnamed Rhythm Game")
 
 Want your FastJ game featured? [Open an issue](https://github.com/fastjengine/FastJ/issues/new),
 or [ask in our discord][FastJ-Discord-Server]!
