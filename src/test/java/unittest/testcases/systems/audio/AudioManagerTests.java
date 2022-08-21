@@ -26,9 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class AudioManagerTests {
-
-    private static final Path TestAudioPath = Path.of("src/test/resources/test_audio.wav");
-    private static final URL TestAudioURL = MemoryAudioTests.class.getClassLoader().getResource("test_audio.wav");
     private static final AudioManager GeneralAudioManager = FastJEngine.getAudioManager();
 
     @BeforeAll
@@ -47,14 +44,24 @@ class AudioManagerTests {
     }
 
     @Test
-    void checkMemoryAudioLoading_withPath_withWAVFormatAudio() {
-        MemoryAudio memoryAudio = GeneralAudioManager.loadMemoryAudio(TestAudioPath);
+    void checkMemoryAudioLoading_ofAllTypes_onSinglePaths() {
+        MemoryAudio memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Wav.path());
+        assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Mp3.path());
+        assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
     }
 
     @Test
-    void checkMemoryAudioLoading_withPaths_withWAVFormatAudio_andMultiplePaths() {
-        MemoryAudio[] memoryAudios = GeneralAudioManager.loadMemoryAudio(TestAudioPath, TestAudioPath, TestAudioPath);
+    void checkMemoryAudioLoading_ofAllTypes_withMultiplePaths() {
+        MemoryAudio[] memoryAudios = GeneralAudioManager.loadMemoryAudio(
+            AudioTypes.Wav.path(),
+            AudioTypes.Mp3.path(),
+            AudioTypes.Ogg.path()
+        );
 
         for (MemoryAudio memoryAudio : memoryAudios) {
             assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
@@ -62,14 +69,24 @@ class AudioManagerTests {
     }
 
     @Test
-    void checkMemoryAudioLoading_withURL_withWAVFormatAudio() {
-        MemoryAudio memoryAudio = GeneralAudioManager.loadMemoryAudio(TestAudioURL);
+    void checkMemoryAudioLoading_ofAllTypes_onSingleURLs() {
+        MemoryAudio memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Wav.url());
+        assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Mp3.url());
+        assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        memoryAudio = GeneralAudioManager.loadMemoryAudio(AudioTypes.Ogg.url());
         assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
     }
 
     @Test
-    void checkMemoryAudioLoading_withURLs_withWAVFormatAudio_andMultiplePaths() {
-        MemoryAudio[] memoryAudios = GeneralAudioManager.loadMemoryAudio(TestAudioURL, TestAudioURL, TestAudioURL);
+    void checkMemoryAudioLoading_ofAllTypes_withMultipleURLs() {
+        MemoryAudio[] memoryAudios = GeneralAudioManager.loadMemoryAudio(
+            AudioTypes.Wav.url(),
+            AudioTypes.Mp3.url(),
+            AudioTypes.Ogg.url()
+        );
 
         for (MemoryAudio memoryAudio : memoryAudios) {
             assertNotNull(GeneralAudioManager.getMemoryAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
@@ -93,12 +110,12 @@ class AudioManagerTests {
     }
 
     @Test
-    void tryMemoryAudioLoading_withPath_withUnsupportedAudioFormat() {
-        Path testAudioPath = Path.of("src/test/resources/test_audio.flac");
+    void tryMemoryAudioLoading_ofUnsupportedAudioFormat() {
+        Path testAudioPath = AudioTypes.Flac.path();
 
         Throwable exception = assertThrows(IllegalArgumentException.class, () -> GeneralAudioManager.loadMemoryAudio(testAudioPath));
         assertTrue(exception.getMessage()
-            .endsWith("test_audio.flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
+            .endsWith(".flac is of an unsupported file format \"flac\"."), "Upon reading an unsupported audio file format, an error should be thrown.");
         Throwable underlyingException = exception.getCause();
         assertEquals(UnsupportedAudioFileException.class, underlyingException.getClass(), "The underlying exception's class should match the expected exception's class.");
     }
@@ -115,32 +132,52 @@ class AudioManagerTests {
     }
 
     @Test
-    void checkStreamedAudioLoading_withPath_withWAVFormatAudio() {
-        StreamedAudio streamedAudio = GeneralAudioManager.loadStreamedAudio(TestAudioPath);
-        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio player.");
+    void checkStreamedAudioLoading_ofAllTypes_onSinglePaths() {
+        StreamedAudio streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Wav.path());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Mp3.path());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
     }
 
     @Test
-    void checkStreamedAudioLoading_withPaths_withWAVFormatAudio_andMultiplePaths() {
-        StreamedAudio[] memoryAudios = GeneralAudioManager.loadStreamedAudio(TestAudioPath, TestAudioPath, TestAudioPath);
+    void checkStreamedAudioLoading_ofAllTypes_withMultiplePaths() {
+        StreamedAudio[] streamedAudios = GeneralAudioManager.loadStreamedAudio(
+            AudioTypes.Wav.path(),
+            AudioTypes.Mp3.path(),
+            AudioTypes.Ogg.path()
+        );
 
-        for (StreamedAudio memoryAudio : memoryAudios) {
-            assertNotNull(GeneralAudioManager.getStreamedAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+        for (StreamedAudio streamedAudio : streamedAudios) {
+            assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
         }
     }
 
     @Test
-    void checkStreamedAudioLoading_withURL_withWAVFormatAudio() {
-        StreamedAudio streamedAudio = GeneralAudioManager.loadStreamedAudio(TestAudioURL);
-        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio player.");
+    void checkStreamedAudioLoading_ofAllTypes_onSingleURLs() {
+        StreamedAudio streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Wav.url());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Mp3.url());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+
+        streamedAudio = GeneralAudioManager.loadStreamedAudio(AudioTypes.Ogg.url());
+        assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
     }
 
     @Test
-    void checkStreamedAudioLoading_withURLs_withWAVFormatAudio_andMultiplePaths() {
-        StreamedAudio[] memoryAudios = GeneralAudioManager.loadStreamedAudio(TestAudioURL, TestAudioURL, TestAudioURL);
+    void checkStreamedAudioLoading_ofAllTypes_withMultipleURLs() {
+        StreamedAudio[] streamedAudios = GeneralAudioManager.loadStreamedAudio(
+            AudioTypes.Wav.url(),
+            AudioTypes.Mp3.url(),
+            AudioTypes.Ogg.url()
+        );
 
-        for (StreamedAudio memoryAudio : memoryAudios) {
-            assertNotNull(GeneralAudioManager.getStreamedAudio(memoryAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
+        for (StreamedAudio streamedAudio : streamedAudios) {
+            assertNotNull(GeneralAudioManager.getStreamedAudio(streamedAudio.getID()), "Loading the audio file into memory should cause it to be stored in the audio manager.");
         }
     }
 
@@ -183,12 +220,16 @@ class AudioManagerTests {
     }
 
     @Test
-    void checkPlaySound_withPath() {
-        assertDoesNotThrow(() -> AudioManager.playSound(TestAudioPath));
+    void checkPlaySound_ofAllTypes_withPath() {
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Wav.path()));
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Mp3.path()));
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Ogg.path()));
     }
 
     @Test
-    void checkPlaySound_withURL() {
-        assertDoesNotThrow(() -> AudioManager.playSound(TestAudioURL));
+    void checkPlaySound_ofAllTypes_withURL() {
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Wav.url()));
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Mp3.url()));
+        assertDoesNotThrow(() -> AudioManager.playSound(AudioTypes.Ogg.url()));
     }
 }

@@ -326,7 +326,8 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
      */
     static AudioInputStream newAudioStream(Path audioPath) {
         try {
-            return AudioSystem.getAudioInputStream(audioPath.toFile());
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioPath.toFile());
+            return AudioSystem.getAudioInputStream(convertAudioFormat(inputStream.getFormat()), inputStream);
         } catch (IOException exception) {
             throw new IllegalStateException(exception.getMessage(), exception);
         } catch (UnsupportedAudioFileException exception) {
@@ -344,7 +345,8 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
      */
     static AudioInputStream newAudioStream(URL audioPath) {
         try {
-            return AudioSystem.getAudioInputStream(audioPath);
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(audioPath);
+            return AudioSystem.getAudioInputStream(convertAudioFormat(inputStream.getFormat()), inputStream);
         } catch (IOException exception) {
             throw new IllegalStateException(exception.getMessage(), exception);
         } catch (UnsupportedAudioFileException exception) {
@@ -373,6 +375,32 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
         } catch (LineUnavailableException exception) {
             throw new IllegalStateException("No audio lines were available to load the data line with format " + audioFormat + ".", exception);
         }
+    }
+
+    /**
+     * {@return the audio format, converted to a usable format for javax.sound and the SPIs}
+     * <p>
+     * This aids in ensuring all audio from MP3 and OGG formats can be played, in conjunction with the dependencies on jorbis, mp3spi, and
+     * vorbisspi, and tritonus-share.
+     * <p>
+     * Code source primarily determined from <a
+     * href="https://github.com/gurkenlabs/litiengine/blob/a770fcadf05e1b30074a77bfeb6e37f33ca8cee2/core/src/main/java/de/gurkenlabs/litiengine/sound/Sound.java#L99">litiengine</a>.
+     *
+     * @param audioFileFormat The input audio file's format.
+     */
+    private static AudioFormat convertAudioFormat(final AudioFormat audioFileFormat) {
+        int channels = audioFileFormat.getChannels();
+        float bitrate = audioFileFormat.getSampleRate();
+
+        return new AudioFormat(
+            AudioFormat.Encoding.PCM_SIGNED,
+            bitrate,
+            16,
+            channels,
+            channels * 2,
+            bitrate,
+            false
+        );
     }
 
     @Override
