@@ -6,8 +6,6 @@ import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.MemoryAudio;
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import java.net.URL;
-import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -26,8 +24,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class MemoryAudioTests {
 
-    private static final Path TestAudioPath = Path.of("src/test/resources/test_audio.wav");
-    private static final URL TestAudioURL = MemoryAudioTests.class.getClassLoader().getResource("test_audio.wav");
     private static final AudioManager AudioManager = FastJEngine.getAudioManager();
 
     @BeforeAll
@@ -47,9 +43,9 @@ class MemoryAudioTests {
 
     @Test
     void checkLoadMemoryAudioInstance_withPath_shouldMatchExpectedValues() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
-        assertEquals(TestAudioPath, audio.getAudioPath(), "After loading the audio into memory, the gotten audio should have the same path object as the one used to load it in.");
+        assertEquals(AudioTypes.Ogg.path(), audio.getAudioPath(), "After loading the audio into memory, the gotten audio should have the same path object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
@@ -69,10 +65,12 @@ class MemoryAudioTests {
 
     @Test
     void checkLoadMemoryAudioInstance_withURL_shouldMatchExpectedValues() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioURL);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.url());
+        FastJEngine.log("{}, {}", audio.getAudioPath(), AudioTypes.Ogg.extension);
+        FastJEngine.log("{}", audio.getAudioPath().endsWith(AudioTypes.Ogg.extension));
 
-        assertTrue(audio.getAudioPath()
-            .endsWith("test_audio.wav"), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
+        assertTrue(audio.getAudioPath().toString()
+            .endsWith(AudioTypes.Ogg.extension), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
@@ -92,7 +90,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetLoopPoints() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int expectedLoopStart = MemoryAudio.LoopFromStart;
         int expectedLoopEnd = MemoryAudio.LoopAtEnd;
@@ -105,7 +103,7 @@ class MemoryAudioTests {
 
     @Test
     void trySetLoopPoints_butLoopEndIsLessThanNegativeOne() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int expectedLoopStart = MemoryAudio.LoopFromStart;
         int invalidLoopEnd = -1337;
@@ -117,7 +115,7 @@ class MemoryAudioTests {
 
     @Test
     void trySetLoopPoints_butLoopStartIsLargerThanLoopEnd() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int invalidLoopStart = 37;
         int invalidLoopEnd = 13;
@@ -129,7 +127,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetLoopCount_toRandomInteger() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int randomLoopCount = Maths.randomInteger(13, 37);
         audio.setLoopCount(randomLoopCount);
@@ -140,7 +138,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetLoopCount_toAudioStopLooping() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int expectedLoopCount = MemoryAudio.StopLooping;
         audio.setLoopCount(expectedLoopCount);
@@ -151,7 +149,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetLoopCount_toContinuousLoop() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int expectedLoopCount = MemoryAudio.ContinuousLoop;
         audio.setLoopCount(expectedLoopCount);
@@ -162,7 +160,7 @@ class MemoryAudioTests {
 
     @Test
     void trySetLoopCount_toInvalidValue() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int invalidLoopCount = -13;
 
@@ -173,7 +171,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetShouldLoopToFalse_whenLoopCountSaysToLoopContinuously() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
 
         int expectedLoopCount = MemoryAudio.ContinuousLoop;
         boolean expectedShouldLoop = false;
@@ -187,7 +185,7 @@ class MemoryAudioTests {
 
     @Test
     void checkSetPlaybackPosition() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         long expectedPlaybackPosition = Maths.randomInteger(1, 5) * 100L;
 
         audio.setPlaybackPosition(expectedPlaybackPosition);
@@ -208,7 +206,7 @@ class MemoryAudioTests {
 
     @Test
     void checkPlayMemoryAudio_shouldTriggerOpenAndStartEvents() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioOpenAction(audioEvent -> audioOpenEventBoolean.set(true));
@@ -225,7 +223,7 @@ class MemoryAudioTests {
 
     @Test
     void checkPauseMemoryAudio_shouldTriggerPauseAndStopEvents() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioPauseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioPauseAction(audioEvent -> audioPauseEventBoolean.set(true));
@@ -245,7 +243,7 @@ class MemoryAudioTests {
 
     @Test
     void checkResumeMemoryAudio_shouldTriggerStartAndResumeEvents() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(true);
         AtomicBoolean audioResumeEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
@@ -266,7 +264,7 @@ class MemoryAudioTests {
 
     @Test
     void checkStopMemoryAudio_shouldTriggerStopAndCloseEvents() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioCloseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioCloseAction(audioEvent -> audioCloseEventBoolean.set(true));
@@ -285,7 +283,7 @@ class MemoryAudioTests {
 
     @Test
     void checkStopLoopingNow_whilePlayingAudio() throws InterruptedException {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioURL);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.url());
         audio.play();
         TimeUnit.MILLISECONDS.sleep(20);
         audio.stopLoopingNow();
@@ -295,7 +293,7 @@ class MemoryAudioTests {
 
     @Test
     void checkGetAudioAfterUnloading() {
-        MemoryAudio audio = AudioManager.loadMemoryAudio(TestAudioPath);
+        MemoryAudio audio = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
         assertNotNull(AudioManager.getMemoryAudio(audio.getID()), "The audio should have been loaded into the audio manager successfully.");
 
         AudioManager.unloadMemoryAudio(audio.getID());
@@ -305,10 +303,10 @@ class MemoryAudioTests {
     @Test
     void checkGetAudioAfterUnloading_withMultipleAudioFiles() {
         MemoryAudio[] memoryAudios = new MemoryAudio[4];
-        memoryAudios[0] = AudioManager.loadMemoryAudio(TestAudioPath);
-        memoryAudios[1] = AudioManager.loadMemoryAudio(TestAudioURL);
-        memoryAudios[2] = AudioManager.loadMemoryAudio(TestAudioPath);
-        memoryAudios[3] = AudioManager.loadMemoryAudio(TestAudioURL);
+        memoryAudios[0] = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
+        memoryAudios[1] = AudioManager.loadMemoryAudio(AudioTypes.Ogg.url());
+        memoryAudios[2] = AudioManager.loadMemoryAudio(AudioTypes.Ogg.path());
+        memoryAudios[3] = AudioManager.loadMemoryAudio(AudioTypes.Ogg.url());
 
         for (MemoryAudio memoryAudio : memoryAudios) {
             assertNotNull(AudioManager.getMemoryAudio(memoryAudio.getID()), "The audio should have been loaded into the audio manager successfully.");

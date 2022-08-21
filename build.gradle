@@ -56,11 +56,17 @@ wrapper.gradleVersion = '7.5.1'
 wrapper.distributionType = Wrapper.DistributionType.ALL
 
 repositories.mavenCentral()
+
+dependencies.api('org.slf4j:slf4j-api:2.0.0-beta1')
+dependencies.api('com.googlecode.soundlibs:mp3spi:1.9.5.4')
+dependencies.api('com.googlecode.soundlibs:jorbis:0.0.17.4')
+dependencies.api('com.googlecode.soundlibs:tritonus-share:0.3.7.4')
+dependencies.api('com.googlecode.soundlibs:vorbisspi:1.0.3.3')
+
+dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha7')
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.8.2'))
 dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
 dependencies.testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-dependencies.api('org.slf4j:slf4j-api:2.0.0-beta1')
-dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha7')
 
 /* ********************* *
  *     Unit Testing      *
@@ -88,10 +94,6 @@ tasks.withType(Test) {
                 def dashes = '-' * repeatLength
 
                 logger.info(String.format('%n%n%s%n%s%s%s%n%s%n%n', dashes, startItem, results, endItem, dashes))
-
-                if (result.resultType != TestResult.ResultType.SUCCESS) {
-                    System.exit(0)
-                }
             }
         }
     }

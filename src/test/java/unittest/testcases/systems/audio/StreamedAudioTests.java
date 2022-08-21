@@ -5,9 +5,6 @@ import tech.fastj.systems.audio.AudioManager;
 import tech.fastj.systems.audio.StreamedAudio;
 import tech.fastj.systems.audio.state.PlaybackState;
 
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -24,8 +21,6 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 class StreamedAudioTests {
 
-    private static final Path TestAudioPath = Path.of("src/test/resources/test_audio.wav");
-    private static final URL TestAudioURL = Objects.requireNonNull(StreamedAudioTests.class.getClassLoader().getResource("test_audio.wav"));
     private static final AudioManager AudioManager = FastJEngine.getAudioManager();
 
     @BeforeAll
@@ -45,9 +40,9 @@ class StreamedAudioTests {
 
     @Test
     void checkLoadStreamedAudioInstance_withPath_shouldMatchExpectedValues() {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
 
-        assertEquals(TestAudioPath, audio.getAudioPath(), "After loading the audio into memory, the gotten audio should have the same path object as the one used to load it in.");
+        assertEquals(AudioTypes.Ogg.path(), audio.getAudioPath(), "After loading the audio into memory, the gotten audio should have the same path object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
@@ -67,10 +62,11 @@ class StreamedAudioTests {
 
     @Test
     void checkLoadStreamedAudioInstance_withURL_shouldMatchExpectedValues() {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioURL);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.url());
+        FastJEngine.log("{}", audio.getAudioPath().toAbsolutePath());
 
-        assertTrue(audio.getAudioPath()
-            .endsWith("test_audio.wav"), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
+        assertTrue(audio.getAudioPath().toString()
+            .endsWith(AudioTypes.Ogg.extension), "After loading the audio into memory, the gotten audio should end with the same path to the audio object as the one used to load it in.");
         assertEquals(PlaybackState.Stopped, audio.getCurrentPlaybackState(), "After loading the audio into memory, the gotten audio should be in the \"stopped\" playback state.");
         assertEquals(PlaybackState.Stopped, audio.getPreviousPlaybackState(), "After loading the audio into memory, the gotten audio's previous playback state should also be \"stopped\".");
         assertEquals(0L, audio.getPlaybackPosition(), "After loading the audio into memory, the gotten audio should be at the very beginning with playback position.");
@@ -90,7 +86,7 @@ class StreamedAudioTests {
 
     @Test
     void checkPlayStreamedAudio_shouldTriggerOpenAndStartEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioOpenEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioOpenAction(audioEvent -> audioOpenEventBoolean.set(true));
@@ -107,7 +103,7 @@ class StreamedAudioTests {
 
     @Test
     void checkPauseStreamedAudio_shouldTriggerPauseAndStopEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioPauseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioPauseAction(audioEvent -> audioPauseEventBoolean.set(true));
@@ -126,7 +122,7 @@ class StreamedAudioTests {
 
     @Test
     void checkResumeStreamedAudio_shouldTriggerStartAndResumeEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioStartEventBoolean = new AtomicBoolean(true);
         AtomicBoolean audioResumeEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioStartAction(audioEvent -> audioStartEventBoolean.set(!audioStartEventBoolean.get()));
@@ -147,7 +143,7 @@ class StreamedAudioTests {
 
     @Test
     void checkStopStreamedAudio_shouldTriggerStopAndCloseEvents() throws InterruptedException {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
         AtomicBoolean audioCloseEventBoolean = new AtomicBoolean(false);
         AtomicBoolean audioStopEventBoolean = new AtomicBoolean(false);
         audio.getAudioEventListener().setAudioCloseAction(audioEvent -> audioCloseEventBoolean.set(true));
@@ -166,7 +162,7 @@ class StreamedAudioTests {
 
     @Test
     void checkGetAudioAfterUnloading() {
-        StreamedAudio audio = AudioManager.loadStreamedAudio(TestAudioPath);
+        StreamedAudio audio = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
         assertNotNull(AudioManager.getStreamedAudio(audio.getID()), "The audio should have been loaded into the audio manager successfully.");
 
         AudioManager.unloadStreamedAudio(audio.getID());
@@ -176,10 +172,10 @@ class StreamedAudioTests {
     @Test
     void checkGetAudioAfterUnloading_withMultipleAudioFiles() {
         StreamedAudio[] streamedAudios = new StreamedAudio[4];
-        streamedAudios[0] = AudioManager.loadStreamedAudio(TestAudioPath);
-        streamedAudios[1] = AudioManager.loadStreamedAudio(TestAudioURL);
-        streamedAudios[2] = AudioManager.loadStreamedAudio(TestAudioPath);
-        streamedAudios[3] = AudioManager.loadStreamedAudio(TestAudioURL);
+        streamedAudios[0] = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
+        streamedAudios[1] = AudioManager.loadStreamedAudio(AudioTypes.Ogg.url());
+        streamedAudios[2] = AudioManager.loadStreamedAudio(AudioTypes.Ogg.path());
+        streamedAudios[3] = AudioManager.loadStreamedAudio(AudioTypes.Ogg.url());
 
         for (StreamedAudio streamedAudio : streamedAudios) {
             assertNotNull(AudioManager.getStreamedAudio(streamedAudio.getID()), "The audio should have been loaded into the audio manager successfully.");
