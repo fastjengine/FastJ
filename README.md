@@ -99,7 +99,7 @@ This library can be found in the following places:
 - The [Releases][Releases] section of this repository.
 
 When adding the dependency, **make sure to replace `[latest version here]` with the actual version** (you'll find this
-in the jitpack.io or Maven Central link up above). **The current latest version is 1.7.0-SNAPSHOT-1**.
+in the jitpack.io or Maven Central link up above). **The current latest version is 1.7.0-SNAPSHOT-2**.
 
 A few common dependencies are provided below:
 
@@ -108,7 +108,7 @@ A few common dependencies are provided below:
       ```groovy
       repositories.mavenCentral()
   
-      dependencies.implementation('io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-1')
+      dependencies.implementation('io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-2')
       ```
     - Kotlin:
       ```kotlin
@@ -116,14 +116,14 @@ A few common dependencies are provided below:
           setUrl("https://jitpack.io")
       }
   
-      dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-1")
+      dependencies.implementation("io.github.lucasstarsz.fastj:fastj-library:1.7.0-SNAPSHOT-2")
       ```
 - **Maven POM**
   ```xml
   <dependency>
     <groupId>io.github.lucasstarsz.fastj</groupId>
     <artifactId>fastj-library</artifactId>
-    <version>1.7.0-SNAPSHOT-1</version>
+    <version>1.7.0-SNAPSHOT-2</version>
   </dependency>
   ```
 
