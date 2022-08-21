@@ -165,6 +165,9 @@ This repository is Free and Open Source, licensed under the [MIT License][MIT-Li
 ## Dependencies
 
 - [SLF4J][SLF4J] for logging support.
+- [JOrbis] and [VorbisSPI] for .ogg support.
+- [MP3SPI] for .mp3 support.
+- [tritonus-share] for utility processing tools related to above audio libraries.
 
 [FastJ-Logo]: https://raw.githubusercontent.com/fastjengine/FastJ/main/media/branding/fastj_logo.png "FastJ Logo"
 
