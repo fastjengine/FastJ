@@ -1,6 +1,7 @@
 package tech.fastj.input;
 
 import tech.fastj.engine.FastJEngine;
+import tech.fastj.gameloop.event.EventObserverCombo;
 import tech.fastj.graphics.display.FastJCanvas;
 import tech.fastj.input.keyboard.Keyboard;
 import tech.fastj.input.keyboard.KeyboardActionListener;
@@ -12,6 +13,7 @@ import tech.fastj.systems.control.SimpleManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Class to manage user input and input event processing.
@@ -39,7 +41,10 @@ public class InputManager {
      */
     @SuppressWarnings("unchecked")
     public List<KeyboardActionListener> getKeyboardActionListeners() {
-        return (List) FastJEngine.getGameLoop().getEventObservers(KeyboardActionEvent.class);
+        return (List) FastJEngine.getGameLoop().getEventObservers(KeyboardActionEvent.class)
+            .stream()
+            .map(EventObserverCombo::eventObserver)
+            .collect(Collectors.toList());
     }
 
     /**
@@ -49,7 +54,10 @@ public class InputManager {
      */
     @SuppressWarnings("unchecked")
     public List<MouseActionListener> getMouseActionListeners() {
-        return (List) FastJEngine.getGameLoop().getEventObservers(MouseActionEvent.class);
+        return (List) FastJEngine.getGameLoop().getEventObservers(MouseActionEvent.class)
+            .stream()
+            .map(EventObserverCombo::eventObserver)
+            .collect(Collectors.toList());
     }
 
     /* Key Action Listeners */
@@ -63,7 +71,7 @@ public class InputManager {
      */
     public void addKeyboardActionListener(KeyboardActionListener listener) {
         keyboardActionListeners.add(listener);
-        FastJEngine.getGameLoop().addEventObserver(listener, KeyboardActionEvent.class);
+        FastJEngine.getGameLoop().addEventObserver(KeyboardActionEvent.class, listener);
     }
 
     /**
@@ -73,7 +81,7 @@ public class InputManager {
      */
     public void removeKeyboardActionListener(KeyboardActionListener listener) {
         keyboardActionListeners.remove(listener);
-        FastJEngine.getGameLoop().removeEventObserver(listener, KeyboardActionEvent.class);
+        FastJEngine.getGameLoop().removeEventObserver(KeyboardActionEvent.class, listener);
     }
 
     /** Fires a {@code keys down} event to all listening {@link KeyboardActionListener keyboard action listeners}. */
@@ -96,7 +104,7 @@ public class InputManager {
      */
     public void addMouseActionListener(MouseActionListener listener) {
         mouseActionListeners.add(listener);
-        FastJEngine.getGameLoop().addEventObserver(listener, MouseActionEvent.class);
+        FastJEngine.getGameLoop().addEventObserver(MouseActionEvent.class, listener);
     }
 
     /**
@@ -106,7 +114,7 @@ public class InputManager {
      */
     public void removeMouseActionListener(MouseActionListener listener) {
         mouseActionListeners.remove(listener);
-        FastJEngine.getGameLoop().removeEventObserver(listener, MouseActionEvent.class);
+        FastJEngine.getGameLoop().removeEventObserver(MouseActionEvent.class, listener);
     }
 
     /**
@@ -123,10 +131,10 @@ public class InputManager {
         }
 
         for (MouseActionListener mouseActionListener : mouseActionListeners) {
-            FastJEngine.getGameLoop().addEventObserver(mouseActionListener, MouseActionEvent.class);
+            FastJEngine.getGameLoop().addEventObserver(MouseActionEvent.class, mouseActionListener);
         }
         for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
-            FastJEngine.getGameLoop().addEventObserver(keyboardActionListener, KeyboardActionEvent.class);
+            FastJEngine.getGameLoop().addEventObserver(KeyboardActionEvent.class, keyboardActionListener);
         }
         isLoaded = true;
     }
@@ -143,10 +151,10 @@ public class InputManager {
             return;
         }
         for (MouseActionListener mouseActionListener : mouseActionListeners) {
-            FastJEngine.getGameLoop().removeEventObserver(mouseActionListener, MouseActionEvent.class);
+            FastJEngine.getGameLoop().removeEventObserver(MouseActionEvent.class, mouseActionListener);
         }
         for (KeyboardActionListener keyboardActionListener : keyboardActionListeners) {
-            FastJEngine.getGameLoop().removeEventObserver(keyboardActionListener, KeyboardActionEvent.class);
+            FastJEngine.getGameLoop().removeEventObserver(KeyboardActionEvent.class, keyboardActionListener);
         }
         isLoaded = false;
     }

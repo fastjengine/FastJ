@@ -831,7 +831,7 @@ public class FastJEngine {
         GameLoop.setTargetFPS(targetFPS);
         GameLoop.setTargetUPS(targetUPS);
 
-        GameLoop.addEventObserver(RunLaterObserver, RunLaterEvent.class);
+        GameLoop.addEventObserver(RunLaterEvent.class, RunLaterObserver);
 
         AudioManager.init();
 
@@ -860,6 +860,7 @@ public class FastJEngine {
 
     /** Removes all resources created by the game engine, and resets its internals. */
     private static void exit() {
+        System.out.println("exit");
         if (fpsLogger != null) {
             if (isLogging(LogLevel.Debug)) {
                 FastJEngine.debug(
@@ -920,7 +921,8 @@ public class FastJEngine {
         isRunning = false;
 
         // Helpful? Debatable. Do I care? Not yet....
-        System.gc();
+//        System.gc();
+        System.out.println("done");
     }
 
     /**

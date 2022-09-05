@@ -98,7 +98,7 @@ public class AudioEventListener implements EventObserver<AudioEvent> {
      */
     AudioEventListener(Audio audio) {
         this.audio = Objects.requireNonNull(audio);
-        FastJEngine.getGameLoop().addEventObserver(this, AudioEvent.class);
+        FastJEngine.getGameLoop().addEventObserver(AudioEvent.class, this);
     }
 
     /** {@return the "audio open" event action} */

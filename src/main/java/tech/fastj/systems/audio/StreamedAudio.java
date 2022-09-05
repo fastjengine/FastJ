@@ -141,7 +141,7 @@ public class StreamedAudio extends Audio {
             transferStopAction = audioEventListener.getAudioStopAction();
             transferPauseAction = audioEventListener.getAudioPauseAction();
             transferResumeAction = audioEventListener.getAudioResumeAction();
-            FastJEngine.getGameLoop().removeEventObserver(audioEventListener, AudioEvent.class);
+            FastJEngine.getGameLoop().removeEventObserver(AudioEvent.class, audioEventListener);
         }
 
         audioEventListener = new AudioEventListener(this);

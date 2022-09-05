@@ -8,7 +8,7 @@ import java.util.Queue;
 /**
  * Handler of {@link Event events} and their {@link EventObserver observers} for the {@link GameLoop game loop}.
  * <p>
- * Event handling is a callback feature -- once {@link GameLoop#addEventHandler(EventHandler, Class) added}, it allows you to
+ * Event handling is a callback feature -- once {@link GameLoop#addEventHandler(Class, EventHandler) added}, it allows you to
  * {@link #handleEvents(List, Queue) handle} events and observers of the registered types {@code T} and {@code V}.
  *
  * @param <T> The type of {@link Event event} to handle.

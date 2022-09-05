@@ -86,7 +86,7 @@ public class AudioManager implements TagHandler<Audio>, EventHandler<AudioEvent,
 
     /** Initializes the audio manager to be ready to handle audio events. */
     public void init() {
-        FastJEngine.getGameLoop().addEventHandler(this, AudioEvent.class);
+        FastJEngine.getGameLoop().addEventHandler(AudioEvent.class, this);
     }
 
     /**
