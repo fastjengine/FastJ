@@ -97,10 +97,10 @@ class GameLoopTests {
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
         EventObserver<MockEvent> eventObserver = (event) -> firedEvent.set(true);
-        gameLoop.addEventObserver(eventObserver, MockEvent.class);
-        assertEquals(eventObserver, gameLoop.getEventObservers(MockEvent.class).get(0));
+        gameLoop.addEventObserver(MockEvent.class, eventObserver);
+        assertEquals(eventObserver, gameLoop.getEventObservers(MockEvent.class).get(0).eventObserver());
         assertEquals(1, gameLoop.getEventObservers(MockEvent.class).size());
-        gameLoop.removeEventObserver(eventObserver, MockEvent.class);
+        gameLoop.removeEventObserver(MockEvent.class, eventObserver);
 
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())));
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)));
@@ -116,7 +116,7 @@ class GameLoopTests {
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
         EventHandler<MockEvent, EventObserver<MockEvent>> eventHandler = (eventObservers, event) -> firedEvent.set(true);
-        gameLoop.addEventHandler(eventHandler, MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, eventHandler);
         assertEquals(eventHandler, gameLoop.getEventHandler(MockEvent.class));
         gameLoop.removeEventHandler(MockEvent.class);
 
@@ -133,7 +133,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventObserver(MockEvent.class, (event) -> firedEvent.set(true));
         gameLoop.addGameLoopStates(
             new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
             new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
@@ -149,7 +149,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventObserver(MockEvent.class, (event) -> firedEvent.set(true));
         gameLoop.addGameLoopStates(
             new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
             new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
@@ -165,7 +165,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventObserver((event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventObserver(MockEvent.class, (event) -> firedEvent.set(true));
 
         GameLoopState lateUpdateState = new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false));
         GameLoopState updateState = new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), lateUpdateState));
@@ -181,7 +181,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, (eventObservers, event) -> firedEvent.set(true));
         gameLoop.addGameLoopStates(
             new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent())),
             new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false))
@@ -197,7 +197,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, (eventObservers, event) -> firedEvent.set(true));
         gameLoop.addGameLoopStates(
             new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false)),
             new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), CoreLoopState.LateUpdate))
@@ -213,7 +213,7 @@ class GameLoopTests {
         AtomicBoolean firedEvent = new AtomicBoolean();
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventHandler((eventObservers, event) -> firedEvent.set(true), MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, (eventObservers, event) -> firedEvent.set(true));
 
         GameLoopState lateUpdateState = new GameLoopState(CoreLoopState.LateUpdate, 1, (gl, deltaTime) -> shouldRemainOpen.set(false));
         GameLoopState updateState = new GameLoopState(CoreLoopState.Update, 1, (gl, deltaTime) -> gameLoop.fireEvent(new MockEvent(), lateUpdateState));
@@ -250,8 +250,8 @@ class GameLoopTests {
         gameLoop.addGameLoopStates(lateUpdates);
         gameLoop.addGameLoopState(new GameLoopState(CoreLoopState.LateUpdate, Integer.MAX_VALUE, (gl, deltaTime) -> shouldRemainOpen.set(false)));
 
-        gameLoop.addEventHandler((eventObservers, event) -> {}, MockEvent.class);
-        gameLoop.addEventObserver(event -> {}, MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, (eventObservers, event) -> {});
+        gameLoop.addEventObserver(MockEvent.class, event -> {});
 
         gameLoop.reset();
 
@@ -271,8 +271,8 @@ class GameLoopTests {
         AtomicBoolean shouldRemainOpen = new AtomicBoolean(true);
         GameLoop gameLoop = new GameLoop((gl) -> shouldRemainOpen.get(), (gl) -> false);
 
-        gameLoop.addEventHandler((eventObservers, event) -> {}, MockEvent.class);
-        gameLoop.addEventObserver(event -> {}, MockEvent.class);
+        gameLoop.addEventHandler(MockEvent.class, (eventObservers, event) -> {});
+        gameLoop.addEventObserver(MockEvent.class, event -> {});
 
         gameLoop.clearEventSystem();
 

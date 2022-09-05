@@ -1,13 +1,18 @@
 package tech.fastj.gameloop;
 
 import tech.fastj.gameloop.event.Event;
+import tech.fastj.gameloop.event.EventBinding;
 import tech.fastj.gameloop.event.EventHandler;
 import tech.fastj.gameloop.event.EventObserver;
+import tech.fastj.gameloop.event.EventObserverCombo;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Game loop made up of <i>game states</i>, such that you can create and configure your own custom game loop.
@@ -97,8 +102,8 @@ public class GameLoop implements Runnable {
     );
     private final Map<GameLoopState, Queue<Event>> nextEvents;
 
-    private final Map<Class<? extends Event>, List<EventObserver<? extends Event>>> gameEventObservers;
-    private final Map<Class<? extends Event>, EventHandler<? extends Event, ? extends EventObserver<? extends Event>>> gameEventHandlers;
+    private final Map<Class<? extends Event>, List<EventObserverCombo<? extends Event>>> eventObservers;
+    private final Map<Class<? extends Event>, EventHandler<? extends Event, ? extends EventObserver<? extends Event>>> eventHandlers;
     private final Map<Class<? extends Event>, Class<? extends Event>> classAliases;
 
     private GameLoopState currentGameLoopState;
@@ -122,11 +127,11 @@ public class GameLoop implements Runnable {
         this.syncCondition = Objects.requireNonNull(shouldSync);
 
         isRunning = false;
-        nextLoopStates = new ArrayDeque<>();
-        nextEvents = new HashMap<>();
-        gameEventObservers = new HashMap<>();
-        gameEventHandlers = new HashMap<>();
-        classAliases = new HashMap<>();
+        nextLoopStates = new ConcurrentLinkedDeque<>();
+        nextEvents = new ConcurrentHashMap<>();
+        eventObservers = new ConcurrentHashMap<>();
+        eventHandlers = new ConcurrentHashMap<>();
+        classAliases = new ConcurrentHashMap<>();
         currentGameLoopState = NoState;
 
         fixedUpdateInterval = new AtomicReference<>();
@@ -141,9 +146,7 @@ public class GameLoop implements Runnable {
      */
     public void addGameLoopStates(GameLoopState... gameLoopStates) {
         if (isRunning) {
-            synchronized (nextLoopStates) {
-                nextLoopStates.addAll(Arrays.asList(gameLoopStates));
-            }
+            nextLoopStates.addAll(Arrays.asList(gameLoopStates));
         } else {
             for (GameLoopState gameLoopState : gameLoopStates) {
                 this.gameLoopStates.get(gameLoopState.getCoreLoopState()).add(gameLoopState);
@@ -158,9 +161,7 @@ public class GameLoop implements Runnable {
      */
     public void addGameLoopState(GameLoopState gameLoopState) {
         if (isRunning) {
-            synchronized (nextLoopStates) {
-                nextLoopStates.add(gameLoopState);
-            }
+            nextLoopStates.add(gameLoopState);
         } else {
             this.gameLoopStates.get(gameLoopState.getCoreLoopState()).add(gameLoopState);
         }
@@ -169,47 +170,54 @@ public class GameLoop implements Runnable {
     /**
      * Adds the given event observer which observes the given class.
      *
-     * @param eventObserver The {@link EventObserver event observer}
-     * @param eventClass    The class the event observer observes.
      * @param <T>           The type of {@link Event event} observed.
+     * @param eventClass    The class the event observer observes.
+     * @param eventObserver The {@link EventObserver event observer}
      */
-    public <T extends Event> void addEventObserver(EventObserver<T> eventObserver, Class<T> eventClass) {
-        synchronized (gameEventObservers) {
-            if (!gameEventObservers.containsKey(eventClass)) {
-                gameEventObservers.put(eventClass, new ArrayList<>());
-            }
-            gameEventObservers.get(eventClass).add(eventObserver);
+    public <T extends Event> void addEventObserver(Class<T> eventClass, EventObserver<T> eventObserver) {
+        addEventObserver(eventClass, (event) -> true, eventObserver);
+    }
+
+    /**
+     * Adds the given event observer which observes the given class.
+     *
+     * @param <T>           The type of {@link Event event} observed.
+     * @param eventClass    The class the event observer observes.
+     * @param eventObserver The {@link EventObserver event observer}
+     */
+    public <T extends Event> void addEventObserver(Class<T> eventClass, EventBinding<T> eventBinding, EventObserver<T> eventObserver) {
+        if (!eventObservers.containsKey(eventClass)) {
+            eventObservers.put(eventClass, new ArrayList<>());
         }
+
+        eventObservers.get(eventClass).add(new EventObserverCombo<>(eventObserver, eventBinding));
     }
 
     /**
      * Removes the given event observer which observed the given class.
      *
-     * @param eventObserver The {@link EventObserver event observer}
-     * @param eventClass    The class the event observer observed.
      * @param <T>           The type of {@link Event event} observed.
+     * @param eventClass    The class the event observer observed.
+     * @param eventObserver The {@link EventObserver event observer}
      */
-    public <T extends Event> void removeEventObserver(EventObserver<T> eventObserver, Class<T> eventClass) {
-        if (!gameEventObservers.containsKey(eventClass)) {
+    public <T extends Event> void removeEventObserver(Class<T> eventClass, EventObserver<T> eventObserver) {
+        if (!eventObservers.containsKey(eventClass)) {
             return;
         }
-        synchronized (gameEventObservers) {
-            gameEventObservers.get(eventClass).remove(eventObserver);
-        }
+
+        eventObservers.get(eventClass).removeIf(combo -> combo.eventObserver().equals(eventObserver));
     }
 
     /**
      * Adds the given event handler, to handle events received for the given event class.
      *
-     * @param gameEventHandler The {@link EventHandler event handler} to add.
-     * @param eventClass       The class the event handler handles.
      * @param <T>              The type of {@link Event} handled.
      * @param <V>              The type of the event handler, based on the event type.
+     * @param eventClass       The class the event handler handles.
+     * @param gameEventHandler The {@link EventHandler event handler} to add.
      */
-    public <T extends Event, V extends EventHandler<T, EventObserver<T>>> void addEventHandler(V gameEventHandler, Class<T> eventClass) {
-        synchronized (gameEventHandlers) {
-            gameEventHandlers.put(eventClass, gameEventHandler);
-        }
+    public <T extends Event, V extends EventHandler<T, EventObserver<T>>> void addEventHandler(Class<T> eventClass, V gameEventHandler) {
+        eventHandlers.put(eventClass, gameEventHandler);
     }
 
     /**
@@ -219,9 +227,7 @@ public class GameLoop implements Runnable {
      * @param <T>        The type of {@link Event} handled.
      */
     public <T extends Event> void removeEventHandler(Class<T> eventClass) {
-        synchronized (gameEventHandlers) {
-            gameEventHandlers.remove(eventClass);
-        }
+        eventHandlers.remove(eventClass);
     }
 
     /**
@@ -338,8 +344,8 @@ public class GameLoop implements Runnable {
      * @param eventClass The event class to get event observers for.
      * @param <T>        The type of {@link Event}
      */
-    public <T extends Event> List<EventObserver<? extends Event>> getEventObservers(Class<T> eventClass) {
-        return gameEventObservers.getOrDefault(eventClass, List.of());
+    public <T extends Event> List<EventObserverCombo<? extends Event>> getEventObservers(Class<T> eventClass) {
+        return eventObservers.getOrDefault(eventClass, List.of());
     }
 
     /**
@@ -351,7 +357,7 @@ public class GameLoop implements Runnable {
      */
     @SuppressWarnings("unchecked")
     public <T extends Event, V extends EventObserver<T>> EventHandler<T, V> getEventHandler(Class<T> eventClass) {
-        return (EventHandler<T, V>) gameEventHandlers.get(eventClass);
+        return (EventHandler<T, V>) eventHandlers.get(eventClass);
     }
 
     /** {@return all of the game loop's states} */
@@ -398,24 +404,33 @@ public class GameLoop implements Runnable {
 
     @SuppressWarnings("unchecked")
     private <T extends Event> void tryFireEvent(T event, Class<T> eventClass) {
-        var gameEventHandler = (EventHandler<T, EventObserver<T>>) gameEventHandlers.get(eventClass);
+        var gameEventHandler = (EventHandler<T, EventObserver<T>>) eventHandlers.get(eventClass);
         if (gameEventHandler != null) {
-            ((EventHandler) gameEventHandler).handleEvent(gameEventObservers.get(eventClass), event);
+            ((EventHandler) gameEventHandler).handleEvent(
+                eventObservers.getOrDefault(eventClass, List.of())
+                    .stream()
+                    .map(EventObserverCombo::eventObserver)
+                    .collect(Collectors.toList()),
+                event
+            );
+
             return;
         }
 
-        List<EventObserver<? extends Event>> eventObservers = gameEventObservers.get(eventClass);
+        List<EventObserverCombo<? extends Event>> eventObservers = this.eventObservers.get(eventClass);
         if (eventObservers == null) {
-            gameEventObservers.put(eventClass, new ArrayList<>());
-            eventObservers = gameEventObservers.get(eventClass);
+            this.eventObservers.put(eventClass, new ArrayList<>());
+            eventObservers = this.eventObservers.get(eventClass);
         }
 
-        if (gameEventObservers.get(eventClass).isEmpty()) {
+        if (this.eventObservers.get(eventClass).isEmpty()) {
             return;
         }
 
         for (var gameEventObserver : eventObservers) {
-            ((EventObserver<T>) gameEventObserver).eventReceived(event);
+            if (((EventBinding<T>) gameEventObserver.eventBinding()).isRelevant(event)) {
+                ((EventObserver<T>) gameEventObserver.eventObserver()).eventReceived(event);
+            }
         }
     }
 
@@ -427,12 +442,11 @@ public class GameLoop implements Runnable {
      * @param <T>        The class of the {@link Event event}.
      */
     public <T extends Event> void fireEvent(T event, GameLoopState whenToFire) {
-        synchronized (nextEvents) {
-            if (nextEvents.get(whenToFire) == null) {
-                nextEvents.put(whenToFire, new ArrayDeque<>());
-            }
-            nextEvents.get(whenToFire).add(event);
+        if (nextEvents.get(whenToFire) == null) {
+            nextEvents.put(whenToFire, new ArrayDeque<>());
         }
+
+        nextEvents.get(whenToFire).add(event);
     }
 
     /**
@@ -443,9 +457,7 @@ public class GameLoop implements Runnable {
      * @param <T>        The class of the {@link Event event}.
      */
     public <T extends Event> void fireEvent(T event, CoreLoopState whenToFire) {
-        synchronized (nextCoreEvents) {
-            nextCoreEvents.get(whenToFire).add(event);
-        }
+        nextCoreEvents.get(whenToFire).add(event);
     }
 
     /** Runs the game loop, setting {@link #isRunning()} to {@code true}. */
@@ -466,27 +478,26 @@ public class GameLoop implements Runnable {
             accumulator += elapsedTime;
 
             if (!nextLoopStates.isEmpty()) {
-                synchronized (nextLoopStates) {
-                    for (GameLoopState nextLoopState : nextLoopStates) {
-                        gameLoopStates.get(nextLoopState.getCoreLoopState()).add(nextLoopState);
-                        synchronized (nextEvents) {
-                            nextEvents.computeIfAbsent(nextLoopState, gameLoopState -> new ArrayDeque<>());
-                        }
-                    }
-                    nextLoopStates.clear();
+                for (GameLoopState nextLoopState : nextLoopStates) {
+                    gameLoopStates.get(nextLoopState.getCoreLoopState()).add(nextLoopState);
+                    nextEvents.computeIfAbsent(nextLoopState, gameLoopState -> new ArrayDeque<>());
                 }
+
+                nextLoopStates.clear();
             }
 
             runGameLoopStates(CoreLoopState.EarlyUpdate, elapsedTime);
             fireNextCoreEvents(CoreLoopState.EarlyUpdate);
 
-            while (accumulator >= fixedUpdateInterval.get()) {
+            int fixedUpdateRunCount = 0;
+            while (accumulator >= fixedUpdateInterval.get() && fixedUpdateRunCount < targetUPS) {
                 elapsedFixedTime = fixedDeltaTimer.evalDeltaTime();
 
                 runGameLoopStates(CoreLoopState.FixedUpdate, elapsedFixedTime);
                 fireNextCoreEvents(CoreLoopState.FixedUpdate);
 
                 accumulator -= elapsedFixedTime;
+                fixedUpdateRunCount++;
             }
 
             runGameLoopStates(CoreLoopState.Update, elapsedTime);
@@ -514,15 +525,11 @@ public class GameLoop implements Runnable {
     }
 
     private void fireNextCoreEvents(CoreLoopState coreLoopState) {
-        synchronized (nextCoreEvents) {
-            fireNextEvents(nextCoreEvents.get(coreLoopState));
-        }
+        fireNextEvents(nextCoreEvents.get(coreLoopState));
     }
 
     private void fireNextEvents(GameLoopState gameLoopState) {
-        synchronized (nextEvents) {
-            fireNextEvents(nextEvents.get(gameLoopState));
-        }
+        fireNextEvents(nextEvents.get(gameLoopState));
     }
 
     private void fireNextEvents(Queue<? extends Event> gameEvents) {
@@ -569,7 +576,7 @@ public class GameLoop implements Runnable {
     /** Clears the game loop's events, observers, and handlers. */
     public void clearEventSystem() {
         nextEvents.clear();
-        gameEventObservers.clear();
-        gameEventHandlers.clear();
+        eventObservers.clear();
+        eventHandlers.clear();
     }
 }

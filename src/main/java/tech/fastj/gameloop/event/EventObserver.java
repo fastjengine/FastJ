@@ -5,7 +5,7 @@ import tech.fastj.gameloop.GameLoop;
 /**
  * Observer of {@link Event events} for the {@link GameLoop game loop}.
  * <p>
- * Event observing is a callback feature -- once {@link GameLoop#addEventObserver(EventObserver, Class) added}, it allows you to
+ * Event observing is a callback feature -- once {@link GameLoop#addEventObserver(Class, EventObserver) added}, it allows you to
  * {@link #eventReceived(Event) receive} events of the registered type {@code T}.
  *
  * @param <T> The type of {@link Event event} to observe.
