@@ -65,7 +65,7 @@ dependencies.api('com.googlecode.soundlibs:vorbisspi:1.0.3.3')
 
 dependencies.testImplementation('org.slf4j:slf4j-simple:2.0.0-alpha7')
 dependencies.testImplementation(dependencies.platform('org.junit:junit-bom:5.8.2'))
-dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.8.2')
+dependencies.testImplementation('org.junit.jupiter:junit-jupiter:5.9.2')
 dependencies.testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
 /* ********************* *
