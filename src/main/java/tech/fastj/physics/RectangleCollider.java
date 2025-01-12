@@ -15,7 +15,7 @@ public class RectangleCollider extends Collider {
         if (other instanceof RectangleCollider) {
             RectangleCollider otherRectangle = (RectangleCollider) other;
 
-            // Έλεγχος αν τα δύο ορθογώνια επικαλύπτονται
+     
             return shape.intersects(otherRectangle.shape);
         }
         return false;
