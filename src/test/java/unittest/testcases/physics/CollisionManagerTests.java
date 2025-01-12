@@ -19,7 +19,7 @@ public class CollisionManagerTests {
         collisionManager.addCollider(collider2);
 
 
-        collisionManager.checkCollisions();  // Αναμένεται να εμφανίσει μήνυμα για σύγκρουση
+        collisionManager.checkCollisions();
     }
 
     @Test
@@ -34,6 +34,6 @@ public class CollisionManagerTests {
         collisionManager.addCollider(collider2);
 
 
-        collisionManager.checkCollisions();  // Δεν πρέπει να εμφανίσει μήνυμα σύγκρουσης
+        collisionManager.checkCollisions();
     }
 }
