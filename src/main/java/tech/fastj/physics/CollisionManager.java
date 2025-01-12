@@ -11,7 +11,6 @@ public class CollisionManager {
     }
 
     public boolean checkCollisions() {
-        // Ελέγχουμε για σύγκρουση μεταξύ όλων των colliders
         for (int i = 0; i < colliders.size(); i++) {
             for (int j = i + 1; j < colliders.size(); j++) {
                 if (colliders.get(i).checkCollision(colliders.get(j))) {
