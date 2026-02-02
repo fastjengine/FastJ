@@ -4,12 +4,12 @@ plugins {
     id 'java'
 }
 
-group('io.github.lucasstarsz.fastj')
-version('1.7.0-SNAPSHOT')
-description('Example programs for the FastJ Game Engine.')
+group = 'io.github.lucasstarsz.fastj'
+version = '1.7.0-SNAPSHOT'
+description = 'Example programs for the FastJ Game Engine.'
 
-sourceCompatibility = 18
-targetCompatibility = 18
+java.sourceCompatibility = 21
+java.targetCompatibility = 21
 
 repositories {
     mavenCentral()
@@ -23,7 +23,7 @@ sourceSets {
     main.resources.srcDirs = ['resources']
 }
 
-task run(type: Exec) {
+tasks.register('run', Exec) {
     doFirst {
         if (!project.hasProperty('toRun')) {
             throw new IllegalArgumentException(
