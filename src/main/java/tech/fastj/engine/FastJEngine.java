@@ -860,7 +860,6 @@ public class FastJEngine {
 
     /** Removes all resources created by the game engine, and resets its internals. */
     private static void exit() {
-        System.out.println("exit");
         if (fpsLogger != null) {
             if (isLogging(LogLevel.Debug)) {
                 FastJEngine.debug(
@@ -922,7 +921,6 @@ public class FastJEngine {
 
         // Helpful? Debatable. Do I care? Not yet....
 //        System.gc();
-        System.out.println("done");
     }
 
     /**

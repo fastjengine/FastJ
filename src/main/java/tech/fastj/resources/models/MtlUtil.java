@@ -78,7 +78,8 @@ public class MtlUtil {
                 case ParsingKeys.NewMaterial -> {
                     return;
                 }
-                case ParsingKeys.DiffuseColor, ParsingKeys.SpecularColor, ParsingKeys.SpecularExponent, ParsingKeys.Empty -> {
+                case ParsingKeys.DiffuseColor, ParsingKeys.SpecularColor, ParsingKeys.SpecularExponent, ParsingKeys.IlluminationMode,
+                     ParsingKeys.Empty -> {
                 }
                 default -> Log.warn(ObjUtil.class, "Unused parsing key: \"{}\"", tokens[0]);
             }

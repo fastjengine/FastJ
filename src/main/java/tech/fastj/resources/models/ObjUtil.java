@@ -87,7 +87,7 @@ public class ObjUtil {
                 // material names in .obj files cannot contain spaces, allowing us to use a
                 // non-robust solution.
                 case ParsingKeys.UseMaterial -> currentMaterial = tokens[1];
-                case ParsingKeys.Empty -> {
+                case ParsingKeys.VertexTexture, ParsingKeys.ObjectName, ParsingKeys.Empty -> {
                 }
                 default -> Log.warn(ObjUtil.class, "Unrecognized parsing key: \"{}\"", tokens[0]);
             }
