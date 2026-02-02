@@ -244,7 +244,14 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
 
         int textWidth = fm.stringWidth(text);
         int textHeight = fm.getHeight();
-        Rectangle2D.Float renderPathBounds = (Rectangle2D.Float) collisionPath.getBounds2D();
+
+        Rectangle2D collisionPathBounds = collisionPath.getBounds2D();
+        Rectangle2D.Float renderPathBounds = new Rectangle2D.Float(
+            (float) collisionPathBounds.getX(),
+            (float) collisionPathBounds.getY(),
+            (float) collisionPathBounds.getWidth(),
+            (float) collisionPathBounds.getHeight()
+        );
 
         textBounds = new Rectangle2D.Float(
             (renderPathBounds.width - textWidth) / 2f,
@@ -253,7 +260,14 @@ public class Button extends UIElement<MouseButtonEvent> implements MouseActionLi
             textHeight
         );
 
-        Rectangle2D.Float newPathBounds = (Rectangle2D.Float) super.collisionPath.getBounds2D();
+        Rectangle2D parentCollisionPathBounds = super.collisionPath.getBounds2D();
+        Rectangle2D.Float newPathBounds = new Rectangle2D.Float(
+            (float) parentCollisionPathBounds.getX(),
+            (float) parentCollisionPathBounds.getY(),
+            (float) parentCollisionPathBounds.getWidth(),
+            (float) parentCollisionPathBounds.getHeight()
+        );
+
         if (renderPathBounds.width < textBounds.width) {
             float diff = (textBounds.width - renderPathBounds.width) / 2f;
             newPathBounds.width = textBounds.width + diff;

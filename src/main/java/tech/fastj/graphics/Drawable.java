@@ -106,7 +106,13 @@ public abstract class Drawable extends TaggableEntity {
      * @return The {@code Pointf} array that contains the bounds of the {@code Drawable}.
      */
     public Pointf[] getBounds() {
-        return DrawUtil.createBox((Rectangle2D.Float) transformedCollisionPath.getBounds2D());
+        Rectangle2D transformedCollisionBounds = transformedCollisionPath.getBounds2D();
+        return DrawUtil.createBox(new Rectangle2D.Float(
+            (float) transformedCollisionBounds.getX(),
+            (float) transformedCollisionBounds.getY(),
+            (float) transformedCollisionBounds.getWidth(),
+            (float) transformedCollisionBounds.getHeight()
+        ));
     }
 
     /**
