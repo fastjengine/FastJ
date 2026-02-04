@@ -7,16 +7,14 @@ plugins {
     id 'jacoco'
 
     // For publishing to Maven Central, we'll want these.
-    id 'maven-publish'
-    id 'signing'
-//    id 'org.jreleaser' version '1.22.0'
+    id "com.vanniktech.maven.publish" version "0.36.0"
 
     // To be able to use Spotless in the project, this will be needed.
-    id "com.diffplug.spotless" version "6.9.0"
+    id "com.diffplug.spotless" version "7.2.1"
 }
 
 group = 'io.github.lucasstarsz.fastj'
-version = '1.7.0-SNAPSHOT-3'
+version = '1.7.0-SNAPSHOT'
 description = 'An open source, Java-based 2D game engine.'
 
 import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
@@ -28,8 +26,6 @@ import org.gradle.api.internal.tasks.testing.results.DefaultTestResult
 
 java.sourceCompatibility = 21
 java.targetCompatibility = 21
-java.withSourcesJar()
-java.withJavadocJar()
 
 javadoc.source = sourceSets.main.allJava
 javadoc.failOnError = false
@@ -42,11 +38,6 @@ javadoc.doLast {
         include "src/jquery-ui.overrides.css"
     }
 }
-
-sourcesJar.from(sourceSets.main.allSource)
-javadocJar.from(javadoc.destinationDir)
-artifacts.archives(sourcesJar)
-artifacts.archives(javadocJar)
 
 // Java modules need this in order for the module path to be inferred based on module-info.java files.
 plugins.withType(JavaPlugin).configureEach {
@@ -140,86 +131,36 @@ jacocoTestReport {
  *      Publishing       *
  * ********************* */
 
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    coordinates("io.github.lucasstarsz.fastj", "fastj-library", project.version as String)
 
-def shouldPublish = System.getenv('ossrhUsername') != null && System.getenv('ossrhPassword') != null
-publish.onlyIf { shouldPublish }
+    pom {
+        name = 'FastJ Game Library'
+        description = 'An open source, Java-based 2D game engine.'
+        inceptionYear = "2020"
+        url = 'https://github.com/fastjengine/FastJ'
 
-if (shouldPublish) {
-//    jreleaser {
-//        signing {
-//            pgp {
-//                active = 'ALWAYS'
-//                armored = true
-//            }
-//        }
-//        deploy {
-//            maven {
-//                mavenCentral {
-//                    'release-deploy' {
-//                        active = 'RELEASE'
-//                        url = 'https://central.sonatype.com/api/v1/publisher'
-//                        stagingRepository('target/staging-deploy')
-//                    }
-//                }
-//                nexus2 {
-//                    'snapshot-deploy' {
-//                        active = 'SNAPSHOT'
-//                        snapshotUrl = 'https://central.sonatype.com/repository/maven-snapshots/'
-//                        applyMavenCentralRules = true
-//                        snapshotSupported = true
-//                        closeRepository = true
-//                        releaseRepository = true
-//                        stagingRepository('target/staging-deploy')
-//                    }
-//                }
-//            }
-//        }
-//    }
-    publishing.publications {
-        fastjPublish(MavenPublication) {
-
-            groupId = project.group
-            version = project.version
-            artifactId = 'fastj-library'
-
-            pom {
-                name = 'FastJ Game Library'
-                description = project.description
-                url = 'https://github.com/fastjengine/FastJ'
-
-                scm {
-                    connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
-                    url = 'https://fastj.tech'
-                }
-
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
-                    }
-                }
-
-                developers {
-                    developer {
-                        id = 'andrewd'
-                        name = 'Andrew Dey'
-                        email = 'andrewrcdey@gmail.com'
-                    }
-                }
+        licenses {
+            license {
+                name = 'MIT License'
+                url = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
+                distribution = 'https://github.com/fastjengine/FastJ/blob/main/LICENSE.txt'
             }
-
-            from(components.java)
         }
-    }
-
-    publishing.repositories.maven {
-        url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-        credentials.username = System.getenv('ossrhUsername')
-        credentials.password = System.getenv('ossrhPassword')
-    }
-
-    signing {
-        sign publishing.publications.fastjPublish
+        developers {
+            developer {
+                id = 'andrewd'
+                name = 'Andrew Dey'
+                email = 'andrewrcdey@gmail.com'
+                url = 'https://github.com'
+            }
+        }
+        scm {
+            connection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+            developerConnection = 'scm:git:https://github.com/fastjengine/FastJ.git'
+            url = 'https://fastj.tech'
+        }
     }
 }
