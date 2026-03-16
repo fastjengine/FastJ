@@ -114,4 +114,6 @@ module fastj.library {
     exports tech.fastj.animation.sprite.event;
     exports tech.fastj.gameloop;
     exports tech.fastj.gameloop.event;
+
+    exports tech.fastj.physics;
 }
